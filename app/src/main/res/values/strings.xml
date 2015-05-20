@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">EasyFin</string>
+    <string name="action_settings">Settings</string>
+    <string name="menu_exit">Вихід</string>
+    <string name="new_transaction">Нова транзакція</string>
+    <string name="new_expense">Новий рахунок</string>
+
+    <string name="main_current_balance">Поточний баланс</string>
+    <string name="main_cash">Готівка</string>
+    <string name="main_card">Картки</string>
+    <string name="main_deposit">Депозити</string>
+    <string name="main_debt">Борги</string>
+    <string name="main_sum">Загалом</string>
+    <string name="main_statistic">Статистика</string>
+    <string name="main_period">Період</string>
+    <string name="main_income">Дохід</string>
+    <string name="main_cost">Витрати</string>
+    <string name="expense_add">Додати рахунок</string>
+    <string name="transaction_add">Додати транзакцію</string>
+    <string name="radiobtn_income">Дохід</string>
+    <string name="radiobtn_cost">Витрати</string>
+    <string name="sum_hint">Введіть суму</string>
+    <string name="expense_name_hint">Назва рахунку</string>
+    <string name="expense_type">Тип рахунку</string>
+    <string name="expense_currency">Валюта</string>
+    <string name="return_to_main">На головну</string>
+    <string name="no_expense">Відсутні рахунки!</string>
+    <string name="dialog_text_no_expense">Неможливо здійснити транзакцію, оскільки не додано жодного рахунку.
+    Натисніть "Новий рахунок", щоб додати.</string>
+
+    <string name="value_textview">10000</string>
+    <string name="date">Дата</string>
+
+    <string name="category">Категорія</string>
+    <string name="expense">Рахунок</string>
+
+
+
+    <string-array name="cat_transaction_array">
+        <item>без категорії</item>
+        <item>їжа</item>
+        <item>проїзд</item>
+        <item>одяг</item>
+        <item>розваги</item>
+        <item>лікування</item>
+        <item>електроніка</item>
+    </string-array>
+
+    <string-array name="expense_type_array">
+        <item>готівка</item>
+        <item>картки</item>
+        <item>депозити</item>
+        <item>борги</item>
+    </string-array>
+
+    <string-array name="expense_currency_array">
+        <item>UAH</item>
+        <item>USD</item>
+        <item>EUR</item>
+        <item>RUB</item>
+    </string-array>
+
+
+
+</resources>

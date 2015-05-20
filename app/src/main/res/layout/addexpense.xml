@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbarMain"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/custom"
+        />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextExpenseName"
+        android:layout_below="@+id/toolbarMain"
+        android:ems="12"
+        android:hint="@string/expense_name_hint"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="26dp"
+        android:textSize="20sp" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/expense_add"
+        android:id="@+id/btnExpenseAdd"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/expense_type"
+        android:id="@+id/tvExpenseType"
+        android:layout_below="@+id/editTextExpenseName"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="55dp"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="25dp"
+        android:textSize="20sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/expense_currency"
+        android:id="@+id/tvExpenseCurrency"
+        android:layout_alignBottom="@+id/tvExpenseType"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="55dp"
+        android:layout_marginEnd="55dp"
+        android:textSize="20sp" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinAddExpenseType"
+        android:layout_below="@+id/tvExpenseType"
+        android:layout_alignLeft="@+id/tvExpenseType"
+        android:layout_alignStart="@+id/tvExpenseType"
+        android:layout_marginTop="25dp"
+        android:layout_alignRight="@+id/tvExpenseType"
+        android:layout_alignEnd="@+id/tvExpenseType"
+        android:spinnerMode="dialog"
+        android:prompt="@string/expense_type"/>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinAddExpenseCurrency"
+        android:layout_alignBottom="@+id/spinAddExpenseType"
+        android:layout_alignRight="@+id/tvExpenseCurrency"
+        android:layout_alignEnd="@+id/tvExpenseCurrency"
+        android:layout_alignLeft="@+id/tvExpenseCurrency"
+        android:layout_alignStart="@+id/tvExpenseCurrency"
+        android:layout_alignTop="@+id/spinAddExpenseType"
+        android:spinnerMode="dialog"
+        android:prompt="@string/expense_currency"/>
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="6"
+        android:hint="@string/sum_hint"
+        android:textSize="20sp"
+        android:id="@+id/editTextExpenseSum"
+        android:layout_below="@+id/spinAddExpenseType"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp" />
+
+</RelativeLayout>

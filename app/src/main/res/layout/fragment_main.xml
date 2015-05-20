@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_current_balance"
+        android:id="@+id/tvMainCurrentBalance"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="120dp"
+        android:textSize="18sp" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinMainCurrency"
+        android:layout_alignTop="@+id/tvMainCurrentBalance"
+        android:layout_toRightOf="@+id/tvMainCurrentBalance"
+        android:layout_toEndOf="@+id/tvMainCurrentBalance"
+        android:layout_alignBottom="@+id/tvMainCurrentBalance"
+        android:layout_alignRight="@+id/tvMainSumValueEquivalent"
+        android:layout_alignEnd="@+id/tvMainSumValueEquivalent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_cash"
+        android:id="@+id/tvMainCash"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/spinMainCurrency"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_card"
+        android:id="@+id/tvMainCard"
+        android:layout_below="@+id/tvMainCash"
+        android:layout_alignLeft="@+id/tvMainCash"
+        android:layout_alignStart="@+id/tvMainCash"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_deposit"
+        android:id="@+id/tvMainDeposit"
+        android:layout_below="@+id/tvMainCard"
+        android:layout_alignLeft="@+id/tvMainCard"
+        android:layout_alignStart="@+id/tvMainCard"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_debt"
+        android:id="@+id/tvMainDebt"
+        android:layout_below="@+id/tvMainDeposit"
+        android:layout_alignLeft="@+id/tvMainDeposit"
+        android:layout_alignStart="@+id/tvMainDeposit"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/value_textview"
+        android:id="@+id/tvMainDepositValue"
+        android:layout_alignTop="@+id/tvMainDeposit"
+        android:layout_toRightOf="@+id/tvMainDeposit"
+        android:layout_toEndOf="@+id/tvMainDeposit"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/value_textview"
+        android:id="@+id/tvMainDebtValue"
+        android:layout_alignBottom="@+id/tvMainDebt"
+        android:layout_alignLeft="@+id/tvMainDepositValue"
+        android:layout_alignStart="@+id/tvMainDepositValue"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/value_textview"
+        android:id="@+id/tvMainCardValue"
+        android:layout_alignBottom="@+id/tvMainCard"
+        android:layout_alignLeft="@+id/tvMainDepositValue"
+        android:layout_alignStart="@+id/tvMainDepositValue"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/value_textview"
+        android:id="@+id/tvMainCashValue"
+        android:layout_alignBottom="@+id/tvMainCash"
+        android:layout_alignLeft="@+id/tvMainCardValue"
+        android:layout_alignStart="@+id/tvMainCardValue"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_sum"
+        android:id="@+id/tvMainSum"
+        android:layout_below="@+id/tvMainDebt"
+        android:layout_alignLeft="@+id/tvMainDebt"
+        android:layout_alignStart="@+id/tvMainDebt"
+        android:layout_marginTop="15dp"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/value_textview"
+        android:id="@+id/tvMainSumValue"
+        android:layout_alignBottom="@+id/tvMainSum"
+        android:layout_alignLeft="@+id/tvMainDebtValue"
+        android:layout_alignStart="@+id/tvMainDebtValue"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/value_textview"
+        android:id="@+id/tvMainSumValueEquivalent"
+        android:layout_alignBottom="@+id/tvMainSumValue"
+        android:layout_toRightOf="@+id/tvMainSumValue"
+        android:layout_toEndOf="@+id/tvMainSumValue"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_statistic"
+        android:id="@+id/tvMainStatistic"
+        android:layout_below="@+id/tvMainSumValue"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:textSize="18sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_period"
+        android:id="@+id/tvMainPeriod"
+        android:layout_below="@+id/tvMainStatistic"
+        android:layout_alignLeft="@+id/tvMainSum"
+        android:layout_alignStart="@+id/tvMainSum"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_income"
+        android:id="@+id/tvMainIncome"
+        android:layout_below="@+id/tvMainPeriod"
+        android:layout_alignLeft="@+id/tvMainPeriod"
+        android:layout_alignStart="@+id/tvMainPeriod"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/main_cost"
+        android:id="@+id/tvMainCost"
+        android:layout_below="@+id/tvMainIncome"
+        android:layout_alignLeft="@+id/tvMainIncome"
+        android:layout_alignStart="@+id/tvMainIncome"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinMainPeriod"
+        android:layout_alignTop="@+id/tvMainPeriod"
+        android:layout_alignLeft="@+id/tvMainSumValue"
+        android:layout_alignStart="@+id/tvMainSumValue"
+        android:layout_above="@+id/tvMainIncome"
+        android:layout_alignRight="@+id/tvMainSumValueEquivalent"
+        android:layout_alignEnd="@+id/tvMainSumValueEquivalent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/value_textview"
+        android:id="@+id/tvMainIncomeValue"
+        android:layout_alignBottom="@+id/tvMainIncome"
+        android:layout_alignLeft="@+id/spinMainPeriod"
+        android:layout_alignStart="@+id/spinMainPeriod"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/value_textview"
+        android:id="@+id/tvMainCostValue"
+        android:layout_alignBottom="@+id/tvMainCost"
+        android:layout_alignLeft="@+id/tvMainIncomeValue"
+        android:layout_alignStart="@+id/tvMainIncomeValue"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/value_textview"
+        android:id="@+id/tvMainStatisticSum"
+        android:layout_below="@+id/tvMainCostValue"
+        android:layout_alignLeft="@+id/tvMainCostValue"
+        android:layout_alignStart="@+id/tvMainCostValue"
+        android:layout_marginTop="15dp"
+        android:textSize="16sp" />
+
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/new_expense"
+            android:id="@+id/btnMainExpense"
+            android:layout_weight="1"
+            android:onClick="addExpenseMain"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/new_transaction"
+            android:id="@+id/btnMainTransaction"
+            android:layout_weight="1"
+            android:onClick="addTransactionMain"/>
+
+    </LinearLayout>
+</RelativeLayout>
