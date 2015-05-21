@@ -143,9 +143,9 @@ public class MainActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             String tabName = "";
             switch (position) {
-                case 0: tabName = "Головна"; break;
-                case 1: tabName = "Рахунки"; break;
-                case 2: tabName = "Транзакції"; break;
+                case 0: tabName = getResources().getString(R.string.tab_main); break;
+                case 1: tabName = getResources().getString(R.string.tab_expenses); break;
+                case 2: tabName = getResources().getString(R.string.tab_transactions); break;
                 //case 3: tabName = "Курси"; break;
             }
             return tabName;
