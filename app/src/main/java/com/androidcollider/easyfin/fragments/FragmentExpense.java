@@ -1,25 +1,25 @@
-package com.androidcollider.easyfin;
+package com.androidcollider.easyfin.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+
+import com.androidcollider.easyfin.R;
 
 
-public class FragmentTransaction extends Fragment{
-
+public class FragmentExpense extends Fragment{
     static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
 
     int pageNumber;
 
-    static FragmentTransaction newInstance(int page) {
-        FragmentTransaction fragmentTransaction = new FragmentTransaction();
+    public static FragmentExpense newInstance(int page) {
+        FragmentExpense fragmentExpense = new FragmentExpense();
         Bundle arguments = new Bundle();
         arguments.putInt(ARGUMENT_PAGE_NUMBER, page);
-        fragmentTransaction.setArguments(arguments);
-        return fragmentTransaction;
+        fragmentExpense.setArguments(arguments);
+        return fragmentExpense;
     }
 
     @Override
@@ -31,7 +31,7 @@ public class FragmentTransaction extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_transaction, null);
+        View view = inflater.inflate(R.layout.fragment_expense, null);
 
         return view;
     }

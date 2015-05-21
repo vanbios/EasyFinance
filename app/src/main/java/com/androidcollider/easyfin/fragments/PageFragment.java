@@ -1,4 +1,4 @@
-package com.androidcollider.easyfin;
+package com.androidcollider.easyfin.fragments;
 
 
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.androidcollider.easyfin.R;
+
 
 public class PageFragment extends Fragment {
 
@@ -15,7 +17,7 @@ public class PageFragment extends Fragment {
 
     int pageNumber;
 
-    static PageFragment newInstance(int page) {
+    public static PageFragment newInstance(int page) {
         PageFragment pageFragment = new PageFragment();
         Bundle arguments = new Bundle();
         arguments.putInt(ARGUMENT_PAGE_NUMBER, page);

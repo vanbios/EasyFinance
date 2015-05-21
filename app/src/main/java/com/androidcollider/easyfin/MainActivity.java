@@ -8,19 +8,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
+import com.androidcollider.easyfin.fragments.FragmentExpense;
+import com.androidcollider.easyfin.fragments.FragmentMain;
+import com.androidcollider.easyfin.fragments.FragmentTransaction;
+import com.androidcollider.easyfin.fragments.PageFragment;
 import com.astuetz.PagerSlidingTabStrip;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity {

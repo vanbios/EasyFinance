@@ -1,8 +1,8 @@
-package com.androidcollider.easyfin;
+package com.androidcollider.easyfin.fragments;
 
+import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.database.DataSource;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -22,7 +22,7 @@ public class FragmentMain extends Fragment {
     DataSource dataSource;
 
 
-    static FragmentMain newInstance(int page) {
+    public static FragmentMain newInstance(int page) {
         FragmentMain fragmentMain = new FragmentMain();
         Bundle arguments = new Bundle();
         arguments.putInt(ARGUMENT_PAGE_NUMBER, page);
