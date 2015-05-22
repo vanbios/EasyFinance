@@ -8,8 +8,12 @@
         android:id="@+id/scrollExpense"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="120dp"
-        android:layout_above="@+id/btnNewExpense" >
+        android:layout_marginTop="100dp"
+        android:layout_marginStart="@dimen/activity_vertical_margin"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:layout_above="@+id/btnNewExpense">
 
         <LinearLayout
             android:orientation="vertical"

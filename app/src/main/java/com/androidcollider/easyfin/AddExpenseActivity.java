@@ -1,6 +1,7 @@
 package com.androidcollider.easyfin;
 
 import com.androidcollider.easyfin.database.DataSource;
+import com.androidcollider.easyfin.fragments.FragmentExpense;
 import com.androidcollider.easyfin.fragments.FragmentMain;
 
 import android.content.ContentValues;
@@ -92,8 +93,12 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void pushBroadcast() {
-        Intent intent = new Intent(FragmentMain.BROADCAST_ACTION);
-        intent.putExtra(FragmentMain.PARAM_STATUS_FRAGMENT_MAIN, FragmentMain.STATUS_UPDATE_FRAGMENT_MAIN);
-        sendBroadcast(intent);
+        Intent intentFragmentMain = new Intent(FragmentMain.BROADCAST_FRAGMENT_MAIN_ACTION);
+        intentFragmentMain.putExtra(FragmentMain.PARAM_STATUS_FRAGMENT_MAIN, FragmentMain.STATUS_UPDATE_FRAGMENT_MAIN);
+        sendBroadcast(intentFragmentMain);
+
+        Intent intentFragmentExpense = new Intent(FragmentExpense.BROADCAST_FRAGMENT_EXPENSE_ACTION);
+        intentFragmentExpense.putExtra(FragmentExpense.PARAM_STATUS_FRAGMENT_EXPENSE, FragmentExpense.STATUS_UPDATE_FRAGMENT_EXPENSE);
+        sendBroadcast(intentFragmentExpense);
     }
 }

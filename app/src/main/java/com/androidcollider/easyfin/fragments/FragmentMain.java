@@ -19,7 +19,7 @@ public class FragmentMain extends Fragment {
 
     static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
 
-    public final static String BROADCAST_ACTION = "com.androidcollider.easyfin.fragmentmain.broadcast";
+    public final static String BROADCAST_FRAGMENT_MAIN_ACTION = "com.androidcollider.easyfin.fragmentmain.broadcast";
 
     public final static String PARAM_STATUS_FRAGMENT_MAIN = "update_fragment_main_current_balance";
 
@@ -113,7 +113,7 @@ public class FragmentMain extends Fragment {
             }
         };
 
-        IntentFilter intentFilter = new IntentFilter(BROADCAST_ACTION);
+        IntentFilter intentFilter = new IntentFilter(BROADCAST_FRAGMENT_MAIN_ACTION);
 
         getActivity().registerReceiver(broadcastReceiver, intentFilter);
     }

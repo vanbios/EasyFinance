@@ -7,30 +7,45 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Назва"
         android:id="@+id/tvItemFragmentExpenseName"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Тип"
         android:id="@+id/tvItemFragmentExpenseType"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="44dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textSize="18sp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Значення"
         android:id="@+id/tvItemFragmentExpenseAmount"
-        android:layout_marginLeft="37dp"
-        android:layout_marginStart="37dp"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/tvItemFragmentExpenseName"
-        android:layout_toEndOf="@+id/tvItemFragmentExpenseName" />
+        android:textSize="22sp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="30dp"
+        android:layout_marginEnd="30dp"/>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="@color/silver"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/tvItemFragmentExpenseType"
+        android:layout_marginTop="10dp"/>
+
 </RelativeLayout>
