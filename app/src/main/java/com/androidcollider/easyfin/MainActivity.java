@@ -119,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
                 case 0: tabName = getResources().getString(R.string.tab_main); break;
                 case 1: tabName = getResources().getString(R.string.tab_expenses); break;
                 case 2: tabName = getResources().getString(R.string.tab_transactions); break;
-                //case 3: tabName = "Курси"; break;
             }
             return tabName;
         }
@@ -150,12 +149,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addTransactionMain(View view) {
-        Intent intent = new Intent(this, AddTransaction.class);
+        Intent intent = new Intent(this, AddTransactionActivity.class);
         startActivity(intent);
     }
 
     public void addExpenseMain(View view) {
-        Intent intent = new Intent(this, AddExpense.class);
+        Intent intent = new Intent(this, AddExpenseActivity.class);
         startActivity(intent);
     }
 }

@@ -66,32 +66,32 @@ public class FragmentMain extends Fragment {
     }
 
     public void setCurrentBalance() {
-        int[] balance = getCurrentBalance();
+        double[] balance = getCurrentBalance();
         setBalanceTV(balance);
     }
 
-    private void setBalanceTV (int[] balance) {
+    private void setBalanceTV (double[] balance) {
         TextView tvMainCashValue = (TextView) view.findViewById(R.id.tvMainCashValue);
         TextView tvMainCardValue = (TextView) view.findViewById(R.id.tvMainCardValue);
         TextView tvMainDepositValue = (TextView) view.findViewById(R.id.tvMainDepositValue);
         TextView tvMainDebtValue = (TextView) view.findViewById(R.id.tvMainDebtValue);
         TextView tvMainSumValue = (TextView) view.findViewById(R.id.tvMainSumValue);
 
-        int sum = 0;
-        for (int i: balance) {
+        double sum = 0;
+        for (double i: balance) {
             sum += i;}
 
-        tvMainCashValue.setText(Integer.toString(balance[0]));
-        tvMainCardValue.setText(Integer.toString(balance[1]));
-        tvMainDepositValue.setText(Integer.toString(balance[2]));
-        tvMainDebtValue.setText(Integer.toString(balance[3]));
-        tvMainSumValue.setText(Integer.toString(sum));
+        tvMainCashValue.setText(Double.toString(balance[0]));
+        tvMainCardValue.setText(Double.toString(balance[1]));
+        tvMainDepositValue.setText(Double.toString(balance[2]));
+        tvMainDebtValue.setText(Double.toString(balance[3]));
+        tvMainSumValue.setText(Double.toString(sum));
     }
 
-    private int[] getCurrentBalance() {
+    private double[] getCurrentBalance() {
         String[] types = getResources().getStringArray(R.array.expense_type_array);
 
-        int[] balance = new int[4];
+        double[] balance = new double[4];
 
         for (int i = 0; i < balance.length; i++) {
             balance[i] = dataSource.getExpenseSum(types[i]);}

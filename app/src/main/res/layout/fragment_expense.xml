@@ -9,7 +9,16 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="120dp"
-        android:layout_above="@+id/btnNewExpense" />
+        android:layout_above="@+id/btnNewExpense" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/linLayoutFragmentExpense"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </LinearLayout>
+    </ScrollView>
 
     <Button
         android:layout_width="fill_parent"

@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-public class AddExpense extends AppCompatActivity implements View.OnClickListener {
+public class AddExpenseActivity extends AppCompatActivity implements View.OnClickListener {
 
     Spinner spinAddExpenseType, spinAddExpenseCurrency;
     Button btnExpenseAdd;
@@ -71,7 +71,7 @@ public class AddExpense extends AppCompatActivity implements View.OnClickListene
         ContentValues cv = new ContentValues();
 
         String name = editTextExpenseName.getText().toString();
-        int amount = Integer.parseInt(editTextExpenseSum.getText().toString());
+        double amount = Double.parseDouble(editTextExpenseSum.getText().toString());
         String type = spinAddExpenseType.getSelectedItem().toString();
         String currency = spinAddExpenseCurrency.getSelectedItem().toString();
 

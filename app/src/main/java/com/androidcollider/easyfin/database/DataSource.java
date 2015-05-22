@@ -6,11 +6,14 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.androidcollider.easyfin.objects.AccountInfo;
+
 import java.util.ArrayList;
 
 
 public class DataSource {
-    private final static String TAG = "¿Ì‰Ó≥‰ÌËÈ  ÓÎÎ‡È‰Â";
+    private final static String TAG = "–ê–Ω–¥—Ä–æ—ñ–¥–Ω–∏–π –ö–æ–ª–ª–∞–π–¥–µ—Ä";
     private final static String APP_PREFERENCES = "EasyfinPref";
 
     private DbHelper dbHelper;
@@ -46,7 +49,7 @@ public class DataSource {
 
     public ArrayList<String> getAllAccounts() {
         ArrayList<String> accounts = new ArrayList<>();
-        String selectQuery = "SELECT * FROM Account ";
+        String selectQuery = "SELECT name FROM Account ";
         openLocalToRead();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -65,18 +68,59 @@ public class DataSource {
 
 
 
-    public int getExpenseSum(String type) {
+    public double getExpenseSum(String type) {
         String selectQuery = "SELECT SUM(amount) FROM Account WHERE type = '" + type + "' ";
         openLocalToRead();
 
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if(cursor.moveToFirst()) {
-            return cursor.getInt(0);}
+            return cursor.getDouble(0);}
 
         cursor.close();
         closeLocal();
         return 0;
+    }
+
+    public ArrayList<AccountInfo> getAllAccountsInfo() {
+
+        ArrayList<AccountInfo> accountInfoArrayList = new ArrayList<>();
+
+        String selectQuery = "SELECT * FROM Account ";
+        openLocalToRead();
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            int idColIndex = cursor.getColumnIndex("id_account");
+            int nameColIndex = cursor.getColumnIndex("name");
+            int amountColIndex = cursor.getColumnIndex("amount");
+            int typeColIndex = cursor.getColumnIndex("type");
+            int currencyColIndex = cursor.getColumnIndex("currency");
+
+            do {
+                AccountInfo accountInfo = new AccountInfo(
+                        cursor.getInt(idColIndex),
+                        cursor.getString(nameColIndex),
+                        cursor.getDouble(amountColIndex),
+                        cursor.getString(typeColIndex),
+                        cursor.getString(currencyColIndex));
+
+                accountInfoArrayList.add(accountInfo);
+
+            }
+            while (cursor.moveToNext());
+
+            cursor.close();
+            closeLocal();
+
+            return accountInfoArrayList;
+        }
+
+        cursor.close();
+        closeLocal();
+
+        return accountInfoArrayList;
     }
 
 

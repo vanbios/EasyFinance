@@ -24,7 +24,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class AddTransaction extends AppCompatActivity implements View.OnClickListener {
+public class AddTransactionActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView tvTransactionDate;
     private DatePickerDialog setDatePickerDialog;
@@ -120,7 +120,7 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
 
         String date = tvTransactionDate.getText().toString();
         int id_account = spinAddTransExpense.getSelectedItemPosition() + 1;
-        int amount = Integer.parseInt(editTextTransSum.getText().toString());
+        double amount = Double.parseDouble(editTextTransSum.getText().toString());
         if (radioButtonCost.isChecked()) {
             amount *= -1;}
         String category = spinAddTransCategory.getSelectedItem().toString();
@@ -143,7 +143,7 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
     }
 
     private void openAddExpenseActivity() {
-        Intent intent = new Intent(this, AddExpense.class);
+        Intent intent = new Intent(this, AddExpenseActivity.class);
         startActivity(intent);
     }
 
