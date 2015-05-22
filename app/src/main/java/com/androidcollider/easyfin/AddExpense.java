@@ -1,10 +1,11 @@
 package com.androidcollider.easyfin;
 
 import com.androidcollider.easyfin.database.DataSource;
+import com.androidcollider.easyfin.fragments.FragmentMain;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -52,6 +53,7 @@ public class AddExpense extends AppCompatActivity implements View.OnClickListene
 
     private void setToolbar(int id) {
         Toolbar ToolBar = (Toolbar) findViewById(R.id.toolbarMain);
+        assert getSupportActionBar() != null;
         setSupportActionBar(ToolBar);
         getSupportActionBar().setTitle(id);
         getSupportActionBar().setLogo(R.mipmap.ic_launcher);}
@@ -84,6 +86,14 @@ public class AddExpense extends AppCompatActivity implements View.OnClickListene
 
         Toast.makeText(this, name + " " + amount + " " + currency + " " + type, Toast.LENGTH_LONG).show();
 
+        pushBroadcast();
+
         this.finish();
+    }
+
+    private void pushBroadcast() {
+        Intent intent = new Intent(FragmentMain.BROADCAST_ACTION);
+        intent.putExtra(FragmentMain.PARAM_STATUS_FRAGMENT_MAIN, FragmentMain.STATUS_UPDATE_FRAGMENT_MAIN);
+        sendBroadcast(intent);
     }
 }

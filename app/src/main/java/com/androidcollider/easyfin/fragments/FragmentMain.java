@@ -3,6 +3,10 @@ package com.androidcollider.easyfin.fragments;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.database.DataSource;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -15,11 +19,19 @@ public class FragmentMain extends Fragment {
 
     static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
 
+    public final static String BROADCAST_ACTION = "com.androidcollider.easyfin.fragmentmain.broadcast";
+
+    public final static String PARAM_STATUS_FRAGMENT_MAIN = "update_fragment_main_current_balance";
+
+    public final static int STATUS_UPDATE_FRAGMENT_MAIN = 100;
+
     int pageNumber;
 
     View view;
 
     DataSource dataSource;
+
+    BroadcastReceiver broadcastReceiver;
 
 
     public static FragmentMain newInstance(int page) {
@@ -34,6 +46,8 @@ public class FragmentMain extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pageNumber = getArguments().getInt(ARGUMENT_PAGE_NUMBER);
+
+        makeBroadcastReceiver();
 
 
     }
@@ -84,5 +98,29 @@ public class FragmentMain extends Fragment {
 
 
         return balance;
+    }
+
+    private void makeBroadcastReceiver() {
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                int status = intent.getIntExtra(PARAM_STATUS_FRAGMENT_MAIN, 0);
+
+                if (status == STATUS_UPDATE_FRAGMENT_MAIN) {
+
+                    setCurrentBalance();
+                }
+            }
+        };
+
+        IntentFilter intentFilter = new IntentFilter(BROADCAST_ACTION);
+
+        getActivity().registerReceiver(broadcastReceiver, intentFilter);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(broadcastReceiver);
     }
 }

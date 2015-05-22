@@ -7,7 +7,6 @@ import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -62,6 +61,7 @@ public class AddTransaction extends AppCompatActivity implements View.OnClickLis
 
     private void setToolbar(int id) {
         Toolbar ToolBar = (Toolbar) findViewById(R.id.toolbarMain);
+        assert getSupportActionBar() != null;
         setSupportActionBar(ToolBar);
         getSupportActionBar().setTitle(id);
         getSupportActionBar().setLogo(R.mipmap.ic_launcher);}

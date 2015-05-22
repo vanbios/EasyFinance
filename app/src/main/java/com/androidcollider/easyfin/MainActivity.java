@@ -37,21 +37,13 @@ public class MainActivity extends AppCompatActivity {
         setToolbar(R.string.app_name);
 
         setViewPager();
-
-        //dataSource = new DataSource(this);
-        //fragmentMain = new FragmentMain();
-
-        //fragmentMain.getActivity();
-        //fragmentMain.setCurrentBalance();
-
-
-
     }
 
 
 
     private void setToolbar (int id) {
         Toolbar ToolBar = (Toolbar) findViewById(R.id.toolbarMain);
+        assert getSupportActionBar() != null;
         setSupportActionBar(ToolBar);
         getSupportActionBar().setTitle(id);
         getSupportActionBar().setLogo(R.mipmap.ic_launcher);
@@ -77,12 +69,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                /*Fragment fragment = ((FragmentStatePagerAdapter)pager.getAdapter()).getFragment(position);
-
-                if (position == 0 && fragment != null)
-                {
-                    fragment.onResume();
-                }*/
             }
 
             @Override
@@ -100,21 +86,10 @@ public class MainActivity extends AppCompatActivity {
 
     private class MyFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
-        /*private Map<Integer, String> mFragmentTags;
-        private FragmentManager mFragmentManager;
-        private Context mContext;*/
-
 
 
         public MyFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
-            /*mFragmentManager = fm;
-            mFragmentTags = new HashMap<Integer, String>();
-            mContext = MainActivity.this;*/
-
-
-
-
         }
 
         @Override
@@ -149,24 +124,6 @@ public class MainActivity extends AppCompatActivity {
             return tabName;
         }
 
-        /*@Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            Object obj = super.instantiateItem(container, position);
-            if (obj instanceof Fragment) {
-                // record the fragment tag here.
-                Fragment f = (Fragment) obj;
-                String tag = f.getTag();
-                mFragmentTags.put(position, tag);
-            }
-            return obj;
-        }
-
-        public Fragment getFragment(int position) {
-            String tag = mFragmentTags.get(position);
-            if (tag == null)
-                return null;
-            return mFragmentManager.findFragmentByTag(tag);
-        }*/
     }
 
 
