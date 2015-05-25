@@ -5,7 +5,6 @@ import com.androidcollider.easyfin.fragments.FragmentMain;
 import com.androidcollider.easyfin.fragments.FragmentTransaction;
 import com.androidcollider.easyfin.objects.Transaction;
 import com.androidcollider.easyfin.utils.DateFormat;
-import com.androidcollider.easyfin.utils.FormatUtils;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -23,17 +22,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
-import java.util.Locale;
+
 
 public class AddTransactionActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView tvTransactionDate;
     private DatePickerDialog setDatePickerDialog;
 
-    private final String dateFormat = "dd-MM-yyyy";
+    private final String DATEFORMAT = "dd-MM-yyyy";
 
     private Spinner spinAddTransCategory, spinAddTransExpense;
 
@@ -96,14 +95,14 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
         tvTransactionDate.setOnClickListener(this);
 
         Calendar newCalendar = Calendar.getInstance();
-        tvTransactionDate.setText(DateFormat.dateToString(newCalendar.getTime(), dateFormat));
+        tvTransactionDate.setText(DateFormat.dateToString(newCalendar.getTime(), DATEFORMAT));
 
         setDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
-                tvTransactionDate.setText(DateFormat.dateToString(newDate.getTime(), dateFormat));
+                tvTransactionDate.setText(DateFormat.dateToString(newDate.getTime(), DATEFORMAT));
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -122,7 +121,8 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
         EditText editTextTransSum = (EditText) findViewById(R.id.editTextTransSum);
         RadioButton radioButtonCost = (RadioButton) findViewById(R.id.radioButtonCost);
 
-        String date = tvTransactionDate.getText().toString();
+        //String date = tvTransactionDate.getText().toString();
+        Long date = DateFormat.stringToDate(tvTransactionDate.getText().toString(), DATEFORMAT).getTime();
         int id_account = spinAddTransExpense.getSelectedItemPosition() + 1;
         double amount = Double.parseDouble(editTextTransSum.getText().toString());
         if (radioButtonCost.isChecked()) {
@@ -141,7 +141,7 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
             dataSource.insertNewTransaction(transaction);
             dataSource.updateAccountAmountAfterTransaction(id_account, accountAmount);
 
-            //Toast.makeText(this, date + " " + id_account + " " + amount + " " + category + " " + accountAmount, Toast.LENGTH_LONG).show();
+            //Toast.makeText(this, date + " " + id_account + " " + amount + " " + category + " " + accountAmount + date2, Toast.LENGTH_LONG).show();
 
             pushBroadcast();
 

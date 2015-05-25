@@ -190,7 +190,7 @@ public class DataSource {
             for (int i=cursor.getCount()-1; i>=0;i--){
                 cursor.moveToPosition(i);
                 Transaction transaction = new Transaction(
-                        cursor.getString(dateColIndex),
+                        cursor.getLong(dateColIndex),
                         cursor.getDouble(amountColIndex),
                         cursor.getString(categoryColIndex),
                         cursor.getString(nameColIndex),

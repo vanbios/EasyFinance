@@ -13,7 +13,7 @@ public class SqlQueries {
         //make a string SQL request for Transaction table
         public static final String create_transactions_table = "CREATE TABLE Transactions (" +
                 "id_transaction   INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "date             TEXT NOT NULL," +
+                "date             INTEGER NOT NULL," +
                 "id_account       INTEGER NOT NULL," +
                 "amount           REAL NOT NULL," +
                 "category         TEXT NOT NULL" +

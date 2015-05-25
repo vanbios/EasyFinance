@@ -1,20 +1,22 @@
 package com.androidcollider.easyfin.utils;
 
 
+import android.support.annotation.NonNull;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
 
 public class DateFormat {
 
+    @NonNull
     public static String dateToString(Date date, String dateFormat){
         java.text.DateFormat df = new SimpleDateFormat(dateFormat, Locale.getDefault());
 
-        String reportDate = df.format(date);
-        return reportDate;
+        return df.format(date);
+
     }
 
     public static Date stringToDate(String dateStr, String dateFormat){
@@ -28,11 +30,11 @@ public class DateFormat {
         return date;
     }
 
-    public static String intToDateString(int dateInt, String dateFormat){
-        Date date = new Date(dateInt);
+    @NonNull
+    public static String longToDateString(long dateLong, String dateFormat){
+        Date date = new Date(dateLong);
         java.text.DateFormat df = new SimpleDateFormat(dateFormat, Locale.getDefault());
 
-        String reportDate = df.format(date);
-        return reportDate;
+        return df.format(date);
     }
 }

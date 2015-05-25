@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.objects.Transaction;
+import com.androidcollider.easyfin.utils.DateFormat;
 import com.androidcollider.easyfin.utils.FormatUtils;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class FragmentTransaction extends Fragment{
 
     private final static int PRECISE = 100;
     private final static String FORMAT = "0.00";
+
 
     public final static String BROADCAST_FRAGMENT_TRANSACTION_ACTION = "com.androidcollider.easyfin.fragmenttransaction.broadcast";
 
@@ -76,6 +78,8 @@ public class FragmentTransaction extends Fragment{
 
         ArrayList<Transaction> transactionArrayList = dataSource.getAllTransactionsInfo();
 
+        final String DATEFORMAT = "dd-MM-yyyy";
+
         linearLayout = (LinearLayout) view.findViewById(R.id.linLayoutFragmentTransaction);
         LayoutInflater layoutInflater = getActivity().getLayoutInflater();
 
@@ -91,7 +95,7 @@ public class FragmentTransaction extends Fragment{
             TextView tvItemFragmentTransactionDate = (TextView) item.findViewById(R.id.tvItemFragmentTransactionDate);
 
             double amount = transaction.getAmount();
-            String date = transaction.getDate();
+            String date = DateFormat.longToDateString(transaction.getDate(), DATEFORMAT);
             String category = transaction.getCategory();
             String account_name = transaction.getAccount_name();
             String account_currency = transaction.getAccount_currency();
