@@ -27,6 +27,11 @@ public class Transaction {
         this.account_currency = account_currency;
     }
 
+    public Transaction (long date, double amount) {
+        this.date = date;
+        this.amount = amount;
+    }
+
     public long getDate() {return date;}
 
     public int getId_account() {return id_account;}

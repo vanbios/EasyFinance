@@ -116,6 +116,37 @@ public class DataSource {
         return accounts;
     }
 
+    public ArrayList<Transaction> getAllTransactionsAmounts() {
+        ArrayList<Transaction> arrayListTransactionsAmounts = new ArrayList<>();
+        openLocalToRead();
+        String selectQuery = "SELECT date, amount FROM Transactions ";
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            int amountColIndex = cursor.getColumnIndex("amount");
+            int dateColIndex = cursor.getColumnIndex("date");
+
+            for (int i=cursor.getCount()-1; i>=0;i--){
+                cursor.moveToPosition(i);
+                Transaction transaction = new Transaction(
+                        cursor.getLong(dateColIndex),
+                        cursor.getDouble(amountColIndex));
+
+                arrayListTransactionsAmounts.add(transaction);
+            }
+            cursor.close();
+            closeLocal();
+            return arrayListTransactionsAmounts;
+        }
+        cursor.close();
+        closeLocal();
+
+
+        closeLocal();
+
+        return arrayListTransactionsAmounts;
+    }
+
     public double getExpenseSum(String type) {
         String selectQuery = "SELECT SUM(amount) FROM Account WHERE type = '" + type + "' ";
         openLocalToRead();

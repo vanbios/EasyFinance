@@ -2,6 +2,7 @@ package com.androidcollider.easyfin.fragments;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.database.DataSource;
+import com.androidcollider.easyfin.objects.Transaction;
 import com.androidcollider.easyfin.utils.FormatUtils;
 
 import android.content.BroadcastReceiver;
@@ -14,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 
 
 public class FragmentMain extends Fragment {
@@ -65,6 +68,8 @@ public class FragmentMain extends Fragment {
 
         setCurrentBalance();
 
+        setTransactionsStatistic();
+
 
         return view;
     }
@@ -104,6 +109,34 @@ public class FragmentMain extends Fragment {
         return balance;
     }
 
+    private void setTransactionsStatistic() {
+
+        ArrayList<Transaction> transactionsAmounts = dataSource.getAllTransactionsAmounts();
+
+        double cost = 0.0;
+        double income = 0.0;
+
+        for (Transaction transaction : transactionsAmounts) {
+            if (FormatUtils.isDoubleNegative(transaction.getAmount())) {
+                cost += transaction.getAmount();
+            }
+            else {
+                income += transaction.getAmount();
+            }
+        }
+
+        double statsum = cost + income;
+
+        TextView tvMainIncomeValue = (TextView) view.findViewById(R.id.tvMainIncomeValue);
+        TextView tvMainCostValue = (TextView) view.findViewById(R.id.tvMainCostValue);
+        TextView tvMainStatisticSum = (TextView) view.findViewById(R.id.tvMainStatisticSum);
+
+        tvMainIncomeValue.setText(FormatUtils.doubleFormatter(income, FORMAT, PRECISE));
+        tvMainCostValue.setText(FormatUtils.doubleFormatter(Math.abs(cost), FORMAT, PRECISE));
+        tvMainStatisticSum.setText(FormatUtils.doubleFormatter(statsum, FORMAT, PRECISE));
+
+    }
+
     private void makeBroadcastReceiver() {
         broadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -113,6 +146,8 @@ public class FragmentMain extends Fragment {
                 if (status == STATUS_UPDATE_FRAGMENT_MAIN) {
 
                     setCurrentBalance();
+
+                    setTransactionsStatistic();
                 }
             }
         };
