@@ -4,6 +4,7 @@ import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.fragments.FragmentMain;
 import com.androidcollider.easyfin.fragments.FragmentTransaction;
 import com.androidcollider.easyfin.objects.Transaction;
+import com.androidcollider.easyfin.utils.DateFormat;
 import com.androidcollider.easyfin.utils.FormatUtils;
 
 import android.app.DatePickerDialog;
@@ -31,7 +32,9 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
 
     private TextView tvTransactionDate;
     private DatePickerDialog setDatePickerDialog;
-    private SimpleDateFormat dateFormatter;
+
+    private final String dateFormat = "dd-MM-yyyy";
+
     private Spinner spinAddTransCategory, spinAddTransExpense;
 
     DataSource dataSource;
@@ -49,7 +52,6 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
 
         tvTransactionDate = (TextView) findViewById(R.id.tvTransactionDate);
 
-        dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
 
         setDateTimeField();
 
@@ -94,14 +96,14 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
         tvTransactionDate.setOnClickListener(this);
 
         Calendar newCalendar = Calendar.getInstance();
-        tvTransactionDate.setText(dateFormatter.format(newCalendar.getTime()));
+        tvTransactionDate.setText(DateFormat.dateToString(newCalendar.getTime(), dateFormat));
 
         setDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
-                tvTransactionDate.setText(dateFormatter.format(newDate.getTime()));
+                tvTransactionDate.setText(DateFormat.dateToString(newDate.getTime(), dateFormat));
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
