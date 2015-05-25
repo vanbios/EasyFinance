@@ -3,8 +3,8 @@ package com.androidcollider.easyfin;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.fragments.FragmentExpense;
 import com.androidcollider.easyfin.fragments.FragmentMain;
+import com.androidcollider.easyfin.objects.Account;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -69,23 +69,17 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
     private void addExpense() {
         EditText editTextExpenseName = (EditText) findViewById(R.id.editTextExpenseName);
         EditText editTextExpenseSum = (EditText) findViewById(R.id.editTextExpenseSum);
-        ContentValues cv = new ContentValues();
 
         String name = editTextExpenseName.getText().toString();
         double amount = Double.parseDouble(editTextExpenseSum.getText().toString());
         String type = spinAddExpenseType.getSelectedItem().toString();
         String currency = spinAddExpenseCurrency.getSelectedItem().toString();
 
-        cv.put("name", name);
-        cv.put("amount", amount);
-        cv.put("type", type);
-        cv.put("currency", currency);
+        Account account = new Account(name, amount, type, currency);
 
-        dataSource.insertLocal("Account", cv);
+        dataSource.insertNewAccount(account);
 
-
-
-        Toast.makeText(this, name + " " + amount + " " + currency + " " + type, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, name + " " + amount + " " + currency + " " + type, Toast.LENGTH_LONG).show();
 
         pushBroadcast();
 
@@ -96,9 +90,5 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
         Intent intentFragmentMain = new Intent(FragmentMain.BROADCAST_FRAGMENT_MAIN_ACTION);
         intentFragmentMain.putExtra(FragmentMain.PARAM_STATUS_FRAGMENT_MAIN, FragmentMain.STATUS_UPDATE_FRAGMENT_MAIN);
         sendBroadcast(intentFragmentMain);
-
-        Intent intentFragmentExpense = new Intent(FragmentExpense.BROADCAST_FRAGMENT_EXPENSE_ACTION);
-        intentFragmentExpense.putExtra(FragmentExpense.PARAM_STATUS_FRAGMENT_EXPENSE, FragmentExpense.STATUS_UPDATE_FRAGMENT_EXPENSE);
-        sendBroadcast(intentFragmentExpense);
     }
 }

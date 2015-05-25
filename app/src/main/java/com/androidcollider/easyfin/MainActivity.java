@@ -1,12 +1,9 @@
 package com.androidcollider.easyfin;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,19 +11,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.androidcollider.easyfin.fragments.FragmentExpense;
-import com.androidcollider.easyfin.fragments.FragmentMain;
-import com.androidcollider.easyfin.fragments.FragmentTransaction;
-import com.androidcollider.easyfin.fragments.PageFragment;
+import com.androidcollider.easyfin.adapters.MyFragmentPagerAdapter;
 import com.astuetz.PagerSlidingTabStrip;
 
 
 public class MainActivity extends AppCompatActivity {
-
-    static final int PAGE_COUNT = 3;
-
-
-    private Context context;
 
 
     @Override
@@ -51,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setViewPager() {
         final ViewPager pager = (ViewPager) findViewById(R.id.pager);
-        pager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager()));
+        pager.setAdapter(new MyFragmentPagerAdapter(getSupportFragmentManager(), this));
 
 
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
@@ -81,50 +70,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
-    private class MyFragmentPagerAdapter extends FragmentStatePagerAdapter {
-
-
-
-        public MyFragmentPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            switch (position) {
-                case 0: return FragmentMain.newInstance(position);
-                case 1: return FragmentExpense.newInstance(position);
-                case 2: return FragmentTransaction.newInstance(position);
-
-                default: return PageFragment.newInstance(position);}
-        }
-
-        @Override
-        public int getItemPosition(Object object) {
-            return POSITION_NONE;
-        }
-
-        @Override
-        public int getCount() {
-            return PAGE_COUNT;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            String tabName = "";
-            switch (position) {
-                case 0: tabName = getResources().getString(R.string.tab_main); break;
-                case 1: tabName = getResources().getString(R.string.tab_expenses); break;
-                case 2: tabName = getResources().getString(R.string.tab_transactions); break;
-            }
-            return tabName;
-        }
-
-    }
-
 
 
     @Override

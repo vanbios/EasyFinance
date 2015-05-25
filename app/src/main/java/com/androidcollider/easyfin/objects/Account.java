@@ -4,7 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 
-public class AccountInfo implements Parcelable {
+public class Account implements Parcelable {
 
     private int id;
     private String name;
@@ -13,8 +13,15 @@ public class AccountInfo implements Parcelable {
     private String currency;
 
 
-    public AccountInfo (int id, String name, double amount, String type, String currency) {
+    public Account(int id, String name, double amount, String type, String currency) {
         this.id = id;
+        this.name = name;
+        this.amount = amount;
+        this.type = type;
+        this.currency = currency;
+    }
+
+    public Account(String name, double amount, String type, String currency) {
         this.name = name;
         this.amount = amount;
         this.type = type;
@@ -32,7 +39,7 @@ public class AccountInfo implements Parcelable {
     public String getCurrency() {return currency;}
 
 
-    public AccountInfo(Parcel accountParcelIn) {
+    public Account(Parcel accountParcelIn) {
         this.id = accountParcelIn.readInt();
         this.name = accountParcelIn.readString();
         this.amount = accountParcelIn.readDouble();
@@ -57,12 +64,12 @@ public class AccountInfo implements Parcelable {
     }
 
     public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-        public AccountInfo createFromParcel(Parcel in) {
-            return new AccountInfo(in);
+        public Account createFromParcel(Parcel in) {
+            return new Account(in);
         }
 
-        public AccountInfo[] newArray(int size) {
-            return new AccountInfo[size];
+        public Account[] newArray(int size) {
+            return new Account[size];
         }
     };
 

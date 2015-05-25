@@ -1,10 +1,13 @@
 package com.androidcollider.easyfin;
 
 import com.androidcollider.easyfin.database.DataSource;
+import com.androidcollider.easyfin.fragments.FragmentMain;
+import com.androidcollider.easyfin.fragments.FragmentTransaction;
+import com.androidcollider.easyfin.objects.Transaction;
+import com.androidcollider.easyfin.utils.FormatUtils;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.ContentValues;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -71,7 +74,7 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
         spinAddTransCategory = (Spinner) findViewById(R.id.spinAddTransCategory);
         spinAddTransExpense = (Spinner) findViewById(R.id.spinAddTransExpense);
 
-        List<String> accounts = dataSource.getAllAccounts();
+        List<String> accounts = dataSource.getAllAccountNames();
 
         if (accounts.size() == 0) {
             showDialogNoExpense();}
@@ -116,7 +119,6 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
     private void addTransaction() {
         EditText editTextTransSum = (EditText) findViewById(R.id.editTextTransSum);
         RadioButton radioButtonCost = (RadioButton) findViewById(R.id.radioButtonCost);
-        ContentValues cv = new ContentValues();
 
         String date = tvTransactionDate.getText().toString();
         int id_account = spinAddTransExpense.getSelectedItemPosition() + 1;
@@ -125,17 +127,35 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
             amount *= -1;}
         String category = spinAddTransCategory.getSelectedItem().toString();
 
-        cv.put("date", date);
-        cv.put("id_account", id_account);
-        cv.put("amount", amount);
-        cv.put("category", category);
+        double accountAmount = dataSource.getAccountAmountForTransaction(id_account);
+
+        if (radioButtonCost.isChecked() && Math.abs(amount) > accountAmount) {
+            Toast.makeText(this, getResources().getString(R.string.transaction_not_enough_costs) + " " +
+                    Math.abs(amount), Toast.LENGTH_LONG).show();}
+        else {
+            accountAmount += amount;
+
+            Transaction transaction = new Transaction(date, id_account, amount, category);
+            dataSource.insertNewTransaction(transaction);
+            dataSource.updateAccountAmountAfterTransaction(id_account, accountAmount);
+
+            //Toast.makeText(this, date + " " + id_account + " " + amount + " " + category + " " + accountAmount, Toast.LENGTH_LONG).show();
+
+            pushBroadcast();
+
+            closeActivity();
+        }
+    }
 
 
-        dataSource.insertLocal("Transactions", cv);
+    private void pushBroadcast() {
+        Intent intentFragmentMain = new Intent(FragmentMain.BROADCAST_FRAGMENT_MAIN_ACTION);
+        intentFragmentMain.putExtra(FragmentMain.PARAM_STATUS_FRAGMENT_MAIN, FragmentMain.STATUS_UPDATE_FRAGMENT_MAIN);
+        sendBroadcast(intentFragmentMain);
 
-        Toast.makeText(this, date + " " + id_account + " " + amount + " " + category, Toast.LENGTH_LONG).show();
-
-        closeActivity();
+        Intent intentFragmentTransaction = new Intent(FragmentTransaction.BROADCAST_FRAGMENT_TRANSACTION_ACTION);
+        intentFragmentTransaction.putExtra(FragmentTransaction.PARAM_STATUS_FRAGMENT_TRANSACTION, FragmentTransaction.STATUS_UPDATE_FRAGMENT_TRANSACTION);
+        sendBroadcast(intentFragmentTransaction);
     }
 
     private void closeActivity() {

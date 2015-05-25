@@ -34,6 +34,8 @@
     <string name="dialog_text_no_expense">Неможливо здійснити транзакцію, оскільки не додано жодного рахунку.
     Натисніть "Новий рахунок", щоб додати.</string>
 
+    <string name="transaction_not_enough_costs">Недостатньо коштів на рахунку для здійснення транзакції на суму</string>
+
     <string name="value_textview">10000</string>
     <string name="date">Дата</string>
 

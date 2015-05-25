@@ -17,30 +17,28 @@ import android.widget.TextView;
 import com.androidcollider.easyfin.R;
 
 import com.androidcollider.easyfin.database.DataSource;
-import com.androidcollider.easyfin.objects.AccountInfo;
+import com.androidcollider.easyfin.objects.Account;
+import com.androidcollider.easyfin.utils.FormatUtils;
 
 import java.util.ArrayList;
 
 
 public class FragmentExpense extends Fragment{
-    static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
+    private static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
 
-    public final static String BROADCAST_FRAGMENT_EXPENSE_ACTION = "com.androidcollider.easyfin.fragmentexpense.broadcast";
-
-    public final static String PARAM_STATUS_FRAGMENT_EXPENSE = "update_fragment_expense";
-
-    public final static int STATUS_UPDATE_FRAGMENT_EXPENSE = 200;
+    private final static int PRECISE = 100;
+    private final static String FORMAT = "0.00";
 
     int pageNumber;
 
-    View view;
+    private View view;
 
-    DataSource dataSource;
+    private DataSource dataSource;
 
-    BroadcastReceiver broadcastReceiver;
+    private BroadcastReceiver broadcastReceiver;
 
-    LinearLayout linearLayout;
-    LayoutInflater layoutInflater;
+    private LinearLayout linearLayout;
+
 
     public static FragmentExpense newInstance(int page) {
         FragmentExpense fragmentExpense = new FragmentExpense();
@@ -76,29 +74,29 @@ public class FragmentExpense extends Fragment{
         //colors[1] = getResources().getColor(R.color.gray);
 
 
-        ArrayList<AccountInfo> accountInfoArrayList = dataSource.getAllAccountsInfo();
+        ArrayList<Account> accountArrayList = dataSource.getAllAccountsInfo();
 
 
         linearLayout = (LinearLayout) view.findViewById(R.id.linLayoutFragmentExpense);
-        layoutInflater = getActivity().getLayoutInflater();
+        LayoutInflater layoutInflater = getActivity().getLayoutInflater();
 
         //int i = 0;
 
-        for(AccountInfo accountInfo : accountInfoArrayList) {
+        for(Account account : accountArrayList) {
             View item = layoutInflater.inflate(R.layout.item_fragment_expense, linearLayout, false);
 
             TextView tvItemFragmentExpenseName = (TextView) item.findViewById(R.id.tvItemFragmentExpenseName);
             TextView tvItemFragmentExpenseType = (TextView) item.findViewById(R.id.tvItemFragmentExpenseType);
             TextView tvItemFragmentExpenseAmount = (TextView) item.findViewById(R.id.tvItemFragmentExpenseAmount);
 
-            String name = accountInfo.getName();
-            String type = accountInfo.getType();
-            double amount = accountInfo.getAmount();
-            String currency = accountInfo.getCurrency();
+            String name = account.getName();
+            String type = account.getType();
+            double amount = account.getAmount();
+            String currency = account.getCurrency();
 
             tvItemFragmentExpenseName.setText(name);
             tvItemFragmentExpenseType.setText(type);
-            tvItemFragmentExpenseAmount.setText(Double.toString(amount) + " " + currency);
+            tvItemFragmentExpenseAmount.setText(FormatUtils.doubleFormatter(amount, FORMAT, PRECISE) + " " + currency);
 
             item.getLayoutParams().width = ViewGroup.LayoutParams.MATCH_PARENT;
             //item.setBackgroundColor(colors[i % 2]);
@@ -112,9 +110,9 @@ public class FragmentExpense extends Fragment{
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                int status = intent.getIntExtra(PARAM_STATUS_FRAGMENT_EXPENSE, 0);
+                int status = intent.getIntExtra(FragmentMain.PARAM_STATUS_FRAGMENT_MAIN, 0);
 
-                if (status == STATUS_UPDATE_FRAGMENT_EXPENSE) {
+                if (status == FragmentMain.STATUS_UPDATE_FRAGMENT_MAIN) {
 
                     linearLayout.removeAllViews();
 
@@ -123,7 +121,7 @@ public class FragmentExpense extends Fragment{
             }
         };
 
-        IntentFilter intentFilter = new IntentFilter(BROADCAST_FRAGMENT_EXPENSE_ACTION);
+        IntentFilter intentFilter = new IntentFilter(FragmentMain.BROADCAST_FRAGMENT_MAIN_ACTION);
 
         getActivity().registerReceiver(broadcastReceiver, intentFilter);
     }

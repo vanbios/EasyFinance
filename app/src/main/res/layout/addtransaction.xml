@@ -18,6 +18,7 @@
         android:layout_marginTop="35dp"
         android:hint="@string/sum_hint"
         android:textSize="20sp"
+        android:maxLength="12"
         android:layout_below="@+id/tvTransactionDate"
         android:layout_centerHorizontal="true" />
 

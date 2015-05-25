@@ -2,6 +2,7 @@ package com.androidcollider.easyfin.fragments;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.database.DataSource;
+import com.androidcollider.easyfin.utils.FormatUtils;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,7 +18,7 @@ import android.widget.TextView;
 
 public class FragmentMain extends Fragment {
 
-    static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
+    private static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
 
     public final static String BROADCAST_FRAGMENT_MAIN_ACTION = "com.androidcollider.easyfin.fragmentmain.broadcast";
 
@@ -25,13 +26,16 @@ public class FragmentMain extends Fragment {
 
     public final static int STATUS_UPDATE_FRAGMENT_MAIN = 100;
 
+    private final static int PRECISE = 100;
+    private final static String FORMAT = "0.00";
+
     int pageNumber;
 
-    View view;
+    private View view;
 
-    DataSource dataSource;
+    private DataSource dataSource;
 
-    BroadcastReceiver broadcastReceiver;
+    private BroadcastReceiver broadcastReceiver;
 
 
     public static FragmentMain newInstance(int page) {
@@ -81,11 +85,11 @@ public class FragmentMain extends Fragment {
         for (double i: balance) {
             sum += i;}
 
-        tvMainCashValue.setText(Double.toString(balance[0]));
-        tvMainCardValue.setText(Double.toString(balance[1]));
-        tvMainDepositValue.setText(Double.toString(balance[2]));
-        tvMainDebtValue.setText(Double.toString(balance[3]));
-        tvMainSumValue.setText(Double.toString(sum));
+        tvMainCashValue.setText(FormatUtils.doubleFormatter(balance[0], FORMAT, PRECISE));
+        tvMainCardValue.setText(FormatUtils.doubleFormatter(balance[1], FORMAT, PRECISE));
+        tvMainDepositValue.setText(FormatUtils.doubleFormatter(balance[2], FORMAT, PRECISE));
+        tvMainDebtValue.setText(FormatUtils.doubleFormatter(balance[3], FORMAT, PRECISE));
+        tvMainSumValue.setText(FormatUtils.doubleFormatter(sum, FORMAT, PRECISE));
     }
 
     private double[] getCurrentBalance() {
