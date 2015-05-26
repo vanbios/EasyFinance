@@ -68,6 +68,13 @@
         <item>RUB</item>
     </string-array>
 
+    <string-array name="main_statistic_period_array">
+        <item>день</item>
+        <item>тиждень</item>
+        <item>місяць</item>
+        <item>рік</item>
+    </string-array>
+
 
 
 </resources>

@@ -173,7 +173,7 @@
         android:layout_below="@+id/tvMainPeriod"
         android:layout_alignLeft="@+id/tvMainPeriod"
         android:layout_alignStart="@+id/tvMainPeriod"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:textSize="16sp" />
 
     <TextView
@@ -188,15 +188,13 @@
         android:textSize="16sp" />
 
     <Spinner
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:id="@+id/spinMainPeriod"
-        android:layout_alignTop="@+id/tvMainPeriod"
         android:layout_alignLeft="@+id/tvMainSumValue"
         android:layout_alignStart="@+id/tvMainSumValue"
-        android:layout_above="@+id/tvMainIncome"
-        android:layout_alignRight="@+id/tvMainSumValueEquivalent"
-        android:layout_alignEnd="@+id/tvMainSumValueEquivalent" />
+        android:layout_above="@+id/tvMainIncomeValue"
+        android:layout_below="@+id/tvMainStatistic" />
 
     <TextView
         android:layout_width="wrap_content"

@@ -2,7 +2,6 @@ package com.androidcollider.easyfin.fragments;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.database.DataSource;
-import com.androidcollider.easyfin.objects.Transaction;
 import com.androidcollider.easyfin.utils.FormatUtils;
 
 import android.content.BroadcastReceiver;
@@ -14,9 +13,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 
 
 public class FragmentMain extends Fragment {
@@ -39,6 +40,8 @@ public class FragmentMain extends Fragment {
     private DataSource dataSource;
 
     private BroadcastReceiver broadcastReceiver;
+
+    private Spinner spinMainPeriod;
 
 
     public static FragmentMain newInstance(int page) {
@@ -64,11 +67,13 @@ public class FragmentMain extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_main, null);
 
+        setStatisticSpinner();
+
         dataSource = new DataSource(getActivity());
 
         setCurrentBalance();
 
-        setTransactionsStatistic();
+        setTransactionsStatistic(spinMainPeriod.getSelectedItemPosition() + 1);
 
 
         return view;
@@ -109,31 +114,40 @@ public class FragmentMain extends Fragment {
         return balance;
     }
 
-    private void setTransactionsStatistic() {
+    private void setTransactionsStatistic(int position) {
 
-        ArrayList<Transaction> transactionsAmounts = dataSource.getAllTransactionsAmounts();
+        double[] statistic = dataSource.getTransactionsStatistic(position);
 
-        double cost = 0.0;
-        double income = 0.0;
-
-        for (Transaction transaction : transactionsAmounts) {
-            if (FormatUtils.isDoubleNegative(transaction.getAmount())) {
-                cost += transaction.getAmount();
-            }
-            else {
-                income += transaction.getAmount();
-            }
-        }
-
-        double statsum = cost + income;
+        double statsum = statistic[0] + statistic[1];
 
         TextView tvMainIncomeValue = (TextView) view.findViewById(R.id.tvMainIncomeValue);
         TextView tvMainCostValue = (TextView) view.findViewById(R.id.tvMainCostValue);
         TextView tvMainStatisticSum = (TextView) view.findViewById(R.id.tvMainStatisticSum);
 
-        tvMainIncomeValue.setText(FormatUtils.doubleFormatter(income, FORMAT, PRECISE));
-        tvMainCostValue.setText(FormatUtils.doubleFormatter(Math.abs(cost), FORMAT, PRECISE));
+        tvMainIncomeValue.setText(FormatUtils.doubleFormatter(statistic[1], FORMAT, PRECISE));
+        tvMainCostValue.setText(FormatUtils.doubleFormatter(Math.abs(statistic[0]), FORMAT, PRECISE));
         tvMainStatisticSum.setText(FormatUtils.doubleFormatter(statsum, FORMAT, PRECISE));
+
+    }
+
+    private void setStatisticSpinner() {
+        spinMainPeriod = (Spinner) view.findViewById(R.id.spinMainPeriod);
+
+        ArrayAdapter<?> adapterStatPeriod = ArrayAdapter.createFromResource(getActivity(), R.array.main_statistic_period_array, R.layout.spinner_item);
+        adapterStatPeriod.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinMainPeriod.setAdapter(adapterStatPeriod);
+
+        spinMainPeriod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                setTransactionsStatistic(spinMainPeriod.getSelectedItemPosition() + 1);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
     }
 
@@ -147,7 +161,7 @@ public class FragmentMain extends Fragment {
 
                     setCurrentBalance();
 
-                    setTransactionsStatistic();
+                    setTransactionsStatistic(spinMainPeriod.getSelectedItemPosition()+1);
                 }
             }
         };

@@ -8,9 +8,12 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.androidcollider.easyfin.objects.Account;
+import com.androidcollider.easyfin.objects.DateConstants;
 import com.androidcollider.easyfin.objects.Transaction;
+import com.androidcollider.easyfin.utils.FormatUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class DataSource {
@@ -116,11 +119,31 @@ public class DataSource {
         return accounts;
     }
 
-    public ArrayList<Transaction> getAllTransactionsAmounts() {
-        ArrayList<Transaction> arrayListTransactionsAmounts = new ArrayList<>();
-        openLocalToRead();
+
+    public double[] getTransactionsStatistic(int position) {
+        double[] arrayStatistic = new double[2];
+
+        long period = 0;
+
+        DateConstants dateConstants = new DateConstants();
+
+        switch (position) {
+            case 1: period = dateConstants.getDay(); break;
+            case 2: period = dateConstants.getWeek(); break;
+            case 3: period = dateConstants.getMonth(); break;
+            case 4: period = dateConstants.getYear(); break;
+        }
+
         String selectQuery = "SELECT date, amount FROM Transactions ";
+
+        openLocalToRead();
+
         Cursor cursor = db.rawQuery(selectQuery, null);
+
+        double cost = 0.0;
+        double income = 0.0;
+
+        long currentTime = new Date().getTime();
 
         if (cursor.moveToFirst()) {
             int amountColIndex = cursor.getColumnIndex("amount");
@@ -128,23 +151,36 @@ public class DataSource {
 
             for (int i=cursor.getCount()-1; i>=0;i--){
                 cursor.moveToPosition(i);
-                Transaction transaction = new Transaction(
-                        cursor.getLong(dateColIndex),
-                        cursor.getDouble(amountColIndex));
 
-                arrayListTransactionsAmounts.add(transaction);
+                long date = cursor.getLong(dateColIndex);
+                double amount = cursor.getDouble(amountColIndex);
+
+                if (currentTime > date && period >= (currentTime - date)) {
+
+                    if (FormatUtils.isDoubleNegative(amount)) {
+                        cost += amount;
+                    }
+
+                    else {
+                        income += amount;
+                    }
+                }
             }
             cursor.close();
             closeLocal();
-            return arrayListTransactionsAmounts;
+
+            arrayStatistic[0] = cost;
+            arrayStatistic[1] = income;
+            return arrayStatistic;
         }
+
+        closeLocal();
         cursor.close();
-        closeLocal();
 
+        arrayStatistic[0] = cost;
+        arrayStatistic[1] = income;
 
-        closeLocal();
-
-        return arrayListTransactionsAmounts;
+        return arrayStatistic;
     }
 
     public double getExpenseSum(String type) {
