@@ -19,16 +19,9 @@
         android:maxLength="20"
         android:hint="@string/expense_name_hint"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="20dp"
         android:textSize="20sp" />
 
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/expense_add"
-        android:id="@+id/btnExpenseChange"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -40,7 +33,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginLeft="55dp"
         android:layout_marginStart="55dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:textSize="20sp" />
 
     <TextView
@@ -58,11 +51,11 @@
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/spinAddExpenseTypeChange"
+        android:id="@+id/spinExpenseTypeChange"
         android:layout_below="@+id/tvExpenseTypeChange"
         android:layout_alignLeft="@+id/tvExpenseTypeChange"
         android:layout_alignStart="@+id/tvExpenseTypeChange"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:layout_alignRight="@+id/tvExpenseTypeChange"
         android:layout_alignEnd="@+id/tvExpenseTypeChange"
         android:spinnerMode="dialog"
@@ -71,13 +64,13 @@
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/spinAddExpenseCurrencyChange"
-        android:layout_alignBottom="@+id/spinAddExpenseTypeChange"
+        android:id="@+id/spinExpenseCurrencyChange"
+        android:layout_alignBottom="@+id/spinExpenseTypeChange"
         android:layout_alignRight="@+id/tvExpenseCurrencyChange"
         android:layout_alignEnd="@+id/tvExpenseCurrencyChange"
         android:layout_alignLeft="@+id/tvExpenseCurrencyChange"
         android:layout_alignStart="@+id/tvExpenseCurrencyChange"
-        android:layout_alignTop="@+id/spinAddExpenseTypeChange"
+        android:layout_alignTop="@+id/spinExpenseTypeChange"
         android:spinnerMode="dialog"
         android:prompt="@string/expense_currency"/>
 
@@ -90,8 +83,32 @@
         android:textSize="20sp"
         android:maxLength="12"
         android:id="@+id/editTextExpenseSumChange"
-        android:layout_below="@+id/spinAddExpenseTypeChange"
+        android:layout_below="@+id/spinExpenseTypeChange"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="20dp" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/linLayoutChangeExpenseButtons">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/delete_expense"
+            android:id="@+id/btnExpenseDelete"
+            android:layout_weight="1" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/change_expense_btn"
+            android:id="@+id/btnExpenseChange"
+            android:layout_weight="1" />
+
+    </LinearLayout>
 
 </RelativeLayout>

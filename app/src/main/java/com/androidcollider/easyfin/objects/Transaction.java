@@ -19,6 +19,13 @@ public class Transaction {
         this.category = category;
     }
 
+    public Transaction (long date, String account_name, double amount, String category) {
+        this.date = date;
+        this.account_name = account_name;
+        this.amount = amount;
+        this.category = category;
+    }
+
     public Transaction (long date, double amount, String category, String account_name, String account_currency) {
         this.date = date;
         this.amount = amount;

@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 
 public class AddExpenseActivity extends AppCompatActivity implements View.OnClickListener {
@@ -69,20 +70,28 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
         EditText editTextExpenseName = (EditText) findViewById(R.id.editTextExpenseName);
         EditText editTextExpenseSum = (EditText) findViewById(R.id.editTextExpenseSum);
 
-        String name = editTextExpenseName.getText().toString();
-        double amount = Double.parseDouble(editTextExpenseSum.getText().toString());
-        String type = spinAddExpenseType.getSelectedItem().toString();
-        String currency = spinAddExpenseCurrency.getSelectedItem().toString();
+        String st = editTextExpenseName.getText().toString();
+        st = st.replaceAll("\\s+","");
 
-        Account account = new Account(name, amount, type, currency);
+        if (st.isEmpty() || !editTextExpenseSum.getText().toString().matches(".*\\d.*")) {
+            Toast.makeText(this, getResources().getString(R.string.expense_empty_field), Toast.LENGTH_LONG).show();
+        }
 
-        dataSource.insertNewAccount(account);
+        else {
 
-        //Toast.makeText(this, name + " " + amount + " " + currency + " " + type, Toast.LENGTH_LONG).show();
+            String name = editTextExpenseName.getText().toString();
+            double amount = Double.parseDouble(editTextExpenseSum.getText().toString());
+            String type = spinAddExpenseType.getSelectedItem().toString();
+            String currency = spinAddExpenseCurrency.getSelectedItem().toString();
 
-        pushBroadcast();
+            Account account = new Account(name, amount, type, currency);
 
-        this.finish();
+            dataSource.insertNewAccount(account);
+
+            pushBroadcast();
+
+            this.finish();
+        }
     }
 
     private void pushBroadcast() {

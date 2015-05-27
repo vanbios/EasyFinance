@@ -19,7 +19,7 @@
         android:maxLength="20"
         android:hint="@string/expense_name_hint"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="20dp"
         android:textSize="20sp" />
 
     <Button
@@ -40,7 +40,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginLeft="55dp"
         android:layout_marginStart="55dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:textSize="20sp" />
 
     <TextView
@@ -62,7 +62,7 @@
         android:layout_below="@+id/tvExpenseType"
         android:layout_alignLeft="@+id/tvExpenseType"
         android:layout_alignStart="@+id/tvExpenseType"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="10dp"
         android:layout_alignRight="@+id/tvExpenseType"
         android:layout_alignEnd="@+id/tvExpenseType"
         android:spinnerMode="dialog"
@@ -92,6 +92,6 @@
         android:id="@+id/editTextExpenseSum"
         android:layout_below="@+id/spinAddExpenseType"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="20dp" />
 
 </RelativeLayout>

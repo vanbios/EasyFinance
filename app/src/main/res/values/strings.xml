@@ -6,7 +6,9 @@
     <string name="menu_exit">Вихід</string>
     <string name="new_transaction">Нова транзакція</string>
     <string name="new_expense">Новий рахунок</string>
-    <string name="change_expense">Редагувати рахунок</string>
+    <string name="change_expense">Редагування рахунку</string>
+    <string name="change_expense_btn">Редагувати</string>
+    <string name="delete_expense">Видалити</string>
 
     <string name="tab_transactions">Транзакції</string>
     <string name="tab_expenses">Рахунки</string>
@@ -36,6 +38,10 @@
     Натисніть "Новий рахунок", щоб додати.</string>
 
     <string name="transaction_not_enough_costs">Недостатньо коштів на рахунку для здійснення транзакції на суму</string>
+
+    <string name="transaction_empty_amount_field">Вкажіть суму транзакції</string>
+
+    <string name="expense_empty_field">Заповніть всі поля</string>
 
     <string name="value_textview">10000</string>
     <string name="date">Дата</string>

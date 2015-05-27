@@ -61,7 +61,7 @@
         android:layout_below="@+id/tvMainCash"
         android:layout_alignLeft="@+id/tvMainCash"
         android:layout_alignStart="@+id/tvMainCash"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="7dp"
         android:textSize="16sp" />
 
     <TextView
@@ -72,7 +72,7 @@
         android:layout_below="@+id/tvMainCard"
         android:layout_alignLeft="@+id/tvMainCard"
         android:layout_alignStart="@+id/tvMainCard"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="7dp"
         android:textSize="16sp" />
 
     <TextView
@@ -83,7 +83,7 @@
         android:layout_below="@+id/tvMainDeposit"
         android:layout_alignLeft="@+id/tvMainDeposit"
         android:layout_alignStart="@+id/tvMainDeposit"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="7dp"
         android:textSize="16sp" />
 
     <TextView
@@ -94,7 +94,7 @@
         android:layout_alignTop="@+id/tvMainDeposit"
         android:layout_toRightOf="@+id/tvMainDeposit"
         android:layout_toEndOf="@+id/tvMainDeposit"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginStart="30dp"
         android:textSize="16sp" />
 
@@ -136,7 +136,7 @@
         android:layout_below="@+id/tvMainDebt"
         android:layout_alignLeft="@+id/tvMainDebt"
         android:layout_alignStart="@+id/tvMainDebt"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:textSize="16sp" />
 
     <TextView
@@ -157,7 +157,7 @@
         android:layout_alignBottom="@+id/tvMainSumValue"
         android:layout_toRightOf="@+id/tvMainSumValue"
         android:layout_toEndOf="@+id/tvMainSumValue"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginStart="30dp"
         android:textSize="16sp" />
 
@@ -168,7 +168,7 @@
         android:id="@+id/tvMainStatistic"
         android:layout_below="@+id/tvMainSumValue"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:textSize="18sp" />
 
     <TextView
@@ -190,7 +190,7 @@
         android:layout_below="@+id/tvMainPeriod"
         android:layout_alignLeft="@+id/tvMainPeriod"
         android:layout_alignStart="@+id/tvMainPeriod"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:textSize="16sp" />
 
     <TextView
@@ -201,7 +201,7 @@
         android:layout_below="@+id/tvMainIncome"
         android:layout_alignLeft="@+id/tvMainIncome"
         android:layout_alignStart="@+id/tvMainIncome"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="7dp"
         android:textSize="16sp" />
 
     <Spinner
@@ -241,7 +241,7 @@
         android:layout_below="@+id/tvMainCostValue"
         android:layout_alignLeft="@+id/tvMainCostValue"
         android:layout_alignStart="@+id/tvMainCostValue"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="10dp"
         android:textSize="16sp" />
 
 

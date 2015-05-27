@@ -72,6 +72,22 @@ public class DataSource {
         closeLocal();
     }
 
+    public int getAccountIdByName(String name) {
+        String selectQuery = "SELECT id_account FROM Account WHERE name = '" + name + "' ";
+        openLocalToRead();
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if(cursor.moveToFirst()) {
+            return cursor.getInt(0);}
+
+        cursor.close();
+        closeLocal();
+
+        return 0;
+
+    }
+
     public double getAccountAmountForTransaction(int id_account) {
         String selectQuery = "SELECT amount FROM Account WHERE id_account = '" + id_account + "' ";
 
@@ -275,7 +291,6 @@ public class DataSource {
         return transactionArrayList;
     }
 
-
     public void changeAccount(String oldName, Account account) {
         ContentValues cv = new ContentValues();
 
@@ -287,6 +302,14 @@ public class DataSource {
         openLocalToWrite();
 
         db.update("Account", cv, "name = '" + oldName + "' ", null);
+
+        closeLocal();
+    }
+
+    public void deleteAccount(String name) {
+        openLocalToWrite();
+
+        db.delete("Account", "name = '" + name + "' ", null);
 
         closeLocal();
     }

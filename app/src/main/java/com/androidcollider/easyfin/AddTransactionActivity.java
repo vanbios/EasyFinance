@@ -120,13 +120,21 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
         EditText editTextTransSum = (EditText) findViewById(R.id.editTextTransSum);
         RadioButton radioButtonCost = (RadioButton) findViewById(R.id.radioButtonCost);
 
-        //String date = tvTransactionDate.getText().toString();
+        if (! editTextTransSum.getText().toString().matches(".*\\d.*")) {
+            Toast.makeText(this, getResources().getString(R.string.transaction_empty_amount_field), Toast.LENGTH_LONG).show();
+        }
+
+        else {
+
         Long date = DateFormat.stringToDate(tvTransactionDate.getText().toString(), DATEFORMAT).getTime();
-        int id_account = spinAddTransExpense.getSelectedItemPosition() + 1;
+        //int id_account = spinAddTransExpense.getSelectedItemPosition() + 1;
+        String account_name = spinAddTransExpense.getSelectedItem().toString();
         double amount = Double.parseDouble(editTextTransSum.getText().toString());
         if (radioButtonCost.isChecked()) {
             amount *= -1;}
         String category = spinAddTransCategory.getSelectedItem().toString();
+
+        int id_account = dataSource.getAccountIdByName(account_name);
 
         double accountAmount = dataSource.getAccountAmountForTransaction(id_account);
 
@@ -140,11 +148,11 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
             dataSource.insertNewTransaction(transaction);
             dataSource.updateAccountAmountAfterTransaction(id_account, accountAmount);
 
-            //Toast.makeText(this, date + " " + id_account + " " + amount + " " + category + " " + accountAmount + date2, Toast.LENGTH_LONG).show();
 
             pushBroadcast();
 
             closeActivity();
+        }
         }
     }
 

@@ -14,14 +14,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 
 public class ChangeExpenseActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Spinner spinAddExpenseType, spinAddExpenseCurrency;
-    Button btnExpenseAdd;
+    Spinner spinExpenseTypeChange, spinExpenseCurrencyChange;
+    Button btnExpenseChange, btnExpenseDelete;
 
-    EditText editTextExpenseName, editTextExpenseSum;
+    EditText editTextExpenseNameChange, editTextExpenseSumChange;
 
     DataSource dataSource;
 
@@ -39,33 +40,38 @@ public class ChangeExpenseActivity extends AppCompatActivity implements View.OnC
 
         setSpinner();
 
-        editTextExpenseName = (EditText) findViewById(R.id.editTextExpenseNameChange);
-        editTextExpenseSum = (EditText) findViewById(R.id.editTextExpenseSumChange);
+        editTextExpenseNameChange = (EditText) findViewById(R.id.editTextExpenseNameChange);
+        editTextExpenseSumChange = (EditText) findViewById(R.id.editTextExpenseSumChange);
 
-        editTextExpenseName.setText(getIntent().getStringExtra("name"));
-        editTextExpenseName.setSelection(editTextExpenseName.getText().length());
+        editTextExpenseNameChange.setText(getIntent().getStringExtra("name"));
+        editTextExpenseNameChange.setSelection(editTextExpenseNameChange.getText().length());
 
-        //editTextExpenseSum.setText(FormatUtils.doubleFormatter(getIntent().getDoubleExtra("amount", 0.0), FORMAT, PRECISE));
-        editTextExpenseSum.setText(Double.toString(getIntent().getDoubleExtra("amount", 0.0)));
-        editTextExpenseSum.setSelection(editTextExpenseSum.getText().length());
+        final int PRECISE = 100;
+        final String FORMAT = "0.00";
 
-        btnExpenseAdd = (Button) findViewById(R.id.btnExpenseChange);
-        btnExpenseAdd.setOnClickListener(this);
+        editTextExpenseSumChange.setText(FormatUtils.doubleFormatter(getIntent().getDoubleExtra("amount", 0.0), FORMAT, PRECISE));
+        editTextExpenseSumChange.setSelection(editTextExpenseSumChange.getText().length());
+
+        btnExpenseChange = (Button) findViewById(R.id.btnExpenseChange);
+        btnExpenseChange.setOnClickListener(this);
+
+        btnExpenseDelete = (Button) findViewById(R.id.btnExpenseDelete);
+        btnExpenseDelete.setOnClickListener(this);
 
         dataSource = new DataSource(this);
     }
 
     private void setSpinner() {
-        spinAddExpenseType = (Spinner) findViewById(R.id.spinAddExpenseTypeChange);
-        spinAddExpenseCurrency = (Spinner) findViewById(R.id.spinAddExpenseCurrencyChange);
+        spinExpenseTypeChange = (Spinner) findViewById(R.id.spinExpenseTypeChange);
+        spinExpenseCurrencyChange = (Spinner) findViewById(R.id.spinExpenseCurrencyChange);
 
         ArrayAdapter<?> adapterExpenseType = ArrayAdapter.createFromResource(this, R.array.expense_type_array, R.layout.spinner_item);
         adapterExpenseType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinAddExpenseType.setAdapter(adapterExpenseType);
+        spinExpenseTypeChange.setAdapter(adapterExpenseType);
 
         ArrayAdapter<?> adapterExpenseCurrency = ArrayAdapter.createFromResource(this, R.array.expense_currency_array, R.layout.spinner_item);
         adapterExpenseCurrency.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinAddExpenseCurrency.setAdapter(adapterExpenseCurrency);
+        spinExpenseCurrencyChange.setAdapter(adapterExpenseCurrency);
 
         String[] type = getResources().getStringArray(R.array.expense_type_array);
 
@@ -73,7 +79,7 @@ public class ChangeExpenseActivity extends AppCompatActivity implements View.OnC
 
         for (int i = 0; i < type.length; i++) {
             if (type[i].equals(typeVal)) {
-                spinAddExpenseType.setSelection(i);
+                spinExpenseTypeChange.setSelection(i);
             }
         }
 
@@ -83,7 +89,7 @@ public class ChangeExpenseActivity extends AppCompatActivity implements View.OnC
 
         for (int i = 0; i < currency.length; i++) {
             if (currency[i].equals(currencyVal)) {
-                spinAddExpenseCurrency.setSelection(i);
+                spinExpenseCurrencyChange.setSelection(i);
             }
         }
     }
@@ -98,23 +104,40 @@ public class ChangeExpenseActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btnExpenseChange: {addExpense(); break;}
+            case R.id.btnExpenseChange: {changeExpense(); break;}
+            case R.id.btnExpenseDelete: {deleteExpense(); break;}
         }
     }
 
-    private void addExpense() {
+    private void changeExpense() {
 
-        String name = editTextExpenseName.getText().toString();
-        double amount = Double.parseDouble(editTextExpenseSum.getText().toString());
-        String type = spinAddExpenseType.getSelectedItem().toString();
-        String currency = spinAddExpenseCurrency.getSelectedItem().toString();
+        String st = editTextExpenseNameChange.getText().toString();
+        st = st.replaceAll("\\s+","");
 
-        Account account = new Account(name, amount, type, currency);
+        if (st.isEmpty() || !editTextExpenseSumChange.getText().toString().matches(".*\\d.*")) {
+            Toast.makeText(this, getResources().getString(R.string.expense_empty_field), Toast.LENGTH_LONG).show();
+        }
 
-        dataSource.changeAccount(OLDNAME, account);
+        else {
 
+            String name = editTextExpenseNameChange.getText().toString();
+            double amount = Double.parseDouble(editTextExpenseSumChange.getText().toString());
+            String type = spinExpenseTypeChange.getSelectedItem().toString();
+            String currency = spinExpenseCurrencyChange.getSelectedItem().toString();
+
+            Account account = new Account(name, amount, type, currency);
+
+            dataSource.changeAccount(OLDNAME, account);
+
+            pushBroadcast();
+
+            this.finish();
+        }
+    }
+
+    private void deleteExpense() {
+        dataSource.deleteAccount(OLDNAME);
         pushBroadcast();
-
         this.finish();
     }
 
