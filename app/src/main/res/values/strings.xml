@@ -6,6 +6,7 @@
     <string name="menu_exit">Вихід</string>
     <string name="new_transaction">Нова транзакція</string>
     <string name="new_expense">Новий рахунок</string>
+    <string name="change_expense">Редагувати рахунок</string>
 
     <string name="tab_transactions">Транзакції</string>
     <string name="tab_expenses">Рахунки</string>

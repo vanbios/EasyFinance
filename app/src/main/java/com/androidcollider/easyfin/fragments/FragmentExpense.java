@@ -10,8 +10,12 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.androidcollider.easyfin.AddExpenseActivity;
+import com.androidcollider.easyfin.ChangeExpenseActivity;
 import com.androidcollider.easyfin.R;
 
 import com.androidcollider.easyfin.adapters.ExpenseItemAdapter;
@@ -66,10 +70,26 @@ public class FragmentExpense extends Fragment{
 
         ArrayList<Account> accountArrayList = dataSource.getAllAccountsInfo();
 
-        ExpenseItemAdapter expenseItemAdapter = new ExpenseItemAdapter(getActivity(), accountArrayList);
+        final ExpenseItemAdapter expenseItemAdapter = new ExpenseItemAdapter(getActivity(), accountArrayList);
 
         ListView lvExpense = (ListView) view.findViewById(R.id.lvExpense);
         lvExpense.setAdapter(expenseItemAdapter);
+
+        lvExpense.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                Intent intent = new Intent(getActivity(), ChangeExpenseActivity.class);
+                Account account = expenseItemAdapter.getAccount(i);
+
+                intent.putExtra("name", account.getName());
+                intent.putExtra("type", account.getType());
+                intent.putExtra("amount", account.getAmount());
+                intent.putExtra("currency", account.getCurrency());
+                startActivity(intent);
+                return true;
+            }
+        });
     }
 
     private void makeBroadcastReceiver() {

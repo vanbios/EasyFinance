@@ -276,4 +276,20 @@ public class DataSource {
     }
 
 
+    public void changeAccount(String oldName, Account account) {
+        ContentValues cv = new ContentValues();
+
+        cv.put("name", account.getName());
+        cv.put("amount", account.getAmount());
+        cv.put("type", account.getType());
+        cv.put("currency", account.getCurrency());
+
+        openLocalToWrite();
+
+        db.update("Account", cv, "name = '" + oldName + "' ", null);
+
+        closeLocal();
+    }
+
+
 }

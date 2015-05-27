@@ -71,7 +71,7 @@ public class ExpenseItemAdapter extends BaseAdapter {
     }
 
 
-    Account getAccount(int position) {
+    public Account getAccount(int position) {
         return (Account) getItem(position);
     }
 
