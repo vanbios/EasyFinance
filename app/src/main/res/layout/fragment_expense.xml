@@ -2,10 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <ScrollView
+    <ListView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollExpense"
+        android:id="@+id/lvExpense"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"
@@ -15,14 +15,8 @@
         android:layout_marginRight="@dimen/activity_vertical_margin"
         android:layout_above="@+id/btnNewExpense">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:id="@+id/linLayoutFragmentExpense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-        </LinearLayout>
-    </ScrollView>
+    </ListView>
 
     <Button
         android:layout_width="fill_parent"

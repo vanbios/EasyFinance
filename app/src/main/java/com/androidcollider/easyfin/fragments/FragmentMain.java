@@ -19,7 +19,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 
-
 public class FragmentMain extends Fragment {
 
     private static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
@@ -59,7 +58,6 @@ public class FragmentMain extends Fragment {
 
         makeBroadcastReceiver();
 
-
     }
 
     @Override
@@ -74,7 +72,6 @@ public class FragmentMain extends Fragment {
         setCurrentBalance();
 
         setTransactionsStatistic(spinMainPeriod.getSelectedItemPosition() + 1);
-
 
         return view;
     }
