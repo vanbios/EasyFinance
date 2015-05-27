@@ -40,22 +40,30 @@ public class ExpenseItemAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
 
+        ViewHolder holder;
+
         if (view == null) {
             view = layoutInflater.inflate(R.layout.item_fragment_expense, parent, false);
+
+            holder = new ViewHolder();
+            holder.tvItemFragmentExpenseName = (TextView) view.findViewById(R.id.tvItemFragmentExpenseName);
+            holder.tvItemFragmentExpenseType = (TextView) view.findViewById(R.id.tvItemFragmentExpenseType);
+            holder.tvItemFragmentExpenseAmount = (TextView) view.findViewById(R.id.tvItemFragmentExpenseAmount);
+
+            view.setTag(holder);
+        }
+        else {
+            holder = (ViewHolder) view.getTag();
         }
 
         Account account = getAccount(position);
 
-        TextView tvItemFragmentExpenseName = (TextView) view.findViewById(R.id.tvItemFragmentExpenseName);
-        TextView tvItemFragmentExpenseType = (TextView) view.findViewById(R.id.tvItemFragmentExpenseType);
-        TextView tvItemFragmentExpenseAmount = (TextView) view.findViewById(R.id.tvItemFragmentExpenseAmount);
-
         final int PRECISE = 100;
         final String FORMAT = "0.00";
 
-        tvItemFragmentExpenseName.setText(account.getName());
-        tvItemFragmentExpenseType.setText(account.getType());
-        tvItemFragmentExpenseAmount.setText(FormatUtils.doubleFormatter(account.getAmount(), FORMAT, PRECISE) +
+        holder.tvItemFragmentExpenseName.setText(account.getName());
+        holder.tvItemFragmentExpenseType.setText(account.getType());
+        holder.tvItemFragmentExpenseAmount.setText(FormatUtils.doubleFormatter(account.getAmount(), FORMAT, PRECISE) +
                 " " + account.getCurrency());
 
 
@@ -65,5 +73,11 @@ public class ExpenseItemAdapter extends BaseAdapter {
 
     Account getAccount(int position) {
         return (Account) getItem(position);
+    }
+
+    static class ViewHolder {
+        public TextView tvItemFragmentExpenseName;
+        public TextView tvItemFragmentExpenseType;
+        public TextView tvItemFragmentExpenseAmount;
     }
 }

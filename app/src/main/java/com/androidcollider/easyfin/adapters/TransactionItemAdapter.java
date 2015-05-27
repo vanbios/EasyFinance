@@ -41,34 +41,41 @@ public class TransactionItemAdapter  extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         View view = convertView;
 
+        ViewHolder holder;
+
         if (view == null) {
             view = layoutInflater.inflate(R.layout.item_fragment_transaction, parent, false);
+
+            holder = new ViewHolder();
+            holder.tvItemFragmentTransactionAmount = (TextView) view.findViewById(R.id.tvItemFragmentTransactionAmount);
+            holder.tvItemFragmentTransactionAccountName = (TextView) view.findViewById(R.id.tvItemFragmentTransactionAccountName);
+            holder.tvItemFragmentTransactionCategory = (TextView) view.findViewById(R.id.tvItemFragmentTransactionCategory);
+            holder.tvItemFragmentTransactionDate = (TextView) view.findViewById(R.id.tvItemFragmentTransactionDate);
+
+            view.setTag(holder);
+        }
+        else {
+            holder = (ViewHolder) view.getTag();
         }
 
         Transaction transaction = getTransaction(position);
-
-        TextView tvItemFragmentTransactionAmount = (TextView) view.findViewById(R.id.tvItemFragmentTransactionAmount);
-        TextView tvItemFragmentTransactionAccountName = (TextView) view.findViewById(R.id.tvItemFragmentTransactionAccountName);
-        TextView tvItemFragmentTransactionCategory = (TextView) view.findViewById(R.id.tvItemFragmentTransactionCategory);
-        TextView tvItemFragmentTransactionDate = (TextView) view.findViewById(R.id.tvItemFragmentTransactionDate);
 
         final int PRECISE = 100;
         final String FORMAT = "0.00";
         final String DATEFORMAT = "dd-MM-yyyy";
 
-        tvItemFragmentTransactionAccountName.setText(transaction.getAccount_name());
-        tvItemFragmentTransactionDate.setText(DateFormat.longToDateString(transaction.getDate(), DATEFORMAT));
-        tvItemFragmentTransactionCategory.setText(transaction.getCategory());
-        tvItemFragmentTransactionAmount.setText(FormatUtils.doubleFormatter(transaction.getAmount(), FORMAT, PRECISE)
+        holder.tvItemFragmentTransactionAccountName.setText(transaction.getAccount_name());
+        holder.tvItemFragmentTransactionDate.setText(DateFormat.longToDateString(transaction.getDate(), DATEFORMAT));
+        holder.tvItemFragmentTransactionCategory.setText(transaction.getCategory());
+        holder.tvItemFragmentTransactionAmount.setText(FormatUtils.doubleFormatter(transaction.getAmount(), FORMAT, PRECISE)
                 + " " + transaction.getAccount_currency());
 
         if (FormatUtils.doubleFormatter(transaction.getAmount(), FORMAT, PRECISE).contains("-")) {
-            tvItemFragmentTransactionAmount.setTextColor(context.getResources().getColor(R.color.red));
+            holder.tvItemFragmentTransactionAmount.setTextColor(context.getResources().getColor(R.color.red));
         }
         else {
-            tvItemFragmentTransactionAmount.setTextColor(context.getResources().getColor(R.color.green));
+            holder.tvItemFragmentTransactionAmount.setTextColor(context.getResources().getColor(R.color.green));
         }
-
 
         return view;
     }
@@ -76,5 +83,13 @@ public class TransactionItemAdapter  extends BaseAdapter {
 
     Transaction getTransaction(int position) {
         return (Transaction) getItem(position);
+    }
+
+
+    static class ViewHolder {
+        private TextView tvItemFragmentTransactionAmount;
+        private TextView tvItemFragmentTransactionAccountName;
+        private TextView tvItemFragmentTransactionCategory;
+        private TextView tvItemFragmentTransactionDate;
     }
 }
