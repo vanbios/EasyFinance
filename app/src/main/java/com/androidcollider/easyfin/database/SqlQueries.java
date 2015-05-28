@@ -10,17 +10,14 @@ public class SqlQueries {
                 "type             TEXT NOT NULL," +
                 "currency         TEXT NOT NULL" +
                 ");";
-        //make a string SQL request for Transaction table
+        //make a string SQL request for Transactions table
         public static final String create_transactions_table = "CREATE TABLE Transactions (" +
                 "id_transaction   INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "date             INTEGER NOT NULL," +
                 "id_account       INTEGER NOT NULL," +
+                "account_name     TEXT NOT NULL," +
+                "currency         TEXT NOT NULL," +
                 "amount           REAL NOT NULL," +
                 "category         TEXT NOT NULL" +
                 ");";
-        //make a string SQL request for Category table
-    /*public static final String create_category_table = "CREATE TABLE Comment (" +
-            "id_category       INTEGER PRIMARY KEY NOT NULL," +
-            "name              TEXT NOT NULL" +
-            ");";*/
 }

@@ -66,6 +66,8 @@ public class DataSource {
         cv.put("id_account", transaction.getId_account());
         cv.put("amount", transaction.getAmount());
         cv.put("category", transaction.getCategory());
+        cv.put("account_name", transaction.getAccount_name());
+        cv.put("currency", transaction.getAccount_currency());
 
         openLocalToWrite();
         db.insert("Transactions", null, cv);
@@ -85,7 +87,21 @@ public class DataSource {
         closeLocal();
 
         return 0;
+    }
 
+    public String getAccountCurrencyByName(String name) {
+        String selectQuery = "SELECT currency FROM Account WHERE name = '" + name + "' ";
+        openLocalToRead();
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if(cursor.moveToFirst()) {
+            return cursor.getString(0);}
+
+        cursor.close();
+        closeLocal();
+
+        return "";
     }
 
     public double getAccountAmountForTransaction(int id_account) {
@@ -134,7 +150,6 @@ public class DataSource {
         closeLocal();
         return accounts;
     }
-
 
     public double[] getTransactionsStatistic(int position) {
         double[] arrayStatistic = new double[2];
@@ -268,6 +283,43 @@ public class DataSource {
             int dateColIndex = cursor.getColumnIndex("date");
             int categoryColIndex = cursor.getColumnIndex("category");
             int nameColIndex = cursor.getColumnIndex("name");
+            int currencyColIndex = cursor.getColumnIndex("currency");
+
+            for (int i=cursor.getCount()-1; i>=0;i--){
+                cursor.moveToPosition(i);
+                Transaction transaction = new Transaction(
+                        cursor.getLong(dateColIndex),
+                        cursor.getDouble(amountColIndex),
+                        cursor.getString(categoryColIndex),
+                        cursor.getString(nameColIndex),
+                        cursor.getString(currencyColIndex));
+
+                transactionArrayList.add(transaction);
+            }
+            cursor.close();
+            closeLocal();
+            return transactionArrayList;
+        }
+        cursor.close();
+        closeLocal();
+
+        return transactionArrayList;
+    }
+
+    public ArrayList<Transaction> getAllTransactionsInformation(){
+        ArrayList<Transaction> transactionArrayList = new ArrayList<>();
+
+        String selectQuery = "SELECT amount, date, category, account_name, currency FROM Transactions ";
+
+        openLocalToRead();
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            int amountColIndex = cursor.getColumnIndex("amount");
+            int dateColIndex = cursor.getColumnIndex("date");
+            int categoryColIndex = cursor.getColumnIndex("category");
+            int nameColIndex = cursor.getColumnIndex("account_name");
             int currencyColIndex = cursor.getColumnIndex("currency");
 
             for (int i=cursor.getCount()-1; i>=0;i--){

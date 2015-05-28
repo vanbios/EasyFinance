@@ -17,4 +17,14 @@
     <color name="navy">#000080</color>
     <color name="black">#000000</color>
     <color name="custom">#FF96AA39</color>
+    <color name="custom_blue">#1E88E5</color>
+    <color name="custom_deep_purple">#673AB7</color>
+    <color name="custom_teal">#009688</color>
+    <color name="custom_light_primary">#D1C4E9</color>
+    <color name="custom_text_light">#FFFFFF</color>
+    <color name="custom_text_primary">#212121</color>
+    <color name="custom_text_secondary">#727272</color>
+    <color name="custom_divider">#B6B6B6</color>
+    <color name="custom_red">#D32F2F</color>
+    <color name="custom_green">#4CAF50</color>
 </resources>

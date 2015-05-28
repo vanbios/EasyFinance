@@ -71,10 +71,10 @@ public class TransactionItemAdapter  extends BaseAdapter {
                 + " " + transaction.getAccount_currency());
 
         if (FormatUtils.doubleFormatter(transaction.getAmount(), FORMAT, PRECISE).contains("-")) {
-            holder.tvItemFragmentTransactionAmount.setTextColor(context.getResources().getColor(R.color.red));
+            holder.tvItemFragmentTransactionAmount.setTextColor(context.getResources().getColor(R.color.custom_red));
         }
         else {
-            holder.tvItemFragmentTransactionAmount.setTextColor(context.getResources().getColor(R.color.green));
+            holder.tvItemFragmentTransactionAmount.setTextColor(context.getResources().getColor(R.color.custom_green));
         }
 
         return view;

@@ -1,20 +1,20 @@
 package com.androidcollider.easyfin;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.fragments.FragmentMain;
 import com.androidcollider.easyfin.fragments.FragmentTransaction;
 import com.androidcollider.easyfin.objects.Transaction;
 import com.androidcollider.easyfin.utils.DateFormat;
+import com.gc.materialdesign.views.ButtonRectangle;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -37,8 +37,6 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
 
     DataSource dataSource;
 
-    Dialog dialogNoExpense;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +51,7 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
 
         setDateTimeField();
 
-        Button btnTransactionAdd = (Button) findViewById(R.id.btnTransactionAdd);
+        ButtonRectangle btnTransactionAdd = (ButtonRectangle) findViewById(R.id.btnTransactionAdd);
         btnTransactionAdd.setOnClickListener(this);
 
         dataSource = new DataSource(this);
@@ -67,7 +65,9 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
         assert getSupportActionBar() != null;
         setSupportActionBar(ToolBar);
         getSupportActionBar().setTitle(id);
-        getSupportActionBar().setLogo(R.mipmap.ic_launcher);}
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setLogo(R.mipmap.ic_launcher);
+    }
 
 
     private void setSpinner() {
@@ -127,7 +127,6 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
         else {
 
         Long date = DateFormat.stringToDate(tvTransactionDate.getText().toString(), DATEFORMAT).getTime();
-        //int id_account = spinAddTransExpense.getSelectedItemPosition() + 1;
         String account_name = spinAddTransExpense.getSelectedItem().toString();
         double amount = Double.parseDouble(editTextTransSum.getText().toString());
         if (radioButtonCost.isChecked()) {
@@ -135,6 +134,7 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
         String category = spinAddTransCategory.getSelectedItem().toString();
 
         int id_account = dataSource.getAccountIdByName(account_name);
+            String account_currency = dataSource.getAccountCurrencyByName(account_name);
 
         double accountAmount = dataSource.getAccountAmountForTransaction(id_account);
 
@@ -144,7 +144,7 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
         else {
             accountAmount += amount;
 
-            Transaction transaction = new Transaction(date, id_account, amount, category);
+            Transaction transaction = new Transaction(date, amount, category, account_name, account_currency, id_account);
             dataSource.insertNewTransaction(transaction);
             dataSource.updateAccountAmountAfterTransaction(id_account, accountAmount);
 
@@ -177,38 +177,31 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
     }
 
     private void showDialogNoExpense() {
-        dialogNoExpense = new Dialog(this);
-        dialogNoExpense.setCanceledOnTouchOutside(false);
-        dialogNoExpense.setContentView(R.layout.dialog_no_expense);
-        dialogNoExpense.setTitle(getString(R.string.no_expense));
 
-        Button btnDialogNoExpenseReturnToMain = (Button) dialogNoExpense.findViewById(R.id.btnDialogNoExpenseReturnToMain);
-        Button btnDialogNoExpenseNewExpense = (Button) dialogNoExpense.findViewById(R.id.btnDialogNoExpenseNewExpense);
+        new MaterialDialog.Builder(this)
+                .title(getString(R.string.no_expense))
+                .content(getString(R.string.dialog_text_no_expense))
+                .positiveText(getString(R.string.new_expense))
+                .negativeText(getString(R.string.return_to_main))
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        goToAddNewExpense();
+                    }
 
-        btnDialogNoExpenseReturnToMain.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                returnToMain();
-            }
-        });
-
-        btnDialogNoExpenseNewExpense.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToAddNewExpense();
-            }
-        });
-
-        dialogNoExpense.show();
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        returnToMain();
+                    }
+                })
+                .show();
     }
 
     public void returnToMain() {
-        dialogNoExpense.dismiss();
         closeActivity();
     }
 
     public void goToAddNewExpense() {
-        dialogNoExpense.dismiss();
         closeActivity();
         openAddExpenseActivity();
     }

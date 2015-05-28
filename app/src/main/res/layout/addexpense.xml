@@ -3,32 +3,29 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbarMain"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/custom"
-        />
+    <include layout="@layout/toolbar" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editTextExpenseName"
-        android:layout_below="@+id/toolbarMain"
         android:ems="10"
         android:maxLength="20"
         android:hint="@string/expense_name_hint"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:textSize="20sp" />
+        android:layout_marginTop="70dp"
+        style="@style/TitleFont" />
 
-    <Button
+    <com.gc.materialdesign.views.ButtonRectangle
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/button_height"
         android:text="@string/expense_add"
+        android:textSize="@dimen/button_text_size"
         android:id="@+id/btnExpenseAdd"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="@color/custom_teal"/>
+
 
     <TextView
         android:layout_width="wrap_content"
@@ -41,7 +38,7 @@
         android:layout_marginLeft="55dp"
         android:layout_marginStart="55dp"
         android:layout_marginTop="20dp"
-        android:textSize="20sp" />
+        style="@style/TitleFont" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -53,7 +50,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginRight="55dp"
         android:layout_marginEnd="55dp"
-        android:textSize="20sp" />
+        style="@style/TitleFont" />
 
     <Spinner
         android:layout_width="wrap_content"
@@ -87,11 +84,11 @@
         android:inputType="numberDecimal"
         android:ems="6"
         android:hint="@string/sum_hint"
-        android:textSize="20sp"
         android:maxLength="12"
         android:id="@+id/editTextExpenseSum"
         android:layout_below="@+id/spinAddExpenseType"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        style="@style/TitleFont"/>
 
 </RelativeLayout>

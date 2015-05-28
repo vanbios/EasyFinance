@@ -3,6 +3,7 @@ package com.androidcollider.easyfin;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.fragments.FragmentMain;
 import com.androidcollider.easyfin.objects.Account;
+import com.gc.materialdesign.views.ButtonRectangle;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -19,7 +19,8 @@ import android.widget.Toast;
 public class AddExpenseActivity extends AppCompatActivity implements View.OnClickListener {
 
     Spinner spinAddExpenseType, spinAddExpenseCurrency;
-    Button btnExpenseAdd;
+
+    ButtonRectangle btnExpenseAdd;
 
     DataSource dataSource;
 
@@ -33,7 +34,7 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
 
         setSpinner();
 
-        btnExpenseAdd = (Button) findViewById(R.id.btnExpenseAdd);
+        btnExpenseAdd = (ButtonRectangle) findViewById(R.id.btnExpenseAdd);
         btnExpenseAdd.setOnClickListener(this);
 
         dataSource = new DataSource(this);
@@ -57,7 +58,9 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
         assert getSupportActionBar() != null;
         setSupportActionBar(ToolBar);
         getSupportActionBar().setTitle(id);
-        getSupportActionBar().setLogo(R.mipmap.ic_launcher);}
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setLogo(R.mipmap.ic_launcher);
+    }
 
     @Override
     public void onClick(View view) {

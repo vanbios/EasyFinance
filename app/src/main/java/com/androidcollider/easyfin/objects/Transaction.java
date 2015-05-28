@@ -34,6 +34,15 @@ public class Transaction {
         this.account_currency = account_currency;
     }
 
+    public Transaction (long date, double amount, String category, String account_name, String account_currency, int id_account) {
+        this.date = date;
+        this.amount = amount;
+        this.category = category;
+        this.account_name = account_name;
+        this.account_currency = account_currency;
+        this.id_account = id_account;
+    }
+
     public Transaction (long date, double amount) {
         this.date = date;
         this.amount = amount;

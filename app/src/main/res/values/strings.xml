@@ -37,6 +37,11 @@
     <string name="dialog_text_no_expense">Неможливо здійснити транзакцію, оскільки не додано жодного рахунку.
     Натисніть "Новий рахунок", щоб додати.</string>
 
+    <string name="dialog_text_delete_expense">Увага! Даний рахунок буде видалено.</string>
+    <string name="dialog_title_delete_expense">Видалення</string>
+    <string name="dialog_button_delete_expense">Видалити</string>
+    <string name="dialog_button_delete_expense_cancel">Відмінити</string>
+
     <string name="transaction_not_enough_costs">Недостатньо коштів на рахунку для здійснення транзакції на суму</string>
 
     <string name="transaction_empty_amount_field">Вкажіть суму транзакції</string>

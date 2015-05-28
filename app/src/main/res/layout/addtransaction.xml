@@ -2,12 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbarMain"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/custom"
-        />
+    <include layout="@layout/toolbar" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -15,17 +10,17 @@
         android:inputType="numberDecimal"
         android:ems="6"
         android:id="@+id/editTextTransSum"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="20dp"
         android:hint="@string/sum_hint"
-        android:textSize="20sp"
         android:maxLength="12"
         android:layout_below="@+id/tvTransactionDate"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        style="@style/TitleFont"/>
 
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:id="@+id/radioGroup"
         android:layout_below="@+id/editTextTransSum"
         android:layout_alignLeft="@+id/editTextTransSum"
@@ -36,13 +31,15 @@
             android:layout_height="wrap_content"
             android:text="@string/radiobtn_cost"
             android:id="@+id/radioButtonCost"
-            android:checked="true" />
+            android:checked="true"
+            style="@style/SubheadFont"/>
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/radiobtn_income"
-            android:id="@+id/radioButtonIncome" />
+            android:id="@+id/radioButtonIncome"
+            style="@style/SubheadFont"/>
     </RadioGroup>
 
     <TextView
@@ -51,19 +48,19 @@
         android:text="@string/date"
         android:id="@+id/tvTransactionDate"
         android:clickable="true"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/toolbarMain"
+        android:layout_marginTop="70dp"
         android:layout_centerHorizontal="true"
-        android:textSize="20sp"
-        android:textColor="@color/black" />
+        style="@style/TitleFont" />
 
-    <Button
+    <com.gc.materialdesign.views.ButtonRectangle
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/button_height"
         android:text="@string/transaction_add"
+        android:textSize="@dimen/button_text_size"
         android:id="@+id/btnTransactionAdd"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="@color/custom_teal"/>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -79,22 +76,22 @@
             android:layout_height="wrap_content"
             android:text="@string/expense"
             android:id="@+id/tvExpense"
-            android:textSize="20sp"
             android:layout_weight="1"
             android:layout_marginTop="15dp"
             android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"/>
+            android:layout_marginLeft="40dp"
+            style="@style/TitleFont"/>
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/category"
             android:id="@+id/tvCategory"
-            android:textSize="20sp"
             android:layout_weight="1"
             android:layout_marginTop="15dp"
             android:layout_marginStart="30dp"
             android:layout_marginLeft="30dp"
+            style="@style/TitleFont"
             />
     </LinearLayout>
 

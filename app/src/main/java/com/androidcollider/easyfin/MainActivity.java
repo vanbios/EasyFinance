@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         assert getSupportActionBar() != null;
         setSupportActionBar(ToolBar);
         getSupportActionBar().setTitle(id);
-        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
+        //getSupportActionBar().setLogo(R.mipmap.ic_launcher);
     }
 
     private void setViewPager() {
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         pager.setOffscreenPageLimit(3);
 
         tabs.setTextSize(30);
+        tabs.setTextColor(getResources().getColor(R.color.custom_text_primary));
         //tabs.setTextColorResource(R.color.navy);
         tabs.bringToFront();
 

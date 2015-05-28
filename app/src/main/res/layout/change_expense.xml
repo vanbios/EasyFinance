@@ -3,24 +3,18 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbarMain"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/custom"
-        />
+    <include layout="@layout/toolbar" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/editTextExpenseNameChange"
-        android:layout_below="@+id/toolbarMain"
         android:ems="10"
         android:maxLength="20"
         android:hint="@string/expense_name_hint"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:textSize="20sp" />
+        android:layout_marginTop="70dp"
+        style="@style/TitleFont" />
 
 
     <TextView
@@ -34,7 +28,7 @@
         android:layout_marginLeft="55dp"
         android:layout_marginStart="55dp"
         android:layout_marginTop="20dp"
-        android:textSize="20sp" />
+        style="@style/TitleFont" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -46,7 +40,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginRight="55dp"
         android:layout_marginEnd="55dp"
-        android:textSize="20sp" />
+        style="@style/TitleFont" />
 
     <Spinner
         android:layout_width="wrap_content"
@@ -80,12 +74,12 @@
         android:inputType="numberDecimal"
         android:ems="6"
         android:hint="@string/sum_hint"
-        android:textSize="20sp"
         android:maxLength="12"
         android:id="@+id/editTextExpenseSumChange"
         android:layout_below="@+id/spinExpenseTypeChange"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        style="@style/TitleFont"/>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -95,19 +89,23 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/linLayoutChangeExpenseButtons">
 
-        <Button
+        <com.gc.materialdesign.views.ButtonRectangle
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/button_height"
             android:text="@string/delete_expense"
+            android:textSize="@dimen/button_text_size"
             android:id="@+id/btnExpenseDelete"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:background="@color/custom_teal"/>
 
-        <Button
+        <com.gc.materialdesign.views.ButtonRectangle
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/button_height"
             android:text="@string/change_expense_btn"
+            android:textSize="@dimen/button_text_size"
             android:id="@+id/btnExpenseChange"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:background="@color/custom_teal"/>
 
     </LinearLayout>
 

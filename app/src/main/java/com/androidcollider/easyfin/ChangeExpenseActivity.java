@@ -1,9 +1,12 @@
 package com.androidcollider.easyfin;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.fragments.FragmentMain;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.utils.FormatUtils;
+import com.gc.materialdesign.views.ButtonRectangle;
+
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +14,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -20,7 +22,7 @@ import android.widget.Toast;
 public class ChangeExpenseActivity extends AppCompatActivity implements View.OnClickListener {
 
     Spinner spinExpenseTypeChange, spinExpenseCurrencyChange;
-    Button btnExpenseChange, btnExpenseDelete;
+    ButtonRectangle btnExpenseChange, btnExpenseDelete;
 
     EditText editTextExpenseNameChange, editTextExpenseSumChange;
 
@@ -52,10 +54,10 @@ public class ChangeExpenseActivity extends AppCompatActivity implements View.OnC
         editTextExpenseSumChange.setText(FormatUtils.doubleFormatter(getIntent().getDoubleExtra("amount", 0.0), FORMAT, PRECISE));
         editTextExpenseSumChange.setSelection(editTextExpenseSumChange.getText().length());
 
-        btnExpenseChange = (Button) findViewById(R.id.btnExpenseChange);
+        btnExpenseChange = (ButtonRectangle) findViewById(R.id.btnExpenseChange);
         btnExpenseChange.setOnClickListener(this);
 
-        btnExpenseDelete = (Button) findViewById(R.id.btnExpenseDelete);
+        btnExpenseDelete = (ButtonRectangle) findViewById(R.id.btnExpenseDelete);
         btnExpenseDelete.setOnClickListener(this);
 
         dataSource = new DataSource(this);
@@ -99,13 +101,15 @@ public class ChangeExpenseActivity extends AppCompatActivity implements View.OnC
         assert getSupportActionBar() != null;
         setSupportActionBar(ToolBar);
         getSupportActionBar().setTitle(id);
-        getSupportActionBar().setLogo(R.mipmap.ic_launcher);}
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setLogo(R.mipmap.ic_launcher);
+    }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnExpenseChange: {changeExpense(); break;}
-            case R.id.btnExpenseDelete: {deleteExpense(); break;}
+            case R.id.btnExpenseDelete: {deleteExpenseDialog(); break;}
         }
     }
 
@@ -135,6 +139,24 @@ public class ChangeExpenseActivity extends AppCompatActivity implements View.OnC
         }
     }
 
+    private void deleteExpenseDialog() {
+
+        new MaterialDialog.Builder(this)
+                .title(getString(R.string.dialog_title_delete_expense))
+                .content(getString(R.string.dialog_text_delete_expense))
+                .positiveText(getString(R.string.dialog_button_delete_expense))
+                .negativeText(getString(R.string.dialog_button_delete_expense_cancel))
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        deleteExpense();
+                        closeActivity();
+                    }
+                })
+                .show();
+
+    }
+
     private void deleteExpense() {
         dataSource.deleteAccount(OLDNAME);
         pushBroadcast();
@@ -146,4 +168,6 @@ public class ChangeExpenseActivity extends AppCompatActivity implements View.OnC
         intentFragmentMain.putExtra(FragmentMain.PARAM_STATUS_FRAGMENT_MAIN, FragmentMain.STATUS_UPDATE_FRAGMENT_MAIN);
         sendBroadcast(intentFragmentMain);
     }
+
+    private void closeActivity() {this.finish();}
 }

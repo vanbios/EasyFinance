@@ -67,7 +67,7 @@ public class FragmentTransaction extends Fragment{
     }
 
     private void setItemTransaction() {
-        ArrayList<Transaction> transactionArrayList = dataSource.getAllTransactionsInfo();
+        ArrayList<Transaction> transactionArrayList = dataSource.getAllTransactionsInformation();
 
         TransactionItemAdapter transactionItemAdapter = new TransactionItemAdapter(getActivity(), transactionArrayList);
 

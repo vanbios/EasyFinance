@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <ScrollView
@@ -12,8 +13,7 @@
         android:layout_marginStart="@dimen/activity_vertical_margin"
         android:layout_marginLeft="@dimen/activity_vertical_margin"
         android:layout_marginEnd="@dimen/activity_vertical_margin"
-        android:layout_marginRight="@dimen/activity_vertical_margin"
-        android:layout_above="@+id/linLayoutFragmentMainButtons">
+        android:layout_marginRight="@dimen/activity_vertical_margin">
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -27,7 +27,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:textSize="18sp" />
+        style="@style/TitleFont"/>
 
     <Spinner
         android:layout_width="wrap_content"
@@ -51,7 +51,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginLeft="20dp"
         android:layout_marginStart="20dp"
-        android:textSize="16sp" />
+        style="@style/SubheadFont" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -62,7 +62,7 @@
         android:layout_alignLeft="@+id/tvMainCash"
         android:layout_alignStart="@+id/tvMainCash"
         android:layout_marginTop="7dp"
-        android:textSize="16sp" />
+        style="@style/SubheadFont" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -73,7 +73,7 @@
         android:layout_alignLeft="@+id/tvMainCard"
         android:layout_alignStart="@+id/tvMainCard"
         android:layout_marginTop="7dp"
-        android:textSize="16sp" />
+        style="@style/SubheadFont" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -84,7 +84,7 @@
         android:layout_alignLeft="@+id/tvMainDeposit"
         android:layout_alignStart="@+id/tvMainDeposit"
         android:layout_marginTop="7dp"
-        android:textSize="16sp" />
+        style="@style/SubheadFont" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -96,7 +96,7 @@
         android:layout_toEndOf="@+id/tvMainDeposit"
         android:layout_marginLeft="20dp"
         android:layout_marginStart="30dp"
-        android:textSize="16sp" />
+        style="@style/SubheadFont" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -106,7 +106,7 @@
         android:layout_alignBottom="@+id/tvMainDebt"
         android:layout_alignLeft="@+id/tvMainDepositValue"
         android:layout_alignStart="@+id/tvMainDepositValue"
-        android:textSize="16sp" />
+        style="@style/SubheadFont" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -116,7 +116,7 @@
         android:layout_alignBottom="@+id/tvMainCard"
         android:layout_alignLeft="@+id/tvMainDepositValue"
         android:layout_alignStart="@+id/tvMainDepositValue"
-        android:textSize="16sp" />
+        style="@style/SubheadFont" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -126,7 +126,7 @@
         android:layout_alignBottom="@+id/tvMainCash"
         android:layout_alignLeft="@+id/tvMainCardValue"
         android:layout_alignStart="@+id/tvMainCardValue"
-        android:textSize="16sp" />
+        style="@style/SubheadFont" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -137,7 +137,7 @@
         android:layout_alignLeft="@+id/tvMainDebt"
         android:layout_alignStart="@+id/tvMainDebt"
         android:layout_marginTop="10dp"
-        android:textSize="16sp" />
+        style="@style/SubheadFont" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -147,7 +147,7 @@
         android:layout_alignBottom="@+id/tvMainSum"
         android:layout_alignLeft="@+id/tvMainDebtValue"
         android:layout_alignStart="@+id/tvMainDebtValue"
-        android:textSize="16sp" />
+        style="@style/SubheadFont" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -159,7 +159,7 @@
         android:layout_toEndOf="@+id/tvMainSumValue"
         android:layout_marginLeft="20dp"
         android:layout_marginStart="30dp"
-        android:textSize="16sp" />
+        style="@style/SubheadFont" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -169,7 +169,7 @@
         android:layout_below="@+id/tvMainSumValue"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:textSize="18sp" />
+        style="@style/TitleFont" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -180,7 +180,7 @@
         android:layout_alignLeft="@+id/tvMainSum"
         android:layout_alignStart="@+id/tvMainSum"
         android:layout_marginTop="10dp"
-        android:textSize="16sp" />
+        style="@style/SubheadFont" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -191,7 +191,7 @@
         android:layout_alignLeft="@+id/tvMainPeriod"
         android:layout_alignStart="@+id/tvMainPeriod"
         android:layout_marginTop="15dp"
-        android:textSize="16sp" />
+        style="@style/SubheadFont" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -202,7 +202,7 @@
         android:layout_alignLeft="@+id/tvMainIncome"
         android:layout_alignStart="@+id/tvMainIncome"
         android:layout_marginTop="7dp"
-        android:textSize="16sp" />
+        style="@style/SubheadFont" />
 
     <Spinner
         android:layout_width="120dp"
@@ -221,7 +221,7 @@
         android:layout_alignBottom="@+id/tvMainIncome"
         android:layout_alignLeft="@+id/spinMainPeriod"
         android:layout_alignStart="@+id/spinMainPeriod"
-        android:textSize="16sp" />
+        style="@style/SubheadFont" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -231,7 +231,7 @@
         android:layout_alignBottom="@+id/tvMainCost"
         android:layout_alignLeft="@+id/tvMainIncomeValue"
         android:layout_alignStart="@+id/tvMainIncomeValue"
-        android:textSize="16sp" />
+        style="@style/SubheadFont" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -242,7 +242,7 @@
         android:layout_alignLeft="@+id/tvMainCostValue"
         android:layout_alignStart="@+id/tvMainCostValue"
         android:layout_marginTop="10dp"
-        android:textSize="16sp" />
+        style="@style/SubheadFont" />
 
 
         </RelativeLayout>
@@ -250,30 +250,18 @@
     </ScrollView>
 
 
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
+    <com.gc.materialdesign.views.ButtonFloat
+        android:id="@+id/buttonFloat"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/linLayoutFragmentMainButtons">
+        android:layout_marginRight="@dimen/float_button_margin"
+        android:layout_marginEnd="@dimen/float_button_margin"
+        android:background="@color/custom_teal"
+        materialdesign:animate="true"
+        materialdesign:iconDrawable="@mipmap/ic_action_new"
+        android:onClick="addTransactionMain"/>
 
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/new_expense"
-            android:id="@+id/btnMainExpense"
-            android:layout_weight="1"
-            android:onClick="addExpenseMain"/>
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="@string/new_transaction"
-            android:id="@+id/btnMainTransaction"
-            android:layout_weight="1"
-            android:onClick="addTransactionMain"/>
-
-    </LinearLayout>
 </RelativeLayout>

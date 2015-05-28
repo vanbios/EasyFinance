@@ -22,18 +22,30 @@
             android:name=".AddTransactionActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.androidcollider.easyfin.MainActivity" />
         </activity>
 
         <activity
             android:name=".AddExpenseActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.androidcollider.easyfin.MainActivity" />
         </activity>
 
         <activity
             android:name=".ChangeExpenseActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.androidcollider.easyfin.MainActivity" />
         </activity>
 
     </application>

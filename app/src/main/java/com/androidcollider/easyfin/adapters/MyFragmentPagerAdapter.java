@@ -9,7 +9,7 @@ import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.fragments.FragmentExpense;
 import com.androidcollider.easyfin.fragments.FragmentMain;
 import com.androidcollider.easyfin.fragments.FragmentTransaction;
-import com.androidcollider.easyfin.fragments.PageFragment;
+
 
 public class MyFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -30,7 +30,7 @@ public class MyFragmentPagerAdapter extends FragmentStatePagerAdapter {
             case 1: return FragmentExpense.newInstance(position);
             case 2: return FragmentTransaction.newInstance(position);
 
-            default: return PageFragment.newInstance(position);}
+            default: return FragmentMain.newInstance(position);}
     }
 
     @Override

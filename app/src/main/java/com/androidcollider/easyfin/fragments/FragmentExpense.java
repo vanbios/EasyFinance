@@ -12,9 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import com.androidcollider.easyfin.AddExpenseActivity;
 import com.androidcollider.easyfin.ChangeExpenseActivity;
 import com.androidcollider.easyfin.R;
 
