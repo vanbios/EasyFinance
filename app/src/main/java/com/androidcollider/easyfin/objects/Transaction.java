@@ -12,7 +12,7 @@ public class Transaction {
     private String account_currency;
 
 
-    public Transaction (long date, int id_account, double amount, String category) {
+    /*public Transaction (long date, int id_account, double amount, String category) {
         this.date = date;
         this.id_account = id_account;
         this.amount = amount;
@@ -24,7 +24,7 @@ public class Transaction {
         this.account_name = account_name;
         this.amount = amount;
         this.category = category;
-    }
+    }*/
 
     public Transaction (long date, double amount, String category, String account_name, String account_currency) {
         this.date = date;
@@ -43,10 +43,10 @@ public class Transaction {
         this.id_account = id_account;
     }
 
-    public Transaction (long date, double amount) {
+    /*public Transaction (long date, double amount) {
         this.date = date;
         this.amount = amount;
-    }
+    }*/
 
     public long getDate() {return date;}
 

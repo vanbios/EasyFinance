@@ -20,6 +20,7 @@
     <color name="custom_blue">#1E88E5</color>
     <color name="custom_deep_purple">#673AB7</color>
     <color name="custom_teal">#009688</color>
+    <color name="custom_dark_primary">#512DA8</color>
     <color name="custom_light_primary">#D1C4E9</color>
     <color name="custom_text_light">#FFFFFF</color>
     <color name="custom_text_primary">#212121</color>

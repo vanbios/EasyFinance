@@ -31,7 +31,7 @@ public class DataSource {
         sPref = context.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
     }
 
-    //Open database
+    //Open database to write
     public void openLocalToWrite() throws SQLException {
         db = dbHelper.getWritableDatabase();
     }
@@ -81,7 +81,10 @@ public class DataSource {
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if(cursor.moveToFirst()) {
-            return cursor.getInt(0);}
+            int i = cursor.getInt(0);
+            cursor.close();
+            closeLocal();
+        return i;}
 
         cursor.close();
         closeLocal();
@@ -96,7 +99,10 @@ public class DataSource {
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if(cursor.moveToFirst()) {
-            return cursor.getString(0);}
+            String s =  cursor.getString(0);
+            cursor.close();
+            closeLocal();
+        return s;}
 
         cursor.close();
         closeLocal();
@@ -112,7 +118,10 @@ public class DataSource {
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if(cursor.moveToFirst()) {
-            return cursor.getDouble(0);}
+            double d = cursor.getDouble(0);
+            cursor.close();
+            closeLocal();
+        return d;}
 
         cursor.close();
         closeLocal();
@@ -221,7 +230,10 @@ public class DataSource {
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if(cursor.moveToFirst()) {
-            return cursor.getDouble(0);}
+            double d = cursor.getDouble(0);
+            cursor.close();
+            closeLocal();
+        return d;}
 
         cursor.close();
         closeLocal();
@@ -266,44 +278,6 @@ public class DataSource {
         closeLocal();
 
         return accountArrayList;
-    }
-
-    public ArrayList<Transaction> getAllTransactionsInfo(){
-        ArrayList<Transaction> transactionArrayList = new ArrayList<>();
-
-        String selectQuery = "SELECT T.amount, date, category, name, currency FROM Account A, Transactions T " +
-                "WHERE T.id_account = A.id_account ";
-
-        openLocalToRead();
-
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        if (cursor.moveToFirst()) {
-            int amountColIndex = cursor.getColumnIndex("amount");
-            int dateColIndex = cursor.getColumnIndex("date");
-            int categoryColIndex = cursor.getColumnIndex("category");
-            int nameColIndex = cursor.getColumnIndex("name");
-            int currencyColIndex = cursor.getColumnIndex("currency");
-
-            for (int i=cursor.getCount()-1; i>=0;i--){
-                cursor.moveToPosition(i);
-                Transaction transaction = new Transaction(
-                        cursor.getLong(dateColIndex),
-                        cursor.getDouble(amountColIndex),
-                        cursor.getString(categoryColIndex),
-                        cursor.getString(nameColIndex),
-                        cursor.getString(currencyColIndex));
-
-                transactionArrayList.add(transaction);
-            }
-            cursor.close();
-            closeLocal();
-            return transactionArrayList;
-        }
-        cursor.close();
-        closeLocal();
-
-        return transactionArrayList;
     }
 
     public ArrayList<Transaction> getAllTransactionsInformation(){
@@ -365,6 +339,46 @@ public class DataSource {
 
         closeLocal();
     }
+
+
+
+    /*public ArrayList<Transaction> getAllTransactionsInfo(){
+        ArrayList<Transaction> transactionArrayList = new ArrayList<>();
+
+        String selectQuery = "SELECT T.amount, date, category, name, currency FROM Account A, Transactions T " +
+                "WHERE T.id_account = A.id_account ";
+
+        openLocalToRead();
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            int amountColIndex = cursor.getColumnIndex("amount");
+            int dateColIndex = cursor.getColumnIndex("date");
+            int categoryColIndex = cursor.getColumnIndex("category");
+            int nameColIndex = cursor.getColumnIndex("name");
+            int currencyColIndex = cursor.getColumnIndex("currency");
+
+            for (int i=cursor.getCount()-1; i>=0;i--){
+                cursor.moveToPosition(i);
+                Transaction transaction = new Transaction(
+                        cursor.getLong(dateColIndex),
+                        cursor.getDouble(amountColIndex),
+                        cursor.getString(categoryColIndex),
+                        cursor.getString(nameColIndex),
+                        cursor.getString(currencyColIndex));
+
+                transactionArrayList.add(transaction);
+            }
+            cursor.close();
+            closeLocal();
+            return transactionArrayList;
+        }
+        cursor.close();
+        closeLocal();
+
+        return transactionArrayList;
+    }*/
 
 
 }
