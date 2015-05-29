@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         //tabs.setTextSize(30);
         //tabs.setTextColor(getResources().getColor(R.color.custom_text_light));
         //tabs.setTextColorResource(R.color.navy);
-        //tabs.bringToFront();
+        tabs.bringToFront();
 
 
         tabs.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
