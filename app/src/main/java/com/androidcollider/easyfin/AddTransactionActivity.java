@@ -6,6 +6,7 @@ import com.androidcollider.easyfin.fragments.FragmentMain;
 import com.androidcollider.easyfin.fragments.FragmentTransaction;
 import com.androidcollider.easyfin.objects.Transaction;
 import com.androidcollider.easyfin.utils.DateFormat;
+import com.androidcollider.easyfin.utils.Shake;
 import com.gc.materialdesign.views.ButtonRectangle;
 
 import android.app.DatePickerDialog;
@@ -13,6 +14,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -121,6 +123,7 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
         RadioButton radioButtonCost = (RadioButton) findViewById(R.id.radioButtonCost);
 
         if (! editTextTransSum.getText().toString().matches(".*\\d.*")) {
+            Shake.highlightEditText(editTextTransSum);
             Toast.makeText(this, getResources().getString(R.string.transaction_empty_amount_field), Toast.LENGTH_LONG).show();
         }
 
@@ -204,6 +207,15 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
     public void goToAddNewExpense() {
         closeActivity();
         openAddExpenseActivity();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                closeActivity();
+        }
+        return true;
     }
 
 }

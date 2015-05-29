@@ -1,10 +1,7 @@
 package com.androidcollider.easyfin.objects;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 
-
-public class Account implements Parcelable {
+public class Account {
 
     private int id;
     private String name;
@@ -39,7 +36,7 @@ public class Account implements Parcelable {
     public String getCurrency() {return currency;}
 
 
-    public Account(Parcel accountParcelIn) {
+    /*public Account(Parcel accountParcelIn) {
         this.id = accountParcelIn.readInt();
         this.name = accountParcelIn.readString();
         this.amount = accountParcelIn.readDouble();
@@ -71,7 +68,7 @@ public class Account implements Parcelable {
         public Account[] newArray(int size) {
             return new Account[size];
         }
-    };
+    };*/
 
 
 

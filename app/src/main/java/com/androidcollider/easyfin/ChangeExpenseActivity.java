@@ -5,6 +5,7 @@ import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.fragments.FragmentMain;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.utils.FormatUtils;
+import com.androidcollider.easyfin.utils.Shake;
 import com.gc.materialdesign.views.ButtonRectangle;
 
 
@@ -12,6 +13,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -115,27 +117,45 @@ public class ChangeExpenseActivity extends AppCompatActivity implements View.OnC
 
     private void changeExpense() {
 
-        String st = editTextExpenseNameChange.getText().toString();
-        st = st.replaceAll("\\s+","");
+        String st = editTextExpenseNameChange.getText().toString().replaceAll("\\s+", "");
 
-        if (st.isEmpty() || !editTextExpenseSumChange.getText().toString().matches(".*\\d.*")) {
-            Toast.makeText(this, getResources().getString(R.string.expense_empty_field), Toast.LENGTH_LONG).show();
+        if (st.isEmpty()) {
+            Shake.highlightEditText(editTextExpenseNameChange);
+            Toast.makeText(this, getResources().getString(R.string.expense_empty_field_name), Toast.LENGTH_LONG).show();
         }
 
         else {
 
-            String name = editTextExpenseNameChange.getText().toString();
-            double amount = Double.parseDouble(editTextExpenseSumChange.getText().toString());
-            String type = spinExpenseTypeChange.getSelectedItem().toString();
-            String currency = spinExpenseCurrencyChange.getSelectedItem().toString();
+            if (!editTextExpenseSumChange.getText().toString().matches(".*\\d.*")) {
+                Shake.highlightEditText(editTextExpenseSumChange);
+                Toast.makeText(this, getResources().getString(R.string.expense_empty_field_sum), Toast.LENGTH_LONG).show();
+            }
 
-            Account account = new Account(name, amount, type, currency);
+            else {
 
-            dataSource.changeAccount(OLDNAME, account);
+                String s = editTextExpenseNameChange.getText().toString();
 
-            pushBroadcast();
+                if (dataSource.checkAccountNameMatches(s) && ! s.equals(OLDNAME)) {
+                    Shake.highlightEditText(editTextExpenseNameChange);
+                    Toast.makeText(this, getResources().getString(R.string.expense_name_exist), Toast.LENGTH_LONG).show();
+                }
 
-            this.finish();
+                else {
+
+                    String name = editTextExpenseNameChange.getText().toString();
+                    double amount = Double.parseDouble(editTextExpenseSumChange.getText().toString());
+                    String type = spinExpenseTypeChange.getSelectedItem().toString();
+                    String currency = spinExpenseCurrencyChange.getSelectedItem().toString();
+
+                    Account account = new Account(name, amount, type, currency);
+
+                    dataSource.changeAccount(OLDNAME, account);
+
+                    pushBroadcast();
+
+                    closeActivity();
+                }
+            }
         }
     }
 
@@ -170,4 +190,13 @@ public class ChangeExpenseActivity extends AppCompatActivity implements View.OnC
     }
 
     private void closeActivity() {this.finish();}
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                closeActivity();
+        }
+        return true;
+    }
 }

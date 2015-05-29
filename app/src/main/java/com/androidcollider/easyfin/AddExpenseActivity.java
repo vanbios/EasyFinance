@@ -3,12 +3,14 @@ package com.androidcollider.easyfin;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.fragments.FragmentMain;
 import com.androidcollider.easyfin.objects.Account;
+import com.androidcollider.easyfin.utils.Shake;
 import com.gc.materialdesign.views.ButtonRectangle;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -73,27 +75,43 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
         EditText editTextExpenseName = (EditText) findViewById(R.id.editTextExpenseName);
         EditText editTextExpenseSum = (EditText) findViewById(R.id.editTextExpenseSum);
 
-        String st = editTextExpenseName.getText().toString();
-        st = st.replaceAll("\\s+","");
+        String st = editTextExpenseName.getText().toString().replaceAll("\\s+", "");
 
-        if (st.isEmpty() || !editTextExpenseSum.getText().toString().matches(".*\\d.*")) {
-            Toast.makeText(this, getResources().getString(R.string.expense_empty_field), Toast.LENGTH_LONG).show();
+        if (st.isEmpty()) {
+            Shake.highlightEditText(editTextExpenseName);
+            Toast.makeText(this, getResources().getString(R.string.expense_empty_field_name), Toast.LENGTH_LONG).show();
         }
 
         else {
 
-            String name = editTextExpenseName.getText().toString();
-            double amount = Double.parseDouble(editTextExpenseSum.getText().toString());
-            String type = spinAddExpenseType.getSelectedItem().toString();
-            String currency = spinAddExpenseCurrency.getSelectedItem().toString();
+            if (!editTextExpenseSum.getText().toString().matches(".*\\d.*")) {
+                Shake.highlightEditText(editTextExpenseSum);
+                Toast.makeText(this, getResources().getString(R.string.expense_empty_field_sum), Toast.LENGTH_LONG).show();
+            }
 
-            Account account = new Account(name, amount, type, currency);
+            else {
 
-            dataSource.insertNewAccount(account);
+                if (dataSource.checkAccountNameMatches(editTextExpenseName.getText().toString())) {
+                    Shake.highlightEditText(editTextExpenseName);
+                    Toast.makeText(this, getResources().getString(R.string.expense_name_exist), Toast.LENGTH_LONG).show();
+                }
 
-            pushBroadcast();
+                else {
 
-            this.finish();
+                    String name = editTextExpenseName.getText().toString();
+                    double amount = Double.parseDouble(editTextExpenseSum.getText().toString());
+                    String type = spinAddExpenseType.getSelectedItem().toString();
+                    String currency = spinAddExpenseCurrency.getSelectedItem().toString();
+
+                    Account account = new Account(name, amount, type, currency);
+
+                    dataSource.insertNewAccount(account);
+
+                    pushBroadcast();
+
+                    closeActivity();
+                }
+            }
         }
     }
 
@@ -101,5 +119,16 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
         Intent intentFragmentMain = new Intent(FragmentMain.BROADCAST_FRAGMENT_MAIN_ACTION);
         intentFragmentMain.putExtra(FragmentMain.PARAM_STATUS_FRAGMENT_MAIN, FragmentMain.STATUS_UPDATE_FRAGMENT_MAIN);
         sendBroadcast(intentFragmentMain);
+    }
+
+    private void closeActivity() {this.finish();}
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                closeActivity();
+        }
+        return true;
     }
 }

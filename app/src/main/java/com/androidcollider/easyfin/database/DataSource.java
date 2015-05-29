@@ -340,6 +340,17 @@ public class DataSource {
         closeLocal();
     }
 
+    public boolean checkAccountNameMatches(String name) {
+        ArrayList<String> accounts = getAllAccountNames();
+
+        for (String account : accounts) {
+            if (account.equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 
     /*public ArrayList<Transaction> getAllTransactionsInfo(){
