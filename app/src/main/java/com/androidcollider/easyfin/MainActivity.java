@@ -35,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
         assert getSupportActionBar() != null;
         setSupportActionBar(ToolBar);
         getSupportActionBar().setTitle(id);
-        //getSupportActionBar().setLogo(R.mipmap.ic_launcher);
     }
 
     private void setViewPager() {

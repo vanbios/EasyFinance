@@ -68,7 +68,6 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
         setSupportActionBar(ToolBar);
         getSupportActionBar().setTitle(id);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //getSupportActionBar().setLogo(R.mipmap.ic_launcher);
     }
 
 

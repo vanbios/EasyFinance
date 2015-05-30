@@ -61,7 +61,6 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
         setSupportActionBar(ToolBar);
         getSupportActionBar().setTitle(id);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //getSupportActionBar().setLogo(R.mipmap.ic_launcher);
     }
 
     @Override

@@ -104,7 +104,6 @@ public class ChangeExpenseActivity extends AppCompatActivity implements View.OnC
         setSupportActionBar(ToolBar);
         getSupportActionBar().setTitle(id);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //getSupportActionBar().setLogo(R.mipmap.ic_launcher);
     }
 
     @Override
