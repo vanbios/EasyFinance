@@ -108,6 +108,8 @@ public class FragmentExpense extends Fragment{
         getActivity().registerReceiver(broadcastReceiver, intentFilter);
     }
 
+
+
     @Override
     public void onDestroy() {
         super.onDestroy();

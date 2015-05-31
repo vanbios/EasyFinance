@@ -118,6 +118,10 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
         Intent intentFragmentMain = new Intent(FragmentMain.BROADCAST_FRAGMENT_MAIN_ACTION);
         intentFragmentMain.putExtra(FragmentMain.PARAM_STATUS_FRAGMENT_MAIN, FragmentMain.STATUS_UPDATE_FRAGMENT_MAIN);
         sendBroadcast(intentFragmentMain);
+
+        Intent intentMainSnack = new Intent(MainActivity.BROADCAST_MAIN_SNACK_ACTION);
+        intentMainSnack.putExtra(MainActivity.PARAM_STATUS_MAIN_SNACK, MainActivity.STATUS_MAIN_SNACK);
+        sendBroadcast(intentMainSnack);
     }
 
     private void closeActivity() {this.finish();}

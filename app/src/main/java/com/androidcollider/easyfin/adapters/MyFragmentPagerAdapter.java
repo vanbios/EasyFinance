@@ -1,37 +1,28 @@
 package com.androidcollider.easyfin.adapters;
 
-import android.content.Context;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.fragments.FragmentExpense;
-import com.androidcollider.easyfin.fragments.FragmentMain;
-import com.androidcollider.easyfin.fragments.FragmentTransaction;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MyFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
-    private static final int PAGE_COUNT = 3;
+    private final List<Fragment> mFragments = new ArrayList<>();
+    private final List<String> mFragmentTitles = new ArrayList<>();
 
-    private Context context;
 
+    public MyFragmentPagerAdapter(FragmentManager fm) {super(fm);}
 
-    public MyFragmentPagerAdapter(FragmentManager fm, Context context) {
-        super(fm);
-        this.context = context;
-    }
+    public void addFragment(Fragment fragment, String title) {
+        mFragments.add(fragment);
+        mFragmentTitles.add(title);}
 
     @Override
-    public Fragment getItem(int position) {
-        switch (position) {
-            case 0: return FragmentMain.newInstance(position);
-            case 1: return FragmentExpense.newInstance(position);
-            case 2: return FragmentTransaction.newInstance(position);
-
-            default: return FragmentMain.newInstance(position);}
-    }
+    public Fragment getItem(int position) {return mFragments.get(position);}
 
     @Override
     public int getItemPosition(Object object) {
@@ -40,17 +31,10 @@ public class MyFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return PAGE_COUNT;
+        return mFragments.size();
     }
 
     @Override
-    public CharSequence getPageTitle(int position) {
-        String tabName = "";
-        switch (position) {
-            case 0: tabName = context.getResources().getString(R.string.tab_main); break;
-            case 1: tabName = context.getResources().getString(R.string.tab_expenses); break;
-            case 2: tabName = context.getResources().getString(R.string.tab_transactions); break;
-        }
-        return tabName;
+    public CharSequence getPageTitle(int position) {return mFragmentTitles.get(position);
     }
 }

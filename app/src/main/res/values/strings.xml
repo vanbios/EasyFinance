@@ -49,6 +49,8 @@
     <string name="expense_empty_field_name">Вкажіть назву рахунку</string>
     <string name="expense_empty_field_sum">Вкажіть суму рахунку</string>
     <string name="expense_name_exist">Рахунок з такою назвою вже існує. Спробуйте іншу</string>
+    <string name="snack_expense_list">Для редагування зробіть довге натискання на рахунок</string>
+    <string name="snack_expense_action_get_it">Зрозуміло</string>
 
     <string name="value_textview">10000</string>
     <string name="date">Дата</string>
