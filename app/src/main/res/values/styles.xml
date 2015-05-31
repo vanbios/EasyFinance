@@ -3,6 +3,10 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
+        <item name="colorPrimary">@color/custom_deep_purple</item>
+        <item name="colorPrimaryDark">@color/custom_dark_primary</item>
+        <item name="colorAccent">@color/custom_teal</item>
+
     </style>
 
     <style name="TitleFont" parent="@android:style/TextAppearance.Medium">

@@ -7,7 +7,6 @@ import com.androidcollider.easyfin.fragments.FragmentTransaction;
 import com.androidcollider.easyfin.objects.Transaction;
 import com.androidcollider.easyfin.utils.DateFormat;
 import com.androidcollider.easyfin.utils.Shake;
-import com.gc.materialdesign.views.ButtonRectangle;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -17,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -53,7 +53,7 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
 
         setDateTimeField();
 
-        ButtonRectangle btnTransactionAdd = (ButtonRectangle) findViewById(R.id.btnTransactionAdd);
+        Button btnTransactionAdd = (Button) findViewById(R.id.btnTransactionAdd);
         btnTransactionAdd.setOnClickListener(this);
 
         dataSource = new DataSource(this);

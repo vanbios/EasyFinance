@@ -6,7 +6,6 @@ import com.androidcollider.easyfin.fragments.FragmentMain;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.utils.FormatUtils;
 import com.androidcollider.easyfin.utils.Shake;
-import com.gc.materialdesign.views.ButtonRectangle;
 
 
 import android.content.Intent;
@@ -16,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -24,7 +24,7 @@ import android.widget.Toast;
 public class ChangeExpenseActivity extends AppCompatActivity implements View.OnClickListener {
 
     Spinner spinExpenseTypeChange, spinExpenseCurrencyChange;
-    ButtonRectangle btnExpenseChange, btnExpenseDelete;
+    Button btnExpenseChange, btnExpenseDelete;
 
     EditText editTextExpenseNameChange, editTextExpenseSumChange;
 
@@ -56,10 +56,10 @@ public class ChangeExpenseActivity extends AppCompatActivity implements View.OnC
         editTextExpenseSumChange.setText(FormatUtils.doubleFormatter(getIntent().getDoubleExtra("amount", 0.0), FORMAT, PRECISE));
         editTextExpenseSumChange.setSelection(editTextExpenseSumChange.getText().length());
 
-        btnExpenseChange = (ButtonRectangle) findViewById(R.id.btnExpenseChange);
+        btnExpenseChange = (Button) findViewById(R.id.btnExpenseChange);
         btnExpenseChange.setOnClickListener(this);
 
-        btnExpenseDelete = (ButtonRectangle) findViewById(R.id.btnExpenseDelete);
+        btnExpenseDelete = (Button) findViewById(R.id.btnExpenseDelete);
         btnExpenseDelete.setOnClickListener(this);
 
         dataSource = new DataSource(this);

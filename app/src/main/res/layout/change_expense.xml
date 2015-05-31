@@ -5,16 +5,24 @@
 
     <include layout="@layout/toolbar" />
 
-    <EditText
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/tilExpenseNameChange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editTextExpenseNameChange"
-        android:ems="10"
-        android:maxLength="20"
-        android:hint="@string/expense_name_hint"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        style="@style/TitleFont" />
+        android:layout_marginTop="65dp"
+        android:layout_centerHorizontal="true">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextExpenseNameChange"
+            android:ems="10"
+            android:maxLength="20"
+            android:hint="@string/expense_name_hint"
+            android:layout_centerHorizontal="true"
+            style="@style/TitleFont" />
+
+    </android.support.design.widget.TextInputLayout>
 
 
     <TextView
@@ -22,7 +30,7 @@
         android:layout_height="wrap_content"
         android:text="@string/expense_type"
         android:id="@+id/tvExpenseTypeChange"
-        android:layout_below="@+id/editTextExpenseNameChange"
+        android:layout_below="@+id/tilExpenseNameChange"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginLeft="55dp"
@@ -68,18 +76,26 @@
         android:spinnerMode="dialog"
         android:prompt="@string/expense_currency"/>
 
-    <EditText
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/tilExpenseSumChange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="6"
-        android:hint="@string/sum_hint"
-        android:maxLength="12"
-        android:id="@+id/editTextExpenseSumChange"
-        android:layout_below="@+id/spinExpenseTypeChange"
+        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        style="@style/TitleFont"/>
+        android:layout_below="@+id/spinExpenseTypeChange">
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:ems="6"
+            android:hint="@string/sum_hint"
+            android:maxLength="12"
+            android:id="@+id/editTextExpenseSumChange"
+            android:layout_centerHorizontal="true"
+            style="@style/TitleFont"/>
+
+    </android.support.design.widget.TextInputLayout>
 
     <LinearLayout
         android:orientation="horizontal"
@@ -89,23 +105,25 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/linLayoutChangeExpenseButtons">
 
-        <com.gc.materialdesign.views.ButtonRectangle
+        <Button
             android:layout_width="0dp"
             android:layout_height="@dimen/button_height"
             android:text="@string/delete_expense"
             android:textSize="@dimen/button_text_size"
             android:id="@+id/btnExpenseDelete"
             android:layout_weight="1"
-            android:background="@color/custom_teal"/>
+            android:background="@drawable/custom_button"
+            android:textColor="@drawable/button_text_color_white"/>
 
-        <com.gc.materialdesign.views.ButtonRectangle
+        <Button
             android:layout_width="0dp"
             android:layout_height="@dimen/button_height"
             android:text="@string/change_expense_btn"
             android:textSize="@dimen/button_text_size"
             android:id="@+id/btnExpenseChange"
             android:layout_weight="1"
-            android:background="@color/custom_teal"/>
+            android:background="@drawable/custom_button"
+            android:textColor="@drawable/button_text_color_white"/>
 
     </LinearLayout>
 
