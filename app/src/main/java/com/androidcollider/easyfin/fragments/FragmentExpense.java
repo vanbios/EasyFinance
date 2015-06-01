@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -70,6 +71,9 @@ public class FragmentExpense extends Fragment{
 
         recyclerExpense.setLayoutManager(new LinearLayoutManager(recyclerExpense.getContext()));
         recyclerExpense.setAdapter(new ExpenseRecyclerAdapter(getActivity(), accountArrayList));
+
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        recyclerExpense.setItemAnimator(itemAnimator);
     }
 
     private void makeBroadcastReceiver() {

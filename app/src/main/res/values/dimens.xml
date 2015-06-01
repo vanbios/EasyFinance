@@ -5,7 +5,7 @@
 
     <dimen name="toolbar_height">56dp</dimen>
 
-    <dimen name="button_height">48dp</dimen>
+    <dimen name="button_height">44dp</dimen>
     <dimen name="button_text_size">14sp</dimen>
     <dimen name="float_button_margin">16dp</dimen>
 
@@ -15,5 +15,5 @@
     <dimen name="text_size_body">14sp</dimen>
     <dimen name="text_size_caption">12sp</dimen>
 
-    <dimen name="margin_top_fragments">104dp</dimen>
+    <dimen name="margin_top_fragments">102dp</dimen>
 </resources>

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -75,6 +76,9 @@ public class FragmentTransaction extends Fragment{
 
         recyclerTransaction.setLayoutManager(new LinearLayoutManager(recyclerTransaction.getContext()));
         recyclerTransaction.setAdapter(new TransactionRecyclerAdapter(getActivity(), transactionArrayList));
+
+        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+        recyclerTransaction.setItemAnimator(itemAnimator);
     }
 
     private void makeBroadcastReceiver() {
