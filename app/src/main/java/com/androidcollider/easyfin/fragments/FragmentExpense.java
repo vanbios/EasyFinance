@@ -7,16 +7,15 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
-import com.androidcollider.easyfin.ChangeExpenseActivity;
 import com.androidcollider.easyfin.R;
 
-import com.androidcollider.easyfin.adapters.ExpenseItemAdapter;
+import com.androidcollider.easyfin.adapters.ExpenseRecyclerAdapter;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.objects.Account;
 
@@ -33,7 +32,6 @@ public class FragmentExpense extends Fragment{
     private DataSource dataSource;
 
     private BroadcastReceiver broadcastReceiver;
-
 
 
     public static FragmentExpense newInstance(int page) {
@@ -68,26 +66,10 @@ public class FragmentExpense extends Fragment{
 
         ArrayList<Account> accountArrayList = dataSource.getAllAccountsInfo();
 
-        final ExpenseItemAdapter expenseItemAdapter = new ExpenseItemAdapter(getActivity(), accountArrayList);
+        RecyclerView recyclerExpense = (RecyclerView) view.findViewById(R.id.recyclerExpense);
 
-        ListView lvExpense = (ListView) view.findViewById(R.id.lvExpense);
-        lvExpense.setAdapter(expenseItemAdapter);
-
-        lvExpense.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                Intent intent = new Intent(getActivity(), ChangeExpenseActivity.class);
-                Account account = expenseItemAdapter.getAccount(i);
-
-                intent.putExtra("name", account.getName());
-                intent.putExtra("type", account.getType());
-                intent.putExtra("amount", account.getAmount());
-                intent.putExtra("currency", account.getCurrency());
-                startActivity(intent);
-                return true;
-            }
-        });
+        recyclerExpense.setLayoutManager(new LinearLayoutManager(recyclerExpense.getContext()));
+        recyclerExpense.setAdapter(new ExpenseRecyclerAdapter(getActivity(), accountArrayList));
     }
 
     private void makeBroadcastReceiver() {
@@ -107,8 +89,6 @@ public class FragmentExpense extends Fragment{
 
         getActivity().registerReceiver(broadcastReceiver, intentFilter);
     }
-
-
 
     @Override
     public void onDestroy() {
