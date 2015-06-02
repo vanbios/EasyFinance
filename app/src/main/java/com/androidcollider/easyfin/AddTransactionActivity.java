@@ -1,6 +1,7 @@
 package com.androidcollider.easyfin;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.androidcollider.easyfin.adapters.SpinnerCategoriesAdapter;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.fragments.FragmentMain;
 import com.androidcollider.easyfin.fragments.FragmentTransaction;
@@ -82,9 +83,11 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
         btnTransactionAdd.setEnabled(false);}
 
 
-        ArrayAdapter<?> adapterTransCat = ArrayAdapter.createFromResource(this, R.array.cat_transaction_array, R.layout.spinner_item);
+        /*ArrayAdapter<?> adapterTransCat = ArrayAdapter.createFromResource(this, R.array.cat_transaction_array, R.layout.spinner_item);
         adapterTransCat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinAddTransCategory.setAdapter(adapterTransCat);
+        spinAddTransCategory.setAdapter(adapterTransCat);*/
+
+        spinAddTransCategory.setAdapter(new SpinnerCategoriesAdapter(this, R.layout.spinner_item, getResources().getStringArray(R.array.cat_transaction_array)));
 
         ArrayAdapter<?> adapterTransExp = new ArrayAdapter<>(this, R.layout.spinner_item, accounts);
         adapterTransExp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
