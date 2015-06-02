@@ -37,6 +37,8 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
 
     private Spinner spinAddTransCategory, spinAddTransExpense;
 
+    private Button btnTransactionAdd;
+
     DataSource dataSource;
 
 
@@ -47,19 +49,17 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
 
         setToolbar(R.string.new_transaction);
 
-
         tvTransactionDate = (TextView) findViewById(R.id.tvTransactionDate);
-
 
         setDateTimeField();
 
-        Button btnTransactionAdd = (Button) findViewById(R.id.btnTransactionAdd);
+        btnTransactionAdd = (Button) findViewById(R.id.btnTransactionAdd);
         btnTransactionAdd.setOnClickListener(this);
+        btnTransactionAdd.setEnabled(true);
 
         dataSource = new DataSource(this);
 
         setSpinner();
-
     }
 
     private void setToolbar(int id) {
@@ -78,7 +78,8 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
         List<String> accounts = dataSource.getAllAccountNames();
 
         if (accounts.size() == 0) {
-            showDialogNoExpense();}
+            showDialogNoExpense();
+        btnTransactionAdd.setEnabled(false);}
 
 
         ArrayAdapter<?> adapterTransCat = ArrayAdapter.createFromResource(this, R.array.cat_transaction_array, R.layout.spinner_item);
