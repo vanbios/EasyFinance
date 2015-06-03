@@ -19,4 +19,25 @@
         <item>@drawable/ic_flag_europe_48dp</item>
         <item>@drawable/ic_flag_russia_48dp</item>
     </array>
+
+    <array name="flags_mini">
+        <item>@drawable/ic_flag_ukraine_24dp</item>
+        <item>@drawable/ic_flag_usa_24dp</item>
+        <item>@drawable/ic_flag_europe_24dp</item>
+        <item>@drawable/ic_flag_russia_24dp</item>
+    </array>
+
+    <array name="expense_type_48">
+        <item>@drawable/ic_cash_48</item>
+        <item>@drawable/ic_card_48</item>
+        <item>@drawable/ic_deposit_48</item>
+        <item>@drawable/ic_debt_48</item>
+    </array>
+
+    <array name="expense_type_24">
+        <item>@drawable/ic_cash_24</item>
+        <item>@drawable/ic_card_24</item>
+        <item>@drawable/ic_deposit_24</item>
+        <item>@drawable/ic_debt_24</item>
+    </array>
 </resources>

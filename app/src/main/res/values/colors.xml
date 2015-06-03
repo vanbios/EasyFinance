@@ -17,7 +17,6 @@
     <color name="navy">#000080</color>
     <color name="black">#000000</color>
     <color name="custom">#FF96AA39</color>
-    <color name="custom_blue">#1E88E5</color>
     <color name="custom_deep_purple">#673AB7</color>
     <color name="custom_teal">#009688</color>
     <color name="custom_teal_dark">#00796B</color>
@@ -31,4 +30,25 @@
     <color name="custom_red">#D32F2F</color>
     <color name="custom_green">#4CAF50</color>
     <color name="custom_pink">#FF4081</color>
+    <color name="custom_amber">#FFC107</color>
+    <color name="custom_red_dark">#D32F2F</color>
+    <color name="custom_yellow_dark">#FBC02D</color>
+    <color name="custom_amber_dark">#FFA000</color>
+    <color name="custom_pink_dark">#C2185B</color>
+    <color name="custom_deep_orange_dark">#E64A19</color>
+    <color name="custom_light_green_dark">#689F38</color>
+    <color name="custom_green_dark">#388E3C</color>
+    <color name="custom_indigo_dark">#303F9F</color>
+    <color name="custom_indigo">#3F51B5</color>
+    <color name="custom_cyan_dark">#0097A7</color>
+    <color name="custom_cyan">#00BCD4</color>
+    <color name="custom_light_blue">#03A9F4</color>
+    <color name="custom_light_blue_dark">#0288D1</color>
+    <color name="custom_blue">#2196F3</color>
+    <color name="custom_blue_dark">#1976D2</color>
+    <color name="custom_blue_middle">#448AFF</color>
+    <color name="custom_purple_dark">#7B1FA2</color>
+    <color name="custom_purple">#9C27B0</color>
+    <color name="custom_purple_light">#E040FB</color>
+    <color name="custom_deep_purple_light">#7C4DFF</color>
 </resources>

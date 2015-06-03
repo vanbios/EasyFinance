@@ -29,6 +29,8 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
     final String[] categories;
     final String[] currency;
 
+    final String[] currency_language;
+
     final int PRECISE;
     final String FORMAT;
     final String DATEFORMAT;
@@ -41,6 +43,7 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
         flags = context.getResources().obtainTypedArray(R.array.flags);
         categories = context.getResources().getStringArray(R.array.cat_transaction_array);
         currency = context.getResources().getStringArray(R.array.expense_currency_array);
+        currency_language = context.getResources().getStringArray(R.array.expense_currency_array_language);
 
         PRECISE = 100;
         FORMAT = "0.00";
@@ -74,22 +77,30 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
         holder.tvItemFragmentTransactionDate.setText(DateFormat.longToDateString(transaction.getDate(), DATEFORMAT));
 
         String amount = FormatUtils.doubleFormatter(transaction.getAmount(), FORMAT, PRECISE);
+        String cur = transaction.getAccount_currency();
+        String cur_lang = null;
+
+        for (int i = 0; i < currency.length; i++) {
+            if (cur.equals(currency[i])) {
+                cur_lang = currency_language[i];
+            }
+        }
 
 
         if (amount.contains("-")) {
-            holder.tvItemFragmentTransactionAmount.setText(amount);
+            holder.tvItemFragmentTransactionAmount.setText(amount + " " + cur_lang);
             holder.tvItemFragmentTransactionAmount.setTextColor(context.getResources().getColor(R.color.custom_red));
         }
         else {
-            holder.tvItemFragmentTransactionAmount.setText("+" + amount);
+            holder.tvItemFragmentTransactionAmount.setText("+" + amount + " " + cur_lang);
             holder.tvItemFragmentTransactionAmount.setTextColor(context.getResources().getColor(R.color.custom_green));
         }
 
         Context catcont = holder.ivItemFragmentTransactionCategory.getContext();
-        Context curcont = holder.ivItemFragmentTransactionCurrency.getContext();
+        //Context curcont = holder.ivItemFragmentTransactionCurrency.getContext();
 
         String cat = transaction.getCategory();
-        String cur = transaction.getAccount_currency();
+        //String cur = transaction.getAccount_currency();
 
 
 
@@ -103,14 +114,14 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
             }
         }
 
-        for (int i = 0; i < currency.length; i++) {
+        /*for (int i = 0; i < currency.length; i++) {
             if (currency[i].equals(cur)) {
                 Glide.with(curcont)
                         .load(flags.getResourceId(i, 0))
                         .fitCenter()
                         .into(holder.ivItemFragmentTransactionCurrency);
             }
-        }
+        }*/
 
 
     }
@@ -123,7 +134,7 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
         private final TextView tvItemFragmentTransactionAccountName;
         private final TextView tvItemFragmentTransactionDate;
         private final ImageView ivItemFragmentTransactionCategory;
-        private final ImageView ivItemFragmentTransactionCurrency;
+        //private final ImageView ivItemFragmentTransactionCurrency;
 
 
         public ViewHolder(View view) {
@@ -133,7 +144,7 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
             tvItemFragmentTransactionAccountName = (TextView) view.findViewById(R.id.tvItemFragmentTransactionAccountName);
             tvItemFragmentTransactionDate = (TextView) view.findViewById(R.id.tvItemFragmentTransactionDate);
             ivItemFragmentTransactionCategory = (ImageView) view.findViewById(R.id.ivItemFragmentTransactionCategory);
-            ivItemFragmentTransactionCurrency = (ImageView) view.findViewById(R.id.ivItemFragmentTransactionCurrency);
+            //ivItemFragmentTransactionCurrency = (ImageView) view.findViewById(R.id.ivItemFragmentTransactionCurrency);
         }
     }
 }

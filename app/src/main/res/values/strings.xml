@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">EasyFin</string>
+    <string name="app_name">Cash Book Pro</string>
     <string name="action_settings">Settings</string>
     <string name="menu_exit">Вихід</string>
     <string name="new_transaction">Нова транзакція</string>
@@ -84,6 +84,13 @@
         <item>USD</item>
         <item>EUR</item>
         <item>RUB</item>
+    </string-array>
+
+    <string-array name="expense_currency_array_language">
+        <item>грн</item>
+        <item>дол</item>
+        <item>євро</item>
+        <item>руб</item>
     </string-array>
 
     <string-array name="main_statistic_period_array">

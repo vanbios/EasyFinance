@@ -155,8 +155,8 @@ public class MainActivity extends AppCompatActivity {
     public void checkPageNum(View view){
         switch (pager.getCurrentItem()) {
             case 0: addTransactionMain(); break;
-            case 1: addExpenseMain(); break;
-            case 2: addTransactionMain(); break;
+            case 1: addTransactionMain(); break;
+            case 2: addExpenseMain(); break;
         }
     }
 }

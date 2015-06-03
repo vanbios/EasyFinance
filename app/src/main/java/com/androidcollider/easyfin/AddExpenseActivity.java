@@ -1,5 +1,7 @@
 package com.androidcollider.easyfin;
 
+import com.androidcollider.easyfin.adapters.SpinnerCurrencyAdapter;
+import com.androidcollider.easyfin.adapters.SpinnerExpenceTypeAdapter;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.fragments.FragmentMain;
 import com.androidcollider.easyfin.objects.Account;
@@ -46,13 +48,19 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
         spinAddExpenseType = (Spinner) findViewById(R.id.spinAddExpenseType);
         spinAddExpenseCurrency = (Spinner) findViewById(R.id.spinAddExpenseCurrency);
 
-        ArrayAdapter<?> adapterExpenseType = ArrayAdapter.createFromResource(this, R.array.expense_type_array, R.layout.spinner_item);
+        /*ArrayAdapter<?> adapterExpenseType = ArrayAdapter.createFromResource(this, R.array.expense_type_array, R.layout.spinner_item);
         adapterExpenseType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinAddExpenseType.setAdapter(adapterExpenseType);
+        spinAddExpenseType.setAdapter(adapterExpenseType);*/
 
-        ArrayAdapter<?> adapterExpenseCurrency = ArrayAdapter.createFromResource(this, R.array.expense_currency_array, R.layout.spinner_item);
+        /*ArrayAdapter<?> adapterExpenseCurrency = ArrayAdapter.createFromResource(this, R.array.expense_currency_array, R.layout.spinner_item);
         adapterExpenseCurrency.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinAddExpenseCurrency.setAdapter(adapterExpenseCurrency);
+        spinAddExpenseCurrency.setAdapter(adapterExpenseCurrency);*/
+
+        spinAddExpenseType.setAdapter(new SpinnerExpenceTypeAdapter(this, R.layout.spinner_item,
+                getResources().getStringArray(R.array.expense_type_array)));
+
+        spinAddExpenseCurrency.setAdapter(new SpinnerCurrencyAdapter(this, R.layout.spinner_item,
+                getResources().getStringArray(R.array.expense_currency_array)));
     }
 
     private void setToolbar(int id) {

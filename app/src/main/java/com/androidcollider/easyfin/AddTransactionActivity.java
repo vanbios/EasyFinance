@@ -87,7 +87,8 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
         adapterTransCat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinAddTransCategory.setAdapter(adapterTransCat);*/
 
-        spinAddTransCategory.setAdapter(new SpinnerCategoriesAdapter(this, R.layout.spinner_item, getResources().getStringArray(R.array.cat_transaction_array)));
+        spinAddTransCategory.setAdapter(new SpinnerCategoriesAdapter(this, R.layout.spinner_item,
+                getResources().getStringArray(R.array.cat_transaction_array)));
 
         ArrayAdapter<?> adapterTransExp = new ArrayAdapter<>(this, R.layout.spinner_item, accounts);
         adapterTransExp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

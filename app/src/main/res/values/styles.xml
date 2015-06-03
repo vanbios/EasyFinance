@@ -5,7 +5,7 @@
 
         <item name="colorPrimary">@color/custom_deep_purple</item>
         <item name="colorPrimaryDark">@color/custom_dark_primary</item>
-        <item name="colorAccent">@color/custom_pink</item>
+        <item name="colorAccent">@color/custom_cyan_dark</item>
 
     </style>
 
