@@ -30,4 +30,5 @@
     <color name="custom_divider">#B6B6B6</color>
     <color name="custom_red">#D32F2F</color>
     <color name="custom_green">#4CAF50</color>
+    <color name="custom_pink">#FF4081</color>
 </resources>

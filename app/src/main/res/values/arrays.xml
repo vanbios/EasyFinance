@@ -11,4 +11,12 @@
         <item>@drawable/ic_school_grey600_24dp</item>
         <item>@drawable/ic_cellphone_android_grey600_24dp</item>
     </array>
+
+
+    <array name="flags">
+        <item>@drawable/ic_flag_ukraine_48dp</item>
+        <item>@drawable/ic_flag_usa_48dp</item>
+        <item>@drawable/ic_flag_europe_48dp</item>
+        <item>@drawable/ic_flag_russia_48dp</item>
+    </array>
 </resources>

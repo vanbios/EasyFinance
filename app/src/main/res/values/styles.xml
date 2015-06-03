@@ -5,7 +5,7 @@
 
         <item name="colorPrimary">@color/custom_deep_purple</item>
         <item name="colorPrimaryDark">@color/custom_dark_primary</item>
-        <item name="colorAccent">@color/custom_teal</item>
+        <item name="colorAccent">@color/custom_pink</item>
 
     </style>
 
@@ -18,6 +18,13 @@
 
     <style name="TitleFontSecondary" parent="@android:style/TextAppearance.Medium">
         <item name="android:textSize">@dimen/text_size_title</item>
+        <item name="android:textColor">@color/custom_text_secondary</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:typeface">sans</item>
+    </style>
+
+    <style name="BodyFontSecondary" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">@dimen/text_size_body</item>
         <item name="android:textColor">@color/custom_text_secondary</item>
         <item name="android:textStyle">normal</item>
         <item name="android:typeface">sans</item>
@@ -36,5 +43,12 @@
     <item name="android:textStyle">normal</item>
     <item name="android:typeface">sans</item>
 </style>
+
+    <style name="TitleBigFont" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">@dimen/text_size_big</item>
+        <item name="android:textColor">@color/custom_text_primary</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:typeface">sans</item>
+    </style>
 
 </resources>

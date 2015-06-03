@@ -14,12 +14,23 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="25dp"
-            android:layout_marginStart="25dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginEnd="25dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="10dp">
+
+
+            <ImageView
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:id="@+id/ivItemFragmentTransactionCurrency"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginRight="16dp"
+                android:layout_marginEnd="16dp"/>
 
 
     <TextView
@@ -28,9 +39,9 @@
         android:text="Сума"
         android:id="@+id/tvItemFragmentTransactionAmount"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        style="@style/TitleFont" />
+        android:layout_toRightOf="@+id/ivItemFragmentTransactionCurrency"
+        android:layout_toEndOf="@+id/ivItemFragmentTransactionCurrency"
+        style="@style/TitleBigFont" />
 
             <ImageView
                 android:layout_width="24dp"
@@ -46,20 +57,22 @@
         android:layout_height="wrap_content"
         android:text="Рахунок"
         android:id="@+id/tvItemFragmentTransactionAccountName"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvItemFragmentTransactionAmount"
-        style="@style/TitleFontSecondary" />
+        style="@style/TitleFontSecondary"
+        android:layout_below="@+id/ivItemFragmentTransactionCategory"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Дата"
         android:id="@+id/tvItemFragmentTransactionDate"
-        android:layout_below="@+id/ivItemFragmentTransactionCategory"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        style="@style/TitleFontSecondary" />
+        style="@style/BodyFontSecondary"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/ivItemFragmentTransactionCategory"
+        android:layout_toStartOf="@+id/ivItemFragmentTransactionCategory"
+        android:layout_marginRight="8dp"
+        android:layout_marginEnd="8dp" />
 
 
         </RelativeLayout>

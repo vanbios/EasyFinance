@@ -63,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
         pager = (ViewPager) findViewById(R.id.pager);
         MyFragmentPagerAdapter adapterPager = new MyFragmentPagerAdapter(getSupportFragmentManager());
         adapterPager.addFragment(FragmentMain.newInstance(0), getResources().getString(R.string.tab_main));
-        adapterPager.addFragment(FragmentExpense.newInstance(1), getResources().getString(R.string.tab_expenses));
-        adapterPager.addFragment(FragmentTransaction.newInstance(2), getResources().getString(R.string.tab_transactions));
+        adapterPager.addFragment(FragmentTransaction.newInstance(1), getResources().getString(R.string.tab_transactions));
+        adapterPager.addFragment(FragmentExpense.newInstance(2), getResources().getString(R.string.tab_expenses));
 
         pager.setAdapter(adapterPager);
         pager.setOffscreenPageLimit(3);
