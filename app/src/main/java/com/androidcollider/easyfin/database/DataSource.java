@@ -280,6 +280,47 @@ public class DataSource {
         return accountArrayList;
     }
 
+
+
+
+    public ArrayList<Account> getAllAccountsNameTypeCurrency() {
+
+        ArrayList<Account> accountArrayList = new ArrayList<>();
+
+        String selectQuery = "SELECT * FROM Account ";
+        openLocalToRead();
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            int nameColIndex = cursor.getColumnIndex("name");
+            int typeColIndex = cursor.getColumnIndex("type");
+            int currencyColIndex = cursor.getColumnIndex("currency");
+
+            do {
+                Account account = new Account(
+                        cursor.getString(nameColIndex),
+                        cursor.getString(typeColIndex),
+                        cursor.getString(currencyColIndex));
+
+                accountArrayList.add(account);
+            }
+            while (cursor.moveToNext());
+
+            cursor.close();
+            closeLocal();
+
+            return accountArrayList;
+        }
+
+        cursor.close();
+        closeLocal();
+
+        return accountArrayList;
+    }
+
+
+
     public ArrayList<Transaction> getAllTransactionsInformation(){
         ArrayList<Transaction> transactionArrayList = new ArrayList<>();
 

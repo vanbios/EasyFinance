@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/margin_spinner_elements"
+    android:paddingStart="@dimen/margin_spinner_elements"
+    android:paddingRight="@dimen/margin_spinner_elements"
+    android:paddingEnd="@dimen/margin_spinner_elements"
+    android:paddingTop="@dimen/margin_spinner_top_bottom"
+    android:paddingBottom="@dimen/margin_spinner_top_bottom">
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:id="@+id/ivSpinExpenseTypeCustom"
+
+        android:layout_marginBottom="8dp"
+        android:layout_marginRight="@dimen/margin_spinner_elements"
+        android:layout_marginEnd="@dimen/margin_spinner_elements"/>
+
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/SpinnerFont"
+        android:id="@+id/tvSpinExpenseNameCustom"
+
+        android:layout_toRightOf="@+id/ivSpinExpenseTypeCustom"
+        android:layout_toEndOf="@+id/ivSpinExpenseTypeCustom"
+
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1234567890 usd"
+        style="@style/SpinnerFontGrey"
+        android:id="@+id/tvSpinExpenseAmountCustom"
+
+        android:layout_toRightOf="@+id/ivSpinExpenseTypeCustom"
+        android:layout_toEndOf="@+id/ivSpinExpenseTypeCustom"
+
+        android:layout_below="@+id/tvSpinExpenseNameCustom" />
+
+
+</RelativeLayout>

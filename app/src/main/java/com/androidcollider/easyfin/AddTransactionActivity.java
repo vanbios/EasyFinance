@@ -1,10 +1,12 @@
 package com.androidcollider.easyfin;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.androidcollider.easyfin.adapters.SpinnerAddTransExpenseAdapter;
 import com.androidcollider.easyfin.adapters.SpinnerCategoriesAdapter;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.fragments.FragmentMain;
 import com.androidcollider.easyfin.fragments.FragmentTransaction;
+import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.Transaction;
 import com.androidcollider.easyfin.utils.DateFormat;
 import com.androidcollider.easyfin.utils.Shake;
@@ -16,7 +18,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -90,9 +91,14 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
         spinAddTransCategory.setAdapter(new SpinnerCategoriesAdapter(this, R.layout.spinner_item,
                 getResources().getStringArray(R.array.cat_transaction_array)));
 
-        ArrayAdapter<?> adapterTransExp = new ArrayAdapter<>(this, R.layout.spinner_item, accounts);
+        List<Account> accountList = dataSource.getAllAccountsInfo();
+
+        spinAddTransExpense.setAdapter(new SpinnerAddTransExpenseAdapter(this, R.layout.spinner_item,
+                accounts, accountList));
+
+        /*ArrayAdapter<?> adapterTransExp = new ArrayAdapter<>(this, R.layout.spinner_item, accounts);
         adapterTransExp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinAddTransExpense.setAdapter(adapterTransExp);
+        spinAddTransExpense.setAdapter(adapterTransExp);*/
     }
 
 

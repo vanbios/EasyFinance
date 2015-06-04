@@ -8,7 +8,12 @@
         android:layout_height="24dp"
         android:id="@+id/ivSpinCatCustom"
 
-        android:layout_margin="@dimen/margin_spinner_elements"/>
+        android:layout_marginLeft="@dimen/margin_spinner_elements"
+        android:layout_marginStart="@dimen/margin_spinner_elements"
+        android:layout_marginTop="@dimen/margin_spinner_top_bottom"
+        android:layout_marginBottom="@dimen/margin_spinner_top_bottom"
+        android:layout_marginRight="@dimen/margin_spinner_elements"
+        android:layout_marginEnd="@dimen/margin_spinner_elements"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -16,6 +21,6 @@
         style="@style/SpinnerFont"
         android:id="@+id/tvSpinCatCustom"
 
-        android:layout_marginTop="@dimen/margin_spinner_elements"
-        android:layout_marginBottom="@dimen/margin_spinner_elements"/>
+        android:layout_marginTop="@dimen/margin_spinner_top_bottom"
+        android:layout_marginBottom="@dimen/margin_spinner_top_bottom"/>
 </LinearLayout>
