@@ -18,7 +18,7 @@ import java.util.List;
 
 public class SpinnerAddTransExpenseAdapter extends ArrayAdapter<String> {
 
-    final TypedArray flags;
+    //final TypedArray flags;
     final TypedArray type;
     final List<Account> accountsList;
     final String[] exp_type;
@@ -30,8 +30,8 @@ public class SpinnerAddTransExpenseAdapter extends ArrayAdapter<String> {
                                          List<String> accounts, List<Account> accountsL) {
         super(context, txtViewResourceId, accounts);
         accountsList = accountsL;
-        flags = context.getResources().obtainTypedArray(R.array.flags);
-        type = context.getResources().obtainTypedArray(R.array.expense_type_24);
+        //flags = context.getResources().obtainTypedArray(R.array.flags);
+        type = context.getResources().obtainTypedArray(R.array.expense_type_48);
         exp_type = context.getResources().getStringArray(R.array.expense_type_array);
         exp_curr = context.getResources().getStringArray(R.array.expense_currency_array);
         exp_curr_lang = context.getResources().getStringArray(R.array.expense_currency_array_language);
@@ -54,7 +54,7 @@ public class SpinnerAddTransExpenseAdapter extends ArrayAdapter<String> {
 
         for (int i = 0; i < exp_type.length; i++) {
             if (exp_type[i].equals(typeExp)) {
-                left_icon.setImageResource(type.getResourceId(position, 0));
+                left_icon.setImageResource(type.getResourceId(i, 0));
             }
         }
 

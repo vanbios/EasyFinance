@@ -1,6 +1,8 @@
 package com.androidcollider.easyfin;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.androidcollider.easyfin.adapters.SpinnerCurrencyAdapter;
+import com.androidcollider.easyfin.adapters.SpinnerExpenceTypeAdapter;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.fragments.FragmentMain;
 import com.androidcollider.easyfin.objects.Account;
@@ -12,9 +14,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -69,13 +71,20 @@ public class ChangeExpenseActivity extends AppCompatActivity implements View.OnC
         spinExpenseTypeChange = (Spinner) findViewById(R.id.spinExpenseTypeChange);
         spinExpenseCurrencyChange = (Spinner) findViewById(R.id.spinExpenseCurrencyChange);
 
-        ArrayAdapter<?> adapterExpenseType = ArrayAdapter.createFromResource(this, R.array.expense_type_array, R.layout.spinner_item);
+        /*ArrayAdapter<?> adapterExpenseType = ArrayAdapter.createFromResource(this, R.array.expense_type_array, R.layout.spinner_item);
         adapterExpenseType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinExpenseTypeChange.setAdapter(adapterExpenseType);
 
         ArrayAdapter<?> adapterExpenseCurrency = ArrayAdapter.createFromResource(this, R.array.expense_currency_array, R.layout.spinner_item);
         adapterExpenseCurrency.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinExpenseCurrencyChange.setAdapter(adapterExpenseCurrency);
+        spinExpenseCurrencyChange.setAdapter(adapterExpenseCurrency);*/
+
+        spinExpenseTypeChange.setAdapter(new SpinnerExpenceTypeAdapter(this, R.layout.spinner_item,
+                getResources().getStringArray(R.array.expense_type_array)));
+
+        spinExpenseCurrencyChange.setAdapter(new SpinnerCurrencyAdapter(this, R.layout.spinner_item,
+                getResources().getStringArray(R.array.expense_currency_array)));
+
 
         String[] type = getResources().getStringArray(R.array.expense_type_array);
 
@@ -104,6 +113,26 @@ public class ChangeExpenseActivity extends AppCompatActivity implements View.OnC
         setSupportActionBar(ToolBar);
         getSupportActionBar().setTitle(id);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        ToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+
+                switch (menuItem.getItemId()) {
+                    case R.id.expense_action_change: {
+                        changeExpense();
+                        return true;}
+                    case R.id.expense_action_delete: {
+                        deleteExpenseDialog();
+                        return true;}
+                }
+
+                return false;
+            }
+        });
+
+        ToolBar.inflateMenu(R.menu.toolbar_change_expense_menu);
     }
 
     @Override
@@ -196,6 +225,12 @@ public class ChangeExpenseActivity extends AppCompatActivity implements View.OnC
             case android.R.id.home:
                 closeActivity();
         }
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_change_expense_menu, menu);
         return true;
     }
 }

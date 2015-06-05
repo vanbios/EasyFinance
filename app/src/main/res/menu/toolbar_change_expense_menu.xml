@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="example.gmariotti.it.test21.ToolbarActivity">
+
+    <item android:id="@+id/expense_action_delete"
+        android:title="Видалити"
+        android:icon="@drawable/ic_delete_white_24dp"
+        app:showAsAction="always" />
+
+    <item android:id="@+id/expense_action_change"
+        android:title="Редагувати"
+        android:icon="@drawable/ic_pencil_white_24dp"
+        app:showAsAction="always" />
+
+</menu>

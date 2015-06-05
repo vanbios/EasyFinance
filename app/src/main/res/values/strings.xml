@@ -88,8 +88,8 @@
 
     <string-array name="expense_currency_array_language">
         <item>грн</item>
-        <item>дол</item>
-        <item>євро</item>
+        <item>$</item>
+        <item>€</item>
         <item>руб</item>
     </string-array>
 
