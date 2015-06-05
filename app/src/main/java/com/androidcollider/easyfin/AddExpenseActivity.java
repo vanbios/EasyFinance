@@ -11,19 +11,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 
-public class AddExpenseActivity extends AppCompatActivity implements View.OnClickListener {
+public class AddExpenseActivity extends AppCompatActivity {
 
     Spinner spinAddExpenseType, spinAddExpenseCurrency;
-
-    Button btnExpenseAdd;
 
     DataSource dataSource;
 
@@ -37,23 +35,12 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
 
         setSpinner();
 
-        btnExpenseAdd = (Button) findViewById(R.id.btnExpenseAdd);
-        btnExpenseAdd.setOnClickListener(this);
-
         dataSource = new DataSource(this);
     }
 
     private void setSpinner() {
         spinAddExpenseType = (Spinner) findViewById(R.id.spinAddExpenseType);
         spinAddExpenseCurrency = (Spinner) findViewById(R.id.spinAddExpenseCurrency);
-
-        /*ArrayAdapter<?> adapterExpenseType = ArrayAdapter.createFromResource(this, R.array.expense_type_array, R.layout.spinner_item);
-        adapterExpenseType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinAddExpenseType.setAdapter(adapterExpenseType);*/
-
-        /*ArrayAdapter<?> adapterExpenseCurrency = ArrayAdapter.createFromResource(this, R.array.expense_currency_array, R.layout.spinner_item);
-        adapterExpenseCurrency.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinAddExpenseCurrency.setAdapter(adapterExpenseCurrency);*/
 
         spinAddExpenseType.setAdapter(new SpinnerExpenceTypeAdapter(this, R.layout.spinner_item,
                 getResources().getStringArray(R.array.expense_type_array)));
@@ -68,14 +55,10 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
         setSupportActionBar(ToolBar);
         getSupportActionBar().setTitle(id);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ToolBar.inflateMenu(R.menu.toolbar_add_expense_menu);
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btnExpenseAdd: {addExpense(); break;}
-        }
-    }
 
     private void addExpense() {
         EditText editTextExpenseName = (EditText) findViewById(R.id.editTextExpenseName);
@@ -136,9 +119,19 @@ public class AddExpenseActivity extends AppCompatActivity implements View.OnClic
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
+            case android.R.id.home: {
                 closeActivity();
+                return true;}
+            case R.id.add_expense_action_save: {
+                addExpense();
+                return true;}
         }
+        return false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_add_expense_menu, menu);
         return true;
     }
 }

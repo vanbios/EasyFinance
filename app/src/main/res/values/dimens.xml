@@ -21,4 +21,7 @@
 
     <dimen name="margin_spinner_elements">16dp</dimen>
     <dimen name="margin_spinner_top_bottom">12dp</dimen>
+
+    <dimen name="margin_big_card_top">72dp</dimen>
+    <dimen name="padding_big_card_side">8dp</dimen>
 </resources>

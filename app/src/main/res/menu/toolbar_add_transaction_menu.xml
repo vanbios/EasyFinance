@@ -3,12 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="example.gmariotti.it.test21.ToolbarActivity">
 
-    <item android:id="@+id/change_expense_action_delete"
-        android:title="@string/delete_expense"
-        android:icon="@drawable/ic_delete_white_24dp"
-        app:showAsAction="always" />
 
-    <item android:id="@+id/change_expense_action_save"
+    <item android:id="@+id/add_transaction_action_save"
         android:title="@string/save_expense"
         android:icon="@drawable/ic_checkbox_marked_circle_white_24dp"
         app:showAsAction="always" />

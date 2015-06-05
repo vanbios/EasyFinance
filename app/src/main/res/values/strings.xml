@@ -7,7 +7,7 @@
     <string name="new_transaction">Нова транзакція</string>
     <string name="new_expense">Новий рахунок</string>
     <string name="change_expense">Редагування рахунку</string>
-    <string name="change_expense_btn">Редагувати</string>
+    <string name="save_expense">Зберегти</string>
     <string name="delete_expense">Видалити</string>
 
     <string name="tab_transactions">Транзакції</string>

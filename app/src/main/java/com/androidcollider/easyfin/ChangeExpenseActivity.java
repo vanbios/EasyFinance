@@ -9,24 +9,21 @@ import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.utils.FormatUtils;
 import com.androidcollider.easyfin.utils.Shake;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
+
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 
-public class ChangeExpenseActivity extends AppCompatActivity implements View.OnClickListener {
+public class ChangeExpenseActivity extends AppCompatActivity {
 
     Spinner spinExpenseTypeChange, spinExpenseCurrencyChange;
-    Button btnExpenseChange, btnExpenseDelete;
 
     EditText editTextExpenseNameChange, editTextExpenseSumChange;
 
@@ -58,26 +55,12 @@ public class ChangeExpenseActivity extends AppCompatActivity implements View.OnC
         editTextExpenseSumChange.setText(FormatUtils.doubleFormatter(getIntent().getDoubleExtra("amount", 0.0), FORMAT, PRECISE));
         editTextExpenseSumChange.setSelection(editTextExpenseSumChange.getText().length());
 
-        btnExpenseChange = (Button) findViewById(R.id.btnExpenseChange);
-        btnExpenseChange.setOnClickListener(this);
-
-        btnExpenseDelete = (Button) findViewById(R.id.btnExpenseDelete);
-        btnExpenseDelete.setOnClickListener(this);
-
         dataSource = new DataSource(this);
     }
 
     private void setSpinner() {
         spinExpenseTypeChange = (Spinner) findViewById(R.id.spinExpenseTypeChange);
         spinExpenseCurrencyChange = (Spinner) findViewById(R.id.spinExpenseCurrencyChange);
-
-        /*ArrayAdapter<?> adapterExpenseType = ArrayAdapter.createFromResource(this, R.array.expense_type_array, R.layout.spinner_item);
-        adapterExpenseType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinExpenseTypeChange.setAdapter(adapterExpenseType);
-
-        ArrayAdapter<?> adapterExpenseCurrency = ArrayAdapter.createFromResource(this, R.array.expense_currency_array, R.layout.spinner_item);
-        adapterExpenseCurrency.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinExpenseCurrencyChange.setAdapter(adapterExpenseCurrency);*/
 
         spinExpenseTypeChange.setAdapter(new SpinnerExpenceTypeAdapter(this, R.layout.spinner_item,
                 getResources().getStringArray(R.array.expense_type_array)));
@@ -114,34 +97,9 @@ public class ChangeExpenseActivity extends AppCompatActivity implements View.OnC
         getSupportActionBar().setTitle(id);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-        ToolBar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-
-                switch (menuItem.getItemId()) {
-                    case R.id.expense_action_change: {
-                        changeExpense();
-                        return true;}
-                    case R.id.expense_action_delete: {
-                        deleteExpenseDialog();
-                        return true;}
-                }
-
-                return false;
-            }
-        });
-
         ToolBar.inflateMenu(R.menu.toolbar_change_expense_menu);
     }
 
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btnExpenseChange: {changeExpense(); break;}
-            case R.id.btnExpenseDelete: {deleteExpenseDialog(); break;}
-        }
-    }
 
     private void changeExpense() {
 
@@ -222,10 +180,17 @@ public class ChangeExpenseActivity extends AppCompatActivity implements View.OnC
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
+            case android.R.id.home: {
                 closeActivity();
+                return true;}
+            case R.id.change_expense_action_save: {
+                changeExpense();
+                return true;}
+            case R.id.change_expense_action_delete: {
+                deleteExpenseDialog();
+                return true;}
         }
-        return true;
+        return false;
     }
 
     @Override

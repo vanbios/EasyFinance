@@ -16,9 +16,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -39,8 +40,6 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
 
     private Spinner spinAddTransCategory, spinAddTransExpense;
 
-    private Button btnTransactionAdd;
-
     DataSource dataSource;
 
 
@@ -55,10 +54,6 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
 
         setDateTimeField();
 
-        btnTransactionAdd = (Button) findViewById(R.id.btnTransactionAdd);
-        btnTransactionAdd.setOnClickListener(this);
-        btnTransactionAdd.setEnabled(true);
-
         dataSource = new DataSource(this);
 
         setSpinner();
@@ -70,6 +65,8 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
         setSupportActionBar(ToolBar);
         getSupportActionBar().setTitle(id);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ToolBar.inflateMenu(R.menu.toolbar_add_transaction_menu);
     }
 
 
@@ -81,12 +78,8 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
 
         if (accounts.size() == 0) {
             showDialogNoExpense();
-        btnTransactionAdd.setEnabled(false);}
+        }
 
-
-        /*ArrayAdapter<?> adapterTransCat = ArrayAdapter.createFromResource(this, R.array.cat_transaction_array, R.layout.spinner_item);
-        adapterTransCat.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinAddTransCategory.setAdapter(adapterTransCat);*/
 
         spinAddTransCategory.setAdapter(new SpinnerCategoriesAdapter(this, R.layout.spinner_item,
                 getResources().getStringArray(R.array.cat_transaction_array)));
@@ -95,10 +88,6 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
 
         spinAddTransExpense.setAdapter(new SpinnerAddTransExpenseAdapter(this, R.layout.spinner_item,
                 accounts, accountList));
-
-        /*ArrayAdapter<?> adapterTransExp = new ArrayAdapter<>(this, R.layout.spinner_item, accounts);
-        adapterTransExp.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinAddTransExpense.setAdapter(adapterTransExp);*/
     }
 
 
@@ -124,7 +113,6 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
 
         switch (view.getId()) {
             case R.id.tvTransactionDate: setDatePickerDialog.show(); break;
-            case R.id.btnTransactionAdd: addTransaction(); break;
         }
     }
 
@@ -222,9 +210,28 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
+            case android.R.id.home: {
                 closeActivity();
+                return true;}
+            case R.id.add_transaction_action_save: {
+                addTransaction();
+                return true;}
+
         }
+        return false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_add_transaction_menu, menu);
+        MenuItem saveTransaction = menu.findItem(R.id.add_transaction_action_save);
+        saveTransaction.setEnabled(true);
+
+        List<String> accounts = dataSource.getAllAccountNames();
+
+        if (accounts.size() == 0) {
+            saveTransaction.setEnabled(false);}
+
         return true;
     }
 
