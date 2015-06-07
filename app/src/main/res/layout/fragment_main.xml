@@ -4,7 +4,7 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <ScrollView
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -12,237 +12,291 @@
         android:layout_marginStart="@dimen/activity_vertical_margin"
         android:layout_marginLeft="@dimen/activity_vertical_margin"
         android:layout_marginEnd="@dimen/activity_vertical_margin"
-        android:layout_marginRight="@dimen/activity_vertical_margin">
+        android:layout_marginRight="@dimen/activity_vertical_margin"
+        android:id="@+id/scrollView">
 
         <RelativeLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/main_current_balance"
-        android:id="@+id/tvMainCurrentBalance"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
-        style="@style/TitleFont"/>
 
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinMainCurrency"
-        android:layout_alignTop="@+id/tvMainCurrentBalance"
-        android:layout_toRightOf="@+id/tvMainCurrentBalance"
-        android:layout_toEndOf="@+id/tvMainCurrentBalance"
-        android:layout_alignBottom="@+id/tvMainCurrentBalance"
-        android:layout_alignRight="@+id/tvMainSumValueEquivalent"
-        android:layout_alignEnd="@+id/tvMainSumValueEquivalent" />
+            <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cardMainBalance"
+                card_view:cardElevation="2dp"
+                android:layout_marginTop="10dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/main_cash"
-        android:id="@+id/tvMainCash"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/spinMainCurrency"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginStart="20dp"
-        style="@style/SubheadFont" />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/main_card"
-        android:id="@+id/tvMainCard"
-        android:layout_below="@+id/tvMainCash"
-        android:layout_alignLeft="@+id/tvMainCash"
-        android:layout_alignStart="@+id/tvMainCash"
-        android:layout_marginTop="7dp"
-        style="@style/SubheadFont" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/main_deposit"
-        android:id="@+id/tvMainDeposit"
-        android:layout_below="@+id/tvMainCard"
-        android:layout_alignLeft="@+id/tvMainCard"
-        android:layout_alignStart="@+id/tvMainCard"
-        android:layout_marginTop="7dp"
-        style="@style/SubheadFont" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/main_current_balance"
+                        android:id="@+id/tvMainCurrentBalance"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="50dp"
+                        android:layout_marginStart="50dp"
+                        android:layout_marginTop="5dp"
+                        style="@style/TitleFont"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/main_debt"
-        android:id="@+id/tvMainDebt"
-        android:layout_below="@+id/tvMainDeposit"
-        android:layout_alignLeft="@+id/tvMainDeposit"
-        android:layout_alignStart="@+id/tvMainDeposit"
-        android:layout_marginTop="7dp"
-        style="@style/SubheadFont" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/value_textview"
-        android:id="@+id/tvMainDepositValue"
-        android:layout_alignTop="@+id/tvMainDeposit"
-        android:layout_toRightOf="@+id/tvMainDeposit"
-        android:layout_toEndOf="@+id/tvMainDeposit"
-        android:layout_marginLeft="20dp"
-        android:layout_marginStart="30dp"
-        style="@style/SubheadFont" />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/linLayoutMainBalanceChart"
+                android:layout_below="@+id/tvMainCurrentBalance">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/value_textview"
-        android:id="@+id/tvMainDebtValue"
-        android:layout_alignBottom="@+id/tvMainDebt"
-        android:layout_alignLeft="@+id/tvMainDepositValue"
-        android:layout_alignStart="@+id/tvMainDepositValue"
-        style="@style/SubheadFont" />
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="150dp"
+                    android:layout_weight="2"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/value_textview"
-        android:id="@+id/tvMainCardValue"
-        android:layout_alignBottom="@+id/tvMainCard"
-        android:layout_alignLeft="@+id/tvMainDepositValue"
-        android:layout_alignStart="@+id/tvMainDepositValue"
-        style="@style/SubheadFont" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/main_cash"
+                        android:id="@+id/tvMainCash"
+                        android:layout_marginTop="24dp"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        style="@style/SubheadFont" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/value_textview"
-        android:id="@+id/tvMainCashValue"
-        android:layout_alignBottom="@+id/tvMainCash"
-        android:layout_alignLeft="@+id/tvMainCardValue"
-        android:layout_alignStart="@+id/tvMainCardValue"
-        style="@style/SubheadFont" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/main_card"
+                        android:id="@+id/tvMainCard"
+                        android:layout_below="@+id/tvMainCash"
+                        android:layout_alignLeft="@+id/tvMainCash"
+                        android:layout_alignStart="@+id/tvMainCash"
+                        android:layout_marginTop="4dp"
+                        style="@style/SubheadFont" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/main_sum"
-        android:id="@+id/tvMainSum"
-        android:layout_below="@+id/tvMainDebt"
-        android:layout_alignLeft="@+id/tvMainDebt"
-        android:layout_alignStart="@+id/tvMainDebt"
-        android:layout_marginTop="10dp"
-        style="@style/SubheadFont" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/main_deposit"
+                        android:id="@+id/tvMainDeposit"
+                        android:layout_below="@+id/tvMainCard"
+                        android:layout_alignLeft="@+id/tvMainCard"
+                        android:layout_alignStart="@+id/tvMainCard"
+                        android:layout_marginTop="4dp"
+                        style="@style/SubheadFont" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/value_textview"
-        android:id="@+id/tvMainSumValue"
-        android:layout_alignBottom="@+id/tvMainSum"
-        android:layout_alignLeft="@+id/tvMainDebtValue"
-        android:layout_alignStart="@+id/tvMainDebtValue"
-        style="@style/SubheadFont" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/main_debt"
+                        android:id="@+id/tvMainDebt"
+                        android:layout_below="@+id/tvMainDeposit"
+                        android:layout_alignLeft="@+id/tvMainDeposit"
+                        android:layout_alignStart="@+id/tvMainDeposit"
+                        android:layout_marginTop="4dp"
+                        style="@style/SubheadFont" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/value_textview"
-        android:id="@+id/tvMainSumValueEquivalent"
-        android:layout_alignBottom="@+id/tvMainSumValue"
-        android:layout_toRightOf="@+id/tvMainSumValue"
-        android:layout_toEndOf="@+id/tvMainSumValue"
-        android:layout_marginLeft="20dp"
-        android:layout_marginStart="30dp"
-        style="@style/SubheadFont" />
+                </RelativeLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/main_statistic"
-        android:id="@+id/tvMainStatistic"
-        android:layout_below="@+id/tvMainSumValue"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        style="@style/TitleFont" />
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="150dp"
+                    android:layout_weight="7">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/main_period"
-        android:id="@+id/tvMainPeriod"
-        android:layout_below="@+id/tvMainStatistic"
-        android:layout_alignLeft="@+id/tvMainSum"
-        android:layout_alignStart="@+id/tvMainSum"
-        android:layout_marginTop="10dp"
-        style="@style/SubheadFont" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/main_income"
-        android:id="@+id/tvMainIncome"
-        android:layout_below="@+id/tvMainPeriod"
-        android:layout_alignLeft="@+id/tvMainPeriod"
-        android:layout_alignStart="@+id/tvMainPeriod"
-        android:layout_marginTop="15dp"
-        style="@style/SubheadFont" />
+                    <com.github.mikephil.charting.charts.HorizontalBarChart
+                        android:id="@+id/chartMainBalance"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/main_cost"
-        android:id="@+id/tvMainCost"
-        android:layout_below="@+id/tvMainIncome"
-        android:layout_alignLeft="@+id/tvMainIncome"
-        android:layout_alignStart="@+id/tvMainIncome"
-        android:layout_marginTop="7dp"
-        style="@style/SubheadFont" />
 
-    <Spinner
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinMainPeriod"
-        android:layout_alignLeft="@+id/tvMainSumValue"
-        android:layout_alignStart="@+id/tvMainSumValue"
-        android:layout_above="@+id/tvMainIncomeValue"
-        android:layout_below="@+id/tvMainStatistic" />
+                </RelativeLayout>
+            </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/value_textview"
-        android:id="@+id/tvMainIncomeValue"
-        android:layout_alignBottom="@+id/tvMainIncome"
-        android:layout_alignLeft="@+id/spinMainPeriod"
-        android:layout_alignStart="@+id/spinMainPeriod"
-        style="@style/SubheadFont" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/linLayoutMainBalanceSum"
+                android:layout_below="@+id/linLayoutMainBalanceChart"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="5dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/value_textview"
-        android:id="@+id/tvMainCostValue"
-        android:layout_alignBottom="@+id/tvMainCost"
-        android:layout_alignLeft="@+id/tvMainIncomeValue"
-        android:layout_alignStart="@+id/tvMainIncomeValue"
-        style="@style/SubheadFont" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/value_textview"
-        android:id="@+id/tvMainStatisticSum"
-        android:layout_below="@+id/tvMainCostValue"
-        android:layout_alignLeft="@+id/tvMainCostValue"
-        android:layout_alignStart="@+id/tvMainCostValue"
-        android:layout_marginTop="10dp"
-        style="@style/SubheadFont" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/main_sum"
+                    android:id="@+id/tvMainSum"
+                    style="@style/SubheadFont"
+                    android:layout_weight="2"/>
 
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvMainSumValue"
+                    style="@style/SubheadFont"
+                    android:layout_weight="7"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"/>
+
+            </LinearLayout>
+
+                </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
+
+
+
+
+
+
+
+            <android.support.v7.widget.CardView
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/cardMainStatistic"
+                card_view:cardElevation="2dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_below="@+id/cardMainBalance" >
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp">
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/linLayoutMainStatisticTitle">
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/main_statistic"
+                    android:id="@+id/tvMainStatistic"
+                    style="@style/TitleFont"
+                    android:layout_marginLeft="50dp"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginEnd="20dp"/>
+
+                    <Spinner
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/spinMainPeriod" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/linLayoutMainStatisticChart"
+                    android:layout_below="@+id/linLayoutMainStatisticTitle">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="2"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp">
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/main_income"
+                    android:id="@+id/tvMainIncome"
+                    android:layout_marginTop="24dp"
+                    style="@style/SubheadFont" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/main_cost"
+                    android:id="@+id/tvMainCost"
+                    android:layout_below="@+id/tvMainIncome"
+                    android:layout_alignLeft="@+id/tvMainIncome"
+                    android:layout_alignStart="@+id/tvMainIncome"
+                    android:layout_marginTop="6dp"
+                    style="@style/SubheadFont" />
+
+                </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="100dp"
+                        android:layout_weight="7" >
+
+
+                        <com.github.mikephil.charting.charts.HorizontalBarChart
+                            android:id="@+id/chartMainStatistic"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent" />
+
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/linLayoutMainStatisticSum"
+                    android:layout_below="@+id/linLayoutMainStatisticChart"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="5dp">
+
+
+
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/main_sum"
+                        android:id="@+id/tvMainStatisticSumTitle"
+                        style="@style/SubheadFont"
+                        android:layout_weight="2"/>
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tvMainStatisticSum"
+                    style="@style/SubheadFont"
+                    android:layout_weight="7"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            </android.support.v7.widget.CardView>
 
         </RelativeLayout>
 

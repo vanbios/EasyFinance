@@ -2,11 +2,12 @@ package com.androidcollider.easyfin.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.CardView;
+import android.content.res.TypedArray;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidcollider.easyfin.ChangeExpenseActivity;
@@ -21,9 +22,21 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
     Context context;
     ArrayList<Account> accountArrayList;
 
+    final TypedArray expense_type_icons;
+    final String[] expense_type;
+
+    final String[] currency;
+    final String[] currency_language;
+
     public ExpenseRecyclerAdapter(Context context, ArrayList<Account> accountArrayList) {
         this.context = context;
         this.accountArrayList = accountArrayList;
+
+        expense_type_icons = context.getResources().obtainTypedArray(R.array.expense_type_48);
+        expense_type = context.getResources().getStringArray(R.array.expense_type_array);
+
+        currency = context.getResources().getStringArray(R.array.expense_currency_array);
+        currency_language = context.getResources().getStringArray(R.array.expense_currency_array_language);
     }
 
     @Override
@@ -49,10 +62,18 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
         final int PRECISE = 100;
         final String FORMAT = "0.00";
 
+        String cur = account.getCurrency();
+        String cur_lang = null;
+
+        for (int i = 0; i < currency.length; i++) {
+            if (cur.equals(currency[i])) {
+                cur_lang = currency_language[i];
+            }
+        }
+
         holder.tvItemFragmentExpenseName.setText(account.getName());
-        holder.tvItemFragmentExpenseType.setText(account.getType());
         holder.tvItemFragmentExpenseAmount.setText(FormatUtils.doubleFormatter(account.getAmount(), FORMAT, PRECISE) +
-                " " + account.getCurrency());
+                " " + cur_lang);
 
         holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -70,21 +91,29 @@ public class ExpenseRecyclerAdapter extends RecyclerView.Adapter<ExpenseRecycler
                 return true;
             }
         });
+
+        String type = account.getType();
+
+        for (int i = 0; i < expense_type.length; i++) {
+            if (expense_type[i].equals(type)) {
+                holder.ivItemFragmentExpenseType.setImageDrawable(expense_type_icons.getDrawable(i));
+            }
+        }
     }
 
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
+        public final ImageView ivItemFragmentExpenseType;
         public final TextView tvItemFragmentExpenseName;
-        public final TextView tvItemFragmentExpenseType;
         public final TextView tvItemFragmentExpenseAmount;
 
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
+            ivItemFragmentExpenseType = (ImageView) view.findViewById(R.id.ivItemFragmentExpenseType);
             tvItemFragmentExpenseName = (TextView) view.findViewById(R.id.tvItemFragmentExpenseName);
-            tvItemFragmentExpenseType = (TextView) view.findViewById(R.id.tvItemFragmentExpenseType);
             tvItemFragmentExpenseAmount = (TextView) view.findViewById(R.id.tvItemFragmentExpenseAmount);
         }
     }

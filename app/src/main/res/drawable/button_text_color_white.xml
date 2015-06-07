@@ -1,6 +1,0 @@
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_focused="true" android:state_pressed="false" android:color="@color/custom_text_light" />
-    <item android:state_focused="true" android:state_pressed="true" android:color="@color/custom_teal_light" />
-    <item android:state_focused="false" android:state_pressed="true" android:color="@color/custom_teal_light" />
-    <item android:color="@color/custom_text_light" />
-</selector>

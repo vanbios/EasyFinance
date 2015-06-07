@@ -15,40 +15,43 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="25dp"
-            android:layout_marginStart="25dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
-            android:layout_marginRight="25dp"
-            android:layout_marginEnd="25dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginBottom="10dp">
+
+
+            <ImageView
+                android:layout_width="@dimen/icon_medium"
+                android:layout_height="@dimen/icon_medium"
+                android:id="@+id/ivItemFragmentExpenseType"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+
+                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvItemFragmentExpenseName"
+        android:layout_toRightOf="@+id/ivItemFragmentExpenseType"
+        android:layout_toEndOf="@+id/ivItemFragmentExpenseType"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         style="@style/TitleFont" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tvItemFragmentExpenseType"
-        android:layout_marginTop="44dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        style="@style/TitleFontSecondary" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/tvItemFragmentExpenseAmount"
-        style="@style/TitleFont"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_marginTop="8dp"
+        android:layout_below="@+id/tvItemFragmentExpenseName"
+        android:layout_toRightOf="@+id/ivItemFragmentExpenseType"
+        android:layout_toEndOf="@+id/ivItemFragmentExpenseType"
+        style="@style/TitleFontSecondary" />
 
 
         </RelativeLayout>

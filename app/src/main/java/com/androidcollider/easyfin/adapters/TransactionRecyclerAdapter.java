@@ -14,7 +14,6 @@ import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.objects.Transaction;
 import com.androidcollider.easyfin.utils.DateFormat;
 import com.androidcollider.easyfin.utils.FormatUtils;
-import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -31,9 +30,6 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
 
     final String[] currency_language;
 
-    final int PRECISE;
-    final String FORMAT;
-    final String DATEFORMAT;
 
     public TransactionRecyclerAdapter(Context context, ArrayList<Transaction> transactionArrayList) {
         this.context = context;
@@ -44,10 +40,6 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
         categories = context.getResources().getStringArray(R.array.cat_transaction_array);
         currency = context.getResources().getStringArray(R.array.expense_currency_array);
         currency_language = context.getResources().getStringArray(R.array.expense_currency_array_language);
-
-        PRECISE = 100;
-        FORMAT = "0.00";
-        DATEFORMAT = "dd-MM-yyyy";
     }
 
 
@@ -70,6 +62,10 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+
+        final int PRECISE = 100;
+        final String FORMAT = "0.00";
+        final String DATEFORMAT = "dd-MM-yyyy";
 
         Transaction transaction = getTransaction(position);
 
@@ -96,7 +92,7 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
             holder.tvItemFragmentTransactionAmount.setTextColor(context.getResources().getColor(R.color.custom_green));
         }
 
-        Context catcont = holder.ivItemFragmentTransactionCategory.getContext();
+        //Context catcont = holder.ivItemFragmentTransactionCategory.getContext();
         //Context curcont = holder.ivItemFragmentTransactionCurrency.getContext();
 
         String cat = transaction.getCategory();
@@ -106,11 +102,7 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
 
         for (int i = 0; i < categories.length; i++) {
             if (categories[i].equals(cat)) {
-                Glide.with(catcont)
-                        .load(icons.getResourceId(i, 0))
-                        .fitCenter()
-                        .into(holder.ivItemFragmentTransactionCategory);
-                //holder.ivItemFragmentTransactionCategory.setImageDrawable(icons.getDrawable(i));
+                holder.ivItemFragmentTransactionCategory.setImageDrawable(icons.getDrawable(i));
             }
         }
 

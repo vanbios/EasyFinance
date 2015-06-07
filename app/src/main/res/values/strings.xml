@@ -61,22 +61,22 @@
 
 
     <string-array name="cat_transaction_array">
-        <item>без категорії</item>
-        <item>їжа</item>
-        <item>проїзд</item>
-        <item>одяг</item>
-        <item>розваги</item>
-        <item>подарунки</item>
-        <item>лікування</item>
-        <item>освіта</item>
-        <item>електроніка</item>
+        <item>Без категорії</item>
+        <item>Їжа</item>
+        <item>Проїзд</item>
+        <item>Одяг</item>
+        <item>Розваги</item>
+        <item>Подарунки</item>
+        <item>Лікування</item>
+        <item>Освіта</item>
+        <item>Електроніка</item>
     </string-array>
 
     <string-array name="expense_type_array">
-        <item>готівка</item>
-        <item>картки</item>
-        <item>депозити</item>
-        <item>борги</item>
+        <item>Готівка</item>
+        <item>Картки</item>
+        <item>Депозити</item>
+        <item>Борги</item>
     </string-array>
 
     <string-array name="expense_currency_array">
@@ -94,10 +94,10 @@
     </string-array>
 
     <string-array name="main_statistic_period_array">
-        <item>день</item>
-        <item>тиждень</item>
-        <item>місяць</item>
-        <item>рік</item>
+        <item>День</item>
+        <item>Тиждень</item>
+        <item>Місяць</item>
+        <item>Рік</item>
     </string-array>
 
 

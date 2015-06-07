@@ -2,7 +2,14 @@ package com.androidcollider.easyfin.fragments;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.database.DataSource;
+import com.androidcollider.easyfin.utils.ChartDataUtils;
+import com.androidcollider.easyfin.utils.ChartValueFormatter;
 import com.androidcollider.easyfin.utils.FormatUtils;
+import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -18,6 +25,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 
 public class FragmentMain extends Fragment {
 
@@ -29,8 +38,8 @@ public class FragmentMain extends Fragment {
 
     public final static int STATUS_UPDATE_FRAGMENT_MAIN = 100;
 
-    private final static int PRECISE = 100;
-    private final static String FORMAT = "0.00";
+    private final int PRECISE = 100;
+    private final String FORMAT = "0.00";
 
     int pageNumber;
 
@@ -76,26 +85,51 @@ public class FragmentMain extends Fragment {
         return view;
     }
 
+    private void setCurrentBalanceChart(double[] balance) {
+
+        HorizontalBarChart chart = (HorizontalBarChart) view.findViewById(R.id.chartMainBalance);
+
+        ArrayList<String> xAxisValues = ChartDataUtils.getXAxisValues();
+        ArrayList<BarDataSet> barDataSet = ChartDataUtils.getDataSetMainBalanceChart(balance, getActivity());
+
+        BarData data = new BarData(xAxisValues, barDataSet);
+        chart.setData(data);
+        data.setValueTextSize(12f);
+        data.setValueFormatter(new ChartValueFormatter());
+        chart.setDescription("");
+        Legend legend = chart.getLegend();
+        legend.setEnabled(false);
+        YAxis leftAxis = chart.getAxisLeft();
+        YAxis rightAxis = chart.getAxisRight();
+        rightAxis.setEnabled(false);
+        leftAxis.setSpaceTop(30f);
+        //rightAxis.setSpaceTop(25f);
+        chart.animateXY(2000, 2000);
+        chart.setTouchEnabled(false);
+        chart.invalidate();
+    }
+
     public void setCurrentBalance() {
         double[] balance = getCurrentBalance();
         setBalanceTV(balance);
+        setCurrentBalanceChart(balance);
     }
 
     private void setBalanceTV (double[] balance) {
-        TextView tvMainCashValue = (TextView) view.findViewById(R.id.tvMainCashValue);
-        TextView tvMainCardValue = (TextView) view.findViewById(R.id.tvMainCardValue);
-        TextView tvMainDepositValue = (TextView) view.findViewById(R.id.tvMainDepositValue);
-        TextView tvMainDebtValue = (TextView) view.findViewById(R.id.tvMainDebtValue);
+        //TextView tvMainCashValue = (TextView) view.findViewById(R.id.tvMainCashValue);
+        //TextView tvMainCardValue = (TextView) view.findViewById(R.id.tvMainCardValue);
+        ///TextView tvMainDepositValue = (TextView) view.findViewById(R.id.tvMainDepositValue);
+        //TextView tvMainDebtValue = (TextView) view.findViewById(R.id.tvMainDebtValue);
         TextView tvMainSumValue = (TextView) view.findViewById(R.id.tvMainSumValue);
 
         double sum = 0;
         for (double i: balance) {
             sum += i;}
 
-        tvMainCashValue.setText(FormatUtils.doubleFormatter(balance[0], FORMAT, PRECISE));
-        tvMainCardValue.setText(FormatUtils.doubleFormatter(balance[1], FORMAT, PRECISE));
-        tvMainDepositValue.setText(FormatUtils.doubleFormatter(balance[2], FORMAT, PRECISE));
-        tvMainDebtValue.setText(FormatUtils.doubleFormatter(balance[3], FORMAT, PRECISE));
+        //tvMainCashValue.setText(FormatUtils.doubleFormatter(balance[0], FORMAT, PRECISE));
+        //tvMainCardValue.setText(FormatUtils.doubleFormatter(balance[1], FORMAT, PRECISE));
+        //tvMainDepositValue.setText(FormatUtils.doubleFormatter(balance[2], FORMAT, PRECISE));
+        //tvMainDebtValue.setText(FormatUtils.doubleFormatter(balance[3], FORMAT, PRECISE));
         tvMainSumValue.setText(FormatUtils.doubleFormatter(sum, FORMAT, PRECISE));
     }
 
@@ -111,20 +145,46 @@ public class FragmentMain extends Fragment {
         return balance;
     }
 
+
     private void setTransactionsStatistic(int position) {
 
-        double[] statistic = dataSource.getTransactionsStatistic(position);
+        HorizontalBarChart chart = (HorizontalBarChart) view.findViewById(R.id.chartMainStatistic);
+
+        double[] statistic = getTransStatistic(position);
+
+        ArrayList<String> xAxisValues = ChartDataUtils.getXAxisValues();
+        ArrayList<BarDataSet> barDataSet = ChartDataUtils.getDataSetMainStatisticChart(statistic, getActivity());
+
+        BarData data = new BarData(xAxisValues, barDataSet);
+        chart.setData(data);
+        data.setValueFormatter(new ChartValueFormatter());
+        data.setValueTextSize(12f);
+        chart.setDescription("");
+        Legend legend = chart.getLegend();
+        legend.setEnabled(false);
+        YAxis leftAxis = chart.getAxisLeft();
+        YAxis rightAxis = chart.getAxisRight();
+        rightAxis.setEnabled(false);
+        leftAxis.setSpaceTop(30f);
+        //rightAxis.setSpaceTop(25f);
+        chart.animateXY(2000, 2000);
+        chart.setTouchEnabled(false);
+        chart.invalidate();
+
 
         double statsum = statistic[0] + statistic[1];
 
-        TextView tvMainIncomeValue = (TextView) view.findViewById(R.id.tvMainIncomeValue);
-        TextView tvMainCostValue = (TextView) view.findViewById(R.id.tvMainCostValue);
+        //TextView tvMainIncomeValue = (TextView) view.findViewById(R.id.tvMainIncomeValue);
+        //TextView tvMainCostValue = (TextView) view.findViewById(R.id.tvMainCostValue);
         TextView tvMainStatisticSum = (TextView) view.findViewById(R.id.tvMainStatisticSum);
 
-        tvMainIncomeValue.setText(FormatUtils.doubleFormatter(statistic[1], FORMAT, PRECISE));
-        tvMainCostValue.setText(FormatUtils.doubleFormatter(Math.abs(statistic[0]), FORMAT, PRECISE));
+        //tvMainIncomeValue.setText(FormatUtils.doubleFormatter(statistic[1], FORMAT, PRECISE));
+        //tvMainCostValue.setText(FormatUtils.doubleFormatter(Math.abs(statistic[0]), FORMAT, PRECISE));
         tvMainStatisticSum.setText(FormatUtils.doubleFormatter(statsum, FORMAT, PRECISE));
+    }
 
+    private double[] getTransStatistic (int position) {
+        return dataSource.getTransactionsStatistic(position);
     }
 
     private void setStatisticSpinner() {
@@ -157,7 +217,6 @@ public class FragmentMain extends Fragment {
                 if (status == STATUS_UPDATE_FRAGMENT_MAIN) {
 
                     setCurrentBalance();
-
                     setTransactionsStatistic(spinMainPeriod.getSelectedItemPosition()+1);
                 }
             }
