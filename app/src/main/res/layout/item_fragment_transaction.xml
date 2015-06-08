@@ -14,12 +14,24 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="32dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginRight="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="8dp">
+
+
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/ivItemFragmentTransactionExpenseType"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginRight="16dp"
+                android:layout_marginEnd="16dp"/>
 
 
             <TextView
@@ -28,6 +40,8 @@
         android:text="Сума"
         android:id="@+id/tvItemFragmentTransactionAmount"
         android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/ivItemFragmentTransactionExpenseType"
+        android:layout_toEndOf="@+id/ivItemFragmentTransactionExpenseType"
         style="@style/TitleFont" />
 
             <ImageView
@@ -44,10 +58,10 @@
         android:layout_height="wrap_content"
         android:text="Рахунок"
         android:id="@+id/tvItemFragmentTransactionAccountName"
-        style="@style/TitleFontSecondary"
+        style="@style/SpinnerFontGrey"
         android:layout_below="@+id/tvItemFragmentTransactionAmount"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_toRightOf="@+id/ivItemFragmentTransactionExpenseType"
+        android:layout_toEndOf="@+id/ivItemFragmentTransactionExpenseType"
         android:layout_marginLeft="8dp"
         android:layout_marginStart="8dp"/>
 
@@ -56,7 +70,7 @@
         android:layout_height="wrap_content"
         android:text="Дата"
         android:id="@+id/tvItemFragmentTransactionDate"
-        style="@style/BodyFontSecondary"
+        style="@style/CaptionFontSecondary"
         android:layout_alignBaseline="@+id/tvItemFragmentTransactionAccountName"
         android:layout_alignBottom="@+id/tvItemFragmentTransactionAccountName"
         android:layout_alignParentRight="true"

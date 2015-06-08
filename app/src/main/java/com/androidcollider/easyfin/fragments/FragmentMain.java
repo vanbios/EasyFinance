@@ -50,6 +50,7 @@ public class FragmentMain extends Fragment {
     private BroadcastReceiver broadcastReceiver;
 
     private Spinner spinMainPeriod;
+    private Spinner spinMainBalanceCurrency;
 
 
     public static FragmentMain newInstance(int page) {
@@ -74,13 +75,16 @@ public class FragmentMain extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_main, null);
 
+        setBalanceCurrencySpinner();
+
         setStatisticSpinner();
 
         dataSource = new DataSource(getActivity());
 
-        setCurrentBalance();
+        setCurrentBalance(spinMainBalanceCurrency.getSelectedItemPosition());
 
-        setTransactionsStatistic(spinMainPeriod.getSelectedItemPosition() + 1);
+        setTransactionsStatistic(spinMainPeriod.getSelectedItemPosition() + 1,
+                spinMainBalanceCurrency.getSelectedItemPosition());
 
         return view;
     }
@@ -95,7 +99,7 @@ public class FragmentMain extends Fragment {
         BarData data = new BarData(xAxisValues, barDataSet);
         chart.setData(data);
         data.setValueTextSize(12f);
-        data.setValueFormatter(new ChartValueFormatter());
+        //data.setValueFormatter(new ChartValueFormatter());  //this feature will be in properties
         chart.setDescription("");
         Legend legend = chart.getLegend();
         legend.setEnabled(false);
@@ -104,13 +108,14 @@ public class FragmentMain extends Fragment {
         rightAxis.setEnabled(false);
         leftAxis.setSpaceTop(30f);
         //rightAxis.setSpaceTop(25f);
+        leftAxis.setLabelCount(3);
         chart.animateXY(2000, 2000);
         chart.setTouchEnabled(false);
         chart.invalidate();
     }
 
-    public void setCurrentBalance() {
-        double[] balance = getCurrentBalance();
+    public void setCurrentBalance(int posCurrency) {
+        double[] balance = getCurrentBalance(posCurrency);
         setBalanceTV(balance);
         setCurrentBalanceChart(balance);
     }
@@ -130,34 +135,35 @@ public class FragmentMain extends Fragment {
         //tvMainCardValue.setText(FormatUtils.doubleFormatter(balance[1], FORMAT, PRECISE));
         //tvMainDepositValue.setText(FormatUtils.doubleFormatter(balance[2], FORMAT, PRECISE));
         //tvMainDebtValue.setText(FormatUtils.doubleFormatter(balance[3], FORMAT, PRECISE));
-        tvMainSumValue.setText(FormatUtils.doubleFormatter(sum, FORMAT, PRECISE));
+        tvMainSumValue.setText(FormatUtils.doubleFormatter(sum, FORMAT, PRECISE) + " " + getCurrency());
     }
 
-    private double[] getCurrentBalance() {
+    private double[] getCurrentBalance(int posCurrency) {
         String[] types = getResources().getStringArray(R.array.expense_type_array);
+        String[] currency = getResources().getStringArray(R.array.expense_currency_array);
 
         double[] balance = new double[4];
 
         for (int i = 0; i < balance.length; i++) {
-            balance[i] = dataSource.getExpenseSum(types[i]);}
+            balance[i] = dataSource.getExpenseSum(types[i], currency[posCurrency]);}   //set int from spinner position
 
 
         return balance;
     }
 
 
-    private void setTransactionsStatistic(int position) {
+    private void setTransactionsStatistic(int posPeriod, int posCurrency) {
 
         HorizontalBarChart chart = (HorizontalBarChart) view.findViewById(R.id.chartMainStatistic);
 
-        double[] statistic = getTransStatistic(position);
+        double[] statistic = getTransStatistic(posPeriod, posCurrency);
 
         ArrayList<String> xAxisValues = ChartDataUtils.getXAxisValues();
         ArrayList<BarDataSet> barDataSet = ChartDataUtils.getDataSetMainStatisticChart(statistic, getActivity());
 
         BarData data = new BarData(xAxisValues, barDataSet);
         chart.setData(data);
-        data.setValueFormatter(new ChartValueFormatter());
+        //data.setValueFormatter(new ChartValueFormatter());    //this feature will be in properties
         data.setValueTextSize(12f);
         chart.setDescription("");
         Legend legend = chart.getLegend();
@@ -167,6 +173,7 @@ public class FragmentMain extends Fragment {
         rightAxis.setEnabled(false);
         leftAxis.setSpaceTop(30f);
         //rightAxis.setSpaceTop(25f);
+        leftAxis.setLabelCount(3);
         chart.animateXY(2000, 2000);
         chart.setTouchEnabled(false);
         chart.invalidate();
@@ -180,11 +187,44 @@ public class FragmentMain extends Fragment {
 
         //tvMainIncomeValue.setText(FormatUtils.doubleFormatter(statistic[1], FORMAT, PRECISE));
         //tvMainCostValue.setText(FormatUtils.doubleFormatter(Math.abs(statistic[0]), FORMAT, PRECISE));
-        tvMainStatisticSum.setText(FormatUtils.doubleFormatter(statsum, FORMAT, PRECISE));
+        tvMainStatisticSum.setText(FormatUtils.doubleFormatter(statsum, FORMAT, PRECISE) + " " + getCurrency());
     }
 
-    private double[] getTransStatistic (int position) {
-        return dataSource.getTransactionsStatistic(position);
+    private double[] getTransStatistic (int posPeriod, int posCurrency) {
+        String[] currency = getResources().getStringArray(R.array.expense_currency_array);
+        return dataSource.getTransactionsStatistic(posPeriod, currency[posCurrency]);   //set int from spinner position
+    }
+
+    private String getCurrency() {
+        String[] currency_array = getResources().getStringArray(R.array.expense_currency_array_language);
+        return currency_array[spinMainBalanceCurrency.getSelectedItemPosition()];
+    }
+
+
+    private void setBalanceCurrencySpinner() {
+        spinMainBalanceCurrency = (Spinner) view.findViewById(R.id.spinMainCurrency);
+
+        ArrayAdapter<?> adapterCurrency = ArrayAdapter.createFromResource(getActivity(), R.array.expense_currency_array, R.layout.spinner_item);
+        adapterCurrency.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinMainBalanceCurrency.setAdapter(adapterCurrency);
+
+        spinMainBalanceCurrency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                setCurrentBalance(spinMainBalanceCurrency.getSelectedItemPosition());
+
+                setTransactionsStatistic(spinMainPeriod.getSelectedItemPosition() + 1,
+                                spinMainBalanceCurrency.getSelectedItemPosition());
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
     }
 
     private void setStatisticSpinner() {
@@ -197,7 +237,8 @@ public class FragmentMain extends Fragment {
         spinMainPeriod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                setTransactionsStatistic(spinMainPeriod.getSelectedItemPosition() + 1);
+                setTransactionsStatistic(spinMainPeriod.getSelectedItemPosition() + 1,
+                                spinMainBalanceCurrency.getSelectedItemPosition());
             }
 
             @Override
@@ -216,8 +257,9 @@ public class FragmentMain extends Fragment {
 
                 if (status == STATUS_UPDATE_FRAGMENT_MAIN) {
 
-                    setCurrentBalance();
-                    setTransactionsStatistic(spinMainPeriod.getSelectedItemPosition()+1);
+                    setCurrentBalance(spinMainBalanceCurrency.getSelectedItemPosition());
+                    setTransactionsStatistic(spinMainPeriod.getSelectedItemPosition()+1,
+                                  spinMainBalanceCurrency.getSelectedItemPosition());
                 }
             }
         };

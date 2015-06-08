@@ -30,6 +30,13 @@
         <item name="android:typeface">sans</item>
     </style>
 
+    <style name="CaptionFontSecondary" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">@dimen/text_size_caption</item>
+        <item name="android:textColor">@color/custom_text_secondary</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:typeface">sans</item>
+    </style>
+
     <style name="SubheadFont" parent="@android:style/TextAppearance.Medium">
         <item name="android:textSize">@dimen/text_size_subhead</item>
         <item name="android:textColor">@color/custom_text_primary</item>

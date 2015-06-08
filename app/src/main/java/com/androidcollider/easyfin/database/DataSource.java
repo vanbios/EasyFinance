@@ -160,7 +160,7 @@ public class DataSource {
         return accounts;
     }
 
-    public double[] getTransactionsStatistic(int position) {
+    public double[] getTransactionsStatistic(int position, String currency) {
         double[] arrayStatistic = new double[2];
 
         long period = 0;
@@ -174,7 +174,8 @@ public class DataSource {
             case 4: period = dateConstants.getYear(); break;
         }
 
-        String selectQuery = "SELECT date, amount FROM Transactions ";
+        String selectQuery = "SELECT date, amount FROM Transactions "
+                               + "WHERE currency = '" + currency + "' ";
 
         openLocalToRead();
 
@@ -223,8 +224,9 @@ public class DataSource {
         return arrayStatistic;
     }
 
-    public double getExpenseSum(String type) {
-        String selectQuery = "SELECT SUM(amount) FROM Account WHERE type = '" + type + "' ";
+    public double getExpenseSum(String type, String currency) {
+        String selectQuery = "SELECT SUM(amount) FROM Account WHERE type = '" + type + "' "
+                + "AND currency = '" + currency + "' ";
         openLocalToRead();
 
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -283,7 +285,7 @@ public class DataSource {
 
 
 
-    public ArrayList<Account> getAllAccountsNameTypeCurrency() {
+    /*public ArrayList<Account> getAllAccountsNameTypeCurrency() {
 
         ArrayList<Account> accountArrayList = new ArrayList<>();
 
@@ -317,7 +319,7 @@ public class DataSource {
         closeLocal();
 
         return accountArrayList;
-    }
+    }*/
 
 
 
@@ -356,6 +358,25 @@ public class DataSource {
         closeLocal();
 
         return transactionArrayList;
+    }
+
+
+    public String getAccountTypeByName(String name) {
+        String selectQuery = "SELECT type FROM Account WHERE name = '" + name + "' ";
+        openLocalToRead();
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if(cursor.moveToFirst()) {
+            String s =  cursor.getString(0);
+            cursor.close();
+            closeLocal();
+            return s;}
+
+        cursor.close();
+        closeLocal();
+
+        return "";
     }
 
     public void changeAccount(String oldName, Account account) {

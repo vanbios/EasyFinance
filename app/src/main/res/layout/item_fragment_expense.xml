@@ -17,10 +17,10 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="20dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:layout_marginRight="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp">
+            android:layout_marginBottom="8dp">
 
 
             <ImageView
@@ -47,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvItemFragmentExpenseAmount"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="6dp"
         android:layout_below="@+id/tvItemFragmentExpenseName"
         android:layout_toRightOf="@+id/ivItemFragmentExpenseType"
         android:layout_toEndOf="@+id/ivItemFragmentExpenseType"

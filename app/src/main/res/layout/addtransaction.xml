@@ -18,7 +18,7 @@
         card_view:cardElevation="4dp">
 
         <ScrollView
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true">
@@ -35,8 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/tvTransactionDate">
+        android:layout_centerHorizontal="true">
 
     <EditText
         android:layout_width="wrap_content"
@@ -51,14 +50,59 @@
 
     </android.support.design.widget.TextInputLayout>
 
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tilTextTransSum"
+                android:layout_marginTop="20dp"
+                android:id="@+id/linLayAddTransRadioButtonDate">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/date"
+                        android:id="@+id/tvTransactionDateTitle"
+                        android:clickable="true"
+                        style="@style/BodyFontSecondary"
+
+                        android:layout_marginLeft="34dp"
+                        android:layout_marginStart="34dp"
+                        android:layout_marginTop="8dp"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/date"
+                android:id="@+id/tvTransactionDate"
+                android:clickable="true"
+                style="@style/SubheadFont"
+
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="34dp"
+                android:layout_marginStart="34dp"
+                android:layout_below="@+id/tvTransactionDateTitle"/>
+
+                </RelativeLayout>
+
+
+
+
     <RadioGroup
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_weight="1"
         android:id="@+id/radioGroup"
-        android:layout_below="@+id/tilTextTransSum"
-        android:layout_alignLeft="@+id/tilTextTransSum"
-        android:layout_alignStart="@+id/tilTextTransSum">
+        android:layout_marginLeft="24dp"
+        android:layout_marginStart="24dp">
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -76,24 +120,20 @@
             style="@style/SubheadFont"/>
     </RadioGroup>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/date"
-        android:id="@+id/tvTransactionDate"
-        android:clickable="true"
-        android:layout_marginTop="16dp"
-        android:layout_centerHorizontal="true"
-        style="@style/TitleFont" />
+
+
+            </LinearLayout>
+
 
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/radioGroup"
+        android:layout_below="@+id/linLayAddTransRadioButtonDate"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_marginTop="16dp"
         android:id="@+id/linLayAddTrans1">
 
         <TextView
@@ -102,10 +142,9 @@
             android:text="@string/expense"
             android:id="@+id/tvExpense"
             android:layout_weight="1"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"
-            style="@style/TitleFont"/>
+            android:layout_marginStart="34dp"
+            android:layout_marginLeft="34dp"
+            style="@style/BodyFontSecondary"/>
 
         <TextView
             android:layout_width="0dp"
@@ -113,10 +152,10 @@
             android:text="@string/category"
             android:id="@+id/tvCategory"
             android:layout_weight="1"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginLeft="30dp"
-            style="@style/TitleFont"
+
+            android:layout_marginStart="18dp"
+            android:layout_marginLeft="18dp"
+            style="@style/BodyFontSecondary"
             />
     </LinearLayout>
 
@@ -127,7 +166,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/linLayAddTrans2"
-        android:layout_below="@+id/linLayAddTrans1">
+        android:layout_below="@+id/linLayAddTrans1"
+        android:layout_marginTop="2dp">
 
         <Spinner
             android:layout_width="0dp"
@@ -136,11 +176,10 @@
             android:spinnerMode="dialog"
             android:prompt="@string/expense"
             android:layout_weight="1"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="30dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="6dp"
             android:layout_marginStart="30dp"
-            android:layout_marginEnd="10dp"/>
+            android:layout_marginEnd="6dp"/>
 
         <Spinner
             android:layout_width="0dp"
@@ -149,11 +188,10 @@
             android:spinnerMode="dialog"
             android:prompt="@string/category"
             android:layout_weight="1"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="10dp"/>
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="6dp"/>
     </LinearLayout>
 
         </RelativeLayout>
