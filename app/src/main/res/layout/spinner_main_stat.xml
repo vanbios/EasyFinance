@@ -6,4 +6,5 @@
     android:layout_height="wrap_content"
     android:id="@+id/tvTopSpinCatTrans"
     style="@style/SpinnerSmallFont"
-    android:gravity="start" />
+    android:gravity="start"
+    android:singleLine="true"/>

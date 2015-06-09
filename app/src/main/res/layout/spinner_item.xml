@@ -7,4 +7,5 @@
     android:id="@+id/tvTopSpinCatTrans"
     style="@style/SpinnerFont"
     android:gravity="start"
+    android:singleLine="true"
     android:padding="5dip" />

@@ -52,9 +52,11 @@
                             android:layout_height="wrap_content"
                             android:text="@string/main_current_balance"
                             android:id="@+id/tvMainCurrentBalance"
-                            android:layout_marginLeft="40dp"
-                            android:layout_marginStart="40dp"
-                            style="@style/TitleFont"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginRight="20dp"
+                            android:layout_marginEnd="20dp"
+                            style="@style/SpinnerFont"
                             android:layout_marginTop="5dp"/>
 
                         </RelativeLayout>
@@ -68,7 +70,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:id="@+id/spinMainCurrency"
-                            android:layout_marginTop="2dp"/>
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginRight="16dp"
+                            android:layout_marginEnd="16dp"/>
 
                         </RelativeLayout>
 
@@ -94,10 +99,10 @@
                         android:layout_height="wrap_content"
                         android:text="@string/main_cash"
                         android:id="@+id/tvMainCash"
-                        android:layout_marginTop="24dp"
+                        android:layout_marginTop="28dp"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
-                        style="@style/SubheadFont" />
+                        style="@style/BodyBlackFont" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -107,8 +112,8 @@
                         android:layout_below="@+id/tvMainCash"
                         android:layout_alignLeft="@+id/tvMainCash"
                         android:layout_alignStart="@+id/tvMainCash"
-                        android:layout_marginTop="4dp"
-                        style="@style/SubheadFont" />
+                        android:layout_marginTop="7dp"
+                        style="@style/BodyBlackFont" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -118,8 +123,8 @@
                         android:layout_below="@+id/tvMainCard"
                         android:layout_alignLeft="@+id/tvMainCard"
                         android:layout_alignStart="@+id/tvMainCard"
-                        android:layout_marginTop="4dp"
-                        style="@style/SubheadFont" />
+                        android:layout_marginTop="7dp"
+                        style="@style/BodyBlackFont" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -129,8 +134,8 @@
                         android:layout_below="@+id/tvMainDeposit"
                         android:layout_alignLeft="@+id/tvMainDeposit"
                         android:layout_alignStart="@+id/tvMainDeposit"
-                        android:layout_marginTop="4dp"
-                        style="@style/SubheadFont" />
+                        android:layout_marginTop="7dp"
+                        style="@style/BodyBlackFont" />
 
                 </RelativeLayout>
 
@@ -225,10 +230,12 @@
                     android:layout_height="wrap_content"
                     android:text="@string/main_statistic"
                     android:id="@+id/tvMainStatistic"
-                    style="@style/TitleFont"
+                    style="@style/SpinnerFont"
                     android:layout_marginTop="5dp"
-                    android:layout_marginLeft="40dp"
-                    android:layout_marginStart="40dp" />
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginEnd="12dp"/>
 
                     </RelativeLayout>
 
@@ -242,7 +249,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/spinMainPeriod"
-                        android:layout_marginTop="2dp"/>
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginEnd="16dp"/>
 
                     </RelativeLayout>
 
@@ -270,8 +280,8 @@
                     android:layout_height="wrap_content"
                     android:text="@string/main_income"
                     android:id="@+id/tvMainIncome"
-                    android:layout_marginTop="24dp"
-                    style="@style/SubheadFont" />
+                    android:layout_marginTop="30dp"
+                    style="@style/BodyBlackFont" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -281,8 +291,8 @@
                     android:layout_below="@+id/tvMainIncome"
                     android:layout_alignLeft="@+id/tvMainIncome"
                     android:layout_alignStart="@+id/tvMainIncome"
-                    android:layout_marginTop="6dp"
-                    style="@style/SubheadFont" />
+                    android:layout_marginTop="7dp"
+                    style="@style/BodyBlackFont" />
 
                 </RelativeLayout>
 

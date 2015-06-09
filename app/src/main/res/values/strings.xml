@@ -14,13 +14,13 @@
     <string name="tab_expenses">Рахунки</string>
     <string name="tab_main">Головна</string>
 
-    <string name="main_current_balance">Поточний баланс</string>
+    <string name="main_current_balance">Баланс</string>
     <string name="main_cash">Готівка</string>
     <string name="main_card">Картки</string>
     <string name="main_deposit">Депозити</string>
     <string name="main_debt">Борги</string>
-    <string name="main_sum">Загалом</string>
-    <string name="main_statistic">Статистика</string>
+    <string name="main_sum">Разом</string>
+    <string name="main_statistic">Звіт</string>
     <string name="main_period">Період</string>
     <string name="main_income">Дохід</string>
     <string name="main_cost">Витрати</string>
