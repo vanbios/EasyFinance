@@ -3,7 +3,6 @@ package com.androidcollider.easyfin.fragments;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.utils.ChartDataUtils;
-import com.androidcollider.easyfin.utils.ChartValueFormatter;
 import com.androidcollider.easyfin.utils.FormatUtils;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.Legend;
@@ -233,6 +232,7 @@ public class FragmentMain extends Fragment {
         ArrayAdapter<?> adapterStatPeriod = ArrayAdapter.createFromResource(getActivity(), R.array.main_statistic_period_array, R.layout.spinner_item);
         adapterStatPeriod.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinMainPeriod.setAdapter(adapterStatPeriod);
+        spinMainPeriod.setSelection(1);
 
         spinMainPeriod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

@@ -16,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.androidcollider.easyfin.adapters.MyFragmentPagerAdapter;
+import com.androidcollider.easyfin.fragments.FragmentAddTransactionBetweenAccounts;
+import com.androidcollider.easyfin.fragments.FragmentAddTransactionDefault;
 import com.androidcollider.easyfin.fragments.FragmentExpense;
 import com.androidcollider.easyfin.fragments.FragmentMain;
 import com.androidcollider.easyfin.fragments.FragmentTransaction;

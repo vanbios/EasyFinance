@@ -58,6 +58,9 @@
     <string name="category">Категорія</string>
     <string name="expense">Рахунок</string>
 
+    <string name="add_transaction_tab_default">З рахунку</string>
+    <string name="add_transaction_tab_between">Між рахунками</string>
+
 
 
     <string-array name="cat_transaction_array">

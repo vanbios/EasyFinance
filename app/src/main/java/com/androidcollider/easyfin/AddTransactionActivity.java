@@ -1,37 +1,25 @@
 package com.androidcollider.easyfin;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.androidcollider.easyfin.adapters.SpinnerAddTransExpenseAdapter;
-import com.androidcollider.easyfin.adapters.SpinnerCategoriesAdapter;
+import com.androidcollider.easyfin.adapters.MyFragmentPagerAdapter;
 import com.androidcollider.easyfin.database.DataSource;
-import com.androidcollider.easyfin.fragments.FragmentMain;
-import com.androidcollider.easyfin.fragments.FragmentTransaction;
-import com.androidcollider.easyfin.objects.Account;
-import com.androidcollider.easyfin.objects.Transaction;
-import com.androidcollider.easyfin.utils.DateFormat;
-import com.androidcollider.easyfin.utils.Shake;
+import com.androidcollider.easyfin.fragments.FragmentAddTransactionDefault;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.Calendar;
 import java.util.List;
 
 
-public class AddTransactionActivity extends AppCompatActivity implements View.OnClickListener {
+public class AddTransactionActivity extends AppCompatActivity {
 
     private TextView tvTransactionDate;
     private DatePickerDialog setDatePickerDialog;
@@ -42,6 +30,8 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
 
     DataSource dataSource;
 
+    private ViewPager pagerTrans;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +40,15 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
 
         setToolbar(R.string.new_transaction);
 
-        tvTransactionDate = (TextView) findViewById(R.id.tvTransactionDate);
+        setViewPager();
 
-        setDateTimeField();
+        //tvTransactionDate = (TextView) findViewById(R.id.tvTransactionDate);
+
+        //setDateTimeField();
 
         dataSource = new DataSource(this);
 
-        setSpinner();
+        //setSpinner();
     }
 
     private void setToolbar(int id) {
@@ -70,7 +62,87 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
     }
 
 
-    private void setSpinner() {
+    private void setViewPager() {
+        pagerTrans = (ViewPager) findViewById(R.id.pagerAddTransaction);
+        MyFragmentPagerAdapter adapterPager = new MyFragmentPagerAdapter(getSupportFragmentManager());
+        adapterPager.addFragment(new FragmentAddTransactionDefault(),
+                getResources().getString(R.string.add_transaction_tab_default));
+        adapterPager.addFragment(new FragmentAddTransactionDefault(),
+                getResources().getString(R.string.add_transaction_tab_between));
+
+        pagerTrans.setAdapter(adapterPager);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabsAddTransaction);
+        tabLayout.setupWithViewPager(pagerTrans);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private void closeActivity() {
+        this.finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                closeActivity();
+                return true;}
+            case R.id.add_transaction_action_save: {
+                //addTransaction();
+                return true;}
+
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_add_transaction_menu, menu);
+        MenuItem saveTransaction = menu.findItem(R.id.add_transaction_action_save);
+        saveTransaction.setEnabled(true);
+
+        List<String> accounts = dataSource.getAllAccountNames();
+
+        if (accounts.size() == 0) {
+            saveTransaction.setEnabled(false);}
+
+        return true;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*private void setSpinner() {
         spinAddTransCategory = (Spinner) findViewById(R.id.spinAddTransCategory);
         spinAddTransExpense = (Spinner) findViewById(R.id.spinAddTransExpense);
 
@@ -88,10 +160,10 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
 
         spinAddTransExpense.setAdapter(new SpinnerAddTransExpenseAdapter(this, R.layout.spinner_item,
                 accounts, accountList));
-    }
+    }*/
 
 
-    private void setDateTimeField() {
+    /*private void setDateTimeField() {
         tvTransactionDate.setOnClickListener(this);
 
         Calendar newCalendar = Calendar.getInstance();
@@ -106,9 +178,9 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void onClick(View view) {
 
         switch (view.getId()) {
@@ -166,18 +238,16 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
         Intent intentFragmentTransaction = new Intent(FragmentTransaction.BROADCAST_FRAGMENT_TRANSACTION_ACTION);
         intentFragmentTransaction.putExtra(FragmentTransaction.PARAM_STATUS_FRAGMENT_TRANSACTION, FragmentTransaction.STATUS_UPDATE_FRAGMENT_TRANSACTION);
         sendBroadcast(intentFragmentTransaction);
-    }
+    }*/
 
-    private void closeActivity() {
-        this.finish();
-    }
 
-    private void openAddExpenseActivity() {
+
+    /*private void openAddExpenseActivity() {
         Intent intent = new Intent(this, AddExpenseActivity.class);
         startActivity(intent);
-    }
+    }*/
 
-    private void showDialogNoExpense() {
+    /*private void showDialogNoExpense() {
 
         new MaterialDialog.Builder(this)
                 .title(getString(R.string.no_expense))
@@ -196,43 +266,24 @@ public class AddTransactionActivity extends AppCompatActivity implements View.On
                     }
                 })
                 .show();
-    }
+    }*/
 
-    public void returnToMain() {
+    /*public void returnToMain() {
         closeActivity();
     }
 
     public void goToAddNewExpense() {
         closeActivity();
         openAddExpenseActivity();
-    }
+    }*/
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                closeActivity();
-                return true;}
-            case R.id.add_transaction_action_save: {
-                addTransaction();
-                return true;}
 
-        }
-        return false;
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_add_transaction_menu, menu);
-        MenuItem saveTransaction = menu.findItem(R.id.add_transaction_action_save);
-        saveTransaction.setEnabled(true);
 
-        List<String> accounts = dataSource.getAllAccountNames();
 
-        if (accounts.size() == 0) {
-            saveTransaction.setEnabled(false);}
 
-        return true;
-    }
+
+
+
 
 }
