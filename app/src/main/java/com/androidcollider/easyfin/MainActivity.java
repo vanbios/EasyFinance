@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,12 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.androidcollider.easyfin.adapters.MyFragmentPagerAdapter;
-import com.androidcollider.easyfin.fragments.FragmentAddTransactionBetweenAccounts;
-import com.androidcollider.easyfin.fragments.FragmentAddTransactionDefault;
 import com.androidcollider.easyfin.fragments.FragmentExpense;
 import com.androidcollider.easyfin.fragments.FragmentMain;
 import com.androidcollider.easyfin.fragments.FragmentTransaction;
-import com.astuetz.PagerSlidingTabStrip;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -71,10 +69,9 @@ public class MainActivity extends AppCompatActivity {
         pager.setAdapter(adapterPager);
         pager.setOffscreenPageLimit(3);
 
-        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-        tabs.setViewPager(pager);
-        //set tabs clickable
-        tabs.bringToFront();
+        TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
+        tabs.setTabTextColors(getResources().getColor(R.color.custom_text_secondary), getResources().getColor(R.color.custom_deep_purple));
+        tabs.setupWithViewPager(pager);
     }
 
 

@@ -181,7 +181,7 @@ public class FragmentAddTransactionDefault extends Fragment implements View.OnCl
 
 
 
-    private void addTransaction() {
+    public void addTransaction() {
         EditText editTextTransSum = (EditText) view.findViewById(R.id.editTextTransSum);
         RadioButton radioButtonCost = (RadioButton) view.findViewById(R.id.radioButtonCost);
 

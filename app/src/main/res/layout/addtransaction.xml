@@ -9,6 +9,7 @@
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabsAddTransaction"
+        style="@style/CustomTabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/toolbar_height"/>

@@ -17,7 +17,7 @@
     <dimen name="text_size_big">24sp</dimen>
     <dimen name="text_size_large">34sp</dimen>
 
-    <dimen name="margin_top_fragments">112dp</dimen>
+    <dimen name="margin_top_fragments">8dp</dimen>
 
     <dimen name="margin_spinner_elements">16dp</dimen>
     <dimen name="margin_spinner_top_bottom">12dp</dimen>

@@ -13,20 +13,22 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import android.view.View;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
 
 public class AddTransactionActivity extends AppCompatActivity {
 
-    private TextView tvTransactionDate;
-    private DatePickerDialog setDatePickerDialog;
+    //private TextView tvTransactionDate;
+    //private DatePickerDialog setDatePickerDialog;
 
-    private final String DATEFORMAT = "dd-MM-yyyy";
+    //private final String DATEFORMAT = "dd-MM-yyyy";
 
-    private Spinner spinAddTransCategory, spinAddTransExpense;
+    //private Spinner spinAddTransCategory, spinAddTransExpense;
 
     DataSource dataSource;
 
@@ -73,6 +75,7 @@ public class AddTransactionActivity extends AppCompatActivity {
         pagerTrans.setAdapter(adapterPager);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabsAddTransaction);
+        tabLayout.setTabTextColors(getResources().getColor(R.color.custom_text_secondary), getResources().getColor(R.color.custom_deep_purple));
         tabLayout.setupWithViewPager(pagerTrans);
     }
 
@@ -107,7 +110,7 @@ public class AddTransactionActivity extends AppCompatActivity {
                 closeActivity();
                 return true;}
             case R.id.add_transaction_action_save: {
-                //addTransaction();
+                checkTransactionType();
                 return true;}
 
         }
@@ -126,6 +129,23 @@ public class AddTransactionActivity extends AppCompatActivity {
             saveTransaction.setEnabled(false);}
 
         return true;
+    }
+
+
+    private void checkTransactionType() {
+        int position = pagerTrans.getCurrentItem();
+        switch (position) {
+            case 0:
+            {
+                MyFragmentPagerAdapter mfa = (MyFragmentPagerAdapter) pagerTrans.getAdapter();
+                FragmentAddTransactionDefault fragmentAddTransactionDefault =
+                        (FragmentAddTransactionDefault) mfa.getItem(position);
+                fragmentAddTransactionDefault.addTransaction();
+                break;}
+            case 1:
+            {Toast.makeText(this, "1", Toast.LENGTH_LONG).show(); break;}
+
+        }
     }
 
 
