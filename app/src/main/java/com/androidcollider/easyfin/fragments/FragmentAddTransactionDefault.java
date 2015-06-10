@@ -39,27 +39,10 @@ public class FragmentAddTransactionDefault extends Fragment implements View.OnCl
 
     private final String DATEFORMAT = "dd-MM-yyyy";
 
-    private static final String ARGUMENT_PAGE_NUMBER = "argument_page_number";
-    int pageNumber;
     private View view;
     private DataSource dataSource;
 
 
-
-    /*public static FragmentTransaction newInstance(int page) {
-        FragmentTransaction fragmentTransaction = new FragmentTransaction();
-        Bundle arguments = new Bundle();
-        arguments.putInt(ARGUMENT_PAGE_NUMBER, page);
-        fragmentTransaction.setArguments(arguments);
-        return fragmentTransaction;
-    }
-
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        pageNumber = getArguments().getInt(ARGUMENT_PAGE_NUMBER);
-    }*/
 
 
     @Override
@@ -221,11 +204,5 @@ public class FragmentAddTransactionDefault extends Fragment implements View.OnCl
             }
         }
     }
-
-
-
-
-
-
 
 }

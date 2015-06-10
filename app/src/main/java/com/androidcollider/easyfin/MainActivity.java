@@ -70,7 +70,9 @@ public class MainActivity extends AppCompatActivity {
         pager.setOffscreenPageLimit(3);
 
         TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
-        tabs.setTabTextColors(getResources().getColor(R.color.custom_text_secondary), getResources().getColor(R.color.custom_deep_purple));
+
+        tabs.setTabTextColors(getResources().getColor(R.color.custom_blue_gray_light),
+                getResources().getColor(R.color.custom_text_light));
         tabs.setupWithViewPager(pager);
     }
 

@@ -51,4 +51,10 @@
     <color name="custom_purple">#9C27B0</color>
     <color name="custom_purple_light">#E040FB</color>
     <color name="custom_deep_purple_light">#7C4DFF</color>
+    <color name="custom_blue_gray_dark">#455A64</color>
+    <color name="custom_blue_gray">#607D8B</color>
+    <color name="custom_blue_gray_light">#CFD8DC</color>
+    <color name="custom_green_gray">#ff01839f</color>
+    <color name="custom_green_gray_dark">#ff005e78</color>
+    <color name="custom_green_gray_light">#ff58a1aa</color>
 </resources>

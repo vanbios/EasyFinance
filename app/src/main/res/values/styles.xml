@@ -3,15 +3,15 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
-        <item name="colorPrimary">@color/custom_deep_purple</item>
-        <item name="colorPrimaryDark">@color/custom_dark_primary</item>
+        <item name="colorPrimary">@color/custom_blue_gray</item>
+        <item name="colorPrimaryDark">@color/custom_blue_gray_dark</item>
         <item name="colorAccent">@color/custom_cyan_dark</item>
 
     </style>
 
 
     <style name="CustomTabLayout" parent="Widget.Design.TabLayout">
-        <item name="tabIndicatorColor">@color/custom_deep_purple</item>
+        <item name="tabIndicatorColor">@color/custom_text_light</item>
     </style>
 
     <style name="TitleFont" parent="@android:style/TextAppearance.Medium">

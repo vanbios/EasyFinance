@@ -15,7 +15,7 @@
         android:layout_marginRight="@dimen/padding_big_card_side"
         android:layout_marginEnd="@dimen/padding_big_card_side"
         android:layout_centerHorizontal="true"
-        android:id="@+id/cardChangeExpenseElements"
+        android:id="@+id/cardAddTransactionElements"
         card_view:cardElevation="4dp">
 
         <ScrollView
