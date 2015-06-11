@@ -285,11 +285,11 @@ public class DataSource {
 
 
 
-    public ArrayList<Account> getAccountsAvailableForTransferInfo(String expense_first_name, String expense_currency) {
+    /*public ArrayList<Account> getAccountsAvailableForTransferInfo(String expense_first_name, String expense_currency) {
 
         ArrayList<Account> accountArrayList = new ArrayList<>();
 
-        String selectQuery = "SELECT * FROM Account WHERE currency = '" + expense_currency + "' ";
+        String selectQuery = "SELECT * FROM Account ";
         openLocalToRead();
 
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -325,7 +325,7 @@ public class DataSource {
         closeLocal();
 
         return accountArrayList;
-    }
+    }*/
 
 
 

@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         Runnable task = new Runnable() {
             public void run() {
                 Snackbar.make(coordinatorLayout, R.string.snack_expense_list, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.snack_expense_action_get_it, new View.OnClickListener() {
+                        .setAction(R.string.get_it, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                             }

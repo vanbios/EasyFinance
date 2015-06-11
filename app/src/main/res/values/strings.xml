@@ -41,6 +41,9 @@
     <string name="dialog_text_single_expense">Для даної транзакції потрібно мати хоча б 2 рахунки.
     Натисніть "Новий рахунок", щоб додати.</string>
 
+    <string name="dialog_title_no_available_expense">Відсутні інші рахунки з даною валютою</string>
+    <string name="dialog_text_no_available_expense">Переводити кошти можна лише між рахунками з однаковою валютою.</string>
+
     <string name="dialog_text_delete_expense">Увага! Даний рахунок буде видалено.</string>
     <string name="dialog_title_delete_expense">Видалення</string>
     <string name="dialog_button_delete_expense">Видалити</string>
@@ -54,7 +57,7 @@
     <string name="expense_empty_field_sum">Вкажіть суму рахунку</string>
     <string name="expense_name_exist">Рахунок з такою назвою вже існує. Спробуйте іншу</string>
     <string name="snack_expense_list">Для редагування зробіть довге натискання на рахунок</string>
-    <string name="snack_expense_action_get_it">Зрозуміло</string>
+    <string name="get_it">Зрозуміло</string>
 
     <string name="value_textview">10000</string>
     <string name="date">Дата</string>

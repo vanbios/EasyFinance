@@ -7,16 +7,19 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinnerAddTransExpenseAdapter;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.utils.DateFormat;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -33,6 +36,7 @@ public class FragmentAddTransactionBetweenAccounts extends Fragment implements V
     private View view;
     private DataSource dataSource;
 
+    private List<Account> accountList1;
 
 
 
@@ -48,38 +52,92 @@ public class FragmentAddTransactionBetweenAccounts extends Fragment implements V
 
         dataSource = new DataSource(getActivity());
 
-        setSpinner();
+        setSpinners();
 
 
         return view;
     }
 
+    private void setSpinners() {
+        setSpinnerExpense1();
+        setSpinnerExpense2();
+    }
 
 
-    private void setSpinner() {
+
+    private void setSpinnerExpense1() {
         spinAddTransBTWExpense1 = (Spinner) view.findViewById(R.id.spinAddTransBTWExpense1);
-        spinAddTransBTWExpense2 = (Spinner) view.findViewById(R.id.spinAddTransBTWExpense2);
 
-        List<String> accounts = dataSource.getAllAccountNames();
+        List<String> accounts1 = new ArrayList<>();
 
+        accountList1 = dataSource.getAllAccountsInfo();
 
-        List<Account> accountList = dataSource.getAllAccountsInfo();
-
+        for (Account acc : accountList1) {
+            accounts1.add(acc.getName());
+        }
 
         spinAddTransBTWExpense1.setAdapter(new SpinnerAddTransExpenseAdapter(getActivity(), R.layout.spinner_item,
-                accounts, accountList));
+                accounts1, accountList1));
 
-        int pos = spinAddTransBTWExpense1.getSelectedItemPosition();
+        spinAddTransBTWExpense1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                setSpinnerExpense2();
+            }
 
-        String expense_first_name = accountList.get(pos).getName();
-        String expense_currency = accountList.get(pos).getCurrency();
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-        List<Account> accountForTransferList =
-                dataSource.getAccountsAvailableForTransferInfo(expense_first_name, expense_currency);
+            }
+        });
+    }
 
 
-        spinAddTransBTWExpense2.setAdapter(new SpinnerAddTransExpenseAdapter(getActivity(), R.layout.spinner_item,
-                accounts, accountForTransferList));
+    private void setSpinnerExpense2() {
+
+        spinAddTransBTWExpense2 = (Spinner) view.findViewById(R.id.spinAddTransBTWExpense2);
+        spinAddTransBTWExpense2.setEnabled(false);
+        spinAddTransBTWExpense2.setAdapter(null);
+
+        if (accountList1.size() >= 2) {
+            int pos = spinAddTransBTWExpense1.getSelectedItemPosition();
+
+            String expense_first_name = accountList1.get(pos).getName();
+            String expense_currency = accountList1.get(pos).getCurrency();
+
+
+            List<Account> accountForTransferList = new ArrayList<>();
+            List<String> accountsAvailable = new ArrayList<>();
+
+
+            for (Account account : accountList1) {
+                if (! account.getName().equals(expense_first_name) && account.getCurrency().equals(expense_currency)) {
+                    accountForTransferList.add(account);
+                    accountsAvailable.add(account.getName());
+                }
+            }
+
+            if (accountForTransferList.size() >= 1) {
+                spinAddTransBTWExpense2.setEnabled(true);
+
+                spinAddTransBTWExpense2.setAdapter(new SpinnerAddTransExpenseAdapter(getActivity(), R.layout.spinner_item,
+                        accountsAvailable, accountForTransferList));
+            }
+            else {
+                showNoAvailableAccountsDialog();
+            }
+        }
+
+
+    }
+
+
+    private void showNoAvailableAccountsDialog() {
+        new MaterialDialog.Builder(getActivity())
+                .title(getActivity().getResources().getString(R.string.dialog_title_no_available_expense))
+                .content(getActivity().getResources().getString(R.string.dialog_text_no_available_expense))
+                .positiveText(getActivity().getResources().getString(R.string.get_it))
+                .show();
     }
 
 
