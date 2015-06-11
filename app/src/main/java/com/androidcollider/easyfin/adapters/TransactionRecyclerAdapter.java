@@ -74,17 +74,18 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
 
         final int PRECISE = 100;
         final String FORMAT = "0.00";
-        final String DATEFORMAT = "dd-MM-yyyy";
+        final String DATEFORMAT = "dd.MM.yyyy";
 
         Transaction transaction = getTransaction(position);
 
-        String name = transaction.getAccount_name();
 
-        holder.tvItemFragmentTransactionAccountName.setText(name);
+        holder.tvItemFragmentTransactionAccountName.setText(transaction.getAccount_name());
         holder.tvItemFragmentTransactionDate.setText(DateFormat.longToDateString(transaction.getDate(), DATEFORMAT));
 
         String amount = FormatUtils.doubleFormatter(transaction.getAmount(), FORMAT, PRECISE);
+
         String cur = transaction.getAccount_currency();
+
         String cur_lang = null;
 
         for (int i = 0; i < currency.length; i++) {
@@ -117,7 +118,8 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
             }
         }
 
-        String type = dataSource.getAccountTypeByName(name);
+        //String type = dataSource.getAccountTypeByName(name);
+        String type = transaction.getAccount_type();
 
         for (int i = 0; i < expense_type.length; i++) {
             if (expense_type[i].equals(type)) {

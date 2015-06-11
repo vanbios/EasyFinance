@@ -3,6 +3,11 @@
     <dimen name="activity_horizontal_margin">5dp</dimen>
     <dimen name="activity_vertical_margin">5dp</dimen>
 
+    <dimen name="common_padding_small">5dp</dimen>
+    <dimen name="common_padding_medium">8dp</dimen>
+    <dimen name="common_padding_large">16dp</dimen>
+    <dimen name="common_padding_xlarge">24dp</dimen>
+
     <dimen name="toolbar_height">56dp</dimen>
 
     <dimen name="button_height">44dp</dimen>

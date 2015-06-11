@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="@dimen/common_padding_small"
+    android:paddingLeft="@dimen/common_padding_small"
+    android:paddingRight="@dimen/common_padding_small"
+    android:paddingEnd="@dimen/common_padding_small"
+    android:paddingTop="@dimen/common_padding_medium"
+    android:paddingBottom="@dimen/common_padding_medium">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/margin_top_fragments"
-        android:layout_marginStart="@dimen/activity_vertical_margin"
-        android:layout_marginLeft="@dimen/activity_vertical_margin"
-        android:layout_marginEnd="@dimen/activity_vertical_margin"
-        android:layout_marginRight="@dimen/activity_vertical_margin"
         android:id="@+id/scrollView">
 
         <RelativeLayout

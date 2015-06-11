@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Cash Book Pro</string>
+    <string name="app_name">FinU</string>
     <string name="action_settings">Settings</string>
     <string name="menu_exit">Вихід</string>
     <string name="new_transaction">Нова транзакція</string>
@@ -34,7 +34,11 @@
     <string name="expense_currency">Валюта</string>
     <string name="return_to_main">На головну</string>
     <string name="no_expense">Відсутні рахунки!</string>
+    <string name="single_expense">Недостатньо рахунків!</string>
     <string name="dialog_text_no_expense">Неможливо здійснити транзакцію, оскільки не додано жодного рахунку.
+    Натисніть "Новий рахунок", щоб додати.</string>
+
+    <string name="dialog_text_single_expense">Для даної транзакції потрібно мати хоча б 2 рахунки.
     Натисніть "Новий рахунок", щоб додати.</string>
 
     <string name="dialog_text_delete_expense">Увага! Даний рахунок буде видалено.</string>

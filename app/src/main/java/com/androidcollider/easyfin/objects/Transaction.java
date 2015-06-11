@@ -10,6 +10,7 @@ public class Transaction {
 
     private String account_name;
     private String account_currency;
+    private String account_type;
 
 
     /*public Transaction (long date, int id_account, double amount, String category) {
@@ -34,12 +35,23 @@ public class Transaction {
         this.account_currency = account_currency;
     }
 
-    public Transaction (long date, double amount, String category, String account_name, String account_currency, int id_account) {
+
+    public Transaction (long date, double amount, String category, String account_name, String account_currency, String account_type) {
         this.date = date;
         this.amount = amount;
         this.category = category;
         this.account_name = account_name;
         this.account_currency = account_currency;
+        this.account_type = account_type;
+    }
+
+    public Transaction (long date, double amount, String category, String account_name, String account_currency, String account_type, int id_account) {
+        this.date = date;
+        this.amount = amount;
+        this.category = category;
+        this.account_name = account_name;
+        this.account_currency = account_currency;
+        this.account_type = account_type;
         this.id_account = id_account;
     }
 
@@ -59,4 +71,6 @@ public class Transaction {
     public String getAccount_name() {return account_name;}
 
     public String getAccount_currency() {return account_currency;}
+
+    public String getAccount_type() {return account_type;}
 }

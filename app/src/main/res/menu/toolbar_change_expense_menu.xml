@@ -10,7 +10,7 @@
 
     <item android:id="@+id/change_expense_action_save"
         android:title="@string/save_expense"
-        android:icon="@drawable/ic_checkbox_marked_circle_white_24dp"
+        android:icon="@drawable/ic_check_white_24dp"
         app:showAsAction="always" />
 
 </menu>

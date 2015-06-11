@@ -15,6 +15,17 @@
         android:background="?attr/colorPrimary"
         android:layout_marginTop="@dimen/toolbar_height"/>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabs">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/margin_top_fragments"
+            android:background="@drawable/toolbar_dropshadow" />
+    </FrameLayout>
+
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"

@@ -1,10 +1,12 @@
 package com.androidcollider.easyfin;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.adapters.MyFragmentPagerAdapter;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.fragments.FragmentAddTransactionBetweenAccounts;
 import com.androidcollider.easyfin.fragments.FragmentAddTransactionDefault;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -35,7 +37,10 @@ public class AddTransactionActivity extends AppCompatActivity {
         setViewPager();
 
         dataSource = new DataSource(this);
+
+        checkForAccountExist();
     }
+
 
     private void setToolbar(int id) {
         Toolbar ToolBar = (Toolbar) findViewById(R.id.toolbarMain);
@@ -62,15 +67,111 @@ public class AddTransactionActivity extends AppCompatActivity {
         tabLayout.setTabTextColors(getResources().getColor(R.color.custom_blue_gray_light),
                 getResources().getColor(R.color.custom_text_light));
         tabLayout.setupWithViewPager(pagerTrans);
+
+        pagerTrans.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                switch (position) {
+
+                    case 0: {
+                        checkForAccountExist();
+                        break;
+                    }
+
+                    case 1: {
+                        checkForAccountExist();
+                        checkForCoupleAccountExist();
+                        break;
+                    }
+                }
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
 
+    private void showDialogNoExpense() {
 
+        new MaterialDialog.Builder(this)
+                .title(getString(R.string.no_expense))
+                .content(getString(R.string.dialog_text_no_expense))
+                .positiveText(getString(R.string.new_expense))
+                .negativeText(getString(R.string.return_to_main))
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        goToAddNewExpense();
+                    }
 
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        returnToMain();
+                    }
+                })
+                .show();
+    }
 
+    private void showDialogSingleExpense() {
 
+        new MaterialDialog.Builder(this)
+                .title(getString(R.string.single_expense))
+                .content(getString(R.string.dialog_text_single_expense))
+                .positiveText(getString(R.string.new_expense))
+                .negativeText(getString(R.string.return_to_main))
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        goToAddNewExpense();
+                    }
 
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        returnToMain();
+                    }
+                })
+                .show();
+    }
 
+    private void returnToMain() {
+        closeActivity();
+    }
+
+    private void goToAddNewExpense() {
+        closeActivity();
+        openAddExpenseActivity();
+    }
+
+    private void openAddExpenseActivity() {
+        Intent intent = new Intent(this, AddExpenseActivity.class);
+        startActivity(intent);
+    }
+
+    private void checkForAccountExist() {
+        List<String> accounts = dataSource.getAllAccountNames();
+
+        if (accounts.size() == 0) {
+            showDialogNoExpense();
+        }
+    }
+
+    private void checkForCoupleAccountExist() {
+        List<String> accounts = dataSource.getAllAccountNames();
+
+        if (accounts.size() == 1) {
+            showDialogSingleExpense();
+        }
+    }
 
     private void closeActivity() {
         this.finish();

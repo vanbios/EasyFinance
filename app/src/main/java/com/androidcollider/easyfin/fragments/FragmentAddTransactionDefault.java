@@ -15,8 +15,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.androidcollider.easyfin.AddExpenseActivity;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinnerAddTransExpenseAdapter;
 import com.androidcollider.easyfin.adapters.SpinnerCategoriesAdapter;
@@ -37,10 +35,12 @@ public class FragmentAddTransactionDefault extends Fragment implements View.OnCl
     private DatePickerDialog setDatePickerDialog;
     private Spinner spinAddTransCategory, spinAddTransExpense;
 
-    private final String DATEFORMAT = "dd-MM-yyyy";
+    private final String DATEFORMAT = "dd.MM.yyyy";
 
     private View view;
     private DataSource dataSource;
+
+    private List<Account> accountList = null;
 
 
 
@@ -72,15 +72,12 @@ public class FragmentAddTransactionDefault extends Fragment implements View.OnCl
 
         List<String> accounts = dataSource.getAllAccountNames();
 
-        if (accounts.size() == 0) {
-            showDialogNoExpense();
-        }
 
 
         spinAddTransCategory.setAdapter(new SpinnerCategoriesAdapter(getActivity(), R.layout.spinner_item,
                 getResources().getStringArray(R.array.cat_transaction_array)));
 
-        List<Account> accountList = dataSource.getAllAccountsInfo();
+        accountList = dataSource.getAllAccountsInfo();
 
         spinAddTransExpense.setAdapter(new SpinnerAddTransExpenseAdapter(getActivity(), R.layout.spinner_item,
                 accounts, accountList));
@@ -127,41 +124,6 @@ public class FragmentAddTransactionDefault extends Fragment implements View.OnCl
         getActivity().finish();
     }
 
-    private void openAddExpenseActivity() {
-        Intent intent = new Intent(getActivity(), AddExpenseActivity.class);
-        startActivity(intent);
-    }
-
-    private void showDialogNoExpense() {
-
-        new MaterialDialog.Builder(getActivity())
-                .title(getString(R.string.no_expense))
-                .content(getString(R.string.dialog_text_no_expense))
-                .positiveText(getString(R.string.new_expense))
-                .negativeText(getString(R.string.return_to_main))
-                .callback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog dialog) {
-                        goToAddNewExpense();
-                    }
-
-                    @Override
-                    public void onNegative(MaterialDialog dialog) {
-                        returnToMain();
-                    }
-                })
-                .show();
-    }
-
-    public void returnToMain() {
-        closeActivity();
-    }
-
-    public void goToAddNewExpense() {
-        closeActivity();
-        openAddExpenseActivity();
-    }
-
 
 
     public void addTransaction() {
@@ -176,16 +138,27 @@ public class FragmentAddTransactionDefault extends Fragment implements View.OnCl
         else {
 
             Long date = DateFormat.stringToDate(tvTransactionDate.getText().toString(), DATEFORMAT).getTime();
-            String account_name = spinAddTransExpense.getSelectedItem().toString();
+            //String account_name = spinAddTransExpense.getSelectedItem().toString();
+
+            int pos = spinAddTransExpense.getSelectedItemPosition();
+
+            String account_name = accountList.get(pos).getName();
+
             double amount = Double.parseDouble(editTextTransSum.getText().toString());
             if (radioButtonCost.isChecked()) {
                 amount *= -1;}
+
             String category = spinAddTransCategory.getSelectedItem().toString();
 
-            int id_account = dataSource.getAccountIdByName(account_name);
-            String account_currency = dataSource.getAccountCurrencyByName(account_name);
+            //int id_account = dataSource.getAccountIdByName(account_name);
+            int id_account = accountList.get(pos).getId();
+            //String account_currency = dataSource.getAccountCurrencyByName(account_name);
+            String account_currency = accountList.get(pos).getCurrency();
+            //String account_type = dataSource.getAccountTypeByName(account_name);
+            String account_type = accountList.get(pos).getType();
 
-            double accountAmount = dataSource.getAccountAmountForTransaction(id_account);
+            //double accountAmount = dataSource.getAccountAmountForTransaction(id_account);
+            double accountAmount = accountList.get(pos).getAmount();
 
             if (radioButtonCost.isChecked() && Math.abs(amount) > accountAmount) {
                 Toast.makeText(getActivity(), getResources().getString(R.string.transaction_not_enough_costs) + " " +
@@ -193,7 +166,7 @@ public class FragmentAddTransactionDefault extends Fragment implements View.OnCl
             else {
                 accountAmount += amount;
 
-                Transaction transaction = new Transaction(date, amount, category, account_name, account_currency, id_account);
+                Transaction transaction = new Transaction(date, amount, category, account_name, account_currency, account_type, id_account);
                 dataSource.insertNewTransaction(transaction);
                 dataSource.updateAccountAmountAfterTransaction(id_account, accountAmount);
 

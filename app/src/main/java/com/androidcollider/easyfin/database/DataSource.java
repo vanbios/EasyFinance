@@ -68,6 +68,7 @@ public class DataSource {
         cv.put("category", transaction.getCategory());
         cv.put("account_name", transaction.getAccount_name());
         cv.put("currency", transaction.getAccount_currency());
+        cv.put("type", transaction.getAccount_type());
 
         openLocalToWrite();
         db.insert("Transactions", null, cv);
@@ -284,6 +285,50 @@ public class DataSource {
 
 
 
+    public ArrayList<Account> getAccountsAvailableForTransferInfo(String expense_first_name, String expense_currency) {
+
+        ArrayList<Account> accountArrayList = new ArrayList<>();
+
+        String selectQuery = "SELECT * FROM Account WHERE currency = '" + expense_currency + "' ";
+        openLocalToRead();
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            int idColIndex = cursor.getColumnIndex("id_account");
+            int nameColIndex = cursor.getColumnIndex("name");
+            int amountColIndex = cursor.getColumnIndex("amount");
+            int typeColIndex = cursor.getColumnIndex("type");
+            int currencyColIndex = cursor.getColumnIndex("currency");
+
+            do {
+                //if (! expense_first_name.equals(cursor.getString(nameColIndex))) {
+                Account account = new Account(
+                        cursor.getInt(idColIndex),
+                        cursor.getString(nameColIndex),
+                        cursor.getDouble(amountColIndex),
+                        cursor.getString(typeColIndex),
+                        cursor.getString(currencyColIndex));
+
+                accountArrayList.add(account);
+            //}
+            }
+            while (cursor.moveToNext());
+
+            cursor.close();
+            closeLocal();
+
+            return accountArrayList;
+        }
+
+        cursor.close();
+        closeLocal();
+
+        return accountArrayList;
+    }
+
+
+
 
     /*public ArrayList<Account> getAllAccountsNameTypeCurrency() {
 
@@ -326,7 +371,7 @@ public class DataSource {
     public ArrayList<Transaction> getAllTransactionsInformation(){
         ArrayList<Transaction> transactionArrayList = new ArrayList<>();
 
-        String selectQuery = "SELECT amount, date, category, account_name, currency FROM Transactions ";
+        String selectQuery = "SELECT amount, date, category, account_name, type, currency FROM Transactions ";
 
         openLocalToRead();
 
@@ -338,6 +383,7 @@ public class DataSource {
             int categoryColIndex = cursor.getColumnIndex("category");
             int nameColIndex = cursor.getColumnIndex("account_name");
             int currencyColIndex = cursor.getColumnIndex("currency");
+            int typeColIndex = cursor.getColumnIndex("type");
 
             for (int i=cursor.getCount()-1; i>=0;i--){
                 cursor.moveToPosition(i);
@@ -346,7 +392,8 @@ public class DataSource {
                         cursor.getDouble(amountColIndex),
                         cursor.getString(categoryColIndex),
                         cursor.getString(nameColIndex),
-                        cursor.getString(currencyColIndex));
+                        cursor.getString(currencyColIndex),
+                        cursor.getString(typeColIndex));
 
                 transactionArrayList.add(transaction);
             }

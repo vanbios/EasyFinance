@@ -2,7 +2,6 @@ package com.androidcollider.easyfin.fragments;
 
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,8 +11,6 @@ import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.androidcollider.easyfin.AddExpenseActivity;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinnerAddTransExpenseAdapter;
 import com.androidcollider.easyfin.database.DataSource;
@@ -26,7 +23,7 @@ import java.util.List;
 public class FragmentAddTransactionBetweenAccounts extends Fragment implements View.OnClickListener {
 
 
-    private final String DATEFORMAT = "dd-MM-yyyy";
+    private final String DATEFORMAT = "dd.MM.yyyy";
 
     private TextView tvTransactionBTWDate;
     private DatePickerDialog datePickerDialogBTW;
@@ -65,9 +62,6 @@ public class FragmentAddTransactionBetweenAccounts extends Fragment implements V
 
         List<String> accounts = dataSource.getAllAccountNames();
 
-        if (accounts.size() == 0) {
-            showDialogNoExpense();
-        }
 
         List<Account> accountList = dataSource.getAllAccountsInfo();
 
@@ -75,52 +69,30 @@ public class FragmentAddTransactionBetweenAccounts extends Fragment implements V
         spinAddTransBTWExpense1.setAdapter(new SpinnerAddTransExpenseAdapter(getActivity(), R.layout.spinner_item,
                 accounts, accountList));
 
+        int pos = spinAddTransBTWExpense1.getSelectedItemPosition();
+
+        String expense_first_name = accountList.get(pos).getName();
+        String expense_currency = accountList.get(pos).getCurrency();
+
+        List<Account> accountForTransferList =
+                dataSource.getAccountsAvailableForTransferInfo(expense_first_name, expense_currency);
 
 
         spinAddTransBTWExpense2.setAdapter(new SpinnerAddTransExpenseAdapter(getActivity(), R.layout.spinner_item,
-                accounts, accountList));
+                accounts, accountForTransferList));
     }
 
 
 
-    private void showDialogNoExpense() {
 
-        new MaterialDialog.Builder(getActivity())
-                .title(getString(R.string.no_expense))
-                .content(getString(R.string.dialog_text_no_expense))
-                .positiveText(getString(R.string.new_expense))
-                .negativeText(getString(R.string.return_to_main))
-                .callback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog dialog) {
-                        goToAddNewExpense();
-                    }
 
-                    @Override
-                    public void onNegative(MaterialDialog dialog) {
-                        returnToMain();
-                    }
-                })
-                .show();
-    }
 
-    public void returnToMain() {
-        closeActivity();
-    }
 
-    public void goToAddNewExpense() {
-        closeActivity();
-        openAddExpenseActivity();
-    }
+
 
 
     private void closeActivity() {
         getActivity().finish();
-    }
-
-    private void openAddExpenseActivity() {
-        Intent intent = new Intent(getActivity(), AddExpenseActivity.class);
-        startActivity(intent);
     }
 
 

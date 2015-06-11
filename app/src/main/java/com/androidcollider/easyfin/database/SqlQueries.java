@@ -17,6 +17,7 @@ public class SqlQueries {
                 "id_account       INTEGER NOT NULL," +
                 "account_name     TEXT NOT NULL," +
                 "currency         TEXT NOT NULL," +
+                "type             TEXT NOT NULL," +
                 "amount           REAL NOT NULL," +
                 "category         TEXT NOT NULL" +
                 ");";
