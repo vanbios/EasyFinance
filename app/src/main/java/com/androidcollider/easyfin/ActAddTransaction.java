@@ -103,9 +103,9 @@ public class ActAddTransaction extends AppCompatActivity {
     private void showDialogNoExpense() {
 
         new MaterialDialog.Builder(this)
-                .title(getString(R.string.no_expense))
-                .content(getString(R.string.dialog_text_no_expense))
-                .positiveText(getString(R.string.new_expense))
+                .title(getString(R.string.no_account))
+                .content(getString(R.string.dialog_text_no_account))
+                .positiveText(getString(R.string.new_account))
                 .negativeText(getString(R.string.return_to_main))
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
@@ -124,9 +124,9 @@ public class ActAddTransaction extends AppCompatActivity {
     private void showDialogSingleExpense() {
 
         new MaterialDialog.Builder(this)
-                .title(getString(R.string.single_expense))
-                .content(getString(R.string.dialog_text_single_expense))
-                .positiveText(getString(R.string.new_expense))
+                .title(getString(R.string.single_account))
+                .content(getString(R.string.dialog_text_single_account))
+                .positiveText(getString(R.string.new_account))
                 .negativeText(getString(R.string.return_to_main))
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override

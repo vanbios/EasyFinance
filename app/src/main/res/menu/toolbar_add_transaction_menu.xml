@@ -5,7 +5,7 @@
 
 
     <item android:id="@+id/add_transaction_action_save"
-        android:title="@string/save_expense"
+        android:title="@string/save_account"
         android:icon="@drawable/ic_check_white_24dp"
         app:showAsAction="always" />
 

@@ -285,7 +285,7 @@ public class DataSource {
 
 
 
-    /*public ArrayList<Account> getAccountsAvailableForTransferInfo(String expense_first_name, String expense_currency) {
+    /*public ArrayList<Account> getAccountsAvailableForTransferInfo(String expense_first_name, String account_currency) {
 
         ArrayList<Account> accountArrayList = new ArrayList<>();
 

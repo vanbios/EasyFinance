@@ -138,8 +138,8 @@ public class FrgMain extends Fragment {
     }
 
     private double[] getCurrentBalance(int posCurrency) {
-        String[] types = getResources().getStringArray(R.array.expense_type_array);
-        String[] currency = getResources().getStringArray(R.array.expense_currency_array);
+        String[] types = getResources().getStringArray(R.array.account_type_array);
+        String[] currency = getResources().getStringArray(R.array.account_currency_array);
 
         double[] balance = new double[4];
 
@@ -190,12 +190,12 @@ public class FrgMain extends Fragment {
     }
 
     private double[] getTransStatistic (int posPeriod, int posCurrency) {
-        String[] currency = getResources().getStringArray(R.array.expense_currency_array);
+        String[] currency = getResources().getStringArray(R.array.account_currency_array);
         return dataSource.getTransactionsStatistic(posPeriod, currency[posCurrency]);   //set int from spinner position
     }
 
     private String getCurrency() {
-        String[] currency_array = getResources().getStringArray(R.array.expense_currency_array_language);
+        String[] currency_array = getResources().getStringArray(R.array.account_currency_array_language);
         return currency_array[spinMainBalanceCurrency.getSelectedItemPosition()];
     }
 
@@ -203,7 +203,7 @@ public class FrgMain extends Fragment {
     private void setBalanceCurrencySpinner() {
         spinMainBalanceCurrency = (Spinner) view.findViewById(R.id.spinMainCurrency);
 
-        ArrayAdapter<?> adapterCurrency = ArrayAdapter.createFromResource(getActivity(), R.array.expense_currency_array, R.layout.spin_custom_item);
+        ArrayAdapter<?> adapterCurrency = ArrayAdapter.createFromResource(getActivity(), R.array.account_currency_array, R.layout.spin_custom_item);
         adapterCurrency.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinMainBalanceCurrency.setAdapter(adapterCurrency);
 

@@ -32,10 +32,10 @@ public class SpinnerTransCategoriesAdapter extends ArrayAdapter<String> {
 
     public View getCustomView(int position, View convertView, ViewGroup parent) {
         View mySpinner = inflater.inflate(R.layout.spin_custom_dropdown_item, parent, false);
-        TextView main_text = (TextView) mySpinner.findViewById(R.id.tvSpinCatCustom);
+        TextView main_text = (TextView) mySpinner.findViewById(R.id.tvSpinDropdownCategory);
         main_text.setText(categories[position]);
 
-        ImageView left_icon = (ImageView) mySpinner .findViewById(R.id.ivSpinCatCustom);
+        ImageView left_icon = (ImageView) mySpinner .findViewById(R.id.ivSpinDropdownCategory);
         left_icon.setImageResource(icons.getResourceId(position, 0));
 
         return mySpinner;
@@ -43,7 +43,7 @@ public class SpinnerTransCategoriesAdapter extends ArrayAdapter<String> {
 
     public View getCustomTopView(int position, View convertView, ViewGroup parent) {
         View topSpinner = inflater.inflate(R.layout.spin_custom_item, parent, false);
-        TextView top_text = (TextView) topSpinner.findViewById(R.id.tvTopSpinCatTrans);
+        TextView top_text = (TextView) topSpinner.findViewById(R.id.tvSpinTopText);
         top_text.setText(categories[position]);
 
         return topSpinner;

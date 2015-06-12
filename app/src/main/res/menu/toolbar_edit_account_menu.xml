@@ -4,12 +4,12 @@
     tools:context="example.gmariotti.it.test21.ToolbarActivity">
 
     <item android:id="@+id/change_expense_action_delete"
-        android:title="@string/delete_expense"
+        android:title="@string/delete_account"
         android:icon="@drawable/ic_delete_white_24dp"
         app:showAsAction="always" />
 
     <item android:id="@+id/change_expense_action_save"
-        android:title="@string/save_expense"
+        android:title="@string/save_account"
         android:icon="@drawable/ic_check_white_24dp"
         app:showAsAction="always" />
 

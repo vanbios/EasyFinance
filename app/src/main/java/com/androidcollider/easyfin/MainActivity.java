@@ -60,16 +60,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setViewPager() {
-        pager = (ViewPager) findViewById(R.id.pager);
+        pager = (ViewPager) findViewById(R.id.pagerMain);
         MyFragmentPagerAdapter adapterPager = new MyFragmentPagerAdapter(getSupportFragmentManager());
         adapterPager.addFragment(FrgMain.newInstance(0), getResources().getString(R.string.tab_main));
         adapterPager.addFragment(FrgTransactions.newInstance(1), getResources().getString(R.string.tab_transactions));
-        adapterPager.addFragment(FrgAccounts.newInstance(2), getResources().getString(R.string.tab_expenses));
+        adapterPager.addFragment(FrgAccounts.newInstance(2), getResources().getString(R.string.tab_accounts));
 
         pager.setAdapter(adapterPager);
         pager.setOffscreenPageLimit(3);
 
-        TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabs = (TabLayout) findViewById(R.id.tabsMain);
 
         tabs.setTabTextColors(getResources().getColor(R.color.custom_blue_gray_light),
                 getResources().getColor(R.color.custom_text_light));
@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
         Runnable task = new Runnable() {
             public void run() {
-                Snackbar.make(coordinatorLayout, R.string.snack_expense_list, Snackbar.LENGTH_LONG)
+                Snackbar.make(coordinatorLayout, R.string.snack_account_list, Snackbar.LENGTH_LONG)
                         .setAction(R.string.get_it, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {

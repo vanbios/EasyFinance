@@ -67,7 +67,7 @@ public class FrgAccounts extends Fragment{
 
         ArrayList<Account> accountArrayList = dataSource.getAllAccountsInfo();
 
-        RecyclerView recyclerExpense = (RecyclerView) view.findViewById(R.id.recyclerExpense);
+        RecyclerView recyclerExpense = (RecyclerView) view.findViewById(R.id.recyclerAccount);
 
         recyclerExpense.setLayoutManager(new LinearLayoutManager(recyclerExpense.getContext()));
         recyclerExpense.setAdapter(new AccountRecyclerAdapter(getActivity(), accountArrayList));

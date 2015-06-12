@@ -8,7 +8,7 @@
     <include layout="@layout/toolbar" />
 
     <android.support.design.widget.TabLayout
-        android:id="@+id/tabs"
+        android:id="@+id/tabsMain"
         style="@style/CustomTabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,20 +18,20 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/tabs">
+        android:layout_below="@+id/tabsMain">
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_top_fragments"
-            android:background="@drawable/toolbar_dropshadow" />
+            android:layout_height="@dimen/toolbar_shadow_height"
+            android:background="@drawable/toolbar_drop_shadow" />
     </FrameLayout>
 
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
+        android:id="@+id/pagerMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/tabs" />
+        android:layout_below="@+id/tabsMain" />
 
     <android.support.design.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -42,11 +42,11 @@
 
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/buttonFloat"
+        android:id="@+id/btnFloatMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:layout_margin="@dimen/float_button_margin"
+        android:layout_margin="@dimen/common_padding_large"
         android:src="@drawable/ic_plus_white_48dp"
         android:onClick="checkPageNum"/>
 

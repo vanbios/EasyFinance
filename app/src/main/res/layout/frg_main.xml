@@ -28,19 +28,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/cardMainBalance"
-                card_view:cardElevation="2dp" >
+                card_view:cardElevation="@dimen/card_elevation_small" >
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp">
+                    android:layout_marginBottom="@dimen/common_padding_small">
 
 
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/linLayoutMainBalanceTitle">
+                        android:id="@+id/linLayoutMainBalanceTitle"
+                        android:baselineAligned="false">
 
 
                         <RelativeLayout
@@ -60,7 +61,7 @@
                             android:layout_marginRight="20dp"
                             android:layout_marginEnd="20dp"
                             style="@style/SpinnerFont"
-                            android:layout_marginTop="5dp"/>
+                            android:layout_marginTop="@dimen/common_padding_small"/>
 
                         </RelativeLayout>
 
@@ -88,14 +89,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/linLayoutMainBalanceChart"
-                android:layout_below="@+id/linLayoutMainBalanceTitle">
+                android:layout_below="@+id/linLayoutMainBalanceTitle"
+                android:paddingLeft="@dimen/common_padding_medium"
+                android:paddingStart="@dimen/common_padding_medium"
+                android:paddingRight="@dimen/common_padding_medium"
+                android:paddingEnd="@dimen/common_padding_medium"
+                android:baselineAligned="false">
 
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="150dp"
-                    android:layout_weight="2"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp">
+                    android:layout_weight="2">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -163,9 +167,9 @@
                 android:orientation="horizontal"
                 android:id="@+id/linLayoutMainBalanceSum"
                 android:layout_below="@+id/linLayoutMainBalanceChart"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="5dp">
+                android:layout_marginLeft="@dimen/common_padding_medium"
+                android:layout_marginStart="@dimen/common_padding_medium"
+                android:layout_marginTop="@dimen/common_padding_small">
 
 
                 <TextView
@@ -202,8 +206,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/cardMainStatistic"
-                card_view:cardElevation="2dp"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
+                card_view:cardElevation="@dimen/card_elevation_small"
+                android:layout_marginTop="@dimen/common_padding_small"
                 android:layout_below="@+id/cardMainBalance" >
 
 
@@ -211,14 +215,15 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="5dp">
+                android:layout_marginBottom="@dimen/common_padding_small">
 
 
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/linLayoutMainStatisticTitle">
+                    android:id="@+id/linLayoutMainStatisticTitle"
+                    android:baselineAligned="false">
 
 
                     <RelativeLayout
@@ -234,7 +239,7 @@
                     android:text="@string/main_statistic"
                     android:id="@+id/tvMainStatistic"
                     style="@style/SpinnerFont"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="@dimen/common_padding_small"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginRight="12dp"
@@ -267,14 +272,15 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/linLayoutMainStatisticChart"
-                    android:layout_below="@+id/linLayoutMainStatisticTitle">
+                    android:layout_below="@+id/linLayoutMainStatisticTitle"
+                    android:baselineAligned="false">
 
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="100dp"
                     android:layout_weight="2"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp">
+                    android:layout_marginLeft="@dimen/common_padding_medium"
+                    android:layout_marginStart="@dimen/common_padding_medium">
 
 
 
@@ -324,9 +330,9 @@
                     android:layout_height="match_parent"
                     android:id="@+id/linLayoutMainStatisticSum"
                     android:layout_below="@+id/linLayoutMainStatisticChart"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="5dp">
+                    android:layout_marginLeft="@dimen/common_padding_medium"
+                    android:layout_marginStart="@dimen/common_padding_medium"
+                    android:layout_marginTop="@dimen/common_padding_small">
 
 
 

@@ -22,8 +22,8 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_top_fragments"
-            android:background="@drawable/toolbar_dropshadow" />
+            android:layout_height="@dimen/toolbar_shadow_height"
+            android:background="@drawable/toolbar_drop_shadow" />
     </FrameLayout>
 
 

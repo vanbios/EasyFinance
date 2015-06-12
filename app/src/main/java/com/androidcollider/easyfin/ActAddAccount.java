@@ -31,7 +31,7 @@ public class ActAddAccount extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_add_account);
 
-        setToolbar(R.string.new_expense);
+        setToolbar(R.string.new_account);
 
         setSpinner();
 
@@ -39,14 +39,14 @@ public class ActAddAccount extends AppCompatActivity {
     }
 
     private void setSpinner() {
-        spinAddExpenseType = (Spinner) findViewById(R.id.spinAddExpenseType);
-        spinAddExpenseCurrency = (Spinner) findViewById(R.id.spinAddExpenseCurrency);
+        spinAddExpenseType = (Spinner) findViewById(R.id.spinAddAccountType);
+        spinAddExpenseCurrency = (Spinner) findViewById(R.id.spinAddAccountCurrency);
 
         spinAddExpenseType.setAdapter(new SpinnerAccountTypeAdapter(this, R.layout.spin_custom_item,
-                getResources().getStringArray(R.array.expense_type_array)));
+                getResources().getStringArray(R.array.account_type_array)));
 
         spinAddExpenseCurrency.setAdapter(new SpinnerAccountCurrencyAdapter(this, R.layout.spin_custom_item,
-                getResources().getStringArray(R.array.expense_currency_array)));
+                getResources().getStringArray(R.array.account_currency_array)));
     }
 
     private void setToolbar(int id) {
@@ -61,28 +61,28 @@ public class ActAddAccount extends AppCompatActivity {
 
 
     private void addExpense() {
-        EditText editTextExpenseName = (EditText) findViewById(R.id.editTextExpenseName);
-        EditText editTextExpenseSum = (EditText) findViewById(R.id.editTextExpenseSum);
+        EditText editTextExpenseName = (EditText) findViewById(R.id.editTextAccountName);
+        EditText editTextExpenseSum = (EditText) findViewById(R.id.editTextAccountSum);
 
         String st = editTextExpenseName.getText().toString().replaceAll("\\s+", "");
 
         if (st.isEmpty()) {
             Shake.highlightEditText(editTextExpenseName);
-            Toast.makeText(this, getResources().getString(R.string.expense_empty_field_name), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getString(R.string.account_empty_field_name), Toast.LENGTH_LONG).show();
         }
 
         else {
 
             if (!editTextExpenseSum.getText().toString().matches(".*\\d.*")) {
                 Shake.highlightEditText(editTextExpenseSum);
-                Toast.makeText(this, getResources().getString(R.string.expense_empty_field_sum), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getResources().getString(R.string.account_empty_field_sum), Toast.LENGTH_LONG).show();
             }
 
             else {
 
                 if (dataSource.checkAccountNameMatches(editTextExpenseName.getText().toString())) {
                     Shake.highlightEditText(editTextExpenseName);
-                    Toast.makeText(this, getResources().getString(R.string.expense_name_exist), Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getResources().getString(R.string.account_name_exist), Toast.LENGTH_LONG).show();
                 }
 
                 else {

@@ -37,14 +37,14 @@ public class ActEditAccount extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_edit_account);
 
-        setToolbar(R.string.change_expense);
+        setToolbar(R.string.change_account);
 
         OLDNAME = getIntent().getStringExtra("name");
 
         setSpinner();
 
-        editTextExpenseNameChange = (EditText) findViewById(R.id.editTextExpenseNameChange);
-        editTextExpenseSumChange = (EditText) findViewById(R.id.editTextExpenseSumChange);
+        editTextExpenseNameChange = (EditText) findViewById(R.id.editTextEditAccountName);
+        editTextExpenseSumChange = (EditText) findViewById(R.id.editTextEditAccountSum);
 
         editTextExpenseNameChange.setText(getIntent().getStringExtra("name"));
         editTextExpenseNameChange.setSelection(editTextExpenseNameChange.getText().length());
@@ -59,17 +59,17 @@ public class ActEditAccount extends AppCompatActivity {
     }
 
     private void setSpinner() {
-        spinExpenseTypeChange = (Spinner) findViewById(R.id.spinExpenseTypeChange);
-        spinExpenseCurrencyChange = (Spinner) findViewById(R.id.spinExpenseCurrencyChange);
+        spinExpenseTypeChange = (Spinner) findViewById(R.id.spinEditAccountType);
+        spinExpenseCurrencyChange = (Spinner) findViewById(R.id.spinEditAccountCurrency);
 
         spinExpenseTypeChange.setAdapter(new SpinnerAccountTypeAdapter(this, R.layout.spin_custom_item,
-                getResources().getStringArray(R.array.expense_type_array)));
+                getResources().getStringArray(R.array.account_type_array)));
 
         spinExpenseCurrencyChange.setAdapter(new SpinnerAccountCurrencyAdapter(this, R.layout.spin_custom_item,
-                getResources().getStringArray(R.array.expense_currency_array)));
+                getResources().getStringArray(R.array.account_currency_array)));
 
 
-        String[] type = getResources().getStringArray(R.array.expense_type_array);
+        String[] type = getResources().getStringArray(R.array.account_type_array);
 
         String typeVal = getIntent().getStringExtra("type");
 
@@ -79,7 +79,7 @@ public class ActEditAccount extends AppCompatActivity {
             }
         }
 
-        String[] currency = getResources().getStringArray(R.array.expense_currency_array);
+        String[] currency = getResources().getStringArray(R.array.account_currency_array);
 
         String currencyVal = getIntent().getStringExtra("currency");
 
@@ -107,14 +107,14 @@ public class ActEditAccount extends AppCompatActivity {
 
         if (st.isEmpty()) {
             Shake.highlightEditText(editTextExpenseNameChange);
-            Toast.makeText(this, getResources().getString(R.string.expense_empty_field_name), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getString(R.string.account_empty_field_name), Toast.LENGTH_LONG).show();
         }
 
         else {
 
             if (!editTextExpenseSumChange.getText().toString().matches(".*\\d.*")) {
                 Shake.highlightEditText(editTextExpenseSumChange);
-                Toast.makeText(this, getResources().getString(R.string.expense_empty_field_sum), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getResources().getString(R.string.account_empty_field_sum), Toast.LENGTH_LONG).show();
             }
 
             else {
@@ -123,7 +123,7 @@ public class ActEditAccount extends AppCompatActivity {
 
                 if (dataSource.checkAccountNameMatches(s) && ! s.equals(OLDNAME)) {
                     Shake.highlightEditText(editTextExpenseNameChange);
-                    Toast.makeText(this, getResources().getString(R.string.expense_name_exist), Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getResources().getString(R.string.account_name_exist), Toast.LENGTH_LONG).show();
                 }
 
                 else {
@@ -148,10 +148,10 @@ public class ActEditAccount extends AppCompatActivity {
     private void deleteExpenseDialog() {
 
         new MaterialDialog.Builder(this)
-                .title(getString(R.string.dialog_title_delete_expense))
-                .content(getString(R.string.dialog_text_delete_expense))
-                .positiveText(getString(R.string.dialog_button_delete_expense))
-                .negativeText(getString(R.string.dialog_button_delete_expense_cancel))
+                .title(getString(R.string.dialog_title_delete_account))
+                .content(getString(R.string.dialog_text_delete_account))
+                .positiveText(getString(R.string.dialog_button_delete_account))
+                .negativeText(getString(R.string.dialog_button_delete_account_cancel))
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {

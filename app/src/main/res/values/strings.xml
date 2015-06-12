@@ -1,19 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    // app info
     <string name="app_name">FinU</string>
     <string name="action_settings">Settings</string>
     <string name="menu_exit">Вихід</string>
-    <string name="new_transaction">Нова транзакція</string>
-    <string name="new_expense">Новий рахунок</string>
-    <string name="change_expense">Редагування рахунку</string>
-    <string name="save_expense">Зберегти</string>
-    <string name="delete_expense">Видалити</string>
 
+
+
+    // actions
+    <string name="new_transaction">Нова транзакція</string>
+    <string name="new_account">Новий рахунок</string>
+    <string name="change_account">Редагування рахунку</string>
+    <string name="save_account">Зберегти</string>
+    <string name="delete_account">Видалити</string>
+    <string name="account_add">Додати рахунок</string>
+    <string name="transaction_add">Додати транзакцію</string>
+    <string name="return_to_main">На головну</string>
+
+
+
+    // main tabs
     <string name="tab_transactions">Транзакції</string>
-    <string name="tab_expenses">Рахунки</string>
+    <string name="tab_accounts">Рахунки</string>
     <string name="tab_main">Головна</string>
 
+
+    // transactions tabs
+    <string name="add_transaction_tab_default">З рахунку</string>
+    <string name="add_transaction_tab_between">Між рахунками</string>
+
+
+
+
+    // text fields main
     <string name="main_current_balance">Баланс</string>
     <string name="main_cash">Готівка</string>
     <string name="main_card">Картки</string>
@@ -24,52 +44,67 @@
     <string name="main_period">Період</string>
     <string name="main_income">Дохід</string>
     <string name="main_cost">Витрати</string>
-    <string name="expense_add">Додати рахунок</string>
-    <string name="transaction_add">Додати транзакцію</string>
-    <string name="radiobtn_income">Дохід</string>
-    <string name="radiobtn_cost">Витрати</string>
+
+
+
+
+    // add accounts and transactions activities text fields
     <string name="sum_hint">Введіть суму</string>
-    <string name="expense_name_hint">Назва рахунку</string>
-    <string name="expense_type">Тип рахунку</string>
-    <string name="expense_currency">Валюта</string>
-    <string name="return_to_main">На головну</string>
-    <string name="no_expense">Відсутні рахунки!</string>
-    <string name="single_expense">Недостатньо рахунків!</string>
-    <string name="dialog_text_no_expense">Неможливо здійснити транзакцію, оскільки не додано жодного рахунку.
+    <string name="account_name_hint">Назва рахунку</string>
+    <string name="account_type">Тип рахунку</string>
+    <string name="account_currency">Валюта</string>
+    <string name="date">Дата</string>
+    <string name="category">Категорія</string>
+    <string name="account">Рахунок</string>
+
+
+
+
+    // warnings and alarms (dialogs, toasts etc.)
+    <string name="no_account">Відсутні рахунки!</string>
+    <string name="single_account">Недостатньо рахунків!</string>
+    <string name="dialog_text_no_account">Неможливо здійснити транзакцію, оскільки не додано жодного рахунку.
     Натисніть "Новий рахунок", щоб додати.</string>
 
-    <string name="dialog_text_single_expense">Для даної транзакції потрібно мати хоча б 2 рахунки.
+    <string name="dialog_text_single_account">Для даної транзакції потрібно мати хоча б 2 рахунки.
     Натисніть "Новий рахунок", щоб додати.</string>
 
-    <string name="dialog_title_no_available_expense">Відсутні інші рахунки з даною валютою</string>
-    <string name="dialog_text_no_available_expense">Переводити кошти можна лише між рахунками з однаковою валютою.</string>
-
-    <string name="dialog_text_delete_expense">Увага! Даний рахунок буде видалено.</string>
-    <string name="dialog_title_delete_expense">Видалення</string>
-    <string name="dialog_button_delete_expense">Видалити</string>
-    <string name="dialog_button_delete_expense_cancel">Відмінити</string>
+    <string name="dialog_title_no_available_account">Відсутні інші рахунки з даною валютою</string>
+    <string name="dialog_text_no_available_account">Переводити кошти можна лише між рахунками з однаковою валютою.</string>
 
     <string name="transaction_not_enough_costs">Недостатньо коштів на рахунку для здійснення транзакції на суму</string>
-
     <string name="transaction_empty_amount_field">Вкажіть суму транзакції</string>
 
-    <string name="expense_empty_field_name">Вкажіть назву рахунку</string>
-    <string name="expense_empty_field_sum">Вкажіть суму рахунку</string>
-    <string name="expense_name_exist">Рахунок з такою назвою вже існує. Спробуйте іншу</string>
-    <string name="snack_expense_list">Для редагування зробіть довге натискання на рахунок</string>
+    <string name="account_empty_field_name">Вкажіть назву рахунку</string>
+    <string name="account_empty_field_sum">Вкажіть суму рахунку</string>
+    <string name="account_name_exist">Рахунок з такою назвою вже існує. Спробуйте іншу</string>
+    <string name="snack_account_list">Для редагування зробіть довге натискання на рахунок</string>
+
+    <string name="dialog_text_delete_account">Увага! Даний рахунок буде видалено.</string>
+    <string name="dialog_title_delete_account">Видалення</string>
+
+
+
+
+    // buttons (dialogs, snack_bar etc.)
+    <string name="dialog_button_delete_account">Видалити</string>
+    <string name="dialog_button_delete_account_cancel">Відмінити</string>
+
     <string name="get_it">Зрозуміло</string>
 
-    <string name="value_textview">10000</string>
-    <string name="date">Дата</string>
-
-    <string name="category">Категорія</string>
-    <string name="expense">Рахунок</string>
-
-    <string name="add_transaction_tab_default">З рахунку</string>
-    <string name="add_transaction_tab_between">Між рахунками</string>
 
 
 
+    //prepare to delete!
+    <string name="radio_btn_income">Дохід</string>
+    <string name="radio_btn_cost">Витрати</string>
+
+
+
+
+
+
+    //string arrays
     <string-array name="cat_transaction_array">
         <item>Без категорії</item>
         <item>Їжа</item>
@@ -82,26 +117,30 @@
         <item>Електроніка</item>
     </string-array>
 
-    <string-array name="expense_type_array">
+
+    <string-array name="account_type_array">
         <item>Готівка</item>
         <item>Картки</item>
         <item>Депозити</item>
         <item>Борги</item>
     </string-array>
 
-    <string-array name="expense_currency_array">
+
+    <string-array name="account_currency_array">
         <item>UAH</item>
         <item>USD</item>
         <item>EUR</item>
         <item>RUB</item>
     </string-array>
 
-    <string-array name="expense_currency_array_language">
+
+    <string-array name="account_currency_array_language">
         <item>грн</item>
         <item>$</item>
         <item>€</item>
         <item>руб</item>
     </string-array>
+
 
     <string-array name="main_statistic_period_array">
         <item>День</item>

@@ -33,10 +33,10 @@ public class AccountRecyclerAdapter extends RecyclerView.Adapter<AccountRecycler
         this.accountArrayList = accountArrayList;
 
         account_type_icons = context.getResources().obtainTypedArray(R.array.expense_type_icons);
-        account_type = context.getResources().getStringArray(R.array.expense_type_array);
+        account_type = context.getResources().getStringArray(R.array.account_type_array);
 
-        currency = context.getResources().getStringArray(R.array.expense_currency_array);
-        currency_language = context.getResources().getStringArray(R.array.expense_currency_array_language);
+        currency = context.getResources().getStringArray(R.array.account_currency_array);
+        currency_language = context.getResources().getStringArray(R.array.account_currency_array_language);
     }
 
     @Override
@@ -112,9 +112,9 @@ public class AccountRecyclerAdapter extends RecyclerView.Adapter<AccountRecycler
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            ivAccountType = (ImageView) view.findViewById(R.id.ivItemFragmentExpenseType);
-            tvAccountName = (TextView) view.findViewById(R.id.tvItemFragmentExpenseName);
-            tvAccountAmount = (TextView) view.findViewById(R.id.tvItemFragmentExpenseAmount);
+            ivAccountType = (ImageView) view.findViewById(R.id.ivItemFragmentAccountType);
+            tvAccountName = (TextView) view.findViewById(R.id.tvItemFragmentAccountName);
+            tvAccountAmount = (TextView) view.findViewById(R.id.tvItemFragmentAccountAmount);
         }
     }
 }

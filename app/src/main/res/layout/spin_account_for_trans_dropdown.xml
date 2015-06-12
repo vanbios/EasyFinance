@@ -15,13 +15,15 @@
         android:layout_width="36dp"
         android:layout_height="36dp"
 
-        android:id="@+id/ivSpinExpenseTypeCustom"
+        android:id="@+id/ivSpinDropdownAccountType"
 
         android:layout_marginTop="8dp"
 
         android:layout_marginBottom="8dp"
         android:layout_marginRight="@dimen/margin_spinner_elements"
-        android:layout_marginEnd="@dimen/margin_spinner_elements"/>
+        android:layout_marginEnd="@dimen/margin_spinner_elements"
+
+        android:contentDescription="@string/account_type"/>
 
 
 
@@ -29,10 +31,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/SpinnerFont"
-        android:id="@+id/tvSpinExpenseNameCustom"
+        android:id="@+id/tvSpinDropdownAccountName"
 
-        android:layout_toRightOf="@+id/ivSpinExpenseTypeCustom"
-        android:layout_toEndOf="@+id/ivSpinExpenseTypeCustom"
+        android:layout_toRightOf="@+id/ivSpinDropdownAccountType"
+        android:layout_toEndOf="@+id/ivSpinDropdownAccountType"
 
         android:layout_marginBottom="8dp" />
 
@@ -40,12 +42,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/SpinnerFontGrey"
-        android:id="@+id/tvSpinExpenseAmountCustom"
+        android:id="@+id/tvSpinDropdownAccountAmount"
 
-        android:layout_toRightOf="@+id/ivSpinExpenseTypeCustom"
-        android:layout_toEndOf="@+id/ivSpinExpenseTypeCustom"
+        android:layout_toRightOf="@+id/ivSpinDropdownAccountType"
+        android:layout_toEndOf="@+id/ivSpinDropdownAccountType"
 
-        android:layout_below="@+id/tvSpinExpenseNameCustom" />
+        android:layout_below="@+id/tvSpinDropdownAccountName" />
 
 
 </RelativeLayout>

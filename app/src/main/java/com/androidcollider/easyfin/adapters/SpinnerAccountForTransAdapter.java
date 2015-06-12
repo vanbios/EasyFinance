@@ -32,9 +32,9 @@ public class SpinnerAccountForTransAdapter extends ArrayAdapter<String> {
         accountsList = accountsL;
         //flags = context.getResources().obtainTypedArray(R.array.flags);
         type_icons = context.getResources().obtainTypedArray(R.array.expense_type_icons);
-        account_type = context.getResources().getStringArray(R.array.expense_type_array);
-        account_curr = context.getResources().getStringArray(R.array.expense_currency_array);
-        account_curr_lang = context.getResources().getStringArray(R.array.expense_currency_array_language);
+        account_type = context.getResources().getStringArray(R.array.account_type_array);
+        account_curr = context.getResources().getStringArray(R.array.account_currency_array);
+        account_curr_lang = context.getResources().getStringArray(R.array.account_currency_array_language);
         inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -45,10 +45,10 @@ public class SpinnerAccountForTransAdapter extends ArrayAdapter<String> {
 
     public View getCustomView(int position, View convertView, ViewGroup parent) {
         View mySpinner = inflater.inflate(R.layout.spin_account_for_trans_dropdown, parent, false);
-        TextView main_text = (TextView) mySpinner.findViewById(R.id.tvSpinExpenseNameCustom);
+        TextView main_text = (TextView) mySpinner.findViewById(R.id.tvSpinDropdownAccountName);
         main_text.setText(accountsList.get(position).getName());
 
-        ImageView left_icon = (ImageView) mySpinner.findViewById(R.id.ivSpinExpenseTypeCustom);
+        ImageView left_icon = (ImageView) mySpinner.findViewById(R.id.ivSpinDropdownAccountType);
 
         String typeExp = accountsList.get(position).getType();
 
@@ -58,7 +58,7 @@ public class SpinnerAccountForTransAdapter extends ArrayAdapter<String> {
             }
         }
 
-        TextView amount_text = (TextView) mySpinner.findViewById(R.id.tvSpinExpenseAmountCustom);
+        TextView amount_text = (TextView) mySpinner.findViewById(R.id.tvSpinDropdownAccountAmount);
 
         int PRECISE = 100;
         String FORMAT = "0.00";
@@ -82,7 +82,7 @@ public class SpinnerAccountForTransAdapter extends ArrayAdapter<String> {
 
     public View getCustomTopView(int position, View convertView, ViewGroup parent) {
         View topSpinner = inflater.inflate(R.layout.spin_custom_item, parent, false);
-        TextView top_text = (TextView) topSpinner.findViewById(R.id.tvTopSpinCatTrans);
+        TextView top_text = (TextView) topSpinner.findViewById(R.id.tvSpinTopText);
         top_text.setText(accountsList.get(position).getName());
 
         return topSpinner;

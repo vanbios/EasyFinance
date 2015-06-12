@@ -71,7 +71,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment implements View.O
 
 
     private void setSpinnerExpense1() {
-        spinAddTransBTWExpense1 = (Spinner) view.findViewById(R.id.spinAddTransBTWExpense1);
+        spinAddTransBTWExpense1 = (Spinner) view.findViewById(R.id.spinAddTransBTWAccount1);
 
         List<String> accounts1 = new ArrayList<>();
 
@@ -100,7 +100,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment implements View.O
 
     private void setSpinnerExpense2() {
 
-        spinAddTransBTWExpense2 = (Spinner) view.findViewById(R.id.spinAddTransBTWExpense2);
+        spinAddTransBTWExpense2 = (Spinner) view.findViewById(R.id.spinAddTransBTWAccount2);
         spinAddTransBTWExpense2.setEnabled(false);
         spinAddTransBTWExpense2.setAdapter(null);
 
@@ -139,8 +139,8 @@ public class FrgAddTransactionBetweenAccounts extends Fragment implements View.O
 
     private void showNoAvailableAccountsDialog() {
         new MaterialDialog.Builder(getActivity())
-                .title(getActivity().getResources().getString(R.string.dialog_title_no_available_expense))
-                .content(getActivity().getResources().getString(R.string.dialog_text_no_available_expense))
+                .title(getActivity().getResources().getString(R.string.dialog_title_no_available_account))
+                .content(getActivity().getResources().getString(R.string.dialog_text_no_available_account))
                 .positiveText(getActivity().getResources().getString(R.string.get_it))
                 .show();
     }

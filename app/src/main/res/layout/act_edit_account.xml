@@ -12,8 +12,8 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/margin_top_fragments"
-            android:background="@drawable/toolbar_dropshadow" />
+            android:layout_height="@dimen/toolbar_shadow_height"
+            android:background="@drawable/toolbar_drop_shadow" />
     </FrameLayout>
 
     <android.support.v7.widget.CardView
@@ -21,13 +21,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_big_card_top"
-        android:layout_marginLeft="@dimen/padding_big_card_side"
-        android:layout_marginStart="@dimen/padding_big_card_side"
-        android:layout_marginRight="@dimen/padding_big_card_side"
-        android:layout_marginEnd="@dimen/padding_big_card_side"
+        android:layout_marginLeft="@dimen/common_padding_medium"
+        android:layout_marginStart="@dimen/common_padding_medium"
+        android:layout_marginRight="@dimen/common_padding_medium"
+        android:layout_marginEnd="@dimen/common_padding_medium"
         android:layout_centerHorizontal="true"
-        android:id="@+id/cardChangeExpenseElements"
-        card_view:cardElevation="4dp">
+        android:id="@+id/cardEditAccountElements"
+        card_view:cardElevation="@dimen/card_elevation_medium">
 
         <ScrollView
             android:layout_width="fill_parent"
@@ -43,19 +43,19 @@
             android:paddingBottom="30dp">
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/tilExpenseNameChange"
+        android:id="@+id/tilEditAccountName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="@dimen/common_padding_large"
         android:layout_centerHorizontal="true">
 
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/editTextExpenseNameChange"
+            android:id="@+id/editTextEditAccountName"
             android:ems="10"
             android:maxLength="20"
-            android:hint="@string/expense_name_hint"
+            android:hint="@string/account_name_hint"
             android:layout_centerHorizontal="true"
             style="@style/TitleFont" />
 
@@ -66,9 +66,10 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/linLayoutChangeExpenseTitles"
-                android:layout_below="@+id/tilExpenseNameChange"
-                android:layout_marginTop="20dp">
+                android:id="@+id/linLayoutEditAccountTitles"
+                android:layout_below="@+id/tilEditAccountName"
+                android:layout_marginTop="20dp"
+                android:baselineAligned="false">
 
 
                 <RelativeLayout
@@ -82,8 +83,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/expense_type"
-                        android:id="@+id/tvExpenseTypeChange"
+                        android:text="@string/account_type"
+                        android:id="@+id/tvEditAccountType"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
                         android:layout_marginLeft="50dp"
@@ -102,8 +103,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/expense_currency"
-                        android:id="@+id/tvExpenseCurrencyChange"
+                        android:text="@string/account_currency"
+                        android:id="@+id/tvEditAccountCurrency"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true"
                         android:layout_marginRight="56dp"
@@ -119,8 +120,9 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/linLayoutChangeExpenseSpinners"
-                android:layout_below="@+id/linLayoutChangeExpenseTitles">
+                android:id="@+id/linLayoutEditAccountSpinners"
+                android:layout_below="@+id/linLayoutEditAccountTitles"
+                android:baselineAligned="false">
 
 
                 <RelativeLayout
@@ -131,9 +133,9 @@
                     <Spinner
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/spinExpenseTypeChange"
+                        android:id="@+id/spinEditAccountType"
                         android:spinnerMode="dialog"
-                        android:prompt="@string/expense_type"
+                        android:prompt="@string/account_type"
 
                         android:layout_marginLeft="46dp"
                         android:layout_marginStart="46dp"/>
@@ -149,9 +151,9 @@
                     <Spinner
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/spinExpenseCurrencyChange"
+                        android:id="@+id/spinEditAccountCurrency"
                         android:spinnerMode="dialog"
-                        android:prompt="@string/expense_currency"
+                        android:prompt="@string/account_currency"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true"
                         android:layout_marginRight="48dp"
@@ -163,12 +165,12 @@
             </LinearLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/tilExpenseSumChange"
+        android:id="@+id/tilEditAccountSum"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/linLayoutChangeExpenseSpinners">
+        android:layout_below="@+id/linLayoutEditAccountSpinners">
 
         <EditText
             android:layout_width="wrap_content"
@@ -177,7 +179,7 @@
             android:ems="6"
             android:hint="@string/sum_hint"
             android:maxLength="12"
-            android:id="@+id/editTextExpenseSumChange"
+            android:id="@+id/editTextEditAccountSum"
             android:layout_centerHorizontal="true"
             style="@style/TitleFont"/>
 

@@ -4,7 +4,6 @@ package com.androidcollider.easyfin.utils;
 import android.content.Context;
 
 import com.androidcollider.easyfin.R;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 
@@ -30,7 +29,7 @@ public class ChartDataUtils {
         float deposit = (float) values[2];
         float debt = (float) values[3];
 
-        String[] expense_type = context.getResources().getStringArray(R.array.expense_type_array);
+        String[] expense_type = context.getResources().getStringArray(R.array.account_type_array);
 
         ArrayList<BarEntry> valueSet1 = new ArrayList<>();
         BarEntry v1e1 = new BarEntry(cash, 0);
