@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DbHelper extends SQLiteOpenHelper {
 
     Context context;
-    private static final String DATABASE_NAME = "Easyfin.db";
+    private static final String DATABASE_NAME = "FinU.db";
     private static final int DATABASE_VERSION = 1;
 
     public DbHelper(Context context) {
@@ -19,9 +19,8 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SqlQueries.create_account_table);
-        //db.execSQL(SqlQueries.create_transaction_table);
-        //db.execSQL(SqlQueries.create_category_table);
         db.execSQL(SqlQueries.create_transactions_table);
+        db.execSQL(SqlQueries.create_trans_btw_accounts_table);
     }
     // Method for update database
     @Override

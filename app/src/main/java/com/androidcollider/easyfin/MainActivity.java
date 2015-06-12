@@ -17,9 +17,9 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.androidcollider.easyfin.adapters.MyFragmentPagerAdapter;
-import com.androidcollider.easyfin.fragments.FragmentExpense;
-import com.androidcollider.easyfin.fragments.FragmentMain;
-import com.androidcollider.easyfin.fragments.FragmentTransaction;
+import com.androidcollider.easyfin.fragments.FrgAccounts;
+import com.androidcollider.easyfin.fragments.FrgMain;
+import com.androidcollider.easyfin.fragments.FrgTransactions;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.act_main);
 
         setToolbar(R.string.app_name);
 
@@ -62,9 +62,9 @@ public class MainActivity extends AppCompatActivity {
     private void setViewPager() {
         pager = (ViewPager) findViewById(R.id.pager);
         MyFragmentPagerAdapter adapterPager = new MyFragmentPagerAdapter(getSupportFragmentManager());
-        adapterPager.addFragment(FragmentMain.newInstance(0), getResources().getString(R.string.tab_main));
-        adapterPager.addFragment(FragmentTransaction.newInstance(1), getResources().getString(R.string.tab_transactions));
-        adapterPager.addFragment(FragmentExpense.newInstance(2), getResources().getString(R.string.tab_expenses));
+        adapterPager.addFragment(FrgMain.newInstance(0), getResources().getString(R.string.tab_main));
+        adapterPager.addFragment(FrgTransactions.newInstance(1), getResources().getString(R.string.tab_transactions));
+        adapterPager.addFragment(FrgAccounts.newInstance(2), getResources().getString(R.string.tab_expenses));
 
         pager.setAdapter(adapterPager);
         pager.setOffscreenPageLimit(3);
@@ -144,18 +144,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addTransactionMain() {
-        Intent intent = new Intent(this, AddTransactionActivity.class);
+        Intent intent = new Intent(this, ActAddTransaction.class);
         startActivity(intent);
     }
 
     public void addExpenseMain() {
-        Intent intent = new Intent(this, AddExpenseActivity.class);
+        Intent intent = new Intent(this, ActAddAccount.class);
         startActivity(intent);
     }
 
     public void checkPageNum(View view){
         switch (pager.getCurrentItem()) {
-            case 0: addTransactionMain(); break;
+            case 0:
             case 1: addTransactionMain(); break;
             case 2: addExpenseMain(); break;
         }

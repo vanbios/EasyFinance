@@ -17,7 +17,7 @@ import java.util.Date;
 
 
 public class DataSource {
-    private final static String TAG = "Андроідний Коллайдер";
+    //private final static String TAG = "Андроідний Коллайдер";
     private final static String APP_PREFERENCES = "EasyfinPref";
 
     private DbHelper dbHelper;
@@ -75,7 +75,7 @@ public class DataSource {
         closeLocal();
     }
 
-    public int getAccountIdByName(String name) {
+    /*public int getAccountIdByName(String name) {
         String selectQuery = "SELECT id_account FROM Account WHERE name = '" + name + "' ";
         openLocalToRead();
 
@@ -91,9 +91,9 @@ public class DataSource {
         closeLocal();
 
         return 0;
-    }
+    }*/
 
-    public String getAccountCurrencyByName(String name) {
+    /*public String getAccountCurrencyByName(String name) {
         String selectQuery = "SELECT currency FROM Account WHERE name = '" + name + "' ";
         openLocalToRead();
 
@@ -109,9 +109,9 @@ public class DataSource {
         closeLocal();
 
         return "";
-    }
+    }*/
 
-    public double getAccountAmountForTransaction(int id_account) {
+    /*public double getAccountAmountForTransaction(int id_account) {
         String selectQuery = "SELECT amount FROM Account WHERE id_account = '" + id_account + "' ";
 
         openLocalToRead();
@@ -128,7 +128,7 @@ public class DataSource {
         closeLocal();
 
         return 0;
-    }
+    }*/
 
     public void updateAccountAmountAfterTransaction(int id_account, double amount) {
         ContentValues cv = new ContentValues();
@@ -225,7 +225,7 @@ public class DataSource {
         return arrayStatistic;
     }
 
-    public double getExpenseSum(String type, String currency) {
+    public double getAccountsSumGroupByCurrency(String type, String currency) {
         String selectQuery = "SELECT SUM(amount) FROM Account WHERE type = '" + type + "' "
                 + "AND currency = '" + currency + "' ";
         openLocalToRead();
@@ -368,7 +368,7 @@ public class DataSource {
 
 
 
-    public ArrayList<Transaction> getAllTransactionsInformation(){
+    public ArrayList<Transaction> getAllTransactionsInfo(){
         ArrayList<Transaction> transactionArrayList = new ArrayList<>();
 
         String selectQuery = "SELECT amount, date, category, account_name, type, currency FROM Transactions ";
@@ -408,7 +408,7 @@ public class DataSource {
     }
 
 
-    public String getAccountTypeByName(String name) {
+    /*public String getAccountTypeByName(String name) {
         String selectQuery = "SELECT type FROM Account WHERE name = '" + name + "' ";
         openLocalToRead();
 
@@ -424,9 +424,9 @@ public class DataSource {
         closeLocal();
 
         return "";
-    }
+    }*/
 
-    public void changeAccount(String oldName, Account account) {
+    public void editAccount(String oldName, Account account) {
         ContentValues cv = new ContentValues();
 
         cv.put("name", account.getName());

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="icons">
+    <array name="trans_categories_icons">
         <item>@drawable/ic_more_grey600_24dp</item>
         <item>@drawable/ic_food_grey600_24dp</item>
         <item>@drawable/ic_tram_grey600_24dp</item>
@@ -20,30 +20,13 @@
         <item>@drawable/ic_flag_russia_48dp</item>
     </array>
 
-    <array name="flags_mini">
-        <item>@drawable/ic_flag_ukraine_24dp</item>
-        <item>@drawable/ic_flag_usa_24dp</item>
-        <item>@drawable/ic_flag_europe_24dp</item>
-        <item>@drawable/ic_flag_russia_24dp</item>
-    </array>
 
-    <array name="expense_type_48">
+    <array name="expense_type_icons">
         <item>@drawable/ic_cash_48</item>
         <item>@drawable/ic_card_48</item>
         <item>@drawable/ic_deposit_48</item>
         <item>@drawable/ic_debt_48</item>
     </array>
 
-    <array name="expense_type_24">
-        <item>@drawable/ic_cash_24</item>
-        <item>@drawable/ic_card_24</item>
-        <item>@drawable/ic_deposit_24</item>
-        <item>@drawable/ic_debt_24</item>
-    </array>
 
-    <array name="actions_toolbar">
-        <item>@drawable/ic_plus_circle_white_24dp</item>
-        <item>@drawable/ic_checkbox_marked_circle_white_24dp</item>
-        <item>@drawable/ic_delete_white_24dp</item>
-    </array>
 </resources>

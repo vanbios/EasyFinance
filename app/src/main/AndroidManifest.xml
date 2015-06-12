@@ -20,7 +20,7 @@
         </activity>
 
         <activity
-            android:name=".AddTransactionActivity"
+            android:name=".ActAddTransaction"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
@@ -31,7 +31,7 @@
         </activity>
 
         <activity
-            android:name=".AddExpenseActivity"
+            android:name=".ActAddAccount"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
@@ -42,7 +42,7 @@
         </activity>
 
         <activity
-            android:name=".ChangeExpenseActivity"
+            android:name=".ActEditAccount"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize">

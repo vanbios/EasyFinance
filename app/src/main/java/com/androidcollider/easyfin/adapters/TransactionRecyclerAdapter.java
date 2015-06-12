@@ -25,13 +25,13 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
     private ArrayList<Transaction> transactionArrayList;
 
     private final TypedArray icons;
-    private final TypedArray expense_type_icons;
+    private final TypedArray account_type_icons;
     //private final TypedArray flags;
     private final String[] categories;
     private final String[] currency;
 
     private final String[] currency_language;
-    private final String[] expense_type;
+    private final String[] account_type;
 
     DataSource dataSource;
 
@@ -40,13 +40,13 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
         this.context = context;
         this.transactionArrayList = transactionArrayList;
 
-        icons = context.getResources().obtainTypedArray(R.array.icons);
+        icons = context.getResources().obtainTypedArray(R.array.trans_categories_icons);
         //flags = context.getResources().obtainTypedArray(R.array.flags);
         categories = context.getResources().getStringArray(R.array.cat_transaction_array);
         currency = context.getResources().getStringArray(R.array.expense_currency_array);
         currency_language = context.getResources().getStringArray(R.array.expense_currency_array_language);
-        expense_type = context.getResources().getStringArray(R.array.expense_type_array);
-        expense_type_icons = context.getResources().obtainTypedArray(R.array.expense_type_48);
+        account_type = context.getResources().getStringArray(R.array.expense_type_array);
+        account_type_icons = context.getResources().obtainTypedArray(R.array.expense_type_icons);
 
         dataSource = new DataSource(context);
     }
@@ -65,7 +65,7 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_fragment_transaction, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_frg_transaction, parent, false);
         return new ViewHolder(view);
     }
 
@@ -79,8 +79,8 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
         Transaction transaction = getTransaction(position);
 
 
-        holder.tvItemFragmentTransactionAccountName.setText(transaction.getAccount_name());
-        holder.tvItemFragmentTransactionDate.setText(DateFormat.longToDateString(transaction.getDate(), DATEFORMAT));
+        holder.tvTransAccountName.setText(transaction.getAccount_name());
+        holder.tvTransDate.setText(DateFormat.longToDateString(transaction.getDate(), DATEFORMAT));
 
         String amount = FormatUtils.doubleFormatter(transaction.getAmount(), FORMAT, PRECISE);
 
@@ -96,12 +96,12 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
 
 
         if (amount.contains("-")) {
-            holder.tvItemFragmentTransactionAmount.setText(amount + " " + cur_lang);
-            holder.tvItemFragmentTransactionAmount.setTextColor(context.getResources().getColor(R.color.custom_red));
+            holder.tvTransAmount.setText(amount + " " + cur_lang);
+            holder.tvTransAmount.setTextColor(context.getResources().getColor(R.color.custom_red));
         }
         else {
-            holder.tvItemFragmentTransactionAmount.setText("+" + amount + " " + cur_lang);
-            holder.tvItemFragmentTransactionAmount.setTextColor(context.getResources().getColor(R.color.custom_green));
+            holder.tvTransAmount.setText("+" + amount + " " + cur_lang);
+            holder.tvTransAmount.setTextColor(context.getResources().getColor(R.color.custom_green));
         }
 
         //Context catcont = holder.ivItemFragmentTransactionCategory.getContext();
@@ -114,16 +114,16 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
 
         for (int i = 0; i < categories.length; i++) {
             if (categories[i].equals(cat)) {
-                holder.ivItemFragmentTransactionCategory.setImageDrawable(icons.getDrawable(i));
+                holder.ivTransCategory.setImageDrawable(icons.getDrawable(i));
             }
         }
 
         //String type = dataSource.getAccountTypeByName(name);
         String type = transaction.getAccount_type();
 
-        for (int i = 0; i < expense_type.length; i++) {
-            if (expense_type[i].equals(type)) {
-                holder.ivItemFragmentTransactionExpenseType.setImageDrawable(expense_type_icons.getDrawable(i));
+        for (int i = 0; i < account_type.length; i++) {
+            if (account_type[i].equals(type)) {
+                holder.ivTransAccountType.setImageDrawable(account_type_icons.getDrawable(i));
             }
         }
 
@@ -143,21 +143,21 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         //private final View mView;
-        private final TextView tvItemFragmentTransactionAmount;
-        private final TextView tvItemFragmentTransactionAccountName;
-        private final TextView tvItemFragmentTransactionDate;
-        private final ImageView ivItemFragmentTransactionCategory;
-        private final ImageView ivItemFragmentTransactionExpenseType;
+        private final TextView tvTransAmount;
+        private final TextView tvTransAccountName;
+        private final TextView tvTransDate;
+        private final ImageView ivTransCategory;
+        private final ImageView ivTransAccountType;
 
 
         public ViewHolder(View view) {
             super(view);
             //mView = view;
-            tvItemFragmentTransactionAmount = (TextView) view.findViewById(R.id.tvItemFragmentTransactionAmount);
-            tvItemFragmentTransactionAccountName = (TextView) view.findViewById(R.id.tvItemFragmentTransactionAccountName);
-            tvItemFragmentTransactionDate = (TextView) view.findViewById(R.id.tvItemFragmentTransactionDate);
-            ivItemFragmentTransactionCategory = (ImageView) view.findViewById(R.id.ivItemFragmentTransactionCategory);
-            ivItemFragmentTransactionExpenseType = (ImageView) view.findViewById(R.id.ivItemFragmentTransactionExpenseType);
+            tvTransAmount = (TextView) view.findViewById(R.id.tvItemFragmentTransactionAmount);
+            tvTransAccountName = (TextView) view.findViewById(R.id.tvItemFragmentTransactionAccountName);
+            tvTransDate = (TextView) view.findViewById(R.id.tvItemFragmentTransactionDate);
+            ivTransCategory = (ImageView) view.findViewById(R.id.ivItemFragmentTransactionCategory);
+            ivTransAccountType = (ImageView) view.findViewById(R.id.ivItemFragmentTransactionExpenseType);
         }
     }
 }
