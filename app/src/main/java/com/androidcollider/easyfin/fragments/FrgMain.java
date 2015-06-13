@@ -29,6 +29,7 @@ import java.util.ArrayList;
 
 public class FrgMain extends Fragment {
 
+
     private static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
 
     public final static String BROADCAST_FRAGMENT_MAIN_ACTION = "com.androidcollider.easyfin.fragmentmain.broadcast";
@@ -48,8 +49,10 @@ public class FrgMain extends Fragment {
 
     private BroadcastReceiver broadcastReceiver;
 
-    private Spinner spinMainPeriod;
-    private Spinner spinMainBalanceCurrency;
+    private Spinner spinPeriod;
+    private Spinner spinBalanceCurrency;
+
+
 
 
     public static FrgMain newInstance(int page) {
@@ -72,7 +75,7 @@ public class FrgMain extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.frg_main, null);
+        view = inflater.inflate(R.layout.frg_main, container, false);
 
         setBalanceCurrencySpinner();
 
@@ -80,10 +83,10 @@ public class FrgMain extends Fragment {
 
         dataSource = new DataSource(getActivity());
 
-        setCurrentBalance(spinMainBalanceCurrency.getSelectedItemPosition());
+        setCurrentBalance(spinBalanceCurrency.getSelectedItemPosition());
 
-        setTransactionsStatistic(spinMainPeriod.getSelectedItemPosition() + 1,
-                spinMainBalanceCurrency.getSelectedItemPosition());
+        setTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1,
+                spinBalanceCurrency.getSelectedItemPosition());
 
         return view;
     }
@@ -93,7 +96,7 @@ public class FrgMain extends Fragment {
         HorizontalBarChart chart = (HorizontalBarChart) view.findViewById(R.id.chartMainBalance);
 
         ArrayList<String> xAxisValues = ChartDataUtils.getXAxisValues();
-        ArrayList<BarDataSet> barDataSet = ChartDataUtils.getDataSetMainBalanceChart(balance, getActivity());
+        ArrayList<BarDataSet> barDataSet = ChartDataUtils.getDataSetMainBalanceHorizontalBarChart(balance, getActivity());
 
         BarData data = new BarData(xAxisValues, barDataSet);
         chart.setData(data);
@@ -120,31 +123,24 @@ public class FrgMain extends Fragment {
     }
 
     private void setBalanceTV (double[] balance) {
-        //TextView tvMainCashValue = (TextView) view.findViewById(R.id.tvMainCashValue);
-        //TextView tvMainCardValue = (TextView) view.findViewById(R.id.tvMainCardValue);
-        ///TextView tvMainDepositValue = (TextView) view.findViewById(R.id.tvMainDepositValue);
-        //TextView tvMainDebtValue = (TextView) view.findViewById(R.id.tvMainDebtValue);
+
         TextView tvMainSumValue = (TextView) view.findViewById(R.id.tvMainSumValue);
 
         double sum = 0;
         for (double i: balance) {
             sum += i;}
 
-        //tvMainCashValue.setText(FormatUtils.doubleFormatter(balance[0], FORMAT, PRECISE));
-        //tvMainCardValue.setText(FormatUtils.doubleFormatter(balance[1], FORMAT, PRECISE));
-        //tvMainDepositValue.setText(FormatUtils.doubleFormatter(balance[2], FORMAT, PRECISE));
-        //tvMainDebtValue.setText(FormatUtils.doubleFormatter(balance[3], FORMAT, PRECISE));
         tvMainSumValue.setText(FormatUtils.doubleFormatter(sum, FORMAT, PRECISE) + " " + getCurrency());
     }
 
     private double[] getCurrentBalance(int posCurrency) {
-        String[] types = getResources().getStringArray(R.array.account_type_array);
+        String[] type = getResources().getStringArray(R.array.account_type_array);
         String[] currency = getResources().getStringArray(R.array.account_currency_array);
 
         double[] balance = new double[4];
 
         for (int i = 0; i < balance.length; i++) {
-            balance[i] = dataSource.getAccountsSumGroupByCurrency(types[i], currency[posCurrency]);}   //set int from spinner position
+            balance[i] = dataSource.getAccountsSumGroupByCurrency(type[i], currency[posCurrency]);}
 
 
         return balance;
@@ -158,7 +154,7 @@ public class FrgMain extends Fragment {
         double[] statistic = getTransStatistic(posPeriod, posCurrency);
 
         ArrayList<String> xAxisValues = ChartDataUtils.getXAxisValues();
-        ArrayList<BarDataSet> barDataSet = ChartDataUtils.getDataSetMainStatisticChart(statistic, getActivity());
+        ArrayList<BarDataSet> barDataSet = ChartDataUtils.getDataSetMainStatisticHorizontalBarChart(statistic, getActivity());
 
         BarData data = new BarData(xAxisValues, barDataSet);
         chart.setData(data);
@@ -178,43 +174,38 @@ public class FrgMain extends Fragment {
         chart.invalidate();
 
 
-        double statsum = statistic[0] + statistic[1];
+        double stat_sum = statistic[0] + statistic[1];
 
-        //TextView tvMainIncomeValue = (TextView) view.findViewById(R.id.tvMainIncomeValue);
-        //TextView tvMainCostValue = (TextView) view.findViewById(R.id.tvMainCostValue);
         TextView tvMainStatisticSum = (TextView) view.findViewById(R.id.tvMainStatisticSum);
-
-        //tvMainIncomeValue.setText(FormatUtils.doubleFormatter(statistic[1], FORMAT, PRECISE));
-        //tvMainCostValue.setText(FormatUtils.doubleFormatter(Math.abs(statistic[0]), FORMAT, PRECISE));
-        tvMainStatisticSum.setText(FormatUtils.doubleFormatter(statsum, FORMAT, PRECISE) + " " + getCurrency());
+        tvMainStatisticSum.setText(FormatUtils.doubleFormatter(stat_sum, FORMAT, PRECISE) + " " + getCurrency());
     }
 
     private double[] getTransStatistic (int posPeriod, int posCurrency) {
         String[] currency = getResources().getStringArray(R.array.account_currency_array);
-        return dataSource.getTransactionsStatistic(posPeriod, currency[posCurrency]);   //set int from spinner position
+        return dataSource.getTransactionsStatistic(posPeriod, currency[posCurrency]);
     }
 
     private String getCurrency() {
         String[] currency_array = getResources().getStringArray(R.array.account_currency_array_language);
-        return currency_array[spinMainBalanceCurrency.getSelectedItemPosition()];
+        return currency_array[spinBalanceCurrency.getSelectedItemPosition()];
     }
 
 
     private void setBalanceCurrencySpinner() {
-        spinMainBalanceCurrency = (Spinner) view.findViewById(R.id.spinMainCurrency);
+        spinBalanceCurrency = (Spinner) view.findViewById(R.id.spinMainCurrency);
 
         ArrayAdapter<?> adapterCurrency = ArrayAdapter.createFromResource(getActivity(), R.array.account_currency_array, R.layout.spin_custom_item);
         adapterCurrency.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinMainBalanceCurrency.setAdapter(adapterCurrency);
+        spinBalanceCurrency.setAdapter(adapterCurrency);
 
-        spinMainBalanceCurrency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinBalanceCurrency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                setCurrentBalance(spinMainBalanceCurrency.getSelectedItemPosition());
+                setCurrentBalance(spinBalanceCurrency.getSelectedItemPosition());
 
-                setTransactionsStatistic(spinMainPeriod.getSelectedItemPosition() + 1,
-                                spinMainBalanceCurrency.getSelectedItemPosition());
+                setTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1,
+                        spinBalanceCurrency.getSelectedItemPosition());
 
             }
 
@@ -227,18 +218,18 @@ public class FrgMain extends Fragment {
     }
 
     private void setStatisticSpinner() {
-        spinMainPeriod = (Spinner) view.findViewById(R.id.spinMainPeriod);
+        spinPeriod = (Spinner) view.findViewById(R.id.spinMainPeriod);
 
         ArrayAdapter<?> adapterStatPeriod = ArrayAdapter.createFromResource(getActivity(), R.array.main_statistic_period_array, R.layout.spin_custom_item);
         adapterStatPeriod.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinMainPeriod.setAdapter(adapterStatPeriod);
-        spinMainPeriod.setSelection(1);
+        spinPeriod.setAdapter(adapterStatPeriod);
+        spinPeriod.setSelection(1);
 
-        spinMainPeriod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinPeriod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                setTransactionsStatistic(spinMainPeriod.getSelectedItemPosition() + 1,
-                                spinMainBalanceCurrency.getSelectedItemPosition());
+                setTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1,
+                        spinBalanceCurrency.getSelectedItemPosition());
             }
 
             @Override
@@ -257,9 +248,9 @@ public class FrgMain extends Fragment {
 
                 if (status == STATUS_UPDATE_FRAGMENT_MAIN) {
 
-                    setCurrentBalance(spinMainBalanceCurrency.getSelectedItemPosition());
-                    setTransactionsStatistic(spinMainPeriod.getSelectedItemPosition()+1,
-                                  spinMainBalanceCurrency.getSelectedItemPosition());
+                    setCurrentBalance(spinBalanceCurrency.getSelectedItemPosition());
+                    setTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1,
+                            spinBalanceCurrency.getSelectedItemPosition());
                 }
             }
         };

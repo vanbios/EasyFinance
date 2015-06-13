@@ -33,15 +33,15 @@ public class FrgAddTransactionBetweenAccounts extends Fragment implements View.O
 
     private final String DATEFORMAT = "dd.MM.yyyy";
 
-    private TextView tvTransactionBTWDate;
-    private DatePickerDialog datePickerDialogBTW;
-    private Spinner spinAddTransBTWExpense1, spinAddTransBTWExpense2;
+    private TextView tvDate;
+    private DatePickerDialog datePickerDialog;
+    private Spinner spinAccount1, spinAccount2;
 
 
     private View view;
     private DataSource dataSource;
 
-    private List<Account> accountList1;
+    private List<Account> accountList1 = null;
 
 
 
@@ -49,9 +49,9 @@ public class FrgAddTransactionBetweenAccounts extends Fragment implements View.O
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.frg_add_transaction_between_accounts, null);
+        view = inflater.inflate(R.layout.frg_add_transaction_between_accounts, container, false);
 
-        tvTransactionBTWDate = (TextView) view.findViewById(R.id.tvTransactionBTWDate);
+        tvDate = (TextView) view.findViewById(R.id.tvTransactionBTWDate);
 
         setDateTimeField();
 
@@ -64,30 +64,30 @@ public class FrgAddTransactionBetweenAccounts extends Fragment implements View.O
     }
 
     private void setSpinners() {
-        setSpinnerExpense1();
-        setSpinnerExpense2();
+        setSpinnerAccount1();
+        setSpinnerAccount2();
     }
 
 
 
-    private void setSpinnerExpense1() {
-        spinAddTransBTWExpense1 = (Spinner) view.findViewById(R.id.spinAddTransBTWAccount1);
+    private void setSpinnerAccount1() {
+        spinAccount1 = (Spinner) view.findViewById(R.id.spinAddTransBTWAccount1);
 
         List<String> accounts1 = new ArrayList<>();
 
         accountList1 = dataSource.getAllAccountsInfo();
 
-        for (Account acc : accountList1) {
-            accounts1.add(acc.getName());
+        for (Account a : accountList1) {
+            accounts1.add(a.getName());
         }
 
-        spinAddTransBTWExpense1.setAdapter(new SpinnerAccountForTransAdapter(getActivity(), R.layout.spin_custom_item,
+        spinAccount1.setAdapter(new SpinnerAccountForTransAdapter(getActivity(), R.layout.spin_custom_item,
                 accounts1, accountList1));
 
-        spinAddTransBTWExpense1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinAccount1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                setSpinnerExpense2();
+                setSpinnerAccount2();
             }
 
             @Override
@@ -98,17 +98,17 @@ public class FrgAddTransactionBetweenAccounts extends Fragment implements View.O
     }
 
 
-    private void setSpinnerExpense2() {
+    private void setSpinnerAccount2() {
 
-        spinAddTransBTWExpense2 = (Spinner) view.findViewById(R.id.spinAddTransBTWAccount2);
-        spinAddTransBTWExpense2.setEnabled(false);
-        spinAddTransBTWExpense2.setAdapter(null);
+        spinAccount2 = (Spinner) view.findViewById(R.id.spinAddTransBTWAccount2);
+        spinAccount2.setEnabled(false);
+        spinAccount2.setAdapter(null);
 
         if (accountList1.size() >= 2) {
-            int pos = spinAddTransBTWExpense1.getSelectedItemPosition();
+            int pos = spinAccount1.getSelectedItemPosition();
 
-            String expense_first_name = accountList1.get(pos).getName();
-            String expense_currency = accountList1.get(pos).getCurrency();
+            String account_name_1 = accountList1.get(pos).getName();
+            String currency = accountList1.get(pos).getCurrency();
 
 
             List<Account> accountForTransferList = new ArrayList<>();
@@ -116,16 +116,16 @@ public class FrgAddTransactionBetweenAccounts extends Fragment implements View.O
 
 
             for (Account account : accountList1) {
-                if (! account.getName().equals(expense_first_name) && account.getCurrency().equals(expense_currency)) {
+                if (! account.getName().equals(account_name_1) && account.getCurrency().equals(currency)) {
                     accountForTransferList.add(account);
                     accountsAvailable.add(account.getName());
                 }
             }
 
             if (accountForTransferList.size() >= 1) {
-                spinAddTransBTWExpense2.setEnabled(true);
+                spinAccount2.setEnabled(true);
 
-                spinAddTransBTWExpense2.setAdapter(new SpinnerAccountForTransAdapter(getActivity(), R.layout.spin_custom_item,
+                spinAccount2.setAdapter(new SpinnerAccountForTransAdapter(getActivity(), R.layout.spin_custom_item,
                         accountsAvailable, accountForTransferList));
             }
             else {
@@ -159,67 +159,67 @@ public class FrgAddTransactionBetweenAccounts extends Fragment implements View.O
 
     public void addTransactionBTW() {
 
-        if (! spinAddTransBTWExpense2.isEnabled()) {
+        if (! spinAccount2.isEnabled()) {
             showNoAvailableAccountsDialog();
         }
         else {
 
-            EditText editTextTransBTWSum = (EditText) view.findViewById(R.id.editTextTransBTWSum);
+            EditText editSum = (EditText) view.findViewById(R.id.editTextTransBTWSum);
 
-            String sum = editTextTransBTWSum.getText().toString();
+            String sum = editSum.getText().toString();
 
             if (!sum.matches(".*\\d.*") || Double.parseDouble(sum) == 0) {
-                Shake.highlightEditText(editTextTransBTWSum);
+                Shake.highlightEditText(editSum);
                 Toast.makeText(getActivity(), getResources().getString(R.string.transaction_empty_amount_field), Toast.LENGTH_LONG).show();
 
             } else {
 
                 double amount = Double.parseDouble(sum);
 
-                int pos1 = spinAddTransBTWExpense1.getSelectedItemPosition();
+                int pos1 = spinAccount1.getSelectedItemPosition();
 
-                double expense_amount_1 = accountList1.get(pos1).getAmount();
+                double account_amount_1 = accountList1.get(pos1).getAmount();
 
-                if (amount > expense_amount_1) {
+                if (amount > account_amount_1) {
                     Toast.makeText(getActivity(), getResources().getString(R.string.transaction_not_enough_costs) + " " +
                             Math.abs(amount), Toast.LENGTH_LONG).show();
                 } else {
 
-                    String expense_name_1 = spinAddTransBTWExpense1.getSelectedItem().toString();
-                    String expense_name_2 = spinAddTransBTWExpense2.getSelectedItem().toString();
-                    String expense_currency = accountList1.get(pos1).getCurrency();
-                    String expense_type_1 = accountList1.get(pos1).getType();
+                    String account_name_1 = spinAccount1.getSelectedItem().toString();
+                    String account_name_2 = spinAccount2.getSelectedItem().toString();
+                    String currency = accountList1.get(pos1).getCurrency();
+                    String account_type_1 = accountList1.get(pos1).getType();
 
-                    Long date = DateFormat.stringToDate(tvTransactionBTWDate.getText().toString(), DATEFORMAT).getTime();
+                    Long date = DateFormat.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
 
-                    int expense_id_1 = accountList1.get(pos1).getId();
+                    int account_id_1 = accountList1.get(pos1).getId();
 
-                    String expense_type_2 = null;
-                    int expense_id_2 = 0;
-                    double expense_amount_2 = 0;
+                    String account_type_2 = null;
+                    int account_id_2 = 0;
+                    double account_amount_2 = 0;
 
                     for (Account account2 : accountList1) {
-                        if (account2.getName().equals(expense_name_2)) {
-                            expense_type_2 = account2.getType();
-                            expense_id_2 = account2.getId();
-                            expense_amount_2 = account2.getAmount();
+                        if (account2.getName().equals(account_name_2)) {
+                            account_type_2 = account2.getType();
+                            account_id_2 = account2.getId();
+                            account_amount_2 = account2.getAmount();
                         }
-                        else {expense_type_2 = "";}
+                        else {account_type_2 = "";}
                     }
 
-                    expense_amount_1 -= amount;
-                    expense_amount_2 += amount;
+                    account_amount_1 -= amount;
+                    account_amount_2 += amount;
 
-                    dataSource.updateAccountAmountAfterTransaction(expense_id_1, expense_amount_1);
-                    dataSource.updateAccountAmountAfterTransaction(expense_id_2, expense_amount_2);
+                    dataSource.updateAccountAmountAfterTransaction(account_id_1, account_amount_1);
+                    dataSource.updateAccountAmountAfterTransaction(account_id_2, account_amount_2);
 
-                    TransBTWAccounts transBTWAccounts = new TransBTWAccounts(expense_name_1,
-                            expense_name_2, amount, expense_currency, date, expense_type_1, expense_type_2);
+                    TransBTWAccounts transBTWAccounts = new TransBTWAccounts(account_name_1,
+                            account_name_2, amount, currency, date, account_type_1, account_type_2);
 
 
                     pushBroadcast();
 
-                    closeActivity();
+                    getActivity().finish();
 
                 }
             }
@@ -233,30 +233,18 @@ public class FrgAddTransactionBetweenAccounts extends Fragment implements View.O
 
 
 
-
-
-
-
-
-
-    private void closeActivity() {
-        getActivity().finish();
-    }
-
-
-
     private void setDateTimeField() {
-        tvTransactionBTWDate.setOnClickListener(this);
+        tvDate.setOnClickListener(this);
 
         Calendar newCalendar = Calendar.getInstance();
-        tvTransactionBTWDate.setText(DateFormat.dateToString(newCalendar.getTime(), DATEFORMAT));
+        tvDate.setText(DateFormat.dateToString(newCalendar.getTime(), DATEFORMAT));
 
-        datePickerDialogBTW = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+        datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
-                tvTransactionBTWDate.setText(DateFormat.dateToString(newDate.getTime(), DATEFORMAT));
+                tvDate.setText(DateFormat.dateToString(newDate.getTime(), DATEFORMAT));
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -267,7 +255,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment implements View.O
     public void onClick(View view) {
 
         switch (view.getId()) {
-            case R.id.tvTransactionBTWDate: datePickerDialogBTW.show(); break;
+            case R.id.tvTransactionBTWDate: datePickerDialog.show(); break;
         }
     }
 }

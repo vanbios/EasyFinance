@@ -1,19 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingStart="@dimen/common_padding_small"
-    android:paddingLeft="@dimen/common_padding_small"
-    android:paddingRight="@dimen/common_padding_small"
-    android:paddingEnd="@dimen/common_padding_small"
-    android:paddingTop="@dimen/common_padding_medium"
-    android:paddingBottom="@dimen/common_padding_medium">
 
     <android.support.v7.widget.RecyclerView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/recyclerTransaction"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-</RelativeLayout>
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/common_padding_small"
+        android:paddingRight="@dimen/common_padding_small"
+        android:paddingTop="@dimen/common_padding_medium"
+        android:paddingBottom="@dimen/common_padding_medium"/>

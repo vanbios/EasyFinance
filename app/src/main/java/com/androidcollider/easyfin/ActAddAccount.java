@@ -98,7 +98,7 @@ public class ActAddAccount extends AppCompatActivity {
 
                     pushBroadcast();
 
-                    closeActivity();
+                    this.finish();
                 }
             }
         }
@@ -114,13 +114,13 @@ public class ActAddAccount extends AppCompatActivity {
         sendBroadcast(intentMainSnack);
     }
 
-    private void closeActivity() {this.finish();}
+    /*private void closeActivity() {this.finish();}*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
-                closeActivity();
+                this.finish();
                 return true;}
             case R.id.add_expense_action_save: {
                 addExpense();

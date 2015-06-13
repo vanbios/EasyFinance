@@ -127,7 +127,7 @@ public class ActAddTransaction extends AppCompatActivity {
                 .title(getString(R.string.single_account))
                 .content(getString(R.string.dialog_text_single_account))
                 .positiveText(getString(R.string.new_account))
-                .negativeText(getString(R.string.return_to_main))
+                .negativeText(getString(R.string.close))
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
@@ -136,18 +136,18 @@ public class ActAddTransaction extends AppCompatActivity {
 
                     @Override
                     public void onNegative(MaterialDialog dialog) {
-                        returnToMain();
+
                     }
                 })
                 .show();
     }
 
     private void returnToMain() {
-        closeActivity();
+        this.finish();
     }
 
     private void goToAddNewExpense() {
-        closeActivity();
+        this.finish();
         openAddExpenseActivity();
     }
 
@@ -172,15 +172,12 @@ public class ActAddTransaction extends AppCompatActivity {
         }
     }
 
-    private void closeActivity() {
-        this.finish();
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
-                closeActivity();
+                this.finish();
                 return true;}
             case R.id.add_transaction_action_save: {
                 checkTransactionType();

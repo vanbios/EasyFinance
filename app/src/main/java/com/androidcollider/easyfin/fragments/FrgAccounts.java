@@ -24,6 +24,7 @@ import java.util.ArrayList;
 
 
 public class FrgAccounts extends Fragment{
+
     private static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
 
     int pageNumber;
@@ -54,26 +55,26 @@ public class FrgAccounts extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.frg_accounts, null);
+        view = inflater.inflate(R.layout.frg_accounts, container, false);
 
         dataSource = new DataSource(getActivity());
 
-        setItemExpense();
+        setItemAccount();
 
         return view;
     }
 
-    private void setItemExpense() {
+    private void setItemAccount() {
 
         ArrayList<Account> accountArrayList = dataSource.getAllAccountsInfo();
 
-        RecyclerView recyclerExpense = (RecyclerView) view.findViewById(R.id.recyclerAccount);
+        RecyclerView recyclerAccount = (RecyclerView) view.findViewById(R.id.recyclerAccount);
 
-        recyclerExpense.setLayoutManager(new LinearLayoutManager(recyclerExpense.getContext()));
-        recyclerExpense.setAdapter(new AccountRecyclerAdapter(getActivity(), accountArrayList));
+        recyclerAccount.setLayoutManager(new LinearLayoutManager(recyclerAccount.getContext()));
+        recyclerAccount.setAdapter(new AccountRecyclerAdapter(getActivity(), accountArrayList));
 
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-        recyclerExpense.setItemAnimator(itemAnimator);
+        recyclerAccount.setItemAnimator(itemAnimator);
     }
 
     private void makeBroadcastReceiver() {
@@ -84,7 +85,7 @@ public class FrgAccounts extends Fragment{
 
                 if (status == FrgMain.STATUS_UPDATE_FRAGMENT_MAIN) {
 
-                    setItemExpense();
+                    setItemAccount();
                 }
             }
         };

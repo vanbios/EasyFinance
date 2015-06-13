@@ -31,9 +31,9 @@ import java.util.List;
 
 public class FrgAddTransactionDefault extends Fragment implements View.OnClickListener {
 
-    private TextView tvTransactionDate;
-    private DatePickerDialog setDatePickerDialog;
-    private Spinner spinAddTransCategory, spinAddTransExpense;
+    private TextView tvDate;
+    private DatePickerDialog datePickerDialog;
+    private Spinner spinCategory, spinAccount;
 
     private final String DATEFORMAT = "dd.MM.yyyy";
 
@@ -48,16 +48,15 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.frg_add_transaction_default, null);
+        view = inflater.inflate(R.layout.frg_add_transaction_default, container, false);
 
-        tvTransactionDate = (TextView) view.findViewById(R.id.tvTransactionDate);
+        tvDate = (TextView) view.findViewById(R.id.tvTransactionDate);
 
         setDateTimeField();
 
         dataSource = new DataSource(getActivity());
 
         setSpinner();
-
 
 
         return view;
@@ -67,34 +66,34 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
 
 
     private void setSpinner() {
-        spinAddTransCategory = (Spinner) view.findViewById(R.id.spinAddTransCategory);
-        spinAddTransExpense = (Spinner) view.findViewById(R.id.spinAddTransExpense);
+        spinCategory = (Spinner) view.findViewById(R.id.spinAddTransCategory);
+        spinAccount = (Spinner) view.findViewById(R.id.spinAddTransExpense);
 
-        List<String> accounts = dataSource.getAllAccountNames();
+        List<String> accountNames = dataSource.getAllAccountNames();
 
 
 
-        spinAddTransCategory.setAdapter(new SpinnerTransCategoriesAdapter(getActivity(), R.layout.spin_custom_item,
+        spinCategory.setAdapter(new SpinnerTransCategoriesAdapter(getActivity(), R.layout.spin_custom_item,
                 getResources().getStringArray(R.array.cat_transaction_array)));
 
         accountList = dataSource.getAllAccountsInfo();
 
-        spinAddTransExpense.setAdapter(new SpinnerAccountForTransAdapter(getActivity(), R.layout.spin_custom_item,
-                accounts, accountList));
+        spinAccount.setAdapter(new SpinnerAccountForTransAdapter(getActivity(), R.layout.spin_custom_item,
+                accountNames, accountList));
     }
 
     private void setDateTimeField() {
-        tvTransactionDate.setOnClickListener(this);
+        tvDate.setOnClickListener(this);
 
         Calendar newCalendar = Calendar.getInstance();
-        tvTransactionDate.setText(DateFormat.dateToString(newCalendar.getTime(), DATEFORMAT));
+        tvDate.setText(DateFormat.dateToString(newCalendar.getTime(), DATEFORMAT));
 
-        setDatePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+        datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
-                tvTransactionDate.setText(DateFormat.dateToString(newDate.getTime(), DATEFORMAT));
+                tvDate.setText(DateFormat.dateToString(newDate.getTime(), DATEFORMAT));
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -105,7 +104,7 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
     public void onClick(View view) {
 
         switch (view.getId()) {
-            case R.id.tvTransactionDate: setDatePickerDialog.show(); break;
+            case R.id.tvTransactionDate: datePickerDialog.show(); break;
         }
     }
 
@@ -120,61 +119,56 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
         getActivity().sendBroadcast(intentFragmentTransaction);
     }
 
-    private void closeActivity() {
-        getActivity().finish();
-    }
-
 
 
     public void addTransaction() {
-        EditText editTextTransSum = (EditText) view.findViewById(R.id.editTextTransSum);
-        RadioButton radioButtonCost = (RadioButton) view.findViewById(R.id.radioButtonCost);
+        EditText editSum = (EditText) view.findViewById(R.id.editTextTransSum);
+        RadioButton rbCost = (RadioButton) view.findViewById(R.id.radioButtonCost);
 
-        String sum = editTextTransSum.getText().toString();
+        String sum = editSum.getText().toString();
 
         if (! sum.matches(".*\\d.*") || Double.parseDouble(sum) == 0) {
-            Shake.highlightEditText(editTextTransSum);
+            Shake.highlightEditText(editSum);
             Toast.makeText(getActivity(), getResources().getString(R.string.transaction_empty_amount_field), Toast.LENGTH_LONG).show();
         }
 
         else {
 
-            Long date = DateFormat.stringToDate(tvTransactionDate.getText().toString(), DATEFORMAT).getTime();
-            //String account_name = spinAddTransExpense.getSelectedItem().toString();
+            Long date = DateFormat.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
 
-            int pos = spinAddTransExpense.getSelectedItemPosition();
+            int pos = spinAccount.getSelectedItemPosition();
 
             double amount = Double.parseDouble(sum);
-            if (radioButtonCost.isChecked()) {
+            if (rbCost.isChecked()) {
                 amount *= -1;}
 
 
             //double accountAmount = dataSource.getAccountAmountForTransaction(id_account);
             double accountAmount = accountList.get(pos).getAmount();
 
-            if (radioButtonCost.isChecked() && Math.abs(amount) > accountAmount) {
+            if (rbCost.isChecked() && Math.abs(amount) > accountAmount) {
                 Toast.makeText(getActivity(), getResources().getString(R.string.transaction_not_enough_costs) + " " +
                         Math.abs(amount), Toast.LENGTH_LONG).show();}
             else {
                 accountAmount += amount;
 
                 String account_name = accountList.get(pos).getName();
-                String category = spinAddTransCategory.getSelectedItem().toString();
+                String category = spinCategory.getSelectedItem().toString();
                 //int id_account = dataSource.getAccountIdByName(account_name);
                 int id_account = accountList.get(pos).getId();
-                //String account_currency = dataSource.getAccountCurrencyByName(account_name);
-                String account_currency = accountList.get(pos).getCurrency();
-                //String account_type = dataSource.getAccountTypeByName(account_name);
-                String account_type = accountList.get(pos).getType();
+                //String currency = dataSource.getAccountCurrencyByName(account_name);
+                String currency = accountList.get(pos).getCurrency();
+                //String type = dataSource.getAccountTypeByName(account_name);
+                String type = accountList.get(pos).getType();
 
-                Transaction transaction = new Transaction(date, amount, category, account_name, account_currency, account_type, id_account);
+                Transaction transaction = new Transaction(date, amount, category, account_name, currency, type, id_account);
                 dataSource.insertNewTransaction(transaction);
                 dataSource.updateAccountAmountAfterTransaction(id_account, accountAmount);
 
 
                 pushBroadcast();
 
-                closeActivity();
+                getActivity().finish();
             }
         }
     }

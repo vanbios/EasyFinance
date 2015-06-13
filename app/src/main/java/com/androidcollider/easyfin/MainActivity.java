@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void showSnackbar() {
+    private void showSnackBar() {
         final CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinateLayoutFloatMain);
 
         Runnable task = new Runnable() {
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (status == STATUS_MAIN_SNACK) {
 
-                    showSnackbar();
+                    showSnackBar();
                 }
             }
         };
@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void addExpenseMain() {
+    public void addAccountMain() {
         Intent intent = new Intent(this, ActAddAccount.class);
         startActivity(intent);
     }
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
         switch (pager.getCurrentItem()) {
             case 0:
             case 1: addTransactionMain(); break;
-            case 2: addExpenseMain(); break;
+            case 2: addAccountMain(); break;
         }
     }
 }

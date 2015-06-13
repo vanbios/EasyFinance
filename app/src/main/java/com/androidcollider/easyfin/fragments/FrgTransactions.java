@@ -60,7 +60,7 @@ public class FrgTransactions extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.frg_transactions, null);
+        view = inflater.inflate(R.layout.frg_transactions, container, false);
 
         dataSource = new DataSource(getActivity());
 

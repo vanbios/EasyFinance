@@ -139,7 +139,7 @@ public class ActEditAccount extends AppCompatActivity {
 
                     pushBroadcast();
 
-                    closeActivity();
+                    this.finish();
                 }
             }
         }
@@ -156,7 +156,6 @@ public class ActEditAccount extends AppCompatActivity {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         deleteExpense();
-                        closeActivity();
                     }
                 })
                 .show();
@@ -175,13 +174,13 @@ public class ActEditAccount extends AppCompatActivity {
         sendBroadcast(intentFragmentMain);
     }
 
-    private void closeActivity() {this.finish();}
+    /*private void closeActivity() {this.finish();}*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
-                closeActivity();
+                this.finish();
                 return true;}
             case R.id.change_expense_action_save: {
                 changeExpense();
