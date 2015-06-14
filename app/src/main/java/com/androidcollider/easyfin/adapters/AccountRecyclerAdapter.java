@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.androidcollider.easyfin.ActEditAccount;
+import com.androidcollider.easyfin.ActAccount;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.utils.FormatUtils;
@@ -80,13 +80,15 @@ public class AccountRecyclerAdapter extends RecyclerView.Adapter<AccountRecycler
             public boolean onLongClick(View v) {
                 Context context = v.getContext();
 
-                Intent intent = new Intent(context, ActEditAccount.class);
+                Intent intent = new Intent(context, ActAccount.class);
                 Account account = getAccount(position);
 
                 intent.putExtra("name", account.getName());
                 intent.putExtra("type", account.getType());
                 intent.putExtra("amount", account.getAmount());
                 intent.putExtra("currency", account.getCurrency());
+                intent.putExtra("id_account", account.getId());
+                intent.putExtra("mode", 1);
                 context.startActivity(intent);
                 return true;
             }

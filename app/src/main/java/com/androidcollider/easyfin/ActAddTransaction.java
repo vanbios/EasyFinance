@@ -21,7 +21,7 @@ import java.util.List;
 
 public class ActAddTransaction extends AppCompatActivity {
 
-    DataSource dataSource;
+    List<String> accounts = null;
 
     private ViewPager pagerTrans;
 
@@ -35,7 +35,7 @@ public class ActAddTransaction extends AppCompatActivity {
 
         setViewPager();
 
-        dataSource = new DataSource(this);
+        accounts = new DataSource(this).getAllAccountNames();
 
         checkForAccountExist();
     }
@@ -48,7 +48,7 @@ public class ActAddTransaction extends AppCompatActivity {
         getSupportActionBar().setTitle(id);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ToolBar.inflateMenu(R.menu.toolbar_add_transaction_menu);
+        ToolBar.inflateMenu(R.menu.toolbar_transaction_menu);
     }
 
 
@@ -100,7 +100,7 @@ public class ActAddTransaction extends AppCompatActivity {
     }
 
 
-    private void showDialogNoExpense() {
+    private void showDialogNoAccount() {
 
         new MaterialDialog.Builder(this)
                 .title(getString(R.string.no_account))
@@ -110,7 +110,7 @@ public class ActAddTransaction extends AppCompatActivity {
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
-                        goToAddNewExpense();
+                        goToAddNewAccount();
                     }
 
                     @Override
@@ -121,7 +121,7 @@ public class ActAddTransaction extends AppCompatActivity {
                 .show();
     }
 
-    private void showDialogSingleExpense() {
+    private void showDialogSingleAccount() {
 
         new MaterialDialog.Builder(this)
                 .title(getString(R.string.single_account))
@@ -131,7 +131,7 @@ public class ActAddTransaction extends AppCompatActivity {
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
-                        goToAddNewExpense();
+                        goToAddNewAccount();
                     }
 
                     @Override
@@ -146,29 +146,27 @@ public class ActAddTransaction extends AppCompatActivity {
         this.finish();
     }
 
-    private void goToAddNewExpense() {
+    public void goToAddNewAccount() {
         this.finish();
-        openAddExpenseActivity();
+        openAddAccountActivity();
     }
 
-    private void openAddExpenseActivity() {
-        Intent intent = new Intent(this, ActAddAccount.class);
+    private void openAddAccountActivity() {
+        Intent intent = new Intent(this, ActAccount.class);
         startActivity(intent);
     }
 
     private void checkForAccountExist() {
-        List<String> accounts = dataSource.getAllAccountNames();
 
         if (accounts.size() == 0) {
-            showDialogNoExpense();
+            showDialogNoAccount();
         }
     }
 
     private void checkForCoupleAccountExist() {
-        List<String> accounts = dataSource.getAllAccountNames();
 
         if (accounts.size() == 1) {
-            showDialogSingleExpense();
+            showDialogSingleAccount();
         }
     }
 
@@ -179,7 +177,7 @@ public class ActAddTransaction extends AppCompatActivity {
             case android.R.id.home: {
                 this.finish();
                 return true;}
-            case R.id.add_transaction_action_save: {
+            case R.id.transaction_action_save: {
                 checkTransactionType();
                 return true;}
 
@@ -189,11 +187,9 @@ public class ActAddTransaction extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_add_transaction_menu, menu);
-        MenuItem saveTransaction = menu.findItem(R.id.add_transaction_action_save);
+        getMenuInflater().inflate(R.menu.toolbar_transaction_menu, menu);
+        MenuItem saveTransaction = menu.findItem(R.id.transaction_action_save);
         saveTransaction.setEnabled(true);
-
-        List<String> accounts = dataSource.getAllAccountNames();
 
         if (accounts.size() == 0) {
             saveTransaction.setEnabled(false);}

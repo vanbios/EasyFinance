@@ -149,7 +149,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addAccountMain() {
-        Intent intent = new Intent(this, ActAddAccount.class);
+        Intent intent = new Intent(this, ActAccount.class);
+
+        intent.putExtra("mode", 0);
         startActivity(intent);
     }
 

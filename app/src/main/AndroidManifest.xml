@@ -31,18 +31,7 @@
         </activity>
 
         <activity
-            android:name=".ActAddAccount"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
-
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.androidcollider.easyfin.MainActivity" />
-        </activity>
-
-        <activity
-            android:name=".ActEditAccount"
+            android:name=".ActAccount"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize">

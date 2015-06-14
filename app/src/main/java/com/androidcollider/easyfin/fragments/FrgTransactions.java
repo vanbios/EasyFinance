@@ -25,18 +25,13 @@ import java.util.ArrayList;
 public class FrgTransactions extends Fragment{
 
     private static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
-
     public final static String BROADCAST_FRAGMENT_TRANSACTION_ACTION = "com.androidcollider.easyfin.fragmenttransaction.broadcast";
-
     public final static String PARAM_STATUS_FRAGMENT_TRANSACTION = "update_fragment_transaction";
-
     public final static int STATUS_UPDATE_FRAGMENT_TRANSACTION = 200;
 
     int pageNumber;
 
     private View view;
-
-    private DataSource dataSource;
 
     private BroadcastReceiver broadcastReceiver;
 
@@ -62,15 +57,13 @@ public class FrgTransactions extends Fragment{
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frg_transactions, container, false);
 
-        dataSource = new DataSource(getActivity());
-
         setItemTransaction();
 
         return view;
     }
 
     private void setItemTransaction() {
-        ArrayList<Transaction> transactionArrayList = dataSource.getAllTransactionsInfo();
+        ArrayList<Transaction> transactionArrayList = new DataSource(getActivity()).getAllTransactionsInfo();
 
         RecyclerView recyclerTransaction = (RecyclerView) view.findViewById(R.id.recyclerTransaction);
 

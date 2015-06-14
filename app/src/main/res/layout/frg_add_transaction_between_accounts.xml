@@ -49,31 +49,6 @@
                         android:paddingTop="@dimen/common_padding_medium">
 
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/date"
-                            android:id="@+id/tvTransactionBTWDateTitle"
-                            android:clickable="true"
-                            style="@style/BodyFontSecondary"
-
-                            android:layout_marginLeft="34dp"
-                            android:layout_marginStart="34dp" />
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/date"
-                            android:id="@+id/tvTransactionBTWDate"
-                            android:clickable="true"
-                            style="@style/SubheadFont"
-
-                            android:layout_marginTop="10dp"
-                            android:layout_marginLeft="34dp"
-                            android:layout_marginStart="34dp"
-                            android:layout_below="@+id/tvTransactionBTWDateTitle"/>
-
                     </RelativeLayout>
 
 

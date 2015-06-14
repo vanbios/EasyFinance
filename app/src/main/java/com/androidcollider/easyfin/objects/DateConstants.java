@@ -3,10 +3,10 @@ package com.androidcollider.easyfin.objects;
 
 public class DateConstants {
 
-    private long day;
-    private long week;
-    private long month;
-    private long year;
+    private final long day;
+    private final long week;
+    private final long month;
+    private final long year;
 
     public DateConstants() {
         this.day = 86400000;

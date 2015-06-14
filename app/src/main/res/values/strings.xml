@@ -11,7 +11,7 @@
     // actions
     <string name="new_transaction">Нова транзакція</string>
     <string name="new_account">Новий рахунок</string>
-    <string name="change_account">Редагування рахунку</string>
+    <string name="edit_account">Редагування рахунку</string>
     <string name="save_account">Зберегти</string>
     <string name="delete_account">Видалити</string>
     <string name="account_add">Додати рахунок</string>
@@ -53,7 +53,7 @@
     <string name="sum_hint">Введіть суму</string>
     <string name="account_name_hint">Назва рахунку</string>
     <string name="account_type">Тип рахунку</string>
-    <string name="account_currency">Валюта</string>
+    <string name="currency">Валюта</string>
     <string name="date">Дата</string>
     <string name="category">Категорія</string>
     <string name="account">Рахунок</string>

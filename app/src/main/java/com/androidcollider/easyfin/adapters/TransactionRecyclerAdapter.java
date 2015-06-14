@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.objects.Transaction;
 import com.androidcollider.easyfin.utils.DateFormat;
 import com.androidcollider.easyfin.utils.FormatUtils;
@@ -26,14 +25,13 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
 
     private final TypedArray icons;
     private final TypedArray account_type_icons;
-    //private final TypedArray flags;
+
     private final String[] categories;
     private final String[] currency;
 
     private final String[] currency_language;
     private final String[] account_type;
 
-    DataSource dataSource;
 
 
     public TransactionRecyclerAdapter(Context context, ArrayList<Transaction> transactionArrayList) {
@@ -41,14 +39,11 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
         this.transactionArrayList = transactionArrayList;
 
         icons = context.getResources().obtainTypedArray(R.array.trans_categories_icons);
-        //flags = context.getResources().obtainTypedArray(R.array.flags);
         categories = context.getResources().getStringArray(R.array.cat_transaction_array);
         currency = context.getResources().getStringArray(R.array.account_currency_array);
         currency_language = context.getResources().getStringArray(R.array.account_currency_array_language);
         account_type = context.getResources().getStringArray(R.array.account_type_array);
         account_type_icons = context.getResources().obtainTypedArray(R.array.expense_type_icons);
-
-        dataSource = new DataSource(context);
     }
 
 
@@ -78,13 +73,12 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
 
         Transaction transaction = getTransaction(position);
 
-
         holder.tvTransAccountName.setText(transaction.getAccount_name());
         holder.tvTransDate.setText(DateFormat.longToDateString(transaction.getDate(), DATEFORMAT));
 
         String amount = FormatUtils.doubleFormatter(transaction.getAmount(), FORMAT, PRECISE);
 
-        String cur = transaction.getAccount_currency();
+        String cur = transaction.getCurrency();
 
         String cur_lang = null;
 
@@ -104,13 +98,7 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
             holder.tvTransAmount.setTextColor(context.getResources().getColor(R.color.custom_green));
         }
 
-        //Context catcont = holder.ivItemFragmentTransactionCategory.getContext();
-        //Context curcont = holder.ivItemFragmentTransactionCurrency.getContext();
-
         String cat = transaction.getCategory();
-        //String cur = transaction.getAccount_currency();
-
-
 
         for (int i = 0; i < categories.length; i++) {
             if (categories[i].equals(cat)) {
@@ -118,7 +106,6 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
             }
         }
 
-        //String type = dataSource.getAccountTypeByName(name);
         String type = transaction.getAccount_type();
 
         for (int i = 0; i < account_type.length; i++) {
@@ -126,17 +113,6 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
                 holder.ivTransAccountType.setImageDrawable(account_type_icons.getDrawable(i));
             }
         }
-
-        /*for (int i = 0; i < currency.length; i++) {
-            if (currency[i].equals(cur)) {
-                Glide.with(curcont)
-                        .load(flags.getResourceId(i, 0))
-                        .fitCenter()
-                        .into(holder.ivItemFragmentTransactionCurrency);
-            }
-        }*/
-
-
     }
 
 

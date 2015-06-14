@@ -7,58 +7,36 @@ public class Transaction {
     private int id_account;
     private double amount;
     private String category;
+    private String currency;
+
+    private double account_amount;
 
     private String account_name;
-    private String account_currency;
+
     private String account_type;
 
 
-    /*public Transaction (long date, int id_account, double amount, String category) {
+
+    public Transaction (long date, double amount, String category, int id_account, String currency, double account_amount) {
         this.date = date;
+        this.amount = amount;
+        this.category = category;
         this.id_account = id_account;
-        this.amount = amount;
-        this.category = category;
-    }
-
-    public Transaction (long date, String account_name, double amount, String category) {
-        this.date = date;
-        this.account_name = account_name;
-        this.amount = amount;
-        this.category = category;
-    }*/
-
-    public Transaction (long date, double amount, String category, String account_name, String account_currency) {
-        this.date = date;
-        this.amount = amount;
-        this.category = category;
-        this.account_name = account_name;
-        this.account_currency = account_currency;
+        this.currency = currency;
+        this.account_amount = account_amount;
     }
 
 
-    public Transaction (long date, double amount, String category, String account_name, String account_currency, String account_type) {
+    public Transaction (long date, double amount, String category, String account_name, String currency, String account_type) {
         this.date = date;
         this.amount = amount;
         this.category = category;
         this.account_name = account_name;
-        this.account_currency = account_currency;
+        this.currency = currency;
         this.account_type = account_type;
     }
 
-    public Transaction (long date, double amount, String category, String account_name, String account_currency, String account_type, int id_account) {
-        this.date = date;
-        this.amount = amount;
-        this.category = category;
-        this.account_name = account_name;
-        this.account_currency = account_currency;
-        this.account_type = account_type;
-        this.id_account = id_account;
-    }
 
-    /*public Transaction (long date, double amount) {
-        this.date = date;
-        this.amount = amount;
-    }*/
 
     public long getDate() {return date;}
 
@@ -68,9 +46,11 @@ public class Transaction {
 
     public String getCategory() {return category;}
 
+    public String getCurrency() {return currency;}
+
     public String getAccount_name() {return account_name;}
 
-    public String getAccount_currency() {return account_currency;}
-
     public String getAccount_type() {return account_type;}
+
+    public double getAccount_amount() {return account_amount;}
 }

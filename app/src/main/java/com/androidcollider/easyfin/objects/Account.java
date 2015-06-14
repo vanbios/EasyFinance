@@ -25,11 +25,7 @@ public class Account {
         this.currency = currency;
     }
 
-    public Account(String name, String type, String currency) {
-        this.name = name;
-        this.type = type;
-        this.currency = currency;
-    }
+
 
     public int getId() {return id;}
 

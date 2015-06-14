@@ -31,8 +31,6 @@ public class FrgAccounts extends Fragment{
 
     private View view;
 
-    private DataSource dataSource;
-
     private BroadcastReceiver broadcastReceiver;
 
 
@@ -57,8 +55,6 @@ public class FrgAccounts extends Fragment{
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frg_accounts, container, false);
 
-        dataSource = new DataSource(getActivity());
-
         setItemAccount();
 
         return view;
@@ -66,7 +62,7 @@ public class FrgAccounts extends Fragment{
 
     private void setItemAccount() {
 
-        ArrayList<Account> accountArrayList = dataSource.getAllAccountsInfo();
+        ArrayList<Account> accountArrayList = new DataSource(getActivity()).getAllAccountsInfo();
 
         RecyclerView recyclerAccount = (RecyclerView) view.findViewById(R.id.recyclerAccount);
 

@@ -36,14 +36,17 @@ public class DataSource {
         db = dbHelper.getWritableDatabase();
     }
 
+    //Open database to read
+    public void openLocalToRead() throws SQLException {
+        db = dbHelper.getReadableDatabase();
+    }
+
     //Close database
     public void closeLocal() {
         db.close();
     }
 
-    public void openLocalToRead() throws SQLException {
-        db = dbHelper.getReadableDatabase();
-    }
+
 
 
     public void insertNewAccount(Account account) {
@@ -60,84 +63,38 @@ public class DataSource {
     }
 
     public void insertNewTransaction(Transaction transaction) {
-        ContentValues cv = new ContentValues();
+        ContentValues cv1 = new ContentValues();
+        ContentValues cv2 = new ContentValues();
 
-        cv.put("date", transaction.getDate());
-        cv.put("id_account", transaction.getId_account());
-        cv.put("amount", transaction.getAmount());
-        cv.put("category", transaction.getCategory());
-        cv.put("account_name", transaction.getAccount_name());
-        cv.put("currency", transaction.getAccount_currency());
-        cv.put("type", transaction.getAccount_type());
+        int id_account = transaction.getId_account();
+
+        cv1.put("id_account", id_account);
+        cv1.put("date", transaction.getDate());
+        cv1.put("amount", transaction.getAmount());
+        cv1.put("category", transaction.getCategory());
+        cv1.put("currency", transaction.getCurrency());
+
+        cv2.put("amount", transaction.getAccount_amount());
 
         openLocalToWrite();
-        db.insert("Transactions", null, cv);
+        db.insert("Transactions", null, cv1);
+        db.update("Account", cv2, "id_account = " + id_account, null);
         closeLocal();
     }
 
-    /*public int getAccountIdByName(String name) {
-        String selectQuery = "SELECT id_account FROM Account WHERE name = '" + name + "' ";
-        openLocalToRead();
 
-        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if(cursor.moveToFirst()) {
-            int i = cursor.getInt(0);
-            cursor.close();
-            closeLocal();
-            return i;}
+    public void updateAccountsAmountAfterTransfer(int id_account_1, double amount_1, int id_account_2, double amount_2) {
+        ContentValues cv1 = new ContentValues();
+        ContentValues cv2 = new ContentValues();
 
-        cursor.close();
-        closeLocal();
-
-        return 0;
-    }*/
-
-    /*public String getAccountCurrencyByName(String name) {
-        String selectQuery = "SELECT currency FROM Account WHERE name = '" + name + "' ";
-        openLocalToRead();
-
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        if(cursor.moveToFirst()) {
-            String s =  cursor.getString(0);
-            cursor.close();
-            closeLocal();
-            return s;}
-
-        cursor.close();
-        closeLocal();
-
-        return "";
-    }*/
-
-    /*public double getAccountAmountForTransaction(int id_account) {
-        String selectQuery = "SELECT amount FROM Account WHERE id_account = '" + id_account + "' ";
-
-        openLocalToRead();
-
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        if(cursor.moveToFirst()) {
-            double d = cursor.getDouble(0);
-            cursor.close();
-            closeLocal();
-            return d;}
-
-        cursor.close();
-        closeLocal();
-
-        return 0;
-    }*/
-
-    public void updateAccountAmountAfterTransaction(int id_account, double amount) {
-        ContentValues cv = new ContentValues();
-
-        cv.put("amount", amount);
+        cv1.put("amount", amount_1);
+        cv2.put("amount", amount_2);
 
         openLocalToWrite();
 
-        db.update("Account", cv, "id_account = " + id_account, null);
+        db.update("Account", cv1, "id_account = " + id_account_1, null);
+        db.update("Account", cv2, "id_account = " + id_account_2, null);
 
         closeLocal();
 
@@ -145,7 +102,7 @@ public class DataSource {
 
     public ArrayList<String> getAllAccountNames() {
         ArrayList<String> accounts = new ArrayList<>();
-        String selectQuery = "SELECT name FROM Account ";
+        String selectQuery = "SELECT name FROM Account WHERE visibility = 1 ";
         openLocalToRead();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
@@ -160,6 +117,8 @@ public class DataSource {
         closeLocal();
         return accounts;
     }
+
+
 
     public double[] getTransactionsStatistic(int position, String currency) {
         double[] arrayStatistic = new double[2];
@@ -225,9 +184,14 @@ public class DataSource {
         return arrayStatistic;
     }
 
+
+
     public double getAccountsSumGroupByCurrency(String type, String currency) {
-        String selectQuery = "SELECT SUM(amount) FROM Account WHERE type = '" + type + "' "
-                + "AND currency = '" + currency + "' ";
+        String selectQuery = "SELECT SUM(amount) FROM Account "
+                + "WHERE visibility = 1 AND "
+                + "type = '" + type + "' AND "
+                + "currency = '" + currency + "' ";
+
         openLocalToRead();
 
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -243,11 +207,13 @@ public class DataSource {
         return 0;
     }
 
+
+
     public ArrayList<Account> getAllAccountsInfo() {
 
         ArrayList<Account> accountArrayList = new ArrayList<>();
 
-        String selectQuery = "SELECT * FROM Account ";
+        String selectQuery = "SELECT * FROM Account WHERE visibility = 1";
         openLocalToRead();
 
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -285,93 +251,12 @@ public class DataSource {
 
 
 
-    /*public ArrayList<Account> getAccountsAvailableForTransferInfo(String expense_first_name, String account_currency) {
-
-        ArrayList<Account> accountArrayList = new ArrayList<>();
-
-        String selectQuery = "SELECT * FROM Account ";
-        openLocalToRead();
-
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        if (cursor.moveToFirst()) {
-            int idColIndex = cursor.getColumnIndex("id_account");
-            int nameColIndex = cursor.getColumnIndex("name");
-            int amountColIndex = cursor.getColumnIndex("amount");
-            int typeColIndex = cursor.getColumnIndex("type");
-            int currencyColIndex = cursor.getColumnIndex("currency");
-
-            do {
-                //if (! expense_first_name.equals(cursor.getString(nameColIndex))) {
-                Account account = new Account(
-                        cursor.getInt(idColIndex),
-                        cursor.getString(nameColIndex),
-                        cursor.getDouble(amountColIndex),
-                        cursor.getString(typeColIndex),
-                        cursor.getString(currencyColIndex));
-
-                accountArrayList.add(account);
-            //}
-            }
-            while (cursor.moveToNext());
-
-            cursor.close();
-            closeLocal();
-
-            return accountArrayList;
-        }
-
-        cursor.close();
-        closeLocal();
-
-        return accountArrayList;
-    }*/
-
-
-
-
-    /*public ArrayList<Account> getAllAccountsNameTypeCurrency() {
-
-        ArrayList<Account> accountArrayList = new ArrayList<>();
-
-        String selectQuery = "SELECT * FROM Account ";
-        openLocalToRead();
-
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        if (cursor.moveToFirst()) {
-            int nameColIndex = cursor.getColumnIndex("name");
-            int typeColIndex = cursor.getColumnIndex("type");
-            int currencyColIndex = cursor.getColumnIndex("currency");
-
-            do {
-                Account account = new Account(
-                        cursor.getString(nameColIndex),
-                        cursor.getString(typeColIndex),
-                        cursor.getString(currencyColIndex));
-
-                accountArrayList.add(account);
-            }
-            while (cursor.moveToNext());
-
-            cursor.close();
-            closeLocal();
-
-            return accountArrayList;
-        }
-
-        cursor.close();
-        closeLocal();
-
-        return accountArrayList;
-    }*/
-
-
-
     public ArrayList<Transaction> getAllTransactionsInfo(){
         ArrayList<Transaction> transactionArrayList = new ArrayList<>();
 
-        String selectQuery = "SELECT amount, date, category, account_name, type, currency FROM Transactions ";
+        String selectQuery = "SELECT t.amount, date, category, name, type, t.currency "
+                + "FROM Transactions t, Account a "
+                + "WHERE t.id_account = a.id_account ";
 
         openLocalToRead();
 
@@ -381,7 +266,7 @@ public class DataSource {
             int amountColIndex = cursor.getColumnIndex("amount");
             int dateColIndex = cursor.getColumnIndex("date");
             int categoryColIndex = cursor.getColumnIndex("category");
-            int nameColIndex = cursor.getColumnIndex("account_name");
+            int nameColIndex = cursor.getColumnIndex("name");
             int currencyColIndex = cursor.getColumnIndex("currency");
             int typeColIndex = cursor.getColumnIndex("type");
 
@@ -408,25 +293,9 @@ public class DataSource {
     }
 
 
-    /*public String getAccountTypeByName(String name) {
-        String selectQuery = "SELECT type FROM Account WHERE name = '" + name + "' ";
-        openLocalToRead();
 
-        Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if(cursor.moveToFirst()) {
-            String s =  cursor.getString(0);
-            cursor.close();
-            closeLocal();
-            return s;}
-
-        cursor.close();
-        closeLocal();
-
-        return "";
-    }*/
-
-    public void editAccount(String oldName, Account account) {
+    public void editAccount(Account account) {
         ContentValues cv = new ContentValues();
 
         cv.put("name", account.getName());
@@ -434,20 +303,33 @@ public class DataSource {
         cv.put("type", account.getType());
         cv.put("currency", account.getCurrency());
 
+        int id = account.getId();
+
         openLocalToWrite();
 
-        db.update("Account", cv, "name = '" + oldName + "' ", null);
+        db.update("Account", cv, "id_account = '" + id + "' ", null);
 
         closeLocal();
     }
 
-    public void deleteAccount(String name) {
+    public void deleteAccount(int id) {
         openLocalToWrite();
 
-        db.delete("Account", "name = '" + name + "' ", null);
+        db.delete("Account", "id_account = '" + id + "' ", null);
 
         closeLocal();
     }
+
+    public void makeAccountInvisible(int id) {
+
+        ContentValues cv = new ContentValues();
+        cv.put("visibility", 0);
+
+        openLocalToWrite();
+
+        db.update("Account", cv, "id_account = '" + id + "' ", null);
+    }
+
 
     public boolean checkAccountNameMatches(String name) {
         ArrayList<String> accounts = getAllAccountNames();
@@ -460,38 +342,27 @@ public class DataSource {
         return false;
     }
 
+    public boolean checkAccountTransactionExist(int id) {
 
+        String selectQuery = "SELECT COUNT(id_transaction) FROM Transactions "
+                + "WHERE id_account = '" + id +  "' ";
 
-    /*public ArrayList<Transaction> getAllTransactionsInfo(){
-        ArrayList<Transaction> transactionArrayList = new ArrayList<>();
-        String selectQuery = "SELECT T.amount, date, category, name, currency FROM Account A, Transactions T " +
-                "WHERE T.id_account = A.id_account ";
         openLocalToRead();
+
         Cursor cursor = db.rawQuery(selectQuery, null);
-        if (cursor.moveToFirst()) {
-            int amountColIndex = cursor.getColumnIndex("amount");
-            int dateColIndex = cursor.getColumnIndex("date");
-            int categoryColIndex = cursor.getColumnIndex("category");
-            int nameColIndex = cursor.getColumnIndex("name");
-            int currencyColIndex = cursor.getColumnIndex("currency");
-            for (int i=cursor.getCount()-1; i>=0;i--){
-                cursor.moveToPosition(i);
-                Transaction transaction = new Transaction(
-                        cursor.getLong(dateColIndex),
-                        cursor.getDouble(amountColIndex),
-                        cursor.getString(categoryColIndex),
-                        cursor.getString(nameColIndex),
-                        cursor.getString(currencyColIndex));
-                transactionArrayList.add(transaction);
-            }
+
+        if(cursor.moveToFirst()) {
+            int c = cursor.getInt(0);
             cursor.close();
             closeLocal();
-            return transactionArrayList;
-        }
+            if (c > 0) {
+            return true;}}
+
         cursor.close();
         closeLocal();
-        return transactionArrayList;
-    }*/
+
+        return false;
+    }
 
 
 }
