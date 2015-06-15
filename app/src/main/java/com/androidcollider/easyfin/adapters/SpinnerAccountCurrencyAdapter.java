@@ -32,8 +32,8 @@ public class SpinnerAccountCurrencyAdapter extends ArrayAdapter<String> {
 
     public View getCustomView(int position, View convertView, ViewGroup parent) {
         View mySpinner = inflater.inflate(R.layout.spin_custom_dropdown_item, parent, false);
-        TextView main_text = (TextView) mySpinner.findViewById(R.id.tvSpinDropdownCategory);
-        main_text.setText(currency[position]);
+        TextView mainText = (TextView) mySpinner.findViewById(R.id.tvSpinDropdownCategory);
+        mainText.setText(currency[position]);
 
         ImageView left_icon = (ImageView) mySpinner .findViewById(R.id.ivSpinDropdownCategory);
         left_icon.setImageResource(flags.getResourceId(position, 0));
@@ -42,11 +42,11 @@ public class SpinnerAccountCurrencyAdapter extends ArrayAdapter<String> {
     }
 
     public View getCustomTopView(int position, View convertView, ViewGroup parent) {
-        View topSpinner = inflater.inflate(R.layout.spin_custom_item, parent, false);
-        TextView top_text = (TextView) topSpinner.findViewById(R.id.tvSpinTopText);
-        top_text.setText(currency[position]);
+        View headSpinner = inflater.inflate(R.layout.spin_custom_item, parent, false);
+        TextView headText = (TextView) headSpinner.findViewById(R.id.tvSpinTopText);
+        headText.setText(currency[position]);
 
-        return topSpinner;
+        return headSpinner;
     }
 
 }

@@ -206,6 +206,7 @@
                 android:id="@+id/cardMainStatistic"
                 card_view:cardElevation="@dimen/card_elevation_small"
                 android:layout_marginTop="@dimen/common_padding_small"
+                android:layout_marginBottom="@dimen/common_padding_small"
                 android:layout_below="@+id/cardMainBalance" >
 
 

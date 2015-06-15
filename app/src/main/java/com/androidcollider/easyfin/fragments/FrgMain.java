@@ -171,10 +171,10 @@ public class FrgMain extends Fragment {
         chart.invalidate();
 
 
-        double stat_sum = statistic[0] + statistic[1];
+        double statSum = statistic[0] + statistic[1];
 
         TextView tvMainStatisticSum = (TextView) view.findViewById(R.id.tvMainStatisticSum);
-        tvMainStatisticSum.setText(FormatUtils.doubleFormatter(stat_sum, FORMAT, PRECISE) + " " + getCurrency());
+        tvMainStatisticSum.setText(FormatUtils.doubleFormatter(statSum, FORMAT, PRECISE) + " " + getCurrency());
     }
 
     private double[] getTransStatistic (int posPeriod, int posCurrency) {
@@ -183,8 +183,8 @@ public class FrgMain extends Fragment {
     }
 
     private String getCurrency() {
-        String[] currency_array = getResources().getStringArray(R.array.account_currency_array_language);
-        return currency_array[spinBalanceCurrency.getSelectedItemPosition()];
+        String[] currencyArray = getResources().getStringArray(R.array.account_currency_array_language);
+        return currencyArray[spinBalanceCurrency.getSelectedItemPosition()];
     }
 
 

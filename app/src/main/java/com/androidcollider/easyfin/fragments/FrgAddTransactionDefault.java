@@ -91,13 +91,13 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
 
 
     public void addTransaction() {
-        EditText editSum = (EditText) view.findViewById(R.id.editTextTransSum);
+        EditText etSum = (EditText) view.findViewById(R.id.editTextTransSum);
         RadioButton rbCost = (RadioButton) view.findViewById(R.id.radioButtonCost);
 
-        String sum = editSum.getText().toString();
+        String sum = etSum.getText().toString();
 
         if (! sum.matches(".*\\d.*") || Double.parseDouble(sum) == 0) {
-            Shake.highlightEditText(editSum);
+            Shake.highlightEditText(etSum);
             Toast.makeText(getActivity(), getResources().getString(R.string.transaction_empty_amount_field), Toast.LENGTH_LONG).show();
         }
 
@@ -121,12 +121,11 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
                 account_amount += amount;
 
                 String category = spinCategory.getSelectedItem().toString();
-                int id_account = accountList.get(pos).getId();
+                int idAccount = accountList.get(pos).getId();
                 String currency = accountList.get(pos).getCurrency();
 
-                Transaction transaction = new Transaction(date, amount, category, id_account, currency, account_amount);
+                Transaction transaction = new Transaction(date, amount, category, idAccount, currency, account_amount);
                 dataSource.insertNewTransaction(transaction);
-                //dataSource.updateAccountsAmountAfterTransfer(id_account, account_amount);
 
 
                 pushBroadcast();

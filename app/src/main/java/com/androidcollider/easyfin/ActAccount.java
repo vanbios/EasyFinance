@@ -10,6 +10,7 @@ import com.androidcollider.easyfin.utils.FormatUtils;
 import com.androidcollider.easyfin.utils.Shake;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -24,9 +25,9 @@ import android.widget.Toast;
 public class ActAccount extends AppCompatActivity {
 
     Spinner spinType, spinCurrency;
-    EditText editName, editSum;
-    private String old_name;
-    int id_account;
+    EditText etName, etSum;
+    private String oldName;
+    int idAccount;
 
     Intent intent;
     DataSource dataSource;
@@ -50,8 +51,8 @@ public class ActAccount extends AppCompatActivity {
         spinType = (Spinner) findViewById(R.id.spinAddAccountType);
         spinCurrency = (Spinner) findViewById(R.id.spinAddAccountCurrency);
 
-        editName = (EditText) findViewById(R.id.editTextAccountName);
-        editSum = (EditText) findViewById(R.id.editTextAccountSum);
+        etName = (EditText) findViewById(R.id.editTextAccountName);
+        etSum = (EditText) findViewById(R.id.editTextAccountSum);
 
     }
 
@@ -110,49 +111,34 @@ public class ActAccount extends AppCompatActivity {
     }
 
     private void setEdits() {
-        old_name = intent.getStringExtra("name");
-        editName.setText(old_name);
-        editName.setSelection(editName.getText().length());
+        oldName = intent.getStringExtra("name");
+        etName.setText(oldName);
+        etName.setSelection(etName.getText().length());
 
         final int PRECISE = 100;
         final String FORMAT = "0.00";
 
-        editSum.setText(FormatUtils.doubleFormatter(getIntent().getDoubleExtra("amount", 0.0), FORMAT, PRECISE));
-        editSum.setSelection(editSum.getText().length());
+        etSum.setText(FormatUtils.doubleFormatter(getIntent().getDoubleExtra("amount", 0.0), FORMAT, PRECISE));
+        etSum.setSelection(etSum.getText().length());
 
-        id_account = intent.getIntExtra("id_account", 0);
+        idAccount = intent.getIntExtra("idAccount", 0);
     }
 
 
     private void addAccount() {
 
-        String st = editName.getText().toString().replaceAll("\\s+", "");
+        if(checkForFillNameSumFields()) {
 
-        if (st.isEmpty()) {
-            Shake.highlightEditText(editName);
-            Toast.makeText(this, getResources().getString(R.string.account_empty_field_name), Toast.LENGTH_LONG).show();
-        }
+            String name = etName.getText().toString();
 
-        else {
-
-            if (!editSum.getText().toString().matches(".*\\d.*")) {
-                Shake.highlightEditText(editSum);
-                Toast.makeText(this, getResources().getString(R.string.account_empty_field_sum), Toast.LENGTH_LONG).show();
-            }
-
-            else {
-
-                DataSource dataSource = new DataSource(this);
-
-                if (dataSource.checkAccountNameMatches(editName.getText().toString())) {
-                    Shake.highlightEditText(editName);
+                if (dataSource.checkAccountNameMatches(name)) {
+                    Shake.highlightEditText(etName);
                     Toast.makeText(this, getResources().getString(R.string.account_name_exist), Toast.LENGTH_LONG).show();
                 }
 
                 else {
 
-                    String name = editName.getText().toString();
-                    double amount = Double.parseDouble(editSum.getText().toString());
+                    double amount = Double.parseDouble(etSum.getText().toString());
                     String type = spinType.getSelectedItem().toString();
                     String currency = spinCurrency.getSelectedItem().toString();
 
@@ -166,42 +152,26 @@ public class ActAccount extends AppCompatActivity {
                 }
             }
         }
-    }
 
 
     private void editAccount() {
 
-        String st = editName.getText().toString().replaceAll("\\s+", "");
+        if (checkForFillNameSumFields()) {
 
-        if (st.isEmpty()) {
-            Shake.highlightEditText(editName);
-            Toast.makeText(this, getResources().getString(R.string.account_empty_field_name), Toast.LENGTH_LONG).show();
-        }
+                String name = etName.getText().toString();
 
-        else {
-
-            if (!editSum.getText().toString().matches(".*\\d.*")) {
-                Shake.highlightEditText(editSum);
-                Toast.makeText(this, getResources().getString(R.string.account_empty_field_sum), Toast.LENGTH_LONG).show();
-            }
-
-            else {
-
-                String s = editName.getText().toString();
-
-                if (dataSource.checkAccountNameMatches(s) && ! s.equals(old_name)) {
-                    Shake.highlightEditText(editName);
+                if (dataSource.checkAccountNameMatches(name) && ! name.equals(oldName)) {
+                    Shake.highlightEditText(etName);
                     Toast.makeText(this, getResources().getString(R.string.account_name_exist), Toast.LENGTH_LONG).show();
                 }
 
                 else {
 
-                    String name = editName.getText().toString();
-                    double amount = Double.parseDouble(editSum.getText().toString());
+                    double amount = Double.parseDouble(etSum.getText().toString());
                     String type = spinType.getSelectedItem().toString();
                     String currency = spinCurrency.getSelectedItem().toString();
 
-                    Account account = new Account(id_account, name, amount, type, currency);
+                    Account account = new Account(idAccount, name, amount, type, currency);
 
                     dataSource.editAccount(account);
 
@@ -211,6 +181,30 @@ public class ActAccount extends AppCompatActivity {
                 }
             }
         }
+
+
+    private boolean checkForFillNameSumFields() {
+
+        String st = etName.getText().toString().replaceAll("\\s+", "");
+
+        if (st.isEmpty()) {
+            Shake.highlightEditText(etName);
+            Toast.makeText(this, getResources().getString(R.string.account_empty_field_name), Toast.LENGTH_LONG).show();
+
+            return false;
+        }
+
+        else {
+
+            if (!etSum.getText().toString().matches(".*\\d.*")) {
+                Shake.highlightEditText(etSum);
+                Toast.makeText(this, getResources().getString(R.string.account_empty_field_sum), Toast.LENGTH_LONG).show();
+
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private void pushBroadcast() {
@@ -219,9 +213,13 @@ public class ActAccount extends AppCompatActivity {
         sendBroadcast(intentFragmentMain);
 
         if (mode == 0) {
-            Intent intentMainSnack = new Intent(MainActivity.BROADCAST_MAIN_SNACK_ACTION);
-            intentMainSnack.putExtra(MainActivity.PARAM_STATUS_MAIN_SNACK, MainActivity.STATUS_MAIN_SNACK);
-            sendBroadcast(intentMainSnack);
+            SharedPreferences sharedPrefs = getSharedPreferences("SP_SnackBar", MODE_PRIVATE);
+            if(!sharedPrefs.contains("initialized")) {
+
+                Intent intentMainSnack = new Intent(MainActivity.BROADCAST_MAIN_SNACK_ACTION);
+                intentMainSnack.putExtra(MainActivity.PARAM_STATUS_MAIN_SNACK, MainActivity.STATUS_MAIN_SNACK);
+                sendBroadcast(intentMainSnack);
+            }
         }
     }
 
@@ -243,11 +241,11 @@ public class ActAccount extends AppCompatActivity {
     }
 
     private void deleteAccount() {
-        if (dataSource.checkAccountTransactionExist(id_account)) {
-            dataSource.makeAccountInvisible(id_account);
+        if (dataSource.checkAccountTransactionExist(idAccount)) {
+            dataSource.makeAccountInvisible(idAccount);
         }
         else {
-            dataSource.deleteAccount(id_account);}
+            dataSource.deleteAccount(idAccount);}
 
         pushBroadcast();
         this.finish();
@@ -282,11 +280,11 @@ public class ActAccount extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.toolbar_account_menu, menu);
-        MenuItem delete_account = menu.findItem(R.id.account_action_delete);
+        MenuItem deleteAccountItem = menu.findItem(R.id.account_action_delete);
 
         switch (mode) {
-            case 0: {delete_account.setVisible(false); break;}
-            case 1: {delete_account.setVisible(true); break;}
+            case 0: {deleteAccountItem.setVisible(false); break;}
+            case 1: {deleteAccountItem.setVisible(true); break;}
         }
 
         return true;

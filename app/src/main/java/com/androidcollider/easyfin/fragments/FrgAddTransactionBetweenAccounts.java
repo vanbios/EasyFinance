@@ -100,7 +100,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
             int pos = spinAccount1.getSelectedItemPosition();
 
-            int id_account_1 = accountList1.get(pos).getId();
+            int idAccount1 = accountList1.get(pos).getId();
             String currency = accountList1.get(pos).getCurrency();
 
 
@@ -109,7 +109,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
 
             for (Account account : accountList1) {
-                if (account.getId() != id_account_1 && account.getCurrency().equals(currency)) {
+                if (account.getId() != idAccount1 && account.getCurrency().equals(currency)) {
                     accountForTransferList.add(account);
                     accountsAvailable.add(account.getName());
                 }
@@ -189,12 +189,12 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
             } else {
 
-                EditText editSum = (EditText) view.findViewById(R.id.editTextTransBTWSum);
+                EditText etSum = (EditText) view.findViewById(R.id.editTextTransBTWSum);
 
-                String sum = editSum.getText().toString();
+                String sum = etSum.getText().toString();
 
                 if (!sum.matches(".*\\d.*") || Double.parseDouble(sum) == 0) {
-                    Shake.highlightEditText(editSum);
+                    Shake.highlightEditText(etSum);
                     Toast.makeText(getActivity(), getResources().getString(R.string.transaction_empty_amount_field), Toast.LENGTH_LONG).show();
 
                 } else {
@@ -203,31 +203,31 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
                     int pos1 = spinAccount1.getSelectedItemPosition();
 
-                    double account_amount_1 = accountList1.get(pos1).getAmount();
+                    double accountAmount1 = accountList1.get(pos1).getAmount();
 
-                    if (amount > account_amount_1) {
+                    if (amount > accountAmount1) {
                         Toast.makeText(getActivity(), getResources().getString(R.string.transaction_not_enough_costs) + " " +
                                 Math.abs(amount), Toast.LENGTH_LONG).show();
                     } else {
 
-                        String account_name_2 = spinAccount2.getSelectedItem().toString();
+                        String accountName2 = spinAccount2.getSelectedItem().toString();
 
-                        int account_id_1 = accountList1.get(pos1).getId();
+                        int accountId1 = accountList1.get(pos1).getId();
 
-                        int account_id_2 = 0;
-                        double account_amount_2 = 0;
+                        int accountId2 = 0;
+                        double accountAmount2 = 0;
 
                         for (Account account2 : accountList1) {
-                            if (account2.getName().equals(account_name_2)) {
+                            if (account2.getName().equals(accountName2)) {
 
-                                account_id_2 = account2.getId();
-                                account_amount_2 = account2.getAmount();
+                                accountId2 = account2.getId();
+                                accountAmount2 = account2.getAmount();
                             }
                         }
-                            account_amount_1 -= amount;
-                            account_amount_2 += amount;
+                            accountAmount1 -= amount;
+                            accountAmount2 += amount;
 
-                            dataSource.updateAccountsAmountAfterTransfer(account_id_1, account_amount_1, account_id_2, account_amount_2);
+                            dataSource.updateAccountsAmountAfterTransfer(accountId1, accountAmount1, accountId2, accountAmount2);
 
 
                             pushBroadcast();

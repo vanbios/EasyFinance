@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import android.support.design.widget.CoordinatorLayout;
@@ -107,6 +108,14 @@ public class MainActivity extends AppCompatActivity {
                         .setAction(R.string.get_it, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                SharedPreferences sharedPrefs = getSharedPreferences("SP_SnackBar", MODE_PRIVATE);
+                                SharedPreferences.Editor ed;
+
+                                if(!sharedPrefs.contains("initialized")) {
+                                    ed = sharedPrefs.edit();
+                                    ed.putBoolean("initialized", true);
+                                    ed.apply();
+                                }
                             }
                         })
                         .show();

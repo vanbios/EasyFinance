@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cardItemTransaction"
-        card_view:cardElevation="2dp">
+        card_view:cardElevation="@dimen/card_elevation_small"
+        android:layout_marginBottom="@dimen/card_elevation_small">
 
         <RelativeLayout
             android:layout_width="match_parent"

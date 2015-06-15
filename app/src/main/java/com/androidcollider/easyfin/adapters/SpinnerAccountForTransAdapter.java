@@ -18,74 +18,73 @@ import java.util.List;
 
 public class SpinnerAccountForTransAdapter extends ArrayAdapter<String> {
 
-    //final TypedArray flags;
-    final TypedArray type_icons;
+    final TypedArray typeIcons;
     final List<Account> accountsList;
-    final String[] account_type;
-    final String[] account_curr;
-    final String[] account_curr_lang;
+    final String[] accountType;
+    final String[] accountCurr;
+    final String[] accountCurrLang;
     LayoutInflater inflater;
 
     public SpinnerAccountForTransAdapter(Context context, int txtViewResourceId,
                                          List<String> accounts, List<Account> accountsL) {
         super(context, txtViewResourceId, accounts);
         accountsList = accountsL;
-        //flags = context.getResources().obtainTypedArray(R.array.flags);
-        type_icons = context.getResources().obtainTypedArray(R.array.expense_type_icons);
-        account_type = context.getResources().getStringArray(R.array.account_type_array);
-        account_curr = context.getResources().getStringArray(R.array.account_currency_array);
-        account_curr_lang = context.getResources().getStringArray(R.array.account_currency_array_language);
+
+        typeIcons = context.getResources().obtainTypedArray(R.array.expense_type_icons);
+        accountType = context.getResources().getStringArray(R.array.account_type_array);
+        accountCurr = context.getResources().getStringArray(R.array.account_currency_array);
+        accountCurrLang = context.getResources().getStringArray(R.array.account_currency_array_language);
         inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
-    public View getDropDownView(int position, View view, ViewGroup parent) {return getCustomView(position, view, parent);}
+    public View getDropDownView(int position, View view, ViewGroup parent) {return getCustomView(position, parent);}
     @Override
-    public View getView(int pos, View view, ViewGroup parent) {return getCustomTopView(pos, view, parent);}
+    public View getView(int pos, View view, ViewGroup parent) {return getCustomTopView(pos, parent);}
 
-    public View getCustomView(int position, View convertView, ViewGroup parent) {
+    public View getCustomView(int position, ViewGroup parent) {
         View mySpinner = inflater.inflate(R.layout.spin_account_for_trans_dropdown, parent, false);
-        TextView main_text = (TextView) mySpinner.findViewById(R.id.tvSpinDropdownAccountName);
-        main_text.setText(accountsList.get(position).getName());
+        TextView mainText = (TextView) mySpinner.findViewById(R.id.tvSpinDropdownAccountName);
+        mainText.setText(accountsList.get(position).getName());
 
-        ImageView left_icon = (ImageView) mySpinner.findViewById(R.id.ivSpinDropdownAccountType);
+        ImageView leftIcon = (ImageView) mySpinner.findViewById(R.id.ivSpinDropdownAccountType);
 
         String typeExp = accountsList.get(position).getType();
 
-        for (int i = 0; i < account_type.length; i++) {
-            if (account_type[i].equals(typeExp)) {
-                left_icon.setImageResource(type_icons.getResourceId(i, 0));
+        for (int i = 0; i < accountType.length; i++) {
+            if (accountType[i].equals(typeExp)) {
+                leftIcon.setImageResource(typeIcons.getResourceId(i, 0));
             }
         }
 
-        TextView amount_text = (TextView) mySpinner.findViewById(R.id.tvSpinDropdownAccountAmount);
+        TextView amountText = (TextView) mySpinner.findViewById(R.id.tvSpinDropdownAccountAmount);
 
-        int PRECISE = 100;
-        String FORMAT = "0.00";
+        final int PRECISE = 100;
+        final String FORMAT = "0.00";
 
         String amount = FormatUtils.doubleFormatter(accountsList.get(position).getAmount(), FORMAT, PRECISE);
         String cur = accountsList.get(position).getCurrency();
 
-        String cur_lang = null;
+        String curLang = null;
 
-        for (int i = 0; i < account_curr.length; i++) {
-            if (cur.equals(account_curr[i])) {
-                cur_lang = account_curr_lang[i];
+        for (int i = 0; i < accountCurr.length; i++) {
+            if (cur.equals(accountCurr[i])) {
+                curLang = accountCurrLang[i];
             }
         }
 
-        amount_text.setText(amount + " " + cur_lang);
+        amountText.setText(amount + " " + curLang);
 
 
         return mySpinner;
     }
 
-    public View getCustomTopView(int position, View convertView, ViewGroup parent) {
-        View topSpinner = inflater.inflate(R.layout.spin_custom_item, parent, false);
-        TextView top_text = (TextView) topSpinner.findViewById(R.id.tvSpinTopText);
-        top_text.setText(accountsList.get(position).getName());
+    public View getCustomTopView(int position, ViewGroup parent) {
+        View headSpinner = inflater.inflate(R.layout.spin_custom_item, parent, false);
+        TextView headText = (TextView) headSpinner.findViewById(R.id.tvSpinTopText);
+        headText.setText(accountsList.get(position).getName());
 
-        return topSpinner;
+        return headSpinner;
     }
 
 }

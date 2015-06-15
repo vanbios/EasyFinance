@@ -4,43 +4,43 @@ package com.androidcollider.easyfin.objects;
 public class Transaction {
 
     private long date;
-    private int id_account;
+    private int idAccount;
     private double amount;
     private String category;
     private String currency;
 
-    private double account_amount;
+    private double accountAmount;
 
-    private String account_name;
+    private String accountName;
 
-    private String account_type;
+    private String accountType;
 
 
 
-    public Transaction (long date, double amount, String category, int id_account, String currency, double account_amount) {
+    public Transaction (long date, double amount, String category, int idAccount, String currency, double accountAmount) {
         this.date = date;
         this.amount = amount;
         this.category = category;
-        this.id_account = id_account;
+        this.idAccount = idAccount;
         this.currency = currency;
-        this.account_amount = account_amount;
+        this.accountAmount = accountAmount;
     }
 
 
-    public Transaction (long date, double amount, String category, String account_name, String currency, String account_type) {
+    public Transaction (long date, double amount, String category, String accountName, String currency, String accountType) {
         this.date = date;
         this.amount = amount;
         this.category = category;
-        this.account_name = account_name;
+        this.accountName = accountName;
         this.currency = currency;
-        this.account_type = account_type;
+        this.accountType = accountType;
     }
 
 
 
     public long getDate() {return date;}
 
-    public int getId_account() {return id_account;}
+    public int getIdAccount() {return idAccount;}
 
     public double getAmount() {return amount;}
 
@@ -48,9 +48,9 @@ public class Transaction {
 
     public String getCurrency() {return currency;}
 
-    public String getAccount_name() {return account_name;}
+    public String getAccountName() {return accountName;}
 
-    public String getAccount_type() {return account_type;}
+    public String getAccountType() {return accountType;}
 
-    public double getAccount_amount() {return account_amount;}
+    public double getAccountAmount() {return accountAmount;}
 }

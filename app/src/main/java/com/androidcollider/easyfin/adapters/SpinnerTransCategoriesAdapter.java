@@ -26,27 +26,27 @@ public class SpinnerTransCategoriesAdapter extends ArrayAdapter<String> {
     }
 
     @Override
-    public View getDropDownView(int position, View view, ViewGroup parent) {return getCustomView(position, view, parent);}
+    public View getDropDownView(int position, View view, ViewGroup parent) {return getCustomView(position, parent);}
     @Override
-    public View getView(int pos, View view, ViewGroup parent) {return getCustomTopView(pos, view, parent);}
+    public View getView(int pos, View view, ViewGroup parent) {return getCustomTopView(pos, parent);}
 
-    public View getCustomView(int position, View convertView, ViewGroup parent) {
+    public View getCustomView(int position, ViewGroup parent) {
         View mySpinner = inflater.inflate(R.layout.spin_custom_dropdown_item, parent, false);
-        TextView main_text = (TextView) mySpinner.findViewById(R.id.tvSpinDropdownCategory);
-        main_text.setText(categories[position]);
+        TextView mainText = (TextView) mySpinner.findViewById(R.id.tvSpinDropdownCategory);
+        mainText.setText(categories[position]);
 
-        ImageView left_icon = (ImageView) mySpinner .findViewById(R.id.ivSpinDropdownCategory);
-        left_icon.setImageResource(icons.getResourceId(position, 0));
+        ImageView leftIcon = (ImageView) mySpinner .findViewById(R.id.ivSpinDropdownCategory);
+        leftIcon.setImageResource(icons.getResourceId(position, 0));
 
         return mySpinner;
     }
 
-    public View getCustomTopView(int position, View convertView, ViewGroup parent) {
-        View topSpinner = inflater.inflate(R.layout.spin_custom_item, parent, false);
-        TextView top_text = (TextView) topSpinner.findViewById(R.id.tvSpinTopText);
-        top_text.setText(categories[position]);
+    public View getCustomTopView(int position, ViewGroup parent) {
+        View headSpinner = inflater.inflate(R.layout.spin_custom_item, parent, false);
+        TextView headText = (TextView) headSpinner.findViewById(R.id.tvSpinTopText);
+        headText.setText(categories[position]);
 
-        return topSpinner;
+        return headSpinner;
     }
 
 }

@@ -24,13 +24,13 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
     private ArrayList<Transaction> transactionArrayList;
 
     private final TypedArray icons;
-    private final TypedArray account_type_icons;
+    private final TypedArray accountTypeIcons;
 
     private final String[] categories;
     private final String[] currency;
 
-    private final String[] currency_language;
-    private final String[] account_type;
+    private final String[] currencyLanguage;
+    private final String[] accountType;
 
 
 
@@ -41,9 +41,9 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
         icons = context.getResources().obtainTypedArray(R.array.trans_categories_icons);
         categories = context.getResources().getStringArray(R.array.cat_transaction_array);
         currency = context.getResources().getStringArray(R.array.account_currency_array);
-        currency_language = context.getResources().getStringArray(R.array.account_currency_array_language);
-        account_type = context.getResources().getStringArray(R.array.account_type_array);
-        account_type_icons = context.getResources().obtainTypedArray(R.array.expense_type_icons);
+        currencyLanguage = context.getResources().getStringArray(R.array.account_currency_array_language);
+        accountType = context.getResources().getStringArray(R.array.account_type_array);
+        accountTypeIcons = context.getResources().obtainTypedArray(R.array.expense_type_icons);
     }
 
 
@@ -73,28 +73,28 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
 
         Transaction transaction = getTransaction(position);
 
-        holder.tvTransAccountName.setText(transaction.getAccount_name());
+        holder.tvTransAccountName.setText(transaction.getAccountName());
         holder.tvTransDate.setText(DateFormat.longToDateString(transaction.getDate(), DATEFORMAT));
 
         String amount = FormatUtils.doubleFormatter(transaction.getAmount(), FORMAT, PRECISE);
 
         String cur = transaction.getCurrency();
 
-        String cur_lang = null;
+        String curLang = null;
 
         for (int i = 0; i < currency.length; i++) {
             if (cur.equals(currency[i])) {
-                cur_lang = currency_language[i];
+                curLang = currencyLanguage[i];
             }
         }
 
 
         if (amount.contains("-")) {
-            holder.tvTransAmount.setText(amount + " " + cur_lang);
+            holder.tvTransAmount.setText(amount + " " + curLang);
             holder.tvTransAmount.setTextColor(context.getResources().getColor(R.color.custom_red));
         }
         else {
-            holder.tvTransAmount.setText("+" + amount + " " + cur_lang);
+            holder.tvTransAmount.setText("+" + amount + " " + curLang);
             holder.tvTransAmount.setTextColor(context.getResources().getColor(R.color.custom_green));
         }
 
@@ -106,11 +106,11 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
             }
         }
 
-        String type = transaction.getAccount_type();
+        String type = transaction.getAccountType();
 
-        for (int i = 0; i < account_type.length; i++) {
-            if (account_type[i].equals(type)) {
-                holder.ivTransAccountType.setImageDrawable(account_type_icons.getDrawable(i));
+        for (int i = 0; i < accountType.length; i++) {
+            if (accountType[i].equals(type)) {
+                holder.ivTransAccountType.setImageDrawable(accountTypeIcons.getDrawable(i));
             }
         }
     }

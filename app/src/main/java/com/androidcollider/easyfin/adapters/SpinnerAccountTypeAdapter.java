@@ -14,39 +14,39 @@ import com.androidcollider.easyfin.R;
 
 public class SpinnerAccountTypeAdapter extends ArrayAdapter<String> {
 
-    final TypedArray account_type_icons;
-    final String[] account_type;
+    final TypedArray accountTypeIcons;
+    final String[] accountType;
     LayoutInflater inflater;
 
     public SpinnerAccountTypeAdapter(Context context, int txtViewResourceId, String[] objects) {
         super(context, txtViewResourceId, objects);
-        account_type = objects;
-        account_type_icons = context.getResources().obtainTypedArray(R.array.expense_type_icons);
+        accountType = objects;
+        accountTypeIcons = context.getResources().obtainTypedArray(R.array.expense_type_icons);
         inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
-    public View getDropDownView(int position, View view, ViewGroup parent) {return getCustomView(position, view, parent);}
+    public View getDropDownView(int position, View view, ViewGroup parent) {return getCustomView(position, parent);}
     @Override
-    public View getView(int pos, View view, ViewGroup parent) {return getCustomTopView(pos, view, parent);}
+    public View getView(int pos, View view, ViewGroup parent) {return getCustomTopView(pos, parent);}
 
-    public View getCustomView(int position, View convertView, ViewGroup parent) {
+    public View getCustomView(int position, ViewGroup parent) {
         View mySpinner = inflater.inflate(R.layout.spin_custom_dropdown_item, parent, false);
-        TextView main_text = (TextView) mySpinner.findViewById(R.id.tvSpinDropdownCategory);
-        main_text.setText(account_type[position]);
+        TextView mainText = (TextView) mySpinner.findViewById(R.id.tvSpinDropdownCategory);
+        mainText.setText(accountType[position]);
 
-        ImageView left_icon = (ImageView) mySpinner .findViewById(R.id.ivSpinDropdownCategory);
-        left_icon.setImageResource(account_type_icons.getResourceId(position, 0));
+        ImageView leftIcon = (ImageView) mySpinner .findViewById(R.id.ivSpinDropdownCategory);
+        leftIcon.setImageResource(accountTypeIcons.getResourceId(position, 0));
 
         return mySpinner;
     }
 
-    public View getCustomTopView(int position, View convertView, ViewGroup parent) {
-        View topSpinner = inflater.inflate(R.layout.spin_custom_item, parent, false);
-        TextView top_text = (TextView) topSpinner.findViewById(R.id.tvSpinTopText);
-        top_text.setText(account_type[position]);
+    public View getCustomTopView(int position, ViewGroup parent) {
+        View headSpinner = inflater.inflate(R.layout.spin_custom_item, parent, false);
+        TextView headText = (TextView) headSpinner.findViewById(R.id.tvSpinTopText);
+        headText.setText(accountType[position]);
 
-        return topSpinner;
+        return headSpinner;
     }
 
 }

@@ -22,21 +22,21 @@ public class AccountRecyclerAdapter extends RecyclerView.Adapter<AccountRecycler
     Context context;
     ArrayList<Account> accountArrayList;
 
-    final TypedArray account_type_icons;
-    final String[] account_type;
+    final TypedArray accountTypeIcons;
+    final String[] accountType;
 
     final String[] currency;
-    final String[] currency_language;
+    final String[] currencyLanguage;
 
     public AccountRecyclerAdapter(Context context, ArrayList<Account> accountArrayList) {
         this.context = context;
         this.accountArrayList = accountArrayList;
 
-        account_type_icons = context.getResources().obtainTypedArray(R.array.expense_type_icons);
-        account_type = context.getResources().getStringArray(R.array.account_type_array);
+        accountTypeIcons = context.getResources().obtainTypedArray(R.array.expense_type_icons);
+        accountType = context.getResources().getStringArray(R.array.account_type_array);
 
         currency = context.getResources().getStringArray(R.array.account_currency_array);
-        currency_language = context.getResources().getStringArray(R.array.account_currency_array_language);
+        currencyLanguage = context.getResources().getStringArray(R.array.account_currency_array_language);
     }
 
     @Override
@@ -63,17 +63,17 @@ public class AccountRecyclerAdapter extends RecyclerView.Adapter<AccountRecycler
         final String FORMAT = "0.00";
 
         String cur = account.getCurrency();
-        String cur_lang = null;
+        String curLang = null;
 
         for (int i = 0; i < currency.length; i++) {
             if (cur.equals(currency[i])) {
-                cur_lang = currency_language[i];
+                curLang = currencyLanguage[i];
             }
         }
 
         holder.tvAccountName.setText(account.getName());
         holder.tvAccountAmount.setText(FormatUtils.doubleFormatter(account.getAmount(), FORMAT, PRECISE) +
-                " " + cur_lang);
+                " " + curLang);
 
         holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -87,7 +87,7 @@ public class AccountRecyclerAdapter extends RecyclerView.Adapter<AccountRecycler
                 intent.putExtra("type", account.getType());
                 intent.putExtra("amount", account.getAmount());
                 intent.putExtra("currency", account.getCurrency());
-                intent.putExtra("id_account", account.getId());
+                intent.putExtra("idAccount", account.getId());
                 intent.putExtra("mode", 1);
                 context.startActivity(intent);
                 return true;
@@ -96,9 +96,9 @@ public class AccountRecyclerAdapter extends RecyclerView.Adapter<AccountRecycler
 
         String type = account.getType();
 
-        for (int i = 0; i < account_type.length; i++) {
-            if (account_type[i].equals(type)) {
-                holder.ivAccountType.setImageDrawable(account_type_icons.getDrawable(i));
+        for (int i = 0; i < accountType.length; i++) {
+            if (accountType[i].equals(type)) {
+                holder.ivAccountType.setImageDrawable(accountTypeIcons.getDrawable(i));
             }
         }
     }

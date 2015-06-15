@@ -66,7 +66,7 @@ public class DataSource {
         ContentValues cv1 = new ContentValues();
         ContentValues cv2 = new ContentValues();
 
-        int id_account = transaction.getId_account();
+        int id_account = transaction.getIdAccount();
 
         cv1.put("id_account", id_account);
         cv1.put("date", transaction.getDate());
@@ -74,7 +74,7 @@ public class DataSource {
         cv1.put("category", transaction.getCategory());
         cv1.put("currency", transaction.getCurrency());
 
-        cv2.put("amount", transaction.getAccount_amount());
+        cv2.put("amount", transaction.getAccountAmount());
 
         openLocalToWrite();
         db.insert("Transactions", null, cv1);
@@ -125,13 +125,11 @@ public class DataSource {
 
         long period = 0;
 
-        DateConstants dateConstants = new DateConstants();
-
         switch (position) {
-            case 1: period = dateConstants.getDay(); break;
-            case 2: period = dateConstants.getWeek(); break;
-            case 3: period = dateConstants.getMonth(); break;
-            case 4: period = dateConstants.getYear(); break;
+            case 1: period = DateConstants.DAY; break;
+            case 2: period = DateConstants.WEEK; break;
+            case 3: period = DateConstants.MONTH; break;
+            case 4: period = DateConstants.YEAR; break;
         }
 
         String selectQuery = "SELECT date, amount FROM Transactions "

@@ -18,7 +18,7 @@ public class Shake {
 
     private static Animation shake;
     public static void shakeView(final View view){
-        if(shake==null) {
+        if(shake == null) {
             shake = new RotateAnimation(-1f, +1f, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
             shake.setRepeatCount(5);
             shake.setRepeatMode(Animation.REVERSE);

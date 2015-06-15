@@ -188,11 +188,11 @@ public class ActAddTransaction extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar_transaction_menu, menu);
-        MenuItem saveTransaction = menu.findItem(R.id.transaction_action_save);
-        saveTransaction.setEnabled(true);
+        MenuItem saveTransactionItem = menu.findItem(R.id.transaction_action_save);
+        saveTransactionItem.setEnabled(true);
 
         if (accounts.size() == 0) {
-            saveTransaction.setEnabled(false);}
+            saveTransactionItem.setEnabled(false);}
 
         return true;
     }
