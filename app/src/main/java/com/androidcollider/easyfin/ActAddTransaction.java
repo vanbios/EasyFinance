@@ -76,20 +76,10 @@ public class ActAddTransaction extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
 
-                switch (position) {
-
-                    case 0: {
-                        checkForAccountExist();
-                        break;
-                    }
-
-                    case 1: {
-                        checkForAccountExist();
-                        checkForCoupleAccountExist();
-                        break;
-                    }
+                checkForAccountExist();
+                if (position==1) {
+                    checkForCoupleAccountExist();
                 }
-
             }
 
             @Override
