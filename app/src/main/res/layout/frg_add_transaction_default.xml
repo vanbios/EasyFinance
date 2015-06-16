@@ -1,204 +1,242 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+
+    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="@dimen/common_padding_large"
+        android:paddingLeft="@dimen/common_padding_medium"
+        android:paddingStart="@dimen/common_padding_medium"
+        android:paddingRight="@dimen/common_padding_medium"
+        android:paddingEnd="@dimen/common_padding_medium">
 
 
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/common_padding_large"
-        android:layout_marginLeft="@dimen/common_padding_medium"
-        android:layout_marginStart="@dimen/common_padding_medium"
-        android:layout_marginRight="@dimen/common_padding_medium"
-        android:layout_marginEnd="@dimen/common_padding_medium"
-        android:layout_centerHorizontal="true"
         android:id="@+id/cardAddTransactionElements"
         card_view:cardElevation="@dimen/card_elevation_medium">
 
-        <ScrollView
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true">
+            android:paddingLeft="@dimen/common_padding_large"
+            android:paddingStart="@dimen/common_padding_large"
+            android:paddingRight="@dimen/common_padding_large"
+            android:paddingEnd="@dimen/common_padding_large">
 
 
-            <RelativeLayout
-                android:orientation="vertical"
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="30dp">
+                android:layout_height="match_parent"
+                android:id="@+id/linLayoutAddTransDefSum"
+                android:baselineAligned="false">
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/tilTextTransSum"
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:id="@+id/ivAddTransDefSum"
+                android:src="@drawable/ic_numeric_grey600_48dp"
+                android:contentDescription="@string/sum_hint"
+
+                android:layout_marginRight="36dp"
+                android:layout_marginEnd="36dp"
+                android:layout_marginTop="46dp"/>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tilTextTransSum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/common_padding_large">
+
+                <EditText
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/common_padding_large"
-                    android:layout_centerHorizontal="true">
+                    android:inputType="numberDecimal"
+                    android:ems="6"
+                    android:id="@+id/editTextTransSum"
+                    android:hint="@string/sum_hint"
+                    android:maxLength="12"
+                    android:layout_centerHorizontal="true"
+                    style="@style/TitleFont"/>
 
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
-                        android:ems="6"
-                        android:id="@+id/editTextTransSum"
-                        android:hint="@string/sum_hint"
-                        android:maxLength="12"
-                        android:layout_centerHorizontal="true"
-                        style="@style/TitleFont"/>
+            </android.support.design.widget.TextInputLayout>
 
-                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
 
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioGroup"
+                android:layout_below="@+id/linLayoutAddTransDefSum"
+                android:orientation='horizontal'
+                android:layout_marginLeft="64dp"
+                android:layout_marginStart="64dp"
+
+                android:layout_marginTop="24dp">
+
+
+                <RadioButton
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/tilTextTransSum"
-                    android:layout_marginTop="20dp"
-                    android:id="@+id/linLayAddTransRadioButtonDate">
+                    android:id="@+id/radioButtonCost"
+                    android:checked="true"
+                    style="@style/RadioButtonMinusStyle"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginEnd="12dp"/>
 
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:paddingTop="@dimen/common_padding_medium">
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/date"
-                            android:id="@+id/tvTransactionDateTitle"
-                            android:clickable="true"
-                            style="@style/BodyFontSecondary"
-
-                            android:layout_marginLeft="34dp"
-                            android:layout_marginStart="34dp" />
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/radioButtonIncome"
+                    style="@style/RadioButtonPlusStyle" />
 
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/date"
-                            android:id="@+id/tvTransactionDate"
-                            android:clickable="true"
-                            style="@style/SubheadFont"
+            </RadioGroup>
 
-                            android:layout_marginTop="10dp"
-                            android:layout_marginLeft="34dp"
-                            android:layout_marginStart="34dp"
-                            android:layout_below="@+id/tvTransactionDateTitle"/>
 
-                    </RelativeLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:id="@+id/cvAddTransDefDivider"
+                android:layout_below="@+id/radioGroup"
+                android:background="@color/custom_divider"
+                android:layout_marginLeft="68dp"
+                android:layout_marginStart="68dp"
+                android:layout_marginTop="48dp"/>
 
 
 
 
-                    <RadioGroup
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:id="@+id/radioGroup"
-                        android:layout_marginLeft="24dp"
-                        android:layout_marginStart="24dp">
-
-                        <RadioButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/radio_btn_cost"
-                            android:id="@+id/radioButtonCost"
-                            android:checked="true"
-                            style="@style/SubheadFont"/>
-
-                        <RadioButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/radio_btn_income"
-                            android:id="@+id/radioButtonIncome"
-                            style="@style/SubheadFont"/>
-                    </RadioGroup>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/linLayoutAddTransDefAccount"
+                android:layout_below="@+id/cvAddTransDefDivider"
+                android:baselineAligned="false">
 
 
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:id="@+id/ivAddTransDefAccount"
+                    android:src="@drawable/ic_cash_multiple_grey600_48dp"
+                    android:contentDescription="@string/account"
+
+                    android:layout_marginRight="40dp"
+                    android:layout_marginEnd="40dp"
+                    android:layout_marginTop="18dp"/>
+
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:id="@+id/spinAddTransExpense"
+                    android:spinnerMode="dialog"
+                    android:prompt="@string/account" />
 
                 </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/linLayoutAddTransDefAccount"
+                android:background="@color/custom_divider"
+                android:layout_marginLeft="68dp"
+                android:layout_marginStart="68dp" />
 
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/linLayAddTransRadioButtonDate"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginTop="16dp"
-                    android:id="@+id/linLayAddTrans1">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/linLayoutAddTransDefCategory"
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/account"
-                        android:id="@+id/tvAccount"
-                        android:layout_weight="1"
-                        android:layout_marginStart="34dp"
-                        android:layout_marginLeft="34dp"
-                        style="@style/BodyFontSecondary"/>
+                android:layout_below="@+id/linLayoutAddTransDefAccount"
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/category"
-                        android:id="@+id/tvCategory"
-                        android:layout_weight="1"
+                android:baselineAligned="false">
 
-                        android:layout_marginStart="18dp"
-                        android:layout_marginLeft="18dp"
-                        style="@style/BodyFontSecondary"
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:id="@+id/ivAddTransDefCategory"
+                android:src="@drawable/ic_label_grey600_48dp"
+                android:contentDescription="@string/category"
+
+                android:layout_marginRight="40dp"
+                android:layout_marginEnd="40dp"
+                android:layout_marginTop="18dp"/>
+
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:id="@+id/spinAddTransCategory"
+                android:spinnerMode="dialog"
+                android:prompt="@string/category" />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/linLayoutAddTransDefCategory"
+                android:background="@color/custom_divider"
+                android:layout_marginLeft="68dp"
+                android:layout_marginStart="68dp" />
+
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/linLayoutAddTransDefDate"
+
+                android:layout_below="@+id/linLayoutAddTransDefCategory"
+
+                android:layout_marginTop="20dp"
+
+                android:baselineAligned="false">
+
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:id="@+id/ivAddTransDefDate"
+                        android:src="@drawable/ic_calendar_grey600_48dp"
+                        android:contentDescription="@string/date"
+
+                        android:layout_marginRight="40dp"
+                        android:layout_marginEnd="40dp"
                         />
-                </LinearLayout>
 
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:id="@+id/linLayAddTrans2"
-                    android:layout_below="@+id/linLayAddTrans1"
-                    android:layout_marginTop="2dp">
 
-                    <Spinner
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/spinAddTransExpense"
-                        android:spinnerMode="dialog"
-                        android:prompt="@string/account"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="6dp"
-                        android:layout_marginStart="30dp"
-                        android:layout_marginEnd="6dp"/>
 
-                    <Spinner
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/spinAddTransCategory"
-                        android:spinnerMode="dialog"
-                        android:prompt="@string/category"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="6dp"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="6dp"/>
-                </LinearLayout>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:id="@+id/tvTransactionDate"
+                        android:clickable="true"
+                        style="@style/SpinnerFont" />
 
-            </RelativeLayout>
 
-        </ScrollView>
+            </LinearLayout>
+
+        </RelativeLayout>
 
     </android.support.v7.widget.CardView>
 
-</RelativeLayout>
+</ScrollView>

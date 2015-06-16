@@ -107,7 +107,6 @@
 
     //string arrays
     <string-array name="cat_transaction_array">
-        <item>Без категорії</item>
         <item>Їжа</item>
         <item>Проїзд</item>
         <item>Одяг</item>
@@ -116,6 +115,7 @@
         <item>Лікування</item>
         <item>Освіта</item>
         <item>Електроніка</item>
+        <item>Інше</item>
     </string-array>
 
 

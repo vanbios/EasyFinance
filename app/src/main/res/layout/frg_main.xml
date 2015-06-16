@@ -39,7 +39,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/linLayoutMainBalanceTitle"
-                        android:baselineAligned="false">
+                        android:baselineAligned="false"
+                        android:paddingTop="@dimen/common_padding_small">
 
 
                         <RelativeLayout
@@ -58,8 +59,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_marginRight="20dp"
                             android:layout_marginEnd="20dp"
-                            style="@style/SpinnerFont"
-                            android:layout_marginTop="@dimen/common_padding_small"/>
+                            style="@style/SpinnerFont" />
 
                         </RelativeLayout>
 
@@ -222,7 +222,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/linLayoutMainStatisticTitle"
-                    android:baselineAligned="false">
+                    android:baselineAligned="false"
+                    android:paddingTop="@dimen/common_padding_small">
 
 
                     <RelativeLayout
@@ -238,7 +239,6 @@
                     android:text="@string/main_statistic"
                     android:id="@+id/tvMainStatistic"
                     style="@style/SpinnerFont"
-                    android:layout_marginTop="@dimen/common_padding_small"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentEnd="true"
                     android:layout_marginRight="12dp"

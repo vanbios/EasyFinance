@@ -19,7 +19,7 @@ import android.view.MenuItem;
 import java.util.List;
 
 
-public class ActAddTransaction extends AppCompatActivity {
+public class ActTransaction extends AppCompatActivity {
 
     List<String> accounts = null;
 
@@ -33,9 +33,9 @@ public class ActAddTransaction extends AppCompatActivity {
 
         setToolbar(R.string.new_transaction);
 
-        setViewPager();
-
         accounts = new DataSource(this).getAllAccountNames();
+
+        setViewPager();
 
         checkForAccountExist();
     }
@@ -57,8 +57,11 @@ public class ActAddTransaction extends AppCompatActivity {
         MyFragmentPagerAdapter adapterPager = new MyFragmentPagerAdapter(getSupportFragmentManager());
         adapterPager.addFragment(new FrgAddTransactionDefault(),
                 getResources().getString(R.string.add_transaction_tab_default));
-        adapterPager.addFragment(new FrgAddTransactionBetweenAccounts(),
-                getResources().getString(R.string.add_transaction_tab_between));
+
+        if (accounts.size() > 1) {
+            adapterPager.addFragment(new FrgAddTransactionBetweenAccounts(),
+                    getResources().getString(R.string.add_transaction_tab_between));
+        }
 
         pagerTrans.setAdapter(adapterPager);
 
@@ -77,9 +80,6 @@ public class ActAddTransaction extends AppCompatActivity {
             public void onPageSelected(int position) {
 
                 checkForAccountExist();
-                if (position==1) {
-                    checkForCoupleAccountExist();
-                }
             }
 
             @Override
@@ -111,26 +111,6 @@ public class ActAddTransaction extends AppCompatActivity {
                 .show();
     }
 
-    private void showDialogSingleAccount() {
-
-        new MaterialDialog.Builder(this)
-                .title(getString(R.string.single_account))
-                .content(getString(R.string.dialog_text_single_account))
-                .positiveText(getString(R.string.new_account))
-                .negativeText(getString(R.string.close))
-                .callback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog dialog) {
-                        goToAddNewAccount();
-                    }
-
-                    @Override
-                    public void onNegative(MaterialDialog dialog) {
-
-                    }
-                })
-                .show();
-    }
 
     private void returnToMain() {
         this.finish();
@@ -153,12 +133,6 @@ public class ActAddTransaction extends AppCompatActivity {
         }
     }
 
-    private void checkForCoupleAccountExist() {
-
-        if (accounts.size() == 1) {
-            showDialogSingleAccount();
-        }
-    }
 
 
     @Override
@@ -204,7 +178,6 @@ public class ActAddTransaction extends AppCompatActivity {
                         (FrgAddTransactionBetweenAccounts) mfa2.getItem(position);
                 frgAddTransactionBetweenAccounts.addTransactionBTW();
                 break;}
-
         }
     }
 }

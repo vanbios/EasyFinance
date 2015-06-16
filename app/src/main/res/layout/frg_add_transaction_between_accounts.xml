@@ -105,8 +105,8 @@
                         android:text="@string/account"
                         android:id="@+id/tvAccountBTW1"
                         android:layout_weight="1"
-                        android:layout_marginStart="34dp"
-                        android:layout_marginLeft="34dp"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginLeft="30dp"
                         style="@style/BodyFontSecondary"/>
 
                     <TextView
@@ -116,8 +116,8 @@
                         android:id="@+id/tvAccountBTW2"
                         android:layout_weight="1"
 
-                        android:layout_marginStart="18dp"
-                        android:layout_marginLeft="18dp"
+                        android:layout_marginStart="14dp"
+                        android:layout_marginLeft="14dp"
                         style="@style/BodyFontSecondary"
                         />
                 </LinearLayout>
@@ -130,7 +130,7 @@
                     android:layout_alignParentStart="true"
                     android:id="@+id/linLayAddTransBTW2"
                     android:layout_below="@+id/linLayAddTransBTW1"
-                    android:layout_marginTop="2dp">
+                    android:layout_marginTop="8dp">
 
                     <Spinner
                         android:layout_width="0dp"

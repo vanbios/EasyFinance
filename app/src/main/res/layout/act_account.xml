@@ -124,7 +124,8 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/linLayoutAddAccountSpinners"
                 android:layout_below="@+id/linLayoutAddAccountTitles"
-                android:baselineAligned="false">
+                android:baselineAligned="false"
+                android:layout_marginTop="5dp">
 
 
                 <RelativeLayout
@@ -139,8 +140,8 @@
         android:spinnerMode="dialog"
         android:prompt="@string/account_type"
 
-        android:layout_marginLeft="46dp"
-        android:layout_marginStart="46dp"/>
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp"/>
 
                 </RelativeLayout>
 

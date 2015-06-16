@@ -16,6 +16,7 @@ import com.androidcollider.easyfin.utils.FormatUtils;
 
 import java.util.List;
 
+
 public class SpinnerAccountForTransAdapter extends ArrayAdapter<Account> {
 
     final TypedArray typeIcons;
@@ -87,7 +88,6 @@ public class SpinnerAccountForTransAdapter extends ArrayAdapter<Account> {
 
         return headSpinner;
     }
-
 
 
     public Account getItem (int position) {

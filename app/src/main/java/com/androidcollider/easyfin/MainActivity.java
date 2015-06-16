@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addTransactionMain() {
-        Intent intent = new Intent(this, ActAddTransaction.class);
+        Intent intent = new Intent(this, ActTransaction.class);
         startActivity(intent);
     }
 

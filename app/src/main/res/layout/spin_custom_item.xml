@@ -8,4 +8,6 @@
     style="@style/SpinnerFont"
     android:gravity="start"
     android:singleLine="true"
-    android:padding="5dip" />
+    android:paddingRight="@dimen/common_padding_small"
+    android:paddingEnd="@dimen/common_padding_small"
+    />
