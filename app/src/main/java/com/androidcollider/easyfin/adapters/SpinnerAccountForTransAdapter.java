@@ -16,7 +16,7 @@ import com.androidcollider.easyfin.utils.FormatUtils;
 
 import java.util.List;
 
-public class SpinnerAccountForTransAdapter extends ArrayAdapter<String> {
+public class SpinnerAccountForTransAdapter extends ArrayAdapter<Account> {
 
     final TypedArray typeIcons;
     final List<Account> accountsList;
@@ -25,9 +25,10 @@ public class SpinnerAccountForTransAdapter extends ArrayAdapter<String> {
     final String[] accountCurrLang;
     LayoutInflater inflater;
 
-    public SpinnerAccountForTransAdapter(Context context, int txtViewResourceId,
-                                         List<String> accounts, List<Account> accountsL) {
-        super(context, txtViewResourceId, accounts);
+
+    public SpinnerAccountForTransAdapter(Context context, int txtViewResourceId, List<Account> accountsL) {
+
+        super(context, txtViewResourceId, accountsL);
         accountsList = accountsL;
 
         typeIcons = context.getResources().obtainTypedArray(R.array.expense_type_icons);
@@ -85,6 +86,12 @@ public class SpinnerAccountForTransAdapter extends ArrayAdapter<String> {
         headText.setText(accountsList.get(position).getName());
 
         return headSpinner;
+    }
+
+
+
+    public Account getItem (int position) {
+        return accountsList.get(position);
     }
 
 }

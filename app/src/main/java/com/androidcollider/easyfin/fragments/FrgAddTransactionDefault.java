@@ -24,7 +24,6 @@ import com.androidcollider.easyfin.objects.Transaction;
 import com.androidcollider.easyfin.utils.DateFormat;
 import com.androidcollider.easyfin.utils.Shake;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -40,8 +39,6 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
 
     private View view;
     private DataSource dataSource;
-
-    private List<Account> accountList = null;
 
 
 
@@ -72,18 +69,12 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
                 getResources().getStringArray(R.array.cat_transaction_array)));
 
 
-        accountList = dataSource.getAllAccountsInfo();
+        List<Account> accountList = dataSource.getAllAccountsInfo();
 
-        List<String> accountNames = new ArrayList<>();
+        spinAccount.setAdapter(new SpinnerAccountForTransAdapter(getActivity(),
+                R.layout.spin_custom_item, accountList));
 
-        for (Account account : accountList) {
-            accountNames.add(account.getName());
-        }
-
-        spinAccount.setAdapter(new SpinnerAccountForTransAdapter(getActivity(), R.layout.spin_custom_item,
-                accountNames, accountList));
-
-        if (accountNames.size() == 0) {
+        if (accountList.size() == 0) {
             spinAccount.setEnabled(false);
         }
     }
@@ -110,23 +101,22 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
                 amount *= -1;}
 
 
-            int pos = spinAccount.getSelectedItemPosition();
+            Account account = (Account) spinAccount.getSelectedItem();
 
-            double account_amount = accountList.get(pos).getAmount();
+            double accountAmount = account.getAmount();
 
-            if (rbCost.isChecked() && Math.abs(amount) > account_amount) {
+            if (rbCost.isChecked() && Math.abs(amount) > accountAmount) {
                 Toast.makeText(getActivity(), getResources().getString(R.string.transaction_not_enough_costs) + " " +
                         Math.abs(amount), Toast.LENGTH_LONG).show();}
             else {
-                account_amount += amount;
+                accountAmount += amount;
 
                 String category = spinCategory.getSelectedItem().toString();
-                int idAccount = accountList.get(pos).getId();
-                String currency = accountList.get(pos).getCurrency();
+                int idAccount = account.getId();
+                String currency = account.getCurrency();
 
-                Transaction transaction = new Transaction(date, amount, category, idAccount, currency, account_amount);
+                Transaction transaction = new Transaction(date, amount, category, idAccount, currency, accountAmount);
                 dataSource.insertNewTransaction(transaction);
-
 
                 pushBroadcast();
 
