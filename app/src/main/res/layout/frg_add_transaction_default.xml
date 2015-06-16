@@ -35,26 +35,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/linLayoutAddTransDefSum"
-                android:baselineAligned="false">
+                android:baselineAligned="false"
+                android:layout_marginTop="@dimen/common_padding_large">
 
 
             <ImageView
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:id="@+id/ivAddTransDefSum"
-                android:src="@drawable/ic_numeric_grey600_48dp"
+                android:src="@drawable/ic_coin_stacks_cyan_48dp"
                 android:contentDescription="@string/sum_hint"
-
                 android:layout_marginRight="36dp"
                 android:layout_marginEnd="36dp"
-                android:layout_marginTop="46dp"/>
+                android:layout_marginTop="@dimen/common_padding_large"/>
 
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/tilTextTransSum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/common_padding_large">
 
                 <EditText
                     android:layout_width="wrap_content"
@@ -64,10 +59,7 @@
                     android:id="@+id/editTextTransSum"
                     android:hint="@string/sum_hint"
                     android:maxLength="12"
-                    android:layout_centerHorizontal="true"
-                    style="@style/TitleFont"/>
-
-            </android.support.design.widget.TextInputLayout>
+                    style="@style/TitleFont" />
 
             </LinearLayout>
 
@@ -81,8 +73,7 @@
                 android:orientation='horizontal'
                 android:layout_marginLeft="64dp"
                 android:layout_marginStart="64dp"
-
-                android:layout_marginTop="24dp">
+                android:layout_marginTop="@dimen/common_padding_large">
 
 
                 <RadioButton
@@ -112,7 +103,7 @@
                 android:background="@color/custom_divider"
                 android:layout_marginLeft="68dp"
                 android:layout_marginStart="68dp"
-                android:layout_marginTop="48dp"/>
+                android:layout_marginTop="36dp"/>
 
 
 
@@ -130,9 +121,8 @@
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:id="@+id/ivAddTransDefAccount"
-                    android:src="@drawable/ic_cash_multiple_grey600_48dp"
+                    android:src="@drawable/ic_cash_multiple_cyan_48dp"
                     android:contentDescription="@string/account"
-
                     android:layout_marginRight="40dp"
                     android:layout_marginEnd="40dp"
                     android:layout_marginTop="18dp"/>
@@ -161,9 +151,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/linLayoutAddTransDefCategory"
-
                 android:layout_below="@+id/linLayoutAddTransDefAccount"
-
                 android:baselineAligned="false">
 
 
@@ -171,9 +159,8 @@
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:id="@+id/ivAddTransDefCategory"
-                android:src="@drawable/ic_label_grey600_48dp"
+                android:src="@drawable/ic_label_cyan_48dp"
                 android:contentDescription="@string/category"
-
                 android:layout_marginRight="40dp"
                 android:layout_marginEnd="40dp"
                 android:layout_marginTop="18dp"/>
@@ -204,11 +191,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/linLayoutAddTransDefDate"
-
                 android:layout_below="@+id/linLayoutAddTransDefCategory"
-
                 android:layout_marginTop="20dp"
-
                 android:baselineAligned="false">
 
 
@@ -216,12 +200,10 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:id="@+id/ivAddTransDefDate"
-                        android:src="@drawable/ic_calendar_grey600_48dp"
+                        android:src="@drawable/ic_calendar_cyan_48dp"
                         android:contentDescription="@string/date"
-
                         android:layout_marginRight="40dp"
-                        android:layout_marginEnd="40dp"
-                        />
+                        android:layout_marginEnd="40dp" />
 
 
 

@@ -53,7 +53,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
 
     private void setSpinnerFrom() {
-        spinAccountFrom = (Spinner) view.findViewById(R.id.spinAddTransBTWAccount1);
+        spinAccountFrom = (Spinner) view.findViewById(R.id.spinAddTransBTWAccountFrom);
 
         accountListFrom = dataSource.getAllAccountsInfo();
         accountListTo = new ArrayList<>();
@@ -82,7 +82,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
     private boolean setSpinnerTo() {
 
-        spinAccountTo = (Spinner) view.findViewById(R.id.spinAddTransBTWAccount2);
+        spinAccountTo = (Spinner) view.findViewById(R.id.spinAddTransBTWAccountTo);
         spinAccountTo.setEnabled(false);
         spinAccountTo.setAdapter(null);
         spin2SetCount++;
