@@ -37,7 +37,9 @@
                 android:layout_height="match_parent"
                 android:id="@+id/linLayAddTransBTWSum"
                 android:baselineAligned="false"
-                android:layout_marginTop="@dimen/common_padding_large">
+                android:layout_marginTop="@dimen/common_padding_large"
+
+                android:gravity="center_vertical">
 
 
                 <ImageView
@@ -46,9 +48,8 @@
                     android:id="@+id/ivAddTransBTWSum"
                     android:src="@drawable/ic_coin_stacks_cyan_48dp"
                     android:contentDescription="@string/sum_hint"
-                    android:layout_marginRight="36dp"
-                    android:layout_marginEnd="36dp"
-                    android:layout_marginTop="@dimen/common_padding_large"/>
+                    android:layout_marginRight="52dp"
+                    android:layout_marginEnd="52dp" />
 
 
 
@@ -60,7 +61,7 @@
                     android:id="@+id/editTextTransBTWSum"
                     android:hint="@string/sum_hint"
                     android:maxLength="12"
-                    style="@style/TitleFont" />
+                    style="@style/TitleBigFont" />
 
             </LinearLayout>
 
@@ -84,7 +85,9 @@
                 android:layout_height="match_parent"
                 android:id="@+id/linLayoutAddTransBTWAccountFrom"
                 android:layout_below="@+id/cvAddTransBTWDivider"
-                android:baselineAligned="false">
+                android:baselineAligned="false"
+
+                android:gravity="center_vertical">
 
 
                 <ImageView
@@ -94,8 +97,7 @@
                     android:src="@drawable/ic_outcome_cyan_48dp"
                     android:contentDescription="@string/account"
                     android:layout_marginRight="40dp"
-                    android:layout_marginEnd="40dp"
-                    android:layout_marginTop="18dp"/>
+                    android:layout_marginEnd="40dp" />
 
 
                 <Spinner
@@ -122,7 +124,9 @@
                 android:layout_height="match_parent"
                 android:id="@+id/linLayoutAddTransBTWAccountTo"
                 android:layout_below="@+id/linLayoutAddTransBTWAccountFrom"
-                android:baselineAligned="false">
+                android:baselineAligned="false"
+
+                android:gravity="center_vertical">
 
 
                 <ImageView
@@ -132,8 +136,7 @@
                     android:src="@drawable/ic_income_cyan_48dp"
                     android:contentDescription="@string/category"
                     android:layout_marginRight="40dp"
-                    android:layout_marginEnd="40dp"
-                    android:layout_marginTop="18dp"/>
+                    android:layout_marginEnd="40dp" />
 
 
                 <Spinner

@@ -71,7 +71,6 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
         spinCategory.setSelection(category.length-1);
 
 
-        //List<Account> accountList = dataSource.getAllAccountsInfo();
         ArrayList<Account> accountList = InfoFromDB.getInstance().getAccountList();
 
         spinAccount.setAdapter(new SpinnerAccountForTransAdapter(getActivity(),

@@ -32,11 +32,13 @@
 
             <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:id="@+id/linLayoutAddTransDefSum"
                 android:baselineAligned="false"
-                android:layout_marginTop="@dimen/common_padding_large">
+                android:layout_marginTop="@dimen/common_padding_large"
+
+                android:gravity="center_vertical">
 
 
             <ImageView
@@ -45,9 +47,10 @@
                 android:id="@+id/ivAddTransDefSum"
                 android:src="@drawable/ic_coin_stacks_cyan_48dp"
                 android:contentDescription="@string/sum_hint"
-                android:layout_marginRight="36dp"
-                android:layout_marginEnd="36dp"
-                android:layout_marginTop="@dimen/common_padding_large"/>
+
+                android:layout_marginRight="52dp"
+                android:layout_marginEnd="52dp" />
+
 
 
 
@@ -59,20 +62,21 @@
                     android:id="@+id/editTextTransSum"
                     android:hint="@string/sum_hint"
                     android:maxLength="12"
-                    style="@style/TitleFont" />
+                    style="@style/TitleBigFont" />
+
 
             </LinearLayout>
 
 
 
             <RadioGroup
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/radioGroup"
                 android:layout_below="@+id/linLayoutAddTransDefSum"
                 android:orientation='horizontal'
-                android:layout_marginLeft="64dp"
-                android:layout_marginStart="64dp"
+                android:layout_centerHorizontal="true"
+
                 android:layout_marginTop="@dimen/common_padding_large">
 
 
@@ -114,7 +118,9 @@
                 android:layout_height="match_parent"
                 android:id="@+id/linLayoutAddTransDefAccount"
                 android:layout_below="@+id/cvAddTransDefDivider"
-                android:baselineAligned="false">
+                android:baselineAligned="false"
+
+                android:gravity="center_vertical">
 
 
                 <ImageView
@@ -124,8 +130,7 @@
                     android:src="@drawable/ic_cash_multiple_cyan_48dp"
                     android:contentDescription="@string/account"
                     android:layout_marginRight="40dp"
-                    android:layout_marginEnd="40dp"
-                    android:layout_marginTop="18dp"/>
+                    android:layout_marginEnd="40dp" />
 
 
                 <Spinner
@@ -152,7 +157,9 @@
                 android:layout_height="match_parent"
                 android:id="@+id/linLayoutAddTransDefCategory"
                 android:layout_below="@+id/linLayoutAddTransDefAccount"
-                android:baselineAligned="false">
+                android:baselineAligned="false"
+
+                android:gravity="center_vertical">
 
 
             <ImageView
@@ -162,8 +169,7 @@
                 android:src="@drawable/ic_label_cyan_48dp"
                 android:contentDescription="@string/category"
                 android:layout_marginRight="40dp"
-                android:layout_marginEnd="40dp"
-                android:layout_marginTop="18dp"/>
+                android:layout_marginEnd="40dp" />
 
 
             <Spinner
@@ -192,7 +198,9 @@
                 android:layout_height="match_parent"
                 android:id="@+id/linLayoutAddTransDefDate"
                 android:layout_below="@+id/linLayoutAddTransDefCategory"
-                android:layout_marginTop="20dp"
+
+                android:gravity="center_vertical"
+
                 android:baselineAligned="false">
 
 
@@ -202,17 +210,17 @@
                         android:id="@+id/ivAddTransDefDate"
                         android:src="@drawable/ic_calendar_cyan_48dp"
                         android:contentDescription="@string/date"
-                        android:layout_marginRight="40dp"
-                        android:layout_marginEnd="40dp" />
+                         />
 
 
 
                     <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="48dp"
+                        android:layout_height="68dp"
                         android:id="@+id/tvTransactionDate"
                         android:clickable="true"
-                        style="@style/SpinnerFont" />
+                        style="@style/SpinnerFont"
+                        android:gravity="center"/>
 
 
             </LinearLayout>

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -34,6 +33,12 @@ public class FrgTransactions extends Fragment{
     private View view;
 
     private BroadcastReceiver broadcastReceiver;
+
+    private ArrayList<Transaction> transactionList = null;
+    private TransactionRecyclerAdapter recyclerAdapter;
+
+    private DataSource dataSource;
+
 
 
     public static FrgTransactions newInstance(int page) {
@@ -63,15 +68,16 @@ public class FrgTransactions extends Fragment{
     }
 
     private void setItemTransaction() {
-        ArrayList<Transaction> transactionArrayList = new DataSource(getActivity()).getAllTransactionsInfo();
+
+        dataSource = new DataSource(getActivity());
+
+        transactionList = dataSource.getAllTransactionsInfo();
 
         RecyclerView recyclerTransaction = (RecyclerView) view.findViewById(R.id.recyclerTransaction);
 
         recyclerTransaction.setLayoutManager(new LinearLayoutManager(recyclerTransaction.getContext()));
-        recyclerTransaction.setAdapter(new TransactionRecyclerAdapter(getActivity(), transactionArrayList));
-
-        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-        recyclerTransaction.setItemAnimator(itemAnimator);
+        recyclerAdapter = new TransactionRecyclerAdapter(getActivity(), transactionList);
+        recyclerTransaction.setAdapter(recyclerAdapter);
     }
 
     private void makeBroadcastReceiver() {
@@ -82,7 +88,9 @@ public class FrgTransactions extends Fragment{
 
                 if (status == STATUS_UPDATE_FRAGMENT_TRANSACTION) {
 
-                    setItemTransaction();
+                    transactionList.clear();
+                    transactionList.addAll(dataSource.getAllTransactionsInfo());
+                    recyclerAdapter.notifyDataSetChanged();
                 }
             }
         };

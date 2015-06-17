@@ -28,7 +28,7 @@
 
 
     // transactions tabs
-    <string name="add_transaction_tab_default">З рахунку</string>
+    <string name="add_transaction_tab_default">Витрати / Дохід</string>
     <string name="add_transaction_tab_between">Між рахунками</string>
 
 

@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -31,7 +30,11 @@ public class FrgAccounts extends Fragment{
 
     private View view;
 
+    private AccountRecyclerAdapter recyclerAdapter;
+    private ArrayList<Account> accountArrayList = null;
+
     private BroadcastReceiver broadcastReceiver;
+
 
 
     public static FrgAccounts newInstance(int page) {
@@ -62,15 +65,13 @@ public class FrgAccounts extends Fragment{
 
     private void setItemAccount() {
 
-        ArrayList<Account> accountArrayList = InfoFromDB.getInstance().getAccountList();
+        accountArrayList = InfoFromDB.getInstance().getAccountList();
 
         RecyclerView recyclerAccount = (RecyclerView) view.findViewById(R.id.recyclerAccount);
 
         recyclerAccount.setLayoutManager(new LinearLayoutManager(recyclerAccount.getContext()));
-        recyclerAccount.setAdapter(new AccountRecyclerAdapter(getActivity(), accountArrayList));
-
-        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-        recyclerAccount.setItemAnimator(itemAnimator);
+        recyclerAdapter = new AccountRecyclerAdapter(getActivity(), accountArrayList);
+        recyclerAccount.setAdapter(recyclerAdapter);
     }
 
     private void makeBroadcastReceiver() {
@@ -81,7 +82,9 @@ public class FrgAccounts extends Fragment{
 
                 if (status == FrgMain.STATUS_UPDATE_FRAGMENT_MAIN) {
 
-                    setItemAccount();
+                    accountArrayList.clear();
+                    accountArrayList.addAll(InfoFromDB.getInstance().getAccountList());
+                    recyclerAdapter.notifyDataSetChanged();
                 }
             }
         };

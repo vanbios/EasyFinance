@@ -27,6 +27,8 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
     private Spinner spinAccountFrom, spinAccountTo;
 
+    private SpinnerAccountForTransAdapter adapterAccountTo;
+
     private View view;
 
     private ArrayList<Account> accountListFrom = null;
@@ -39,18 +41,17 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frg_add_transaction_between_accounts, container, false);
 
-        setSpinnerFrom();
+        setSpinners();
 
         return view;
     }
 
 
 
-    private void setSpinnerFrom() {
+    private void setSpinners() {
         spinAccountFrom = (Spinner) view.findViewById(R.id.spinAddTransBTWAccountFrom);
         spinAccountTo = (Spinner) view.findViewById(R.id.spinAddTransBTWAccountTo);
 
-        //accountListFrom = dataSource.getAllAccountsInfo();
         accountListFrom = InfoFromDB.getInstance().getAccountList();
         accountListTo = new ArrayList<>();
 
@@ -58,10 +59,19 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
                 R.layout.spin_custom_item, accountListFrom));
 
 
+        accountListTo.addAll(accountListFrom);
+        accountListTo.remove(spinAccountFrom.getSelectedItemPosition());
+
+        adapterAccountTo = new SpinnerAccountForTransAdapter(getActivity(),
+                R.layout.spin_custom_item, accountListTo);
+
+        spinAccountTo.setAdapter(adapterAccountTo);
+
+
         spinAccountFrom.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                setSpinnerTo();
+                updateSpinnerTo();
                 setCurrencyMode(checkForMultiCurrency());
             }
 
@@ -85,15 +95,12 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
     }
 
 
-    private void setSpinnerTo() {
-
+    private void updateSpinnerTo() {
         accountListTo.clear();
-
         accountListTo.addAll(accountListFrom);
         accountListTo.remove(spinAccountFrom.getSelectedItemPosition());
 
-        spinAccountTo.setAdapter(new SpinnerAccountForTransAdapter(getActivity(),
-                R.layout.spin_custom_item, accountListTo));
+        adapterAccountTo.notifyDataSetChanged();
     }
 
 
@@ -125,8 +132,6 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
     public void addTransactionBTW() {
 
-         if (spinAccountTo.isEnabled()) {
-
                 EditText etSum = (EditText) view.findViewById(R.id.editTextTransBTWSum);
 
                 String sum = etSum.getText().toString();
@@ -145,6 +150,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
                     if (amount > accountAmountFrom) {
                         Toast.makeText(getActivity(), getResources().getString(R.string.transaction_not_enough_costs) + " " +
                                 Math.abs(amount), Toast.LENGTH_LONG).show();
+
                     } else {
 
                         int accountIdFrom = accountFrom.getId();
@@ -167,7 +173,6 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
                         pushBroadcast();
 
                         getActivity().finish();
-                        }
                     }
                 }
             }
