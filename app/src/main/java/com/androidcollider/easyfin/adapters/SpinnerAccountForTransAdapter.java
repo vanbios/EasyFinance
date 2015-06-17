@@ -14,20 +14,20 @@ import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.utils.FormatUtils;
 
-import java.util.List;
+import java.util.ArrayList;
 
 
 public class SpinnerAccountForTransAdapter extends ArrayAdapter<Account> {
 
     final TypedArray typeIcons;
-    final List<Account> accountsList;
+    final ArrayList<Account> accountsList;
     final String[] accountType;
     final String[] accountCurr;
     final String[] accountCurrLang;
     LayoutInflater inflater;
 
 
-    public SpinnerAccountForTransAdapter(Context context, int txtViewResourceId, List<Account> accountsL) {
+    public SpinnerAccountForTransAdapter(Context context, int txtViewResourceId, ArrayList<Account> accountsL) {
 
         super(context, txtViewResourceId, accountsL);
         accountsList = accountsL;

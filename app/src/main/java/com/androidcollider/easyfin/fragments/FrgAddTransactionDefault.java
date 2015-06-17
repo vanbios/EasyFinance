@@ -20,12 +20,13 @@ import com.androidcollider.easyfin.adapters.SpinnerAccountForTransAdapter;
 import com.androidcollider.easyfin.adapters.SpinnerTransCategoriesAdapter;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.objects.Account;
+import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.objects.Transaction;
 import com.androidcollider.easyfin.utils.DateFormat;
 import com.androidcollider.easyfin.utils.Shake;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 
 
@@ -38,7 +39,6 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
     private final String DATEFORMAT = "dd.MM.yyyy";
 
     private View view;
-    private DataSource dataSource;
 
 
 
@@ -51,8 +51,6 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
         tvDate = (TextView) view.findViewById(R.id.tvTransactionDate);
 
         setDateTimeField();
-
-        dataSource = new DataSource(getActivity());
 
         setSpinner();
 
@@ -73,7 +71,8 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
         spinCategory.setSelection(category.length-1);
 
 
-        List<Account> accountList = dataSource.getAllAccountsInfo();
+        //List<Account> accountList = dataSource.getAllAccountsInfo();
+        ArrayList<Account> accountList = InfoFromDB.getInstance().getAccountList();
 
         spinAccount.setAdapter(new SpinnerAccountForTransAdapter(getActivity(),
                 R.layout.spin_custom_item, accountList));
@@ -120,7 +119,9 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
                 String currency = account.getCurrency();
 
                 Transaction transaction = new Transaction(date, amount, category, idAccount, currency, accountAmount);
-                dataSource.insertNewTransaction(transaction);
+                new DataSource(getActivity()).insertNewTransaction(transaction);
+
+                InfoFromDB.getInstance().updateAccountList();
 
                 pushBroadcast();
 

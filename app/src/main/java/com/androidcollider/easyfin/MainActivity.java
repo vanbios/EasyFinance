@@ -4,7 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import android.support.design.widget.CoordinatorLayout;
@@ -21,6 +20,7 @@ import com.androidcollider.easyfin.adapters.MyFragmentPagerAdapter;
 import com.androidcollider.easyfin.fragments.FrgAccounts;
 import com.androidcollider.easyfin.fragments.FrgMain;
 import com.androidcollider.easyfin.fragments.FrgTransactions;
+import com.androidcollider.easyfin.utils.SharedPref;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -39,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
 
     public final static int STATUS_MAIN_SNACK = 500;
 
+    private SharedPref sharedPref;
+
+    private boolean isSnackBarDisabled;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +53,12 @@ public class MainActivity extends AppCompatActivity {
 
         setViewPager();
 
-        makeBroadcastReceiver();
+        sharedPref = new SharedPref(this);
+
+        isSnackBarDisabled = sharedPref.isSnackBarAccountDisable();
+
+        if (!isSnackBarDisabled) {
+            makeBroadcastReceiver();}
     }
 
 
@@ -108,14 +117,7 @@ public class MainActivity extends AppCompatActivity {
                         .setAction(R.string.get_it, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                SharedPreferences sharedPrefs = getSharedPreferences("SP_SnackBar", MODE_PRIVATE);
-                                SharedPreferences.Editor ed;
-
-                                if(!sharedPrefs.contains("initialized")) {
-                                    ed = sharedPrefs.edit();
-                                    ed.putBoolean("initialized", true);
-                                    ed.apply();
-                                }
+                                sharedPref.disableSnackBarAccount();
                             }
                         })
                         .show();
@@ -149,7 +151,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        this.unregisterReceiver(broadcastReceiver);
+        if (!isSnackBarDisabled) {
+        this.unregisterReceiver(broadcastReceiver);}
     }
 
     public void addTransactionMain() {

@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
 
+
+
 public class SpinnerTransCategoriesAdapter extends ArrayAdapter<String> {
 
     final TypedArray icons;

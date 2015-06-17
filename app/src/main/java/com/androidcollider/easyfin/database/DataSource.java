@@ -17,7 +17,7 @@ import java.util.Date;
 
 
 public class DataSource {
-    //private final static String TAG = "Андроідний Коллайдер";
+
     private final static String APP_PREFERENCES = "EasyfinPref";
 
     private DbHelper dbHelper;
@@ -97,25 +97,6 @@ public class DataSource {
         db.update("Account", cv2, "id_account = " + id_account_2, null);
 
         closeLocal();
-
-    }
-
-    public ArrayList<String> getAllAccountNames() {
-        ArrayList<String> accounts = new ArrayList<>();
-        String selectQuery = "SELECT name FROM Account WHERE visibility = 1 ";
-        openLocalToRead();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        int nameColIndex = cursor.getColumnIndex("name");
-
-        if (cursor.moveToFirst()) {
-            do {
-                accounts.add(cursor.getString(nameColIndex));
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        closeLocal();
-        return accounts;
     }
 
 
@@ -329,16 +310,7 @@ public class DataSource {
     }
 
 
-    public boolean checkAccountNameMatches(String name) {
-        ArrayList<String> accounts = getAllAccountNames();
 
-        for (String account : accounts) {
-            if (account.equals(name)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     public boolean checkAccountTransactionExist(int id) {
 
@@ -361,6 +333,5 @@ public class DataSource {
 
         return false;
     }
-
 
 }

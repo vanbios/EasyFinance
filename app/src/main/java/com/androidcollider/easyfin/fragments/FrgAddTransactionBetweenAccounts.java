@@ -12,28 +12,25 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinnerAccountForTransAdapter;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.objects.Account;
+import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.utils.Shake;
 
 import java.util.ArrayList;
-import java.util.List;
+
+
 
 public class FrgAddTransactionBetweenAccounts extends Fragment {
 
     private Spinner spinAccountFrom, spinAccountTo;
 
     private View view;
-    private DataSource dataSource;
 
-    private List<Account> accountListFrom = null;
-    private List<Account> accountListTo = null;
-
-    int spin2SetCount = 0;
-
+    private ArrayList<Account> accountListFrom = null;
+    private ArrayList<Account> accountListTo = null;
 
 
 
@@ -42,8 +39,6 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frg_add_transaction_between_accounts, container, false);
 
-        dataSource = new DataSource(getActivity());
-
         setSpinnerFrom();
 
         return view;
@@ -51,25 +46,23 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
 
 
-
     private void setSpinnerFrom() {
         spinAccountFrom = (Spinner) view.findViewById(R.id.spinAddTransBTWAccountFrom);
+        spinAccountTo = (Spinner) view.findViewById(R.id.spinAddTransBTWAccountTo);
 
-        accountListFrom = dataSource.getAllAccountsInfo();
+        //accountListFrom = dataSource.getAllAccountsInfo();
+        accountListFrom = InfoFromDB.getInstance().getAccountList();
         accountListTo = new ArrayList<>();
 
         spinAccountFrom.setAdapter(new SpinnerAccountForTransAdapter(getActivity(),
                 R.layout.spin_custom_item, accountListFrom));
 
-        setSpinnerTo();
-
 
         spinAccountFrom.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (!setSpinnerTo() && spin2SetCount > 2) {
-                    showNoAvailableAccountsDialog();
-                }
+                setSpinnerTo();
+                setCurrencyMode(checkForMultiCurrency());
             }
 
             @Override
@@ -77,52 +70,48 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
             }
         });
+
+        spinAccountTo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                setCurrencyMode(checkForMultiCurrency());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
 
-    private boolean setSpinnerTo() {
+    private void setSpinnerTo() {
 
-        spinAccountTo = (Spinner) view.findViewById(R.id.spinAddTransBTWAccountTo);
-        spinAccountTo.setEnabled(false);
-        spinAccountTo.setAdapter(null);
-        spin2SetCount++;
+        accountListTo.clear();
 
+        accountListTo.addAll(accountListFrom);
+        accountListTo.remove(spinAccountFrom.getSelectedItemPosition());
 
-            Account accountFrom = (Account) spinAccountFrom.getSelectedItem();
-
-            int idAccountFrom = accountFrom.getId();
-            String currency = accountFrom.getCurrency();
-
-
-            accountListTo.clear();
-
-            for (Account account : accountListFrom) {
-                if (account.getId() != idAccountFrom && account.getCurrency().equals(currency)) {
-                    accountListTo.add(account);
-                }
-            }
-
-            if (accountListTo.size() > 0) {
-                spinAccountTo.setEnabled(true);
-
-                spinAccountTo.setAdapter(new SpinnerAccountForTransAdapter(getActivity(),
-                        R.layout.spin_custom_item, accountListTo));
-            }
-
-            else {
-                return false;
-            }
-
-        return true;
+        spinAccountTo.setAdapter(new SpinnerAccountForTransAdapter(getActivity(),
+                R.layout.spin_custom_item, accountListTo));
     }
 
 
-    private void showNoAvailableAccountsDialog() {
-        new MaterialDialog.Builder(getActivity())
-                .title(getActivity().getResources().getString(R.string.dialog_title_no_available_account))
-                .content(getActivity().getResources().getString(R.string.dialog_text_no_available_account))
-                .positiveText(getActivity().getResources().getString(R.string.get_it))
-                .show();
+    private void setCurrencyMode(boolean mode) {
+        if (mode) {
+            //   enable stuff for multiple transfer
+        }
+        else {
+            //   disable stuff for multiple transfer
+            }
+    }
+
+
+    private boolean checkForMultiCurrency() {
+        Account accountFrom = (Account) spinAccountFrom.getSelectedItem();
+        Account accountTo = (Account) spinAccountTo.getSelectedItem();
+
+        return !accountFrom.getCurrency().equals(accountTo.getCurrency());
     }
 
 
@@ -136,10 +125,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
     public void addTransactionBTW() {
 
-         if (!spinAccountTo.isEnabled()) {
-                showNoAvailableAccountsDialog();
-
-            } else {
+         if (spinAccountTo.isEnabled()) {
 
                 EditText etSum = (EditText) view.findViewById(R.id.editTextTransBTWSum);
 
@@ -172,7 +158,10 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
                         accountAmountFrom -= amount;
                         accountAmountTo += amount;
 
-                        dataSource.updateAccountsAmountAfterTransfer(accountIdFrom, accountAmountFrom, accountIdTo, accountAmountTo);
+                        new DataSource(getActivity()).updateAccountsAmountAfterTransfer(accountIdFrom,
+                                accountAmountFrom, accountIdTo, accountAmountTo);
+
+                        InfoFromDB.getInstance().updateAccountList();
 
 
                         pushBroadcast();

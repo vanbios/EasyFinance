@@ -6,11 +6,12 @@ import com.androidcollider.easyfin.adapters.SpinnerAccountTypeAdapter;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.fragments.FrgMain;
 import com.androidcollider.easyfin.objects.Account;
+import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.utils.FormatUtils;
 import com.androidcollider.easyfin.utils.Shake;
+import com.androidcollider.easyfin.utils.SharedPref;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -131,7 +132,7 @@ public class ActAccount extends AppCompatActivity {
 
             String name = etName.getText().toString();
 
-                if (dataSource.checkAccountNameMatches(name)) {
+                if (InfoFromDB.getInstance().checkForAccountNameMatches(name)) {
                     Shake.highlightEditText(etName);
                     Toast.makeText(this, getResources().getString(R.string.account_name_exist), Toast.LENGTH_LONG).show();
                 }
@@ -146,9 +147,7 @@ public class ActAccount extends AppCompatActivity {
 
                     dataSource.insertNewAccount(account);
 
-                    pushBroadcast();
-
-                    this.finish();
+                    lastActions();
                 }
             }
         }
@@ -160,7 +159,7 @@ public class ActAccount extends AppCompatActivity {
 
                 String name = etName.getText().toString();
 
-                if (dataSource.checkAccountNameMatches(name) && ! name.equals(oldName)) {
+                if (InfoFromDB.getInstance().checkForAccountNameMatches(name) && ! name.equals(oldName)) {
                     Shake.highlightEditText(etName);
                     Toast.makeText(this, getResources().getString(R.string.account_name_exist), Toast.LENGTH_LONG).show();
                 }
@@ -175,13 +174,17 @@ public class ActAccount extends AppCompatActivity {
 
                     dataSource.editAccount(account);
 
-                    pushBroadcast();
-
-                    this.finish();
+                    lastActions();
                 }
             }
         }
 
+
+    private void lastActions() {
+        InfoFromDB.getInstance().updateAccountList();
+        pushBroadcast();
+        this.finish();
+    }
 
     private boolean checkForFillNameSumFields() {
 
@@ -213,8 +216,8 @@ public class ActAccount extends AppCompatActivity {
         sendBroadcast(intentFragmentMain);
 
         if (mode == 0) {
-            SharedPreferences sharedPrefs = getSharedPreferences("SP_SnackBar", MODE_PRIVATE);
-            if(!sharedPrefs.contains("initialized")) {
+            SharedPref sp = new SharedPref(this);
+            if(!sp.isSnackBarAccountDisable()) {
 
                 Intent intentMainSnack = new Intent(MainActivity.BROADCAST_MAIN_SNACK_ACTION);
                 intentMainSnack.putExtra(MainActivity.PARAM_STATUS_MAIN_SNACK, MainActivity.STATUS_MAIN_SNACK);
@@ -247,8 +250,7 @@ public class ActAccount extends AppCompatActivity {
         else {
             dataSource.deleteAccount(idAccount);}
 
-        pushBroadcast();
-        this.finish();
+        lastActions();
     }
 
 

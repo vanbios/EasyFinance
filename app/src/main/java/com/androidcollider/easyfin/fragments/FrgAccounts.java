@@ -17,8 +17,8 @@ import android.view.ViewGroup;
 import com.androidcollider.easyfin.R;
 
 import com.androidcollider.easyfin.adapters.AccountRecyclerAdapter;
-import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.objects.Account;
+import com.androidcollider.easyfin.objects.InfoFromDB;
 
 import java.util.ArrayList;
 
@@ -62,7 +62,7 @@ public class FrgAccounts extends Fragment{
 
     private void setItemAccount() {
 
-        ArrayList<Account> accountArrayList = new DataSource(getActivity()).getAllAccountsInfo();
+        ArrayList<Account> accountArrayList = InfoFromDB.getInstance().getAccountList();
 
         RecyclerView recyclerAccount = (RecyclerView) view.findViewById(R.id.recyclerAccount);
 

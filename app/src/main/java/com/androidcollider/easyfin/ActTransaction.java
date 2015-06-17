@@ -2,9 +2,9 @@ package com.androidcollider.easyfin;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.adapters.MyFragmentPagerAdapter;
-import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.fragments.FrgAddTransactionBetweenAccounts;
 import com.androidcollider.easyfin.fragments.FrgAddTransactionDefault;
+import com.androidcollider.easyfin.objects.InfoFromDB;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,13 +15,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
 
-import java.util.List;
 
 
 public class ActTransaction extends AppCompatActivity {
 
-    List<String> accounts = null;
+    ArrayList<String> accountNames = null;
 
     private ViewPager pagerTrans;
 
@@ -33,7 +33,7 @@ public class ActTransaction extends AppCompatActivity {
 
         setToolbar(R.string.new_transaction);
 
-        accounts = new DataSource(this).getAllAccountNames();
+        accountNames = InfoFromDB.getInstance().getAccountNames();
 
         setViewPager();
 
@@ -58,12 +58,13 @@ public class ActTransaction extends AppCompatActivity {
         adapterPager.addFragment(new FrgAddTransactionDefault(),
                 getResources().getString(R.string.add_transaction_tab_default));
 
-        if (accounts.size() > 1) {
+        if (accountNames.size() > 1) {
             adapterPager.addFragment(new FrgAddTransactionBetweenAccounts(),
                     getResources().getString(R.string.add_transaction_tab_between));
         }
 
         pagerTrans.setAdapter(adapterPager);
+        pagerTrans.setOffscreenPageLimit(2);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabsAddTransaction);
         tabLayout.setTabTextColors(getResources().getColor(R.color.custom_blue_gray_light),
@@ -128,7 +129,7 @@ public class ActTransaction extends AppCompatActivity {
 
     private void checkForAccountExist() {
 
-        if (accounts.size() == 0) {
+        if (accountNames.size() == 0) {
             showDialogNoAccount();
         }
     }
@@ -155,7 +156,7 @@ public class ActTransaction extends AppCompatActivity {
         MenuItem saveTransactionItem = menu.findItem(R.id.transaction_action_save);
         saveTransactionItem.setEnabled(true);
 
-        if (accounts.size() == 0) {
+        if (accountNames.size() == 0) {
             saveTransactionItem.setEnabled(false);}
 
         return true;

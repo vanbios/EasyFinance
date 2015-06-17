@@ -6,13 +6,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class MyFragmentPagerAdapter extends FragmentStatePagerAdapter {
 
-    private final List<Fragment> mFragments = new ArrayList<>();
-    private final List<String> mFragmentTitles = new ArrayList<>();
+    private final ArrayList<Fragment> mFragments = new ArrayList<>();
+    private final ArrayList<String> mFragmentTitles = new ArrayList<>();
 
     public MyFragmentPagerAdapter(FragmentManager fm) {
         super(fm);
