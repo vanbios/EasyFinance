@@ -4,8 +4,12 @@ package com.androidcollider.easyfin.utils;
 import android.content.Context;
 
 import com.androidcollider.easyfin.R;
+import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
 
 import java.util.ArrayList;
 
@@ -14,7 +18,7 @@ public class ChartDataUtils {
 
 
 
-    public static ArrayList<BarDataSet> getDataSetMainBalanceHorizontalBarChart(double[] values, Context context) {
+    public static BarData getDataSetMainBalanceHorizontalBarChart(double[] values, Context context) {
 
 
         float cash = (float) values[0];
@@ -25,20 +29,16 @@ public class ChartDataUtils {
         String[] accountType = context.getResources().getStringArray(R.array.account_type_array);
 
         ArrayList<BarEntry> valueSet1 = new ArrayList<>();
-        BarEntry v1e1 = new BarEntry(cash, 0);
-        valueSet1.add(v1e1);
+        valueSet1.add(new BarEntry(cash, 0));
 
         ArrayList<BarEntry> valueSet2 = new ArrayList<>();
-        BarEntry v2e1 = new BarEntry(card, 0);
-        valueSet2.add(v2e1);
+        valueSet2.add(new BarEntry(card, 0));
 
         ArrayList<BarEntry> valueSet3 = new ArrayList<>();
-        BarEntry v3e1 = new BarEntry(deposit, 0);
-        valueSet3.add(v3e1);
+        valueSet3.add(new BarEntry(deposit, 0));
 
         ArrayList<BarEntry> valueSet4 = new ArrayList<>();
-        BarEntry v4e1 = new BarEntry(debt, 0);
-        valueSet4.add(v4e1);
+        valueSet4.add(new BarEntry(debt, 0));
 
         BarDataSet barDataSet1 = new BarDataSet(valueSet1, accountType[0]);
         barDataSet1.setColor(context.getResources().getColor(R.color.custom_teal_dark));
@@ -59,23 +59,26 @@ public class ChartDataUtils {
         dataSets.add(barDataSet2);
         dataSets.add(barDataSet1);
 
-        return dataSets;
+
+        BarData data = new BarData(getXAxisValues(), dataSets);
+        data.setValueTextSize(12f);
+
+
+        return data;
     }
 
 
-    public static ArrayList<BarDataSet> getDataSetMainStatisticHorizontalBarChart(double[] values, Context context) {
+    public static BarData getDataSetMainStatisticHorizontalBarChart(double[] values, Context context) {
 
 
         float cost = (float) Math.abs(values[0]);
         float income = (float) values[1];
 
         ArrayList<BarEntry> valueSet1 = new ArrayList<>();
-        BarEntry v1e1 = new BarEntry(income, 0);
-        valueSet1.add(v1e1);
+        valueSet1.add(new BarEntry(income, 0));
 
         ArrayList<BarEntry> valueSet2 = new ArrayList<>();
-        BarEntry v2e1 = new BarEntry(cost, 0);
-        valueSet2.add(v2e1);
+        valueSet2.add(new BarEntry(cost, 0));
 
 
         BarDataSet barDataSet1 = new BarDataSet(valueSet1, "income");
@@ -90,13 +93,59 @@ public class ChartDataUtils {
         dataSets.add(barDataSet1);
 
 
-        return dataSets;
+        BarData data = new BarData(getXAxisValues(), dataSets);
+        data.setValueTextSize(12f);
+
+
+        return data;
     }
+
+
 
     public static ArrayList<String> getXAxisValues() {
         ArrayList<String> xAxis = new ArrayList<>();
         xAxis.add("");
         return xAxis;
+    }
+
+
+    private static ArrayList<String> getXAxisValuesPie() {
+        ArrayList<String> xAxis = new ArrayList<>();
+        xAxis.add("");
+        xAxis.add("");
+        return xAxis;
+    }
+
+
+
+
+    public static PieData getDataSetMainStatisticPieChart (double[] values, Context context) {
+
+        float cost = (float) Math.abs(values[0]);
+        float income = (float) values[1];
+
+
+        ArrayList<Entry> valueSet = new ArrayList<>();
+        valueSet.add(new Entry(income, 0));
+        valueSet.add(new Entry(cost, 0));
+
+        PieDataSet pieDataSet = new PieDataSet(valueSet, "statistic");
+
+        int[] colors = new int[2];
+        colors[0] = context.getResources().getColor(R.color.custom_green);
+        colors[1] = context.getResources().getColor(R.color.custom_red);
+
+        pieDataSet.setColors(colors);
+
+        pieDataSet.setSliceSpace(3);
+        pieDataSet.setSelectionShift(5);
+
+
+        PieData data = new PieData(getXAxisValuesPie(), pieDataSet);
+        data.setValueTextSize(12f);
+
+
+        return data;
     }
 
 

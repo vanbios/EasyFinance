@@ -5,10 +5,11 @@ import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.utils.ChartDataUtils;
 import com.androidcollider.easyfin.utils.FormatUtils;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.PieData;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -23,8 +24,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import java.util.ArrayList;
 
 
 public class FrgMain extends Fragment {
@@ -85,6 +84,9 @@ public class FrgMain extends Fragment {
         setTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1,
                 spinBalanceCurrency.getSelectedItemPosition());
 
+        setStatisticPieChart(spinPeriod.getSelectedItemPosition() + 1,
+                spinBalanceCurrency.getSelectedItemPosition());
+
         return view;
     }
 
@@ -92,12 +94,8 @@ public class FrgMain extends Fragment {
 
         HorizontalBarChart chart = (HorizontalBarChart) view.findViewById(R.id.chartMainBalance);
 
-        ArrayList<String> xAxisValues = ChartDataUtils.getXAxisValues();
-        ArrayList<BarDataSet> barDataSet = ChartDataUtils.getDataSetMainBalanceHorizontalBarChart(balance, getActivity());
-
-        BarData data = new BarData(xAxisValues, barDataSet);
+        BarData data = ChartDataUtils.getDataSetMainBalanceHorizontalBarChart(balance, getActivity());
         chart.setData(data);
-        data.setValueTextSize(12f);
         //data.setValueFormatter(new ChartValueFormatter());  //this feature will be in properties
         chart.setDescription("");
         Legend legend = chart.getLegend();
@@ -146,17 +144,14 @@ public class FrgMain extends Fragment {
 
     private void setTransactionsStatistic(int posPeriod, int posCurrency) {
 
-        HorizontalBarChart chart = (HorizontalBarChart) view.findViewById(R.id.chartMainStatistic);
+        HorizontalBarChart chart = (HorizontalBarChart) view.findViewById(R.id.chartHBarMainStatistic);
 
         double[] statistic = getTransStatistic(posPeriod, posCurrency);
 
-        ArrayList<String> xAxisValues = ChartDataUtils.getXAxisValues();
-        ArrayList<BarDataSet> barDataSet = ChartDataUtils.getDataSetMainStatisticHorizontalBarChart(statistic, getActivity());
 
-        BarData data = new BarData(xAxisValues, barDataSet);
+        BarData data = ChartDataUtils.getDataSetMainStatisticHorizontalBarChart(statistic, getActivity());
         chart.setData(data);
         //data.setValueFormatter(new ChartValueFormatter());    //this feature will be in properties
-        data.setValueTextSize(12f);
         chart.setDescription("");
         Legend legend = chart.getLegend();
         legend.setEnabled(false);
@@ -175,6 +170,42 @@ public class FrgMain extends Fragment {
 
         TextView tvMainStatisticSum = (TextView) view.findViewById(R.id.tvMainStatisticSum);
         tvMainStatisticSum.setText(FormatUtils.doubleFormatter(statSum, FORMAT, PRECISE) + " " + getCurrency());
+    }
+
+
+    private void setStatisticPieChart(int posPeriod, int posCurrency) {
+
+        PieChart pieChart = (PieChart) view.findViewById(R.id.chartPieMainStatistic);
+
+        pieChart.setDescription("");
+        pieChart.animateXY(2000, 2000);
+
+        // enable hole and configure
+        pieChart.setDrawHoleEnabled(true);
+        pieChart.setHoleColorTransparent(true);
+        pieChart.setHoleRadius(50);
+        pieChart.setTransparentCircleRadius(55);
+
+        // enable rotation of the chart by touch
+        pieChart.setRotationAngle(0);
+        pieChart.setRotationEnabled(true);
+
+        double[] statistic = getTransStatistic(posPeriod, posCurrency);
+
+        PieData data = ChartDataUtils.getDataSetMainStatisticPieChart(statistic, getActivity());
+
+        pieChart.setData(data);
+
+        // undo all highlights
+        pieChart.highlightValues(null);
+
+        // update pie chart
+        pieChart.invalidate();
+
+
+
+
+
     }
 
     private double[] getTransStatistic (int posPeriod, int posCurrency) {
