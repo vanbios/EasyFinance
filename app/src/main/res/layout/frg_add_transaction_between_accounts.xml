@@ -18,7 +18,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cardAddTransBTWAccountsElements"
-        card_view:cardElevation="@dimen/card_elevation_medium">
+        card_view:cardElevation="@dimen/card_elevation_medium"
+        card_view:cardUseCompatPadding="true">
 
 
         <RelativeLayout
@@ -94,7 +95,7 @@
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:id="@+id/ivAddTransBTWAccountFrom"
-                    android:src="@drawable/ic_outcome_cyan_48dp"
+                    android:src="@drawable/ic_outcome_red_48dp"
                     android:contentDescription="@string/account"
                     android:layout_marginRight="40dp"
                     android:layout_marginEnd="40dp" />
@@ -105,7 +106,7 @@
                     android:layout_height="60dp"
                     android:id="@+id/spinAddTransBTWAccountFrom"
                     android:spinnerMode="dialog"
-                    android:prompt="@string/account" />
+                    android:prompt="@string/account_from" />
 
             </LinearLayout>
 
@@ -133,8 +134,8 @@
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:id="@+id/ivAddTransBTWAccountTo"
-                    android:src="@drawable/ic_income_cyan_48dp"
-                    android:contentDescription="@string/category"
+                    android:src="@drawable/ic_income_green_48dp"
+                    android:contentDescription="@string/account"
                     android:layout_marginRight="40dp"
                     android:layout_marginEnd="40dp" />
 
@@ -144,7 +145,7 @@
                     android:layout_height="60dp"
                     android:id="@+id/spinAddTransBTWAccountTo"
                     android:spinnerMode="dialog"
-                    android:prompt="@string/category" />
+                    android:prompt="@string/account_to" />
 
 
             </LinearLayout>

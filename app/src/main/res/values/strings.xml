@@ -58,6 +58,9 @@
     <string name="category">Категорія</string>
     <string name="account">Рахунок</string>
 
+    <string name="account_from">З рахунку</string>
+    <string name="account_to">На рахунок</string>
+
 
 
 
@@ -93,12 +96,6 @@
 
     <string name="get_it">Зрозуміло</string>
 
-
-
-
-    //prepare to delete!
-    <string name="radio_btn_income">Дохід</string>
-    <string name="radio_btn_cost">Витрати</string>
 
 
 

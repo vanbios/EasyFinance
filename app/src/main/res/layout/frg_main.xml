@@ -9,12 +9,13 @@
         android:layout_centerHorizontal="true"
         android:id="@+id/scrollView"
 
-        android:paddingStart="@dimen/common_padding_small"
-        android:paddingLeft="@dimen/common_padding_small"
-        android:paddingRight="@dimen/common_padding_small"
-        android:paddingEnd="@dimen/common_padding_small"
-        android:paddingTop="@dimen/common_padding_medium"
-        android:paddingBottom="@dimen/common_padding_medium">
+        android:paddingTop="@dimen/common_padding_small"
+        android:paddingBottom="@dimen/common_padding_small"
+        android:paddingLeft="@dimen/card_elevation_small"
+        android:paddingStart="@dimen/card_elevation_small"
+        android:paddingRight="@dimen/card_elevation_small"
+        android:paddingEnd="@dimen/card_elevation_small"  >
+
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -26,7 +27,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/cardMainBalance"
-                card_view:cardElevation="@dimen/card_elevation_small" >
+                card_view:cardElevation="@dimen/card_elevation_small"
+                android:layout_margin="@dimen/common_padding_small">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -205,8 +207,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/cardMainStatistic"
                 card_view:cardElevation="@dimen/card_elevation_small"
-                android:layout_marginTop="@dimen/common_padding_small"
-                android:layout_marginBottom="@dimen/common_padding_small"
+                android:layout_margin="@dimen/common_padding_small"
                 android:layout_below="@+id/cardMainBalance" >
 
 

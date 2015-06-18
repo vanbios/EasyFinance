@@ -43,4 +43,6 @@
     <color name="custom_green_gray">#ff01839f</color>
     <color name="custom_green_gray_dark">#ff005e78</color>
     <color name="custom_green_gray_light">#ff58a1aa</color>
+
+    <color name="custom_gray_dark_spinner">#ff616161</color>
 </resources>

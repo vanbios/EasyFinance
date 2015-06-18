@@ -67,7 +67,7 @@
 
     <style name="SpinnerFont" parent="@android:style/TextAppearance.Medium">
     <item name="android:textSize">@dimen/text_size_spinner</item>
-    <item name="android:textColor">@color/custom_text_secondary</item>
+    <item name="android:textColor">@color/custom_gray_dark_spinner</item>
     <item name="android:textStyle">normal</item>
     <item name="android:typeface">sans</item>
     </style>
