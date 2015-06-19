@@ -43,7 +43,7 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
         currency = context.getResources().getStringArray(R.array.account_currency_array);
         currencyLanguage = context.getResources().getStringArray(R.array.account_currency_array_language);
         accountType = context.getResources().getStringArray(R.array.account_type_array);
-        accountTypeIcons = context.getResources().obtainTypedArray(R.array.expense_type_icons);
+        accountTypeIcons = context.getResources().obtainTypedArray(R.array.account_type_icons);
     }
 
 

@@ -8,7 +8,7 @@
     <ImageView
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:id="@+id/ivSpinDropdownCategory"
+        android:id="@+id/ivSpinCustomSimpleDropdown"
 
         android:layout_marginLeft="@dimen/margin_spinner_elements"
         android:layout_marginStart="@dimen/margin_spinner_elements"
@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/SpinnerFont"
-        android:id="@+id/tvSpinDropdownCategory"
+        android:id="@+id/tvSpinCustomSimpleDropdown"
 
         android:layout_marginTop="@dimen/margin_spinner_top_bottom"
         android:layout_marginBottom="@dimen/margin_spinner_top_bottom"/>

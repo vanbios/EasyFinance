@@ -1,6 +1,7 @@
 package com.androidcollider.easyfin.fragments;
 
 import com.androidcollider.easyfin.R;
+import com.androidcollider.easyfin.adapters.SpinnerSimpleCustomAdapter;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.utils.ChartDataUtils;
 import com.androidcollider.easyfin.utils.FormatUtils;
@@ -45,8 +46,11 @@ public class FrgMain extends Fragment {
 
     private BroadcastReceiver broadcastReceiver;
 
-    private Spinner spinPeriod;
-    private Spinner spinBalanceCurrency;
+    private Spinner spinPeriod, spinBalanceCurrency, spinChartType;
+
+    private HorizontalBarChart chartStat;
+
+    private PieChart pieChart;
 
 
 
@@ -73,6 +77,9 @@ public class FrgMain extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frg_main, container, false);
 
+        chartStat = (HorizontalBarChart) view.findViewById(R.id.chartHBarMainStatistic);
+        pieChart = (PieChart) view.findViewById(R.id.chartPieMainStatistic);
+
         setBalanceCurrencySpinner();
 
         setStatisticSpinner();
@@ -84,8 +91,8 @@ public class FrgMain extends Fragment {
         setTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1,
                 spinBalanceCurrency.getSelectedItemPosition());
 
-        setStatisticPieChart(spinPeriod.getSelectedItemPosition() + 1,
-                spinBalanceCurrency.getSelectedItemPosition());
+
+        setChartTypeSpinner();
 
         return view;
     }
@@ -144,26 +151,26 @@ public class FrgMain extends Fragment {
 
     private void setTransactionsStatistic(int posPeriod, int posCurrency) {
 
-        HorizontalBarChart chart = (HorizontalBarChart) view.findViewById(R.id.chartHBarMainStatistic);
+
 
         double[] statistic = getTransStatistic(posPeriod, posCurrency);
 
 
         BarData data = ChartDataUtils.getDataSetMainStatisticHorizontalBarChart(statistic, getActivity());
-        chart.setData(data);
+        chartStat.setData(data);
         //data.setValueFormatter(new ChartValueFormatter());    //this feature will be in properties
-        chart.setDescription("");
-        Legend legend = chart.getLegend();
+        chartStat.setDescription("");
+        Legend legend = chartStat.getLegend();
         legend.setEnabled(false);
-        YAxis leftAxis = chart.getAxisLeft();
-        YAxis rightAxis = chart.getAxisRight();
+        YAxis leftAxis = chartStat.getAxisLeft();
+        YAxis rightAxis = chartStat.getAxisRight();
         rightAxis.setEnabled(false);
         leftAxis.setSpaceTop(30f);
         //rightAxis.setSpaceTop(25f);
         leftAxis.setLabelCount(3);
-        chart.animateXY(2000, 2000);
-        chart.setTouchEnabled(false);
-        chart.invalidate();
+        chartStat.animateXY(2000, 2000);
+        chartStat.setTouchEnabled(false);
+        chartStat.invalidate();
 
 
         double statSum = statistic[0] + statistic[1];
@@ -175,20 +182,19 @@ public class FrgMain extends Fragment {
 
     private void setStatisticPieChart(int posPeriod, int posCurrency) {
 
-        PieChart pieChart = (PieChart) view.findViewById(R.id.chartPieMainStatistic);
-
         pieChart.setDescription("");
         pieChart.animateXY(2000, 2000);
 
-        // enable hole and configure
         pieChart.setDrawHoleEnabled(true);
         pieChart.setHoleColorTransparent(true);
-        pieChart.setHoleRadius(50);
-        pieChart.setTransparentCircleRadius(55);
+        pieChart.setHoleRadius(45);
+        pieChart.setTransparentCircleRadius(48);
 
-        // enable rotation of the chart by touch
         pieChart.setRotationAngle(0);
         pieChart.setRotationEnabled(true);
+
+        Legend legend = pieChart.getLegend();
+        legend.setEnabled(false);
 
         double[] statistic = getTransStatistic(posPeriod, posCurrency);
 
@@ -196,17 +202,11 @@ public class FrgMain extends Fragment {
 
         pieChart.setData(data);
 
-        // undo all highlights
         pieChart.highlightValues(null);
 
-        // update pie chart
         pieChart.invalidate();
-
-
-
-
-
     }
+
 
     private double[] getTransStatistic (int posPeriod, int posCurrency) {
         String[] currency = getResources().getStringArray(R.array.account_currency_array);
@@ -258,6 +258,40 @@ public class FrgMain extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 setTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1,
                         spinBalanceCurrency.getSelectedItemPosition());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+    }
+
+
+    private void setChartTypeSpinner() {
+
+        spinChartType = (Spinner) view.findViewById(R.id.spinMainChart);
+        spinChartType.setAdapter(new SpinnerSimpleCustomAdapter(getActivity(), R.layout.spin_custom_item,
+                getResources().getStringArray(R.array.charts_main_array),
+                getResources().obtainTypedArray(R.array.charts_main_icons)));
+
+        spinChartType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+                if (i == 1) {
+                    chartStat.setVisibility(View.GONE);
+                    pieChart.setVisibility(View.VISIBLE);
+                    setStatisticPieChart(spinPeriod.getSelectedItemPosition() + 1,
+                            spinBalanceCurrency.getSelectedItemPosition());
+                }
+                else {
+                    pieChart.setVisibility(View.GONE);
+                    chartStat.setVisibility(View.VISIBLE);
+                    setTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1,
+                            spinBalanceCurrency.getSelectedItemPosition());
+                }
             }
 
             @Override

@@ -1,8 +1,7 @@
 package com.androidcollider.easyfin;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.androidcollider.easyfin.adapters.SpinnerAccountCurrencyAdapter;
-import com.androidcollider.easyfin.adapters.SpinnerAccountTypeAdapter;
+import com.androidcollider.easyfin.adapters.SpinnerSimpleCustomAdapter;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.fragments.FrgMain;
 import com.androidcollider.easyfin.objects.Account;
@@ -72,11 +71,17 @@ public class ActAccount extends AppCompatActivity {
     }
 
     private void setSpinner() {
-        spinType.setAdapter(new SpinnerAccountTypeAdapter(this, R.layout.spin_custom_item,
-                getResources().getStringArray(R.array.account_type_array)));
 
-        spinCurrency.setAdapter(new SpinnerAccountCurrencyAdapter(this, R.layout.spin_custom_item,
-                getResources().getStringArray(R.array.account_currency_array)));
+        spinType.setAdapter(new SpinnerSimpleCustomAdapter(this,
+                R.layout.spin_custom_item,
+                getResources().getStringArray(R.array.account_type_array),
+                getResources().obtainTypedArray(R.array.account_type_icons)));
+
+
+        spinCurrency.setAdapter(new SpinnerSimpleCustomAdapter(this,
+                R.layout.spin_custom_item,
+                getResources().getStringArray(R.array.account_currency_array),
+                getResources().obtainTypedArray(R.array.flag_icons)));
 
         if (mode == 1) {
             String[] type = getResources().getStringArray(R.array.account_type_array);

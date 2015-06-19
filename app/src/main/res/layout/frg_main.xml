@@ -233,6 +233,16 @@
                         android:layout_weight="3">
 
 
+                        <Spinner
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/spinMainChart"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginLeft="16dp"
+                            android:layout_marginStart="16dp"/>
+
+
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -321,7 +331,7 @@
                         <com.github.mikephil.charting.charts.PieChart
                             android:id="@+id/chartPieMainStatistic"
                             android:layout_width="match_parent"
-                            android:layout_height="200dp"
+                            android:layout_height="150dp"
                             android:visibility="gone"/>
 
 

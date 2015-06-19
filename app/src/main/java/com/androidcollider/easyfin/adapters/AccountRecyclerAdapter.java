@@ -32,7 +32,7 @@ public class AccountRecyclerAdapter extends RecyclerView.Adapter<AccountRecycler
         this.context = context;
         this.accountArrayList = accountArrayList;
 
-        accountTypeIcons = context.getResources().obtainTypedArray(R.array.expense_type_icons);
+        accountTypeIcons = context.getResources().obtainTypedArray(R.array.account_type_icons);
         accountType = context.getResources().getStringArray(R.array.account_type_array);
 
         currency = context.getResources().getStringArray(R.array.account_currency_array);

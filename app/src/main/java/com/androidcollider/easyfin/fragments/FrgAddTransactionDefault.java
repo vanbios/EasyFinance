@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinnerAccountForTransAdapter;
-import com.androidcollider.easyfin.adapters.SpinnerTransCategoriesAdapter;
+import com.androidcollider.easyfin.adapters.SpinnerSimpleCustomAdapter;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.InfoFromDB;
@@ -65,8 +65,10 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
 
         String[] category = getResources().getStringArray(R.array.cat_transaction_array);
 
-        spinCategory.setAdapter(new SpinnerTransCategoriesAdapter(getActivity(), R.layout.spin_custom_item,
-                category));
+
+        spinCategory.setAdapter(new SpinnerSimpleCustomAdapter(getActivity(),
+                R.layout.spin_custom_item, category,
+                getResources().obtainTypedArray(R.array.trans_categories_icons)));
 
         spinCategory.setSelection(category.length-1);
 

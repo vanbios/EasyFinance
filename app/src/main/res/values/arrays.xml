@@ -13,7 +13,7 @@
     </array>
 
 
-    <array name="flags">
+    <array name="flag_icons">
         <item>@drawable/ic_flag_ukraine_48dp</item>
         <item>@drawable/ic_flag_usa_48dp</item>
         <item>@drawable/ic_flag_europe_48dp</item>
@@ -21,11 +21,17 @@
     </array>
 
 
-    <array name="expense_type_icons">
+    <array name="account_type_icons">
         <item>@drawable/ic_cash_48dp</item>
         <item>@drawable/ic_credit_card_48dp</item>
         <item>@drawable/ic_deposit_48dp</item>
         <item>@drawable/ic_debt_48</item>
+    </array>
+
+
+    <array name="charts_main_icons">
+        <item>@drawable/ic_chart_bar_grey600_24dp</item>
+        <item>@drawable/ic_chart_arc_grey600_24dp</item>
     </array>
 
 

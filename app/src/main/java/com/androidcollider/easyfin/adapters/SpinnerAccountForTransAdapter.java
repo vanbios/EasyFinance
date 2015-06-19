@@ -32,7 +32,7 @@ public class SpinnerAccountForTransAdapter extends ArrayAdapter<Account> {
         super(context, txtViewResourceId, accountsL);
         accountsList = accountsL;
 
-        typeIcons = context.getResources().obtainTypedArray(R.array.expense_type_icons);
+        typeIcons = context.getResources().obtainTypedArray(R.array.account_type_icons);
         accountType = context.getResources().getStringArray(R.array.account_type_array);
         accountCurr = context.getResources().getStringArray(R.array.account_currency_array);
         accountCurrLang = context.getResources().getStringArray(R.array.account_currency_array_language);
@@ -83,7 +83,7 @@ public class SpinnerAccountForTransAdapter extends ArrayAdapter<Account> {
 
     public View getCustomTopView(int position, ViewGroup parent) {
         View headSpinner = inflater.inflate(R.layout.spin_custom_item, parent, false);
-        TextView headText = (TextView) headSpinner.findViewById(R.id.tvSpinTopText);
+        TextView headText = (TextView) headSpinner.findViewById(R.id.tvSpinHeadText);
         headText.setText(accountsList.get(position).getName());
 
         return headSpinner;
