@@ -29,16 +29,12 @@ import android.widget.TextView;
 
 public class FrgMain extends Fragment {
 
-
-    private static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
     public final static String BROADCAST_FRAGMENT_MAIN_ACTION = "com.androidcollider.easyfin.fragmentmain.broadcast";
     public final static String PARAM_STATUS_FRAGMENT_MAIN = "update_fragment_main_current_balance";
     public final static int STATUS_UPDATE_FRAGMENT_MAIN = 100;
 
     private final int PRECISE = 100;
     private final String FORMAT = "0.00";
-
-    int pageNumber;
 
     private View view;
 
@@ -55,27 +51,12 @@ public class FrgMain extends Fragment {
 
 
 
-    public static FrgMain newInstance(int page) {
-        FrgMain frgMain = new FrgMain();
-        Bundle arguments = new Bundle();
-        arguments.putInt(ARGUMENT_PAGE_NUMBER, page);
-        frgMain.setArguments(arguments);
-        return frgMain;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        pageNumber = getArguments().getInt(ARGUMENT_PAGE_NUMBER);
-
-        makeBroadcastReceiver();
-
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frg_main, container, false);
+
+        makeBroadcastReceiver();
 
         chartStat = (HorizontalBarChart) view.findViewById(R.id.chartHBarMainStatistic);
         pieChart = (PieChart) view.findViewById(R.id.chartPieMainStatistic);

@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
 
@@ -23,14 +24,12 @@ import java.util.ArrayList;
 
 public class FrgTransactions extends Fragment{
 
-    private static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
     public final static String BROADCAST_FRAGMENT_TRANSACTION_ACTION = "com.androidcollider.easyfin.fragmenttransaction.broadcast";
     public final static String PARAM_STATUS_FRAGMENT_TRANSACTION = "update_fragment_transaction";
     public final static int STATUS_UPDATE_FRAGMENT_TRANSACTION = 200;
 
-    int pageNumber;
-
-    private View view;
+    private RecyclerView recyclerView;
+    private TextView tvEmpty;
 
     private BroadcastReceiver broadcastReceiver;
 
@@ -41,28 +40,19 @@ public class FrgTransactions extends Fragment{
 
 
 
-    public static FrgTransactions newInstance(int page) {
-        FrgTransactions frgTransactions = new FrgTransactions();
-        Bundle arguments = new Bundle();
-        arguments.putInt(ARGUMENT_PAGE_NUMBER, page);
-        frgTransactions.setArguments(arguments);
-        return frgTransactions;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        pageNumber = getArguments().getInt(ARGUMENT_PAGE_NUMBER);
-
-        makeBroadcastReceiver();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.frg_transactions, container, false);
+        View view = inflater.inflate(R.layout.frg_transactions, container, false);
+
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerTransaction);
+
+        tvEmpty = (TextView) view.findViewById(R.id.tvEmptyTransactions);
 
         setItemTransaction();
+
+        makeBroadcastReceiver();
 
         return view;
     }
@@ -73,11 +63,11 @@ public class FrgTransactions extends Fragment{
 
         transactionList = dataSource.getAllTransactionsInfo();
 
-        RecyclerView recyclerTransaction = (RecyclerView) view.findViewById(R.id.recyclerTransaction);
+        setVisibility();
 
-        recyclerTransaction.setLayoutManager(new LinearLayoutManager(recyclerTransaction.getContext()));
+        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerAdapter = new TransactionRecyclerAdapter(getActivity(), transactionList);
-        recyclerTransaction.setAdapter(recyclerAdapter);
+        recyclerView.setAdapter(recyclerAdapter);
     }
 
     private void makeBroadcastReceiver() {
@@ -90,6 +80,9 @@ public class FrgTransactions extends Fragment{
 
                     transactionList.clear();
                     transactionList.addAll(dataSource.getAllTransactionsInfo());
+
+                    setVisibility();
+
                     recyclerAdapter.notifyDataSetChanged();
                 }
             }
@@ -104,5 +97,17 @@ public class FrgTransactions extends Fragment{
     public void onDestroy() {
         super.onDestroy();
         getActivity().unregisterReceiver(broadcastReceiver);
+    }
+
+    private void setVisibility() {
+        if (transactionList.isEmpty()) {
+            recyclerView.setVisibility(View.GONE);
+            tvEmpty.setVisibility(View.VISIBLE);
+        }
+
+        else {
+            tvEmpty.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
     }
 }

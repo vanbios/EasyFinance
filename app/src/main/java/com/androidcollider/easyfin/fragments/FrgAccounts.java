@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
 
@@ -24,54 +25,41 @@ import java.util.ArrayList;
 
 public class FrgAccounts extends Fragment{
 
-    private static final String ARGUMENT_PAGE_NUMBER = "arg_page_number";
+    private RecyclerView recyclerView;
 
-    int pageNumber;
-
-    private View view;
+    private TextView tvEmpty;
 
     private AccountRecyclerAdapter recyclerAdapter;
-    private ArrayList<Account> accountArrayList = null;
+    private ArrayList<Account> accountList = null;
 
     private BroadcastReceiver broadcastReceiver;
 
 
 
-    public static FrgAccounts newInstance(int page) {
-        FrgAccounts frgAccounts = new FrgAccounts();
-        Bundle arguments = new Bundle();
-        arguments.putInt(ARGUMENT_PAGE_NUMBER, page);
-        frgAccounts.setArguments(arguments);
-        return frgAccounts;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        pageNumber = getArguments().getInt(ARGUMENT_PAGE_NUMBER);
-
-        makeBroadcastReceiver();
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.frg_accounts, container, false);
+        View view = inflater.inflate(R.layout.frg_accounts, container, false);
+
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerAccount);
+        tvEmpty = (TextView) view.findViewById(R.id.tvEmptyAccounts);
 
         setItemAccount();
+
+        makeBroadcastReceiver();
 
         return view;
     }
 
     private void setItemAccount() {
 
-        accountArrayList = InfoFromDB.getInstance().getAccountList();
+        accountList = InfoFromDB.getInstance().getAccountList();
 
-        RecyclerView recyclerAccount = (RecyclerView) view.findViewById(R.id.recyclerAccount);
+        setVisibility();
 
-        recyclerAccount.setLayoutManager(new LinearLayoutManager(recyclerAccount.getContext()));
-        recyclerAdapter = new AccountRecyclerAdapter(getActivity(), accountArrayList);
-        recyclerAccount.setAdapter(recyclerAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
+        recyclerAdapter = new AccountRecyclerAdapter(getActivity(), accountList);
+        recyclerView.setAdapter(recyclerAdapter);
     }
 
     private void makeBroadcastReceiver() {
@@ -82,8 +70,11 @@ public class FrgAccounts extends Fragment{
 
                 if (status == FrgMain.STATUS_UPDATE_FRAGMENT_MAIN) {
 
-                    accountArrayList.clear();
-                    accountArrayList.addAll(InfoFromDB.getInstance().getAccountList());
+                    accountList.clear();
+                    accountList.addAll(InfoFromDB.getInstance().getAccountList());
+
+                    setVisibility();
+
                     recyclerAdapter.notifyDataSetChanged();
                 }
             }
@@ -98,5 +89,17 @@ public class FrgAccounts extends Fragment{
     public void onDestroy() {
         super.onDestroy();
         getActivity().unregisterReceiver(broadcastReceiver);
+    }
+
+    private void setVisibility() {
+        if (accountList.isEmpty()) {
+            recyclerView.setVisibility(View.GONE);
+            tvEmpty.setVisibility(View.VISIBLE);
+        }
+
+        else {
+            tvEmpty.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
     }
 }

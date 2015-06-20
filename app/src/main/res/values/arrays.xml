@@ -14,10 +14,10 @@
 
 
     <array name="flag_icons">
-        <item>@drawable/ic_flag_ukraine_48dp</item>
-        <item>@drawable/ic_flag_usa_48dp</item>
-        <item>@drawable/ic_flag_europe_48dp</item>
-        <item>@drawable/ic_flag_russia_48dp</item>
+        <item>@drawable/ic_flag_uah_48dp</item>
+        <item>@drawable/ic_flag_usd_48dp</item>
+        <item>@drawable/ic_flag_eur_48dp</item>
+        <item>@drawable/ic_flag_rub_48dp</item>
     </array>
 
 

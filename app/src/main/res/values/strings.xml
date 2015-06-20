@@ -87,6 +87,9 @@
     <string name="dialog_text_delete_account">Увага! Даний рахунок буде видалено.</string>
     <string name="dialog_title_delete_account">Видалення</string>
 
+    <string name="account_empty_list">Тут будуть відображатись ваші рахунки</string>
+    <string name="transaction_empty_list">Тут будуть відображатись ваші транзакції</string>
+
 
 
 
