@@ -29,15 +29,13 @@ import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
+    public final static String BROADCAST_MAIN_SNACK_ACTION = "com.androidcollider.easyfin.mainsnack.broadcast";
+    public final static String PARAM_STATUS_MAIN_SNACK = "show_main_snack";
+    public final static int STATUS_MAIN_SNACK = 5;
+
     private ViewPager pager;
 
     private BroadcastReceiver broadcastReceiver;
-
-    public final static String BROADCAST_MAIN_SNACK_ACTION = "com.androidcollider.easyfin.mainsnack.broadcast";
-
-    public final static String PARAM_STATUS_MAIN_SNACK = "show_main_snack";
-
-    public final static int STATUS_MAIN_SNACK = 500;
 
     private SharedPref sharedPref;
 

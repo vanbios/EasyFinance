@@ -37,16 +37,6 @@
             android:paddingEnd="@dimen/common_padding_large">
 
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:id="@+id/linLayoutAddTransDefSum"
-                android:baselineAligned="false"
-                android:layout_marginTop="@dimen/common_padding_large"
-
-                android:gravity="center_vertical">
-
 
             <ImageView
                 android:layout_width="28dp"
@@ -55,10 +45,7 @@
                 android:src="@drawable/ic_coin_stacks_cyan_48dp"
                 android:contentDescription="@string/sum_hint"
 
-                android:layout_marginRight="52dp"
-                android:layout_marginEnd="52dp" />
-
-
+                android:layout_marginTop="32dp" />
 
 
                 <EditText
@@ -68,11 +55,13 @@
                     android:ems="6"
                     android:id="@+id/editTextTransSum"
                     android:hint="@string/sum_hint"
-                    android:maxLength="12"
-                    style="@style/TitleBigFont" />
+                    android:maxLength="15"
+                    style="@style/TitleBigFont"
+                    android:layout_centerHorizontal="true"
 
+                    android:gravity="center_horizontal"
 
-            </LinearLayout>
+                    android:layout_marginTop="@dimen/common_padding_large"/>
 
 
 
@@ -80,7 +69,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/radioGroup"
-                android:layout_below="@+id/linLayoutAddTransDefSum"
+                android:layout_below="@+id/editTextTransSum"
                 android:orientation='horizontal'
                 android:layout_centerHorizontal="true"
 
@@ -130,16 +119,6 @@
                 android:gravity="center_vertical">
 
 
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:id="@+id/ivAddAccountType"
-                    android:src="@drawable/ic_cash_multiple_cyan_48dp"
-                    android:contentDescription="@string/account"
-                    android:layout_marginRight="40dp"
-                    android:layout_marginEnd="40dp" />
-
-
                 <Spinner
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
@@ -167,16 +146,6 @@
                 android:baselineAligned="false"
 
                 android:gravity="center_vertical">
-
-
-            <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:id="@+id/ivAddAccountCurrency"
-                android:src="@drawable/ic_label_cyan_48dp"
-                android:contentDescription="@string/category"
-                android:layout_marginRight="40dp"
-                android:layout_marginEnd="40dp" />
 
 
             <Spinner
@@ -216,8 +185,7 @@
                         android:layout_height="28dp"
                         android:id="@+id/ivAddTransDefDate"
                         android:src="@drawable/ic_calendar_cyan_48dp"
-                        android:contentDescription="@string/date"
-                         />
+                        android:contentDescription="@string/date" />
 
 
 
@@ -233,8 +201,6 @@
             </LinearLayout>
 
         </RelativeLayout>
-
-
 
     </android.support.v7.widget.CardView>
 

@@ -74,7 +74,7 @@
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:id="@+id/ivAddTransDefSum"
-                android:src="@drawable/ic_clipboard_text_teal_dark_48dp"
+                android:src="@drawable/ic_clipboard_text_cyan_dark_48dp"
                 android:contentDescription="@string/sum_hint"
 
                 android:layout_marginRight="38dp"
@@ -82,15 +82,14 @@
 
 
 
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/editTextAccountName"
+                    android:maxLength="50"
+                    android:hint="@string/account_name_hint"
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editTextAccountName"
-        android:maxLength="20"
-        android:hint="@string/account_name_hint"
-
-        style="@style/TitleFont" />
+                    style="@style/TitleFont" />
 
 
             </LinearLayout>
@@ -122,16 +121,6 @@
                 android:gravity="center_vertical">
 
 
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:id="@+id/ivAddAccountType"
-                    android:src="@drawable/ic_cash_multiple_cyan_48dp"
-                    android:contentDescription="@string/account"
-                    android:layout_marginRight="40dp"
-                    android:layout_marginEnd="40dp" />
-
-
                 <Spinner
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
@@ -159,16 +148,6 @@
                 android:baselineAligned="false"
 
                 android:gravity="center_vertical">
-
-
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:id="@+id/ivAddAccountCurrency"
-                    android:src="@drawable/ic_currency_all_teal_48dp"
-                    android:contentDescription="@string/category"
-                    android:layout_marginRight="40dp"
-                    android:layout_marginEnd="40dp" />
 
 
                 <Spinner
@@ -200,25 +179,26 @@
                 android:src="@drawable/ic_coin_stacks_cyan_48dp"
                 android:layout_below="@+id/cvAddAccountDividerBottom"
                 android:contentDescription="@string/category"
-                android:layout_marginTop="36dp"
-                 />
+                android:layout_marginTop="36dp" />
 
 
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="6"
-        android:hint="@string/sum_hint"
-        android:maxLength="12"
-        android:id="@+id/editTextAccountSum"
-        android:layout_centerHorizontal="true"
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:ems="6"
+                android:hint="@string/sum_hint"
+                android:maxLength="15"
+                android:id="@+id/editTextAccountSum"
+                android:layout_centerHorizontal="true"
 
-        android:layout_marginTop="24dp"
+                android:gravity="center_horizontal"
 
-        android:layout_below="@+id/cvAddAccountDividerBottom"
-        style="@style/TitleFont" />
+                android:layout_marginTop="24dp"
+
+                android:layout_below="@+id/cvAddAccountDividerBottom"
+                style="@style/TitleFont" />
 
 
 

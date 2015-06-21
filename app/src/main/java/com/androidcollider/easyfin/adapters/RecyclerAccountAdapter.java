@@ -17,7 +17,7 @@ import com.androidcollider.easyfin.utils.FormatUtils;
 
 import java.util.ArrayList;
 
-public class AccountRecyclerAdapter extends RecyclerView.Adapter<AccountRecyclerAdapter.ViewHolder> {
+public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccountAdapter.ViewHolder> {
 
     Context context;
     ArrayList<Account> accountArrayList;
@@ -28,7 +28,7 @@ public class AccountRecyclerAdapter extends RecyclerView.Adapter<AccountRecycler
     final String[] currency;
     final String[] currencyLanguage;
 
-    public AccountRecyclerAdapter(Context context, ArrayList<Account> accountArrayList) {
+    public RecyclerAccountAdapter(Context context, ArrayList<Account> accountArrayList) {
         this.context = context;
         this.accountArrayList = accountArrayList;
 

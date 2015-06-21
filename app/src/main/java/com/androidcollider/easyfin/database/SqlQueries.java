@@ -18,7 +18,6 @@ public class SqlQueries {
                 "id_transaction   INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "id_account       INTEGER NOT NULL," +
                 "amount           REAL NOT NULL," +
-                "currency         TEXT NOT NULL," +
                 "category         TEXT NOT NULL," +
                 "date             INTEGER NOT NULL" +
                 ");";

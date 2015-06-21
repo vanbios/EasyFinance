@@ -129,7 +129,7 @@ public class ActTransaction extends AppCompatActivity {
 
     private void checkForAccountExist() {
 
-        if (accountNames.size() == 0) {
+        if (accountNames.isEmpty()) {
             showDialogNoAccount();
         }
     }
@@ -156,7 +156,7 @@ public class ActTransaction extends AppCompatActivity {
         MenuItem saveTransactionItem = menu.findItem(R.id.transaction_action_save);
         saveTransactionItem.setEnabled(true);
 
-        if (accountNames.size() == 0) {
+        if (accountNames.isEmpty()) {
             saveTransactionItem.setEnabled(false);}
 
         return true;

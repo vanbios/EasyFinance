@@ -9,11 +9,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.adapters.SpinnerAccountForTransAdapter;
+import com.androidcollider.easyfin.adapters.SpinAccountForTransAdapter;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.InfoFromDB;
@@ -27,9 +28,12 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
     private Spinner spinAccountFrom, spinAccountTo;
 
-    private SpinnerAccountForTransAdapter adapterAccountTo;
+    private SpinAccountForTransAdapter adapterAccountTo;
 
-    private View view;
+    private View view, divExchange;
+
+    private EditText etExchange;
+    private ImageView ivExchange;
 
     private ArrayList<Account> accountListFrom = null;
     private ArrayList<Account> accountListTo = null;
@@ -40,6 +44,10 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frg_add_transaction_between_accounts, container, false);
+
+        etExchange = (EditText) view.findViewById(R.id.editTextTransBTWExchange);
+        ivExchange = (ImageView) view.findViewById(R.id.ivAddTransBTWExchange);
+        divExchange = view.findViewById(R.id.cvAddTransBTWDividerExchange);
 
         setSpinners();
 
@@ -55,15 +63,15 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
         accountListFrom = InfoFromDB.getInstance().getAccountList();
         accountListTo = new ArrayList<>();
 
-        spinAccountFrom.setAdapter(new SpinnerAccountForTransAdapter(getActivity(),
-                R.layout.spin_custom_item, accountListFrom));
+        spinAccountFrom.setAdapter(new SpinAccountForTransAdapter(getActivity(),
+                R.layout.spin_head_text, accountListFrom));
 
 
         accountListTo.addAll(accountListFrom);
         accountListTo.remove(spinAccountFrom.getSelectedItemPosition());
 
-        adapterAccountTo = new SpinnerAccountForTransAdapter(getActivity(),
-                R.layout.spin_custom_item, accountListTo);
+        adapterAccountTo = new SpinAccountForTransAdapter(getActivity(),
+                R.layout.spin_head_text, accountListTo);
 
         spinAccountTo.setAdapter(adapterAccountTo);
 
@@ -106,10 +114,14 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
     private void setCurrencyMode(boolean mode) {
         if (mode) {
-            //   enable stuff for multiple transfer
+            etExchange.setVisibility(View.VISIBLE);
+            ivExchange.setVisibility(View.VISIBLE);
+            divExchange.setVisibility(View.VISIBLE);
         }
         else {
-            //   disable stuff for multiple transfer
+            etExchange.setVisibility(View.GONE);
+            ivExchange.setVisibility(View.GONE);
+            divExchange.setVisibility(View.GONE);
             }
     }
 
@@ -122,58 +134,89 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
     }
 
 
-
     private void pushBroadcast() {
         Intent intentFragmentMain = new Intent(FrgMain.BROADCAST_FRAGMENT_MAIN_ACTION);
-        intentFragmentMain.putExtra(FrgMain.PARAM_STATUS_FRAGMENT_MAIN, FrgMain.STATUS_UPDATE_FRAGMENT_MAIN);
+        intentFragmentMain.putExtra(FrgMain.PARAM_STATUS_FRAGMENT_MAIN, FrgMain.STATUS_UPDATE_FRAGMENT_MAIN_BALANCE);
         getActivity().sendBroadcast(intentFragmentMain);
+
+        Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);
+        intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
+        getActivity().sendBroadcast(intentFrgAccounts);
     }
 
 
     public void addTransactionBTW() {
 
-                EditText etSum = (EditText) view.findViewById(R.id.editTextTransBTWSum);
+        EditText etSum = (EditText) view.findViewById(R.id.editTextTransBTWSum);
 
-                String sum = etSum.getText().toString();
+        if (checkEditTextForCorrect(etSum, R.string.transaction_empty_amount_field)) {
 
-                if (!sum.matches(".*\\d.*") || Double.parseDouble(sum) == 0) {
-                    Shake.highlightEditText(etSum);
-                    Toast.makeText(getActivity(), getResources().getString(R.string.transaction_empty_amount_field), Toast.LENGTH_LONG).show();
+            double amount = Double.parseDouble(etSum.getText().toString());
+
+            Account accountFrom = (Account) spinAccountFrom.getSelectedItem();
+            double accountAmountFrom = accountFrom.getAmount();
+
+            if (amount > accountAmountFrom) {
+                Toast.makeText(getActivity(), getResources().getString(R.string.transaction_not_enough_costs) + " " +
+                        Math.abs(amount), Toast.LENGTH_LONG).show();
+
+            } else {
+
+                int accountIdFrom = accountFrom.getId();
+
+                Account accountTo = (Account) spinAccountTo.getSelectedItem();
+
+                int accountIdTo = accountTo.getId();
+                double accountAmountTo = accountTo.getAmount();
+
+
+                if (etExchange.getVisibility() == View.VISIBLE) {
+
+                    if (checkEditTextForCorrect(etExchange, R.string.transaction_empty_exchange_field)) {
+
+                        double exchange = Double.parseDouble(etExchange.getText().toString());
+
+                        double amountTo = amount / exchange;
+
+                        lastActions(amount, amountTo, accountIdFrom, accountIdTo, accountAmountFrom, accountAmountTo);
+                    }
 
                 } else {
 
-                    double amount = Double.parseDouble(sum);
-
-                    Account accountFrom = (Account) spinAccountFrom.getSelectedItem();
-                    double accountAmountFrom = accountFrom.getAmount();
-
-                    if (amount > accountAmountFrom) {
-                        Toast.makeText(getActivity(), getResources().getString(R.string.transaction_not_enough_costs) + " " +
-                                Math.abs(amount), Toast.LENGTH_LONG).show();
-
-                    } else {
-
-                        int accountIdFrom = accountFrom.getId();
-
-                        Account accountTo = (Account) spinAccountTo.getSelectedItem();
-
-                        int accountIdTo = accountTo.getId();
-                        double accountAmountTo = accountTo.getAmount();
-
-
-                        accountAmountFrom -= amount;
-                        accountAmountTo += amount;
-
-                        new DataSource(getActivity()).updateAccountsAmountAfterTransfer(accountIdFrom,
-                                accountAmountFrom, accountIdTo, accountAmountTo);
-
-                        InfoFromDB.getInstance().updateAccountList();
-
-
-                        pushBroadcast();
-
-                        getActivity().finish();
-                    }
+                    lastActions(amount, amount, accountIdFrom, accountIdTo, accountAmountFrom, accountAmountTo);
                 }
             }
+        }
+    }
+
+    private void lastActions(double amount, double amountTo,
+                             int idFrom, int idTo,
+                             double accAmountFrom, double accAmountTo) {
+
+        double accountAmountFrom = accAmountFrom - amount;
+        double accountAmountTo = accAmountTo + amountTo;
+
+        new DataSource(getActivity()).updateAccountsAmountAfterTransfer(idFrom,
+                accountAmountFrom, idTo, accountAmountTo);
+
+        InfoFromDB.getInstance().updateAccountList();
+
+        pushBroadcast();
+
+        getActivity().finish();
+    }
+
+
+
+    private boolean checkEditTextForCorrect(EditText et, int strRes) {
+
+        String s = et.getText().toString();
+
+        if (!s.matches(".*\\d.*") || Double.parseDouble(s) == 0) {
+            Shake.highlightEditText(et);
+            Toast.makeText(getActivity(), getResources().getString(strRes), Toast.LENGTH_LONG).show();
+        return false;}
+
+        return true;
+    }
 }

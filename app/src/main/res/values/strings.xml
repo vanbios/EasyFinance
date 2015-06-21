@@ -3,7 +3,7 @@
 
     // app info
     <string name="app_name">FinU</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Налаштування</string>
     <string name="menu_exit">Вихід</string>
 
 
@@ -60,6 +60,7 @@
 
     <string name="account_from">З рахунку</string>
     <string name="account_to">На рахунок</string>
+    <string name="exchange_hint">Курс</string>
 
 
 
@@ -78,6 +79,7 @@
 
     <string name="transaction_not_enough_costs">Недостатньо коштів на рахунку для здійснення транзакції на суму</string>
     <string name="transaction_empty_amount_field">Вкажіть суму транзакції</string>
+    <string name="transaction_empty_exchange_field">Вкажіть курс</string>
 
     <string name="account_empty_field_name">Вкажіть назву рахунку</string>
     <string name="account_empty_field_sum">Вкажіть суму рахунку</string>
@@ -112,7 +114,7 @@
         <item>Одяг</item>
         <item>Розваги</item>
         <item>Подарунки</item>
-        <item>Лікування</item>
+        <item>Здоров`я</item>
         <item>Освіта</item>
         <item>Електроніка</item>
         <item>Інше</item>

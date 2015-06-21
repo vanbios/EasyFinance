@@ -32,16 +32,6 @@
             android:paddingBottom="@dimen/common_padding_medium">
 
 
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/linLayAddTransBTWSum"
-                android:baselineAligned="false"
-                android:layout_marginTop="@dimen/common_padding_large"
-
-                android:gravity="center_vertical">
-
 
                 <ImageView
                     android:layout_width="28dp"
@@ -49,8 +39,8 @@
                     android:id="@+id/ivAddTransBTWSum"
                     android:src="@drawable/ic_coin_stacks_cyan_48dp"
                     android:contentDescription="@string/sum_hint"
-                    android:layout_marginRight="52dp"
-                    android:layout_marginEnd="52dp" />
+
+                    android:layout_marginTop="32dp"/>
 
 
 
@@ -61,10 +51,14 @@
                     android:ems="6"
                     android:id="@+id/editTextTransBTWSum"
                     android:hint="@string/sum_hint"
-                    android:maxLength="12"
-                    style="@style/TitleBigFont" />
+                    android:maxLength="15"
+                    style="@style/TitleBigFont"
 
-            </LinearLayout>
+                    android:layout_marginTop="@dimen/common_padding_large"
+                    android:layout_centerHorizontal="true"
+
+                    android:gravity="center_horizontal"/>
+
 
 
 
@@ -72,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:id="@+id/cvAddTransBTWDivider"
-                android:layout_below="@+id/linLayAddTransBTWSum"
+                android:layout_below="@+id/editTextTransBTWSum"
                 android:background="@color/custom_divider"
                 android:layout_marginLeft="68dp"
                 android:layout_marginStart="68dp"
@@ -149,6 +143,54 @@
 
 
             </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:id="@+id/cvAddTransBTWDividerExchange"
+                android:layout_below="@+id/linLayoutAddTransBTWAccountTo"
+                android:background="@color/custom_divider"
+                android:layout_marginLeft="68dp"
+                android:layout_marginStart="68dp"
+
+                android:visibility="gone"/>
+
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:id="@+id/ivAddTransBTWExchange"
+                android:src="@drawable/ic_exchange_cyan_dark_48dp"
+                android:contentDescription="@string/account"
+                android:layout_below="@+id/cvAddTransBTWDividerExchange"
+
+                android:layout_marginTop="32dp"
+
+                android:visibility="gone"/>
+
+
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:ems="3"
+                android:id="@+id/editTextTransBTWExchange"
+                android:hint="@string/exchange_hint"
+                android:maxLength="12"
+                style="@style/TitleFont"
+
+                android:layout_below="@+id/cvAddTransBTWDividerExchange"
+
+                android:layout_marginTop="@dimen/common_padding_large"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+
+                android:layout_marginBottom="@dimen/common_padding_large"
+
+                android:visibility="gone"/>
+
+
 
 
         </RelativeLayout>

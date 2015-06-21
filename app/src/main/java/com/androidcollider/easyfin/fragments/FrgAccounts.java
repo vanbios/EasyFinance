@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
 
-import com.androidcollider.easyfin.adapters.AccountRecyclerAdapter;
+import com.androidcollider.easyfin.adapters.RecyclerAccountAdapter;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.InfoFromDB;
 
@@ -25,11 +25,15 @@ import java.util.ArrayList;
 
 public class FrgAccounts extends Fragment{
 
+    public final static String BROADCAST_FRG_ACCOUNT_ACTION = "com.androidcollider.easyfin.frgaccount.broadcast";
+    public final static String PARAM_STATUS_FRG_ACCOUNT = "update_frg_account";
+    public final static int STATUS_UPDATE_FRG_ACCOUNT = 4;
+
     private RecyclerView recyclerView;
 
     private TextView tvEmpty;
 
-    private AccountRecyclerAdapter recyclerAdapter;
+    private RecyclerAccountAdapter recyclerAdapter;
     private ArrayList<Account> accountList = null;
 
     private BroadcastReceiver broadcastReceiver;
@@ -58,7 +62,7 @@ public class FrgAccounts extends Fragment{
         setVisibility();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        recyclerAdapter = new AccountRecyclerAdapter(getActivity(), accountList);
+        recyclerAdapter = new RecyclerAccountAdapter(getActivity(), accountList);
         recyclerView.setAdapter(recyclerAdapter);
     }
 
@@ -66,9 +70,9 @@ public class FrgAccounts extends Fragment{
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                int status = intent.getIntExtra(FrgMain.PARAM_STATUS_FRAGMENT_MAIN, 0);
+                int status = intent.getIntExtra(PARAM_STATUS_FRG_ACCOUNT, 0);
 
-                if (status == FrgMain.STATUS_UPDATE_FRAGMENT_MAIN) {
+                if (status == STATUS_UPDATE_FRG_ACCOUNT) {
 
                     accountList.clear();
                     accountList.addAll(InfoFromDB.getInstance().getAccountList());
@@ -80,7 +84,7 @@ public class FrgAccounts extends Fragment{
             }
         };
 
-        IntentFilter intentFilter = new IntentFilter(FrgMain.BROADCAST_FRAGMENT_MAIN_ACTION);
+        IntentFilter intentFilter = new IntentFilter(BROADCAST_FRG_ACCOUNT_ACTION);
 
         getActivity().registerReceiver(broadcastReceiver, intentFilter);
     }

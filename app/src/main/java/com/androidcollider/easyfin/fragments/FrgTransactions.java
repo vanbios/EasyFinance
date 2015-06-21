@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
 
-import com.androidcollider.easyfin.adapters.TransactionRecyclerAdapter;
+import com.androidcollider.easyfin.adapters.RecyclerTransactionAdapter;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.objects.Transaction;
 
@@ -24,9 +24,9 @@ import java.util.ArrayList;
 
 public class FrgTransactions extends Fragment{
 
-    public final static String BROADCAST_FRAGMENT_TRANSACTION_ACTION = "com.androidcollider.easyfin.fragmenttransaction.broadcast";
-    public final static String PARAM_STATUS_FRAGMENT_TRANSACTION = "update_fragment_transaction";
-    public final static int STATUS_UPDATE_FRAGMENT_TRANSACTION = 200;
+    public final static String BROADCAST_FRG_TRANSACTION_ACTION = "com.androidcollider.easyfin.frgtransaction.broadcast";
+    public final static String PARAM_STATUS_FRG_TRANSACTION = "update_frg_transaction";
+    public final static int STATUS_UPDATE_FRG_TRANSACTION = 3;
 
     private RecyclerView recyclerView;
     private TextView tvEmpty;
@@ -34,7 +34,7 @@ public class FrgTransactions extends Fragment{
     private BroadcastReceiver broadcastReceiver;
 
     private ArrayList<Transaction> transactionList = null;
-    private TransactionRecyclerAdapter recyclerAdapter;
+    private RecyclerTransactionAdapter recyclerAdapter;
 
     private DataSource dataSource;
 
@@ -66,7 +66,7 @@ public class FrgTransactions extends Fragment{
         setVisibility();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        recyclerAdapter = new TransactionRecyclerAdapter(getActivity(), transactionList);
+        recyclerAdapter = new RecyclerTransactionAdapter(getActivity(), transactionList);
         recyclerView.setAdapter(recyclerAdapter);
     }
 
@@ -74,9 +74,9 @@ public class FrgTransactions extends Fragment{
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                int status = intent.getIntExtra(PARAM_STATUS_FRAGMENT_TRANSACTION, 0);
+                int status = intent.getIntExtra(PARAM_STATUS_FRG_TRANSACTION, 0);
 
-                if (status == STATUS_UPDATE_FRAGMENT_TRANSACTION) {
+                if (status == STATUS_UPDATE_FRG_TRANSACTION) {
 
                     transactionList.clear();
                     transactionList.addAll(dataSource.getAllTransactionsInfo());
@@ -88,7 +88,7 @@ public class FrgTransactions extends Fragment{
             }
         };
 
-        IntentFilter intentFilter = new IntentFilter(BROADCAST_FRAGMENT_TRANSACTION_ACTION);
+        IntentFilter intentFilter = new IntentFilter(BROADCAST_FRG_TRANSACTION_ACTION);
 
         getActivity().registerReceiver(broadcastReceiver, intentFilter);
     }

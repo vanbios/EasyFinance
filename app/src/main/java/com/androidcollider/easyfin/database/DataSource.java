@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.DateConstants;
 import com.androidcollider.easyfin.objects.Transaction;
@@ -47,8 +48,6 @@ public class DataSource {
     }
 
 
-
-
     public void insertNewAccount(Account account) {
         ContentValues cv = new ContentValues();
 
@@ -72,7 +71,6 @@ public class DataSource {
         cv1.put("date", transaction.getDate());
         cv1.put("amount", transaction.getAmount());
         cv1.put("category", transaction.getCategory());
-        cv1.put("currency", transaction.getCurrency());
 
         cv2.put("amount", transaction.getAccountAmount());
 
@@ -81,7 +79,6 @@ public class DataSource {
         db.update("Account", cv2, "id_account = " + id_account, null);
         closeLocal();
     }
-
 
 
     public void updateAccountsAmountAfterTransfer(int id_account_1, double amount_1, int id_account_2, double amount_2) {
@@ -100,7 +97,6 @@ public class DataSource {
     }
 
 
-
     public double[] getTransactionsStatistic(int position, String currency) {
         double[] arrayStatistic = new double[2];
 
@@ -113,8 +109,9 @@ public class DataSource {
             case 4: period = DateConstants.YEAR; break;
         }
 
-        String selectQuery = "SELECT date, amount FROM Transactions "
-                               + "WHERE currency = '" + currency + "' ";
+        String selectQuery = "SELECT t.date, t.amount FROM Transactions t, Account a "
+                               + "WHERE t.id_account = a.id_account "
+                               + "AND a.currency = '" + currency + "' ";
 
         openLocalToRead();
 
@@ -151,6 +148,7 @@ public class DataSource {
 
             arrayStatistic[0] = cost;
             arrayStatistic[1] = income;
+
             return arrayStatistic;
         }
 
@@ -164,28 +162,35 @@ public class DataSource {
     }
 
 
+    public double[] getAccountsSumGroupByCurrency(String currency) {
 
-    public double getAccountsSumGroupByCurrency(String type, String currency) {
-        String selectQuery = "SELECT SUM(amount) FROM Account "
-                + "WHERE visibility = 1 AND "
-                + "type = '" + type + "' AND "
-                + "currency = '" + currency + "' ";
+        String[] type = context.getResources().getStringArray(R.array.account_type_array);
+
+        double[] result = new double[4];
+
+        Cursor cursor;
+        String selectQuery;
 
         openLocalToRead();
 
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        for (int i = 0; i < type.length; i++) {
 
-        if(cursor.moveToFirst()) {
-            double d = cursor.getDouble(0);
+            selectQuery = "SELECT SUM(amount) FROM Account "
+                    + "WHERE visibility = 1 AND "
+                    + "type = '" + type[i] + "' AND "
+                    + "currency = '" + currency + "' ";
+
+            cursor = db.rawQuery(selectQuery, null);
+
+            if (cursor.moveToFirst()) {
+                result[i] = cursor.getDouble(0);
+            }
             cursor.close();
-            closeLocal();
-            return d;}
+        }
 
-        cursor.close();
         closeLocal();
-        return 0;
+        return result;
     }
-
 
 
     public ArrayList<Account> getAllAccountsInfo() {
@@ -229,11 +234,10 @@ public class DataSource {
     }
 
 
-
     public ArrayList<Transaction> getAllTransactionsInfo(){
         ArrayList<Transaction> transactionArrayList = new ArrayList<>();
 
-        String selectQuery = "SELECT t.amount, date, category, name, type, t.currency "
+        String selectQuery = "SELECT t.amount, date, category, name, type, a.currency "
                 + "FROM Transactions t, Account a "
                 + "WHERE t.id_account = a.id_account ";
 
@@ -272,8 +276,6 @@ public class DataSource {
     }
 
 
-
-
     public void editAccount(Account account) {
         ContentValues cv = new ContentValues();
 
@@ -285,17 +287,13 @@ public class DataSource {
         int id = account.getId();
 
         openLocalToWrite();
-
         db.update("Account", cv, "id_account = '" + id + "' ", null);
-
         closeLocal();
     }
 
     public void deleteAccount(int id) {
         openLocalToWrite();
-
         db.delete("Account", "id_account = '" + id + "' ", null);
-
         closeLocal();
     }
 
@@ -305,14 +303,12 @@ public class DataSource {
         cv.put("visibility", 0);
 
         openLocalToWrite();
-
         db.update("Account", cv, "id_account = '" + id + "' ", null);
+        closeLocal();
     }
 
 
-
-
-    public boolean checkAccountTransactionExist(int id) {
+    public boolean checkAccountForTransactionExist(int id) {
 
         String selectQuery = "SELECT COUNT(id_transaction) FROM Transactions "
                 + "WHERE id_account = '" + id +  "' ";

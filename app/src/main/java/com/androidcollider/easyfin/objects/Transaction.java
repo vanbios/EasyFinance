@@ -17,12 +17,11 @@ public class Transaction {
 
 
 
-    public Transaction (long date, double amount, String category, int idAccount, String currency, double accountAmount) {
+    public Transaction (long date, double amount, String category, int idAccount, double accountAmount) {
         this.date = date;
         this.amount = amount;
         this.category = category;
         this.idAccount = idAccount;
-        this.currency = currency;
         this.accountAmount = accountAmount;
     }
 

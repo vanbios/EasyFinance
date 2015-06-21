@@ -18,7 +18,7 @@ import com.androidcollider.easyfin.utils.FormatUtils;
 import java.util.ArrayList;
 
 
-public class TransactionRecyclerAdapter extends RecyclerView.Adapter<TransactionRecyclerAdapter.ViewHolder> {
+public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTransactionAdapter.ViewHolder> {
 
     private Context context;
     private ArrayList<Transaction> transactionArrayList;
@@ -34,7 +34,7 @@ public class TransactionRecyclerAdapter extends RecyclerView.Adapter<Transaction
 
 
 
-    public TransactionRecyclerAdapter(Context context, ArrayList<Transaction> transactionArrayList) {
+    public RecyclerTransactionAdapter(Context context, ArrayList<Transaction> transactionArrayList) {
         this.context = context;
         this.transactionArrayList = transactionArrayList;
 

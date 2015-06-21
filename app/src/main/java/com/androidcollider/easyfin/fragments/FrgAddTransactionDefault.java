@@ -16,8 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.adapters.SpinnerAccountForTransAdapter;
-import com.androidcollider.easyfin.adapters.SpinnerSimpleCustomAdapter;
+import com.androidcollider.easyfin.adapters.SpinAccountForTransHeadIconAdapter;
+import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.InfoFromDB;
@@ -66,8 +66,15 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
         String[] category = getResources().getStringArray(R.array.cat_transaction_array);
 
 
-        spinCategory.setAdapter(new SpinnerSimpleCustomAdapter(getActivity(),
-                R.layout.spin_custom_item, category,
+        spinCategory.setAdapter(new SpinIconTextHeadAdapter(
+                getActivity(),
+                R.layout.spin_head_icon_text,
+                R.id.tvSpinHeadIconText,
+                R.id.ivSpinHeadIconText,
+                R.layout.spin_drop_icon_text,
+                R.id.tvSpinDropIconText,
+                R.id.ivSpinDropIconText,
+                category,
                 getResources().obtainTypedArray(R.array.trans_categories_icons)));
 
         spinCategory.setSelection(category.length-1);
@@ -75,10 +82,12 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
 
         ArrayList<Account> accountList = InfoFromDB.getInstance().getAccountList();
 
-        spinAccount.setAdapter(new SpinnerAccountForTransAdapter(getActivity(),
-                R.layout.spin_custom_item, accountList));
+        spinAccount.setAdapter(new SpinAccountForTransHeadIconAdapter(
+                getActivity(),
+                R.layout.spin_head_icon_text,
+                accountList));
 
-        if (accountList.size() == 0) {
+        if (accountList.isEmpty()) {
             spinAccount.setEnabled(false);
         }
     }
@@ -117,9 +126,8 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
 
                 String category = spinCategory.getSelectedItem().toString();
                 int idAccount = account.getId();
-                String currency = account.getCurrency();
 
-                Transaction transaction = new Transaction(date, amount, category, idAccount, currency, accountAmount);
+                Transaction transaction = new Transaction(date, amount, category, idAccount, accountAmount);
                 new DataSource(getActivity()).insertNewTransaction(transaction);
 
                 InfoFromDB.getInstance().updateAccountList();
@@ -162,9 +170,13 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
         intentFragmentMain.putExtra(FrgMain.PARAM_STATUS_FRAGMENT_MAIN, FrgMain.STATUS_UPDATE_FRAGMENT_MAIN);
         getActivity().sendBroadcast(intentFragmentMain);
 
-        Intent intentFragmentTransaction = new Intent(FrgTransactions.BROADCAST_FRAGMENT_TRANSACTION_ACTION);
-        intentFragmentTransaction.putExtra(FrgTransactions.PARAM_STATUS_FRAGMENT_TRANSACTION, FrgTransactions.STATUS_UPDATE_FRAGMENT_TRANSACTION);
+        Intent intentFragmentTransaction = new Intent(FrgTransactions.BROADCAST_FRG_TRANSACTION_ACTION);
+        intentFragmentTransaction.putExtra(FrgTransactions.PARAM_STATUS_FRG_TRANSACTION, FrgTransactions.STATUS_UPDATE_FRG_TRANSACTION);
         getActivity().sendBroadcast(intentFragmentTransaction);
+
+        Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);
+        intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
+        getActivity().sendBroadcast(intentFrgAccounts);
     }
 
 }

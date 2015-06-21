@@ -1,8 +1,9 @@
 package com.androidcollider.easyfin;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.androidcollider.easyfin.adapters.SpinnerSimpleCustomAdapter;
+import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
 import com.androidcollider.easyfin.database.DataSource;
+import com.androidcollider.easyfin.fragments.FrgAccounts;
 import com.androidcollider.easyfin.fragments.FrgMain;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.InfoFromDB;
@@ -72,14 +73,26 @@ public class ActAccount extends AppCompatActivity {
 
     private void setSpinner() {
 
-        spinType.setAdapter(new SpinnerSimpleCustomAdapter(this,
-                R.layout.spin_custom_item,
+        spinType.setAdapter(new SpinIconTextHeadAdapter(
+                this,
+                R.layout.spin_head_icon_text,
+                R.id.tvSpinHeadIconText,
+                R.id.ivSpinHeadIconText,
+                R.layout.spin_drop_icon_text,
+                R.id.tvSpinDropIconText,
+                R.id.ivSpinDropIconText,
                 getResources().getStringArray(R.array.account_type_array),
                 getResources().obtainTypedArray(R.array.account_type_icons)));
 
 
-        spinCurrency.setAdapter(new SpinnerSimpleCustomAdapter(this,
-                R.layout.spin_custom_item,
+        spinCurrency.setAdapter(new SpinIconTextHeadAdapter(
+                this,
+                R.layout.spin_head_icon_text,
+                R.id.tvSpinHeadIconText,
+                R.id.ivSpinHeadIconText,
+                R.layout.spin_drop_icon_text,
+                R.id.tvSpinDropIconText,
+                R.id.ivSpinDropIconText,
                 getResources().getStringArray(R.array.account_currency_array),
                 getResources().obtainTypedArray(R.array.flag_icons)));
 
@@ -103,6 +116,8 @@ public class ActAccount extends AppCompatActivity {
                     spinCurrency.setSelection(i);
                 }
             }
+
+            spinCurrency.setEnabled(false);
         }
     }
 
@@ -216,9 +231,15 @@ public class ActAccount extends AppCompatActivity {
     }
 
     private void pushBroadcast() {
-        Intent intentFragmentMain = new Intent(FrgMain.BROADCAST_FRAGMENT_MAIN_ACTION);
-        intentFragmentMain.putExtra(FrgMain.PARAM_STATUS_FRAGMENT_MAIN, FrgMain.STATUS_UPDATE_FRAGMENT_MAIN);
-        sendBroadcast(intentFragmentMain);
+        Intent intentFrgMain = new Intent(FrgMain.BROADCAST_FRAGMENT_MAIN_ACTION);
+        intentFrgMain.putExtra(FrgMain.PARAM_STATUS_FRAGMENT_MAIN, FrgMain.STATUS_UPDATE_FRAGMENT_MAIN_BALANCE);
+        sendBroadcast(intentFrgMain);
+
+        Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);
+        intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
+        sendBroadcast(intentFrgAccounts);
+
+
 
         if (mode == 0) {
             SharedPref sp = new SharedPref(this);
@@ -249,7 +270,7 @@ public class ActAccount extends AppCompatActivity {
     }
 
     private void deleteAccount() {
-        if (dataSource.checkAccountTransactionExist(idAccount)) {
+        if (dataSource.checkAccountForTransactionExist(idAccount)) {
             dataSource.makeAccountInvisible(idAccount);
         }
         else {
