@@ -21,4 +21,14 @@ public class SqlQueries {
                 "category         TEXT NOT NULL," +
                 "date             INTEGER NOT NULL" +
                 ");";
+
+        //make a string SQL request for Debt table
+        public static final String create_debt_table = "CREATE TABLE Debt (" +
+                "id_debt          INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "name             TEXT NOT NULL," +
+                "amount           REAL NOT NULL," +
+                "type             INTEGER NOT NULL," +
+                "id_account       INTEGER NOT NULL," +
+                "date             INTEGER NOT NULL" +
+                ");";
 }

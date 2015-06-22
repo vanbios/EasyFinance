@@ -10,7 +10,9 @@
     android:paddingLeft="@dimen/common_padding_medium"
     android:paddingStart="@dimen/common_padding_medium"
     android:paddingRight="@dimen/common_padding_medium"
-    android:paddingEnd="@dimen/common_padding_medium">
+    android:paddingEnd="@dimen/common_padding_medium"
+
+    android:scrollbars="none">
 
 
     <android.support.v7.widget.CardView

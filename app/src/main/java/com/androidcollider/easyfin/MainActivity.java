@@ -99,8 +99,9 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
 
         switch (item.getItemId()){
-            case R.id.exit:
-                this.finish();
+            case R.id.main_debt:
+                Intent intent = new Intent(this, ActDebt.class);
+                startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -153,14 +154,13 @@ public class MainActivity extends AppCompatActivity {
         this.unregisterReceiver(broadcastReceiver);}
     }
 
-    public void addTransactionMain() {
+    private void addTransactionMain() {
         Intent intent = new Intent(this, ActTransaction.class);
         startActivity(intent);
     }
 
-    public void addAccountMain() {
+    private void addAccountMain() {
         Intent intent = new Intent(this, ActAccount.class);
-
         intent.putExtra("mode", 0);
         startActivity(intent);
     }

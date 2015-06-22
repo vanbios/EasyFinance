@@ -14,12 +14,27 @@
         android:paddingLeft="@dimen/card_elevation_small"
         android:paddingStart="@dimen/card_elevation_small"
         android:paddingRight="@dimen/card_elevation_small"
-        android:paddingEnd="@dimen/card_elevation_small"  >
+        android:paddingEnd="@dimen/card_elevation_small"
+
+        android:scrollbars="none">
 
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/main_current_balance"
+                android:id="@+id/tvMainCurrentBalance"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="@dimen/common_padding_small"
+                android:layout_marginBottom="2dp"
+                style="@style/TitleFontSecondary" />
 
 
             <android.support.v7.widget.CardView
@@ -27,6 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/cardMainBalance"
+                android:layout_below="@+id/tvMainCurrentBalance"
                 card_view:cardElevation="@dimen/card_elevation_small"
                 android:layout_margin="@dimen/common_padding_small">
 
@@ -40,7 +56,7 @@
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/linLayoutMainBalanceTitle"
+                        android:id="@+id/linLayoutMainBalance"
                         android:baselineAligned="false"
                         android:paddingTop="@dimen/common_padding_small">
 
@@ -51,17 +67,18 @@
                             android:layout_weight="5">
 
 
+                            <Spinner
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/spinMainCurrency"
+                                android:layout_alignParentLeft="true"
+                                android:layout_alignParentStart="true"
+                                android:layout_marginLeft="16dp"
+                                android:layout_marginStart="16dp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/main_current_balance"
-                            android:id="@+id/tvMainCurrentBalance"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginRight="20dp"
-                            android:layout_marginEnd="20dp"
-                            style="@style/SpinnerFont" />
+
+
+
 
                         </RelativeLayout>
 
@@ -70,18 +87,19 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="2">
 
-                        <Spinner
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/spinMainCurrency"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginRight="16dp"
-                            android:layout_marginEnd="16dp"/>
+
 
                         </RelativeLayout>
 
                     </LinearLayout>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:id="@+id/cvMainDividerBalanceCurrency"
+                        android:layout_below="@+id/linLayoutMainBalance"
+                        android:background="@color/custom_divider" />
 
 
             <LinearLayout
@@ -89,7 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/linLayoutMainBalanceChart"
-                android:layout_below="@+id/linLayoutMainBalanceTitle"
+                android:layout_below="@+id/cvMainDividerBalanceCurrency"
                 android:paddingLeft="@dimen/common_padding_medium"
                 android:paddingStart="@dimen/common_padding_medium"
                 android:paddingRight="@dimen/common_padding_medium"
@@ -201,6 +219,25 @@
 
 
 
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/main_statistic"
+                android:id="@+id/tvMainStatistic"
+
+                android:layout_below="@+id/cardMainBalance"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="24dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="@dimen/common_padding_small"
+                android:layout_marginBottom="2dp"
+                style="@style/TitleFontSecondary"/>
+
+
+
+
             <android.support.v7.widget.CardView
                 xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
@@ -208,7 +245,7 @@
                 android:id="@+id/cardMainStatistic"
                 card_view:cardElevation="@dimen/card_elevation_small"
                 android:layout_margin="@dimen/common_padding_small"
-                android:layout_below="@+id/cardMainBalance" >
+                android:layout_below="@+id/tvMainStatistic" >
 
 
 
@@ -244,16 +281,7 @@
 
 
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/main_statistic"
-                    android:id="@+id/tvMainStatistic"
-                    style="@style/SpinnerFont"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginRight="12dp"
-                    android:layout_marginEnd="12dp"/>
+
 
                     </RelativeLayout>
 

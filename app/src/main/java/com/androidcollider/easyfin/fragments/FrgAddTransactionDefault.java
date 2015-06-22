@@ -40,6 +40,8 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
 
     private View view;
 
+    private ArrayList<Account> accountList;
+
 
 
 
@@ -47,6 +49,8 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frg_add_transaction_default, container, false);
+
+        accountList = InfoFromDB.getInstance().getAccountList();
 
         tvDate = (TextView) view.findViewById(R.id.tvTransactionDate);
 
@@ -61,7 +65,7 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
 
     private void setSpinner() {
         spinCategory = (Spinner) view.findViewById(R.id.spinAddTransCategory);
-        spinAccount = (Spinner) view.findViewById(R.id.spinAddTransExpense);
+        spinAccount = (Spinner) view.findViewById(R.id.spinAddTransDefAccount);
 
         String[] category = getResources().getStringArray(R.array.cat_transaction_array);
 
@@ -79,8 +83,6 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
 
         spinCategory.setSelection(category.length-1);
 
-
-        ArrayList<Account> accountList = InfoFromDB.getInstance().getAccountList();
 
         spinAccount.setAdapter(new SpinAccountForTransHeadIconAdapter(
                 getActivity(),

@@ -2,4 +2,5 @@
 
     <item android:state_checked="true" android:drawable="@drawable/ic_plus_circle_outline_green_48dp" />
     <item android:state_checked="false" android:drawable="@drawable/ic_plus_circle_outline_grey600_48dp" />
+
 </selector>

@@ -28,7 +28,9 @@
         android:paddingLeft="@dimen/common_padding_medium"
         android:paddingStart="@dimen/common_padding_medium"
         android:paddingRight="@dimen/common_padding_medium"
-        android:paddingEnd="@dimen/common_padding_medium">
+        android:paddingEnd="@dimen/common_padding_medium"
+
+        android:scrollbars="none">
 
 
 
@@ -88,6 +90,8 @@
                     android:id="@+id/editTextAccountName"
                     android:maxLength="50"
                     android:hint="@string/account_name_hint"
+
+                    android:singleLine="true"
 
                     style="@style/TitleFont" />
 
@@ -198,6 +202,7 @@
                 android:layout_marginTop="24dp"
 
                 android:layout_below="@+id/cvAddAccountDividerBottom"
+                android:singleLine="true"
                 style="@style/TitleFont" />
 
 

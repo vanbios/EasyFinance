@@ -4,18 +4,15 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/common_padding_medium"
-    android:paddingBottom="@dimen/common_padding_medium">
+    android:padding="@dimen/common_padding_medium">
 
     <ImageView
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:id="@+id/ivSpinHeadIconText"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:id="@+id/ivSpinHeadIconTextMain"
 
-        android:layout_marginRight="40dp"
-        android:layout_marginEnd="40dp"
-
-        android:layout_marginTop="10dp"
+        android:layout_marginRight="@dimen/common_padding_large"
+        android:layout_marginEnd="@dimen/common_padding_large"
 
         android:contentDescription="@string/app_name"/>
 
@@ -23,8 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/SpinnerFont"
-        android:id="@+id/tvSpinHeadIconText"
-        android:layout_marginTop="10dp"
+        android:id="@+id/tvSpinHeadIconTextMain"
         android:singleLine="true"/>
 
 </LinearLayout>

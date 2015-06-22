@@ -1,7 +1,7 @@
 package com.androidcollider.easyfin.fragments;
 
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.adapters.SpinIconTextDropAdapter;
+import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.utils.ChartDataUtils;
 import com.androidcollider.easyfin.utils.FormatUtils;
@@ -97,10 +97,11 @@ public class FrgMain extends Fragment {
     private void setBalanceCurrencySpinner() {
         spinBalanceCurrency = (Spinner) view.findViewById(R.id.spinMainCurrency);
 
-        spinBalanceCurrency.setAdapter(new SpinIconTextDropAdapter(
+        spinBalanceCurrency.setAdapter(new SpinIconTextHeadAdapter(
                 getActivity(),
-                R.layout.spin_head_text,
-                R.id.tvSpinHeadText,
+                R.layout.spin_head_icon_text_main,
+                R.id.tvSpinHeadIconTextMain,
+                R.id.ivSpinHeadIconTextMain,
                 R.layout.spin_drop_icon_text,
                 R.id.tvSpinDropIconText,
                 R.id.ivSpinDropIconText,
@@ -158,10 +159,11 @@ public class FrgMain extends Fragment {
     private void setChartTypeSpinner() {
 
         spinChartType = (Spinner) view.findViewById(R.id.spinMainChart);
-        spinChartType.setAdapter(new SpinIconTextDropAdapter(
+        spinChartType.setAdapter(new SpinIconTextHeadAdapter(
                 getActivity(),
-                R.layout.spin_head_text,
-                R.id.tvSpinHeadText,
+                R.layout.spin_head_icon_text_main,
+                R.id.tvSpinHeadIconTextMain,
+                R.id.ivSpinHeadIconTextMain,
                 R.layout.spin_drop_icon_text,
                 R.id.tvSpinDropIconText,
                 R.id.ivSpinDropIconText,

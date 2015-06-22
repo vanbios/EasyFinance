@@ -20,6 +20,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(SqlQueries.create_account_table);
         db.execSQL(SqlQueries.create_transactions_table);
+        db.execSQL(SqlQueries.create_debt_table);
     }
     // Method for update database
     @Override

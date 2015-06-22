@@ -91,6 +91,7 @@
 
     <string name="account_empty_list">Тут будуть відображатись ваші рахунки</string>
     <string name="transaction_empty_list">Тут будуть відображатись ваші транзакції</string>
+    <string name="debt_empty_list">Тут будуть відображатись ваші борги</string>
 
 
 
@@ -154,8 +155,8 @@
 
 
     <string-array name="charts_main_array">
-        <item>Bar</item>
-        <item>Pie</item>
+        <item>Гістограма</item>
+        <item>Кругова</item>
     </string-array>
 
 

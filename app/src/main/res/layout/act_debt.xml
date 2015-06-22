@@ -1,25 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <include layout="@layout/toolbar" />
 
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tabsMain"
-        style="@style/CustomTabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:layout_marginTop="@dimen/toolbar_height"/>
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/tabsMain">
+        android:layout_marginTop="@dimen/toolbar_height">
 
         <View
             android:layout_width="match_parent"
@@ -28,11 +17,29 @@
     </FrameLayout>
 
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pagerMain"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerDebt"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/tabsMain" />
+        android:layout_marginTop="64dp"
+        android:layout_marginBottom="@dimen/common_padding_medium"
+        android:layout_marginLeft="@dimen/common_padding_small"
+        android:layout_marginStart="@dimen/common_padding_small"
+        android:layout_marginRight="@dimen/common_padding_small"
+        android:layout_marginEnd="@dimen/common_padding_small"/>
+
+
+    <TextView
+        android:id="@+id/tvEmptyAccounts"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="visible"
+        android:text="@string/debt_empty_list"
+        style="@style/BodyFontSecondary"/>
+
+
+
 
     <android.support.design.widget.CoordinatorLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -49,10 +56,9 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/common_padding_large"
         android:src="@drawable/ic_plus_white_48dp"
-        android:onClick="checkPageNum"
+        android:onClick="goToAddDebtAct"
         app:borderWidth="0dp"/>
 
     </android.support.design.widget.CoordinatorLayout>
-
 
     </RelativeLayout>

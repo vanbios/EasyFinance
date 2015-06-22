@@ -35,9 +35,11 @@ public class ActTransaction extends AppCompatActivity {
 
         accountNames = InfoFromDB.getInstance().getAccountNames();
 
-        setViewPager();
+        if (accountNames.isEmpty()) {
+            showDialogNoAccount();}
+        else {
+            setViewPager();}
 
-        checkForAccountExist();
     }
 
 
@@ -66,28 +68,14 @@ public class ActTransaction extends AppCompatActivity {
         pagerTrans.setAdapter(adapterPager);
         pagerTrans.setOffscreenPageLimit(2);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabsAddTransaction);
-        tabLayout.setTabTextColors(getResources().getColor(R.color.custom_blue_gray_light),
-                getResources().getColor(R.color.custom_text_light));
-        tabLayout.setupWithViewPager(pagerTrans);
+        if (accountNames.size() > 1) {
 
-        pagerTrans.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabsAddTransaction);
 
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-
-                checkForAccountExist();
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
+            tabLayout.setTabTextColors(getResources().getColor(R.color.custom_blue_gray_light),
+                    getResources().getColor(R.color.custom_text_light));
+            tabLayout.setupWithViewPager(pagerTrans);
+        }
     }
 
 
@@ -109,6 +97,7 @@ public class ActTransaction extends AppCompatActivity {
                         returnToMain();
                     }
                 })
+                .cancelable(false)
                 .show();
     }
 
@@ -125,13 +114,6 @@ public class ActTransaction extends AppCompatActivity {
     private void openAddAccountActivity() {
         Intent intent = new Intent(this, ActAccount.class);
         startActivity(intent);
-    }
-
-    private void checkForAccountExist() {
-
-        if (accountNames.isEmpty()) {
-            showDialogNoAccount();
-        }
     }
 
 
@@ -157,7 +139,7 @@ public class ActTransaction extends AppCompatActivity {
         saveTransactionItem.setEnabled(true);
 
         if (accountNames.isEmpty()) {
-            saveTransactionItem.setEnabled(false);}
+            saveTransactionItem.setVisible(false);}
 
         return true;
     }
