@@ -302,7 +302,7 @@ public class DataSource {
     public ArrayList<Debt> getAllDebtInfo() {
         ArrayList<Debt> debtArrayList = new ArrayList<>();
 
-        String selectQuery = "SELECT d.name AS d_name, d.amount, d.type, date, a.name AS a_name, d.id_account, id_debt "
+        String selectQuery = "SELECT d.name AS d_name, d.amount, d.type, date, a.name AS a_name, currency, d.id_account, id_debt "
                 + "FROM Debt d, Account a "
                 + "WHERE d.id_account = a.id_account ";
 
@@ -317,6 +317,7 @@ public class DataSource {
             int typeColIndex = cursor.getColumnIndex("type");
             int dateColIndex = cursor.getColumnIndex("date");
             int aNameColIndex = cursor.getColumnIndex("a_name");
+            int curColIndex = cursor.getColumnIndex("currency");
             int idAccountColIndex = cursor.getColumnIndex("id_account");
             int idDebtColIndex = cursor.getColumnIndex("id_debt");
 
@@ -327,6 +328,7 @@ public class DataSource {
                         cursor.getInt(typeColIndex),
                         cursor.getLong(dateColIndex),
                         cursor.getString(aNameColIndex),
+                        cursor.getString(curColIndex),
                         cursor.getInt(idAccountColIndex),
                         cursor.getInt(idDebtColIndex)
                 );

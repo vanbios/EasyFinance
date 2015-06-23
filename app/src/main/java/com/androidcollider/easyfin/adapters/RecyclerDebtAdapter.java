@@ -1,5 +1,6 @@
 package com.androidcollider.easyfin.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +17,19 @@ import java.util.ArrayList;
 
 public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapter.ViewHolder> {
 
+    private Context context;
     private ArrayList<Debt> debtList;
 
+    private final String[] currency;
+    private final String[] currencyLanguage;
 
-    public RecyclerDebtAdapter(ArrayList<Debt> debtList) {
 
+    public RecyclerDebtAdapter(Context context, ArrayList<Debt> debtList) {
+        this.context = context;
         this.debtList = debtList;
+
+        currency = context.getResources().getStringArray(R.array.account_currency_array);
+        currencyLanguage = context.getResources().getStringArray(R.array.account_currency_array_language);
     }
 
 
@@ -54,21 +62,32 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
         final String DATEFORMAT = "dd.MM.yyyy";
 
         holder.tvDebtName.setText(debt.getName());
-        holder.tvAmount.setText(FormatUtils.doubleFormatter(debt.getAmount(), FORMAT, PRECISE));
+
+        String cur = debt.getCurrency();
+        String curLang = null;
+
+        for (int i = 0; i < currency.length; i++) {
+            if (cur.equals(currency[i])) {
+                curLang = currencyLanguage[i];
+            }
+        }
+
+        holder.tvAmount.setText(FormatUtils.doubleFormatter(debt.getAmount(), FORMAT, PRECISE)
+        + " " + curLang);
         holder.tvAccountName.setText(debt.getAccountName());
         holder.tvDate.setText(DateFormat.longToDateString(debt.getDate(), DATEFORMAT));
+
+        switch (debt.getType()) {
+            case 0: {
+                holder.tvAmount.setTextColor(context.getResources().getColor(R.color.custom_green));
+                break;
+            }
+            case 1: {
+                holder.tvAmount.setTextColor(context.getResources().getColor(R.color.custom_red));
+                break;
+            }
+        }
     }
-
-
-
-
-
-
-
-
-
-
-
 
 
 

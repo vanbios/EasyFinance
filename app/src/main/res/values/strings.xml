@@ -73,14 +73,11 @@
     // warnings and alarms (dialogs, toasts etc.)
     <string name="no_account">Відсутні рахунки!</string>
     <string name="single_account">Недостатньо рахунків!</string>
-    <string name="dialog_text_no_account">Неможливо здійснити транзакцію, оскільки не додано жодного рахунку.
+    <string name="dialog_text_transaction_no_account">Неможливо здійснити транзакцію, оскільки не додано жодного рахунку.
     Натисніть "Новий рахунок", щоб додати.</string>
 
-    <string name="dialog_text_single_account">Для даної транзакції потрібно мати хоча б 2 рахунки.
+    <string name="dialog_text_debt_no_account">Для роботи з боргами треба мати хоча б один рахунок.
     Натисніть "Новий рахунок", щоб додати.</string>
-
-    <string name="dialog_title_no_available_account">Відсутні інші рахунки з даною валютою</string>
-    <string name="dialog_text_no_available_account">Переводити кошти можна лише між рахунками з однаковою валютою.</string>
 
     <string name="transaction_not_enough_costs">Недостатньо коштів на рахунку для здійснення транзакції на суму</string>
     <string name="transaction_empty_amount_field">Вкажіть суму транзакції</string>

@@ -53,7 +53,7 @@ public class ActDebt extends AppCompatActivity {
 
 
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        recyclerAdapter = new RecyclerDebtAdapter(debtList);
+        recyclerAdapter = new RecyclerDebtAdapter(this, debtList);
         recyclerView.setAdapter(recyclerAdapter);
 
 

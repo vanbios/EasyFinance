@@ -12,6 +12,7 @@ public class Debt {
 
     private double accountAmount;
     private String accountName;
+    private String currency;
 
 
     public Debt (String name, double amount, int type, int idAccount, long date, double accountAmount) {
@@ -23,12 +24,13 @@ public class Debt {
         this.accountAmount = accountAmount;
     }
 
-    public Debt (String name, double amount, int type, long date, String accountName, int idAccount, int id) {
+    public Debt (String name, double amount, int type, long date, String accountName, String currency, int idAccount, int id) {
         this.name = name;
         this.amount = amount;
         this.type = type;
         this.date = date;
         this.accountName = accountName;
+        this.currency = currency;
         this.idAccount = idAccount;
         this.id = id;
     }
@@ -51,4 +53,6 @@ public class Debt {
     public int getId() {return id;}
 
     public String getAccountName() {return accountName;}
+
+    public String getCurrency() {return currency;}
 }

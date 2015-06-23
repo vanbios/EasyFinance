@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.adapters.SpinAccountForTransHeadIconAdapter;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.fragments.FrgAccounts;
@@ -51,17 +53,28 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
         setToolbar(R.string.new_debt);
 
+        CardView cardView = (CardView) findViewById(R.id.cardAddDebtElements);
+
         accountList = InfoFromDB.getInstance().getAccountList();
 
+        if (accountList.isEmpty()) {
+            cardView.setVisibility(View.GONE);
+            showDialogNoAccount();
+        }
 
-        etName = (EditText) findViewById(R.id.editTextDebtName);
-        etSum = (EditText) findViewById(R.id.editTextDebtSum);
+        else {
 
-        tvDate = (TextView) findViewById(R.id.tvAddDebtDate);
+            cardView.setVisibility(View.VISIBLE);
 
-        setDateTimeField();
+            etName = (EditText) findViewById(R.id.editTextDebtName);
+            etSum = (EditText) findViewById(R.id.editTextDebtSum);
 
-        setSpinner();
+            tvDate = (TextView) findViewById(R.id.tvAddDebtDate);
+
+            setDateTimeField();
+
+            setSpinner();
+        }
     }
 
 
@@ -85,7 +98,6 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
                 accountList
         ));
     }
-
 
 
 
@@ -137,7 +149,6 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
         intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
         sendBroadcast(intentFrgAccounts);
     }
-
 
 
     private boolean checkForFillNameSumFields() {
@@ -199,6 +210,41 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
         ToolBar.inflateMenu(R.menu.toolbar_debt_menu);
     }
+
+
+    private void showDialogNoAccount() {
+
+        new MaterialDialog.Builder(this)
+                .title(getString(R.string.no_account))
+                .content(getString(R.string.dialog_text_debt_no_account))
+                .positiveText(getString(R.string.new_account))
+                .negativeText(getString(R.string.close))
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        goToAddNewAccount();
+                    }
+
+                    @Override
+                    public void onNegative(MaterialDialog dialog) { closeAct();}
+                })
+                .cancelable(false)
+                .show();
+    }
+
+
+    private void closeAct() {this.finish();}
+
+    private void goToAddNewAccount() {
+        this.finish();
+        openAddAccountActivity();
+    }
+
+    private void openAddAccountActivity() {
+        Intent intent = new Intent(this, ActAccount.class);
+        startActivity(intent);
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
