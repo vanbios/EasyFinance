@@ -87,7 +87,8 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
         spinAccount.setAdapter(new SpinAccountForTransHeadIconAdapter(
                 getActivity(),
                 R.layout.spin_head_icon_text,
-                accountList));
+                accountList
+        ));
 
         if (accountList.isEmpty()) {
             spinAccount.setEnabled(false);

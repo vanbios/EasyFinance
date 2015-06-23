@@ -11,6 +11,7 @@
     // actions
     <string name="new_transaction">Нова транзакція</string>
     <string name="new_account">Новий рахунок</string>
+    <string name="new_debt">Новий борг</string>
     <string name="edit_account">Редагування рахунку</string>
     <string name="save_account">Зберегти</string>
     <string name="delete_account">Видалити</string>
@@ -25,6 +26,7 @@
     <string name="tab_transactions">Транзакції</string>
     <string name="tab_accounts">Рахунки</string>
     <string name="tab_main">Головна</string>
+
 
 
     // transactions tabs
@@ -49,7 +51,7 @@
 
 
 
-    // add accounts and transactions activities text fields
+    // add accounts, debts,  transactions activities text fields
     <string name="sum_hint">Введіть суму</string>
     <string name="account_name_hint">Назва рахунку</string>
     <string name="account_type">Тип рахунку</string>
@@ -61,6 +63,9 @@
     <string name="account_from">З рахунку</string>
     <string name="account_to">На рахунок</string>
     <string name="exchange_hint">Курс</string>
+
+    <string name="debt_type">Тип боргу</string>
+    <string name="debt_name_hint">Назва боргу</string>
 
 
 
@@ -92,6 +97,10 @@
     <string name="account_empty_list">Тут будуть відображатись ваші рахунки</string>
     <string name="transaction_empty_list">Тут будуть відображатись ваші транзакції</string>
     <string name="debt_empty_list">Тут будуть відображатись ваші борги</string>
+
+    <string name="debt_not_enough_costs">Недостатньо коштів на рахунку</string>
+    <string name="debt_empty_field_name">Вкажіть назву боргу</string>
+    <string name="debt_empty_field_sum">Вкажіть суму боргу</string>
 
 
 
@@ -127,6 +136,12 @@
         <item>Картки</item>
         <item>Депозити</item>
         <item>Борги</item>
+    </string-array>
+
+
+    <string-array name="debt_type_array">
+        <item>Дати в борг</item>
+        <item>Взяти в борг</item>
     </string-array>
 
 

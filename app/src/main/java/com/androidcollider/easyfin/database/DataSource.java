@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.DateConstants;
+import com.androidcollider.easyfin.objects.Debt;
 import com.androidcollider.easyfin.objects.Transaction;
 import com.androidcollider.easyfin.utils.FormatUtils;
 
@@ -76,6 +77,28 @@ public class DataSource {
 
         openLocalToWrite();
         db.insert("Transactions", null, cv1);
+        db.update("Account", cv2, "id_account = " + id_account, null);
+        closeLocal();
+    }
+
+
+    public void insertNewDebt(Debt debt) {
+        ContentValues cv1 = new ContentValues();
+        ContentValues cv2 = new ContentValues();
+
+        int id_account = debt.getIdAccount();
+
+        cv1.put("name", debt.getName());
+        cv1.put("amount", debt.getAmount());
+        cv1.put("type", debt.getType());
+        cv1.put("id_account", debt.getIdAccount());
+        cv1.put("date", debt.getDate());
+
+        cv2.put("amount", debt.getAccountAmount());
+
+
+        openLocalToWrite();
+        db.insert("Debt", null, cv1);
         db.update("Account", cv2, "id_account = " + id_account, null);
         closeLocal();
     }
@@ -273,6 +296,57 @@ public class DataSource {
         closeLocal();
 
         return transactionArrayList;
+    }
+
+
+    public ArrayList<Debt> getAllDebtInfo() {
+        ArrayList<Debt> debtArrayList = new ArrayList<>();
+
+        String selectQuery = "SELECT d.name AS d_name, d.amount, d.type, date, a.name AS a_name, d.id_account, id_debt "
+                + "FROM Debt d, Account a "
+                + "WHERE d.id_account = a.id_account ";
+
+        openLocalToRead();
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+
+        if (cursor.moveToFirst()) {
+            int dNameColIndex = cursor.getColumnIndex("d_name");
+            int amountColIndex = cursor.getColumnIndex("amount");
+            int typeColIndex = cursor.getColumnIndex("type");
+            int dateColIndex = cursor.getColumnIndex("date");
+            int aNameColIndex = cursor.getColumnIndex("a_name");
+            int idAccountColIndex = cursor.getColumnIndex("id_account");
+            int idDebtColIndex = cursor.getColumnIndex("id_debt");
+
+            do {
+                Debt debt = new Debt(
+                        cursor.getString(dNameColIndex),
+                        cursor.getDouble(amountColIndex),
+                        cursor.getInt(typeColIndex),
+                        cursor.getLong(dateColIndex),
+                        cursor.getString(aNameColIndex),
+                        cursor.getInt(idAccountColIndex),
+                        cursor.getInt(idDebtColIndex)
+                );
+
+                debtArrayList.add(debt);
+            }
+            while (cursor.moveToNext());
+
+            cursor.close();
+            closeLocal();
+
+            return debtArrayList;
+        }
+
+
+
+        cursor.close();
+        closeLocal();
+
+        return debtArrayList;
     }
 
 

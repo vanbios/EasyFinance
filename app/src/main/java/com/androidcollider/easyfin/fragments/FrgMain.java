@@ -133,7 +133,11 @@ public class FrgMain extends Fragment {
     private void setStatisticSpinner() {
         spinPeriod = (Spinner) view.findViewById(R.id.spinMainPeriod);
 
-        ArrayAdapter<?> adapterStatPeriod = ArrayAdapter.createFromResource(getActivity(), R.array.main_statistic_period_array, R.layout.spin_head_text);
+        ArrayAdapter<?> adapterStatPeriod = ArrayAdapter.createFromResource(
+                getActivity(),
+                R.array.main_statistic_period_array,
+                R.layout.spin_head_text);
+
         adapterStatPeriod.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinPeriod.setAdapter(adapterStatPeriod);
         spinPeriod.setSelection(1);

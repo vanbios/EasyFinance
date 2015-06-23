@@ -182,7 +182,7 @@
                 android:id="@+id/ivAddAccountSum"
                 android:src="@drawable/ic_coin_stacks_cyan_48dp"
                 android:layout_below="@+id/cvAddAccountDividerBottom"
-                android:contentDescription="@string/category"
+                android:contentDescription="@string/sum_hint"
                 android:layout_marginTop="36dp" />
 
 

@@ -1,15 +1,228 @@
 package com.androidcollider.easyfin;
 
 
+import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class ActAddDebt extends AppCompatActivity {
+import com.androidcollider.easyfin.adapters.SpinAccountForTransHeadIconAdapter;
+import com.androidcollider.easyfin.database.DataSource;
+import com.androidcollider.easyfin.fragments.FrgAccounts;
+import com.androidcollider.easyfin.fragments.FrgMain;
+import com.androidcollider.easyfin.objects.Account;
+import com.androidcollider.easyfin.objects.Debt;
+import com.androidcollider.easyfin.objects.InfoFromDB;
+import com.androidcollider.easyfin.utils.DateFormat;
+import com.androidcollider.easyfin.utils.Shake;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+
+public class ActAddDebt extends AppCompatActivity implements View.OnClickListener{
+
+    private DatePickerDialog datePickerDialog;
+
+    private TextView tvDate;
+
+    private EditText etName, etSum;
+
+    Spinner spinType, spinAccount;
+
+    private final String DATEFORMAT = "dd.MM.yyyy";
+
+    private ArrayList<Account> accountList;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_add_debt);
+
+        setToolbar(R.string.new_debt);
+
+        accountList = InfoFromDB.getInstance().getAccountList();
+
+
+        etName = (EditText) findViewById(R.id.editTextDebtName);
+        etSum = (EditText) findViewById(R.id.editTextDebtSum);
+
+        tvDate = (TextView) findViewById(R.id.tvAddDebtDate);
+
+        setDateTimeField();
+
+        setSpinner();
+    }
+
+
+    private void setSpinner() {
+        spinType = (Spinner) findViewById(R.id.spinAddDebtType);
+        spinAccount = (Spinner) findViewById(R.id.spinAddDebtAccount);
+
+        ArrayAdapter<?> adapterType = ArrayAdapter.createFromResource(
+                this,
+                R.array.debt_type_array,
+                R.layout.spin_head_text);
+
+        adapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinType.setAdapter(adapterType);
+
+
+        spinAccount.setAdapter(new SpinAccountForTransHeadIconAdapter(
+                this,
+                R.layout.spin_head_icon_text,
+                accountList
+        ));
+    }
+
+
+
+
+    private void addDebt() {
+
+        if (checkForFillNameSumFields()) {
+
+            Account account = (Account) spinAccount.getSelectedItem();
+            double accountAmount = account.getAmount();
+
+            int type = spinType.getSelectedItemPosition();
+            double amount = Double.parseDouble(etSum.getText().toString());
+
+
+            if (type == 0 && Math.abs(amount) > accountAmount) {
+                Toast.makeText(this, getResources().getString(R.string.debt_not_enough_costs), Toast.LENGTH_LONG).show();
+
+            } else {
+
+                String name = etName.getText().toString();
+                int accountId = account.getId();
+                Long date = DateFormat.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
+
+                switch (type){
+                    case 0: {accountAmount -= amount; break;}
+                    case 1: {accountAmount += amount; break;}
+                }
+
+                Debt debt = new Debt(name, amount, type, accountId, date, accountAmount);
+
+                new DataSource(this).insertNewDebt(debt);
+
+                InfoFromDB.getInstance().updateAccountList();
+
+                pushBroadcast();
+
+                this.finish();
+            }
+        }
+    }
+
+
+    private void pushBroadcast() {
+        Intent intentFrgMain = new Intent(FrgMain.BROADCAST_FRAGMENT_MAIN_ACTION);
+        intentFrgMain.putExtra(FrgMain.PARAM_STATUS_FRAGMENT_MAIN, FrgMain.STATUS_UPDATE_FRAGMENT_MAIN_BALANCE);
+        sendBroadcast(intentFrgMain);
+
+        Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);
+        intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
+        sendBroadcast(intentFrgAccounts);
+    }
+
+
+
+    private boolean checkForFillNameSumFields() {
+
+        String st = etName.getText().toString().replaceAll("\\s+", "");
+
+        if (st.isEmpty()) {
+            Shake.highlightEditText(etName);
+            Toast.makeText(this, getResources().getString(R.string.debt_empty_field_name), Toast.LENGTH_LONG).show();
+
+            return false;
+        }
+
+        else {
+
+            if (!etSum.getText().toString().matches(".*\\d.*")) {
+                Shake.highlightEditText(etSum);
+                Toast.makeText(this, getResources().getString(R.string.debt_empty_field_sum), Toast.LENGTH_LONG).show();
+
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+    private void setDateTimeField() {
+        tvDate.setOnClickListener(this);
+
+        Calendar newCalendar = Calendar.getInstance();
+        tvDate.setText(DateFormat.dateToString(newCalendar.getTime(), DATEFORMAT));
+
+        datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                tvDate.setText(DateFormat.dateToString(newDate.getTime(), DATEFORMAT));
+            }
+
+        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId()) {
+            case R.id.tvAddDebtDate: datePickerDialog.show(); break;
+        }
+    }
+
+    private void setToolbar (int id) {
+        Toolbar ToolBar = (Toolbar) findViewById(R.id.toolbarMain);
+        assert getSupportActionBar() != null;
+        setSupportActionBar(ToolBar);
+        getSupportActionBar().setTitle(id);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ToolBar.inflateMenu(R.menu.toolbar_debt_menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                this.finish();
+                return true;}
+            case R.id.debt_action_save: {
+                addDebt();
+                return true;}
+
+        }
+        return false;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_debt_menu, menu);
+        MenuItem saveDebtItem = menu.findItem(R.id.debt_action_save);
+        saveDebtItem.setEnabled(true);
+
+        if (accountList.isEmpty()) {
+            saveDebtItem.setVisible(false);}
+
+        return true;
     }
 }
