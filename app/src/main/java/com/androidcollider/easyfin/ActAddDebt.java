@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -97,6 +98,25 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
                 R.layout.spin_head_icon_text,
                 accountList
         ));
+
+        spinType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i) {
+                    case 0: {
+                        etSum.setTextColor(getResources().getColor(R.color.custom_green));
+                        break;}
+                    case 1: {
+                        etSum.setTextColor(getResources().getColor(R.color.custom_red));
+                        break;}
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
 
@@ -148,6 +168,10 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
         Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);
         intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
         sendBroadcast(intentFrgAccounts);
+
+        Intent intentDebt = new Intent(ActDebt.BROADCAST_DEBT_ACTION);
+        intentDebt.putExtra(ActDebt.PARAM_STATUS_DEBT, ActDebt.STATUS_UPDATE_DEBT);
+        sendBroadcast(intentDebt);
     }
 
 

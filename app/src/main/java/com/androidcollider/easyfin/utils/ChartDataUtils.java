@@ -24,7 +24,7 @@ public class ChartDataUtils {
         float cash = (float) values[0];
         float card = (float) values[1];
         float deposit = (float) values[2];
-        float debt = (float) values[3];
+        float debt = (float) Math.abs(values[3]);
 
         String[] accountType = context.getResources().getStringArray(R.array.account_type_array);
 
@@ -50,7 +50,14 @@ public class ChartDataUtils {
         barDataSet3.setColor(context.getResources().getColor(R.color.custom_blue_dark));
         //barDataSet3.setAxisDependency(YAxis.AxisDependency.LEFT);
         BarDataSet barDataSet4 = new BarDataSet(valueSet4, accountType[3]);
-        barDataSet4.setColor(context.getResources().getColor(R.color.custom_red_dark));
+
+        if (FormatUtils.isDoubleNegative(values[3])) {
+            barDataSet4.setColor(context.getResources().getColor(R.color.custom_red_dark));
+        }
+
+        else {
+            barDataSet4.setColor(context.getResources().getColor(R.color.custom_green));
+        }
         //barDataSet4.setAxisDependency(YAxis.AxisDependency.LEFT);
 
         ArrayList<BarDataSet> dataSets = new ArrayList<>();

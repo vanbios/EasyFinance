@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +36,7 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
     private TextView tvDate;
     private DatePickerDialog datePickerDialog;
     private Spinner spinCategory, spinAccount;
+    private EditText etSum;
 
     private final String DATEFORMAT = "dd.MM.yyyy";
 
@@ -50,6 +52,9 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frg_add_transaction_default, container, false);
 
+        etSum = (EditText) view.findViewById(R.id.editTextTransSum);
+        etSum.setTextColor(getResources().getColor(R.color.custom_red));
+
         accountList = InfoFromDB.getInstance().getAccountList();
 
         tvDate = (TextView) view.findViewById(R.id.tvTransactionDate);
@@ -57,6 +62,8 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
         setDateTimeField();
 
         setSpinner();
+
+        setRadioGroupEvents();
 
         return view;
     }
@@ -81,7 +88,7 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
                 category,
                 getResources().obtainTypedArray(R.array.trans_categories_icons)));
 
-        spinCategory.setSelection(category.length-1);
+        spinCategory.setSelection(category.length - 1);
 
 
         spinAccount.setAdapter(new SpinAccountForTransHeadIconAdapter(
@@ -96,9 +103,29 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
     }
 
 
+    private void setRadioGroupEvents() {
+        RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.radioGroupTransDef);
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+
+                switch (i) {
+                    case R.id.radioButtonCost: {
+                        etSum.setTextColor(getResources().getColor(R.color.custom_red));
+                        break;}
+                    case R.id.radioButtonIncome: {
+                        etSum.setTextColor(getResources().getColor(R.color.custom_green));
+                        break;}
+                }
+            }
+        });
+    }
+
+
 
     public void addTransaction() {
-        EditText etSum = (EditText) view.findViewById(R.id.editTextTransSum);
+
         RadioButton rbCost = (RadioButton) view.findViewById(R.id.radioButtonCost);
 
         String sum = etSum.getText().toString();

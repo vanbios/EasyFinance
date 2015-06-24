@@ -211,9 +211,42 @@ public class DataSource {
             cursor.close();
         }
 
-        closeLocal();
-        return result;
-    }
+        selectQuery = "SELECT d.amount, d.type FROM Debt d, Account a "
+                + "WHERE d.id_account = a.id_account AND "
+                + "currency = '" + currency + "' ";
+
+        cursor = db.rawQuery(selectQuery, null);
+
+        double debtSum = 0;
+
+        double debtVal;
+        int debtType;
+
+        if (cursor.moveToFirst()) {
+            int amountColIndex = cursor.getColumnIndex("amount");
+            int typeColIndex = cursor.getColumnIndex("type");
+
+            do {
+                debtVal = cursor.getDouble(amountColIndex);
+                debtType = cursor.getInt(typeColIndex);
+
+                if (debtType == 1) {
+                    debtVal *= -1;
+                }
+
+                debtSum += debtVal;
+            }
+
+            while (cursor.moveToNext());
+
+            cursor.close();
+
+            result[3] = debtSum;
+        }
+
+            closeLocal();
+            return result;
+        }
 
 
     public ArrayList<Account> getAllAccountsInfo() {
@@ -342,8 +375,6 @@ public class DataSource {
 
             return debtArrayList;
         }
-
-
 
         cursor.close();
         closeLocal();
