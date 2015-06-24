@@ -49,7 +49,7 @@ public class ChartDataUtils {
         BarDataSet barDataSet3 = new BarDataSet(valueSet3, accountType[2]);
         barDataSet3.setColor(context.getResources().getColor(R.color.custom_blue_dark));
         //barDataSet3.setAxisDependency(YAxis.AxisDependency.LEFT);
-        BarDataSet barDataSet4 = new BarDataSet(valueSet4, accountType[3]);
+        BarDataSet barDataSet4 = new BarDataSet(valueSet4, context.getResources().getString(R.string.main_debt));
 
         if (FormatUtils.isDoubleNegative(values[3])) {
             barDataSet4.setColor(context.getResources().getColor(R.color.custom_red_dark));

@@ -11,6 +11,7 @@
     <color name="custom_text_light">#FFFFFF</color>
     <color name="custom_text_primary">#212121</color>
     <color name="custom_text_secondary">#727272</color>
+    <color name="custom_text_gray_dark">#ff616161</color>
     <color name="custom_divider">#B6B6B6</color>
 
     <color name="custom_red">#D32F2F</color>
@@ -44,5 +45,4 @@
     <color name="custom_green_gray_dark">#ff005e78</color>
     <color name="custom_green_gray_light">#ff58a1aa</color>
 
-    <color name="custom_gray_dark_spinner">#ff616161</color>
 </resources>

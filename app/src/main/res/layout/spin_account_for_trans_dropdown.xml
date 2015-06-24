@@ -36,18 +36,22 @@
         android:layout_toRightOf="@+id/ivSpinDropdownAccountType"
         android:layout_toEndOf="@+id/ivSpinDropdownAccountType"
 
-        android:layout_marginBottom="8dp" />
+        android:layout_marginBottom="@dimen/common_padding_medium"
+
+        android:singleLine="true"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/SpinnerFontGrey"
+        style="@style/SubheadFontSecondary"
         android:id="@+id/tvSpinDropdownAccountAmount"
 
         android:layout_toRightOf="@+id/ivSpinDropdownAccountType"
         android:layout_toEndOf="@+id/ivSpinDropdownAccountType"
 
-        android:layout_below="@+id/tvSpinDropdownAccountName" />
+        android:layout_below="@+id/tvSpinDropdownAccountName"
+
+        android:singleLine="true"/>
 
 
 </RelativeLayout>

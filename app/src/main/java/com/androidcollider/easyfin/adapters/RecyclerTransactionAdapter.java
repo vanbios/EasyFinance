@@ -129,11 +129,11 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
         public ViewHolder(View view) {
             super(view);
             //mView = view;
-            tvTransAmount = (TextView) view.findViewById(R.id.tvItemFragmentTransactionAmount);
-            tvTransAccountName = (TextView) view.findViewById(R.id.tvItemFragmentTransactionAccountName);
-            tvTransDate = (TextView) view.findViewById(R.id.tvItemFragmentTransactionDate);
-            ivTransCategory = (ImageView) view.findViewById(R.id.ivItemFragmentTransactionCategory);
-            ivTransAccountType = (ImageView) view.findViewById(R.id.ivItemFragmentTransactionAccountType);
+            tvTransAmount = (TextView) view.findViewById(R.id.tvItemTransactionAmount);
+            tvTransAccountName = (TextView) view.findViewById(R.id.tvItemTransactionAccountName);
+            tvTransDate = (TextView) view.findViewById(R.id.tvItemTransactionDate);
+            ivTransCategory = (ImageView) view.findViewById(R.id.ivItemTransactionCategory);
+            ivTransAccountType = (ImageView) view.findViewById(R.id.ivItemTransactionAccountType);
         }
     }
 }

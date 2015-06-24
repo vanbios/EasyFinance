@@ -29,7 +29,7 @@
             <ImageView
                 android:layout_width="42dp"
                 android:layout_height="42dp"
-                android:id="@+id/ivItemFragmentTransactionAccountType"
+                android:id="@+id/ivItemTransactionAccountType"
                 android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
@@ -41,45 +41,61 @@
 
 
             <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvItemFragmentTransactionAmount"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/ivItemFragmentTransactionAccountType"
-        android:layout_toEndOf="@+id/ivItemFragmentTransactionAccountType"
-        style="@style/TitleFont" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvItemTransactionAmount"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/ivItemTransactionAccountType"
+                android:layout_toEndOf="@+id/ivItemTransactionAccountType"
+
+                android:singleLine="true"
+                style="@style/TitleFont"
+                android:layout_toLeftOf="@+id/tvItemTransactionDate"
+                android:layout_toStartOf="@+id/tvItemTransactionDate" />
 
             <ImageView
                 android:layout_width="@dimen/icon_small"
                 android:layout_height="@dimen/icon_small"
-                android:id="@+id/ivItemFragmentTransactionCategory"
+                android:id="@+id/ivItemTransactionCategory"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
 
+                android:layout_marginLeft="@dimen/common_padding_large"
+                android:layout_marginStart="@dimen/common_padding_large"
+
                 android:contentDescription="@string/category"/>
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvItemFragmentTransactionAccountName"
-        style="@style/SpinnerFontGrey"
-        android:layout_below="@+id/tvItemFragmentTransactionAmount"
-        android:layout_toRightOf="@+id/ivItemFragmentTransactionAccountType"
-        android:layout_toEndOf="@+id/ivItemFragmentTransactionAccountType"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvItemTransactionAccountName"
+                style="@style/SubheadFontSecondary"
+                android:layout_below="@+id/tvItemTransactionAmount"
+                android:layout_toRightOf="@+id/ivItemTransactionAccountType"
+                android:layout_toEndOf="@+id/ivItemTransactionAccountType"
+                android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp"
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvItemFragmentTransactionDate"
-        style="@style/CaptionFontSecondary"
-        android:layout_alignBaseline="@+id/tvItemFragmentTransactionAccountName"
-        android:layout_alignBottom="@+id/tvItemFragmentTransactionAccountName"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"/>
+                android:singleLine="true"
+                android:layout_toLeftOf="@+id/tvItemTransactionDate"
+                android:layout_toStartOf="@+id/tvItemTransactionDate" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvItemTransactionDate"
+                style="@style/CaptionFontSecondary"
+                android:layout_alignBaseline="@+id/tvItemTransactionAccountName"
+                android:layout_alignBottom="@+id/tvItemTransactionAccountName"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+
+                android:layout_marginLeft="@dimen/common_padding_large"
+                android:layout_marginStart="@dimen/common_padding_large"
+
+                android:singleLine="true"/>
 
 
         </RelativeLayout>

@@ -33,7 +33,10 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                style="@style/SpinnerFontGrey"/>
+                android:singleLine="true"
+                style="@style/SubheadFontSecondary"
+                android:layout_toLeftOf="@+id/tvItemDebtAccountName"
+                android:layout_toStartOf="@+id/tvItemDebtAccountName" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -41,25 +44,34 @@
                 android:id="@+id/tvItemDebtAmount"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
+                android:singleLine="true"
                 android:layout_below="@+id/tvItemDebtName"
-                style="@style/TitleFont"/>
+                style="@style/TitleFont"
+                android:layout_toLeftOf="@+id/tvItemDebtDate"
+                android:layout_toStartOf="@+id/tvItemDebtDate" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvItemDebtAccountName"
+                android:singleLine="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
-                style="@style/SpinnerFontGrey"/>
+                android:layout_marginLeft="@dimen/common_padding_large"
+                android:layout_marginStart="@dimen/common_padding_large"
+                style="@style/SubheadFontSecondary"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvItemDebtDate"
+                android:singleLine="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="@dimen/common_padding_medium"
+                android:layout_marginLeft="@dimen/common_padding_large"
+                android:layout_marginStart="@dimen/common_padding_large"
                 android:layout_below="@+id/tvItemDebtAccountName"
                 style="@style/CaptionFontSecondary"/>
 

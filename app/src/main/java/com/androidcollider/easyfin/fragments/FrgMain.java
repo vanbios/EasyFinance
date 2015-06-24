@@ -29,10 +29,10 @@ import android.widget.TextView;
 
 public class FrgMain extends Fragment {
 
-    public final static String BROADCAST_FRAGMENT_MAIN_ACTION = "com.androidcollider.easyfin.fragmentmain.broadcast";
-    public final static String PARAM_STATUS_FRAGMENT_MAIN = "update_fragment_main_current_balance";
-    public final static int STATUS_UPDATE_FRAGMENT_MAIN = 1;
-    public final static int STATUS_UPDATE_FRAGMENT_MAIN_BALANCE = 2;
+    public final static String BROADCAST_FRG_MAIN_ACTION = "com.androidcollider.easyfin.frgmain.broadcast";
+    public final static String PARAM_STATUS_FRG_MAIN = "update_frg_main";
+    public final static int STATUS_UPDATE_FRG_MAIN = 1;
+    public final static int STATUS_UPDATE_FRG_MAIN_BALANCE = 2;
 
     private String[] currencyArray;
     private String[] currencyLangArray;
@@ -201,10 +201,10 @@ public class FrgMain extends Fragment {
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                int status = intent.getIntExtra(PARAM_STATUS_FRAGMENT_MAIN, 0);
+                int status = intent.getIntExtra(PARAM_STATUS_FRG_MAIN, 0);
 
                 switch (status) {
-                    case STATUS_UPDATE_FRAGMENT_MAIN: {
+                    case STATUS_UPDATE_FRG_MAIN: {
                         setBalance(spinBalanceCurrency.getSelectedItemPosition());
 
                         getTransactionStatistic(spinPeriod.getSelectedItemPosition() + 1,
@@ -213,14 +213,14 @@ public class FrgMain extends Fragment {
                         setStatisticSumTV();
                         checkStatChartTypeForUpdate();
                     }
-                    case STATUS_UPDATE_FRAGMENT_MAIN_BALANCE: {
+                    case STATUS_UPDATE_FRG_MAIN_BALANCE: {
                         setBalance(spinBalanceCurrency.getSelectedItemPosition());
                     }
                 }
             }
         };
 
-        IntentFilter intentFilter = new IntentFilter(BROADCAST_FRAGMENT_MAIN_ACTION);
+        IntentFilter intentFilter = new IntentFilter(BROADCAST_FRG_MAIN_ACTION);
         getActivity().registerReceiver(broadcastReceiver, intentFilter);
     }
 

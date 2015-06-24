@@ -34,6 +34,8 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="@dimen/common_padding_small"
                 android:layout_marginBottom="2dp"
+
+                android:singleLine="true"
                 style="@style/TitleFontSecondary" />
 
 
@@ -75,8 +77,6 @@
                                 android:layout_alignParentStart="true"
                                 android:layout_marginLeft="16dp"
                                 android:layout_marginStart="16dp" />
-
-
 
 
 
@@ -127,7 +127,9 @@
                         android:layout_marginTop="28dp"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentStart="true"
-                        style="@style/BodyBlackFont" />
+
+                        android:singleLine="true"
+                        style="@style/BodyFontSecondary" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -138,7 +140,9 @@
                         android:layout_alignLeft="@+id/tvMainCash"
                         android:layout_alignStart="@+id/tvMainCash"
                         android:layout_marginTop="7dp"
-                        style="@style/BodyBlackFont" />
+
+                        android:singleLine="true"
+                        style="@style/BodyFontSecondary" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -149,7 +153,9 @@
                         android:layout_alignLeft="@+id/tvMainCard"
                         android:layout_alignStart="@+id/tvMainCard"
                         android:layout_marginTop="7dp"
-                        style="@style/BodyBlackFont" />
+
+                        android:singleLine="true"
+                        style="@style/BodyFontSecondary" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -160,7 +166,9 @@
                         android:layout_alignLeft="@+id/tvMainDeposit"
                         android:layout_alignStart="@+id/tvMainDeposit"
                         android:layout_marginTop="7dp"
-                        style="@style/BodyBlackFont" />
+
+                        android:singleLine="true"
+                        style="@style/BodyFontSecondary" />
 
                 </RelativeLayout>
 
@@ -196,6 +204,8 @@
                     android:text="@string/main_sum"
                     android:id="@+id/tvMainSum"
                     style="@style/SubheadFont"
+
+                    android:singleLine="true"
                     android:layout_weight="2"/>
 
                 <TextView
@@ -203,6 +213,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/tvMainSumValue"
                     style="@style/SubheadFont"
+
+                    android:singleLine="true"
                     android:layout_weight="7"
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"/>
@@ -233,6 +245,8 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="@dimen/common_padding_small"
                 android:layout_marginBottom="2dp"
+
+                android:singleLine="true"
                 style="@style/TitleFontSecondary"/>
 
 
@@ -281,8 +295,6 @@
 
 
 
-
-
                     </RelativeLayout>
 
 
@@ -328,7 +340,9 @@
                     android:text="@string/main_income"
                     android:id="@+id/tvMainIncome"
                     android:layout_marginTop="30dp"
-                    style="@style/BodyBlackFont" />
+
+                    android:singleLine="true"
+                    style="@style/BodyFontSecondary" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -339,7 +353,9 @@
                     android:layout_alignLeft="@+id/tvMainIncome"
                     android:layout_alignStart="@+id/tvMainIncome"
                     android:layout_marginTop="7dp"
-                    style="@style/BodyBlackFont" />
+
+                    android:singleLine="true"
+                    style="@style/BodyFontSecondary" />
 
                 </RelativeLayout>
 
@@ -388,6 +404,8 @@
                         android:text="@string/main_sum"
                         android:id="@+id/tvMainStatisticSumTitle"
                         style="@style/SubheadFont"
+
+                        android:singleLine="true"
                         android:layout_weight="2"/>
 
 
@@ -396,6 +414,8 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/tvMainStatisticSum"
                     style="@style/SubheadFont"
+
+                    android:singleLine="true"
                     android:layout_weight="7"
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"/>
