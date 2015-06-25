@@ -29,6 +29,8 @@ public class ActEditDebt extends AppCompatActivity {
 
     private ArrayList<Account> accountList = null;
 
+    private ArrayList<Account> accountsAvailableList = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,18 +68,45 @@ public class ActEditDebt extends AppCompatActivity {
         etSum.setSelection(etSum.getText().length());
         etSum.setEnabled(false);
 
+        accountsAvailableList = new ArrayList<>();
+
+        String currency = debt.getCurrency();
+
+        double amount = debt.getAmount();
+
+        int type = debt.getType();
+
+        if (type == 1) {
+
+            for (Account account : accountList) {
+                if (account.getCurrency().equals(currency) && account.getAmount() >= amount) {
+
+                    accountsAvailableList.add(account);
+                }
+            }
+        }
+
+        else {
+            for (Account account : accountList) {
+                if (account.getCurrency().equals(currency)) {
+
+                    accountsAvailableList.add(account);
+                }
+            }
+        }
+
         spinAccount.setAdapter(new SpinAccountForTransHeadIconAdapter(
                 this,
                 R.layout.spin_head_icon_text,
-                accountList));
+                accountsAvailableList));
 
         int idAccount = debt.getIdAccount();
 
         int pos = 0;
 
-        for (int i = 0; i < accountList.size(); i++) {
+        for (int i = 0; i < accountsAvailableList.size(); i++) {
 
-            if (idAccount == accountList.get(i).getId()) {
+            if (idAccount == accountsAvailableList.get(i).getId()) {
                 pos = i;
             }
         }
