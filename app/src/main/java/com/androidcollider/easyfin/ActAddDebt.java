@@ -120,7 +120,6 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
     }
 
 
-
     private void addDebt() {
 
         if (checkForFillNameSumFields()) {

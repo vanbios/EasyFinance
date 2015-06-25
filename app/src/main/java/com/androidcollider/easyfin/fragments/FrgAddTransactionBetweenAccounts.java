@@ -18,6 +18,8 @@ import com.androidcollider.easyfin.adapters.SpinAccountForTransAdapter;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.InfoFromDB;
+import com.androidcollider.easyfin.utils.ExchangeUtils;
+import com.androidcollider.easyfin.utils.FormatUtils;
 import com.androidcollider.easyfin.utils.Shake;
 
 import java.util.ArrayList;
@@ -117,6 +119,20 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
             etExchange.setVisibility(View.VISIBLE);
             ivExchange.setVisibility(View.VISIBLE);
             divExchange.setVisibility(View.VISIBLE);
+
+            Account accountFrom = (Account) spinAccountFrom.getSelectedItem();
+            String currFrom = accountFrom.getCurrency();
+            Account accountTo = (Account) spinAccountTo.getSelectedItem();
+            String currTo = accountTo.getCurrency();
+
+            double exchangeRate = ExchangeUtils.getExchangeRate(currFrom, currTo);
+
+            final int PRECISE = 100;
+            final String FORMAT = "0.00";
+
+            etExchange.setText(FormatUtils.doubleFormatter(exchangeRate, FORMAT, PRECISE));
+
+            etExchange.setSelection(etExchange.getText().length());
         }
         else {
             etExchange.setVisibility(View.GONE);

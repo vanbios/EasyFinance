@@ -4,7 +4,9 @@ package com.androidcollider.easyfin.adapters;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -19,6 +21,8 @@ import java.util.ArrayList;
 
 
 public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTransactionAdapter.ViewHolder> {
+
+    private long pos;
 
     private Context context;
     private ArrayList<Transaction> transactionArrayList;
@@ -113,12 +117,37 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
                 holder.ivTransAccountType.setImageDrawable(accountTypeIcons.getDrawable(i));
             }
         }
+
+
+        holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                setPosition(position);
+                return false;
+            }
+        });
     }
 
 
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        //private final View mView;
+    /*@Override
+    public void onViewRecycled(ViewHolder holder) {
+        holder.itemView.setOnLongClickListener(null);
+        super.onViewRecycled(holder);
+    }*/
+
+
+    public long getPosition() {
+        return pos;
+    }
+
+    public void setPosition(long pos) {
+        this.pos = pos;
+    }
+
+
+    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
+        private final View mView;
         private final TextView tvTransAmount;
         private final TextView tvTransAccountName;
         private final TextView tvTransDate;
@@ -128,12 +157,20 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
 
         public ViewHolder(View view) {
             super(view);
-            //mView = view;
+            mView = view;
             tvTransAmount = (TextView) view.findViewById(R.id.tvItemTransactionAmount);
             tvTransAccountName = (TextView) view.findViewById(R.id.tvItemTransactionAccountName);
             tvTransDate = (TextView) view.findViewById(R.id.tvItemTransactionDate);
             ivTransCategory = (ImageView) view.findViewById(R.id.ivItemTransactionCategory);
             ivTransAccountType = (ImageView) view.findViewById(R.id.ivItemTransactionAccountType);
+
+            view.setOnCreateContextMenuListener(this);
+        }
+
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.add(Menu.NONE, R.id.ctx_menu_delete_transaction, Menu.NONE, R.string.delete);
         }
     }
 }

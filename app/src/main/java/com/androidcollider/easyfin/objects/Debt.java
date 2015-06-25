@@ -1,7 +1,9 @@
 package com.androidcollider.easyfin.objects;
 
 
-public class Debt {
+import java.io.Serializable;
+
+public class Debt implements Serializable {
 
     private int id;
     private String name;

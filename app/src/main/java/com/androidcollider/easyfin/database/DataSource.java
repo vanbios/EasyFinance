@@ -93,6 +93,7 @@ public class DataSource {
         cv1.put("type", debt.getType());
         cv1.put("id_account", debt.getIdAccount());
         cv1.put("date", debt.getDate());
+        cv1.put("amount_first", debt.getAmount());
 
         cv2.put("amount", debt.getAccountAmount());
 
@@ -293,7 +294,7 @@ public class DataSource {
     public ArrayList<Transaction> getAllTransactionsInfo(){
         ArrayList<Transaction> transactionArrayList = new ArrayList<>();
 
-        String selectQuery = "SELECT t.amount, date, category, name, type, a.currency "
+        String selectQuery = "SELECT t.amount, date, category, name, type, a.currency, t.id_account, id_transaction "
                 + "FROM Transactions t, Account a "
                 + "WHERE t.id_account = a.id_account ";
 
@@ -308,8 +309,11 @@ public class DataSource {
             int nameColIndex = cursor.getColumnIndex("name");
             int currencyColIndex = cursor.getColumnIndex("currency");
             int typeColIndex = cursor.getColumnIndex("type");
+            int idAccountColIndex = cursor.getColumnIndex("id_account");
+            int idTransColIndex = cursor.getColumnIndex("id_transaction");
 
-            for (int i=cursor.getCount()-1; i>=0;i--){
+
+            for (int i = cursor.getCount()-1; i >= 0; i--){
                 cursor.moveToPosition(i);
                 Transaction transaction = new Transaction(
                         cursor.getLong(dateColIndex),
@@ -317,7 +321,9 @@ public class DataSource {
                         cursor.getString(categoryColIndex),
                         cursor.getString(nameColIndex),
                         cursor.getString(currencyColIndex),
-                        cursor.getString(typeColIndex));
+                        cursor.getString(typeColIndex),
+                        cursor.getInt(idAccountColIndex),
+                        cursor.getInt(idTransColIndex));
 
                 transactionArrayList.add(transaction);
             }
@@ -415,7 +421,7 @@ public class DataSource {
     }
 
 
-    public boolean checkAccountForTransactionExist(int id) {
+    public boolean checkAccountForTransactionOrDebtExist(int id) {
 
         String selectQuery = "SELECT COUNT(id_transaction) FROM Transactions "
                 + "WHERE id_account = '" + id +  "' ";
@@ -427,14 +433,103 @@ public class DataSource {
         if(cursor.moveToFirst()) {
             int c = cursor.getInt(0);
             cursor.close();
-            closeLocal();
+
             if (c > 0) {
             return true;}}
+
+
+        selectQuery = "SELECT COUNT(id_debt) FROM Debt "
+                + "WHERE id_account = '" + id +  "' ";
+
+        cursor = db.rawQuery(selectQuery, null);
+
+        if(cursor.moveToFirst()) {
+            int c = cursor.getInt(0);
+
+            if (c > 0) {
+                cursor.close();
+                closeLocal();
+
+                return true;}}
+
 
         cursor.close();
         closeLocal();
 
         return false;
+    }
+
+
+
+    public void deleteTransaction(int id_account, int id_trans, double amount) {
+
+        String selectQuery = "SELECT amount FROM Account "
+                + "WHERE id_account = '" + id_account + "' ";
+
+
+        openLocalToWrite();
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        double accountAmount = 0;
+
+        if(cursor.moveToFirst()) {
+            accountAmount = cursor.getDouble(0);
+        }
+
+        cursor.close();
+
+        accountAmount -= amount;
+
+
+        ContentValues cv = new ContentValues();
+
+        cv.put("amount", accountAmount);
+
+        db.update("Account", cv, "id_account = " + id_account, null);
+        db.delete("Transactions", "id_transaction = '" + id_trans + "' ", null);
+
+        closeLocal();
+    }
+
+
+
+    public void deleteDebt(int id_account, int id_debt, double amount, int type) {
+
+        String selectQuery = "SELECT amount FROM Account "
+                + "WHERE id_account = '" + id_account + "' ";
+
+
+        openLocalToWrite();
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        double accountAmount = 0;
+
+        if(cursor.moveToFirst()) {
+            accountAmount = cursor.getDouble(0);
+        }
+
+        cursor.close();
+
+
+        if (type == 1) {
+            accountAmount -= amount;
+        }
+
+        else {
+            accountAmount += amount;
+        }
+
+
+        ContentValues cv = new ContentValues();
+
+        cv.put("amount", accountAmount);
+
+        db.update("Account", cv, "id_account = " + id_account, null);
+        db.delete("Debt", "id_debt = '" + id_debt + "' ", null);
+
+        closeLocal();
     }
 
 }

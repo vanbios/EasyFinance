@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -8,7 +9,7 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/toolbar_height">
 
         <View
@@ -75,7 +76,7 @@
             <ImageView
                 android:layout_width="28dp"
                 android:layout_height="28dp"
-                android:id="@+id/ivAddTransDefSum"
+                android:id="@+id/ivAddAccountName"
                 android:src="@drawable/ic_clipboard_text_cyan_dark_48dp"
                 android:contentDescription="@string/sum_hint"
 

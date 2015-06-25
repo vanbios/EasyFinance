@@ -22,7 +22,9 @@
             android:paddingEnd="@dimen/common_padding_large"
 
             android:paddingTop="@dimen/common_padding_medium"
-            android:paddingBottom="@dimen/common_padding_medium">
+            android:paddingBottom="@dimen/common_padding_medium"
+
+            android:background="@drawable/recycler_item_selector">
 
 
 

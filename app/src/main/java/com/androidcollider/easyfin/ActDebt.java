@@ -14,9 +14,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.adapters.RecyclerDebtAdapter;
 import com.androidcollider.easyfin.database.DataSource;
+import com.androidcollider.easyfin.fragments.FrgAccounts;
+import com.androidcollider.easyfin.fragments.FrgMain;
 import com.androidcollider.easyfin.objects.Debt;
+import com.androidcollider.easyfin.objects.InfoFromDB;
 
 import java.util.ArrayList;
 
@@ -54,6 +58,8 @@ public class ActDebt extends AppCompatActivity {
 
         setItemDebt();
 
+        registerForContextMenu(recyclerView);
+
         makeBroadcastReceiver();
     }
 
@@ -69,8 +75,6 @@ public class ActDebt extends AppCompatActivity {
         recyclerView.setAdapter(recyclerAdapter);
 
     }
-
-
 
 
 
@@ -136,6 +140,109 @@ public class ActDebt extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
         this.unregisterReceiver(broadcastReceiver);
+    }
+
+
+
+    public boolean onContextItemSelected(MenuItem item) {
+        int pos;
+
+        try {
+            pos = (int) recyclerAdapter.getPosition();
+        } catch (Exception e) {
+            return super.onContextItemSelected(item);
+        }
+
+        switch (item.getItemId()) {
+
+            case R.id.ctx_menu_pay_all_debt: {
+                goToActEditDebt(pos);
+                break;}
+
+            case R.id.ctx_menu_pay_part_debt: {break;}
+
+            case R.id.ctx_menu_delete_debt: {
+                showDialogDeleteDebt(pos);
+                break;
+            }
+        }
+        return super.onContextItemSelected(item);
+    }
+
+
+
+    private void showDialogDeleteDebt(final int pos) {
+
+        new MaterialDialog.Builder(this)
+                .title(getString(R.string.debt_delete))
+                .content(getString(R.string.debt_delete_warning))
+                .positiveText(getString(R.string.delete))
+                .negativeText(getString(R.string.cancel))
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        deleteDebt(pos);
+                    }
+
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+
+                    }
+                })
+                .cancelable(false)
+                .show();
+    }
+
+
+    private void deleteDebt(int pos) {
+
+        Debt debt = debtList.get(pos);
+        int idAccount = debt.getIdAccount();
+        int idDebt = debt.getId();
+        double amount = debt.getAmount();
+        int type = debt.getType();
+
+
+        dataSource.deleteDebt(idAccount, idDebt, amount, type);
+
+        debtList.remove(pos);
+
+        recyclerAdapter.notifyDataSetChanged();
+
+        InfoFromDB.getInstance().updateAccountList();
+
+        pushBroadcast();
+    }
+
+
+    private void pushBroadcast() {
+        Intent intentFrgMain = new Intent(FrgMain.BROADCAST_FRG_MAIN_ACTION);
+        intentFrgMain.putExtra(FrgMain.PARAM_STATUS_FRG_MAIN, FrgMain.STATUS_UPDATE_FRG_MAIN_BALANCE);
+        sendBroadcast(intentFrgMain);
+
+        Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);
+        intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
+        sendBroadcast(intentFrgAccounts);
+    }
+
+
+    private void goToActEditDebt(int pos){
+        Intent intent = new Intent(this, ActEditDebt.class);
+
+        Debt debt = debtList.get(pos);
+
+        /*intent.putExtra("mode", 1);
+        intent.putExtra("name", debt.getName());
+        intent.putExtra("amount", debt.getAmount());
+        intent.putExtra("type", debt.getType());
+        intent.putExtra("accountName", debt.getAccountName());
+        intent.putExtra("currency", debt.getCurrency());
+        intent.putExtra("idAccount", debt.getIdAccount());
+        intent.putExtra("id", debt.getId());*/
+
+        intent.putExtra("debt", debt);
+        intent.putExtra("mode", 1);
+        startActivity(intent);
     }
 
 }

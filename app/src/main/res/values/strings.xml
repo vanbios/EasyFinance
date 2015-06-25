@@ -10,15 +10,21 @@
 
     // actions
     <string name="new_transaction">Нова транзакція</string>
+    <string name="transaction_delete">Видалення транзакції</string>
     <string name="new_account">Новий рахунок</string>
     <string name="new_debt">Новий борг</string>
     <string name="edit_account">Редагування рахунку</string>
-    <string name="save_account">Зберегти</string>
-    <string name="delete_account">Видалити</string>
+    <string name="save">Зберегти</string>
+    <string name="delete">Видалити</string>
     <string name="account_add">Додати рахунок</string>
     <string name="transaction_add">Додати транзакцію</string>
     <string name="return_to_main">На головну</string>
     <string name="close">Закрити</string>
+    <string name="cancel">Скасувати</string>
+
+    <string name="debt_delete">Видалення боргу</string>
+    <string name="pay_all_debt">Сплатити весь борг</string>
+    <string name="pay_part_debt">Сплатити частину боргу</string>
 
 
 
@@ -76,6 +82,8 @@
     <string name="dialog_text_transaction_no_account">Неможливо здійснити транзакцію, оскільки не додано жодного рахунку.
     Натисніть "Новий рахунок", щоб додати.</string>
 
+    <string name="transaction_delete_warning">Видалення транзакції змінить стан рахунку.</string>
+
     <string name="dialog_text_debt_no_account">Для роботи з боргами треба мати хоча б один рахунок.
     Натисніть "Новий рахунок", щоб додати.</string>
 
@@ -98,6 +106,8 @@
     <string name="debt_not_enough_costs">Недостатньо коштів на рахунку</string>
     <string name="debt_empty_field_name">Вкажіть назву боргу</string>
     <string name="debt_empty_field_sum">Вкажіть суму боргу</string>
+
+    <string name="debt_delete_warning">Видалення боргу змінить стан рахунку.</string>
 
 
 

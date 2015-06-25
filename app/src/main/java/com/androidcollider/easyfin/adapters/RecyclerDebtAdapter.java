@@ -2,7 +2,9 @@ package com.androidcollider.easyfin.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -16,6 +18,8 @@ import java.util.ArrayList;
 
 
 public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapter.ViewHolder> {
+
+    private long pos;
 
     private Context context;
     private ArrayList<Debt> debtList;
@@ -87,11 +91,31 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
                 break;
             }
         }
+
+
+
+        holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                setPosition(position);
+                return false;
+            }
+        });
     }
 
 
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public long getPosition() {
+        return pos;
+    }
+
+    public void setPosition(long pos) {
+        this.pos = pos;
+    }
+
+
+
+    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         public final View mView;
         public final TextView tvDebtName;
         public final TextView tvAmount;
@@ -106,6 +130,16 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
             tvAmount = (TextView) view.findViewById(R.id.tvItemDebtAmount);
             tvAccountName = (TextView) view.findViewById(R.id.tvItemDebtAccountName);
             tvDate = (TextView) view.findViewById(R.id.tvItemDebtDate);
+
+            view.setOnCreateContextMenuListener(this);
+        }
+
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.add(Menu.NONE, R.id.ctx_menu_pay_all_debt, 1, R.string.pay_all_debt);
+            menu.add(Menu.NONE, R.id.ctx_menu_pay_part_debt, 2, R.string.pay_part_debt);
+            menu.add(Menu.NONE, R.id.ctx_menu_delete_debt, 3, R.string.delete);
         }
     }
 }

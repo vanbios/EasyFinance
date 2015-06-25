@@ -3,6 +3,7 @@ package com.androidcollider.easyfin.objects;
 
 public class Transaction {
 
+    private int id;
     private long date;
     private int idAccount;
     private double amount;
@@ -26,13 +27,16 @@ public class Transaction {
     }
 
 
-    public Transaction (long date, double amount, String category, String accountName, String currency, String accountType) {
+    public Transaction (long date, double amount, String category, String accountName,
+                        String currency, String accountType, int idAccount, int id) {
         this.date = date;
         this.amount = amount;
         this.category = category;
         this.accountName = accountName;
         this.currency = currency;
         this.accountType = accountType;
+        this.idAccount = idAccount;
+        this.id = id;
     }
 
 
@@ -52,4 +56,6 @@ public class Transaction {
     public String getAccountType() {return accountType;}
 
     public double getAccountAmount() {return accountAmount;}
+
+    public int getId() {return id;}
 }

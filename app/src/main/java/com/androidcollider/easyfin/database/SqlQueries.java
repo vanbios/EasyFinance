@@ -27,6 +27,7 @@ public class SqlQueries {
                 "id_debt          INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "name             TEXT NOT NULL," +
                 "amount           REAL NOT NULL," +
+                "amount_first     REAL NOT NULL," +
                 "type             INTEGER NOT NULL," +
                 "id_account       INTEGER NOT NULL," +
                 "date             INTEGER NOT NULL" +

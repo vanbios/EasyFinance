@@ -270,7 +270,7 @@ public class ActAccount extends AppCompatActivity {
     }
 
     private void deleteAccount() {
-        if (dataSource.checkAccountForTransactionExist(idAccount)) {
+        if (dataSource.checkAccountForTransactionOrDebtExist(idAccount)) {
             dataSource.makeAccountInvisible(idAccount);
         }
         else {
