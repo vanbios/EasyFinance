@@ -532,4 +532,19 @@ public class DataSource {
         closeLocal();
     }
 
+
+    public void payAllDebt(int idAccount, double accountAmount, int idDebt) {
+
+        ContentValues cv = new ContentValues();
+
+        cv.put("amount", accountAmount);
+
+        openLocalToWrite();
+
+        db.update("Account", cv, "id_account = " + idAccount, null);
+        db.delete("Debt", "id_debt = '" + idDebt + "' ", null);
+
+        closeLocal();
+    }
+
 }

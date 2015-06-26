@@ -109,6 +109,8 @@
 
     <string name="debt_delete_warning">Видалення боргу змінить стан рахунку.</string>
 
+    <string name="debt_no_available_accounts_warning">Немає доступних рахунків для даної дії.</string>
+
 
 
 

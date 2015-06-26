@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:id="@+id/cardEditDebtElements"
+            android:id="@+id/cardPayDebtElements"
 
             card_view:cardUseCompatPadding="true"
             card_view:cardElevation="@dimen/card_elevation_medium">
@@ -66,7 +66,7 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/linLayoutEditDebtName"
+                    android:id="@+id/linLayoutPayDebtName"
                     android:baselineAligned="false"
                     android:layout_marginTop="@dimen/common_padding_large"
 
@@ -76,7 +76,7 @@
                     <ImageView
                         android:layout_width="28dp"
                         android:layout_height="28dp"
-                        android:id="@+id/ivEditDebtName"
+                        android:id="@+id/ivPayDebtName"
                         android:src="@drawable/ic_clipboard_text_cyan_dark_48dp"
                         android:contentDescription="@string/sum_hint"
 
@@ -88,7 +88,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/tvEditDebtName"
+                        android:id="@+id/tvPayDebtName"
 
                         android:singleLine="true"
                         android:gravity="center"
@@ -103,10 +103,10 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/linLayoutEditDebtSum"
+                    android:id="@+id/linLayoutPayDebtSum"
                     android:baselineAligned="false"
 
-                    android:layout_below="@+id/linLayoutEditDebtName"
+                    android:layout_below="@+id/linLayoutPayDebtName"
 
                     android:layout_marginTop="24dp"
 
@@ -116,7 +116,7 @@
                 <ImageView
                     android:layout_width="28dp"
                     android:layout_height="28dp"
-                    android:id="@+id/ivEditDebtSum"
+                    android:id="@+id/ivPayDebtSum"
                     android:src="@drawable/ic_coin_stacks_cyan_48dp"
                     android:contentDescription="@string/sum_hint"
 
@@ -130,7 +130,7 @@
                     android:ems="6"
                     android:hint="@string/sum_hint"
                     android:maxLength="15"
-                    android:id="@+id/editTextEditDebtSum"
+                    android:id="@+id/editTextPayDebtSum"
 
                     android:gravity="center"
 
@@ -144,8 +144,8 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:id="@+id/cvEditDebtDividerTop"
-                    android:layout_below="@+id/linLayoutEditDebtSum"
+                    android:id="@+id/cvPayDebtDividerTop"
+                    android:layout_below="@+id/linLayoutPayDebtSum"
                     android:background="@color/custom_divider"
                     android:layout_marginLeft="68dp"
                     android:layout_marginStart="68dp"
@@ -158,8 +158,8 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/linLayoutEditDebtAccount"
-                    android:layout_below="@+id/cvEditDebtDividerTop"
+                    android:id="@+id/linLayoutPayDebtAccount"
+                    android:layout_below="@+id/cvPayDebtDividerTop"
                     android:baselineAligned="false"
 
                     android:gravity="center_vertical">
@@ -168,7 +168,7 @@
                     <Spinner
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
-                        android:id="@+id/spinEditDebtAccount"
+                        android:id="@+id/spinPayDebtAccount"
                         android:spinnerMode="dialog"
                         android:prompt="@string/account" />
 
@@ -177,7 +177,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@+id/linLayoutEditDebtAccount"
+                    android:layout_below="@+id/linLayoutPayDebtAccount"
                     android:background="@color/custom_divider"
                     android:layout_marginLeft="68dp"
                     android:layout_marginStart="68dp" />

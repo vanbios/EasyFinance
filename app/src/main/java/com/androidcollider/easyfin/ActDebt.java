@@ -156,10 +156,12 @@ public class ActDebt extends AppCompatActivity {
         switch (item.getItemId()) {
 
             case R.id.ctx_menu_pay_all_debt: {
-                goToActEditDebt(pos);
+                goToActPayDebt(pos, 1);
                 break;}
 
-            case R.id.ctx_menu_pay_part_debt: {break;}
+            case R.id.ctx_menu_pay_part_debt: {
+                goToActPayDebt(pos, 2);
+                break;}
 
             case R.id.ctx_menu_delete_debt: {
                 showDialogDeleteDebt(pos);
@@ -226,8 +228,8 @@ public class ActDebt extends AppCompatActivity {
     }
 
 
-    private void goToActEditDebt(int pos){
-        Intent intent = new Intent(this, ActEditDebt.class);
+    private void goToActPayDebt(int pos, int mode){
+        Intent intent = new Intent(this, ActPayDebt.class);
 
         Debt debt = debtList.get(pos);
 
@@ -241,7 +243,7 @@ public class ActDebt extends AppCompatActivity {
         intent.putExtra("id", debt.getId());*/
 
         intent.putExtra("debt", debt);
-        intent.putExtra("mode", 1);
+        intent.putExtra("mode", mode);
         startActivity(intent);
     }
 
