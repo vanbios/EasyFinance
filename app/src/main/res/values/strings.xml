@@ -127,7 +127,7 @@
 
     //etc.
     <string name="main_balance_menu_exchange">Конвертувати всі кошти у вибрану валюту</string>
-    <string name="main_balance_menu_show_cents">Відображати копійки</string>
+    <string name="main_balance_menu_show_cents">Відображати копійки на графіках</string>
 
 
 

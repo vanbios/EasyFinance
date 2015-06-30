@@ -5,6 +5,8 @@ import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.utils.ChartDataUtils;
+import com.androidcollider.easyfin.utils.ChartValueFormatter;
+import com.androidcollider.easyfin.utils.ExchangeUtils;
 import com.androidcollider.easyfin.utils.FormatUtils;
 import com.androidcollider.easyfin.utils.SharedPref;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
@@ -68,9 +70,11 @@ public class FrgMain extends Fragment implements View.OnClickListener{
 
     private MaterialDialog balanceSettingsDialog;
 
-    private CheckBox convert, showCents;
+    private CheckBox chkBoxConvert, chkBoxShowCents;
 
     private SharedPref sharedPref;
+
+    private boolean convert, showCents;
 
 
 
@@ -97,27 +101,34 @@ public class FrgMain extends Fragment implements View.OnClickListener{
         View balanceSettings = balanceSettingsDialog.getCustomView();
 
         if (balanceSettings != null) {
-            convert = (CheckBox) balanceSettings.findViewById(R.id.checkBoxMainBalanceSettingsConvert);
-            showCents = (CheckBox) balanceSettings.findViewById(R.id.checkBoxMainBalanceSettingsShowCents);}
+            chkBoxConvert = (CheckBox) balanceSettings.findViewById(R.id.checkBoxMainBalanceSettingsConvert);
+            chkBoxShowCents = (CheckBox) balanceSettings.findViewById(R.id.checkBoxMainBalanceSettingsShowCents);}
 
 
         sharedPref = new SharedPref(getActivity());
 
+        convert = sharedPref.getMainBalanceSettingsConvertCheck();
+        showCents = sharedPref.getMainBalanceSettingsShowCentsCheck();
 
-        convert.setChecked(sharedPref.getMainBalanceSettingsConvertCheck());
-        showCents.setChecked(sharedPref.getMainBalanceSettingsShowCentsCheck());
+        chkBoxConvert.setChecked(convert);
+        chkBoxShowCents.setChecked(showCents);
 
-        convert.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        chkBoxConvert.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 sharedPref.setMainBalanceSettingsConvertCheck(b);
+                convert = b;
+                setBalance(spinBalanceCurrency.getSelectedItemPosition());
             }
         });
 
-        showCents.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        chkBoxShowCents.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 sharedPref.setMainBalanceSettingsShowCentsCheck(b);
+                showCents = b;
+                setBalance(spinBalanceCurrency.getSelectedItemPosition());
+                checkStatChartTypeForUpdate();
             }
         });
 
@@ -188,10 +199,9 @@ public class FrgMain extends Fragment implements View.OnClickListener{
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                setBalance(spinBalanceCurrency.getSelectedItemPosition());
+                setBalance(i);
 
-                getTransactionStatistic(spinPeriod.getSelectedItemPosition() + 1,
-                        spinBalanceCurrency.getSelectedItemPosition());
+                getTransactionStatistic(spinPeriod.getSelectedItemPosition() + 1, i);
 
                 setStatisticSumTV();
                 checkStatChartTypeForUpdate();
@@ -220,7 +230,7 @@ public class FrgMain extends Fragment implements View.OnClickListener{
         spinPeriod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                getTransactionStatistic(spinPeriod.getSelectedItemPosition() + 1,
+                getTransactionStatistic(i + 1,
                         spinBalanceCurrency.getSelectedItemPosition());
 
                 setStatisticSumTV();
@@ -310,15 +320,17 @@ public class FrgMain extends Fragment implements View.OnClickListener{
 
         BarData data = ChartDataUtils.getDataSetMainBalanceHorizontalBarChart(balance, getActivity());
         chartBalance.setData(data);
-        //data.setValueFormatter(new ChartValueFormatter());  //this feature will be in properties
+
+        if (showCents) {
+            data.setValueFormatter(new ChartValueFormatter());
+        }
         chartBalance.setDescription("");
         Legend legend = chartBalance.getLegend();
         legend.setEnabled(false);
         YAxis leftAxis = chartBalance.getAxisLeft();
         YAxis rightAxis = chartBalance.getAxisRight();
         rightAxis.setEnabled(false);
-        leftAxis.setSpaceTop(30f);
-        //rightAxis.setSpaceTop(25f);
+        leftAxis.setSpaceTop(35f);
         leftAxis.setLabelCount(3);
         chartBalance.animateXY(2000, 2000);
         chartBalance.setTouchEnabled(false);
@@ -329,15 +341,17 @@ public class FrgMain extends Fragment implements View.OnClickListener{
 
         BarData data = ChartDataUtils.getDataSetMainStatisticHorizontalBarChart(statistic, getActivity());
         chartStatistic.setData(data);
-        //data.setValueFormatter(new ChartValueFormatter());    //this feature will be in properties
+
+        if (showCents) {
+            data.setValueFormatter(new ChartValueFormatter());
+        }
         chartStatistic.setDescription("");
         Legend legend = chartStatistic.getLegend();
         legend.setEnabled(false);
         YAxis leftAxis = chartStatistic.getAxisLeft();
         YAxis rightAxis = chartStatistic.getAxisRight();
         rightAxis.setEnabled(false);
-        leftAxis.setSpaceTop(30f);
-        //rightAxis.setSpaceTop(25f);
+        leftAxis.setSpaceTop(35f);
         leftAxis.setLabelCount(3);
         chartStatistic.animateXY(2000, 2000);
         chartStatistic.setTouchEnabled(false);
@@ -392,17 +406,92 @@ public class FrgMain extends Fragment implements View.OnClickListener{
 
     private double[] getCurrentBalance(int posCurrency) {
 
-        Iterator it = balanceMap.entrySet().iterator();
+        if (convert) {
+            return convertBalanceToOneCurrency(posCurrency);
+        }
 
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry) it.next();
+        else {
 
-            if (currencyArray[posCurrency].equals(pair.getKey())) {
-                return (double[]) pair.getValue();
+            Iterator it = balanceMap.entrySet().iterator();
+
+            while (it.hasNext()) {
+                Map.Entry pair = (Map.Entry) it.next();
+
+                if (currencyArray[posCurrency].equals(pair.getKey())) {
+                    return (double[]) pair.getValue();
+                }
             }
         }
 
         return new double[]{0, 0, 0, 0};
+    }
+
+
+    private double[] convertBalanceToOneCurrency(int posCurrency) {
+
+        double[] uahArr = new double[4];
+        double[] usdArr = new double[4];
+        double[] eurArr = new double[4];
+        double[] rubArr = new double[4];
+
+        final String uahCurName = currencyArray[0];
+        final String usdCurName = currencyArray[1];
+        final String eurCurName = currencyArray[2];
+        final String rubCurName = currencyArray[3];
+
+        Iterator it = balanceMap.entrySet().iterator();
+
+        while (it.hasNext()) {
+
+            Map.Entry pair = (Map.Entry) it.next();
+            String key = (String) pair.getKey();
+            double[] value = (double[]) pair.getValue();
+
+            if (uahCurName.equals(key)) {
+                uahArr = value.clone();
+            }
+            else if (usdCurName.equals(key)) {
+                usdArr = value.clone();
+            }
+            else if (eurCurName.equals(key)) {
+                eurArr = value.clone();
+            }
+            else if (rubCurName.equals(key)) {
+                rubArr = value.clone();
+            }
+        }
+
+
+        String convertTo = currencyArray[posCurrency];
+
+        double uahExchange = ExchangeUtils.getExchangeRate(uahCurName, convertTo);
+        double usdExchange = ExchangeUtils.getExchangeRate(usdCurName, convertTo);
+        double eurExchange = ExchangeUtils.getExchangeRate(eurCurName, convertTo);
+        double rubExchange = ExchangeUtils.getExchangeRate(rubCurName, convertTo);
+
+
+        uahArr = convertArray(uahArr, uahExchange);
+        usdArr = convertArray(usdArr, usdExchange);
+        eurArr = convertArray(eurArr, eurExchange);
+        rubArr = convertArray(rubArr, rubExchange);
+
+
+        double[] result = new double[4];
+
+        for (int i = 0; i < result.length; i++) {
+            result[i] = uahArr[i] + usdArr[i] + eurArr[i] + rubArr[i];
+        }
+
+        return result;
+    }
+
+    private double[] convertArray(double[] arr, double exc) {
+
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = arr[i] / exc;
+        }
+
+        return arr;
     }
 
     private void getTransactionStatistic(int posPeriod, int posCurrency) {

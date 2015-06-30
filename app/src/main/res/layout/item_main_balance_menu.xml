@@ -4,13 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/layoutItemMainBalanceMenuExchangeType"
-        android:layout_alignParentTop="true">
-
 
         <CheckBox
             android:layout_width="wrap_content"
@@ -18,18 +11,12 @@
             android:id="@+id/checkBoxMainBalanceSettingsConvert"
             android:gravity="center_vertical"
 
+            android:layout_alignParentTop="true"
+
             android:text="@string/main_balance_menu_exchange"
             android:textColor="@color/custom_text_gray_dark"
             android:textSize="@dimen/text_size_body"/>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/layoutItemMainBalanceMenuFormat"
-        android:layout_below="@+id/layoutItemMainBalanceMenuExchangeType">
 
         <CheckBox
             android:layout_width="wrap_content"
@@ -39,7 +26,9 @@
 
             android:text="@string/main_balance_menu_show_cents"
             android:textColor="@color/custom_text_gray_dark"
-            android:textSize="@dimen/text_size_body"/>
+            android:textSize="@dimen/text_size_body"
 
-    </LinearLayout>
+            android:layout_below="@+id/checkBoxMainBalanceSettingsConvert"/>
+
+
 </RelativeLayout>
