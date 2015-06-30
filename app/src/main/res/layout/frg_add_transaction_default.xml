@@ -40,14 +40,21 @@
 
 
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/layoutAddTransDefSum"
+            android:layout_marginTop="@dimen/common_padding_large">
+
+
+
             <ImageView
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:id="@+id/ivAddTransDefSum"
                 android:src="@drawable/ic_coin_stacks_cyan_48dp"
                 android:contentDescription="@string/sum_hint"
-
-                android:layout_marginTop="32dp" />
+                android:layout_centerVertical="true"/>
 
 
                 <EditText
@@ -60,10 +67,10 @@
                     android:maxLength="15"
                     style="@style/TitleBigFont"
                     android:layout_centerHorizontal="true"
+                    android:gravity="center_horizontal" />
 
-                    android:gravity="center_horizontal"
 
-                    android:layout_marginTop="@dimen/common_padding_large"/>
+            </RelativeLayout>
 
 
 
@@ -71,10 +78,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/radioGroupTransDef"
-                android:layout_below="@+id/editTextTransSum"
+                android:layout_below="@+id/layoutAddTransDefSum"
                 android:orientation='horizontal'
                 android:layout_centerHorizontal="true"
-                android:layout_gravity="center_horizontal|center_vertical"
 
                 android:layout_marginTop="@dimen/common_padding_large">
 
@@ -84,20 +90,19 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/radioButtonCost"
                     android:checked="true"
-                    android:layout_gravity="start"
-                    android:gravity="center_vertical|center_horizontal"
+                    android:gravity="center_vertical|left"
                     style="@style/RadioButtonMinusStyle"
-                    android:layout_marginRight="12dp"
-                    android:layout_marginEnd="12dp" />
+
+                    android:padding="@dimen/common_padding_small"/>
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/radioButtonIncome"
                     style="@style/RadioButtonPlusStyle"
+                    android:gravity="center_vertical|right"
 
-                    android:layout_gravity="start"
-                    android:gravity="center_vertical|center_horizontal"/>
+                    android:padding="@dimen/common_padding_small"/>
 
 
             </RadioGroup>
@@ -176,16 +181,11 @@
 
 
 
-            <LinearLayout
-                android:orientation="horizontal"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/linLayoutAddTransDefDate"
-                android:layout_below="@+id/linLayoutAddTransDefCategory"
-
-                android:gravity="center_vertical"
-
-                android:baselineAligned="false">
+                android:layout_below="@+id/linLayoutAddTransDefCategory">
 
 
                     <ImageView
@@ -193,7 +193,8 @@
                         android:layout_height="28dp"
                         android:id="@+id/ivAddTransDefDate"
                         android:src="@drawable/ic_calendar_cyan_48dp"
-                        android:contentDescription="@string/date" />
+                        android:contentDescription="@string/date"
+                        android:layout_centerVertical="true"/>
 
 
 
@@ -203,10 +204,11 @@
                         android:id="@+id/tvTransactionDate"
                         android:clickable="true"
                         style="@style/SpinnerFont"
-                        android:gravity="center"/>
+                        android:gravity="center"
+                        android:layout_centerHorizontal="true"/>
 
 
-            </LinearLayout>
+            </RelativeLayout>
 
         </RelativeLayout>
 

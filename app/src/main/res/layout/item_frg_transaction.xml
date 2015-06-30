@@ -52,8 +52,8 @@
 
                 android:singleLine="true"
                 style="@style/TitleFont"
-                android:layout_toLeftOf="@+id/tvItemTransactionDate"
-                android:layout_toStartOf="@+id/tvItemTransactionDate" />
+                android:layout_toLeftOf="@+id/ivItemTransactionCategory"
+                android:layout_toStartOf="@+id/ivItemTransactionCategory" />
 
             <ImageView
                 android:layout_width="@dimen/icon_small"

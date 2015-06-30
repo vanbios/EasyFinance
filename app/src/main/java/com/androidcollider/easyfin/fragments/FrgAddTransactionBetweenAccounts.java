@@ -9,7 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -25,17 +25,17 @@ import com.androidcollider.easyfin.utils.Shake;
 import java.util.ArrayList;
 
 
-
 public class FrgAddTransactionBetweenAccounts extends Fragment {
 
     private Spinner spinAccountFrom, spinAccountTo;
 
     private SpinAccountForTransAdapter adapterAccountTo;
 
-    private View view, divExchange;
+    private View view;
 
     private EditText etExchange;
-    private ImageView ivExchange;
+
+    private RelativeLayout layoutExchange;
 
     private ArrayList<Account> accountListFrom = null;
     private ArrayList<Account> accountListTo = null;
@@ -48,8 +48,8 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
         view = inflater.inflate(R.layout.frg_add_transaction_between_accounts, container, false);
 
         etExchange = (EditText) view.findViewById(R.id.editTextTransBTWExchange);
-        ivExchange = (ImageView) view.findViewById(R.id.ivAddTransBTWExchange);
-        divExchange = view.findViewById(R.id.cvAddTransBTWDividerExchange);
+
+        layoutExchange = (RelativeLayout) view.findViewById(R.id.layoutAddTransBTWExchange);
 
         setSpinners();
 
@@ -116,9 +116,8 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
     private void setCurrencyMode(boolean mode) {
         if (mode) {
-            etExchange.setVisibility(View.VISIBLE);
-            ivExchange.setVisibility(View.VISIBLE);
-            divExchange.setVisibility(View.VISIBLE);
+
+            layoutExchange.setVisibility(View.VISIBLE);
 
             Account accountFrom = (Account) spinAccountFrom.getSelectedItem();
             String currFrom = accountFrom.getCurrency();
@@ -134,10 +133,10 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
             etExchange.setSelection(etExchange.getText().length());
         }
+
         else {
-            etExchange.setVisibility(View.GONE);
-            ivExchange.setVisibility(View.GONE);
-            divExchange.setVisibility(View.GONE);
+
+            layoutExchange.setVisibility(View.GONE);
             }
     }
 
@@ -221,7 +220,6 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
         getActivity().finish();
     }
-
 
 
     private boolean checkEditTextForCorrect(EditText et, int strRes) {

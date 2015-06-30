@@ -547,4 +547,21 @@ public class DataSource {
         closeLocal();
     }
 
+
+    public void payPartDebt(int idAccount, double accountAmount, int idDebt, double debtAmount) {
+
+        ContentValues cv1 = new ContentValues();
+        cv1.put("amount", accountAmount);
+
+        ContentValues cv2 = new ContentValues();
+        cv2.put("amount", debtAmount);
+
+        openLocalToWrite();
+
+        db.update("Account", cv1, "id_account = " + idAccount, null);
+        db.update("Debt", cv2, "id_debt = '" + idDebt + "' ", null);
+
+        closeLocal();
+    }
+
 }

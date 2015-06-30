@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.adapters.SpinAccountForTransHeadIconAdapter;
@@ -22,6 +23,7 @@ import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.Debt;
 import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.utils.FormatUtils;
+import com.androidcollider.easyfin.utils.Shake;
 
 import java.util.ArrayList;
 
@@ -45,11 +47,9 @@ public class ActPayDebt extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_pay_debt);
 
-
         Intent intent = getIntent();
         mode = intent.getIntExtra("mode", 1);
         debt = (Debt) intent.getSerializableExtra("debt");
-
 
         if (mode == 1) {
             setToolbar(R.string.pay_all_debt);
@@ -58,7 +58,6 @@ public class ActPayDebt extends AppCompatActivity {
         else {
             setToolbar(R.string.pay_part_debt);
         }
-
 
         fillAvailableAccountsList();
 
@@ -81,7 +80,6 @@ public class ActPayDebt extends AppCompatActivity {
         }
     }
 
-
     private void initializeView() {
         tvDebtName = (TextView) findViewById(R.id.tvPayDebtName);
         etSum = (EditText) findViewById(R.id.editTextPayDebtSum);
@@ -97,8 +95,10 @@ public class ActPayDebt extends AppCompatActivity {
 
         etSum.setText(FormatUtils.doubleFormatter(debt.getAmount(), FORMAT, PRECISE));
         etSum.setSelection(etSum.getText().length());
-        etSum.setEnabled(false);
 
+        if (mode == 1) {
+            etSum.setEnabled(false);
+        }
 
 
         spinAccount.setAdapter(new SpinAccountForTransHeadIconAdapter(
@@ -118,10 +118,7 @@ public class ActPayDebt extends AppCompatActivity {
         }
 
         spinAccount.setSelection(pos);
-
     }
-
-
 
     private void fillAvailableAccountsList() {
 
@@ -156,8 +153,6 @@ public class ActPayDebt extends AppCompatActivity {
         }
     }
 
-
-
     private void payAllDebt(){
 
         int idDebt = debt.getId();
@@ -178,14 +173,75 @@ public class ActPayDebt extends AppCompatActivity {
 
         dataSource.payAllDebt(idAccount, amountAccount, idDebt);
 
-        InfoFromDB.getInstance().updateAccountList();
-
-        pushBroadcast();
-
-        this.finish();
+        lastActions();
     }
 
+    private void payPartDebt(){
 
+        String sum = etSum.getText().toString();
+
+        if (! sum.matches(".*\\d.*") || Double.parseDouble(sum) == 0) {
+            Shake.highlightEditText(etSum);
+            Toast.makeText(this, getResources().getString(R.string.empty_amount_field), Toast.LENGTH_LONG).show();
+        }
+
+        else {
+
+            double amountDebt = Double.parseDouble(sum);
+            double amountAllDebt = debt.getAmount();
+
+            if (amountDebt > amountAllDebt) {
+                Shake.highlightEditText(etSum);
+                Toast.makeText(this, getResources().getString(R.string.debt_sum_more_then_amount), Toast.LENGTH_LONG).show();
+
+            } else {
+
+                int type = debt.getType();
+
+                Account account = (Account) spinAccount.getSelectedItem();
+
+                double amountAccount = account.getAmount();
+
+
+                if (type == 1 && amountDebt > amountAccount) {
+                    Shake.highlightEditText(etSum);
+                    Toast.makeText(this, getResources().getString(R.string.debt_not_enough_costs), Toast.LENGTH_LONG).show();
+
+                } else {
+
+                    int idDebt = debt.getId();
+                    int idAccount = account.getId();
+
+
+                    if (type == 1) {
+                        amountAccount -= amountDebt;
+                    } else {
+                        amountAccount += amountDebt;
+                    }
+
+
+                    if (amountDebt == amountAllDebt) {
+
+                    dataSource.payAllDebt(idAccount, amountAccount, idDebt);}
+
+                    else {
+
+                        double newDebtAmount = amountAllDebt - amountDebt;
+
+                        dataSource.payPartDebt(idAccount, amountAccount, idDebt, newDebtAmount);
+                    }
+
+                    lastActions();
+                }
+            }
+        }
+    }
+
+    private void lastActions() {
+        InfoFromDB.getInstance().updateAccountList();
+        pushBroadcast();
+        this.finish();
+    }
 
     private void pushBroadcast() {
         Intent intentFrgMain = new Intent(FrgMain.BROADCAST_FRG_MAIN_ACTION);
@@ -201,7 +257,6 @@ public class ActPayDebt extends AppCompatActivity {
         sendBroadcast(intentDebt);
     }
 
-
     private void setToolbar (int id) {
         Toolbar ToolBar = (Toolbar) findViewById(R.id.toolbarMain);
         assert getSupportActionBar() != null;
@@ -212,13 +267,13 @@ public class ActPayDebt extends AppCompatActivity {
         ToolBar.inflateMenu(R.menu.toolbar_debt_menu);
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
                 this.finish();
-                return true;}
+                return true;
+            }
             case R.id.debt_action_save: {
 
                 switch (mode) {
@@ -227,12 +282,13 @@ public class ActPayDebt extends AppCompatActivity {
                         break;
                     }
                     case 2: {
+                        payPartDebt();
                         break;
                     }
                 }
 
-                return true;}
-
+                return true;
+            }
         }
         return false;
     }
@@ -248,7 +304,6 @@ public class ActPayDebt extends AppCompatActivity {
 
         return true;
     }
-
 
     private void showDialogNoAccount() {
 
@@ -281,5 +336,4 @@ public class ActPayDebt extends AppCompatActivity {
         Intent intent = new Intent(this, ActAccount.class);
         startActivity(intent);
     }
-
 }

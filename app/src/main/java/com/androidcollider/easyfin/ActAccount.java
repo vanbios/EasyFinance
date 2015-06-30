@@ -186,7 +186,7 @@ public class ActAccount extends AppCompatActivity {
 
                 else {
 
-                    double amount = Double.parseDouble(etSum.getText().toString());
+                    double amount = FormatUtils.stringToDouble(etSum.getText().toString());
                     String type = spinType.getSelectedItem().toString();
                     String currency = spinCurrency.getSelectedItem().toString();
 

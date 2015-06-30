@@ -12,7 +12,7 @@
         card_view:cardElevation="@dimen/card_elevation_small"
         android:layout_margin="@dimen/card_elevation_small">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
@@ -27,6 +27,14 @@
             android:background="@drawable/recycler_item_selector">
 
 
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="7"
+
+                android:layout_marginRight="@dimen/common_padding_large">
+
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -36,9 +44,8 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:singleLine="true"
-                style="@style/SubheadFontSecondary"
-                android:layout_toLeftOf="@+id/tvItemDebtAccountName"
-                android:layout_toStartOf="@+id/tvItemDebtAccountName" />
+
+                style="@style/SubheadFontSecondary" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -47,21 +54,28 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:singleLine="true"
+
                 android:layout_below="@+id/tvItemDebtName"
-                style="@style/TitleFont"
-                android:layout_toLeftOf="@+id/tvItemDebtDate"
-                android:layout_toStartOf="@+id/tvItemDebtDate" />
+                style="@style/TitleFont" />
+
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvItemDebtAccountName"
                 android:singleLine="true"
+
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginLeft="@dimen/common_padding_large"
-                android:layout_marginStart="@dimen/common_padding_large"
                 style="@style/SubheadFontSecondary"/>
 
             <TextView
@@ -69,15 +83,16 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/tvItemDebtDate"
                 android:singleLine="true"
+
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="@dimen/common_padding_medium"
-                android:layout_marginLeft="@dimen/common_padding_large"
-                android:layout_marginStart="@dimen/common_padding_large"
                 android:layout_below="@+id/tvItemDebtAccountName"
                 style="@style/CaptionFontSecondary"/>
 
+            </RelativeLayout>
 
-        </RelativeLayout>
+
+        </LinearLayout>
         </android.support.v7.widget.CardView>
     </RelativeLayout>

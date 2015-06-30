@@ -62,11 +62,11 @@
 
 
 
-                <LinearLayout
+                <RelativeLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/linLayoutPayDebtName"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layoutPayDebtName"
                     android:baselineAligned="false"
                     android:layout_marginTop="@dimen/common_padding_large"
 
@@ -80,37 +80,37 @@
                         android:src="@drawable/ic_clipboard_text_cyan_dark_48dp"
                         android:contentDescription="@string/sum_hint"
 
-                        android:layout_marginRight="38dp"
-                        android:layout_marginEnd="38dp" />
+                        android:layout_marginRight="38dp" />
 
 
 
                     <TextView
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/tvPayDebtName"
 
+                        android:layout_toRightOf="@+id/ivPayDebtName"
+
                         android:singleLine="true"
+
                         android:gravity="center"
+
+                        android:layout_centerHorizontal="true"
 
                         style="@style/TitleFont" />
 
 
-                </LinearLayout>
+                </RelativeLayout>
 
 
-                <LinearLayout
-                    android:orientation="horizontal"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/linLayoutPayDebtSum"
-                    android:baselineAligned="false"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layoutPayDebtSum"
 
-                    android:layout_below="@+id/linLayoutPayDebtName"
+                    android:layout_below="@+id/layoutPayDebtName"
 
-                    android:layout_marginTop="24dp"
-
-                    android:gravity="center">
+                    android:layout_marginTop="@dimen/common_padding_xlarge">
 
 
                 <ImageView
@@ -120,8 +120,8 @@
                     android:src="@drawable/ic_coin_stacks_cyan_48dp"
                     android:contentDescription="@string/sum_hint"
 
-                    android:layout_marginRight="38dp"
-                    android:layout_marginEnd="38dp" />
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"/>
 
                 <EditText
                     android:layout_width="wrap_content"
@@ -132,20 +132,22 @@
                     android:maxLength="15"
                     android:id="@+id/editTextPayDebtSum"
 
-                    android:gravity="center"
+                    android:gravity="center_horizontal"
+
+                    android:layout_centerHorizontal="true"
 
                     android:singleLine="true"
                     style="@style/TitleFont" />
 
 
-                </LinearLayout>
+                </RelativeLayout>
 
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:id="@+id/cvPayDebtDividerTop"
-                    android:layout_below="@+id/linLayoutPayDebtSum"
+                    android:layout_below="@+id/layoutPayDebtSum"
                     android:background="@color/custom_divider"
                     android:layout_marginLeft="68dp"
                     android:layout_marginStart="68dp"
@@ -157,8 +159,8 @@
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/linLayoutPayDebtAccount"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layoutPayDebtAccount"
                     android:layout_below="@+id/cvPayDebtDividerTop"
                     android:baselineAligned="false"
 
@@ -177,7 +179,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@+id/linLayoutPayDebtAccount"
+                    android:layout_below="@+id/layoutPayDebtAccount"
                     android:background="@color/custom_divider"
                     android:layout_marginLeft="68dp"
                     android:layout_marginStart="68dp" />

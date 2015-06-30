@@ -136,7 +136,7 @@ public class FrgMain extends Fragment {
         ArrayAdapter<?> adapterStatPeriod = ArrayAdapter.createFromResource(
                 getActivity(),
                 R.array.main_statistic_period_array,
-                R.layout.spin_head_text);
+                R.layout.spin_head_text_medium);
 
         adapterStatPeriod.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinPeriod.setAdapter(adapterStatPeriod);
@@ -165,9 +165,9 @@ public class FrgMain extends Fragment {
         spinChartType = (Spinner) view.findViewById(R.id.spinMainChart);
         spinChartType.setAdapter(new SpinIconTextHeadAdapter(
                 getActivity(),
-                R.layout.spin_head_icon_text_main,
-                R.id.tvSpinHeadIconTextMain,
-                R.id.ivSpinHeadIconTextMain,
+                R.layout.spin_head_icon_text_main_chart,
+                R.id.tvSpinHeadIconTextMainChart,
+                R.id.ivSpinHeadIconTextMainChart,
                 R.layout.spin_drop_icon_text,
                 R.id.tvSpinDropIconText,
                 R.id.ivSpinDropIconText,

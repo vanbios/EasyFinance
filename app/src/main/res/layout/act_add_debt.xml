@@ -57,19 +57,15 @@
                 android:paddingStart="@dimen/common_padding_large"
                 android:paddingRight="@dimen/common_padding_large"
                 android:paddingEnd="@dimen/common_padding_large"
-                android:paddingBottom="30dp">
+                android:paddingBottom="@dimen/common_padding_medium">
 
 
 
-                <LinearLayout
-                    android:orientation="horizontal"
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/linLayoutAddDebtName"
-                    android:baselineAligned="false"
-                    android:layout_marginTop="@dimen/common_padding_large"
-
-                    android:gravity="center_vertical">
+                    android:id="@+id/layoutAddDebtName"
+                    android:layout_marginTop="@dimen/common_padding_large">
 
 
                     <ImageView
@@ -78,6 +74,8 @@
                         android:id="@+id/ivAddDebtName"
                         android:src="@drawable/ic_clipboard_text_cyan_dark_48dp"
                         android:contentDescription="@string/debt_name_hint"
+
+                        android:layout_centerVertical="true"
 
                         android:layout_marginRight="38dp"
                         android:layout_marginEnd="38dp" />
@@ -93,10 +91,12 @@
 
                         android:singleLine="true"
 
+                        android:layout_toRightOf="@+id/ivAddDebtName"
+
                         style="@style/TitleFont" />
 
 
-                </LinearLayout>
+                </RelativeLayout>
 
 
 
@@ -105,7 +105,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:id="@+id/cvAddDebtDividerTop"
-                    android:layout_below="@+id/linLayoutAddDebtName"
+                    android:layout_below="@+id/layoutAddDebtName"
                     android:background="@color/custom_divider"
                     android:layout_marginLeft="68dp"
                     android:layout_marginStart="68dp"
@@ -118,7 +118,7 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/linLayoutAddDebtType"
+                    android:id="@+id/layoutAddDebtType"
                     android:layout_below="@+id/cvAddDebtDividerTop"
                     android:baselineAligned="false"
 
@@ -140,7 +140,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@+id/linLayoutAddDebtType"
+                    android:layout_below="@+id/layoutAddDebtType"
                     android:background="@color/custom_divider"
                     android:layout_marginLeft="68dp"
                     android:layout_marginStart="68dp" />
@@ -150,8 +150,8 @@
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:id="@+id/linLayoutAddDebtAccount"
-                    android:layout_below="@+id/linLayoutAddDebtType"
+                    android:id="@+id/layoutAddDebtAccount"
+                    android:layout_below="@+id/layoutAddDebtType"
                     android:baselineAligned="false"
 
                     android:gravity="center_vertical">
@@ -171,54 +171,58 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:id="@+id/cvAddDebtDividerBottom"
-                    android:layout_below="@+id/linLayoutAddDebtAccount"
+                    android:layout_below="@+id/layoutAddDebtAccount"
                     android:background="@color/custom_divider"
                     android:layout_marginLeft="68dp"
                     android:layout_marginStart="68dp" />
 
 
 
-
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:id="@+id/ivAddDebtSum"
-                    android:src="@drawable/ic_coin_stacks_cyan_48dp"
-                    android:layout_below="@+id/cvAddDebtDividerBottom"
-                    android:contentDescription="@string/sum_hint"
-                    android:layout_marginTop="36dp" />
-
-
-
-                <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
-                    android:ems="6"
-                    android:hint="@string/sum_hint"
-                    android:maxLength="15"
-                    android:id="@+id/editTextDebtSum"
-                    android:layout_centerHorizontal="true"
-
-                    android:gravity="center_horizontal"
-
-                    android:layout_marginTop="24dp"
-
-                    android:layout_below="@+id/cvAddDebtDividerBottom"
-                    android:singleLine="true"
-                    style="@style/TitleFont" />
-
-
-                <LinearLayout
-                    android:orientation="horizontal"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/linLayoutAddDebtDate"
-                    android:layout_below="@+id/editTextDebtSum"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/cvAddDebtDividerBottom"
+                    android:layout_marginTop="@dimen/common_padding_xlarge"
 
-                    android:gravity="center_vertical"
+                    android:id="@+id/layoutAddDebtSum">
 
-                    android:baselineAligned="false">
+
+
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:id="@+id/ivAddDebtSum"
+                        android:src="@drawable/ic_coin_stacks_cyan_48dp"
+                        android:layout_centerVertical="true"
+                        android:contentDescription="@string/sum_hint" />
+
+
+
+                    <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:inputType="numberDecimal"
+                        android:ems="6"
+                        android:hint="@string/sum_hint"
+                        android:maxLength="15"
+                        android:id="@+id/editTextDebtSum"
+                        android:layout_centerHorizontal="true"
+
+                        android:gravity="center_horizontal"
+
+                        android:singleLine="true"
+                        style="@style/TitleFont" />
+
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layoutAddDebtDate"
+                    android:layout_below="@+id/layoutAddDebtSum">
 
 
                     <ImageView
@@ -226,7 +230,8 @@
                         android:layout_height="28dp"
                         android:id="@+id/ivAddDebtDate"
                         android:src="@drawable/ic_calendar_cyan_48dp"
-                        android:contentDescription="@string/date" />
+                        android:contentDescription="@string/date"
+                        android:layout_centerVertical="true"/>
 
 
 
@@ -236,10 +241,11 @@
                         android:id="@+id/tvAddDebtDate"
                         android:clickable="true"
                         style="@style/SpinnerFont"
-                        android:gravity="center"/>
+                        android:gravity="center"
+                        android:layout_centerHorizontal="true" />
 
 
-                </LinearLayout>
+                </RelativeLayout>
 
 
 
@@ -249,4 +255,4 @@
 
     </ScrollView>
 
-    </RelativeLayout>
+</RelativeLayout>
