@@ -16,6 +16,7 @@ import com.androidcollider.easyfin.utils.FormatUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 
 public class DataSource {
@@ -186,7 +187,7 @@ public class DataSource {
     }
 
 
-    public double[] getAccountsSumGroupByCurrency(String currency) {
+    /*public double[] getAccountsSumGroupByCurrency(String currency) {
 
         String[] type = context.getResources().getStringArray(R.array.account_type_array);
 
@@ -247,7 +248,86 @@ public class DataSource {
 
             closeLocal();
             return result;
+        }*/
+
+
+
+    public HashMap<String, double[]> getAccountsSumGroupByTypeAndCurrency() {
+
+        String[] typeArray = context.getResources().getStringArray(R.array.account_type_array);
+        String[] currencyArray = context.getResources().getStringArray(R.array.account_currency_array);
+
+        HashMap<String, double[]> results = new HashMap<>();
+
+        Cursor cursor;
+        String selectQuery;
+
+        openLocalToRead();
+
+
+        for (String currency : currencyArray) {
+
+            double[] result = new double[4];
+
+            for (int i = 0; i < typeArray.length; i++) {
+
+                selectQuery = "SELECT SUM(amount) FROM Account "
+                        + "WHERE visibility = 1 AND "
+                        + "type = '" + typeArray[i] + "' AND "
+                        + "currency = '" + currency + "' ";
+
+                cursor = db.rawQuery(selectQuery, null);
+
+                if (cursor.moveToFirst()) {
+                    result[i] = cursor.getDouble(0);
+                }
+                cursor.close();
+            }
+
+            selectQuery = "SELECT d.amount, d.type FROM Debt d, Account a "
+                    + "WHERE d.id_account = a.id_account AND "
+                    + "currency = '" + currency + "' ";
+
+            cursor = db.rawQuery(selectQuery, null);
+
+            double debtSum = 0;
+
+            double debtVal;
+            int debtType;
+
+            if (cursor.moveToFirst()) {
+                int amountColIndex = cursor.getColumnIndex("amount");
+                int typeColIndex = cursor.getColumnIndex("type");
+
+                do {
+                    debtVal = cursor.getDouble(amountColIndex);
+                    debtType = cursor.getInt(typeColIndex);
+
+                    if (debtType == 1) {
+                        debtVal *= -1;
+                    }
+
+                    debtSum += debtVal;
+                }
+
+                while (cursor.moveToNext());
+
+                cursor.close();
+
+                result[3] = debtSum;
+            }
+
+
+            results.put(currency, result);
+
+
         }
+
+        closeLocal();
+        return results;
+    }
+
+
 
 
     public ArrayList<Account> getAllAccountsInfo() {

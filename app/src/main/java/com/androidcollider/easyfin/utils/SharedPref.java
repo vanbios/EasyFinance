@@ -22,4 +22,33 @@ public class SharedPref {
     public boolean isSnackBarAccountDisable() {
         return sharedPreferences.contains("snackAccountDisabled");
     }
+
+
+
+
+    public void setMainBalanceSettingsConvertCheck(boolean b) {
+        sharedPreferences.edit().putBoolean("mainBalanceSettingsConvertChecked", b).apply();
+    }
+
+    public boolean getMainBalanceSettingsConvertCheck() {
+        return sharedPreferences.getBoolean("mainBalanceSettingsConvertChecked", false);
+    }
+
+    public boolean isMainBalanceSettingsConvertChecked() {
+        return sharedPreferences.contains("mainBalanceSettingsConvertChecked");
+    }
+
+
+
+    public void setMainBalanceSettingsShowCentsCheck(boolean b) {
+        sharedPreferences.edit().putBoolean("mainBalanceSettingsShowCentsChecked", b).apply();
+    }
+
+    public boolean getMainBalanceSettingsShowCentsCheck() {
+        return sharedPreferences.getBoolean("mainBalanceSettingsShowCentsChecked", true);
+    }
+
+    public boolean isMainBalanceSettingsShowCentsChecked() {
+        return sharedPreferences.contains("mainBalanceSettingsShowCentsChecked");
+    }
 }

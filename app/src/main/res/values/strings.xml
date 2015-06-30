@@ -3,8 +3,7 @@
 
     // app info
     <string name="app_name">FinU</string>
-    <string name="action_settings">Налаштування</string>
-    <string name="menu_exit">Вихід</string>
+    <string name="settings">Налаштування</string>
 
 
 
@@ -123,6 +122,12 @@
     <string name="dialog_button_delete_account_cancel">Відмінити</string>
 
     <string name="get_it">Зрозуміло</string>
+    <string name="done">Готово</string>
+
+
+    //etc.
+    <string name="main_balance_menu_exchange">Конвертувати всі кошти у вибрану валюту</string>
+    <string name="main_balance_menu_show_cents">Відображати копійки</string>
 
 
 

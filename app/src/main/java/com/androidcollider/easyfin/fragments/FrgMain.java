@@ -1,10 +1,12 @@
 package com.androidcollider.easyfin.fragments;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.utils.ChartDataUtils;
 import com.androidcollider.easyfin.utils.FormatUtils;
+import com.androidcollider.easyfin.utils.SharedPref;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -23,11 +25,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
-public class FrgMain extends Fragment {
+
+public class FrgMain extends Fragment implements View.OnClickListener{
 
     public final static String BROADCAST_FRG_MAIN_ACTION = "com.androidcollider.easyfin.frgmain.broadcast";
     public final static String PARAM_STATUS_FRG_MAIN = "update_frg_main";
@@ -55,6 +64,15 @@ public class FrgMain extends Fragment {
     private HorizontalBarChart chartStatistic, chartBalance;
     private PieChart chartStatisticPie;
 
+    private HashMap<String, double[]> balanceMap = null;
+
+    private MaterialDialog balanceSettingsDialog;
+
+    private CheckBox convert, showCents;
+
+    private SharedPref sharedPref;
+
+
 
 
     @Override
@@ -69,10 +87,47 @@ public class FrgMain extends Fragment {
         chartStatistic = (HorizontalBarChart) view.findViewById(R.id.chartHBarMainStatistic);
         chartStatisticPie = (PieChart) view.findViewById(R.id.chartPieMainStatistic);
 
+        ImageView ivBalanceSettings = (ImageView) view.findViewById(R.id.ivMainBalanceSettings);
+        ivBalanceSettings.setOnClickListener(this);
+
+
+        buildBalanceSettingsDialog();
+
+
+        View balanceSettings = balanceSettingsDialog.getCustomView();
+
+        if (balanceSettings != null) {
+            convert = (CheckBox) balanceSettings.findViewById(R.id.checkBoxMainBalanceSettingsConvert);
+            showCents = (CheckBox) balanceSettings.findViewById(R.id.checkBoxMainBalanceSettingsShowCents);}
+
+
+        sharedPref = new SharedPref(getActivity());
+
+
+        convert.setChecked(sharedPref.getMainBalanceSettingsConvertCheck());
+        showCents.setChecked(sharedPref.getMainBalanceSettingsShowCentsCheck());
+
+        convert.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                sharedPref.setMainBalanceSettingsConvertCheck(b);
+            }
+        });
+
+        showCents.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                sharedPref.setMainBalanceSettingsShowCentsCheck(b);
+            }
+        });
+
+
         currencyArray = getResources().getStringArray(R.array.account_currency_array);
         currencyLangArray = getResources().getStringArray(R.array.account_currency_array_language);
 
         dataSource = new DataSource(getActivity());
+
+        balanceMap = dataSource.getAccountsSumGroupByTypeAndCurrency();
 
         setBalanceCurrencySpinner();
 
@@ -92,6 +147,26 @@ public class FrgMain extends Fragment {
         makeBroadcastReceiver();
 
         return view;
+    }
+
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId()) {
+
+            case R.id.ivMainBalanceSettings: {
+                balanceSettingsDialog.show();
+                break;}
+        }
+    }
+
+    private void buildBalanceSettingsDialog() {
+
+        balanceSettingsDialog = new MaterialDialog.Builder(getActivity())
+                .title(R.string.settings)
+                .customView(R.layout.item_main_balance_menu, true)
+                .positiveText(R.string.done)
+                .build();
     }
 
     private void setBalanceCurrencySpinner() {
@@ -203,19 +278,26 @@ public class FrgMain extends Fragment {
             public void onReceive(Context context, Intent intent) {
                 int status = intent.getIntExtra(PARAM_STATUS_FRG_MAIN, 0);
 
+                balanceMap.clear();
+                balanceMap.putAll(dataSource.getAccountsSumGroupByTypeAndCurrency());
+
+                setBalance(spinBalanceCurrency.getSelectedItemPosition());
+
+
                 switch (status) {
                     case STATUS_UPDATE_FRG_MAIN: {
-                        setBalance(spinBalanceCurrency.getSelectedItemPosition());
 
                         getTransactionStatistic(spinPeriod.getSelectedItemPosition() + 1,
                                 spinBalanceCurrency.getSelectedItemPosition());
 
                         setStatisticSumTV();
                         checkStatChartTypeForUpdate();
+
+                        break;
                     }
-                    case STATUS_UPDATE_FRG_MAIN_BALANCE: {
+                    /*case STATUS_UPDATE_FRG_MAIN_BALANCE: {
                         setBalance(spinBalanceCurrency.getSelectedItemPosition());
-                    }
+                    }*/
                 }
             }
         };
@@ -296,7 +378,8 @@ public class FrgMain extends Fragment {
 
         double sum = 0;
         for (double i: balance) {
-            sum += i;}
+            sum += i;
+        }
 
         tvBalanceSum.setText(FormatUtils.doubleFormatter(sum, FORMAT, PRECISE) + " " + getCurrencyLang());
     }
@@ -308,7 +391,18 @@ public class FrgMain extends Fragment {
     }
 
     private double[] getCurrentBalance(int posCurrency) {
-        return dataSource.getAccountsSumGroupByCurrency(currencyArray[posCurrency]);
+
+        Iterator it = balanceMap.entrySet().iterator();
+
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry) it.next();
+
+            if (currencyArray[posCurrency].equals(pair.getKey())) {
+                return (double[]) pair.getValue();
+            }
+        }
+
+        return new double[]{0, 0, 0, 0};
     }
 
     private void getTransactionStatistic(int posPeriod, int posCurrency) {
