@@ -45,7 +45,7 @@ public class SharedPref {
     }
 
     public boolean getMainBalanceSettingsShowCentsCheck() {
-        return sharedPreferences.getBoolean("mainBalanceSettingsShowCentsChecked", true);
+        return sharedPreferences.getBoolean("mainBalanceSettingsShowCentsChecked", false);
     }
 
     public boolean isMainBalanceSettingsShowCentsChecked() {

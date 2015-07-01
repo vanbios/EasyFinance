@@ -27,14 +27,14 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
     private Context context;
     private ArrayList<Transaction> transactionArrayList;
 
-    private final TypedArray icons;
-    private final TypedArray accountTypeIcons;
+    private final TypedArray catIconsArray;
+    private final TypedArray typeIconsArray;
 
-    private final String[] categories;
-    private final String[] currency;
+    private final String[] catArray;
+    private final String[] curArray;
 
-    private final String[] currencyLanguage;
-    private final String[] accountType;
+    private final String[] curLangArray;
+    private final String[] typeArray;
 
 
 
@@ -42,12 +42,12 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
         this.context = context;
         this.transactionArrayList = transactionArrayList;
 
-        icons = context.getResources().obtainTypedArray(R.array.trans_categories_icons);
-        categories = context.getResources().getStringArray(R.array.cat_transaction_array);
-        currency = context.getResources().getStringArray(R.array.account_currency_array);
-        currencyLanguage = context.getResources().getStringArray(R.array.account_currency_array_language);
-        accountType = context.getResources().getStringArray(R.array.account_type_array);
-        accountTypeIcons = context.getResources().obtainTypedArray(R.array.account_type_icons);
+        catIconsArray = context.getResources().obtainTypedArray(R.array.trans_categories_icons);
+        catArray = context.getResources().getStringArray(R.array.cat_transaction_array);
+        curArray = context.getResources().getStringArray(R.array.account_currency_array);
+        curLangArray = context.getResources().getStringArray(R.array.account_currency_array_language);
+        typeArray = context.getResources().getStringArray(R.array.account_type_array);
+        typeIconsArray = context.getResources().obtainTypedArray(R.array.account_type_icons);
     }
 
 
@@ -86,9 +86,9 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
 
         String curLang = null;
 
-        for (int i = 0; i < currency.length; i++) {
-            if (cur.equals(currency[i])) {
-                curLang = currencyLanguage[i];
+        for (int i = 0; i < curArray.length; i++) {
+            if (cur.equals(curArray[i])) {
+                curLang = curLangArray[i];
             }
         }
 
@@ -104,17 +104,17 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
 
         String cat = transaction.getCategory();
 
-        for (int i = 0; i < categories.length; i++) {
-            if (categories[i].equals(cat)) {
-                holder.ivTransCategory.setImageDrawable(icons.getDrawable(i));
+        for (int i = 0; i < catArray.length; i++) {
+            if (catArray[i].equals(cat)) {
+                holder.ivTransCategory.setImageDrawable(catIconsArray.getDrawable(i));
             }
         }
 
         String type = transaction.getAccountType();
 
-        for (int i = 0; i < accountType.length; i++) {
-            if (accountType[i].equals(type)) {
-                holder.ivTransAccountType.setImageDrawable(accountTypeIcons.getDrawable(i));
+        for (int i = 0; i < typeArray.length; i++) {
+            if (typeArray[i].equals(type)) {
+                holder.ivTransAccountType.setImageDrawable(typeIconsArray.getDrawable(i));
             }
         }
 
@@ -127,14 +127,6 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
             }
         });
     }
-
-
-
-    /*@Override
-    public void onViewRecycled(ViewHolder holder) {
-        holder.itemView.setOnLongClickListener(null);
-        super.onViewRecycled(holder);
-    }*/
 
 
     public long getPosition() {

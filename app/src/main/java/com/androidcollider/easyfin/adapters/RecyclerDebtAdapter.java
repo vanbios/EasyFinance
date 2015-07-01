@@ -24,16 +24,16 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
     private Context context;
     private ArrayList<Debt> debtList;
 
-    private final String[] currency;
-    private final String[] currencyLanguage;
+    private final String[] curArray;
+    private final String[] curLangArray;
 
 
     public RecyclerDebtAdapter(Context context, ArrayList<Debt> debtList) {
         this.context = context;
         this.debtList = debtList;
 
-        currency = context.getResources().getStringArray(R.array.account_currency_array);
-        currencyLanguage = context.getResources().getStringArray(R.array.account_currency_array_language);
+        curArray = context.getResources().getStringArray(R.array.account_currency_array);
+        curLangArray = context.getResources().getStringArray(R.array.account_currency_array_language);
     }
 
 
@@ -70,9 +70,9 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
         String cur = debt.getCurrency();
         String curLang = null;
 
-        for (int i = 0; i < currency.length; i++) {
-            if (cur.equals(currency[i])) {
-                curLang = currencyLanguage[i];
+        for (int i = 0; i < curArray.length; i++) {
+            if (cur.equals(curArray[i])) {
+                curLang = curLangArray[i];
             }
         }
 

@@ -20,32 +20,33 @@ import java.util.ArrayList;
 public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccountAdapter.ViewHolder> {
 
     Context context;
-    ArrayList<Account> accountArrayList;
+    ArrayList<Account> accountsList;
 
-    final TypedArray accountTypeIcons;
-    final String[] accountType;
+    final TypedArray typeIconsArray;
+    final String[] typeArray;
 
-    final String[] currency;
-    final String[] currencyLanguage;
+    final String[] curArray;
+    final String[] curLangArray;
 
-    public RecyclerAccountAdapter(Context context, ArrayList<Account> accountArrayList) {
+
+    public RecyclerAccountAdapter(Context context, ArrayList<Account> accountsList) {
         this.context = context;
-        this.accountArrayList = accountArrayList;
+        this.accountsList = accountsList;
 
-        accountTypeIcons = context.getResources().obtainTypedArray(R.array.account_type_icons);
-        accountType = context.getResources().getStringArray(R.array.account_type_array);
+        typeIconsArray = context.getResources().obtainTypedArray(R.array.account_type_icons);
+        typeArray = context.getResources().getStringArray(R.array.account_type_array);
 
-        currency = context.getResources().getStringArray(R.array.account_currency_array);
-        currencyLanguage = context.getResources().getStringArray(R.array.account_currency_array_language);
+        curArray = context.getResources().getStringArray(R.array.account_currency_array);
+        curLangArray = context.getResources().getStringArray(R.array.account_currency_array_language);
     }
 
     @Override
-    public int getItemCount() {return accountArrayList.size();}
+    public int getItemCount() {return accountsList.size();}
 
     @Override
     public long getItemId(int position) {return position;}
 
-    public Account getAccount(int position) {return accountArrayList.get(position);}
+    public Account getAccount(int position) {return accountsList.get(position);}
 
 
     @Override
@@ -65,9 +66,9 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
         String cur = account.getCurrency();
         String curLang = null;
 
-        for (int i = 0; i < currency.length; i++) {
-            if (cur.equals(currency[i])) {
-                curLang = currencyLanguage[i];
+        for (int i = 0; i < curArray.length; i++) {
+            if (cur.equals(curArray[i])) {
+                curLang = curLangArray[i];
             }
         }
 
@@ -83,11 +84,7 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
                 Intent intent = new Intent(context, ActAccount.class);
                 Account account = getAccount(position);
 
-                intent.putExtra("name", account.getName());
-                intent.putExtra("type", account.getType());
-                intent.putExtra("amount", account.getAmount());
-                intent.putExtra("currency", account.getCurrency());
-                intent.putExtra("idAccount", account.getId());
+                intent.putExtra("account", account);
                 intent.putExtra("mode", 1);
                 context.startActivity(intent);
                 return true;
@@ -96,9 +93,9 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
 
         String type = account.getType();
 
-        for (int i = 0; i < accountType.length; i++) {
-            if (accountType[i].equals(type)) {
-                holder.ivAccountType.setImageDrawable(accountTypeIcons.getDrawable(i));
+        for (int i = 0; i < typeArray.length; i++) {
+            if (typeArray[i].equals(type)) {
+                holder.ivAccountType.setImageDrawable(typeIconsArray.getDrawable(i));
             }
         }
     }

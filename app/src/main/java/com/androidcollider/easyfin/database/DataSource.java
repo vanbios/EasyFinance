@@ -21,17 +21,17 @@ import java.util.HashMap;
 
 public class DataSource {
 
-    private final static String APP_PREFERENCES = "EasyfinPref";
+    //private final static String APP_PREFERENCES = "EasyfinPref";
 
     private DbHelper dbHelper;
     private SQLiteDatabase db;
     private Context context;
-    private SharedPreferences sPref;
+    //private SharedPreferences sPref;
 
     public DataSource(Context context) {
         this.context = context;
         dbHelper = new DbHelper(context);
-        sPref = context.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        //sPref = context.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
     }
 
     //Open database to write
@@ -122,8 +122,8 @@ public class DataSource {
     }
 
 
-    public double[] getTransactionsStatistic(int position, String currency) {
-        double[] arrayStatistic = new double[2];
+
+    public HashMap<String, double[]> getTransactionsStatistic(int position) {
 
         long period = 0;
 
@@ -134,121 +134,70 @@ public class DataSource {
             case 4: period = DateConstants.YEAR; break;
         }
 
-        String selectQuery = "SELECT t.date, t.amount FROM Transactions t, Account a "
-                               + "WHERE t.id_account = a.id_account "
-                               + "AND a.currency = '" + currency + "' ";
 
-        openLocalToRead();
+        String[] currencyArray = context.getResources().getStringArray(R.array.account_currency_array);
 
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        HashMap<String, double[]> result = new HashMap<>();
 
-        double cost = 0.0;
-        double income = 0.0;
-
-        long currentTime = new Date().getTime();
-
-        if (cursor.moveToFirst()) {
-            int amountColIndex = cursor.getColumnIndex("amount");
-            int dateColIndex = cursor.getColumnIndex("date");
-
-            for (int i=cursor.getCount()-1; i>=0;i--){
-                cursor.moveToPosition(i);
-
-                long date = cursor.getLong(dateColIndex);
-                double amount = cursor.getDouble(amountColIndex);
-
-                if (currentTime > date && period >= (currentTime - date)) {
-
-                    if (FormatUtils.isDoubleNegative(amount)) {
-                        cost += amount;
-                    }
-
-                    else {
-                        income += amount;
-                    }
-                }
-            }
-            cursor.close();
-            closeLocal();
-
-            arrayStatistic[0] = cost;
-            arrayStatistic[1] = income;
-
-            return arrayStatistic;
-        }
-
-        closeLocal();
-        cursor.close();
-
-        arrayStatistic[0] = cost;
-        arrayStatistic[1] = income;
-
-        return arrayStatistic;
-    }
-
-
-    /*public double[] getAccountsSumGroupByCurrency(String currency) {
-
-        String[] type = context.getResources().getStringArray(R.array.account_type_array);
-
-        double[] result = new double[4];
 
         Cursor cursor;
         String selectQuery;
 
+
         openLocalToRead();
 
-        for (int i = 0; i < type.length; i++) {
 
-            selectQuery = "SELECT SUM(amount) FROM Account "
-                    + "WHERE visibility = 1 AND "
-                    + "type = '" + type[i] + "' AND "
-                    + "currency = '" + currency + "' ";
+        for (String currency : currencyArray) {
+
+            double[] arrStat = new double[2];
+
+
+            selectQuery = "SELECT t.date, t.amount FROM Transactions t, Account a "
+                    + "WHERE t.id_account = a.id_account "
+                    + "AND a.currency = '" + currency + "' ";
 
             cursor = db.rawQuery(selectQuery, null);
 
+            double cost = 0.0;
+            double income = 0.0;
+
+
             if (cursor.moveToFirst()) {
-                result[i] = cursor.getDouble(0);
-            }
-            cursor.close();
-        }
+                int amountColIndex = cursor.getColumnIndex("amount");
+                int dateColIndex = cursor.getColumnIndex("date");
 
-        selectQuery = "SELECT d.amount, d.type FROM Debt d, Account a "
-                + "WHERE d.id_account = a.id_account AND "
-                + "currency = '" + currency + "' ";
+                long currentTime = new Date().getTime();
 
-        cursor = db.rawQuery(selectQuery, null);
+                for (int i = cursor.getCount() - 1; i >= 0; i--) {
+                    cursor.moveToPosition(i);
 
-        double debtSum = 0;
+                    long date = cursor.getLong(dateColIndex);
+                    double amount = cursor.getDouble(amountColIndex);
 
-        double debtVal;
-        int debtType;
+                    if (currentTime > date && period >= (currentTime - date)) {
 
-        if (cursor.moveToFirst()) {
-            int amountColIndex = cursor.getColumnIndex("amount");
-            int typeColIndex = cursor.getColumnIndex("type");
-
-            do {
-                debtVal = cursor.getDouble(amountColIndex);
-                debtType = cursor.getInt(typeColIndex);
-
-                if (debtType == 1) {
-                    debtVal *= -1;
+                        if (FormatUtils.isDoubleNegative(amount)) {
+                            cost += amount;
+                        } else {
+                            income += amount;
+                        }
+                    }
                 }
-
-                debtSum += debtVal;
             }
-
-            while (cursor.moveToNext());
 
             cursor.close();
 
-            result[3] = debtSum;
+            arrStat[0] = cost;
+            arrStat[1] = income;
+
+            result.put(currency, arrStat);
         }
 
-            closeLocal();
-            return result;
-        }*/
+        closeLocal();
+
+        return result;
+    }
+
 
 
 
@@ -320,14 +269,11 @@ public class DataSource {
 
             results.put(currency, result);
 
-
         }
 
         closeLocal();
         return results;
     }
-
-
 
 
     public ArrayList<Account> getAllAccountsInfo() {
@@ -643,5 +589,153 @@ public class DataSource {
 
         closeLocal();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*public double[] getAccountsSumGroupByCurrency(String currency) {
+
+        String[] type = context.getResources().getStringArray(R.array.account_type_array);
+
+        double[] result = new double[4];
+
+        Cursor cursor;
+        String selectQuery;
+
+        openLocalToRead();
+
+        for (int i = 0; i < type.length; i++) {
+
+            selectQuery = "SELECT SUM(amount) FROM Account "
+                    + "WHERE visibility = 1 AND "
+                    + "type = '" + type[i] + "' AND "
+                    + "currency = '" + currency + "' ";
+
+            cursor = db.rawQuery(selectQuery, null);
+
+            if (cursor.moveToFirst()) {
+                result[i] = cursor.getDouble(0);
+            }
+            cursor.close();
+        }
+
+        selectQuery = "SELECT d.amount, d.type FROM Debt d, Account a "
+                + "WHERE d.id_account = a.id_account AND "
+                + "currency = '" + currency + "' ";
+
+        cursor = db.rawQuery(selectQuery, null);
+
+        double debtSum = 0;
+
+        double debtVal;
+        int debtType;
+
+        if (cursor.moveToFirst()) {
+            int amountColIndex = cursor.getColumnIndex("amount");
+            int typeColIndex = cursor.getColumnIndex("type");
+
+            do {
+                debtVal = cursor.getDouble(amountColIndex);
+                debtType = cursor.getInt(typeColIndex);
+
+                if (debtType == 1) {
+                    debtVal *= -1;
+                }
+
+                debtSum += debtVal;
+            }
+
+            while (cursor.moveToNext());
+
+            cursor.close();
+
+            result[3] = debtSum;
+        }
+
+            closeLocal();
+            return result;
+        }*/
+
+
+    /*public double[] getTransactionsStatistic(int position, String currency) {
+        double[] arrayStatistic = new double[2];
+
+        long period = 0;
+
+        switch (position) {
+            case 1: period = DateConstants.DAY; break;
+            case 2: period = DateConstants.WEEK; break;
+            case 3: period = DateConstants.MONTH; break;
+            case 4: period = DateConstants.YEAR; break;
+        }
+
+        String selectQuery = "SELECT t.date, t.amount FROM Transactions t, Account a "
+                + "WHERE t.id_account = a.id_account "
+                + "AND a.currency = '" + currency + "' ";
+
+        openLocalToRead();
+
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        double cost = 0.0;
+        double income = 0.0;
+
+        long currentTime = new Date().getTime();
+
+        if (cursor.moveToFirst()) {
+            int amountColIndex = cursor.getColumnIndex("amount");
+            int dateColIndex = cursor.getColumnIndex("date");
+
+            for (int i=cursor.getCount()-1; i>=0;i--){
+                cursor.moveToPosition(i);
+
+                long date = cursor.getLong(dateColIndex);
+                double amount = cursor.getDouble(amountColIndex);
+
+                if (currentTime > date && period >= (currentTime - date)) {
+
+                    if (FormatUtils.isDoubleNegative(amount)) {
+                        cost += amount;
+                    }
+
+                    else {
+                        income += amount;
+                    }
+                }
+            }
+            cursor.close();
+            closeLocal();
+
+            arrayStatistic[0] = cost;
+            arrayStatistic[1] = income;
+
+            return arrayStatistic;
+        }
+
+        closeLocal();
+        cursor.close();
+
+        arrayStatistic[0] = cost;
+        arrayStatistic[1] = income;
+
+        return arrayStatistic;
+    }*/
 
 }

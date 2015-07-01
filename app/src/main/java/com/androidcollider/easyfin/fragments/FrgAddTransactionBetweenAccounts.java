@@ -37,8 +37,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
     private RelativeLayout layoutExchange;
 
-    private ArrayList<Account> accountListFrom = null;
-    private ArrayList<Account> accountListTo = null;
+    private ArrayList<Account> accountListFrom, accountListTo = null;
 
 
 
@@ -48,7 +47,6 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
         view = inflater.inflate(R.layout.frg_add_transaction_between_accounts, container, false);
 
         etExchange = (EditText) view.findViewById(R.id.editTextTransBTWExchange);
-
         layoutExchange = (RelativeLayout) view.findViewById(R.id.layoutAddTransBTWExchange);
 
         setSpinners();
@@ -135,7 +133,6 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
         }
 
         else {
-
             layoutExchange.setVisibility(View.GONE);
             }
     }
@@ -173,7 +170,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
             if (amount > accountAmountFrom) {
                 Toast.makeText(getActivity(), getResources().getString(R.string.transaction_not_enough_costs) + " " +
-                        Math.abs(amount), Toast.LENGTH_LONG).show();
+                        Math.abs(amount), Toast.LENGTH_SHORT).show();
 
             } else {
 
@@ -228,7 +225,8 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
         if (!s.matches(".*\\d.*") || Double.parseDouble(s) == 0) {
             Shake.highlightEditText(et);
-            Toast.makeText(getActivity(), getResources().getString(strRes), Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getResources().getString(strRes), Toast.LENGTH_SHORT).show();
+
         return false;}
 
         return true;

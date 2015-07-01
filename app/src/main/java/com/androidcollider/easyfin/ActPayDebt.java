@@ -182,7 +182,7 @@ public class ActPayDebt extends AppCompatActivity {
 
         if (! sum.matches(".*\\d.*") || Double.parseDouble(sum) == 0) {
             Shake.highlightEditText(etSum);
-            Toast.makeText(this, getResources().getString(R.string.empty_amount_field), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getString(R.string.empty_amount_field), Toast.LENGTH_SHORT).show();
         }
 
         else {
@@ -192,7 +192,7 @@ public class ActPayDebt extends AppCompatActivity {
 
             if (amountDebt > amountAllDebt) {
                 Shake.highlightEditText(etSum);
-                Toast.makeText(this, getResources().getString(R.string.debt_sum_more_then_amount), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getResources().getString(R.string.debt_sum_more_then_amount), Toast.LENGTH_SHORT).show();
 
             } else {
 
@@ -205,7 +205,7 @@ public class ActPayDebt extends AppCompatActivity {
 
                 if (type == 1 && amountDebt > amountAccount) {
                     Shake.highlightEditText(etSum);
-                    Toast.makeText(this, getResources().getString(R.string.debt_not_enough_costs), Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getResources().getString(R.string.debt_not_enough_costs), Toast.LENGTH_SHORT).show();
 
                 } else {
 

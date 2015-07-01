@@ -1,7 +1,9 @@
 package com.androidcollider.easyfin.objects;
 
 
-public class Account {
+import java.io.Serializable;
+
+public class Account implements Serializable{
 
     private int id;
     private String name;
@@ -36,42 +38,5 @@ public class Account {
     public String getType() {return type;}
 
     public String getCurrency() {return currency;}
-
-
-    /*public Account(Parcel accountParcelIn) {
-        this.id = accountParcelIn.readInt();
-        this.name = accountParcelIn.readString();
-        this.amount = accountParcelIn.readDouble();
-        this.type = accountParcelIn.readString();
-        this.currency = accountParcelIn.readString();
-    }
-
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(this.id);
-        dest.writeString(this.name);
-        dest.writeDouble(this.amount);
-        dest.writeString(this.type);
-        dest.writeString(this.currency);
-    }
-
-    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
-        public Account createFromParcel(Parcel in) {
-            return new Account(in);
-        }
-
-        public Account[] newArray(int size) {
-            return new Account[size];
-        }
-    };*/
-
-
 
 }

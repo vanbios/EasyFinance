@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 public class ActTransaction extends AppCompatActivity {
 
-    ArrayList<String> accountNames = null;
+    private ArrayList<String> accountNames = null;
 
     private ViewPager pagerTrans;
 

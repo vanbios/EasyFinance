@@ -233,15 +233,6 @@ public class ActDebt extends AppCompatActivity {
 
         Debt debt = debtList.get(pos);
 
-        /*intent.putExtra("mode", 1);
-        intent.putExtra("name", debt.getName());
-        intent.putExtra("amount", debt.getAmount());
-        intent.putExtra("type", debt.getType());
-        intent.putExtra("accountName", debt.getAccountName());
-        intent.putExtra("currency", debt.getCurrency());
-        intent.putExtra("idAccount", debt.getIdAccount());
-        intent.putExtra("id", debt.getId());*/
-
         intent.putExtra("debt", debt);
         intent.putExtra("mode", mode);
         startActivity(intent);

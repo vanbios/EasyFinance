@@ -36,8 +36,8 @@ public class FormatUtils {
         return Double.compare(d, 0.0) < 0;
     }
 
-    public static double stringToDouble(String s) {
+    /*public static double stringToDouble(String s) {
         return Double.parseDouble(s.replace(",", "."));
-    }
+    }*/
 
 }

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class SpinAccountForTransAdapter extends ArrayAdapter<Account> {
 
-    final TypedArray typeIcons;
+    final TypedArray typeIconsArray;
     final ArrayList<Account> accountList;
     final String[] typeArray;
     final String[] curArray;
@@ -32,7 +32,7 @@ public class SpinAccountForTransAdapter extends ArrayAdapter<Account> {
         super(context, headLayout, accountL);
         accountList = accountL;
 
-        typeIcons = context.getResources().obtainTypedArray(R.array.account_type_icons);
+        typeIconsArray = context.getResources().obtainTypedArray(R.array.account_type_icons);
         typeArray = context.getResources().getStringArray(R.array.account_type_array);
         curArray = context.getResources().getStringArray(R.array.account_currency_array);
         curLangArray = context.getResources().getStringArray(R.array.account_currency_array_language);
@@ -56,7 +56,7 @@ public class SpinAccountForTransAdapter extends ArrayAdapter<Account> {
 
         for (int i = 0; i < typeArray.length; i++) {
             if (typeArray[i].equals(typeAcc)) {
-                icon.setImageResource(typeIcons.getResourceId(i, 0));
+                icon.setImageResource(typeIconsArray.getResourceId(i, 0));
             }
         }
 

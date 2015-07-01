@@ -66,7 +66,7 @@ public class FrgMain extends Fragment implements View.OnClickListener{
     private HorizontalBarChart chartStatistic, chartBalance;
     private PieChart chartStatisticPie;
 
-    private HashMap<String, double[]> balanceMap = null;
+    private HashMap<String, double[]> balanceMap, statisticMap = null;
 
     private MaterialDialog balanceSettingsDialog;
 
@@ -119,6 +119,10 @@ public class FrgMain extends Fragment implements View.OnClickListener{
                 sharedPref.setMainBalanceSettingsConvertCheck(b);
                 convert = b;
                 setBalance(spinBalanceCurrency.getSelectedItemPosition());
+
+                setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
+                setStatisticSumTV();
+                checkStatChartTypeForUpdate();
             }
         });
 
@@ -140,12 +144,14 @@ public class FrgMain extends Fragment implements View.OnClickListener{
 
         balanceMap = dataSource.getAccountsSumGroupByTypeAndCurrency();
 
+
         setBalanceCurrencySpinner();
 
         setStatisticSpinner();
 
-        getTransactionStatistic(spinPeriod.getSelectedItemPosition() + 1,
-                spinBalanceCurrency.getSelectedItemPosition());
+        statisticMap = dataSource.getTransactionsStatistic(spinPeriod.getSelectedItemPosition()+1);
+
+        setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
 
         setBalance(spinBalanceCurrency.getSelectedItemPosition());
 
@@ -201,7 +207,7 @@ public class FrgMain extends Fragment implements View.OnClickListener{
 
                 setBalance(i);
 
-                getTransactionStatistic(spinPeriod.getSelectedItemPosition() + 1, i);
+                setTransactionStatisticArray(i);
 
                 setStatisticSumTV();
                 checkStatChartTypeForUpdate();
@@ -230,8 +236,10 @@ public class FrgMain extends Fragment implements View.OnClickListener{
         spinPeriod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                getTransactionStatistic(i + 1,
-                        spinBalanceCurrency.getSelectedItemPosition());
+
+                statisticMap.clear();
+                statisticMap = dataSource.getTransactionsStatistic(i+1);
+                setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
 
                 setStatisticSumTV();
                 checkStatChartTypeForUpdate();
@@ -297,8 +305,11 @@ public class FrgMain extends Fragment implements View.OnClickListener{
                 switch (status) {
                     case STATUS_UPDATE_FRG_MAIN: {
 
-                        getTransactionStatistic(spinPeriod.getSelectedItemPosition() + 1,
-                                spinBalanceCurrency.getSelectedItemPosition());
+                        statisticMap.clear();
+                        statisticMap.putAll(dataSource.getTransactionsStatistic(spinPeriod.getSelectedItemPosition()+1));
+
+
+                        setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
 
                         setStatisticSumTV();
                         checkStatChartTypeForUpdate();
@@ -407,7 +418,7 @@ public class FrgMain extends Fragment implements View.OnClickListener{
     private double[] getCurrentBalance(int posCurrency) {
 
         if (convert) {
-            return convertBalanceToOneCurrency(posCurrency);
+            return convertAllCurrencyToOne(posCurrency, balanceMap, 4);
         }
 
         else {
@@ -427,19 +438,19 @@ public class FrgMain extends Fragment implements View.OnClickListener{
     }
 
 
-    private double[] convertBalanceToOneCurrency(int posCurrency) {
+    private double[] convertAllCurrencyToOne(int posCurrency, HashMap<String, double[]> map, int arrSize) {
 
-        double[] uahArr = new double[4];
-        double[] usdArr = new double[4];
-        double[] eurArr = new double[4];
-        double[] rubArr = new double[4];
+        double[] uahArr = new double[arrSize];
+        double[] usdArr = new double[arrSize];
+        double[] eurArr = new double[arrSize];
+        double[] rubArr = new double[arrSize];
 
         final String uahCurName = currencyArray[0];
         final String usdCurName = currencyArray[1];
         final String eurCurName = currencyArray[2];
         final String rubCurName = currencyArray[3];
 
-        Iterator it = balanceMap.entrySet().iterator();
+        Iterator it = map.entrySet().iterator();
 
         while (it.hasNext()) {
 
@@ -476,7 +487,7 @@ public class FrgMain extends Fragment implements View.OnClickListener{
         rubArr = convertArray(rubArr, rubExchange);
 
 
-        double[] result = new double[4];
+        double[] result = new double[arrSize];
 
         for (int i = 0; i < result.length; i++) {
             result[i] = uahArr[i] + usdArr[i] + eurArr[i] + rubArr[i];
@@ -494,9 +505,27 @@ public class FrgMain extends Fragment implements View.OnClickListener{
         return arr;
     }
 
-    private void getTransactionStatistic(int posPeriod, int posCurrency) {
-        double[] st = dataSource.getTransactionsStatistic(posPeriod, currencyArray[posCurrency]);
-        System.arraycopy(st, 0, statistic, 0, statistic.length);
+
+    private void setTransactionStatisticArray(int posCurrency) {
+
+        if (convert) {
+            System.arraycopy(convertAllCurrencyToOne(posCurrency, statisticMap, 2), 0, statistic, 0, statistic.length);
+        }
+        else {
+
+            Iterator it = statisticMap.entrySet().iterator();
+
+            while (it.hasNext()) {
+                Map.Entry pair = (Map.Entry) it.next();
+
+                if (currencyArray[posCurrency].equals(pair.getKey())) {
+                    double[] st = (double[]) pair.getValue();
+                    System.arraycopy(st, 0, statistic, 0, statistic.length);
+                }
+            }
+        }
+        //double[] st = dataSource.getTransactionsStatistic(posPeriod, currencyArray[posCurrency]);
+        //System.arraycopy(st, 0, statistic, 0, statistic.length);}
     }
 
     private String getCurrencyLang() {

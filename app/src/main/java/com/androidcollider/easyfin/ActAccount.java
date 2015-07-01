@@ -25,15 +25,16 @@ import android.widget.Toast;
 
 public class ActAccount extends AppCompatActivity {
 
-    Spinner spinType, spinCurrency;
-    EditText etName, etSum;
+    private Spinner spinType, spinCurrency;
+    private EditText etName, etSum;
     private String oldName;
-    int idAccount;
+    private int idAccount;
 
-    Intent intent;
-    DataSource dataSource;
+    private DataSource dataSource;
 
-    int mode;
+    private int mode;
+
+    private Account accFrIntent;
 
 
     @Override
@@ -58,12 +59,13 @@ public class ActAccount extends AppCompatActivity {
     }
 
     private void setMode () {
-        intent = getIntent();
+        Intent intent = getIntent();
         mode = intent.getIntExtra("mode", 0);
 
         switch (mode) {
             case 0: {setToolbar(R.string.new_account); break;}
             case 1: {setToolbar(R.string.edit_account);
+                     accFrIntent = (Account) intent.getSerializableExtra("account");
                      setEdits();
                      break;}
         }
@@ -97,22 +99,22 @@ public class ActAccount extends AppCompatActivity {
                 getResources().obtainTypedArray(R.array.flag_icons)));
 
         if (mode == 1) {
-            String[] type = getResources().getStringArray(R.array.account_type_array);
+            String[] typeArray = getResources().getStringArray(R.array.account_type_array);
 
-            String typeVal = getIntent().getStringExtra("type");
+            String typeVal = accFrIntent.getType();
 
-            for (int i = 0; i < type.length; i++) {
-                if (type[i].equals(typeVal)) {
+            for (int i = 0; i < typeArray.length; i++) {
+                if (typeArray[i].equals(typeVal)) {
                     spinType.setSelection(i);
                 }
             }
 
-            String[] currency = getResources().getStringArray(R.array.account_currency_array);
+            String[] currencyArray = getResources().getStringArray(R.array.account_currency_array);
 
-            String currencyVal = getIntent().getStringExtra("currency");
+            String currencyVal = accFrIntent.getCurrency();
 
-            for (int i = 0; i < currency.length; i++) {
-                if (currency[i].equals(currencyVal)) {
+            for (int i = 0; i < currencyArray.length; i++) {
+                if (currencyArray[i].equals(currencyVal)) {
                     spinCurrency.setSelection(i);
                 }
             }
@@ -132,17 +134,18 @@ public class ActAccount extends AppCompatActivity {
     }
 
     private void setEdits() {
-        oldName = intent.getStringExtra("name");
+
+        oldName = accFrIntent.getName();
         etName.setText(oldName);
         etName.setSelection(etName.getText().length());
 
         final int PRECISE = 100;
         final String FORMAT = "0.00";
 
-        etSum.setText(FormatUtils.doubleFormatter(getIntent().getDoubleExtra("amount", 0.0), FORMAT, PRECISE));
+        etSum.setText(FormatUtils.doubleFormatter(accFrIntent.getAmount(), FORMAT, PRECISE));
         etSum.setSelection(etSum.getText().length());
 
-        idAccount = intent.getIntExtra("idAccount", 0);
+        idAccount = accFrIntent.getId();
     }
 
 
@@ -154,7 +157,7 @@ public class ActAccount extends AppCompatActivity {
 
                 if (InfoFromDB.getInstance().checkForAccountNameMatches(name)) {
                     Shake.highlightEditText(etName);
-                    Toast.makeText(this, getResources().getString(R.string.account_name_exist), Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getResources().getString(R.string.account_name_exist), Toast.LENGTH_SHORT).show();
                 }
 
                 else {
@@ -181,12 +184,12 @@ public class ActAccount extends AppCompatActivity {
 
                 if (InfoFromDB.getInstance().checkForAccountNameMatches(name) && ! name.equals(oldName)) {
                     Shake.highlightEditText(etName);
-                    Toast.makeText(this, getResources().getString(R.string.account_name_exist), Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getResources().getString(R.string.account_name_exist), Toast.LENGTH_SHORT).show();
                 }
 
                 else {
 
-                    double amount = FormatUtils.stringToDouble(etSum.getText().toString());
+                    double amount = Double.parseDouble(etSum.getText().toString());
                     String type = spinType.getSelectedItem().toString();
                     String currency = spinCurrency.getSelectedItem().toString();
 
@@ -212,7 +215,7 @@ public class ActAccount extends AppCompatActivity {
 
         if (st.isEmpty()) {
             Shake.highlightEditText(etName);
-            Toast.makeText(this, getResources().getString(R.string.account_empty_field_name), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getResources().getString(R.string.account_empty_field_name), Toast.LENGTH_SHORT).show();
 
             return false;
         }
@@ -221,7 +224,7 @@ public class ActAccount extends AppCompatActivity {
 
             if (!etSum.getText().toString().matches(".*\\d.*")) {
                 Shake.highlightEditText(etSum);
-                Toast.makeText(this, getResources().getString(R.string.account_empty_field_sum), Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getResources().getString(R.string.account_empty_field_sum), Toast.LENGTH_SHORT).show();
 
                 return false;
             }
