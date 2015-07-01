@@ -78,7 +78,7 @@
                 android:layout_height="28dp"
                 android:id="@+id/ivAddAccountName"
                 android:src="@drawable/ic_clipboard_text_cyan_dark_48dp"
-                android:contentDescription="@string/sum_hint"
+                android:contentDescription="@string/empty_amount_field"
 
                 android:layout_marginRight="38dp"
                 android:layout_marginEnd="38dp" />
@@ -90,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/editTextAccountName"
                     android:maxLength="50"
-                    android:hint="@string/account_name_hint"
+                    android:hint="@string/empty_name_field"
 
                     android:singleLine="true"
 
@@ -191,7 +191,7 @@
                 android:id="@+id/ivAddAccountSum"
                 android:src="@drawable/ic_coin_stacks_cyan_48dp"
 
-                android:contentDescription="@string/sum_hint"
+                android:contentDescription="@string/empty_amount_field"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"/>
 
@@ -202,7 +202,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
                 android:ems="6"
-                android:hint="@string/sum_hint"
+                android:hint="@string/empty_amount_field"
                 android:maxLength="15"
                 android:id="@+id/editTextAccountSum"
                 android:layout_centerHorizontal="true"

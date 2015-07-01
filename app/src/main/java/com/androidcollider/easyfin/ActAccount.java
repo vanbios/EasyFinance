@@ -215,7 +215,7 @@ public class ActAccount extends AppCompatActivity {
 
         if (st.isEmpty()) {
             Shake.highlightEditText(etName);
-            Toast.makeText(this, getResources().getString(R.string.account_empty_field_name), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.empty_name_field), Toast.LENGTH_SHORT).show();
 
             return false;
         }
@@ -224,7 +224,7 @@ public class ActAccount extends AppCompatActivity {
 
             if (!etSum.getText().toString().matches(".*\\d.*")) {
                 Shake.highlightEditText(etSum);
-                Toast.makeText(this, getResources().getString(R.string.account_empty_field_sum), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.empty_amount_field), Toast.LENGTH_SHORT).show();
 
                 return false;
             }
@@ -260,7 +260,7 @@ public class ActAccount extends AppCompatActivity {
         new MaterialDialog.Builder(this)
                 .title(getString(R.string.dialog_title_delete_account))
                 .content(getString(R.string.dialog_text_delete_account))
-                .positiveText(getString(R.string.dialog_button_delete_account))
+                .positiveText(getString(R.string.delete))
                 .negativeText(getString(R.string.dialog_button_delete_account_cancel))
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override

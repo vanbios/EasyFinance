@@ -132,7 +132,7 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
 
         if (! sum.matches(".*\\d.*") || Double.parseDouble(sum) == 0) {
             Shake.highlightEditText(etSum);
-            Toast.makeText(getActivity(), getResources().getString(R.string.transaction_empty_amount_field), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getResources().getString(R.string.empty_amount_field), Toast.LENGTH_SHORT).show();
         }
 
         else {
@@ -149,8 +149,8 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
             double accountAmount = account.getAmount();
 
             if (rbCost.isChecked() && Math.abs(amount) > accountAmount) {
-                Toast.makeText(getActivity(), getResources().getString(R.string.transaction_not_enough_costs) + " " +
-                        Math.abs(amount), Toast.LENGTH_SHORT).show();}
+                Toast.makeText(getActivity(),
+                        getResources().getString(R.string.not_enough_costs), Toast.LENGTH_SHORT).show();}
             else {
                 accountAmount += amount;
 

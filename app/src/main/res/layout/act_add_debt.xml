@@ -73,7 +73,7 @@
                         android:layout_height="28dp"
                         android:id="@+id/ivAddDebtName"
                         android:src="@drawable/ic_clipboard_text_cyan_dark_48dp"
-                        android:contentDescription="@string/debt_name_hint"
+                        android:contentDescription="@string/empty_name_field"
 
                         android:layout_centerVertical="true"
 
@@ -87,7 +87,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/editTextDebtName"
                         android:maxLength="50"
-                        android:hint="@string/debt_name_hint"
+                        android:hint="@string/empty_name_field"
 
                         android:singleLine="true"
 
@@ -195,7 +195,7 @@
                         android:id="@+id/ivAddDebtSum"
                         android:src="@drawable/ic_coin_stacks_cyan_48dp"
                         android:layout_centerVertical="true"
-                        android:contentDescription="@string/sum_hint" />
+                        android:contentDescription="@string/empty_amount_field" />
 
 
 
@@ -204,7 +204,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="numberDecimal"
                         android:ems="6"
-                        android:hint="@string/sum_hint"
+                        android:hint="@string/empty_amount_field"
                         android:maxLength="15"
                         android:id="@+id/editTextDebtSum"
                         android:layout_centerHorizontal="true"

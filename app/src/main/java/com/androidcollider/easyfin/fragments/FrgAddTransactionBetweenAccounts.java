@@ -161,7 +161,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
         EditText etSum = (EditText) view.findViewById(R.id.editTextTransBTWSum);
 
-        if (checkEditTextForCorrect(etSum, R.string.transaction_empty_amount_field)) {
+        if (checkEditTextForCorrect(etSum, R.string.empty_amount_field)) {
 
             double amount = Double.parseDouble(etSum.getText().toString());
 
@@ -169,8 +169,8 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
             double accountAmountFrom = accountFrom.getAmount();
 
             if (amount > accountAmountFrom) {
-                Toast.makeText(getActivity(), getResources().getString(R.string.transaction_not_enough_costs) + " " +
-                        Math.abs(amount), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),
+                        getResources().getString(R.string.not_enough_costs), Toast.LENGTH_SHORT).show();
 
             } else {
 
@@ -184,7 +184,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
                 if (etExchange.getVisibility() == View.VISIBLE) {
 
-                    if (checkEditTextForCorrect(etExchange, R.string.transaction_empty_exchange_field)) {
+                    if (checkEditTextForCorrect(etExchange, R.string.empty_exchange_field)) {
 
                         double exchange = Double.parseDouble(etExchange.getText().toString());
 

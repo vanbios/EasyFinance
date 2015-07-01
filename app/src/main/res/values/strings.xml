@@ -13,17 +13,23 @@
     <string name="new_account">Новий рахунок</string>
     <string name="new_debt">Новий борг</string>
     <string name="edit_account">Редагування рахунку</string>
+
     <string name="save">Зберегти</string>
     <string name="delete">Видалити</string>
+    <string name="close">Закрити</string>
+    <string name="cancel">Скасувати</string>
+    <string name="get_it">Зрозуміло</string>
+    <string name="done">Готово</string>
+
     <string name="account_add">Додати рахунок</string>
     <string name="transaction_add">Додати транзакцію</string>
     <string name="return_to_main">На головну</string>
-    <string name="close">Закрити</string>
-    <string name="cancel">Скасувати</string>
 
     <string name="debt_delete">Видалення боргу</string>
     <string name="pay_all_debt">Сплатити весь борг</string>
     <string name="pay_part_debt">Сплатити частину боргу</string>
+
+    <string name="dialog_button_delete_account_cancel">Відмінити</string>
 
 
 
@@ -37,7 +43,6 @@
     // transactions tabs
     <string name="add_transaction_tab_default">Витрати / Дохід</string>
     <string name="add_transaction_tab_between">Між рахунками</string>
-
 
 
 
@@ -55,10 +60,7 @@
 
 
 
-
     // add accounts, debts,  transactions activities text fields
-    <string name="sum_hint">Введіть суму</string>
-    <string name="account_name_hint">Назва рахунку</string>
     <string name="account_type">Тип рахунку</string>
     <string name="currency">Валюта</string>
     <string name="date">Дата</string>
@@ -70,14 +72,17 @@
     <string name="exchange_hint">Курс</string>
 
     <string name="debt_type">Тип боргу</string>
-    <string name="debt_name_hint">Назва боргу</string>
 
 
 
 
     // warnings and alarms (dialogs, toasts etc.)
+    <string name="empty_amount_field">Введіть суму</string>
+    <string name="empty_name_field">Введіть назву</string>
+    <string name="empty_exchange_field">Введіть курс</string>
+
     <string name="no_account">Відсутні рахунки!</string>
-    <string name="single_account">Недостатньо рахунків!</string>
+
     <string name="dialog_text_transaction_no_account">Неможливо здійснити транзакцію, оскільки не додано жодного рахунку.
     Натисніть "Новий рахунок", щоб додати.</string>
 
@@ -86,14 +91,6 @@
     <string name="dialog_text_debt_no_account">Для роботи з боргами треба мати хоча б один рахунок.
     Натисніть "Новий рахунок", щоб додати.</string>
 
-    <string name="transaction_not_enough_costs">Недостатньо коштів на рахунку для здійснення транзакції на суму</string>
-    <string name="transaction_empty_amount_field">Вкажіть суму транзакції</string>
-    <string name="transaction_empty_exchange_field">Вкажіть курс</string>
-
-    <string name="empty_amount_field">Вкажіть суму</string>
-
-    <string name="account_empty_field_name">Вкажіть назву рахунку</string>
-    <string name="account_empty_field_sum">Вкажіть суму рахунку</string>
     <string name="account_name_exist">Рахунок з такою назвою вже існує. Спробуйте іншу</string>
     <string name="snack_account_list">Для редагування зробіть довге натискання на рахунок</string>
 
@@ -104,9 +101,7 @@
     <string name="transaction_empty_list">Тут будуть відображатись ваші транзакції</string>
     <string name="debt_empty_list">Тут будуть відображатись ваші борги</string>
 
-    <string name="debt_not_enough_costs">Недостатньо коштів на рахунку</string>
-    <string name="debt_empty_field_name">Вкажіть назву боргу</string>
-    <string name="debt_empty_field_sum">Вкажіть суму боргу</string>
+    <string name="not_enough_costs">Недостатньо коштів на рахунку</string>
 
     <string name="debt_delete_warning">Видалення боргу змінить стан рахунку.</string>
 
@@ -114,15 +109,6 @@
 
     <string name="debt_sum_more_then_amount">Введена сума перевищує суму боргу</string>
 
-
-
-
-    // buttons (dialogs, snack_bar etc.)
-    <string name="dialog_button_delete_account">Видалити</string>
-    <string name="dialog_button_delete_account_cancel">Відмінити</string>
-
-    <string name="get_it">Зрозуміло</string>
-    <string name="done">Готово</string>
 
 
     //etc.

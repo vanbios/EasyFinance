@@ -205,7 +205,7 @@ public class ActPayDebt extends AppCompatActivity {
 
                 if (type == 1 && amountDebt > amountAccount) {
                     Shake.highlightEditText(etSum);
-                    Toast.makeText(this, getResources().getString(R.string.debt_not_enough_costs), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getResources().getString(R.string.not_enough_costs), Toast.LENGTH_SHORT).show();
 
                 } else {
 

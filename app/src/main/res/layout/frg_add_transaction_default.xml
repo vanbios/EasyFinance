@@ -53,7 +53,7 @@
                 android:layout_height="28dp"
                 android:id="@+id/ivAddTransDefSum"
                 android:src="@drawable/ic_coin_stacks_cyan_48dp"
-                android:contentDescription="@string/sum_hint"
+                android:contentDescription="@string/empty_amount_field"
                 android:layout_centerVertical="true"/>
 
 
@@ -63,7 +63,7 @@
                     android:inputType="numberDecimal"
                     android:ems="6"
                     android:id="@+id/editTextTransSum"
-                    android:hint="@string/sum_hint"
+                    android:hint="@string/empty_amount_field"
                     android:maxLength="15"
                     style="@style/TitleBigFont"
                     android:layout_centerHorizontal="true"

@@ -132,7 +132,7 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
 
             if (type == 0 && Math.abs(amount) > accountAmount) {
-                Toast.makeText(this, getResources().getString(R.string.debt_not_enough_costs), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.not_enough_costs), Toast.LENGTH_SHORT).show();
 
             } else {
 
@@ -180,7 +180,7 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
         if (st.isEmpty()) {
             Shake.highlightEditText(etName);
-            Toast.makeText(this, getResources().getString(R.string.debt_empty_field_name), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getResources().getString(R.string.empty_name_field), Toast.LENGTH_SHORT).show();
 
             return false;
         }
@@ -189,7 +189,7 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
             if (!etSum.getText().toString().matches(".*\\d.*")) {
                 Shake.highlightEditText(etSum);
-                Toast.makeText(this, getResources().getString(R.string.debt_empty_field_sum), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getResources().getString(R.string.empty_amount_field), Toast.LENGTH_SHORT).show();
 
                 return false;
             }
