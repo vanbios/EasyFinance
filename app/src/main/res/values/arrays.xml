@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="trans_categories_icons">
+    <array name="transaction_categories_icons">
         <item>@drawable/ic_food_grey600_24dp</item>
         <item>@drawable/ic_tram_grey600_24dp</item>
         <item>@drawable/ic_tshirt_crew_grey600_24dp</item>

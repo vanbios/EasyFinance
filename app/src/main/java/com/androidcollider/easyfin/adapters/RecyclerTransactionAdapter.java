@@ -42,8 +42,8 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
         this.context = context;
         this.transactionArrayList = transactionArrayList;
 
-        catIconsArray = context.getResources().obtainTypedArray(R.array.trans_categories_icons);
-        catArray = context.getResources().getStringArray(R.array.cat_transaction_array);
+        catIconsArray = context.getResources().obtainTypedArray(R.array.transaction_categories_icons);
+        catArray = context.getResources().getStringArray(R.array.transaction_category_array);
         curArray = context.getResources().getStringArray(R.array.account_currency_array);
         curLangArray = context.getResources().getStringArray(R.array.account_currency_array_language);
         typeArray = context.getResources().getStringArray(R.array.account_type_array);

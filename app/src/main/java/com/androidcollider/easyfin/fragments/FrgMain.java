@@ -268,7 +268,7 @@ public class FrgMain extends Fragment implements View.OnClickListener{
                 R.layout.spin_drop_icon_text,
                 R.id.tvSpinDropIconText,
                 R.id.ivSpinDropIconText,
-                getResources().getStringArray(R.array.charts_main_array),
+                getResources().getStringArray(R.array.chart_type_array),
                 getResources().obtainTypedArray(R.array.charts_main_icons)));
 
         spinChartType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

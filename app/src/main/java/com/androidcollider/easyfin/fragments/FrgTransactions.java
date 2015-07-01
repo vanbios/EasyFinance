@@ -136,7 +136,7 @@ public class FrgTransactions extends Fragment{
     private void showDialogDeleteTransaction(final int pos) {
 
         new MaterialDialog.Builder(getActivity())
-                .title(getString(R.string.transaction_delete))
+                .title(getString(R.string.delete_transaction))
                 .content(getString(R.string.transaction_delete_warning))
                 .positiveText(getString(R.string.delete))
                 .negativeText(getString(R.string.cancel))

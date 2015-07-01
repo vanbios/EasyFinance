@@ -8,11 +8,16 @@
 
 
     // actions
-    <string name="new_transaction">Нова транзакція</string>
-    <string name="transaction_delete">Видалення транзакції</string>
     <string name="new_account">Новий рахунок</string>
     <string name="new_debt">Новий борг</string>
+    <string name="new_transaction">Нова транзакція</string>
+    <string name="delete_transaction">Видалення транзакції</string>
+    <string name="add_account">Додати рахунок</string>
+    <string name="add_transaction">Додати транзакцію</string>
     <string name="edit_account">Редагування рахунку</string>
+    <string name="delete_debt">Видалення боргу</string>
+    <string name="pay_all_debt">Сплатити весь борг</string>
+    <string name="pay_part_debt">Сплатити частину боргу</string>
 
     <string name="save">Зберегти</string>
     <string name="delete">Видалити</string>
@@ -21,47 +26,38 @@
     <string name="get_it">Зрозуміло</string>
     <string name="done">Готово</string>
 
-    <string name="account_add">Додати рахунок</string>
-    <string name="transaction_add">Додати транзакцію</string>
     <string name="return_to_main">На головну</string>
 
-    <string name="debt_delete">Видалення боргу</string>
-    <string name="pay_all_debt">Сплатити весь борг</string>
-    <string name="pay_part_debt">Сплатити частину боргу</string>
-
-    <string name="dialog_button_delete_account_cancel">Відмінити</string>
 
 
-
-    // main tabs
+    // tabs
     <string name="tab_transactions">Транзакції</string>
     <string name="tab_accounts">Рахунки</string>
     <string name="tab_main">Головна</string>
 
-
-
-    // transactions tabs
-    <string name="add_transaction_tab_default">Витрати / Дохід</string>
-    <string name="add_transaction_tab_between">Між рахунками</string>
+    <string name="tab_transaction_default">Витрати / Дохід</string>
+    <string name="tab_transaction_between">Між рахунками</string>
 
 
 
     // text fields main
-    <string name="main_current_balance">Баланс</string>
-    <string name="main_cash">Готівка</string>
-    <string name="main_card">Картки</string>
-    <string name="main_deposit">Депозити</string>
-    <string name="main_debt">Борги</string>
-    <string name="main_sum">Разом</string>
-    <string name="main_statistic">Звіт</string>
-    <string name="main_period">Період</string>
-    <string name="main_income">Дохід</string>
-    <string name="main_cost">Витрати</string>
+    <string name="balance">Баланс</string>
+    <string name="cash">Готівка</string>
+    <string name="cards">Картки</string>
+    <string name="deposits">Депозити</string>
+    <string name="debts">Борги</string>
+    <string name="sum">Разом</string>
+    <string name="report">Звіт</string>
+    <string name="period">Період</string>
+    <string name="income">Дохід</string>
+    <string name="cost">Витрати</string>
 
 
 
     // add accounts, debts,  transactions activities text fields
     <string name="account_type">Тип рахунку</string>
+    <string name="debt_type">Тип боргу</string>
+
     <string name="currency">Валюта</string>
     <string name="date">Дата</string>
     <string name="category">Категорія</string>
@@ -69,10 +65,7 @@
 
     <string name="account_from">З рахунку</string>
     <string name="account_to">На рахунок</string>
-    <string name="exchange_hint">Курс</string>
-
-    <string name="debt_type">Тип боргу</string>
-
+    <string name="exchange">Курс</string>
 
 
 
@@ -82,14 +75,6 @@
     <string name="empty_exchange_field">Введіть курс</string>
 
     <string name="no_account">Відсутні рахунки!</string>
-
-    <string name="dialog_text_transaction_no_account">Неможливо здійснити транзакцію, оскільки не додано жодного рахунку.
-    Натисніть "Новий рахунок", щоб додати.</string>
-
-    <string name="transaction_delete_warning">Видалення транзакції змінить стан рахунку.</string>
-
-    <string name="dialog_text_debt_no_account">Для роботи з боргами треба мати хоча б один рахунок.
-    Натисніть "Новий рахунок", щоб додати.</string>
 
     <string name="account_name_exist">Рахунок з такою назвою вже існує. Спробуйте іншу</string>
     <string name="snack_account_list">Для редагування зробіть довге натискання на рахунок</string>
@@ -103,10 +88,16 @@
 
     <string name="not_enough_costs">Недостатньо коштів на рахунку</string>
 
+    <string name="dialog_text_transaction_no_account">Неможливо здійснити транзакцію, оскільки не додано жодного рахунку.
+    Натисніть "Новий рахунок", щоб додати.</string>
+
+    <string name="transaction_delete_warning">Видалення транзакції змінить стан рахунку.</string>
+
+    <string name="dialog_text_debt_no_account">Для роботи з боргами треба мати хоча б один рахунок.
+    Натисніть "Новий рахунок", щоб додати.</string>
+
     <string name="debt_delete_warning">Видалення боргу змінить стан рахунку.</string>
-
     <string name="debt_no_available_accounts_warning">Немає доступних рахунків для даної дії.</string>
-
     <string name="debt_sum_more_then_amount">Введена сума перевищує суму боргу</string>
 
 
@@ -122,7 +113,7 @@
 
 
     //string arrays
-    <string-array name="cat_transaction_array">
+    <string-array name="transaction_category_array">
         <item>Їжа</item>
         <item>Проїзд</item>
         <item>Одяг</item>
@@ -172,7 +163,7 @@
     </string-array>
 
 
-    <string-array name="charts_main_array">
+    <string-array name="chart_type_array">
         <item>Гістограма</item>
         <item>Кругова</item>
     </string-array>

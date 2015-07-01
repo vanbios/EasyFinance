@@ -174,7 +174,7 @@
                     android:inputType="numberDecimal"
                     android:ems="3"
                     android:id="@+id/editTextTransBTWExchange"
-                    android:hint="@string/exchange_hint"
+                    android:hint="@string/exchange"
                     android:maxLength="12"
                     style="@style/TitleFont"
                     android:layout_below="@+id/cvAddTransBTWDividerExchange"

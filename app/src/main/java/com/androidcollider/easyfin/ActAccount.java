@@ -255,7 +255,7 @@ public class ActAccount extends AppCompatActivity {
                 .title(getString(R.string.dialog_title_delete_account))
                 .content(getString(R.string.dialog_text_delete_account))
                 .positiveText(getString(R.string.delete))
-                .negativeText(getString(R.string.dialog_button_delete_account_cancel))
+                .negativeText(getString(R.string.cancel))
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {

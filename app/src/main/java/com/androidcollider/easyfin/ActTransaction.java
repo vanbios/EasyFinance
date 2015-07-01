@@ -57,11 +57,11 @@ public class ActTransaction extends AppCompatActivity {
         pagerTrans = (ViewPager) findViewById(R.id.pagerAddTransaction);
         MyFragmentPagerAdapter adapterPager = new MyFragmentPagerAdapter(getSupportFragmentManager());
         adapterPager.addFragment(new FrgAddTransactionDefault(),
-                getResources().getString(R.string.add_transaction_tab_default));
+                getResources().getString(R.string.tab_transaction_default));
 
         if (accountNames.size() > 1) {
             adapterPager.addFragment(new FrgAddTransactionBetweenAccounts(),
-                    getResources().getString(R.string.add_transaction_tab_between));
+                    getResources().getString(R.string.tab_transaction_between));
         }
 
         pagerTrans.setAdapter(adapterPager);

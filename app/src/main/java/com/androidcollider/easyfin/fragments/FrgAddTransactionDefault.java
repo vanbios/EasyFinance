@@ -71,7 +71,7 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
         spinCategory = (Spinner) view.findViewById(R.id.spinAddTransCategory);
         spinAccount = (Spinner) view.findViewById(R.id.spinAddTransDefAccount);
 
-        String[] category = getResources().getStringArray(R.array.cat_transaction_array);
+        String[] category = getResources().getStringArray(R.array.transaction_category_array);
 
 
         spinCategory.setAdapter(new SpinIconTextHeadAdapter(
@@ -83,7 +83,7 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
                 R.id.tvSpinDropIconText,
                 R.id.ivSpinDropIconText,
                 category,
-                getResources().obtainTypedArray(R.array.trans_categories_icons)));
+                getResources().obtainTypedArray(R.array.transaction_categories_icons)));
 
         spinCategory.setSelection(category.length - 1);
 

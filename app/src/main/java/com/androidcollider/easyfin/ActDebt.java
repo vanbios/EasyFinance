@@ -48,7 +48,7 @@ public class ActDebt extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_debt);
 
-        setToolbar(R.string.main_debt);
+        setToolbar(R.string.debts);
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerDebt);
 
@@ -168,7 +168,7 @@ public class ActDebt extends AppCompatActivity {
     private void showDialogDeleteDebt(final int pos) {
 
         new MaterialDialog.Builder(this)
-                .title(getString(R.string.debt_delete))
+                .title(getString(R.string.delete_debt))
                 .content(getString(R.string.debt_delete_warning))
                 .positiveText(getString(R.string.delete))
                 .negativeText(getString(R.string.cancel))
