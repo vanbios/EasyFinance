@@ -1,14 +1,12 @@
 package com.androidcollider.easyfin.utils;
 
 
-import android.support.annotation.NonNull;
-
 import java.text.DecimalFormat;
 
 
 public class FormatUtils {
 
-    @NonNull
+
     public static String doubleFormatter (double number, String format, int precise){
 
         DecimalFormat dfRate = new DecimalFormat(format);
@@ -35,9 +33,5 @@ public class FormatUtils {
     public static boolean isDoubleNegative(double d) {
         return Double.compare(d, 0.0) < 0;
     }
-
-    /*public static double stringToDouble(String s) {
-        return Double.parseDouble(s.replace(",", "."));
-    }*/
 
 }

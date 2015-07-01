@@ -55,7 +55,6 @@ public class ActAccount extends AppCompatActivity {
 
         etName = (EditText) findViewById(R.id.editTextAccountName);
         etSum = (EditText) findViewById(R.id.editTextAccountSum);
-
     }
 
     private void setMode () {
@@ -125,7 +124,6 @@ public class ActAccount extends AppCompatActivity {
 
     private void setToolbar(int id) {
         Toolbar ToolBar = (Toolbar) findViewById(R.id.toolbarMain);
-        assert getSupportActionBar() != null;
         setSupportActionBar(ToolBar);
         getSupportActionBar().setTitle(id);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -147,7 +145,6 @@ public class ActAccount extends AppCompatActivity {
 
         idAccount = accFrIntent.getId();
     }
-
 
     private void addAccount() {
 
@@ -175,7 +172,6 @@ public class ActAccount extends AppCompatActivity {
             }
         }
 
-
     private void editAccount() {
 
         if (checkForFillNameSumFields()) {
@@ -201,7 +197,6 @@ public class ActAccount extends AppCompatActivity {
                 }
             }
         }
-
 
     private void lastActions() {
         InfoFromDB.getInstance().updateAccountList();
@@ -243,7 +238,6 @@ public class ActAccount extends AppCompatActivity {
         sendBroadcast(intentFrgAccounts);
 
 
-
         if (mode == 0) {
             SharedPref sp = new SharedPref(this);
             if(!sp.isSnackBarAccountDisable()) {
@@ -255,7 +249,7 @@ public class ActAccount extends AppCompatActivity {
         }
     }
 
-    private void deleteAccountDialog() {
+    private void showDeleteAccountDialog() {
 
         new MaterialDialog.Builder(this)
                 .title(getString(R.string.dialog_title_delete_account))
@@ -269,7 +263,6 @@ public class ActAccount extends AppCompatActivity {
                     }
                 })
                 .show();
-
     }
 
     private void deleteAccount() {
@@ -281,8 +274,6 @@ public class ActAccount extends AppCompatActivity {
 
         lastActions();
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -301,7 +292,7 @@ public class ActAccount extends AppCompatActivity {
                 return true;}
 
             case R.id.account_action_delete: {
-                deleteAccountDialog();
+                showDeleteAccountDialog();
                 return true;}
         }
         return false;
@@ -320,4 +311,5 @@ public class ActAccount extends AppCompatActivity {
 
         return true;
     }
+
 }

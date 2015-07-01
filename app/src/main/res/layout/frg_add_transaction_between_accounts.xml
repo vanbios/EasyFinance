@@ -8,10 +8,7 @@
     android:layout_centerHorizontal="true"
     android:paddingTop="@dimen/common_padding_large"
     android:paddingLeft="@dimen/common_padding_medium"
-    android:paddingStart="@dimen/common_padding_medium"
     android:paddingRight="@dimen/common_padding_medium"
-    android:paddingEnd="@dimen/common_padding_medium"
-
     android:scrollbars="none">
 
 
@@ -28,19 +25,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/common_padding_large"
-            android:paddingStart="@dimen/common_padding_large"
             android:paddingRight="@dimen/common_padding_large"
-            android:paddingEnd="@dimen/common_padding_large"
             android:paddingBottom="@dimen/common_padding_medium">
 
 
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/layoutAddTransBTWSum"
-            android:layout_marginTop="@dimen/common_padding_large">
-
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/layoutAddTransBTWSum"
+                android:layout_marginTop="@dimen/common_padding_large">
 
 
                 <ImageView
@@ -49,7 +42,6 @@
                     android:id="@+id/ivAddTransBTWSum"
                     android:src="@drawable/ic_coin_stacks_cyan_48dp"
                     android:contentDescription="@string/empty_amount_field"
-
                     android:layout_centerVertical="true"/>
 
 
@@ -63,14 +55,11 @@
                     android:hint="@string/empty_amount_field"
                     android:maxLength="15"
                     style="@style/TitleBigFont"
-
                     android:layout_centerHorizontal="true"
-
                     android:gravity="center_horizontal"/>
 
+
             </RelativeLayout>
-
-
 
 
             <View
@@ -80,9 +69,7 @@
                 android:layout_below="@+id/layoutAddTransBTWSum"
                 android:background="@color/custom_divider"
                 android:layout_marginLeft="68dp"
-                android:layout_marginStart="68dp"
                 android:layout_marginTop="64dp"/>
-
 
 
             <LinearLayout
@@ -92,7 +79,6 @@
                 android:id="@+id/layoutAddTransBTWAccountFrom"
                 android:layout_below="@+id/cvAddTransBTWDivider"
                 android:baselineAligned="false"
-
                 android:gravity="center_vertical">
 
 
@@ -102,8 +88,7 @@
                     android:id="@+id/ivAddTransBTWAccountFrom"
                     android:src="@drawable/ic_outcome_red_48dp"
                     android:contentDescription="@string/account"
-                    android:layout_marginRight="40dp"
-                    android:layout_marginEnd="40dp" />
+                    android:layout_marginRight="40dp" />
 
 
                 <Spinner
@@ -113,15 +98,16 @@
                     android:spinnerMode="dialog"
                     android:prompt="@string/account_from" />
 
+
             </LinearLayout>
+
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/layoutAddTransBTWAccountFrom"
                 android:background="@color/custom_divider"
-                android:layout_marginLeft="68dp"
-                android:layout_marginStart="68dp" />
+                android:layout_marginLeft="68dp" />
 
 
             <LinearLayout
@@ -131,7 +117,6 @@
                 android:id="@+id/layoutAddTransBTWAccountTo"
                 android:layout_below="@+id/layoutAddTransBTWAccountFrom"
                 android:baselineAligned="false"
-
                 android:gravity="center_vertical">
 
 
@@ -141,8 +126,7 @@
                     android:id="@+id/ivAddTransBTWAccountTo"
                     android:src="@drawable/ic_income_green_48dp"
                     android:contentDescription="@string/account"
-                    android:layout_marginRight="40dp"
-                    android:layout_marginEnd="40dp" />
+                    android:layout_marginRight="40dp" />
 
 
                 <Spinner
@@ -156,62 +140,50 @@
             </LinearLayout>
 
 
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/layoutAddTransBTWExchange"
-            android:layout_below="@+id/layoutAddTransBTWAccountTo"
-            android:layout_marginBottom="@dimen/common_padding_large"
-
-            android:visibility="gone">
-
-
-            <View
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:id="@+id/cvAddTransBTWDividerExchange"
-                android:background="@color/custom_divider"
-                android:layout_marginLeft="68dp"
-                android:layout_marginStart="68dp"
-
-                android:layout_alignParentTop="true" />
+                android:layout_height="match_parent"
+                android:id="@+id/layoutAddTransBTWExchange"
+                android:layout_below="@+id/layoutAddTransBTWAccountTo"
+                android:layout_marginBottom="@dimen/common_padding_large"
+                android:visibility="gone">
 
 
-            <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:id="@+id/ivAddTransBTWExchange"
-                android:src="@drawable/ic_exchange_cyan_dark_48dp"
-                android:contentDescription="@string/account"
-                android:layout_below="@+id/cvAddTransBTWDividerExchange"
-
-                android:layout_marginTop="28dp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:id="@+id/cvAddTransBTWDividerExchange"
+                    android:background="@color/custom_divider"
+                    android:layout_marginLeft="68dp"
+                    android:layout_alignParentTop="true" />
 
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal"
-                android:ems="3"
-                android:id="@+id/editTextTransBTWExchange"
-                android:hint="@string/exchange_hint"
-                android:maxLength="12"
-                style="@style/TitleFont"
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:id="@+id/ivAddTransBTWExchange"
+                    android:src="@drawable/ic_exchange_cyan_dark_48dp"
+                    android:contentDescription="@string/account"
+                    android:layout_below="@+id/cvAddTransBTWDividerExchange"
+                    android:layout_marginTop="28dp" />
 
-                android:layout_below="@+id/cvAddTransBTWDividerExchange"
 
-                android:layout_marginTop="@dimen/common_padding_large"
-                android:layout_centerHorizontal="true"
-                android:gravity="center_horizontal" />
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:ems="3"
+                    android:id="@+id/editTextTransBTWExchange"
+                    android:hint="@string/exchange_hint"
+                    android:maxLength="12"
+                    style="@style/TitleFont"
+                    android:layout_below="@+id/cvAddTransBTWDividerExchange"
+                    android:layout_marginTop="@dimen/common_padding_large"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center_horizontal" />
 
 
             </RelativeLayout>
-
-
-
         </RelativeLayout>
-
     </android.support.v7.widget.CardView>
-
 </ScrollView>

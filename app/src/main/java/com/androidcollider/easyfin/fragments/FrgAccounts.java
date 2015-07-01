@@ -106,4 +106,5 @@ public class FrgAccounts extends Fragment{
             recyclerView.setVisibility(View.VISIBLE);
         }
     }
+
 }

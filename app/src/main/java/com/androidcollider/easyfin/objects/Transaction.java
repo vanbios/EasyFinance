@@ -9,11 +9,8 @@ public class Transaction {
     private double amount;
     private String category;
     private String currency;
-
     private double accountAmount;
-
     private String accountName;
-
     private String accountType;
 
 
@@ -58,4 +55,5 @@ public class Transaction {
     public double getAccountAmount() {return accountAmount;}
 
     public int getId() {return id;}
+
 }

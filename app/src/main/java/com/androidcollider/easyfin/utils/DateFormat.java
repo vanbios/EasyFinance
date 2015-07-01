@@ -1,8 +1,6 @@
 package com.androidcollider.easyfin.utils;
 
 
-import android.support.annotation.NonNull;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,7 +9,7 @@ import java.util.Locale;
 
 public class DateFormat {
 
-    @NonNull
+
     public static String dateToString(Date date, String dateFormat){
         java.text.DateFormat df = new SimpleDateFormat(dateFormat, Locale.getDefault());
 
@@ -30,11 +28,11 @@ public class DateFormat {
         return date;
     }
 
-    @NonNull
     public static String longToDateString(long dateLong, String dateFormat){
         Date date = new Date(dateLong);
         java.text.DateFormat df = new SimpleDateFormat(dateFormat, Locale.getDefault());
 
         return df.format(date);
     }
+
 }

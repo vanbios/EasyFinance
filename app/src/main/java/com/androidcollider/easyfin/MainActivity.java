@@ -59,10 +59,8 @@ public class MainActivity extends AppCompatActivity {
             makeBroadcastReceiver();}
     }
 
-
     private void setToolbar (int id) {
         Toolbar ToolBar = (Toolbar) findViewById(R.id.toolbarMain);
-        assert getSupportActionBar() != null;
         setSupportActionBar(ToolBar);
         getSupportActionBar().setTitle(id);
     }
@@ -84,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
         tabs.setupWithViewPager(pager);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -102,28 +99,6 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
-    private void showSnackBar() {
-        final CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinateLayoutFloatMain);
-
-        Runnable task = new Runnable() {
-            public void run() {
-                Snackbar.make(coordinatorLayout, R.string.snack_account_list, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.get_it, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                sharedPref.disableSnackBarAccount();
-                            }
-                        })
-                        .show();
-            }
-        };
-        worker.schedule(task, 2, TimeUnit.SECONDS);
-    }
-
-    private static final ScheduledExecutorService worker =
-            Executors.newSingleThreadScheduledExecutor();
-
 
     private void makeBroadcastReceiver() {
         broadcastReceiver = new BroadcastReceiver() {
@@ -168,4 +143,26 @@ public class MainActivity extends AppCompatActivity {
             case 2: addAccountMain(); break;
         }
     }
+
+    private void showSnackBar() {
+        final CoordinatorLayout coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinateLayoutFloatMain);
+
+        Runnable task = new Runnable() {
+            public void run() {
+                Snackbar.make(coordinatorLayout, R.string.snack_account_list, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.get_it, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                sharedPref.disableSnackBarAccount();
+                            }
+                        })
+                        .show();
+            }
+        };
+        worker.schedule(task, 2, TimeUnit.SECONDS);
+    }
+
+    private static final ScheduledExecutorService worker =
+            Executors.newSingleThreadScheduledExecutor();
+
 }

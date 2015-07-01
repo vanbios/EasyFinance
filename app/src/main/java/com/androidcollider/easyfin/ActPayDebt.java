@@ -259,7 +259,6 @@ public class ActPayDebt extends AppCompatActivity {
 
     private void setToolbar (int id) {
         Toolbar ToolBar = (Toolbar) findViewById(R.id.toolbarMain);
-        assert getSupportActionBar() != null;
         setSupportActionBar(ToolBar);
         getSupportActionBar().setTitle(id);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -336,4 +335,5 @@ public class ActPayDebt extends AppCompatActivity {
         Intent intent = new Intent(this, ActAccount.class);
         startActivity(intent);
     }
+
 }

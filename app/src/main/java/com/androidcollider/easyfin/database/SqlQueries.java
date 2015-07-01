@@ -32,4 +32,5 @@ public class SqlQueries {
                 "id_account       INTEGER NOT NULL," +
                 "date             INTEGER NOT NULL" +
                 ");";
+
 }

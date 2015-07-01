@@ -12,6 +12,7 @@ public class Account implements Serializable{
     private String currency;
 
 
+
     public Account(int id, String name, double amount, String type, String currency) {
         this.id = id;
         this.name = name;

@@ -25,7 +25,6 @@ public class SharedPref {
 
 
 
-
     public void setMainBalanceSettingsConvertCheck(boolean b) {
         sharedPreferences.edit().putBoolean("mainBalanceSettingsConvertChecked", b).apply();
     }
@@ -33,11 +32,6 @@ public class SharedPref {
     public boolean getMainBalanceSettingsConvertCheck() {
         return sharedPreferences.getBoolean("mainBalanceSettingsConvertChecked", false);
     }
-
-    public boolean isMainBalanceSettingsConvertChecked() {
-        return sharedPreferences.contains("mainBalanceSettingsConvertChecked");
-    }
-
 
 
     public void setMainBalanceSettingsShowCentsCheck(boolean b) {
@@ -48,7 +42,4 @@ public class SharedPref {
         return sharedPreferences.getBoolean("mainBalanceSettingsShowCentsChecked", false);
     }
 
-    public boolean isMainBalanceSettingsShowCentsChecked() {
-        return sharedPreferences.contains("mainBalanceSettingsShowCentsChecked");
-    }
 }

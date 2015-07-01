@@ -6,6 +6,5 @@
     android:layout_height="wrap_content"
     android:id="@+id/tvSpinHeadTextMedium"
     style="@style/SubheadFont"
-    android:gravity="start"
     android:singleLine="true"
     android:padding="@dimen/common_padding_medium" />

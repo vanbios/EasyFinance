@@ -42,13 +42,13 @@ public class ChartDataUtils {
 
         BarDataSet barDataSet1 = new BarDataSet(valueSet1, accountType[0]);
         barDataSet1.setColor(context.getResources().getColor(R.color.custom_teal_dark));
-        //barDataSet1.setAxisDependency(YAxis.AxisDependency.LEFT);
+
         BarDataSet barDataSet2 = new BarDataSet(valueSet2, accountType[1]);
         barDataSet2.setColor(context.getResources().getColor(R.color.custom_amber_dark));
-        //barDataSet2.setAxisDependency(YAxis.AxisDependency.LEFT);
+
         BarDataSet barDataSet3 = new BarDataSet(valueSet3, accountType[2]);
         barDataSet3.setColor(context.getResources().getColor(R.color.custom_blue_dark));
-        //barDataSet3.setAxisDependency(YAxis.AxisDependency.LEFT);
+
         BarDataSet barDataSet4 = new BarDataSet(valueSet4, context.getResources().getString(R.string.main_debt));
 
         if (FormatUtils.isDoubleNegative(values[3])) {
@@ -58,7 +58,6 @@ public class ChartDataUtils {
         else {
             barDataSet4.setColor(context.getResources().getColor(R.color.custom_green));
         }
-        //barDataSet4.setAxisDependency(YAxis.AxisDependency.LEFT);
 
         ArrayList<BarDataSet> dataSets = new ArrayList<>();
         dataSets.add(barDataSet4);
@@ -90,10 +89,10 @@ public class ChartDataUtils {
 
         BarDataSet barDataSet1 = new BarDataSet(valueSet1, "income");
         barDataSet1.setColor(context.getResources().getColor(R.color.custom_green));
-        //barDataSet1.setAxisDependency(YAxis.AxisDependency.LEFT);
+
         BarDataSet barDataSet2 = new BarDataSet(valueSet2, "cost");
         barDataSet2.setColor(context.getResources().getColor(R.color.custom_red));
-        //barDataSet2.setAxisDependency(YAxis.AxisDependency.LEFT);
+
 
         ArrayList<BarDataSet> dataSets = new ArrayList<>();
         dataSets.add(barDataSet2);

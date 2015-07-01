@@ -52,7 +52,6 @@ public class InfoFromDB {
 
 
 
-
     public static InfoFromDB getInstance() {
         InfoFromDB localInstance = instance;
         if (localInstance == null) {

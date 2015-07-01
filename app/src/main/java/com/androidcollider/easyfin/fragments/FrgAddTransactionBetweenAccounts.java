@@ -54,8 +54,6 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
         return view;
     }
 
-
-
     private void setSpinners() {
         spinAccountFrom = (Spinner) view.findViewById(R.id.spinAddTransBTWAccountFrom);
         spinAccountTo = (Spinner) view.findViewById(R.id.spinAddTransBTWAccountTo);
@@ -102,7 +100,6 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
         });
     }
 
-
     private void updateSpinnerTo() {
         accountListTo.clear();
         accountListTo.addAll(accountListFrom);
@@ -110,7 +107,6 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
         adapterAccountTo.notifyDataSetChanged();
     }
-
 
     private void setCurrencyMode(boolean mode) {
         if (mode) {
@@ -137,14 +133,12 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
             }
     }
 
-
     private boolean checkForMultiCurrency() {
         Account accountFrom = (Account) spinAccountFrom.getSelectedItem();
         Account accountTo = (Account) spinAccountTo.getSelectedItem();
 
         return !accountFrom.getCurrency().equals(accountTo.getCurrency());
     }
-
 
     private void pushBroadcast() {
         Intent intentFragmentMain = new Intent(FrgMain.BROADCAST_FRG_MAIN_ACTION);
@@ -155,7 +149,6 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
         intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
         getActivity().sendBroadcast(intentFrgAccounts);
     }
-
 
     public void addTransactionBTW() {
 
@@ -218,7 +211,6 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
         getActivity().finish();
     }
 
-
     private boolean checkEditTextForCorrect(EditText et, int strRes) {
 
         String s = et.getText().toString();
@@ -227,8 +219,10 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
             Shake.highlightEditText(et);
             Toast.makeText(getActivity(), getResources().getString(strRes), Toast.LENGTH_SHORT).show();
 
-        return false;}
+        return false;
+        }
 
         return true;
     }
+
 }

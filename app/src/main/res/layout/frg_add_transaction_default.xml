@@ -2,24 +2,17 @@
 
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
     android:layout_alignParentTop="true"
-
     android:layout_centerHorizontal="true"
     android:paddingTop="@dimen/common_padding_large"
     android:paddingLeft="@dimen/common_padding_medium"
-    android:paddingStart="@dimen/common_padding_medium"
     android:paddingRight="@dimen/common_padding_medium"
-    android:paddingEnd="@dimen/common_padding_medium"
-
     android:scrollbars="none">
 
 
     <android.support.v7.widget.CardView
-
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,33 +21,27 @@
         card_view:cardUseCompatPadding="true">
 
 
-
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/common_padding_large"
-            android:paddingStart="@dimen/common_padding_large"
-            android:paddingRight="@dimen/common_padding_large"
-            android:paddingEnd="@dimen/common_padding_large">
+            android:paddingRight="@dimen/common_padding_large">
 
 
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/layoutAddTransDefSum"
-            android:layout_marginTop="@dimen/common_padding_large">
-
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/layoutAddTransDefSum"
+                android:layout_marginTop="@dimen/common_padding_large">
 
 
-            <ImageView
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:id="@+id/ivAddTransDefSum"
-                android:src="@drawable/ic_coin_stacks_cyan_48dp"
-                android:contentDescription="@string/empty_amount_field"
-                android:layout_centerVertical="true"/>
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:id="@+id/ivAddTransDefSum"
+                    android:src="@drawable/ic_coin_stacks_cyan_48dp"
+                    android:contentDescription="@string/empty_amount_field"
+                    android:layout_centerVertical="true"/>
 
 
                 <EditText
@@ -73,7 +60,6 @@
             </RelativeLayout>
 
 
-
             <RadioGroup
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -81,7 +67,6 @@
                 android:layout_below="@+id/layoutAddTransDefSum"
                 android:orientation='horizontal'
                 android:layout_centerHorizontal="true"
-
                 android:layout_marginTop="@dimen/common_padding_large">
 
 
@@ -92,7 +77,6 @@
                     android:checked="true"
                     android:gravity="center_vertical|left"
                     style="@style/RadioButtonMinusStyle"
-
                     android:padding="@dimen/common_padding_small"/>
 
                 <RadioButton
@@ -101,7 +85,6 @@
                     android:id="@+id/radioButtonIncome"
                     style="@style/RadioButtonPlusStyle"
                     android:gravity="center_vertical|right"
-
                     android:padding="@dimen/common_padding_small"/>
 
 
@@ -115,10 +98,7 @@
                 android:layout_below="@+id/radioGroupTransDef"
                 android:background="@color/custom_divider"
                 android:layout_marginLeft="68dp"
-                android:layout_marginStart="68dp"
                 android:layout_marginTop="36dp"/>
-
-
 
 
             <LinearLayout
@@ -128,7 +108,6 @@
                 android:id="@+id/linLayoutAddTransDefAccount"
                 android:layout_below="@+id/cvAddTransDefDividerTop"
                 android:baselineAligned="false"
-
                 android:gravity="center_vertical">
 
 
@@ -139,15 +118,16 @@
                     android:spinnerMode="dialog"
                     android:prompt="@string/account" />
 
-                </LinearLayout>
+
+            </LinearLayout>
+
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/linLayoutAddTransDefAccount"
                 android:background="@color/custom_divider"
-                android:layout_marginLeft="68dp"
-                android:layout_marginStart="68dp" />
+                android:layout_marginLeft="68dp" />
 
 
             <LinearLayout
@@ -157,28 +137,26 @@
                 android:id="@+id/linLayoutAddTransDefCategory"
                 android:layout_below="@+id/linLayoutAddTransDefAccount"
                 android:baselineAligned="false"
-
                 android:gravity="center_vertical">
 
 
-            <Spinner
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:id="@+id/spinAddTransCategory"
-                android:spinnerMode="dialog"
-                android:prompt="@string/category" />
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:id="@+id/spinAddTransCategory"
+                    android:spinnerMode="dialog"
+                    android:prompt="@string/category" />
 
 
             </LinearLayout>
+
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/linLayoutAddTransDefCategory"
                 android:background="@color/custom_divider"
-                android:layout_marginLeft="68dp"
-                android:layout_marginStart="68dp" />
-
+                android:layout_marginLeft="68dp" />
 
 
             <RelativeLayout
@@ -188,31 +166,26 @@
                 android:layout_below="@+id/linLayoutAddTransDefCategory">
 
 
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:id="@+id/ivAddTransDefDate"
-                        android:src="@drawable/ic_calendar_cyan_48dp"
-                        android:contentDescription="@string/date"
-                        android:layout_centerVertical="true"/>
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:id="@+id/ivAddTransDefDate"
+                    android:src="@drawable/ic_calendar_cyan_48dp"
+                    android:contentDescription="@string/date"
+                    android:layout_centerVertical="true"/>
 
 
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="68dp"
-                        android:id="@+id/tvTransactionDate"
-                        android:clickable="true"
-                        style="@style/SpinnerFont"
-                        android:gravity="center"
-                        android:layout_centerHorizontal="true"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="68dp"
+                    android:id="@+id/tvTransactionDate"
+                    android:clickable="true"
+                    style="@style/SpinnerFont"
+                    android:gravity="center"
+                    android:layout_centerHorizontal="true"/>
 
 
             </RelativeLayout>
-
         </RelativeLayout>
-
     </android.support.v7.widget.CardView>
-
 </ScrollView>
-

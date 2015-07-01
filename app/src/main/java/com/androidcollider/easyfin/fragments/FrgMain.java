@@ -50,23 +50,22 @@ public class FrgMain extends Fragment implements View.OnClickListener{
 
     private double[] statistic = new double[2];
 
+    private HashMap<String, double[]> balanceMap, statisticMap = null;
+
     private final int PRECISE = 100;
     private final String FORMAT = "0.00";
-
-    private View view;
 
     private DataSource dataSource;
 
     private BroadcastReceiver broadcastReceiver;
 
-    private Spinner spinPeriod, spinBalanceCurrency, spinChartType;
+    private View view;
 
+    private Spinner spinPeriod, spinBalanceCurrency, spinChartType;
     private TextView tvStatisticSum, tvBalanceSum;
 
     private HorizontalBarChart chartStatistic, chartBalance;
     private PieChart chartStatisticPie;
-
-    private HashMap<String, double[]> balanceMap, statisticMap = null;
 
     private MaterialDialog balanceSettingsDialog;
 
@@ -83,6 +82,36 @@ public class FrgMain extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.frg_main, container, false);
+
+        initializeViewsAndRes();
+
+
+        dataSource = new DataSource(getActivity());
+
+        balanceMap = dataSource.getAccountsSumGroupByTypeAndCurrency();
+
+        setBalanceCurrencySpinner();
+
+        setStatisticSpinner();
+
+        statisticMap = dataSource.getTransactionsStatistic(spinPeriod.getSelectedItemPosition()+1);
+
+        setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
+
+        setBalance(spinBalanceCurrency.getSelectedItemPosition());
+
+        setStatisticBarChart();
+
+        setStatisticSumTV();
+
+        setChartTypeSpinner();
+
+        makeBroadcastReceiver();
+
+        return view;
+    }
+
+    private void initializeViewsAndRes() {
 
         tvStatisticSum = (TextView) view.findViewById(R.id.tvMainStatisticSum);
         tvBalanceSum = (TextView) view.findViewById(R.id.tvMainSumValue);
@@ -139,31 +168,6 @@ public class FrgMain extends Fragment implements View.OnClickListener{
 
         currencyArray = getResources().getStringArray(R.array.account_currency_array);
         currencyLangArray = getResources().getStringArray(R.array.account_currency_array_language);
-
-        dataSource = new DataSource(getActivity());
-
-        balanceMap = dataSource.getAccountsSumGroupByTypeAndCurrency();
-
-
-        setBalanceCurrencySpinner();
-
-        setStatisticSpinner();
-
-        statisticMap = dataSource.getTransactionsStatistic(spinPeriod.getSelectedItemPosition()+1);
-
-        setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
-
-        setBalance(spinBalanceCurrency.getSelectedItemPosition());
-
-        setStatisticBarChart();
-
-        setStatisticSumTV();
-
-        setChartTypeSpinner();
-
-        makeBroadcastReceiver();
-
-        return view;
     }
 
     @Override
@@ -437,7 +441,6 @@ public class FrgMain extends Fragment implements View.OnClickListener{
         return new double[]{0, 0, 0, 0};
     }
 
-
     private double[] convertAllCurrencyToOne(int posCurrency, HashMap<String, double[]> map, int arrSize) {
 
         double[] uahArr = new double[arrSize];
@@ -505,7 +508,6 @@ public class FrgMain extends Fragment implements View.OnClickListener{
         return arr;
     }
 
-
     private void setTransactionStatisticArray(int posCurrency) {
 
         if (convert) {
@@ -547,4 +549,5 @@ public class FrgMain extends Fragment implements View.OnClickListener{
         super.onDestroy();
         getActivity().unregisterReceiver(broadcastReceiver);
     }
+
 }

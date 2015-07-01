@@ -11,6 +11,7 @@ public class DbHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "FinU.db";
     private static final int DATABASE_VERSION = 1;
 
+
     public DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
@@ -22,9 +23,9 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(SqlQueries.create_transactions_table);
         db.execSQL(SqlQueries.create_debt_table);
     }
+
     // Method for update database
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {}
 
-    }
 }

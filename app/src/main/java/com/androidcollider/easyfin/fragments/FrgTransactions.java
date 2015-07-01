@@ -43,7 +43,6 @@ public class FrgTransactions extends Fragment{
 
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -116,7 +115,6 @@ public class FrgTransactions extends Fragment{
         }
     }
 
-
     public boolean onContextItemSelected(MenuItem item) {
         int pos;
         try {
@@ -134,7 +132,6 @@ public class FrgTransactions extends Fragment{
         }
         return super.onContextItemSelected(item);
     }
-
 
     private void showDialogDeleteTransaction(final int pos) {
 
@@ -158,7 +155,6 @@ public class FrgTransactions extends Fragment{
                 .show();
     }
 
-
     private void deleteTransaction(int pos) {
         Transaction transaction = transactionList.get(pos);
         int idAccount = transaction.getIdAccount();
@@ -179,7 +175,6 @@ public class FrgTransactions extends Fragment{
         pushBroadcast();
     }
 
-
     private void pushBroadcast() {
         Intent intentFragmentMain = new Intent(FrgMain.BROADCAST_FRG_MAIN_ACTION);
         intentFragmentMain.putExtra(FrgMain.PARAM_STATUS_FRG_MAIN, FrgMain.STATUS_UPDATE_FRG_MAIN);
@@ -189,4 +184,5 @@ public class FrgTransactions extends Fragment{
         intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
         getActivity().sendBroadcast(intentFrgAccounts);
     }
+
 }

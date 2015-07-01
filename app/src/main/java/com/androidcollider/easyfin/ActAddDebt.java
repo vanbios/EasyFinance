@@ -37,9 +37,7 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
     private DatePickerDialog datePickerDialog;
 
     private TextView tvDate;
-
     private EditText etName, etSum;
-
     Spinner spinType, spinAccount;
 
     private final String DATEFORMAT = "dd.MM.yyyy";
@@ -77,7 +75,6 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
             setSpinner();
         }
     }
-
 
     private void setSpinner() {
         spinType = (Spinner) findViewById(R.id.spinAddDebtType);
@@ -119,7 +116,6 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
         });
     }
 
-
     private void addDebt() {
 
         if (checkForFillNameSumFields()) {
@@ -158,7 +154,6 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
         }
     }
 
-
     private void pushBroadcast() {
         Intent intentFrgMain = new Intent(FrgMain.BROADCAST_FRG_MAIN_ACTION);
         intentFrgMain.putExtra(FrgMain.PARAM_STATUS_FRG_MAIN, FrgMain.STATUS_UPDATE_FRG_MAIN_BALANCE);
@@ -172,7 +167,6 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
         intentDebt.putExtra(ActDebt.PARAM_STATUS_DEBT, ActDebt.STATUS_UPDATE_DEBT);
         sendBroadcast(intentDebt);
     }
-
 
     private boolean checkForFillNameSumFields() {
 
@@ -197,7 +191,6 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
         return true;
     }
-
 
     private void setDateTimeField() {
         tvDate.setOnClickListener(this);
@@ -226,14 +219,12 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
     private void setToolbar (int id) {
         Toolbar ToolBar = (Toolbar) findViewById(R.id.toolbarMain);
-        assert getSupportActionBar() != null;
         setSupportActionBar(ToolBar);
         getSupportActionBar().setTitle(id);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ToolBar.inflateMenu(R.menu.toolbar_debt_menu);
     }
-
 
     private void showDialogNoAccount() {
 
@@ -255,7 +246,6 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
                 .show();
     }
 
-
     private void closeAct() {this.finish();}
 
     private void goToAddNewAccount() {
@@ -267,7 +257,6 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
         Intent intent = new Intent(this, ActAccount.class);
         startActivity(intent);
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -294,4 +283,5 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
         return true;
     }
+
 }

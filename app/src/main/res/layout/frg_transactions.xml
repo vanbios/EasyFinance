@@ -25,4 +25,5 @@
         android:text="@string/transaction_empty_list"
         style="@style/BodyFontSecondary"/>
 
+
     </RelativeLayout>

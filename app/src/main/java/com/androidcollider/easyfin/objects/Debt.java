@@ -11,7 +11,6 @@ public class Debt implements Serializable {
     private int type;
     private int idAccount;
     private long date;
-
     private double accountAmount;
     private String accountName;
     private String currency;
@@ -39,7 +38,6 @@ public class Debt implements Serializable {
 
 
 
-
     public String getName() {return name;}
 
     public double getAmount() {return amount;}
@@ -57,4 +55,5 @@ public class Debt implements Serializable {
     public String getAccountName() {return accountName;}
 
     public String getCurrency() {return currency;}
+
 }

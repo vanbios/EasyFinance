@@ -35,7 +35,6 @@
 
 
 
-
     <style name="TitleFont" parent="@android:style/TextAppearance.Medium">
         <item name="android:textSize">@dimen/text_size_title</item>
         <item name="android:textColor">@color/custom_text_gray_dark</item>
@@ -94,7 +93,7 @@
 
     <style name="TitleBigFont" parent="@android:style/TextAppearance.Medium">
         <item name="android:textSize">@dimen/text_size_big</item>
-        <item name="android:textColor">@color/custom_text_primary</item>
+        <item name="android:textColor">@color/custom_text_gray_dark</item>
         <item name="android:textStyle">normal</item>
         <item name="android:typeface">sans</item>
     </style>

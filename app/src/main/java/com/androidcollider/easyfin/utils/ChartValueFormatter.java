@@ -17,5 +17,6 @@ public class ChartValueFormatter implements ValueFormatter {
     public String getFormattedValue(float value) {
         return mFormat.format(value);
     }
+
 }
 

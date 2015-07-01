@@ -46,7 +46,6 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
 
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -67,8 +66,6 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
 
         return view;
     }
-
-
 
     private void setSpinner() {
         spinCategory = (Spinner) view.findViewById(R.id.spinAddTransCategory);
@@ -102,7 +99,6 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
         }
     }
 
-
     private void setRadioGroupEvents() {
         RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.radioGroupTransDef);
 
@@ -121,8 +117,6 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
             }
         });
     }
-
-
 
     public void addTransaction() {
 
@@ -168,7 +162,6 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
             }
         }
     }
-
 
     private void setDateTimeField() {
         tvDate.setOnClickListener(this);

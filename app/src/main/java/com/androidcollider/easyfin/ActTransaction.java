@@ -45,7 +45,6 @@ public class ActTransaction extends AppCompatActivity {
 
     private void setToolbar(int id) {
         Toolbar ToolBar = (Toolbar) findViewById(R.id.toolbarMain);
-        assert getSupportActionBar() != null;
         setSupportActionBar(ToolBar);
         getSupportActionBar().setTitle(id);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

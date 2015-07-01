@@ -63,7 +63,6 @@ public class ActDebt extends AppCompatActivity {
         makeBroadcastReceiver();
     }
 
-
     private void setItemDebt() {
 
         debtList = dataSource.getAllDebtInfo();
@@ -76,11 +75,8 @@ public class ActDebt extends AppCompatActivity {
 
     }
 
-
-
     private void setToolbar (int id) {
         Toolbar ToolBar = (Toolbar) findViewById(R.id.toolbarMain);
-        assert getSupportActionBar() != null;
         setSupportActionBar(ToolBar);
         getSupportActionBar().setTitle(id);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -142,8 +138,6 @@ public class ActDebt extends AppCompatActivity {
         this.unregisterReceiver(broadcastReceiver);
     }
 
-
-
     public boolean onContextItemSelected(MenuItem item) {
         int pos;
 
@@ -171,8 +165,6 @@ public class ActDebt extends AppCompatActivity {
         return super.onContextItemSelected(item);
     }
 
-
-
     private void showDialogDeleteDebt(final int pos) {
 
         new MaterialDialog.Builder(this)
@@ -195,7 +187,6 @@ public class ActDebt extends AppCompatActivity {
                 .show();
     }
 
-
     private void deleteDebt(int pos) {
 
         Debt debt = debtList.get(pos);
@@ -216,7 +207,6 @@ public class ActDebt extends AppCompatActivity {
         pushBroadcast();
     }
 
-
     private void pushBroadcast() {
         Intent intentFrgMain = new Intent(FrgMain.BROADCAST_FRG_MAIN_ACTION);
         intentFrgMain.putExtra(FrgMain.PARAM_STATUS_FRG_MAIN, FrgMain.STATUS_UPDATE_FRG_MAIN_BALANCE);
@@ -226,7 +216,6 @@ public class ActDebt extends AppCompatActivity {
         intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
         sendBroadcast(intentFrgAccounts);
     }
-
 
     private void goToActPayDebt(int pos, int mode){
         Intent intent = new Intent(this, ActPayDebt.class);

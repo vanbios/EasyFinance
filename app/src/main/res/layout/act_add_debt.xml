@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <include layout="@layout/toolbar" />
+
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -15,8 +18,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar_shadow_height"
             android:background="@drawable/toolbar_drop_shadow" />
-    </FrameLayout>
 
+    </FrameLayout>
 
 
     <ScrollView
@@ -24,29 +27,18 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginTop="@dimen/margin_big_card_top"
-
         android:paddingLeft="@dimen/common_padding_medium"
-        android:paddingStart="@dimen/common_padding_medium"
         android:paddingRight="@dimen/common_padding_medium"
-        android:paddingEnd="@dimen/common_padding_medium"
-
         android:scrollbars="none">
-
-
 
 
         <android.support.v7.widget.CardView
             xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:id="@+id/cardAddDebtElements"
-
             card_view:cardUseCompatPadding="true"
             card_view:cardElevation="@dimen/card_elevation_medium">
-
-
-
 
 
             <RelativeLayout
@@ -54,11 +46,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/common_padding_large"
-                android:paddingStart="@dimen/common_padding_large"
                 android:paddingRight="@dimen/common_padding_large"
-                android:paddingEnd="@dimen/common_padding_large"
                 android:paddingBottom="@dimen/common_padding_medium">
-
 
 
                 <RelativeLayout
@@ -74,12 +63,8 @@
                         android:id="@+id/ivAddDebtName"
                         android:src="@drawable/ic_clipboard_text_cyan_dark_48dp"
                         android:contentDescription="@string/empty_name_field"
-
                         android:layout_centerVertical="true"
-
-                        android:layout_marginRight="38dp"
-                        android:layout_marginEnd="38dp" />
-
+                        android:layout_marginRight="38dp" />
 
 
                     <EditText
@@ -88,17 +73,12 @@
                         android:id="@+id/editTextDebtName"
                         android:maxLength="50"
                         android:hint="@string/empty_name_field"
-
                         android:singleLine="true"
-
                         android:layout_toRightOf="@+id/ivAddDebtName"
-
                         style="@style/TitleFont" />
 
 
                 </RelativeLayout>
-
-
 
 
                 <View
@@ -108,10 +88,7 @@
                     android:layout_below="@+id/layoutAddDebtName"
                     android:background="@color/custom_divider"
                     android:layout_marginLeft="68dp"
-                    android:layout_marginStart="68dp"
                     android:layout_marginTop="40dp"/>
-
-
 
 
                 <LinearLayout
@@ -121,7 +98,6 @@
                     android:id="@+id/layoutAddDebtType"
                     android:layout_below="@+id/cvAddDebtDividerTop"
                     android:baselineAligned="false"
-
                     android:gravity="center_vertical">
 
 
@@ -130,20 +106,18 @@
                         android:layout_height="60dp"
                         android:id="@+id/spinAddDebtType"
                         android:prompt="@string/debt_type"
-
-                        android:layout_marginLeft="60dp"
-                        android:layout_marginStart="60dp"/>
+                        android:layout_marginLeft="60dp" />
 
 
                 </LinearLayout>
+
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/layoutAddDebtType"
                     android:background="@color/custom_divider"
-                    android:layout_marginLeft="68dp"
-                    android:layout_marginStart="68dp" />
+                    android:layout_marginLeft="68dp" />
 
 
                 <LinearLayout
@@ -153,7 +127,6 @@
                     android:id="@+id/layoutAddDebtAccount"
                     android:layout_below="@+id/layoutAddDebtType"
                     android:baselineAligned="false"
-
                     android:gravity="center_vertical">
 
 
@@ -167,15 +140,14 @@
 
                 </LinearLayout>
 
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:id="@+id/cvAddDebtDividerBottom"
                     android:layout_below="@+id/layoutAddDebtAccount"
                     android:background="@color/custom_divider"
-                    android:layout_marginLeft="68dp"
-                    android:layout_marginStart="68dp" />
-
+                    android:layout_marginLeft="68dp" />
 
 
                 <RelativeLayout
@@ -183,10 +155,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/cvAddDebtDividerBottom"
                     android:layout_marginTop="@dimen/common_padding_xlarge"
-
                     android:id="@+id/layoutAddDebtSum">
-
-
 
 
                     <ImageView
@@ -198,7 +167,6 @@
                         android:contentDescription="@string/empty_amount_field" />
 
 
-
                     <EditText
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -208,9 +176,7 @@
                         android:maxLength="15"
                         android:id="@+id/editTextDebtSum"
                         android:layout_centerHorizontal="true"
-
                         android:gravity="center_horizontal"
-
                         android:singleLine="true"
                         style="@style/TitleFont" />
 
@@ -234,7 +200,6 @@
                         android:layout_centerVertical="true"/>
 
 
-
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="68dp"
@@ -246,13 +211,7 @@
 
 
                 </RelativeLayout>
-
-
-
             </RelativeLayout>
-
         </android.support.v7.widget.CardView>
-
     </ScrollView>
-
 </RelativeLayout>

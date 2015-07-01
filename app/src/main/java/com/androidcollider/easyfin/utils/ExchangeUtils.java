@@ -6,6 +6,7 @@ import com.androidcollider.easyfin.R;
 
 public class ExchangeUtils {
 
+
     public static double getExchangeRate (String currFrom, String currTo) {
 
         double[] rates = getRates();
@@ -27,10 +28,8 @@ public class ExchangeUtils {
             }
         }
 
-
         return rates[posTo] / rates[posFrom];
     }
-
 
     public static double[] getRates() {
         double[] rates = new double[4];
@@ -42,4 +41,5 @@ public class ExchangeUtils {
 
         return rates;
     }
+
 }

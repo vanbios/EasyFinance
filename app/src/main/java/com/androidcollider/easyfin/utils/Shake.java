@@ -27,4 +27,5 @@ public class Shake {
         }
         view.startAnimation(shake);
     }
+
 }
