@@ -91,7 +91,7 @@ public class ActPayDebt extends AppCompatActivity {
         tvDebtName.setText(debt.getName());
 
         final int PRECISE = 100;
-        final String FORMAT = "0.00";
+        final String FORMAT = "###,##0.00";
 
         etSum.setText(FormatUtils.doubleFormatter(debt.getAmount(), FORMAT, PRECISE));
         etSum.setSelection(etSum.getText().length());

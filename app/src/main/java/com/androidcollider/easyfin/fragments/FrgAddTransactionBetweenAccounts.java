@@ -121,7 +121,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
             double exchangeRate = ExchangeUtils.getExchangeRate(currFrom, currTo);
 
             final int PRECISE = 100;
-            final String FORMAT = "0.00";
+            final String FORMAT = "###,##0.00";
 
             etExchange.setText(FormatUtils.doubleFormatter(exchangeRate, FORMAT, PRECISE));
 

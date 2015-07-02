@@ -61,7 +61,7 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
         Account account = getAccount(position);
 
         final int PRECISE = 100;
-        final String FORMAT = "0.00";
+        final String FORMAT = "###,##0.00";
 
         String cur = account.getCurrency();
         String curLang = null;

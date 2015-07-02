@@ -72,7 +72,7 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
         final int PRECISE = 100;
-        final String FORMAT = "0.00";
+        final String FORMAT = "###,##0.00";
         final String DATEFORMAT = "dd.MM.yyyy";
 
         Transaction transaction = getTransaction(position);

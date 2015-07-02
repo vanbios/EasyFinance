@@ -5,6 +5,7 @@ import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.utils.ChartDataUtils;
+import com.androidcollider.easyfin.utils.ChartLargeValueFormatter;
 import com.androidcollider.easyfin.utils.ChartValueFormatter;
 import com.androidcollider.easyfin.utils.ExchangeUtils;
 import com.androidcollider.easyfin.utils.FormatUtils;
@@ -15,6 +16,7 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.utils.LargeValueFormatter;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -53,7 +55,7 @@ public class FrgMain extends Fragment implements View.OnClickListener{
     private HashMap<String, double[]> balanceMap, statisticMap = null;
 
     private final int PRECISE = 100;
-    private final String FORMAT = "0.00";
+    private final String FORMAT = "###,##0.00";
 
     private DataSource dataSource;
 
@@ -94,7 +96,7 @@ public class FrgMain extends Fragment implements View.OnClickListener{
 
         setStatisticSpinner();
 
-        statisticMap = dataSource.getTransactionsStatistic(spinPeriod.getSelectedItemPosition()+1);
+        statisticMap = dataSource.getTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1);
 
         setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
 
@@ -339,6 +341,7 @@ public class FrgMain extends Fragment implements View.OnClickListener{
         if (showCents) {
             data.setValueFormatter(new ChartValueFormatter());
         }
+
         chartBalance.setDescription("");
         Legend legend = chartBalance.getLegend();
         legend.setEnabled(false);
@@ -347,6 +350,7 @@ public class FrgMain extends Fragment implements View.OnClickListener{
         rightAxis.setEnabled(false);
         leftAxis.setSpaceTop(35f);
         leftAxis.setLabelCount(3);
+        //leftAxis.setValueFormatter(new ChartLargeValueFormatter());
         chartBalance.animateXY(2000, 2000);
         chartBalance.setTouchEnabled(false);
         chartBalance.invalidate();

@@ -42,14 +42,14 @@
                 android:layout_toRightOf="@+id/ivItemFragmentAccountType"
                 android:singleLine="true"
                 android:layout_alignParentTop="true"
-                style="@style/TitleFont" />
+                style="@style/SubheadFont" />
 
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/tvItemFragmentAccountAmount"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="@dimen/common_padding_small"
                 android:layout_below="@+id/tvItemFragmentAccountName"
                 android:layout_toRightOf="@+id/ivItemFragmentAccountType"
                 android:singleLine="true"

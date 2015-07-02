@@ -62,7 +62,7 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
         Debt debt = getDebt(position);
 
         final int PRECISE = 100;
-        final String FORMAT = "0.00";
+        final String FORMAT = "###,##0.00";
         final String DATEFORMAT = "dd.MM.yyyy";
 
         holder.tvDebtName.setText(debt.getName());

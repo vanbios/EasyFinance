@@ -138,7 +138,7 @@ public class ActAccount extends AppCompatActivity {
         etName.setSelection(etName.getText().length());
 
         final int PRECISE = 100;
-        final String FORMAT = "0.00";
+        final String FORMAT = "###,##0.00";
 
         etSum.setText(FormatUtils.doubleFormatter(accFrIntent.getAmount(), FORMAT, PRECISE));
         etSum.setSelection(etSum.getText().length());
