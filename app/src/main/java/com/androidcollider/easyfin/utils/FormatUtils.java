@@ -16,14 +16,13 @@ public class FormatUtils {
         double result = (double) i/precise;
         String s = dfRate.format(result);
 
-
         int length = s.length();
 
         if (s.substring(length-2, length).equals("00")) {
             return s.substring(0, length-3);
         }
 
-        else if (s.substring(length-1, length).equals("0")) {
+        else if (s.charAt(length-1) == '0') {
             return s.substring(0, length-1);
         }
 

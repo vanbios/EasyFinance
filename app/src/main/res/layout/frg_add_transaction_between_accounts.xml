@@ -53,7 +53,7 @@
                     android:ems="6"
                     android:id="@+id/editTextTransBTWSum"
                     android:hint="@string/empty_amount_field"
-                    android:maxLength="15"
+                    android:maxLength="14"
                     style="@style/TitleBigFont"
                     android:layout_centerHorizontal="true"
                     android:gravity="center_horizontal"/>
@@ -175,7 +175,7 @@
                     android:ems="4"
                     android:id="@+id/editTextTransBTWExchange"
                     android:hint="@string/exchange"
-                    android:maxLength="12"
+                    android:maxLength="8"
                     style="@style/TitleFont"
                     android:layout_below="@+id/cvAddTransBTWDividerExchange"
                     android:layout_marginTop="@dimen/common_padding_large"

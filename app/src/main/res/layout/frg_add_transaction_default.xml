@@ -51,7 +51,7 @@
                     android:ems="6"
                     android:id="@+id/editTextTransSum"
                     android:hint="@string/empty_amount_field"
-                    android:maxLength="15"
+                    android:maxLength="14"
                     style="@style/TitleBigFont"
                     android:layout_centerHorizontal="true"
                     android:gravity="center_horizontal" />

@@ -107,7 +107,7 @@
                         android:inputType="numberDecimal"
                         android:ems="6"
                         android:hint="@string/empty_amount_field"
-                        android:maxLength="15"
+                        android:maxLength="14"
                         android:id="@+id/editTextPayDebtSum"
                         android:gravity="center_horizontal"
                         android:layout_centerHorizontal="true"

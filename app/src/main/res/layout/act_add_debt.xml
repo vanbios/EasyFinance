@@ -173,7 +173,7 @@
                         android:inputType="numberDecimal"
                         android:ems="6"
                         android:hint="@string/empty_amount_field"
-                        android:maxLength="15"
+                        android:maxLength="14"
                         android:id="@+id/editTextDebtSum"
                         android:layout_centerHorizontal="true"
                         android:gravity="center_horizontal"

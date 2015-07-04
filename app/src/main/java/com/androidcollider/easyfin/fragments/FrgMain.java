@@ -5,7 +5,7 @@ import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.utils.ChartDataUtils;
-import com.androidcollider.easyfin.utils.ChartValueFormatter;
+import com.androidcollider.easyfin.utils.ChartLargeValueFormatter;
 import com.androidcollider.easyfin.utils.ExchangeUtils;
 import com.androidcollider.easyfin.utils.FormatUtils;
 import com.androidcollider.easyfin.utils.SharedPref;
@@ -320,9 +320,6 @@ public class FrgMain extends Fragment implements View.OnClickListener{
 
                         break;
                     }
-                    /*case STATUS_UPDATE_FRG_MAIN_BALANCE: {
-                        setBalance(spinBalanceCurrency.getSelectedItemPosition());
-                    }*/
                 }
             }
         };
@@ -337,7 +334,11 @@ public class FrgMain extends Fragment implements View.OnClickListener{
         chartBalance.setData(data);
 
         if (showCents) {
-            data.setValueFormatter(new ChartValueFormatter());
+            data.setValueFormatter(new ChartLargeValueFormatter(true));
+        }
+
+        else {
+            data.setValueFormatter(new ChartLargeValueFormatter(false));
         }
 
         chartBalance.setDescription("");
@@ -348,7 +349,7 @@ public class FrgMain extends Fragment implements View.OnClickListener{
         rightAxis.setEnabled(false);
         leftAxis.setSpaceTop(35f);
         leftAxis.setLabelCount(3);
-        //leftAxis.setValueFormatter(new ChartLargeValueFormatter());
+        leftAxis.setValueFormatter(new ChartLargeValueFormatter(false));
         chartBalance.animateXY(2000, 2000);
         chartBalance.setTouchEnabled(false);
         chartBalance.invalidate();
@@ -360,8 +361,13 @@ public class FrgMain extends Fragment implements View.OnClickListener{
         chartStatistic.setData(data);
 
         if (showCents) {
-            data.setValueFormatter(new ChartValueFormatter());
+            data.setValueFormatter(new ChartLargeValueFormatter(true));
         }
+
+        else {
+            data.setValueFormatter(new ChartLargeValueFormatter(false));
+        }
+
         chartStatistic.setDescription("");
         Legend legend = chartStatistic.getLegend();
         legend.setEnabled(false);
@@ -370,6 +376,7 @@ public class FrgMain extends Fragment implements View.OnClickListener{
         rightAxis.setEnabled(false);
         leftAxis.setSpaceTop(35f);
         leftAxis.setLabelCount(3);
+        leftAxis.setValueFormatter(new ChartLargeValueFormatter(false));
         chartStatistic.animateXY(2000, 2000);
         chartStatistic.setTouchEnabled(false);
         chartStatistic.invalidate();
@@ -392,6 +399,14 @@ public class FrgMain extends Fragment implements View.OnClickListener{
         legend.setEnabled(false);
 
         PieData data = ChartDataUtils.getDataSetMainStatisticPieChart(statistic, getActivity());
+
+        if (showCents) {
+            data.setValueFormatter(new ChartLargeValueFormatter(true));
+        }
+
+        else {
+            data.setValueFormatter(new ChartLargeValueFormatter(false));
+        }
 
         chartStatisticPie.setData(data);
 
