@@ -76,7 +76,7 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
             }
         }
 
-        holder.tvAmount.setText(FormatUtils.doubleFormatter(debt.getAmount(), FORMAT, PRECISE)
+        holder.tvAmount.setText(FormatUtils.doubleToStringFormatter(debt.getAmount(), FORMAT, PRECISE)
         + " " + curLang);
         holder.tvAccountName.setText(debt.getAccountName());
         holder.tvDate.setText(DateFormat.longToDateString(debt.getDate(), DATEFORMAT));

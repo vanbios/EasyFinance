@@ -73,7 +73,7 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
         }
 
         holder.tvAccountName.setText(account.getName());
-        holder.tvAccountAmount.setText(FormatUtils.doubleFormatter(account.getAmount(), FORMAT, PRECISE) +
+        holder.tvAccountAmount.setText(FormatUtils.doubleToStringFormatter(account.getAmount(), FORMAT, PRECISE) +
                 " " + curLang);
 
         holder.mView.setOnLongClickListener(new View.OnLongClickListener() {

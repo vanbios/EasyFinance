@@ -7,6 +7,7 @@ import com.androidcollider.easyfin.fragments.FrgAccounts;
 import com.androidcollider.easyfin.fragments.FrgMain;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.InfoFromDB;
+import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
 import com.androidcollider.easyfin.utils.FormatUtils;
 import com.androidcollider.easyfin.utils.Shake;
 import com.androidcollider.easyfin.utils.SharedPref;
@@ -55,6 +56,7 @@ public class ActAccount extends AppCompatActivity {
 
         etName = (EditText) findViewById(R.id.editTextAccountName);
         etSum = (EditText) findViewById(R.id.editTextAccountSum);
+        etSum.addTextChangedListener(new EditTextAmountWatcher(etSum));
     }
 
     private void setMode () {
@@ -138,9 +140,9 @@ public class ActAccount extends AppCompatActivity {
         etName.setSelection(etName.getText().length());
 
         final int PRECISE = 100;
-        final String FORMAT = "###,##0.00";
+        final String FORMAT = "0.00";
 
-        etSum.setText(FormatUtils.doubleFormatter(accFrIntent.getAmount(), FORMAT, PRECISE));
+        etSum.setText(FormatUtils.doubleToStringFormatter(accFrIntent.getAmount(), FORMAT, PRECISE));
         etSum.setSelection(etSum.getText().length());
 
         idAccount = accFrIntent.getId();
@@ -159,7 +161,7 @@ public class ActAccount extends AppCompatActivity {
 
                 else {
 
-                    double amount = Double.parseDouble(etSum.getText().toString());
+                    double amount = Double.parseDouble(FormatUtils.prepareStringToParse(etSum.getText().toString()));
                     String type = spinType.getSelectedItem().toString();
                     String currency = spinCurrency.getSelectedItem().toString();
 
@@ -185,7 +187,9 @@ public class ActAccount extends AppCompatActivity {
 
                 else {
 
-                    double amount = Double.parseDouble(etSum.getText().toString());
+                    String sum = FormatUtils.prepareStringToParse(etSum.getText().toString());
+
+                    double amount = Double.parseDouble(sum);
                     String type = spinType.getSelectedItem().toString();
                     String currency = spinCurrency.getSelectedItem().toString();
 
@@ -217,7 +221,7 @@ public class ActAccount extends AppCompatActivity {
 
         else {
 
-            if (!etSum.getText().toString().matches(".*\\d.*")) {
+            if (!FormatUtils.prepareStringToParse(etSum.getText().toString()).matches(".*\\d.*")) {
                 Shake.highlightEditText(etSum);
                 Toast.makeText(this, getResources().getString(R.string.empty_amount_field), Toast.LENGTH_SHORT).show();
 

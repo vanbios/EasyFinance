@@ -7,7 +7,7 @@ import java.text.DecimalFormat;
 public class FormatUtils {
 
 
-    public static String doubleFormatter (double number, String format, int precise){
+    public static String doubleToStringFormatter(double number, String format, int precise){
 
         DecimalFormat dfRate = new DecimalFormat(format);
         precise = 10^precise;
@@ -29,6 +29,20 @@ public class FormatUtils {
 
         return s;
     }
+
+
+    public static String prepareStringToParse(String s) {
+
+        if (s.contains(" ")) {
+            s = s.replaceAll("\\s+", "");
+        }
+        if (s.contains(",")) {
+            s = s.replaceAll(",", ".");
+        }
+
+        return s;
+    }
+
 
     public static boolean isDoubleNegative(double d) {
         return Double.compare(d, 0.0) < 0;

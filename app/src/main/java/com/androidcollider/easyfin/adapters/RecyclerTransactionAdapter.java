@@ -80,7 +80,7 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
         holder.tvTransAccountName.setText(transaction.getAccountName());
         holder.tvTransDate.setText(DateFormat.longToDateString(transaction.getDate(), DATEFORMAT));
 
-        String amount = FormatUtils.doubleFormatter(transaction.getAmount(), FORMAT, PRECISE);
+        String amount = FormatUtils.doubleToStringFormatter(transaction.getAmount(), FORMAT, PRECISE);
 
         String cur = transaction.getCurrency();
 

@@ -18,6 +18,7 @@ import com.androidcollider.easyfin.adapters.SpinAccountForTransAdapter;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.InfoFromDB;
+import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
 import com.androidcollider.easyfin.utils.ExchangeUtils;
 import com.androidcollider.easyfin.utils.FormatUtils;
 import com.androidcollider.easyfin.utils.Shake;
@@ -33,7 +34,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
     private View view;
 
-    private EditText etExchange;
+    private EditText etExchange, etSum;
 
     private RelativeLayout layoutExchange;
 
@@ -47,6 +48,11 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
         view = inflater.inflate(R.layout.frg_add_transaction_between_accounts, container, false);
 
         etExchange = (EditText) view.findViewById(R.id.editTextTransBTWExchange);
+        etExchange.addTextChangedListener(new EditTextAmountWatcher(etExchange));
+
+        etSum = (EditText) view.findViewById(R.id.editTextTransBTWSum);
+        etSum.addTextChangedListener(new EditTextAmountWatcher(etSum));
+
         layoutExchange = (RelativeLayout) view.findViewById(R.id.layoutAddTransBTWExchange);
 
         setSpinners();
@@ -121,9 +127,9 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
             double exchangeRate = ExchangeUtils.getExchangeRate(currFrom, currTo);
 
             final int PRECISE = 100;
-            final String FORMAT = "###,##0.00";
+            final String FORMAT = "0.00";
 
-            etExchange.setText(FormatUtils.doubleFormatter(exchangeRate, FORMAT, PRECISE));
+            etExchange.setText(FormatUtils.doubleToStringFormatter(exchangeRate, FORMAT, PRECISE));
 
             etExchange.setSelection(etExchange.getText().length());
         }
@@ -152,11 +158,9 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
     public void addTransactionBTW() {
 
-        EditText etSum = (EditText) view.findViewById(R.id.editTextTransBTWSum);
-
         if (checkEditTextForCorrect(etSum, R.string.empty_amount_field)) {
 
-            double amount = Double.parseDouble(etSum.getText().toString());
+            double amount = Double.parseDouble(FormatUtils.prepareStringToParse(etSum.getText().toString()));
 
             Account accountFrom = (Account) spinAccountFrom.getSelectedItem();
             double accountAmountFrom = accountFrom.getAmount();
@@ -179,7 +183,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
                     if (checkEditTextForCorrect(etExchange, R.string.empty_exchange_field)) {
 
-                        double exchange = Double.parseDouble(etExchange.getText().toString());
+                        double exchange = Double.parseDouble(FormatUtils.prepareStringToParse(etExchange.getText().toString()));
 
                         double amountTo = amount / exchange;
 
@@ -213,7 +217,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
     private boolean checkEditTextForCorrect(EditText et, int strRes) {
 
-        String s = et.getText().toString();
+        String s = FormatUtils.prepareStringToParse(et.getText().toString());
 
         if (!s.matches(".*\\d.*") || Double.parseDouble(s) == 0) {
             Shake.highlightEditText(et);

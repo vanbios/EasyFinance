@@ -5,7 +5,6 @@ import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.utils.ChartDataUtils;
-import com.androidcollider.easyfin.utils.ChartLargeValueFormatter;
 import com.androidcollider.easyfin.utils.ChartValueFormatter;
 import com.androidcollider.easyfin.utils.ExchangeUtils;
 import com.androidcollider.easyfin.utils.FormatUtils;
@@ -16,7 +15,6 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.utils.LargeValueFormatter;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -404,7 +402,7 @@ public class FrgMain extends Fragment implements View.OnClickListener{
 
     private void setStatisticSumTV() {
         double statSum = statistic[0] + statistic[1];
-        tvStatisticSum.setText(FormatUtils.doubleFormatter(statSum, FORMAT, PRECISE) + " " + getCurrencyLang());
+        tvStatisticSum.setText(FormatUtils.doubleToStringFormatter(statSum, FORMAT, PRECISE) + " " + getCurrencyLang());
     }
 
     private void setBalanceTV (double[] balance) {
@@ -414,7 +412,7 @@ public class FrgMain extends Fragment implements View.OnClickListener{
             sum += i;
         }
 
-        tvBalanceSum.setText(FormatUtils.doubleFormatter(sum, FORMAT, PRECISE) + " " + getCurrencyLang());
+        tvBalanceSum.setText(FormatUtils.doubleToStringFormatter(sum, FORMAT, PRECISE) + " " + getCurrencyLang());
     }
 
     private void setBalance(int posCurrency) {

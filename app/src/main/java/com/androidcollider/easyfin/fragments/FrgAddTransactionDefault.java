@@ -24,6 +24,8 @@ import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.objects.Transaction;
 import com.androidcollider.easyfin.utils.DateFormat;
+import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
+import com.androidcollider.easyfin.utils.FormatUtils;
 import com.androidcollider.easyfin.utils.Shake;
 
 import java.util.ArrayList;
@@ -53,6 +55,8 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
 
         etSum = (EditText) view.findViewById(R.id.editTextTransSum);
         etSum.setTextColor(getResources().getColor(R.color.custom_red));
+
+        etSum.addTextChangedListener(new EditTextAmountWatcher(etSum));
 
         accountList = InfoFromDB.getInstance().getAccountList();
 
@@ -122,7 +126,7 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
 
         RadioButton rbCost = (RadioButton) view.findViewById(R.id.radioButtonCost);
 
-        String sum = etSum.getText().toString();
+        String sum = FormatUtils.prepareStringToParse(etSum.getText().toString());
 
         if (! sum.matches(".*\\d.*") || Double.parseDouble(sum) == 0) {
             Shake.highlightEditText(etSum);

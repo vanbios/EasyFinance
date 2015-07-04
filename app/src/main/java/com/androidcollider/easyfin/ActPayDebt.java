@@ -22,6 +22,7 @@ import com.androidcollider.easyfin.fragments.FrgMain;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.Debt;
 import com.androidcollider.easyfin.objects.InfoFromDB;
+import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
 import com.androidcollider.easyfin.utils.FormatUtils;
 import com.androidcollider.easyfin.utils.Shake;
 
@@ -83,6 +84,7 @@ public class ActPayDebt extends AppCompatActivity {
     private void initializeView() {
         tvDebtName = (TextView) findViewById(R.id.tvPayDebtName);
         etSum = (EditText) findViewById(R.id.editTextPayDebtSum);
+        etSum.addTextChangedListener(new EditTextAmountWatcher(etSum));
         spinAccount = (Spinner) findViewById(R.id.spinPayDebtAccount);
     }
 
@@ -91,9 +93,9 @@ public class ActPayDebt extends AppCompatActivity {
         tvDebtName.setText(debt.getName());
 
         final int PRECISE = 100;
-        final String FORMAT = "###,##0.00";
+        final String FORMAT = "0.00";
 
-        etSum.setText(FormatUtils.doubleFormatter(debt.getAmount(), FORMAT, PRECISE));
+        etSum.setText(FormatUtils.doubleToStringFormatter(debt.getAmount(), FORMAT, PRECISE));
         etSum.setSelection(etSum.getText().length());
 
         if (mode == 1) {
@@ -178,7 +180,7 @@ public class ActPayDebt extends AppCompatActivity {
 
     private void payPartDebt(){
 
-        String sum = etSum.getText().toString();
+        String sum = FormatUtils.prepareStringToParse(etSum.getText().toString());
 
         if (! sum.matches(".*\\d.*") || Double.parseDouble(sum) == 0) {
             Shake.highlightEditText(etSum);

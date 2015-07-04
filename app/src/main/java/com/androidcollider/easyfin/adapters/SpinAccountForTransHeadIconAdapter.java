@@ -64,7 +64,7 @@ public class SpinAccountForTransHeadIconAdapter extends ArrayAdapter<Account> {
         final int PRECISE = 100;
         final String FORMAT = "0.00";
 
-        String amount = FormatUtils.doubleFormatter(accountList.get(position).getAmount(), FORMAT, PRECISE);
+        String amount = FormatUtils.doubleToStringFormatter(accountList.get(position).getAmount(), FORMAT, PRECISE);
         String cur = accountList.get(position).getCurrency();
 
         String curLang = null;

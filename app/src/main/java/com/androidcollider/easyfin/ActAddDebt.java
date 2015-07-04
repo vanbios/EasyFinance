@@ -27,6 +27,8 @@ import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.Debt;
 import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.utils.DateFormat;
+import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
+import com.androidcollider.easyfin.utils.FormatUtils;
 import com.androidcollider.easyfin.utils.Shake;
 
 import java.util.ArrayList;
@@ -67,6 +69,7 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
             etName = (EditText) findViewById(R.id.editTextDebtName);
             etSum = (EditText) findViewById(R.id.editTextDebtSum);
+            etSum.addTextChangedListener(new EditTextAmountWatcher(etSum));
 
             tvDate = (TextView) findViewById(R.id.tvAddDebtDate);
 
@@ -124,7 +127,7 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
             double accountAmount = account.getAmount();
 
             int type = spinType.getSelectedItemPosition();
-            double amount = Double.parseDouble(etSum.getText().toString());
+            double amount = Double.parseDouble(FormatUtils.prepareStringToParse(etSum.getText().toString()));
 
 
             if (type == 0 && Math.abs(amount) > accountAmount) {
@@ -181,7 +184,7 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
         else {
 
-            if (!etSum.getText().toString().matches(".*\\d.*")) {
+            if (!FormatUtils.prepareStringToParse(etSum.getText().toString()).matches(".*\\d.*")) {
                 Shake.highlightEditText(etSum);
                 Toast.makeText(this, getResources().getString(R.string.empty_amount_field), Toast.LENGTH_SHORT).show();
 
