@@ -2,7 +2,6 @@ package com.androidcollider.easyfin;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
-import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.fragments.FrgAccounts;
 import com.androidcollider.easyfin.fragments.FrgMain;
 import com.androidcollider.easyfin.objects.Account;
@@ -31,8 +30,6 @@ public class ActAccount extends AppCompatActivity {
     private String oldName;
     private int idAccount;
 
-    private DataSource dataSource;
-
     private int mode;
 
     private Account accFrIntent;
@@ -42,8 +39,6 @@ public class ActAccount extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_account);
-
-        dataSource = new DataSource(this);
 
         initializeFields();
 
@@ -167,7 +162,7 @@ public class ActAccount extends AppCompatActivity {
 
                     Account account = new Account(name, amount, type, currency);
 
-                    dataSource.insertNewAccount(account);
+                    MainActivity.dataSource.insertNewAccount(account);
 
                     lastActions();
                 }
@@ -195,7 +190,7 @@ public class ActAccount extends AppCompatActivity {
 
                     Account account = new Account(idAccount, name, amount, type, currency);
 
-                    dataSource.editAccount(account);
+                    MainActivity.dataSource.editAccount(account);
 
                     lastActions();
                 }
@@ -270,11 +265,11 @@ public class ActAccount extends AppCompatActivity {
     }
 
     private void deleteAccount() {
-        if (dataSource.checkAccountForTransactionOrDebtExist(idAccount)) {
-            dataSource.makeAccountInvisible(idAccount);
+        if (MainActivity.dataSource.checkAccountForTransactionOrDebtExist(idAccount)) {
+            MainActivity.dataSource.makeAccountInvisible(idAccount);
         }
         else {
-            dataSource.deleteAccount(idAccount);}
+            MainActivity.dataSource.deleteAccount(idAccount);}
 
         lastActions();
     }

@@ -13,9 +13,9 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.androidcollider.easyfin.MainActivity;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinAccountForTransAdapter;
-import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
@@ -205,7 +205,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
         double accountAmountFrom = accAmountFrom - amount;
         double accountAmountTo = accAmountTo + amountTo;
 
-        new DataSource(getActivity()).updateAccountsAmountAfterTransfer(idFrom,
+        MainActivity.dataSource.updateAccountsAmountAfterTransfer(idFrom,
                 accountAmountFrom, idTo, accountAmountTo);
 
         InfoFromDB.getInstance().updateAccountList();

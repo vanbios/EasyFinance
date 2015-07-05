@@ -15,10 +15,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.androidcollider.easyfin.MainActivity;
 import com.androidcollider.easyfin.R;
 
 import com.androidcollider.easyfin.adapters.RecyclerTransactionAdapter;
-import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.objects.Transaction;
 
@@ -38,8 +38,6 @@ public class FrgTransactions extends Fragment{
 
     private ArrayList<Transaction> transactionList = null;
     private RecyclerTransactionAdapter recyclerAdapter;
-
-    private DataSource dataSource;
 
 
 
@@ -63,9 +61,7 @@ public class FrgTransactions extends Fragment{
 
     private void setItemTransaction() {
 
-        dataSource = new DataSource(getActivity());
-
-        transactionList = dataSource.getAllTransactionsInfo();
+        transactionList = MainActivity.dataSource.getAllTransactionsInfo();
 
         setVisibility();
 
@@ -83,7 +79,7 @@ public class FrgTransactions extends Fragment{
                 if (status == STATUS_UPDATE_FRG_TRANSACTION) {
 
                     transactionList.clear();
-                    transactionList.addAll(dataSource.getAllTransactionsInfo());
+                    transactionList.addAll(MainActivity.dataSource.getAllTransactionsInfo());
 
                     setVisibility();
 
@@ -164,7 +160,7 @@ public class FrgTransactions extends Fragment{
         double amount = transaction.getAmount();
 
 
-        dataSource.deleteTransaction(idAccount, idTrans, amount);
+        MainActivity.dataSource.deleteTransaction(idAccount, idTrans, amount);
 
         transactionList.remove(pos);
 

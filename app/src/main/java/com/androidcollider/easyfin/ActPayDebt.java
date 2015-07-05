@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.adapters.SpinAccountForTransHeadIconAdapter;
-import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.fragments.FrgAccounts;
 import com.androidcollider.easyfin.fragments.FrgMain;
 import com.androidcollider.easyfin.objects.Account;
@@ -38,8 +37,6 @@ public class ActPayDebt extends AppCompatActivity {
 
     private ArrayList<Account> accountsAvailableList = null;
 
-    private DataSource dataSource;
-
     private int mode;
 
 
@@ -52,12 +49,10 @@ public class ActPayDebt extends AppCompatActivity {
         mode = intent.getIntExtra("mode", 1);
         debt = (Debt) intent.getSerializableExtra("debt");
 
-        if (mode == 1) {
-            setToolbar(R.string.pay_all_debt);
-        }
-
-        else {
-            setToolbar(R.string.pay_part_debt);
+        switch (mode) {
+            case 1: {setToolbar(R.string.pay_all_debt); break;}
+            case 2: {setToolbar(R.string.pay_part_debt); break;}
+            case 3: {setToolbar(R.string.take_more_debt); break;}
         }
 
         fillAvailableAccountsList();
@@ -72,8 +67,6 @@ public class ActPayDebt extends AppCompatActivity {
         else {
 
             cardView.setVisibility(View.VISIBLE);
-
-            dataSource = new DataSource(this);
 
             initializeView();
 
@@ -92,11 +85,14 @@ public class ActPayDebt extends AppCompatActivity {
 
         tvDebtName.setText(debt.getName());
 
-        final int PRECISE = 100;
-        final String FORMAT = "0.00";
+        if (mode == 1 || mode == 2) {
 
-        etSum.setText(FormatUtils.doubleToStringFormatter(debt.getAmount(), FORMAT, PRECISE));
-        etSum.setSelection(etSum.getText().length());
+            final int PRECISE = 100;
+            final String FORMAT = "0.00";
+
+            etSum.setText(FormatUtils.doubleToStringFormatter(debt.getAmount(), FORMAT, PRECISE));
+            etSum.setSelection(etSum.getText().length());
+        }
 
         if (mode == 1) {
             etSum.setEnabled(false);
@@ -173,7 +169,7 @@ public class ActPayDebt extends AppCompatActivity {
             amountAccount += amountDebt;
         }
 
-        dataSource.payAllDebt(idAccount, amountAccount, idDebt);
+        MainActivity.dataSource.payAllDebt(idAccount, amountAccount, idDebt);
 
         lastActions();
     }
@@ -182,12 +178,7 @@ public class ActPayDebt extends AppCompatActivity {
 
         String sum = FormatUtils.prepareStringToParse(etSum.getText().toString());
 
-        if (! sum.matches(".*\\d.*") || Double.parseDouble(sum) == 0) {
-            Shake.highlightEditText(etSum);
-            Toast.makeText(this, getResources().getString(R.string.empty_amount_field), Toast.LENGTH_SHORT).show();
-        }
-
-        else {
+        if (checkForFillSumField(sum)) {
 
             double amountDebt = Double.parseDouble(sum);
             double amountAllDebt = debt.getAmount();
@@ -224,19 +215,74 @@ public class ActPayDebt extends AppCompatActivity {
 
                     if (amountDebt == amountAllDebt) {
 
-                    dataSource.payAllDebt(idAccount, amountAccount, idDebt);}
+                    MainActivity.dataSource.payAllDebt(idAccount, amountAccount, idDebt);}
 
                     else {
 
                         double newDebtAmount = amountAllDebt - amountDebt;
 
-                        dataSource.payPartDebt(idAccount, amountAccount, idDebt, newDebtAmount);
+                        MainActivity.dataSource.payPartDebt(idAccount, amountAccount, idDebt, newDebtAmount);
                     }
 
                     lastActions();
                 }
             }
         }
+    }
+
+    private void takeMoreDebt() {
+
+        String sum = FormatUtils.prepareStringToParse(etSum.getText().toString());
+
+        if (checkForFillSumField(sum)) {
+
+            double amountDebt = Double.parseDouble(sum);
+            double amountAllDebt = debt.getAmount();
+
+
+            int type = debt.getType();
+
+            Account account = (Account) spinAccount.getSelectedItem();
+
+            double amountAccount = account.getAmount();
+
+
+            if (type == 0 && amountDebt > amountAccount) {
+                Shake.highlightEditText(etSum);
+                Toast.makeText(this, getResources().getString(R.string.not_enough_costs), Toast.LENGTH_SHORT).show();
+
+            } else {
+
+                int idDebt = debt.getId();
+                int idAccount = account.getId();
+
+
+                switch (type) {
+                    case 0: {amountAccount -= amountDebt; break;}
+                    case 1: {amountAccount += amountDebt; break;}
+                }
+
+
+                double newDebtAmount = amountAllDebt + amountDebt;
+
+                MainActivity.dataSource.takeMoreDebt(idAccount, amountAccount, idDebt, newDebtAmount);
+
+
+                lastActions();
+            }
+        }
+    }
+
+    private boolean checkForFillSumField(String s) {
+
+        if (! s.matches(".*\\d.*") || Double.parseDouble(s) == 0) {
+            Shake.highlightEditText(etSum);
+            Toast.makeText(this, getResources().getString(R.string.empty_amount_field), Toast.LENGTH_SHORT).show();
+
+            return false;
+        }
+
+        return true;
     }
 
     private void lastActions() {
@@ -271,10 +317,12 @@ public class ActPayDebt extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
             case android.R.id.home: {
                 this.finish();
                 return true;
             }
+
             case R.id.debt_action_save: {
 
                 switch (mode) {
@@ -286,8 +334,11 @@ public class ActPayDebt extends AppCompatActivity {
                         payPartDebt();
                         break;
                     }
+                    case 3: {
+                        takeMoreDebt();
+                        break;
+                    }
                 }
-
                 return true;
             }
         }

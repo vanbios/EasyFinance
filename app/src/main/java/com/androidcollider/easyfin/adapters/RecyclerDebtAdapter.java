@@ -139,7 +139,8 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             menu.add(Menu.NONE, R.id.ctx_menu_pay_all_debt, 1, R.string.pay_all_debt);
             menu.add(Menu.NONE, R.id.ctx_menu_pay_part_debt, 2, R.string.pay_part_debt);
-            menu.add(Menu.NONE, R.id.ctx_menu_delete_debt, 3, R.string.delete);
+            menu.add(Menu.NONE, R.id.ctx_menu_take_more_debt, 3, R.string.take_more_debt);
+            menu.add(Menu.NONE, R.id.ctx_menu_delete_debt, 4, R.string.delete);
         }
     }
 }

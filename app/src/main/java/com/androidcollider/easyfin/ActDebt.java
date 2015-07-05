@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.adapters.RecyclerDebtAdapter;
-import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.fragments.FrgAccounts;
 import com.androidcollider.easyfin.fragments.FrgMain;
 import com.androidcollider.easyfin.objects.Debt;
@@ -37,8 +36,6 @@ public class ActDebt extends AppCompatActivity {
 
     private RecyclerDebtAdapter recyclerAdapter;
 
-    private DataSource dataSource;
-
     private BroadcastReceiver broadcastReceiver;
 
 
@@ -54,8 +51,6 @@ public class ActDebt extends AppCompatActivity {
 
         tvEmpty = (TextView) findViewById(R.id.tvEmptyDebt);
 
-        dataSource = new DataSource(this);
-
         setItemDebt();
 
         registerForContextMenu(recyclerView);
@@ -65,7 +60,7 @@ public class ActDebt extends AppCompatActivity {
 
     private void setItemDebt() {
 
-        debtList = dataSource.getAllDebtInfo();
+        debtList = MainActivity.dataSource.getAllDebtInfo();
 
         setVisibility();
 
@@ -118,7 +113,7 @@ public class ActDebt extends AppCompatActivity {
                 if (status == STATUS_UPDATE_DEBT) {
 
                     debtList.clear();
-                    debtList.addAll(dataSource.getAllDebtInfo());
+                    debtList.addAll(MainActivity.dataSource.getAllDebtInfo());
 
                     setVisibility();
 
@@ -157,11 +152,15 @@ public class ActDebt extends AppCompatActivity {
                 goToActPayDebt(pos, 2);
                 break;}
 
+            case R.id.ctx_menu_take_more_debt: {
+                goToActPayDebt(pos, 3);
+                break;}
+
             case R.id.ctx_menu_delete_debt: {
                 showDialogDeleteDebt(pos);
-                break;
-            }
+                break;}
         }
+
         return super.onContextItemSelected(item);
     }
 
@@ -196,7 +195,7 @@ public class ActDebt extends AppCompatActivity {
         int type = debt.getType();
 
 
-        dataSource.deleteDebt(idAccount, idDebt, amount, type);
+        MainActivity.dataSource.deleteDebt(idAccount, idDebt, amount, type);
 
         debtList.remove(pos);
 

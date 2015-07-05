@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.adapters.SpinAccountForTransHeadIconAdapter;
-import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.fragments.FrgAccounts;
 import com.androidcollider.easyfin.fragments.FrgMain;
 import com.androidcollider.easyfin.objects.Account;
@@ -146,7 +145,7 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
                 Debt debt = new Debt(name, amount, type, accountId, date, accountAmount);
 
-                new DataSource(this).insertNewDebt(debt);
+                MainActivity.dataSource.insertNewDebt(debt);
 
                 InfoFromDB.getInstance().updateAccountList();
 

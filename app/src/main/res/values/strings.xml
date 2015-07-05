@@ -18,6 +18,7 @@
     <string name="delete_debt">Видалення боргу</string>
     <string name="pay_all_debt">Сплатити весь борг</string>
     <string name="pay_part_debt">Сплатити частину боргу</string>
+    <string name="take_more_debt">Додати суму до боргу</string>
 
     <string name="save">Зберегти</string>
     <string name="delete">Видалити</string>

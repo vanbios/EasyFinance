@@ -87,11 +87,11 @@ public class DataSource {
         int id_account = debt.getIdAccount();
 
         cv1.put("name", debt.getName());
-        cv1.put("amount", debt.getAmount());
+        cv1.put("amount_current", debt.getAmount());
         cv1.put("type", debt.getType());
         cv1.put("id_account", debt.getIdAccount());
-        cv1.put("date", debt.getDate());
-        cv1.put("amount_first", debt.getAmount());
+        cv1.put("deadline", debt.getDate());
+        cv1.put("amount_all", debt.getAmount());
 
         cv2.put("amount", debt.getAccountAmount());
 
@@ -225,7 +225,7 @@ public class DataSource {
                 cursor.close();
             }
 
-            selectQuery = "SELECT d.amount, d.type FROM Debt d, Account a "
+            selectQuery = "SELECT d.amount_current, d.type FROM Debt d, Account a "
                     + "WHERE d.id_account = a.id_account AND "
                     + "currency = '" + currency + "' ";
 
@@ -237,7 +237,7 @@ public class DataSource {
             int debtType;
 
             if (cursor.moveToFirst()) {
-                int amountColIndex = cursor.getColumnIndex("amount");
+                int amountColIndex = cursor.getColumnIndex("amount_current");
                 int typeColIndex = cursor.getColumnIndex("type");
 
                 do {
@@ -356,7 +356,7 @@ public class DataSource {
     public ArrayList<Debt> getAllDebtInfo() {
         ArrayList<Debt> debtArrayList = new ArrayList<>();
 
-        String selectQuery = "SELECT d.name AS d_name, d.amount, d.type, date, a.name AS a_name, currency, d.id_account, id_debt "
+        String selectQuery = "SELECT d.name AS d_name, d.amount_current, d.type, deadline, a.name AS a_name, currency, d.id_account, id_debt "
                 + "FROM Debt d, Account a "
                 + "WHERE d.id_account = a.id_account ";
 
@@ -367,9 +367,9 @@ public class DataSource {
 
         if (cursor.moveToFirst()) {
             int dNameColIndex = cursor.getColumnIndex("d_name");
-            int amountColIndex = cursor.getColumnIndex("amount");
+            int amountColIndex = cursor.getColumnIndex("amount_current");
             int typeColIndex = cursor.getColumnIndex("type");
-            int dateColIndex = cursor.getColumnIndex("date");
+            int dateColIndex = cursor.getColumnIndex("deadline");
             int aNameColIndex = cursor.getColumnIndex("a_name");
             int curColIndex = cursor.getColumnIndex("currency");
             int idAccountColIndex = cursor.getColumnIndex("id_account");
@@ -561,7 +561,24 @@ public class DataSource {
         cv1.put("amount", accountAmount);
 
         ContentValues cv2 = new ContentValues();
-        cv2.put("amount", debtAmount);
+        cv2.put("amount_current", debtAmount);
+
+        openLocalToWrite();
+
+        db.update("Account", cv1, "id_account = " + idAccount, null);
+        db.update("Debt", cv2, "id_debt = '" + idDebt + "' ", null);
+
+        closeLocal();
+    }
+
+    public void takeMoreDebt(int idAccount, double accountAmount, int idDebt, double debtAmount) {
+
+        ContentValues cv1 = new ContentValues();
+        cv1.put("amount", accountAmount);
+
+        ContentValues cv2 = new ContentValues();
+        cv2.put("amount_current", debtAmount);
+        cv2.put("amount_all", debtAmount);
 
         openLocalToWrite();
 

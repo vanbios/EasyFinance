@@ -1,9 +1,9 @@
 package com.androidcollider.easyfin.fragments;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.androidcollider.easyfin.MainActivity;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
-import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.utils.ChartDataUtils;
 import com.androidcollider.easyfin.utils.ChartLargeValueFormatter;
 import com.androidcollider.easyfin.utils.ExchangeUtils;
@@ -55,8 +55,6 @@ public class FrgMain extends Fragment implements View.OnClickListener{
     private final int PRECISE = 100;
     private final String FORMAT = "###,##0.00";
 
-    private DataSource dataSource;
-
     private BroadcastReceiver broadcastReceiver;
 
     private View view;
@@ -85,16 +83,13 @@ public class FrgMain extends Fragment implements View.OnClickListener{
 
         initializeViewsAndRes();
 
-
-        dataSource = new DataSource(getActivity());
-
-        balanceMap = dataSource.getAccountsSumGroupByTypeAndCurrency();
+        balanceMap = MainActivity.dataSource.getAccountsSumGroupByTypeAndCurrency();
 
         setBalanceCurrencySpinner();
 
         setStatisticSpinner();
 
-        statisticMap = dataSource.getTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1);
+        statisticMap = MainActivity.dataSource.getTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1);
 
         setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
 
@@ -242,7 +237,7 @@ public class FrgMain extends Fragment implements View.OnClickListener{
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 statisticMap.clear();
-                statisticMap = dataSource.getTransactionsStatistic(i+1);
+                statisticMap = MainActivity.dataSource.getTransactionsStatistic(i+1);
                 setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
 
                 setStatisticSumTV();
@@ -301,7 +296,7 @@ public class FrgMain extends Fragment implements View.OnClickListener{
                 int status = intent.getIntExtra(PARAM_STATUS_FRG_MAIN, 0);
 
                 balanceMap.clear();
-                balanceMap.putAll(dataSource.getAccountsSumGroupByTypeAndCurrency());
+                balanceMap.putAll(MainActivity.dataSource.getAccountsSumGroupByTypeAndCurrency());
 
                 setBalance(spinBalanceCurrency.getSelectedItemPosition());
 
@@ -310,7 +305,7 @@ public class FrgMain extends Fragment implements View.OnClickListener{
                     case STATUS_UPDATE_FRG_MAIN: {
 
                         statisticMap.clear();
-                        statisticMap.putAll(dataSource.getTransactionsStatistic(spinPeriod.getSelectedItemPosition()+1));
+                        statisticMap.putAll(MainActivity.dataSource.getTransactionsStatistic(spinPeriod.getSelectedItemPosition()+1));
 
 
                         setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());

@@ -26,11 +26,11 @@ public class SqlQueries {
         public static final String create_debt_table = "CREATE TABLE Debt (" +
                 "id_debt          INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "name             TEXT NOT NULL," +
-                "amount           REAL NOT NULL," +
-                "amount_first     REAL NOT NULL," +
+                "amount_current   REAL NOT NULL," +
+                "amount_all       REAL NOT NULL," +
                 "type             INTEGER NOT NULL," +
                 "id_account       INTEGER NOT NULL," +
-                "date             INTEGER NOT NULL" +
+                "deadline         INTEGER NOT NULL" +
                 ");";
 
 }

@@ -17,6 +17,12 @@
 
 
     <item
+        android:id="@+id/ctx_menu_take_more_debt"
+        android:title="@string/take_more_debt"
+        app:showAsAction="never" />
+
+
+    <item
         android:id="@+id/ctx_menu_delete_debt"
         android:title="@string/delete"
         app:showAsAction="never" />

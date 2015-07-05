@@ -16,10 +16,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidcollider.easyfin.MainActivity;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinAccountForTransHeadIconAdapter;
 import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
-import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.objects.Transaction;
@@ -156,7 +156,7 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
                 int idAccount = account.getId();
 
                 Transaction transaction = new Transaction(date, amount, category, idAccount, accountAmount);
-                new DataSource(getActivity()).insertNewTransaction(transaction);
+                MainActivity.dataSource.insertNewTransaction(transaction);
 
                 InfoFromDB.getInstance().updateAccountList();
 

@@ -1,9 +1,7 @@
 package com.androidcollider.easyfin.objects;
 
 
-import com.androidcollider.easyfin.database.DataSource;
-import com.androidcollider.easyfin.App;
-
+import com.androidcollider.easyfin.MainActivity;
 import java.util.ArrayList;
 
 
@@ -13,16 +11,14 @@ public class InfoFromDB {
     private static volatile InfoFromDB instance;
 
     private ArrayList<Account> accountList;
-    private DataSource dataSource;
 
 
     private InfoFromDB() {
-        dataSource = new DataSource(App.getContext());
-        accountList = dataSource.getAllAccountsInfo();
+        accountList = MainActivity.dataSource.getAllAccountsInfo();
     }
 
     public void updateAccountList() {
-        accountList = dataSource.getAllAccountsInfo();
+        accountList = MainActivity.dataSource.getAllAccountsInfo();
     }
 
     public ArrayList<Account> getAccountList() {
