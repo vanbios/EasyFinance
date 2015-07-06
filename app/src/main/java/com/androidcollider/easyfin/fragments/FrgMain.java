@@ -1,9 +1,9 @@
 package com.androidcollider.easyfin.fragments;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.androidcollider.easyfin.MainActivity;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
+import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.utils.ChartDataUtils;
 import com.androidcollider.easyfin.utils.ChartLargeValueFormatter;
 import com.androidcollider.easyfin.utils.ExchangeUtils;
@@ -83,13 +83,13 @@ public class FrgMain extends Fragment implements View.OnClickListener{
 
         initializeViewsAndRes();
 
-        balanceMap = MainActivity.dataSource.getAccountsSumGroupByTypeAndCurrency();
+        balanceMap = InfoFromDB.getInstance().getDataSource().getAccountsSumGroupByTypeAndCurrency();
 
         setBalanceCurrencySpinner();
 
         setStatisticSpinner();
 
-        statisticMap = MainActivity.dataSource.getTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1);
+        statisticMap = InfoFromDB.getInstance().getDataSource().getTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1);
 
         setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
 
@@ -237,7 +237,7 @@ public class FrgMain extends Fragment implements View.OnClickListener{
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 statisticMap.clear();
-                statisticMap = MainActivity.dataSource.getTransactionsStatistic(i+1);
+                statisticMap = InfoFromDB.getInstance().getDataSource().getTransactionsStatistic(i + 1);
                 setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
 
                 setStatisticSumTV();
@@ -296,7 +296,7 @@ public class FrgMain extends Fragment implements View.OnClickListener{
                 int status = intent.getIntExtra(PARAM_STATUS_FRG_MAIN, 0);
 
                 balanceMap.clear();
-                balanceMap.putAll(MainActivity.dataSource.getAccountsSumGroupByTypeAndCurrency());
+                balanceMap.putAll(InfoFromDB.getInstance().getDataSource().getAccountsSumGroupByTypeAndCurrency());
 
                 setBalance(spinBalanceCurrency.getSelectedItemPosition());
 
@@ -305,7 +305,7 @@ public class FrgMain extends Fragment implements View.OnClickListener{
                     case STATUS_UPDATE_FRG_MAIN: {
 
                         statisticMap.clear();
-                        statisticMap.putAll(MainActivity.dataSource.getTransactionsStatistic(spinPeriod.getSelectedItemPosition()+1));
+                        statisticMap.putAll(InfoFromDB.getInstance().getDataSource().getTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1));
 
 
                         setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
@@ -474,16 +474,16 @@ public class FrgMain extends Fragment implements View.OnClickListener{
             double[] value = (double[]) pair.getValue();
 
             if (uahCurName.equals(key)) {
-                uahArr = value.clone();
+                System.arraycopy(value, 0, uahArr, 0, uahArr.length);
             }
             else if (usdCurName.equals(key)) {
-                usdArr = value.clone();
+                System.arraycopy(value, 0, usdArr, 0, usdArr.length);
             }
             else if (eurCurName.equals(key)) {
-                eurArr = value.clone();
+                System.arraycopy(value, 0, eurArr, 0, eurArr.length);
             }
             else if (rubCurName.equals(key)) {
-                rubArr = value.clone();
+                System.arraycopy(value, 0, rubArr, 0, rubArr.length);
             }
         }
 
@@ -538,8 +538,6 @@ public class FrgMain extends Fragment implements View.OnClickListener{
                 }
             }
         }
-        //double[] st = dataSource.getTransactionsStatistic(posPeriod, currencyArray[posCurrency]);
-        //System.arraycopy(st, 0, statistic, 0, statistic.length);}
     }
 
     private String getCurrencyLang() {

@@ -145,7 +145,7 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
                 Debt debt = new Debt(name, amount, type, accountId, date, accountAmount);
 
-                MainActivity.dataSource.insertNewDebt(debt);
+                InfoFromDB.getInstance().getDataSource().insertNewDebt(debt);
 
                 InfoFromDB.getInstance().updateAccountList();
 

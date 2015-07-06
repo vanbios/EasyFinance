@@ -169,7 +169,7 @@ public class ActPayDebt extends AppCompatActivity {
             amountAccount += amountDebt;
         }
 
-        MainActivity.dataSource.payAllDebt(idAccount, amountAccount, idDebt);
+        InfoFromDB.getInstance().getDataSource().payAllDebt(idAccount, amountAccount, idDebt);
 
         lastActions();
     }
@@ -215,13 +215,13 @@ public class ActPayDebt extends AppCompatActivity {
 
                     if (amountDebt == amountAllDebt) {
 
-                    MainActivity.dataSource.payAllDebt(idAccount, amountAccount, idDebt);}
+                        InfoFromDB.getInstance().getDataSource().payAllDebt(idAccount, amountAccount, idDebt);}
 
                     else {
 
                         double newDebtAmount = amountAllDebt - amountDebt;
 
-                        MainActivity.dataSource.payPartDebt(idAccount, amountAccount, idDebt, newDebtAmount);
+                        InfoFromDB.getInstance().getDataSource().payPartDebt(idAccount, amountAccount, idDebt, newDebtAmount);
                     }
 
                     lastActions();
@@ -265,7 +265,7 @@ public class ActPayDebt extends AppCompatActivity {
 
                 double newDebtAmount = amountAllDebt + amountDebt;
 
-                MainActivity.dataSource.takeMoreDebt(idAccount, amountAccount, idDebt, newDebtAmount);
+                InfoFromDB.getInstance().getDataSource().takeMoreDebt(idAccount, amountAccount, idDebt, newDebtAmount);
 
 
                 lastActions();

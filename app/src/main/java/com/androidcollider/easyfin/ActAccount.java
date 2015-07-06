@@ -162,7 +162,7 @@ public class ActAccount extends AppCompatActivity {
 
                     Account account = new Account(name, amount, type, currency);
 
-                    MainActivity.dataSource.insertNewAccount(account);
+                    InfoFromDB.getInstance().getDataSource().insertNewAccount(account);
 
                     lastActions();
                 }
@@ -190,7 +190,7 @@ public class ActAccount extends AppCompatActivity {
 
                     Account account = new Account(idAccount, name, amount, type, currency);
 
-                    MainActivity.dataSource.editAccount(account);
+                    InfoFromDB.getInstance().getDataSource().editAccount(account);
 
                     lastActions();
                 }
@@ -265,11 +265,11 @@ public class ActAccount extends AppCompatActivity {
     }
 
     private void deleteAccount() {
-        if (MainActivity.dataSource.checkAccountForTransactionOrDebtExist(idAccount)) {
-            MainActivity.dataSource.makeAccountInvisible(idAccount);
+        if (InfoFromDB.getInstance().getDataSource().checkAccountForTransactionOrDebtExist(idAccount)) {
+            InfoFromDB.getInstance().getDataSource().makeAccountInvisible(idAccount);
         }
         else {
-            MainActivity.dataSource.deleteAccount(idAccount);}
+            InfoFromDB.getInstance().getDataSource().deleteAccount(idAccount);}
 
         lastActions();
     }

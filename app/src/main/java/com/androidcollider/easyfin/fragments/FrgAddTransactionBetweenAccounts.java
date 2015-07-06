@@ -13,7 +13,6 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.androidcollider.easyfin.MainActivity;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinAccountForTransAdapter;
 import com.androidcollider.easyfin.objects.Account;
@@ -179,7 +178,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
                 double accountAmountTo = accountTo.getAmount();
 
 
-                if (etExchange.getVisibility() == View.VISIBLE) {
+                if (layoutExchange.getVisibility() == View.VISIBLE) {
 
                     if (checkEditTextForCorrect(etExchange, R.string.empty_exchange_field)) {
 
@@ -205,7 +204,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
         double accountAmountFrom = accAmountFrom - amount;
         double accountAmountTo = accAmountTo + amountTo;
 
-        MainActivity.dataSource.updateAccountsAmountAfterTransfer(idFrom,
+        InfoFromDB.getInstance().getDataSource().updateAccountsAmountAfterTransfer(idFrom,
                 accountAmountFrom, idTo, accountAmountTo);
 
         InfoFromDB.getInstance().updateAccountList();

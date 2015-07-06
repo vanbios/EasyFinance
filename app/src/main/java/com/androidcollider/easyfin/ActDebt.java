@@ -60,7 +60,7 @@ public class ActDebt extends AppCompatActivity {
 
     private void setItemDebt() {
 
-        debtList = MainActivity.dataSource.getAllDebtInfo();
+        debtList = InfoFromDB.getInstance().getDataSource().getAllDebtInfo();
 
         setVisibility();
 
@@ -113,7 +113,7 @@ public class ActDebt extends AppCompatActivity {
                 if (status == STATUS_UPDATE_DEBT) {
 
                     debtList.clear();
-                    debtList.addAll(MainActivity.dataSource.getAllDebtInfo());
+                    debtList.addAll(InfoFromDB.getInstance().getDataSource().getAllDebtInfo());
 
                     setVisibility();
 
@@ -195,7 +195,7 @@ public class ActDebt extends AppCompatActivity {
         int type = debt.getType();
 
 
-        MainActivity.dataSource.deleteDebt(idAccount, idDebt, amount, type);
+        InfoFromDB.getInstance().getDataSource().deleteDebt(idAccount, idDebt, amount, type);
 
         debtList.remove(pos);
 

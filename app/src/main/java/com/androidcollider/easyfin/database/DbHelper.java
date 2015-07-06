@@ -22,6 +22,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(SqlQueries.create_account_table);
         db.execSQL(SqlQueries.create_transactions_table);
         db.execSQL(SqlQueries.create_debt_table);
+        db.execSQL(SqlQueries.create_rates_table);
     }
 
     // Method for update database

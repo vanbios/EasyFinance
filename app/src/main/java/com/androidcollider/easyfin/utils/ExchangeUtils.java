@@ -1,7 +1,7 @@
 package com.androidcollider.easyfin.utils;
 
 
-import com.androidcollider.easyfin.App;
+import com.androidcollider.easyfin.AppController;
 import com.androidcollider.easyfin.R;
 
 public class ExchangeUtils {
@@ -11,7 +11,7 @@ public class ExchangeUtils {
 
         double[] rates = getRates();
 
-        String[] currencyArray = App.getContext().getResources().getStringArray(R.array.account_currency_array);
+        String[] currencyArray = AppController.getContext().getResources().getStringArray(R.array.account_currency_array);
 
 
         int posFrom = 0;

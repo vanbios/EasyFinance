@@ -6,12 +6,15 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.androidcollider.easyfin.AppController;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.DateConstants;
 import com.androidcollider.easyfin.objects.Debt;
+import com.androidcollider.easyfin.objects.Rates;
 import com.androidcollider.easyfin.objects.Transaction;
 import com.androidcollider.easyfin.utils.FormatUtils;
+import com.androidcollider.easyfin.utils.SharedPref;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,17 +23,16 @@ import java.util.HashMap;
 
 public class DataSource {
 
-    //private final static String APP_PREFERENCES = "EasyfinPref";
 
     private DbHelper dbHelper;
     private SQLiteDatabase db;
     private Context context;
-    //private SharedPreferences sPref;
+    private SharedPref sharedPref;
 
     public DataSource(Context context) {
         this.context = context;
         dbHelper = new DbHelper(context);
-        //sPref = context.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        sharedPref = new SharedPref(AppController.getContext());
     }
 
     //Open database to write
@@ -584,6 +586,53 @@ public class DataSource {
 
         db.update("Account", cv1, "id_account = " + idAccount, null);
         db.update("Debt", cv2, "id_debt = '" + idDebt + "' ", null);
+
+        closeLocal();
+    }
+
+    public void insertRates(ArrayList<Rates> ratesList) {
+
+        ContentValues cv = new ContentValues();
+
+        openLocalToWrite();
+
+        boolean isExist = sharedPref.getRatesInDBExistStatus();
+
+
+        if (!isExist) {
+
+            for (Rates rates : ratesList) {
+
+                cv.put("date", rates.getDate().getTime());
+                cv.put("currency", rates.getCurrency());
+                cv.put("rate_type", rates.getRateType());
+                cv.put("bid", rates.getBid());
+                cv.put("ask", rates.getAsk());
+
+                db.insert("Rates", null, cv);
+            }
+
+            sharedPref.setRatesInDBExistStatus();
+        }
+
+        else {
+
+            int id;
+
+            for (Rates rates : ratesList) {
+
+                id = rates.getId();
+
+                cv.put("date", rates.getDate().getTime());
+                cv.put("currency", rates.getCurrency());
+                cv.put("rate_type", rates.getRateType());
+                cv.put("bid", rates.getBid());
+                cv.put("ask", rates.getAsk());
+
+                db.update("Rates", cv, "id_rate = '" + id + "' ", null);
+            }
+        }
+
 
         closeLocal();
     }

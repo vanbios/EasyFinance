@@ -17,10 +17,10 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.androidcollider.easyfin.adapters.MyFragmentPagerAdapter;
-import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.fragments.FrgAccounts;
 import com.androidcollider.easyfin.fragments.FrgMain;
 import com.androidcollider.easyfin.fragments.FrgTransactions;
+import com.androidcollider.easyfin.utils.RatesParser;
 import com.androidcollider.easyfin.utils.SharedPref;
 
 import java.util.concurrent.Executors;
@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isSnackBarDisabled;
 
-    public static DataSource dataSource;
 
 
     @Override
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_main);
 
-        dataSource = new DataSource(this);
+        RatesParser.postRequest();
 
         setToolbar(R.string.app_name);
 

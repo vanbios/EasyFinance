@@ -42,4 +42,14 @@ public class SharedPref {
         return sharedPreferences.getBoolean("mainBalanceSettingsShowCentsChecked", false);
     }
 
+
+
+    public void setRatesInDBExistStatus() {
+        sharedPreferences.edit().putBoolean("ratesInDBExistStatus", true).apply();
+    }
+
+    public boolean getRatesInDBExistStatus() {
+        return sharedPreferences.getBoolean("ratesInDBExistStatus", false);
+    }
+
 }
