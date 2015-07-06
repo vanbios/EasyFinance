@@ -3,6 +3,7 @@ package com.androidcollider.easyfin.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.Date;
 
 
 public class SharedPref {
@@ -50,6 +51,16 @@ public class SharedPref {
 
     public boolean getRatesInDBExistStatus() {
         return sharedPreferences.getBoolean("ratesInDBExistStatus", false);
+    }
+
+
+    public void setRatesUpdateTime() {
+        long date = new Date().getTime();
+        sharedPreferences.edit().putLong("ratesUpdateTime", date).apply();
+    }
+
+    public long getRatesUpdateTime() {
+        return sharedPreferences.getLong("ratesUpdateTime", 0);
     }
 
 }

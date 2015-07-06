@@ -1,8 +1,11 @@
 package com.androidcollider.easyfin.utils;
 
 
+import android.util.Log;
+
 import com.androidcollider.easyfin.AppController;
 import com.androidcollider.easyfin.R;
+import com.androidcollider.easyfin.objects.InfoFromDB;
 
 public class ExchangeUtils {
 
@@ -32,12 +35,20 @@ public class ExchangeUtils {
     }
 
     public static double[] getRates() {
-        double[] rates = new double[4];
+        double[] rates = new double[5];
 
         rates[0] = 1;
-        rates[1] = 21.93;
-        rates[2] = 24.58;
-        rates[3] = 0.4;
+        //rates[1] = 21.93;
+        //rates[2] = 24.58;
+        //rates[3] = 0.4;
+
+        System.arraycopy(InfoFromDB.getInstance().getRatesForExchange(), 0, rates, 1, rates.length-1);
+
+
+        for (double d : rates) {
+
+            Log.d("COLLIDER", String.valueOf(d));
+        }
 
         return rates;
     }

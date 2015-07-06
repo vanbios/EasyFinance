@@ -1,11 +1,15 @@
 package com.androidcollider.easyfin.objects;
 
 
+import android.util.Log;
+
 import com.androidcollider.easyfin.AppController;
 import com.androidcollider.easyfin.database.DataSource;
+import com.androidcollider.easyfin.utils.RatesParser;
+import com.androidcollider.easyfin.utils.SharedPref;
 
 import java.util.ArrayList;
-
+import java.util.Date;
 
 
 public class InfoFromDB {
@@ -16,9 +20,15 @@ public class InfoFromDB {
 
     private ArrayList<Account> accountList;
 
+    private double[] ratesForExchange;
+
+    private final SharedPref sharedPref = new SharedPref(AppController.getContext());
+
 
     private InfoFromDB() {
         accountList = dataSource.getAllAccountsInfo();
+        ratesForExchange = new double[4];
+        setRatesForExchange();
     }
 
     public void updateAccountList() {
@@ -52,6 +62,32 @@ public class InfoFromDB {
 
     public DataSource getDataSource() {
         return dataSource;
+    }
+
+    public void setRatesForExchange() {
+
+        boolean ratesInDBStatus = sharedPref.getRatesInDBExistStatus();
+
+        if (ratesInDBStatus) {
+            long ratesUpdateTime = sharedPref.getRatesUpdateTime();
+            long currentTime = new Date().getTime();
+
+            if (currentTime - ratesUpdateTime > DateConstants.RATES_UPDATE_PERIOD) {
+
+                RatesParser.postRequest();
+            }
+
+            System.arraycopy(dataSource.getRates(), 0, ratesForExchange, 0 , ratesForExchange.length);
+
+            for (double d : ratesForExchange) {
+
+                Log.d("RATES", String.valueOf(d));
+            }
+        }
+    }
+
+    public double[] getRatesForExchange() {
+        return ratesForExchange;
     }
 
 

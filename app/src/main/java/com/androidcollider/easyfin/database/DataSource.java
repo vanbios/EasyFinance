@@ -633,8 +633,51 @@ public class DataSource {
             }
         }
 
+        closeLocal();
+
+        sharedPref.setRatesUpdateTime();
+    }
+
+    public double[] getRates() {
+
+        String[] rateNamesArray = context.getResources().getStringArray(R.array.json_rates_array);
+        String rateType = "bank";
+
+        double[] results = new double[4];
+
+        Cursor cursor;
+        String selectQuery;
+
+
+        openLocalToRead();
+
+        for (int i = 0; i < rateNamesArray.length; i++) {
+
+            String currency = rateNamesArray[i];
+
+            selectQuery = "SELECT ask FROM Rates "
+                    + "WHERE rate_type = '" + rateType + "' "
+                    + "AND currency = '" + currency + "' ";
+
+            cursor = db.rawQuery(selectQuery, null);
+
+            double rate = 0.0;
+
+            if (cursor.moveToFirst()) {
+                results[i] = cursor.getDouble(0);
+            }
+
+            else {
+                results[i] = 0;
+            }
+
+            cursor.close();
+
+        }
 
         closeLocal();
+
+        return results;
     }
 
 }
