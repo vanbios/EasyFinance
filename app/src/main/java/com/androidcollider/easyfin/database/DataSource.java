@@ -680,4 +680,24 @@ public class DataSource {
         return results;
     }
 
+    public void editTransaction(Transaction transaction) {
+        ContentValues cv1 = new ContentValues();
+        ContentValues cv2 = new ContentValues();
+
+        int id_account = transaction.getIdAccount();
+        int id_transaction = transaction.getId();
+
+        cv1.put("id_account", id_account);
+        cv1.put("date", transaction.getDate());
+        cv1.put("amount", transaction.getAmount());
+        cv1.put("category", transaction.getCategory());
+
+        cv2.put("amount", transaction.getAccountAmount());
+
+        openLocalToWrite();
+        db.update("Transactions", cv1, "id_transaction = " + id_transaction, null);
+        db.update("Account", cv2, "id_account = " + id_account, null);
+        closeLocal();
+    }
+
 }

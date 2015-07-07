@@ -71,7 +71,7 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
             final String FORMAT = "0.00";
 
             double amount = transFromIntent.getAmount();
-            etSum.setText(FormatUtils.doubleToStringFormatter(amount, FORMAT, PRECISE));
+            etSum.setText(FormatUtils.doubleToStringFormatter(Math.abs(amount), FORMAT, PRECISE));
 
             if (!FormatUtils.isDoubleNegative(amount)) {
                 RadioButton rbPlus = (RadioButton) view.findViewById(R.id.radioButtonIncome);
@@ -126,7 +126,6 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
                 Account account = accountList.get(i);
 
                 if (account.getName().equals(accountName)) {
-
                     spinAccount.setSelection(i);
                     break;
                 }
@@ -136,7 +135,6 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
             for (int j = 0; j < categoryArray.length; j++) {
 
                 if (categoryArray[j].equals(category)) {
-
                     spinCategory.setSelection(j);
                     break;
                 }
@@ -165,8 +163,6 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
 
     public void addTransaction() {
 
-        RadioButton rbCost = (RadioButton) view.findViewById(R.id.radioButtonCost);
-
         String sum = FormatUtils.prepareStringToParse(etSum.getText().toString());
 
         if (! sum.matches(".*\\d.*") || Double.parseDouble(sum) == 0) {
@@ -175,6 +171,8 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
         }
 
         else {
+
+            RadioButton rbCost = (RadioButton) view.findViewById(R.id.radioButtonCost);
 
             Long date = DateFormat.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
 
@@ -187,6 +185,11 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
 
             double accountAmount = account.getAmount();
 
+            if (mode == 1) {
+                accountAmount -= transFromIntent.getAmount();
+            }
+
+
             if (rbCost.isChecked() && Math.abs(amount) > accountAmount) {
                 Toast.makeText(getActivity(),
                         getResources().getString(R.string.not_enough_costs), Toast.LENGTH_SHORT).show();}
@@ -196,8 +199,17 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
                 String category = spinCategory.getSelectedItem().toString();
                 int idAccount = account.getId();
 
-                Transaction transaction = new Transaction(date, amount, category, idAccount, accountAmount);
-                InfoFromDB.getInstance().getDataSource().insertNewTransaction(transaction);
+
+                if (mode == 1) {
+                    int idTrans = transFromIntent.getId();
+                    Transaction transaction = new Transaction(date, amount, category, idAccount, accountAmount, idTrans);
+                    InfoFromDB.getInstance().getDataSource().editTransaction(transaction);
+                }
+
+                else {
+                    Transaction transaction = new Transaction(date, amount, category, idAccount, accountAmount);
+                    InfoFromDB.getInstance().getDataSource().insertNewTransaction(transaction);
+                }
 
                 InfoFromDB.getInstance().updateAccountList();
 

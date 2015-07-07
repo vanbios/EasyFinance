@@ -26,6 +26,16 @@ public class Transaction implements Serializable {
     }
 
 
+    public Transaction (long date, double amount, String category, int idAccount, double accountAmount, int id) {
+        this.date = date;
+        this.amount = amount;
+        this.category = category;
+        this.idAccount = idAccount;
+        this.accountAmount = accountAmount;
+        this.id = id;
+    }
+
+
     public Transaction (long date, double amount, String category, String accountName,
                         String currency, String accountType, int idAccount, int id) {
         this.date = date;
