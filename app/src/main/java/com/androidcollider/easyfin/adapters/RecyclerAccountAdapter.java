@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.androidcollider.easyfin.ActAccount;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.objects.Account;
-import com.androidcollider.easyfin.utils.FormatUtils;
+import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 
 import java.util.ArrayList;
 
@@ -74,7 +74,7 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
         }
 
         holder.tvAccountName.setText(account.getName());
-        holder.tvAccountAmount.setText(FormatUtils.doubleToStringFormatter(account.getAmount(), FORMAT, PRECISE) +
+        holder.tvAccountAmount.setText(DoubleFormatUtils.doubleToStringFormatter(account.getAmount(), FORMAT, PRECISE) +
                 " " + curLang);
 
         holder.mView.setOnLongClickListener(new View.OnLongClickListener() {

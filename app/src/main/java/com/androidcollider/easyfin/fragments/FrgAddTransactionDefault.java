@@ -23,10 +23,10 @@ import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.objects.Transaction;
-import com.androidcollider.easyfin.utils.DateFormat;
+import com.androidcollider.easyfin.utils.DateFormatUtils;
 import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
-import com.androidcollider.easyfin.utils.FormatUtils;
-import com.androidcollider.easyfin.utils.Shake;
+import com.androidcollider.easyfin.utils.DoubleFormatUtils;
+import com.androidcollider.easyfin.utils.ShakeEditText;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -71,9 +71,9 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
             final String FORMAT = "0.00";
 
             double amount = transFromIntent.getAmount();
-            etSum.setText(FormatUtils.doubleToStringFormatter(Math.abs(amount), FORMAT, PRECISE));
+            etSum.setText(DoubleFormatUtils.doubleToStringFormatter(Math.abs(amount), FORMAT, PRECISE));
 
-            if (!FormatUtils.isDoubleNegative(amount)) {
+            if (!DoubleFormatUtils.isDoubleNegative(amount)) {
                 RadioButton rbPlus = (RadioButton) view.findViewById(R.id.radioButtonIncome);
                 rbPlus.setChecked(true);
             }
@@ -163,10 +163,10 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
 
     public void addTransaction() {
 
-        String sum = FormatUtils.prepareStringToParse(etSum.getText().toString());
+        String sum = DoubleFormatUtils.prepareStringToParse(etSum.getText().toString());
 
         if (! sum.matches(".*\\d.*") || Double.parseDouble(sum) == 0) {
-            Shake.highlightEditText(etSum);
+            ShakeEditText.highlightEditText(etSum);
             Toast.makeText(getActivity(), getResources().getString(R.string.empty_amount_field), Toast.LENGTH_SHORT).show();
         }
 
@@ -174,7 +174,7 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
 
             RadioButton rbCost = (RadioButton) view.findViewById(R.id.radioButtonCost);
 
-            Long date = DateFormat.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
+            Long date = DateFormatUtils.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
 
             double amount = Double.parseDouble(sum);
             if (rbCost.isChecked()) {
@@ -224,14 +224,14 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
         tvDate.setOnClickListener(this);
 
         Calendar newCalendar = Calendar.getInstance();
-        tvDate.setText(DateFormat.dateToString(newCalendar.getTime(), DATEFORMAT));
+        tvDate.setText(DateFormatUtils.dateToString(newCalendar.getTime(), DATEFORMAT));
 
         datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
-                tvDate.setText(DateFormat.dateToString(newDate.getTime(), DATEFORMAT));
+                tvDate.setText(DateFormatUtils.dateToString(newDate.getTime(), DATEFORMAT));
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));

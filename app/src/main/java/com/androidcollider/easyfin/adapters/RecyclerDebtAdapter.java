@@ -14,8 +14,8 @@ import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.objects.Debt;
-import com.androidcollider.easyfin.utils.DateFormat;
-import com.androidcollider.easyfin.utils.FormatUtils;
+import com.androidcollider.easyfin.utils.DateFormatUtils;
+import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 
 import java.util.ArrayList;
 
@@ -83,10 +83,10 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
         double amountCurrent = debt.getAmountCurrent();
         double amountAll = debt.getAmountAll();
 
-        holder.tvAmount.setText(FormatUtils.doubleToStringFormatter(amountCurrent, FORMAT, PRECISE)
+        holder.tvAmount.setText(DoubleFormatUtils.doubleToStringFormatter(amountCurrent, FORMAT, PRECISE)
         + " " + curLang);
         holder.tvAccountName.setText(debt.getAccountName());
-        holder.tvDate.setText(DateFormat.longToDateString(debt.getDate(), DATEFORMAT));
+        holder.tvDate.setText(DateFormatUtils.longToDateString(debt.getDate(), DATEFORMAT));
 
         int progress = (int) (amountCurrent/amountAll*100);
         holder.prgBar.setProgress(progress);

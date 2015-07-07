@@ -22,8 +22,8 @@ import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.Debt;
 import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
-import com.androidcollider.easyfin.utils.FormatUtils;
-import com.androidcollider.easyfin.utils.Shake;
+import com.androidcollider.easyfin.utils.DoubleFormatUtils;
+import com.androidcollider.easyfin.utils.ShakeEditText;
 
 import java.util.ArrayList;
 
@@ -90,7 +90,7 @@ public class ActPayDebt extends AppCompatActivity {
             final int PRECISE = 100;
             final String FORMAT = "0.00";
 
-            etSum.setText(FormatUtils.doubleToStringFormatter(debt.getAmountCurrent(), FORMAT, PRECISE));
+            etSum.setText(DoubleFormatUtils.doubleToStringFormatter(debt.getAmountCurrent(), FORMAT, PRECISE));
             //etSum.setSelection(etSum.getText().length());
         }
 
@@ -176,7 +176,7 @@ public class ActPayDebt extends AppCompatActivity {
 
     private void payPartDebt(){
 
-        String sum = FormatUtils.prepareStringToParse(etSum.getText().toString());
+        String sum = DoubleFormatUtils.prepareStringToParse(etSum.getText().toString());
 
         if (checkForFillSumField(sum)) {
 
@@ -184,7 +184,7 @@ public class ActPayDebt extends AppCompatActivity {
             double amountAllDebt = debt.getAmountCurrent();
 
             if (amountDebt > amountAllDebt) {
-                Shake.highlightEditText(etSum);
+                ShakeEditText.highlightEditText(etSum);
                 Toast.makeText(this, getResources().getString(R.string.debt_sum_more_then_amount), Toast.LENGTH_SHORT).show();
 
             } else {
@@ -197,7 +197,7 @@ public class ActPayDebt extends AppCompatActivity {
 
 
                 if (type == 1 && amountDebt > amountAccount) {
-                    Shake.highlightEditText(etSum);
+                    ShakeEditText.highlightEditText(etSum);
                     Toast.makeText(this, getResources().getString(R.string.not_enough_costs), Toast.LENGTH_SHORT).show();
 
                 } else {
@@ -232,7 +232,7 @@ public class ActPayDebt extends AppCompatActivity {
 
     private void takeMoreDebt() {
 
-        String sum = FormatUtils.prepareStringToParse(etSum.getText().toString());
+        String sum = DoubleFormatUtils.prepareStringToParse(etSum.getText().toString());
 
         if (checkForFillSumField(sum)) {
 
@@ -249,7 +249,7 @@ public class ActPayDebt extends AppCompatActivity {
 
 
             if (type == 0 && amountDebt > amountAccount) {
-                Shake.highlightEditText(etSum);
+                ShakeEditText.highlightEditText(etSum);
                 Toast.makeText(this, getResources().getString(R.string.not_enough_costs), Toast.LENGTH_SHORT).show();
 
             } else {
@@ -279,7 +279,7 @@ public class ActPayDebt extends AppCompatActivity {
     private boolean checkForFillSumField(String s) {
 
         if (! s.matches(".*\\d.*") || Double.parseDouble(s) == 0) {
-            Shake.highlightEditText(etSum);
+            ShakeEditText.highlightEditText(etSum);
             Toast.makeText(this, getResources().getString(R.string.empty_amount_field), Toast.LENGTH_SHORT).show();
 
             return false;

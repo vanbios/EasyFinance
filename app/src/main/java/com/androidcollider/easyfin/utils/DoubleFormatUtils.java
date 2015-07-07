@@ -4,7 +4,7 @@ package com.androidcollider.easyfin.utils;
 import java.text.DecimalFormat;
 
 
-public class FormatUtils {
+public class DoubleFormatUtils {
 
 
     public static String doubleToStringFormatter(double number, String format, int precise){

@@ -35,7 +35,7 @@ public class SqlQueries {
 
         //make a string SQL request for Rates table
         public static final String create_rates_table = "CREATE TABLE Rates (" +
-                "id_rate          INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "id_rate          INTEGER PRIMARY KEY," +
                 "date             INTEGER NOT NULL," +
                 "currency         TEXT NOT NULL," +
                 "rate_type        TEXT NOT NULL," +

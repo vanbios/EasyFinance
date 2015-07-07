@@ -14,8 +14,8 @@ import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.objects.Transaction;
-import com.androidcollider.easyfin.utils.DateFormat;
-import com.androidcollider.easyfin.utils.FormatUtils;
+import com.androidcollider.easyfin.utils.DateFormatUtils;
+import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 
 import java.util.ArrayList;
 
@@ -78,9 +78,9 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
         Transaction transaction = getTransaction(position);
 
         holder.tvTransAccountName.setText(transaction.getAccountName());
-        holder.tvTransDate.setText(DateFormat.longToDateString(transaction.getDate(), DATEFORMAT));
+        holder.tvTransDate.setText(DateFormatUtils.longToDateString(transaction.getDate(), DATEFORMAT));
 
-        String amount = FormatUtils.doubleToStringFormatter(transaction.getAmount(), FORMAT, PRECISE);
+        String amount = DoubleFormatUtils.doubleToStringFormatter(transaction.getAmount(), FORMAT, PRECISE);
 
         String cur = transaction.getCurrency();
 

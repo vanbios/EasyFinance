@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.androidcollider.easyfin.AppController;
 import com.androidcollider.easyfin.database.DataSource;
+import com.androidcollider.easyfin.utils.InternetTester;
 import com.androidcollider.easyfin.utils.RatesParser;
 import com.androidcollider.easyfin.utils.SharedPref;
 
@@ -27,8 +28,7 @@ public class InfoFromDB {
 
     private InfoFromDB() {
         accountList = dataSource.getAllAccountsInfo();
-        ratesForExchange = new double[4];
-        setRatesForExchange();
+        ratesForExchange = dataSource.getRates();
     }
 
     public void updateAccountList() {
@@ -64,26 +64,28 @@ public class InfoFromDB {
         return dataSource;
     }
 
+    public void updateRatesForExchange() {
+
+        //boolean ratesInDBStatus = sharedPref.getRatesInDBExistStatus();
+
+        //if (ratesInDBStatus) {
+
+        long ratesUpdateTime = sharedPref.getRatesUpdateTime();
+        long currentTime = System.currentTimeMillis();
+
+        if (currentTime - ratesUpdateTime > DateConstants.RATES_UPDATE_PERIOD &&
+                InternetTester.isConnectionEnabled(AppController.getContext())) {
+
+            RatesParser.postRequest();
+        }
+
+
+        //}
+    }
+
     public void setRatesForExchange() {
 
-        boolean ratesInDBStatus = sharedPref.getRatesInDBExistStatus();
-
-        if (ratesInDBStatus) {
-            long ratesUpdateTime = sharedPref.getRatesUpdateTime();
-            long currentTime = System.currentTimeMillis();
-
-            if (currentTime - ratesUpdateTime > DateConstants.RATES_UPDATE_PERIOD) {
-
-                RatesParser.postRequest();
-            }
-
-            System.arraycopy(dataSource.getRates(), 0, ratesForExchange, 0 , ratesForExchange.length);
-
-            for (double d : ratesForExchange) {
-
-                Log.d("RATES", String.valueOf(d));
-            }
-        }
+        System.arraycopy(dataSource.getRates(), 0, ratesForExchange, 0 , ratesForExchange.length);
     }
 
     public double[] getRatesForExchange() {

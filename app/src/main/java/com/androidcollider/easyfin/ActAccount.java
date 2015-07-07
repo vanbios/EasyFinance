@@ -7,8 +7,8 @@ import com.androidcollider.easyfin.fragments.FrgMain;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
-import com.androidcollider.easyfin.utils.FormatUtils;
-import com.androidcollider.easyfin.utils.Shake;
+import com.androidcollider.easyfin.utils.DoubleFormatUtils;
+import com.androidcollider.easyfin.utils.ShakeEditText;
 import com.androidcollider.easyfin.utils.SharedPref;
 
 import android.content.Intent;
@@ -137,7 +137,7 @@ public class ActAccount extends AppCompatActivity {
         final int PRECISE = 100;
         final String FORMAT = "0.00";
 
-        etSum.setText(FormatUtils.doubleToStringFormatter(accFrIntent.getAmount(), FORMAT, PRECISE));
+        etSum.setText(DoubleFormatUtils.doubleToStringFormatter(accFrIntent.getAmount(), FORMAT, PRECISE));
         etSum.setSelection(etSum.getText().length());
 
         idAccount = accFrIntent.getId();
@@ -150,13 +150,13 @@ public class ActAccount extends AppCompatActivity {
             String name = etName.getText().toString();
 
                 if (InfoFromDB.getInstance().checkForAccountNameMatches(name)) {
-                    Shake.highlightEditText(etName);
+                    ShakeEditText.highlightEditText(etName);
                     Toast.makeText(this, getResources().getString(R.string.account_name_exist), Toast.LENGTH_SHORT).show();
                 }
 
                 else {
 
-                    double amount = Double.parseDouble(FormatUtils.prepareStringToParse(etSum.getText().toString()));
+                    double amount = Double.parseDouble(DoubleFormatUtils.prepareStringToParse(etSum.getText().toString()));
                     String type = spinType.getSelectedItem().toString();
                     String currency = spinCurrency.getSelectedItem().toString();
 
@@ -176,13 +176,13 @@ public class ActAccount extends AppCompatActivity {
                 String name = etName.getText().toString();
 
                 if (InfoFromDB.getInstance().checkForAccountNameMatches(name) && ! name.equals(oldName)) {
-                    Shake.highlightEditText(etName);
+                    ShakeEditText.highlightEditText(etName);
                     Toast.makeText(this, getResources().getString(R.string.account_name_exist), Toast.LENGTH_SHORT).show();
                 }
 
                 else {
 
-                    String sum = FormatUtils.prepareStringToParse(etSum.getText().toString());
+                    String sum = DoubleFormatUtils.prepareStringToParse(etSum.getText().toString());
 
                     double amount = Double.parseDouble(sum);
                     String type = spinType.getSelectedItem().toString();
@@ -208,7 +208,7 @@ public class ActAccount extends AppCompatActivity {
         String st = etName.getText().toString().replaceAll("\\s+", "");
 
         if (st.isEmpty()) {
-            Shake.highlightEditText(etName);
+            ShakeEditText.highlightEditText(etName);
             Toast.makeText(this, getResources().getString(R.string.empty_name_field), Toast.LENGTH_SHORT).show();
 
             return false;
@@ -216,8 +216,8 @@ public class ActAccount extends AppCompatActivity {
 
         else {
 
-            if (!FormatUtils.prepareStringToParse(etSum.getText().toString()).matches(".*\\d.*")) {
-                Shake.highlightEditText(etSum);
+            if (!DoubleFormatUtils.prepareStringToParse(etSum.getText().toString()).matches(".*\\d.*")) {
+                ShakeEditText.highlightEditText(etSum);
                 Toast.makeText(this, getResources().getString(R.string.empty_amount_field), Toast.LENGTH_SHORT).show();
 
                 return false;

@@ -19,8 +19,8 @@ import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
 import com.androidcollider.easyfin.utils.ExchangeUtils;
-import com.androidcollider.easyfin.utils.FormatUtils;
-import com.androidcollider.easyfin.utils.Shake;
+import com.androidcollider.easyfin.utils.DoubleFormatUtils;
+import com.androidcollider.easyfin.utils.ShakeEditText;
 
 import java.util.ArrayList;
 
@@ -128,7 +128,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
             final int PRECISE = 100;
             final String FORMAT = "0.00";
 
-            etExchange.setText(FormatUtils.doubleToStringFormatter(exchangeRate, FORMAT, PRECISE));
+            etExchange.setText(DoubleFormatUtils.doubleToStringFormatter(exchangeRate, FORMAT, PRECISE));
 
             etExchange.setSelection(etExchange.getText().length());
         }
@@ -159,7 +159,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
         if (checkEditTextForCorrect(etSum, R.string.empty_amount_field)) {
 
-            double amount = Double.parseDouble(FormatUtils.prepareStringToParse(etSum.getText().toString()));
+            double amount = Double.parseDouble(DoubleFormatUtils.prepareStringToParse(etSum.getText().toString()));
 
             Account accountFrom = (Account) spinAccountFrom.getSelectedItem();
             double accountAmountFrom = accountFrom.getAmount();
@@ -182,7 +182,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
                     if (checkEditTextForCorrect(etExchange, R.string.empty_exchange_field)) {
 
-                        double exchange = Double.parseDouble(FormatUtils.prepareStringToParse(etExchange.getText().toString()));
+                        double exchange = Double.parseDouble(DoubleFormatUtils.prepareStringToParse(etExchange.getText().toString()));
 
                         double amountTo = amount / exchange;
 
@@ -216,10 +216,10 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
     private boolean checkEditTextForCorrect(EditText et, int strRes) {
 
-        String s = FormatUtils.prepareStringToParse(et.getText().toString());
+        String s = DoubleFormatUtils.prepareStringToParse(et.getText().toString());
 
         if (!s.matches(".*\\d.*") || Double.parseDouble(s) == 0) {
-            Shake.highlightEditText(et);
+            ShakeEditText.highlightEditText(et);
             Toast.makeText(getActivity(), getResources().getString(strRes), Toast.LENGTH_SHORT).show();
 
         return false;

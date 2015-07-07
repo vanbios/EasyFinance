@@ -31,7 +31,7 @@ public class RatesParser {
         final String TAG_STRING_REQ = "get_last_rates";
         final String URL = "http://560671.acolider.web.hosting-test.net/fin-u/api/api_finu.php";
 
-        StringRequest req = new StringRequest(Request.Method.POST,URL,
+        StringRequest req = new StringRequest(Request.Method.POST, URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -57,7 +57,7 @@ public class RatesParser {
                                     JSONObject jsonObject = jsonArray.getJSONObject(j);
 
                                     int id = jsonObject.getInt("id");
-                                    Date date = DateFormat.stringToDate(jsonObject.getString("date"), "yyyy-MM-dd HH:mm:ss");
+                                    Date date = DateFormatUtils.stringToDate(jsonObject.getString("date"), "yyyy-MM-dd HH:mm:ss");
                                     String currency = jsonObject.getString("currency");
                                     String rate_type = jsonObject.getString("rate_type");
                                     double bid = jsonObject.getDouble("bid");

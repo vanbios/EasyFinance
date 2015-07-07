@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.objects.Account;
-import com.androidcollider.easyfin.utils.FormatUtils;
+import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 
 import java.util.ArrayList;
 
@@ -65,7 +65,7 @@ public class SpinAccountForTransHeadIconAdapter extends ArrayAdapter<Account> {
         final int PRECISE = 100;
         final String FORMAT = "0.00";
 
-        String amount = FormatUtils.doubleToStringFormatter(accountList.get(position).getAmount(), FORMAT, PRECISE);
+        String amount = DoubleFormatUtils.doubleToStringFormatter(accountList.get(position).getAmount(), FORMAT, PRECISE);
         String cur = accountList.get(position).getCurrency();
 
         String curLang = null;

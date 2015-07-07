@@ -7,7 +7,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.EditText;
 
 
-public class Shake {
+public class ShakeEditText {
 
     public static void highlightEditText(final EditText editText){
         editText.requestFocus();

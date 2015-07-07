@@ -35,20 +35,25 @@ public class ExchangeUtils {
     }
 
     public static double[] getRates() {
-        double[] rates = new double[4];
+
+        double[] rates = new double[5];
 
         rates[0] = 1;
         rates[1] = 21.93;
         rates[2] = 24.58;
         rates[3] = 0.4;
+        rates[4] = 35.6;
 
-        /*System.arraycopy(InfoFromDB.getInstance().getRatesForExchange(), 0, rates, 1, rates.length-1);
+        //System.arraycopy(InfoFromDB.getInstance().getRatesForExchange(), 0, rates, 1, rates.length-1);
 
+        double[] newRates = InfoFromDB.getInstance().getRatesForExchange();
 
-        for (double d : rates) {
+        for (int i = 1; i < rates.length; i++) {
 
-            Log.d("COLLIDER", String.valueOf(d));
-        }*/
+            if (newRates[i-1] > 0) {
+                rates[i] = newRates[i-1];
+            }
+        }
 
         return rates;
     }

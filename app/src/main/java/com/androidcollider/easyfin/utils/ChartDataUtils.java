@@ -51,7 +51,7 @@ public class ChartDataUtils {
 
         BarDataSet barDataSet4 = new BarDataSet(valueSet4, context.getResources().getString(R.string.debts));
 
-        if (FormatUtils.isDoubleNegative(values[3])) {
+        if (DoubleFormatUtils.isDoubleNegative(values[3])) {
             barDataSet4.setColor(context.getResources().getColor(R.color.custom_red_dark));
         }
 

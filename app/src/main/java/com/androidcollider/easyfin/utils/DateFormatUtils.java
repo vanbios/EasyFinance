@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.Locale;
 
 
-public class DateFormat {
+public class DateFormatUtils {
 
 
     public static String dateToString(Date date, String dateFormat){

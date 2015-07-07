@@ -20,6 +20,7 @@ import com.androidcollider.easyfin.adapters.MyFragmentPagerAdapter;
 import com.androidcollider.easyfin.fragments.FrgAccounts;
 import com.androidcollider.easyfin.fragments.FrgMain;
 import com.androidcollider.easyfin.fragments.FrgTransactions;
+import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.utils.SharedPref;
 
 import java.util.concurrent.Executors;
@@ -49,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.act_main);
 
         setToolbar(R.string.app_name);
+
+        InfoFromDB.getInstance().updateRatesForExchange();
 
         setViewPager();
 

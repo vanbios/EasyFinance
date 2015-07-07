@@ -13,7 +13,7 @@ import com.androidcollider.easyfin.objects.DateConstants;
 import com.androidcollider.easyfin.objects.Debt;
 import com.androidcollider.easyfin.objects.Rates;
 import com.androidcollider.easyfin.objects.Transaction;
-import com.androidcollider.easyfin.utils.FormatUtils;
+import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.androidcollider.easyfin.utils.SharedPref;
 
 import java.util.ArrayList;
@@ -173,7 +173,7 @@ public class DataSource {
 
                     if (currentTime > date && period >= (currentTime - date)) {
 
-                        if (FormatUtils.isDoubleNegative(amount)) {
+                        if (DoubleFormatUtils.isDoubleNegative(amount)) {
                             cost += amount;
                         } else {
                             income += amount;
@@ -597,28 +597,7 @@ public class DataSource {
 
         openLocalToWrite();
 
-        boolean isExist = sharedPref.getRatesInDBExistStatus();
-
-
-        if (!isExist) {
-
-            for (Rates rates : ratesList) {
-
-                cv.put("date", rates.getDate().getTime());
-                cv.put("currency", rates.getCurrency());
-                cv.put("rate_type", rates.getRateType());
-                cv.put("bid", rates.getBid());
-                cv.put("ask", rates.getAsk());
-
-                db.insert("Rates", null, cv);
-            }
-
-            sharedPref.setRatesInDBExistStatus();
-        }
-
-        else {
-
-            int id;
+        int id;
 
             for (Rates rates : ratesList) {
 
@@ -630,13 +609,15 @@ public class DataSource {
                 cv.put("bid", rates.getBid());
                 cv.put("ask", rates.getAsk());
 
-                db.update("Rates", cv, "id_rate = '" + id + "' ", null);
+                int count = db.update("Rates", cv, "id_rate = '" + id + "' ", null);
+
+                if (count == 0) {
+                    cv.put("id_rate", id);
+                    db.insert("Rates", null, cv);
+                }
             }
-        }
 
         closeLocal();
-
-        sharedPref.setRatesUpdateTime();
     }
 
     public double[] getRates() {

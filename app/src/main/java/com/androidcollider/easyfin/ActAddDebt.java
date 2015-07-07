@@ -25,10 +25,10 @@ import com.androidcollider.easyfin.fragments.FrgMain;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.Debt;
 import com.androidcollider.easyfin.objects.InfoFromDB;
-import com.androidcollider.easyfin.utils.DateFormat;
+import com.androidcollider.easyfin.utils.DateFormatUtils;
 import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
-import com.androidcollider.easyfin.utils.FormatUtils;
-import com.androidcollider.easyfin.utils.Shake;
+import com.androidcollider.easyfin.utils.DoubleFormatUtils;
+import com.androidcollider.easyfin.utils.ShakeEditText;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -126,7 +126,7 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
             double accountAmount = account.getAmount();
 
             int type = spinType.getSelectedItemPosition();
-            double amount = Double.parseDouble(FormatUtils.prepareStringToParse(etSum.getText().toString()));
+            double amount = Double.parseDouble(DoubleFormatUtils.prepareStringToParse(etSum.getText().toString()));
 
 
             if (type == 0 && Math.abs(amount) > accountAmount) {
@@ -136,7 +136,7 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
                 String name = etName.getText().toString();
                 int accountId = account.getId();
-                Long date = DateFormat.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
+                Long date = DateFormatUtils.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
 
                 switch (type){
                     case 0: {accountAmount -= amount; break;}
@@ -175,7 +175,7 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
         String st = etName.getText().toString().replaceAll("\\s+", "");
 
         if (st.isEmpty()) {
-            Shake.highlightEditText(etName);
+            ShakeEditText.highlightEditText(etName);
             Toast.makeText(this, getResources().getString(R.string.empty_name_field), Toast.LENGTH_SHORT).show();
 
             return false;
@@ -183,8 +183,8 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
         else {
 
-            if (!FormatUtils.prepareStringToParse(etSum.getText().toString()).matches(".*\\d.*")) {
-                Shake.highlightEditText(etSum);
+            if (!DoubleFormatUtils.prepareStringToParse(etSum.getText().toString()).matches(".*\\d.*")) {
+                ShakeEditText.highlightEditText(etSum);
                 Toast.makeText(this, getResources().getString(R.string.empty_amount_field), Toast.LENGTH_SHORT).show();
 
                 return false;
@@ -198,14 +198,14 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
         tvDate.setOnClickListener(this);
 
         Calendar newCalendar = Calendar.getInstance();
-        tvDate.setText(DateFormat.dateToString(newCalendar.getTime(), DATEFORMAT));
+        tvDate.setText(DateFormatUtils.dateToString(newCalendar.getTime(), DATEFORMAT));
 
         datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
-                tvDate.setText(DateFormat.dateToString(newDate.getTime(), DATEFORMAT));
+                tvDate.setText(DateFormatUtils.dateToString(newDate.getTime(), DATEFORMAT));
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
