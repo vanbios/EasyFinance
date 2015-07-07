@@ -16,6 +16,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.androidcollider.easyfin.ActTransaction;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinAccountForTransHeadIconAdapter;
 import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
@@ -45,6 +46,10 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
 
     private ArrayList<Account> accountList = null;
 
+    private final int mode = ActTransaction.intent.getIntExtra("mode", 0);
+
+    private Transaction transFromIntent;
+
 
 
     @Override
@@ -57,6 +62,23 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
 
         etSum.addTextChangedListener(new EditTextAmountWatcher(etSum));
 
+        setRadioGroupEvents();
+
+        if (mode == 1) {
+            transFromIntent = (Transaction) ActTransaction.intent.getSerializableExtra("transaction");
+
+            final int PRECISE = 100;
+            final String FORMAT = "0.00";
+
+            double amount = transFromIntent.getAmount();
+            etSum.setText(FormatUtils.doubleToStringFormatter(amount, FORMAT, PRECISE));
+
+            if (!FormatUtils.isDoubleNegative(amount)) {
+                RadioButton rbPlus = (RadioButton) view.findViewById(R.id.radioButtonIncome);
+                rbPlus.setChecked(true);
+            }
+        }
+
         accountList = InfoFromDB.getInstance().getAccountList();
 
         tvDate = (TextView) view.findViewById(R.id.tvTransactionDate);
@@ -65,8 +87,6 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
 
         setSpinner();
 
-        setRadioGroupEvents();
-
         return view;
     }
 
@@ -74,7 +94,7 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
         spinCategory = (Spinner) view.findViewById(R.id.spinAddTransCategory);
         spinAccount = (Spinner) view.findViewById(R.id.spinAddTransDefAccount);
 
-        String[] category = getResources().getStringArray(R.array.transaction_category_array);
+        String[] categoryArray = getResources().getStringArray(R.array.transaction_category_array);
 
 
         spinCategory.setAdapter(new SpinIconTextHeadAdapter(
@@ -85,20 +105,42 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
                 R.layout.spin_drop_icon_text,
                 R.id.tvSpinDropIconText,
                 R.id.ivSpinDropIconText,
-                category,
+                categoryArray,
                 getResources().obtainTypedArray(R.array.transaction_categories_icons)));
 
-        spinCategory.setSelection(category.length - 1);
+        spinCategory.setSelection(categoryArray.length - 1);
 
 
         spinAccount.setAdapter(new SpinAccountForTransHeadIconAdapter(
                 getActivity(),
                 R.layout.spin_head_icon_text,
-                accountList
-        ));
+                accountList));
 
-        if (accountList.isEmpty()) {
+        if (mode == 1) {
+
+            String accountName = transFromIntent.getAccountName();
+            String category = transFromIntent.getCategory();
+
+            for (int i = 0; i < accountList.size(); i++) {
+
+                Account account = accountList.get(i);
+
+                if (account.getName().equals(accountName)) {
+
+                    spinAccount.setSelection(i);
+                    break;
+                }
+            }
             spinAccount.setEnabled(false);
+
+            for (int j = 0; j < categoryArray.length; j++) {
+
+                if (categoryArray[j].equals(category)) {
+
+                    spinCategory.setSelection(j);
+                    break;
+                }
+            }
         }
     }
 

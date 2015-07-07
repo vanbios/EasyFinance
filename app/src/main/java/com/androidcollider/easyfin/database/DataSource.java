@@ -574,14 +574,14 @@ public class DataSource {
         closeLocal();
     }
 
-    public void takeMoreDebt(int idAccount, double accountAmount, int idDebt, double debtAmount) {
+    public void takeMoreDebt(int idAccount, double accountAmount, int idDebt, double debtAmount, double debtAllAmount) {
 
         ContentValues cv1 = new ContentValues();
         cv1.put("amount", accountAmount);
 
         ContentValues cv2 = new ContentValues();
         cv2.put("amount_current", debtAmount);
-        cv2.put("amount_all", debtAmount);
+        cv2.put("amount_all", debtAllAmount);
 
         openLocalToWrite();
 

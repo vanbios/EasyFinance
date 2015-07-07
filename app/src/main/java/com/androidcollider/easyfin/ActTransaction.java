@@ -25,23 +25,34 @@ public class ActTransaction extends AppCompatActivity {
 
     private ViewPager pagerTrans;
 
+    public static Intent intent;
+    public static int modeTransDef;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_add_transaction);
 
+        intent = getIntent();
+        modeTransDef = intent.getIntExtra("mode", 1);
+
+        if (modeTransDef == 1) {
+            setToolbar(R.string.edit_transaction);
+        }
+        else {
         setToolbar(R.string.new_transaction);
+        }
 
         accountNames = InfoFromDB.getInstance().getAccountNames();
 
         if (accountNames.isEmpty()) {
-            showDialogNoAccount();}
+            showDialogNoAccount();
+        }
         else {
-            setViewPager();}
-
+            setViewPager();
+        }
     }
-
 
     private void setToolbar(int id) {
         Toolbar ToolBar = (Toolbar) findViewById(R.id.toolbarMain);
@@ -59,7 +70,7 @@ public class ActTransaction extends AppCompatActivity {
         adapterPager.addFragment(new FrgAddTransactionDefault(),
                 getResources().getString(R.string.tab_transaction_default));
 
-        if (accountNames.size() > 1) {
+        if (accountNames.size() > 1 && modeTransDef == 0) {
             adapterPager.addFragment(new FrgAddTransactionBetweenAccounts(),
                     getResources().getString(R.string.tab_transaction_between));
         }
@@ -141,7 +152,6 @@ public class ActTransaction extends AppCompatActivity {
 
         return true;
     }
-
 
     private void checkTransactionType() {
         int position = pagerTrans.getCurrentItem();

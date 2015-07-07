@@ -9,7 +9,7 @@ import com.androidcollider.easyfin.utils.RatesParser;
 import com.androidcollider.easyfin.utils.SharedPref;
 
 import java.util.ArrayList;
-import java.util.Date;
+
 
 
 public class InfoFromDB {
@@ -70,7 +70,7 @@ public class InfoFromDB {
 
         if (ratesInDBStatus) {
             long ratesUpdateTime = sharedPref.getRatesUpdateTime();
-            long currentTime = new Date().getTime();
+            long currentTime = System.currentTimeMillis();
 
             if (currentTime - ratesUpdateTime > DateConstants.RATES_UPDATE_PERIOD) {
 

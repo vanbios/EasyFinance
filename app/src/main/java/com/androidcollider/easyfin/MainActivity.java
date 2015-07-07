@@ -128,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void addTransactionMain() {
         Intent intent = new Intent(this, ActTransaction.class);
+        intent.putExtra("mode", 0);
         startActivity(intent);
     }
 

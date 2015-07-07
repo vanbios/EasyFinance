@@ -11,6 +11,7 @@
     <string name="new_account">Новий рахунок</string>
     <string name="new_debt">Новий борг</string>
     <string name="new_transaction">Нова транзакція</string>
+    <string name="edit_transaction">Редагування транзакції</string>
     <string name="delete_transaction">Видалення транзакції</string>
     <string name="add_account">Додати рахунок</string>
     <string name="add_transaction">Додати транзакцію</string>
@@ -21,6 +22,7 @@
     <string name="take_more_debt">Додати суму до боргу</string>
 
     <string name="save">Зберегти</string>
+    <string name="edit">Редагувати</string>
     <string name="delete">Видалити</string>
     <string name="close">Закрити</string>
     <string name="cancel">Скасувати</string>

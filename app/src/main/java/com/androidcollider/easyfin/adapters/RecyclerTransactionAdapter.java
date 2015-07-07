@@ -165,7 +165,8 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
 
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-            menu.add(Menu.NONE, R.id.ctx_menu_delete_transaction, Menu.NONE, R.string.delete);
+            menu.add(Menu.NONE, R.id.ctx_menu_edit_transaction, 1, R.string.edit);
+            menu.add(Menu.NONE, R.id.ctx_menu_delete_transaction, 2, R.string.delete);
         }
     }
 }

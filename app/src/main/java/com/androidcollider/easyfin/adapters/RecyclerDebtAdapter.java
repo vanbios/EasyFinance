@@ -90,6 +90,7 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
 
         int progress = (int) (amountCurrent/amountAll*100);
         holder.prgBar.setProgress(progress);
+        holder.tvProgress.setText(progress + "%");
 
         Drawable prgDraw = holder.prgBar.getProgressDrawable();
 
@@ -99,12 +100,14 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
                 int green = context.getResources().getColor(R.color.custom_green);
                 holder.tvAmount.setTextColor(green);
                 prgDraw.setColorFilter(new LightingColorFilter(0xFF000000, green));
+                holder.tvProgress.setTextColor(green);
                 break;
             }
             case 1: {
                 int red = context.getResources().getColor(R.color.custom_red);
                 holder.tvAmount.setTextColor(red);
                 prgDraw.setColorFilter(new LightingColorFilter(0xFF000000, red));
+                holder.tvProgress.setTextColor(red);
                 break;
             }
         }
@@ -139,6 +142,7 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
         public final TextView tvAccountName;
         public final TextView tvDate;
         public final ProgressBar prgBar;
+        public final TextView tvProgress;
 
 
         public ViewHolder(View view) {
@@ -148,7 +152,8 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
             tvAmount = (TextView) view.findViewById(R.id.tvItemDebtAmount);
             tvAccountName = (TextView) view.findViewById(R.id.tvItemDebtAccountName);
             tvDate = (TextView) view.findViewById(R.id.tvItemDebtDate);
-            prgBar = (ProgressBar) view.findViewById(R.id.progressBarDebt);
+            prgBar = (ProgressBar) view.findViewById(R.id.progressBarItemDebt);
+            tvProgress = (TextView) view.findViewById(R.id.tvItemDebtProgress);
 
             view.setOnCreateContextMenuListener(this);
         }

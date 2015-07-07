@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.androidcollider.easyfin.ActTransaction;
 import com.androidcollider.easyfin.R;
 
 import com.androidcollider.easyfin.adapters.RecyclerTransactionAdapter;
@@ -119,11 +120,20 @@ public class FrgTransactions extends Fragment{
         }
 
         switch (item.getItemId()) {
+
+            case R.id.ctx_menu_edit_transaction:
+
+            {
+                goToActTransaction(pos);
+                break;
+            }
+
             case R.id.ctx_menu_delete_transaction:
 
+            {
                 showDialogDeleteTransaction(pos);
-
                 break;
+            }
         }
         return super.onContextItemSelected(item);
     }
@@ -148,6 +158,16 @@ public class FrgTransactions extends Fragment{
                 })
                 .cancelable(false)
                 .show();
+    }
+
+    private void goToActTransaction(int pos){
+        Intent intent = new Intent(getActivity(), ActTransaction.class);
+
+        Transaction transaction = transactionList.get(pos);
+
+        intent.putExtra("transaction", transaction);
+        intent.putExtra("mode", 1);
+        startActivity(intent);
     }
 
     private void deleteTransaction(int pos) {

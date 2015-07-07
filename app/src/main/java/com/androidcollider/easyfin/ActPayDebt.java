@@ -91,7 +91,7 @@ public class ActPayDebt extends AppCompatActivity {
             final String FORMAT = "0.00";
 
             etSum.setText(FormatUtils.doubleToStringFormatter(debt.getAmountCurrent(), FORMAT, PRECISE));
-            etSum.setSelection(etSum.getText().length());
+            //etSum.setSelection(etSum.getText().length());
         }
 
         if (mode == 1) {
@@ -237,7 +237,8 @@ public class ActPayDebt extends AppCompatActivity {
         if (checkForFillSumField(sum)) {
 
             double amountDebt = Double.parseDouble(sum);
-            double amountAllDebt = debt.getAmountCurrent();
+            double amountDebtCurrent = debt.getAmountCurrent();
+            double amountDebtAll = debt.getAmountAll();
 
 
             int type = debt.getType();
@@ -263,9 +264,11 @@ public class ActPayDebt extends AppCompatActivity {
                 }
 
 
-                double newDebtAmount = amountAllDebt + amountDebt;
+                double newDebtCurrentAmount = amountDebtCurrent + amountDebt;
+                double newDebtAllAmount = amountDebtAll + amountDebt;
 
-                InfoFromDB.getInstance().getDataSource().takeMoreDebt(idAccount, amountAccount, idDebt, newDebtAmount);
+                InfoFromDB.getInstance().getDataSource().takeMoreDebt(idAccount, amountAccount,
+                        idDebt, newDebtCurrentAmount, newDebtAllAmount);
 
 
                 lastActions();
