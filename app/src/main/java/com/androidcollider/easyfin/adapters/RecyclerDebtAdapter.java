@@ -1,12 +1,15 @@
 package com.androidcollider.easyfin.adapters;
 
 import android.content.Context;
+import android.graphics.LightingColorFilter;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
@@ -73,21 +76,35 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
         for (int i = 0; i < curArray.length; i++) {
             if (cur.equals(curArray[i])) {
                 curLang = curLangArray[i];
+                break;
             }
         }
 
-        holder.tvAmount.setText(FormatUtils.doubleToStringFormatter(debt.getAmount(), FORMAT, PRECISE)
+        double amountCurrent = debt.getAmountCurrent();
+        double amountAll = debt.getAmountAll();
+
+        holder.tvAmount.setText(FormatUtils.doubleToStringFormatter(amountCurrent, FORMAT, PRECISE)
         + " " + curLang);
         holder.tvAccountName.setText(debt.getAccountName());
         holder.tvDate.setText(DateFormat.longToDateString(debt.getDate(), DATEFORMAT));
 
+        int progress = (int) (amountCurrent/amountAll*100);
+        holder.prgBar.setProgress(progress);
+
+        Drawable prgDraw = holder.prgBar.getProgressDrawable();
+
+
         switch (debt.getType()) {
             case 0: {
-                holder.tvAmount.setTextColor(context.getResources().getColor(R.color.custom_green));
+                int green = context.getResources().getColor(R.color.custom_green);
+                holder.tvAmount.setTextColor(green);
+                prgDraw.setColorFilter(new LightingColorFilter(0xFF000000, green));
                 break;
             }
             case 1: {
-                holder.tvAmount.setTextColor(context.getResources().getColor(R.color.custom_red));
+                int red = context.getResources().getColor(R.color.custom_red);
+                holder.tvAmount.setTextColor(red);
+                prgDraw.setColorFilter(new LightingColorFilter(0xFF000000, red));
                 break;
             }
         }
@@ -121,6 +138,7 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
         public final TextView tvAmount;
         public final TextView tvAccountName;
         public final TextView tvDate;
+        public final ProgressBar prgBar;
 
 
         public ViewHolder(View view) {
@@ -130,6 +148,7 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
             tvAmount = (TextView) view.findViewById(R.id.tvItemDebtAmount);
             tvAccountName = (TextView) view.findViewById(R.id.tvItemDebtAccountName);
             tvDate = (TextView) view.findViewById(R.id.tvItemDebtDate);
+            prgBar = (ProgressBar) view.findViewById(R.id.progressBarDebt);
 
             view.setOnCreateContextMenuListener(this);
         }

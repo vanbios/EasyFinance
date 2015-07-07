@@ -124,7 +124,6 @@ public class ChartDataUtils {
 
 
 
-
     public static PieData getDataSetMainStatisticPieChart (double[] values, Context context) {
 
         float cost = (float) Math.abs(values[0]);
@@ -153,6 +152,5 @@ public class ChartDataUtils {
 
         return data;
     }
-
 
 }

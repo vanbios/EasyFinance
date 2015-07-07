@@ -135,7 +135,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
         else {
             layoutExchange.setVisibility(View.GONE);
-            }
+        }
     }
 
     private boolean checkForMultiCurrency() {

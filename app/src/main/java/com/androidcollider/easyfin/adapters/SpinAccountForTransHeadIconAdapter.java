@@ -56,6 +56,7 @@ public class SpinAccountForTransHeadIconAdapter extends ArrayAdapter<Account> {
         for (int i = 0; i < typeArray.length; i++) {
             if (typeArray[i].equals(typeAcc)) {
                 icon.setImageResource(typeIconsArray.getResourceId(i, 0));
+                break;
             }
         }
 
@@ -72,6 +73,7 @@ public class SpinAccountForTransHeadIconAdapter extends ArrayAdapter<Account> {
         for (int i = 0; i < curArray.length; i++) {
             if (cur.equals(curArray[i])) {
                 curLang = curLangArray[i];
+                break;
             }
         }
 
@@ -92,6 +94,7 @@ public class SpinAccountForTransHeadIconAdapter extends ArrayAdapter<Account> {
         for (int i = 0; i < typeArray.length; i++) {
             if (typeArray[i].equals(typeAcc)) {
                 headIcon.setImageResource(typeIconsArray.getResourceId(i, 0));
+                break;
             }
         }
 

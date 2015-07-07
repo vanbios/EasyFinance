@@ -89,11 +89,11 @@ public class DataSource {
         int id_account = debt.getIdAccount();
 
         cv1.put("name", debt.getName());
-        cv1.put("amount_current", debt.getAmount());
+        cv1.put("amount_current", debt.getAmountCurrent());
         cv1.put("type", debt.getType());
         cv1.put("id_account", debt.getIdAccount());
         cv1.put("deadline", debt.getDate());
-        cv1.put("amount_all", debt.getAmount());
+        cv1.put("amount_all", debt.getAmountCurrent());
 
         cv2.put("amount", debt.getAccountAmount());
 
@@ -260,9 +260,7 @@ public class DataSource {
                 result[3] = debtSum;
             }
 
-
             results.put(currency, result);
-
         }
 
         closeLocal();
@@ -358,7 +356,8 @@ public class DataSource {
     public ArrayList<Debt> getAllDebtInfo() {
         ArrayList<Debt> debtArrayList = new ArrayList<>();
 
-        String selectQuery = "SELECT d.name AS d_name, d.amount_current, d.type, deadline, a.name AS a_name, currency, d.id_account, id_debt "
+        String selectQuery = "SELECT d.name AS d_name, d.amount_current, d.amount_all, "
+                + "d.type, deadline, a.name AS a_name, currency, d.id_account, id_debt "
                 + "FROM Debt d, Account a "
                 + "WHERE d.id_account = a.id_account ";
 
@@ -370,6 +369,7 @@ public class DataSource {
         if (cursor.moveToFirst()) {
             int dNameColIndex = cursor.getColumnIndex("d_name");
             int amountColIndex = cursor.getColumnIndex("amount_current");
+            int amountAllColIndex = cursor.getColumnIndex("amount_all");
             int typeColIndex = cursor.getColumnIndex("type");
             int dateColIndex = cursor.getColumnIndex("deadline");
             int aNameColIndex = cursor.getColumnIndex("a_name");
@@ -381,6 +381,7 @@ public class DataSource {
                 Debt debt = new Debt(
                         cursor.getString(dNameColIndex),
                         cursor.getDouble(amountColIndex),
+                        cursor.getDouble(amountAllColIndex),
                         cursor.getInt(typeColIndex),
                         cursor.getLong(dateColIndex),
                         cursor.getString(aNameColIndex),
@@ -661,7 +662,6 @@ public class DataSource {
 
             cursor = db.rawQuery(selectQuery, null);
 
-            double rate = 0.0;
 
             if (cursor.moveToFirst()) {
                 results[i] = cursor.getDouble(0);

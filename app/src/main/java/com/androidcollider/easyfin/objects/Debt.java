@@ -7,7 +7,8 @@ public class Debt implements Serializable {
 
     private int id;
     private String name;
-    private double amount;
+    private double amountCurrent;
+    private double amountAll;
     private int type;
     private int idAccount;
     private long date;
@@ -16,18 +17,19 @@ public class Debt implements Serializable {
     private String currency;
 
 
-    public Debt (String name, double amount, int type, int idAccount, long date, double accountAmount) {
+    public Debt (String name, double amountCurrent, int type, int idAccount, long date, double accountAmount) {
         this.name = name;
-        this.amount = amount;
+        this.amountCurrent = amountCurrent;
         this.type = type;
         this.idAccount = idAccount;
         this.date = date;
         this.accountAmount = accountAmount;
     }
 
-    public Debt (String name, double amount, int type, long date, String accountName, String currency, int idAccount, int id) {
+    public Debt (String name, double amountCurrent, double amountAll, int type, long date, String accountName, String currency, int idAccount, int id) {
         this.name = name;
-        this.amount = amount;
+        this.amountCurrent = amountCurrent;
+        this.amountAll = amountAll;
         this.type = type;
         this.date = date;
         this.accountName = accountName;
@@ -40,7 +42,9 @@ public class Debt implements Serializable {
 
     public String getName() {return name;}
 
-    public double getAmount() {return amount;}
+    public double getAmountCurrent() {return amountCurrent;}
+
+    public double getAmountAll() {return amountAll;}
 
     public int getType() {return type;}
 

@@ -191,7 +191,7 @@ public class ActDebt extends AppCompatActivity {
         Debt debt = debtList.get(pos);
         int idAccount = debt.getIdAccount();
         int idDebt = debt.getId();
-        double amount = debt.getAmount();
+        double amount = debt.getAmountCurrent();
         int type = debt.getType();
 
 

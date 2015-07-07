@@ -116,7 +116,6 @@ public class ActTransaction extends AppCompatActivity {
     }
 
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -147,15 +146,14 @@ public class ActTransaction extends AppCompatActivity {
     private void checkTransactionType() {
         int position = pagerTrans.getCurrentItem();
         switch (position) {
-            case 0:
-            {
+            case 0: {
                 MyFragmentPagerAdapter mfa1 = (MyFragmentPagerAdapter) pagerTrans.getAdapter();
                 FrgAddTransactionDefault frgAddTransactionDefault =
                         (FrgAddTransactionDefault) mfa1.getItem(position);
                 frgAddTransactionDefault.addTransaction();
                 break;}
-            case 1:
-            {MyFragmentPagerAdapter mfa2 = (MyFragmentPagerAdapter) pagerTrans.getAdapter();
+            case 1: {
+                MyFragmentPagerAdapter mfa2 = (MyFragmentPagerAdapter) pagerTrans.getAdapter();
                 FrgAddTransactionBetweenAccounts frgAddTransactionBetweenAccounts =
                         (FrgAddTransactionBetweenAccounts) mfa2.getItem(position);
                 frgAddTransactionBetweenAccounts.addTransactionBTW();

@@ -69,6 +69,7 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
         for (int i = 0; i < curArray.length; i++) {
             if (cur.equals(curArray[i])) {
                 curLang = curLangArray[i];
+                break;
             }
         }
 
@@ -96,6 +97,7 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
         for (int i = 0; i < typeArray.length; i++) {
             if (typeArray[i].equals(type)) {
                 holder.ivAccountType.setImageDrawable(typeIconsArray.getDrawable(i));
+                break;
             }
         }
     }

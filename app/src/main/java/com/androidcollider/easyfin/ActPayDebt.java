@@ -90,7 +90,7 @@ public class ActPayDebt extends AppCompatActivity {
             final int PRECISE = 100;
             final String FORMAT = "0.00";
 
-            etSum.setText(FormatUtils.doubleToStringFormatter(debt.getAmount(), FORMAT, PRECISE));
+            etSum.setText(FormatUtils.doubleToStringFormatter(debt.getAmountCurrent(), FORMAT, PRECISE));
             etSum.setSelection(etSum.getText().length());
         }
 
@@ -126,7 +126,7 @@ public class ActPayDebt extends AppCompatActivity {
 
         String currency = debt.getCurrency();
 
-        double amount = debt.getAmount();
+        double amount = debt.getAmountCurrent();
 
         int type = debt.getType();
 
@@ -154,7 +154,7 @@ public class ActPayDebt extends AppCompatActivity {
     private void payAllDebt(){
 
         int idDebt = debt.getId();
-        double amountDebt = debt.getAmount();
+        double amountDebt = debt.getAmountCurrent();
         int type = debt.getType();
 
         Account account = (Account) spinAccount.getSelectedItem();
@@ -181,7 +181,7 @@ public class ActPayDebt extends AppCompatActivity {
         if (checkForFillSumField(sum)) {
 
             double amountDebt = Double.parseDouble(sum);
-            double amountAllDebt = debt.getAmount();
+            double amountAllDebt = debt.getAmountCurrent();
 
             if (amountDebt > amountAllDebt) {
                 Shake.highlightEditText(etSum);
@@ -237,7 +237,7 @@ public class ActPayDebt extends AppCompatActivity {
         if (checkForFillSumField(sum)) {
 
             double amountDebt = Double.parseDouble(sum);
-            double amountAllDebt = debt.getAmount();
+            double amountAllDebt = debt.getAmountCurrent();
 
 
             int type = debt.getType();

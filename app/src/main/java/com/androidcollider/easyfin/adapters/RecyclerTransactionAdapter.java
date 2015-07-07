@@ -89,6 +89,7 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
         for (int i = 0; i < curArray.length; i++) {
             if (cur.equals(curArray[i])) {
                 curLang = curLangArray[i];
+                break;
             }
         }
 
@@ -107,6 +108,7 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
         for (int i = 0; i < catArray.length; i++) {
             if (catArray[i].equals(cat)) {
                 holder.ivTransCategory.setImageDrawable(catIconsArray.getDrawable(i));
+                break;
             }
         }
 
@@ -115,6 +117,7 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
         for (int i = 0; i < typeArray.length; i++) {
             if (typeArray[i].equals(type)) {
                 holder.ivTransAccountType.setImageDrawable(typeIconsArray.getDrawable(i));
+                break;
             }
         }
 
