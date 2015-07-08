@@ -13,6 +13,7 @@ import com.androidcollider.easyfin.utils.SharedPref;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -120,12 +121,15 @@ public class ActAccount extends AppCompatActivity {
     }
 
     private void setToolbar(int id) {
-        Toolbar ToolBar = (Toolbar) findViewById(R.id.toolbarMain);
-        setSupportActionBar(ToolBar);
-        getSupportActionBar().setTitle(id);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbarMain);
+        setSupportActionBar(toolBar);
+        final ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            toolBar.setTitle(id);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
-        ToolBar.inflateMenu(R.menu.toolbar_account_menu);
+        toolBar.inflateMenu(R.menu.toolbar_account_menu);
     }
 
     private void setEdits() {

@@ -3,11 +3,11 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_clipboard_text_cyan_dark_48dp"
+            android:icon="@drawable/ic_view_dashboard_grey600_24dp"
             android:title="@string/tab_home" />
         <item
             android:id="@+id/nav_transactions"
-            android:icon="@drawable/ic_clipboard_text_cyan_dark_48dp"
+            android:icon="@drawable/ic_contrast_box_grey600_24dp"
             android:title="@string/tab_transactions" />
         <item
             android:id="@+id/nav_accounts"
@@ -15,19 +15,21 @@
             android:title="@string/tab_accounts" />
         <item
             android:id="@+id/nav_debts"
-            android:icon="@drawable/ic_clipboard_text_cyan_dark_48dp"
+            android:icon="@drawable/ic_debt_48"
             android:title="@string/debts" />
     </group>
 
-    <item android:title="Sub items">
-        <menu>
+    <item android:title="@string/app_etc">
+    <menu>
             <item
-                android:icon="@drawable/ic_clipboard_text_cyan_dark_48dp"
-                android:title="Sub item 1" />
+                android:id="@+id/nav_faq"
+                android:icon="@drawable/ic_help_circle_grey600_24dp"
+                android:title="@string/app_faq" />
             <item
-                android:icon="@drawable/ic_clipboard_text_cyan_dark_48dp"
-                android:title="Sub item 2" />
-        </menu>
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_information_grey600_24dp"
+                android:title="@string/app_about" />
+    </menu>
     </item>
 
 </menu>

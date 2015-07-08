@@ -4,6 +4,7 @@ package com.androidcollider.easyfin;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -220,12 +221,15 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
     }
 
     private void setToolbar (int id) {
-        Toolbar ToolBar = (Toolbar) findViewById(R.id.toolbarMain);
-        setSupportActionBar(ToolBar);
-        getSupportActionBar().setTitle(id);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbarMain);
+        setSupportActionBar(toolBar);
+        final ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            toolBar.setTitle(id);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
-        ToolBar.inflateMenu(R.menu.toolbar_debt_menu);
+        toolBar.inflateMenu(R.menu.toolbar_debt_menu);
     }
 
     private void showDialogNoAccount() {

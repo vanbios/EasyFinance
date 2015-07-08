@@ -5,6 +5,10 @@
     <string name="app_name">FinU</string>
     <string name="settings">Налаштування</string>
 
+    <string name="app_etc">Інше</string>
+    <string name="app_faq">FAQ</string>
+    <string name="app_about">Про програму</string>
+
 
 
     // actions

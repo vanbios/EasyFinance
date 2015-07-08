@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -71,10 +72,13 @@ public class ActDebt extends AppCompatActivity {
     }
 
     private void setToolbar (int id) {
-        Toolbar ToolBar = (Toolbar) findViewById(R.id.toolbarMain);
-        setSupportActionBar(ToolBar);
-        getSupportActionBar().setTitle(id);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbarMain);
+        setSupportActionBar(toolBar);
+        final ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            toolBar.setTitle(id);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     private void setVisibility() {

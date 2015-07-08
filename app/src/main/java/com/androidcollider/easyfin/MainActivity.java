@@ -127,6 +127,14 @@ public class MainActivity extends AppCompatActivity {
                                 goToDebtAct();
                                 break;
                             }
+                            case R.id.nav_faq: {
+
+                                break;
+                            }
+                            case R.id.nav_about: {
+
+                                break;
+                            }
                         }
                         mDrawerLayout.closeDrawers();
                         return true;

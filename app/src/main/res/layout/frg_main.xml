@@ -89,7 +89,7 @@
                     <ImageView
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:src="@drawable/ic_settings_48dp"
+                        android:src="@drawable/ic_settings_cyan_48dp"
                         android:id="@+id/ivMainBalanceSettings"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentTop="true"/>
@@ -116,6 +116,7 @@
                     android:layout_below="@+id/cvMainDividerBalanceCurrency"
                     android:layout_marginTop="@dimen/common_padding_medium"
                     android:paddingLeft="@dimen/common_padding_medium"
+                    android:paddingBottom="2dp"
                     android:baselineAligned="false">
 
 
@@ -208,7 +209,8 @@
                     android:id="@+id/layoutMainBalanceSum"
                     android:layout_below="@+id/layoutMainBalanceChart"
                     android:layout_marginLeft="@dimen/common_padding_medium"
-                    android:layout_marginTop="6dp">
+                    android:layout_marginTop="@dimen/common_padding_medium"
+                    android:layout_marginBottom="2dp">
 
 
                     <TextView
@@ -328,6 +330,7 @@
                     android:id="@+id/layoutMainStatisticChart"
                     android:layout_below="@+id/cvMainDividerStatisticTop"
                     android:layout_marginTop="@dimen/common_padding_medium"
+                    android:paddingBottom="2dp"
                     android:baselineAligned="false">
 
 
@@ -403,7 +406,8 @@
                     android:id="@+id/layoutMainStatisticSum"
                     android:layout_below="@+id/layoutMainStatisticChart"
                     android:layout_marginLeft="@dimen/common_padding_medium"
-                    android:layout_marginTop="6dp">
+                    android:layout_marginTop="@dimen/common_padding_medium"
+                    android:layout_marginBottom="2dp">
 
 
                     <TextView

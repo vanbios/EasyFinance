@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -55,12 +56,15 @@ public class ActTransaction extends AppCompatActivity {
     }
 
     private void setToolbar(int id) {
-        Toolbar ToolBar = (Toolbar) findViewById(R.id.toolbarMain);
-        setSupportActionBar(ToolBar);
-        getSupportActionBar().setTitle(id);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbarMain);
+        setSupportActionBar(toolBar);
+        final ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            toolBar.setTitle(id);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
-        ToolBar.inflateMenu(R.menu.toolbar_transaction_menu);
+        toolBar.inflateMenu(R.menu.toolbar_transaction_menu);
     }
 
 

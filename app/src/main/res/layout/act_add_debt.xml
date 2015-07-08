@@ -195,7 +195,7 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:id="@+id/ivAddDebtDate"
-                        android:src="@drawable/ic_calendar_cyan_48dp"
+                        android:src="@drawable/ic_calendar_clock_cyan_48dp"
                         android:contentDescription="@string/date"
                         android:layout_centerVertical="true"/>
 
