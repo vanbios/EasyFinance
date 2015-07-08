@@ -9,6 +9,7 @@ import com.androidcollider.easyfin.fragments.FrgMain;
 import com.androidcollider.easyfin.utils.InternetTester;
 import com.androidcollider.easyfin.utils.RatesParser;
 import com.androidcollider.easyfin.utils.SharedPref;
+import com.androidcollider.easyfin.utils.UpdateRatesUtils;
 
 import java.util.ArrayList;
 
@@ -70,16 +71,19 @@ public class InfoFromDB {
         long ratesUpdateTime = sharedPref.getRatesUpdateTime();
         long currentTime = System.currentTimeMillis();
 
-        if (currentTime - ratesUpdateTime > DateConstants.RATES_UPDATE_PERIOD &&
-                InternetTester.isConnectionEnabled(AppController.getContext())) {
+        if (currentTime - ratesUpdateTime > DateConstants.RATES_UPDATE_PERIOD) {
 
-            RatesParser.postRequest();
+            if (InternetTester.isConnectionEnabled(AppController.getContext()) &&
+                    UpdateRatesUtils.checkForAvailableNewRates()) {
+
+                RatesParser.postRequest();
+            }
         }
     }
 
     public void setRatesForExchange() {
 
-        System.arraycopy(dataSource.getRates(), 0, ratesForExchange, 0 , ratesForExchange.length);
+        System.arraycopy(dataSource.getRates(), 0, ratesForExchange, 0, ratesForExchange.length);
 
         Intent intentRates = new Intent(FrgMain.BROADCAST_FRG_MAIN_ACTION);
         intentRates.putExtra(FrgMain.PARAM_STATUS_FRG_MAIN, FrgMain.STATUS_NEW_RATES);
