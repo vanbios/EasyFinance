@@ -1,10 +1,11 @@
 package com.androidcollider.easyfin.objects;
 
 
-import android.util.Log;
+import android.content.Intent;
 
 import com.androidcollider.easyfin.AppController;
 import com.androidcollider.easyfin.database.DataSource;
+import com.androidcollider.easyfin.fragments.FrgMain;
 import com.androidcollider.easyfin.utils.InternetTester;
 import com.androidcollider.easyfin.utils.RatesParser;
 import com.androidcollider.easyfin.utils.SharedPref;
@@ -66,10 +67,6 @@ public class InfoFromDB {
 
     public void updateRatesForExchange() {
 
-        //boolean ratesInDBStatus = sharedPref.getRatesInDBExistStatus();
-
-        //if (ratesInDBStatus) {
-
         long ratesUpdateTime = sharedPref.getRatesUpdateTime();
         long currentTime = System.currentTimeMillis();
 
@@ -78,14 +75,15 @@ public class InfoFromDB {
 
             RatesParser.postRequest();
         }
-
-
-        //}
     }
 
     public void setRatesForExchange() {
 
         System.arraycopy(dataSource.getRates(), 0, ratesForExchange, 0 , ratesForExchange.length);
+
+        Intent intentRates = new Intent(FrgMain.BROADCAST_FRG_MAIN_ACTION);
+        intentRates.putExtra(FrgMain.PARAM_STATUS_FRG_MAIN, FrgMain.STATUS_NEW_RATES);
+        AppController.getContext().sendBroadcast(intentRates);
     }
 
     public double[] getRatesForExchange() {

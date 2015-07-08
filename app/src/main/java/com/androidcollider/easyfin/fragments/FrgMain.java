@@ -44,6 +44,7 @@ public class FrgMain extends Fragment implements View.OnClickListener{
     public final static String PARAM_STATUS_FRG_MAIN = "update_frg_main";
     public final static int STATUS_UPDATE_FRG_MAIN = 1;
     public final static int STATUS_UPDATE_FRG_MAIN_BALANCE = 2;
+    public final static int STATUS_NEW_RATES = 7;
 
     private String[] currencyArray;
     private String[] currencyLangArray;
@@ -295,14 +296,25 @@ public class FrgMain extends Fragment implements View.OnClickListener{
             public void onReceive(Context context, Intent intent) {
                 int status = intent.getIntExtra(PARAM_STATUS_FRG_MAIN, 0);
 
-                balanceMap.clear();
-                balanceMap.putAll(InfoFromDB.getInstance().getDataSource().getAccountsSumGroupByTypeAndCurrency());
-
-                setBalance(spinBalanceCurrency.getSelectedItemPosition());
-
 
                 switch (status) {
+
+                    case STATUS_UPDATE_FRG_MAIN_BALANCE: {
+
+                        balanceMap.clear();
+                        balanceMap.putAll(InfoFromDB.getInstance().getDataSource().getAccountsSumGroupByTypeAndCurrency());
+
+                        setBalance(spinBalanceCurrency.getSelectedItemPosition());
+
+                        break;
+                    }
+
                     case STATUS_UPDATE_FRG_MAIN: {
+
+                        balanceMap.clear();
+                        balanceMap.putAll(InfoFromDB.getInstance().getDataSource().getAccountsSumGroupByTypeAndCurrency());
+
+                        setBalance(spinBalanceCurrency.getSelectedItemPosition());
 
                         statisticMap.clear();
                         statisticMap.putAll(InfoFromDB.getInstance().getDataSource().getTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1));
@@ -312,6 +324,20 @@ public class FrgMain extends Fragment implements View.OnClickListener{
 
                         setStatisticSumTV();
                         checkStatChartTypeForUpdate();
+
+                        break;
+                    }
+
+                    case STATUS_NEW_RATES: {
+
+                        if (convert) {
+                            setBalance(spinBalanceCurrency.getSelectedItemPosition());
+
+                            setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
+
+                            setStatisticSumTV();
+                            checkStatChartTypeForUpdate();
+                        }
 
                         break;
                     }
@@ -459,11 +485,13 @@ public class FrgMain extends Fragment implements View.OnClickListener{
         double[] usdArr = new double[arrSize];
         double[] eurArr = new double[arrSize];
         double[] rubArr = new double[arrSize];
+        double[] gbpArr = new double[arrSize];
 
         final String uahCurName = currencyArray[0];
         final String usdCurName = currencyArray[1];
         final String eurCurName = currencyArray[2];
         final String rubCurName = currencyArray[3];
+        final String gbpCurName = currencyArray[4];
 
         Iterator it = map.entrySet().iterator();
 
@@ -485,6 +513,9 @@ public class FrgMain extends Fragment implements View.OnClickListener{
             else if (rubCurName.equals(key)) {
                 System.arraycopy(value, 0, rubArr, 0, rubArr.length);
             }
+            else if (gbpCurName.equals(key)) {
+                System.arraycopy(value, 0, gbpArr, 0, gbpArr.length);
+            }
         }
 
 
@@ -494,18 +525,20 @@ public class FrgMain extends Fragment implements View.OnClickListener{
         double usdExchange = ExchangeUtils.getExchangeRate(usdCurName, convertTo);
         double eurExchange = ExchangeUtils.getExchangeRate(eurCurName, convertTo);
         double rubExchange = ExchangeUtils.getExchangeRate(rubCurName, convertTo);
+        double gbpExchange = ExchangeUtils.getExchangeRate(gbpCurName, convertTo);
 
 
         uahArr = convertArray(uahArr, uahExchange);
         usdArr = convertArray(usdArr, usdExchange);
         eurArr = convertArray(eurArr, eurExchange);
         rubArr = convertArray(rubArr, rubExchange);
+        gbpArr = convertArray(gbpArr, gbpExchange);
 
 
         double[] result = new double[arrSize];
 
         for (int i = 0; i < result.length; i++) {
-            result[i] = uahArr[i] + usdArr[i] + eurArr[i] + rubArr[i];
+            result[i] = uahArr[i] + usdArr[i] + eurArr[i] + rubArr[i] + gbpArr[i];
         }
 
         return result;
@@ -547,9 +580,7 @@ public class FrgMain extends Fragment implements View.OnClickListener{
     private void checkStatChartTypeForUpdate() {
 
         switch (spinChartType.getSelectedItemPosition()) {
-
-            case 0: {
-                setStatisticBarChart(); break;}
+            case 0: {setStatisticBarChart(); break;}
             case 1: {setStatisticPieChart(); break;}
         }
     }

@@ -18,6 +18,7 @@
         <item>@drawable/ic_flag_usd_48dp</item>
         <item>@drawable/ic_flag_eur_48dp</item>
         <item>@drawable/ic_flag_rub_48dp</item>
+        <item>@drawable/ic_flag_gbp_48dp</item>
     </array>
 
 

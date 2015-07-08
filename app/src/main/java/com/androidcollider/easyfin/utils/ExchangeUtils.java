@@ -1,11 +1,10 @@
 package com.androidcollider.easyfin.utils;
 
 
-import android.util.Log;
-
 import com.androidcollider.easyfin.AppController;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.objects.InfoFromDB;
+
 
 public class ExchangeUtils {
 
@@ -44,7 +43,6 @@ public class ExchangeUtils {
         rates[3] = 0.4;
         rates[4] = 35.6;
 
-        //System.arraycopy(InfoFromDB.getInstance().getRatesForExchange(), 0, rates, 1, rates.length-1);
 
         double[] newRates = InfoFromDB.getInstance().getRatesForExchange();
 

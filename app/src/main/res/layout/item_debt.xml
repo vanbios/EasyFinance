@@ -26,7 +26,7 @@
             android:paddingLeft="@dimen/common_padding_large"
             android:paddingRight="@dimen/common_padding_large"
             android:paddingTop="@dimen/common_padding_medium"
-            android:paddingBottom="@dimen/common_padding_medium"
+            android:paddingBottom="@dimen/common_padding_small"
             android:background="@drawable/recycler_item_selector"
             android:baselineAligned="false">
 
@@ -55,7 +55,8 @@
                     android:layout_alignParentLeft="true"
                     android:singleLine="true"
                     android:layout_below="@+id/tvItemDebtName"
-                    style="@style/TitleFont" />
+                    style="@style/TitleFont"
+                    android:layout_marginTop="2dp"/>
 
 
             </RelativeLayout>

@@ -14,7 +14,7 @@
         android:id="@+id/tabsMain"
         style="@style/CustomTabLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/tabs_height"
         android:background="?attr/colorPrimary"
         android:layout_marginTop="@dimen/toolbar_height"/>
 

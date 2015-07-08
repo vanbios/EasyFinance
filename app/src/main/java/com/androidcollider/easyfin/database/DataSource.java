@@ -11,6 +11,7 @@ import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.DateConstants;
 import com.androidcollider.easyfin.objects.Debt;
+import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.objects.Rates;
 import com.androidcollider.easyfin.objects.Transaction;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
@@ -618,6 +619,10 @@ public class DataSource {
             }
 
         closeLocal();
+
+        InfoFromDB.getInstance().setRatesForExchange();
+        sharedPref.setRatesUpdateTime();
+
     }
 
     public double[] getRates() {

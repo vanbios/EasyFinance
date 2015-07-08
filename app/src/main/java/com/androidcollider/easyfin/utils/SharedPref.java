@@ -44,15 +44,6 @@ public class SharedPref {
 
 
 
-    public void setRatesInDBExistStatus() {
-        sharedPreferences.edit().putBoolean("ratesInDBExistStatus", true).apply();
-    }
-
-    public boolean getRatesInDBExistStatus() {
-        return sharedPreferences.getBoolean("ratesInDBExistStatus", false);
-    }
-
-
     public void setRatesUpdateTime() {
         sharedPreferences.edit().putLong("ratesUpdateTime", System.currentTimeMillis()).apply();
     }

@@ -147,6 +147,7 @@
         <item>USD</item>
         <item>EUR</item>
         <item>RUB</item>
+        <item>GBP</item>
     </string-array>
 
 
@@ -155,6 +156,7 @@
         <item>$</item>
         <item>€</item>
         <item>руб</item>
+        <item>£</item>
     </string-array>
 
 
