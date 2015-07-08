@@ -36,7 +36,7 @@
     // tabs
     <string name="tab_transactions">Транзакції</string>
     <string name="tab_accounts">Рахунки</string>
-    <string name="tab_main">Головна</string>
+    <string name="tab_home">Головна</string>
 
     <string name="tab_transaction_default">Витрати / Дохід</string>
     <string name="tab_transaction_between">Між рахунками</string>

@@ -7,9 +7,13 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -36,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager pager;
 
+    private DrawerLayout mDrawerLayout;
+
     private BroadcastReceiver broadcastReceiver;
 
     private SharedPref sharedPref;
@@ -47,13 +53,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_main);
-
-        setToolbar(R.string.app_name);
+        setContentView(R.layout.navigation_drawer);
 
         InfoFromDB.getInstance().updateRatesForExchange();
 
+        setToolbar(R.string.app_name);
+
         setViewPager();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
+        if (navigationView != null) {
+            setupDrawerContent(navigationView);
+        }
 
         sharedPref = new SharedPref(this);
 
@@ -64,15 +75,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setToolbar (int id) {
-        Toolbar ToolBar = (Toolbar) findViewById(R.id.toolbarMain);
-        setSupportActionBar(ToolBar);
-        getSupportActionBar().setTitle(id);
+        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbarMain);
+        setSupportActionBar(toolBar);
+        final ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            toolBar.setTitle(id);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            toolBar.setNavigationIcon(R.drawable.ic_menu);
+            mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        }
+
     }
 
     private void setViewPager() {
         pager = (ViewPager) findViewById(R.id.pagerMain);
         MyFragmentPagerAdapter adapterPager = new MyFragmentPagerAdapter(getSupportFragmentManager());
-        adapterPager.addFragment(new FrgMain(), getResources().getString(R.string.tab_main));
+        adapterPager.addFragment(new FrgMain(), getResources().getString(R.string.tab_home));
         adapterPager.addFragment(new FrgTransactions(), getResources().getString(R.string.tab_transactions));
         adapterPager.addFragment(new FrgAccounts(), getResources().getString(R.string.tab_accounts));
 
@@ -86,6 +104,36 @@ public class MainActivity extends AppCompatActivity {
         tabs.setupWithViewPager(pager);
     }
 
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        switch (menuItem.getItemId()) {
+
+                            case R.id.nav_home: {
+                                pager.setCurrentItem(0);
+                                break;
+                            }
+                            case R.id.nav_transactions: {
+                                pager.setCurrentItem(1);
+                                break;
+                            }
+                            case R.id.nav_accounts: {
+                                pager.setCurrentItem(2);
+                                break;
+                            }
+                            case R.id.nav_debts: {
+                                goToDebtAct();
+                                break;
+                            }
+                        }
+                        mDrawerLayout.closeDrawers();
+                        return true;
+                    }
+                });
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -96,6 +144,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                return true;
             case R.id.main_debt:
                 Intent intent = new Intent(this, ActDebt.class);
                 startActivity(intent);
@@ -127,6 +178,11 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         if (!isSnackBarDisabled) {
         this.unregisterReceiver(broadcastReceiver);}
+    }
+
+    private void goToDebtAct() {
+        Intent intent = new Intent(this, ActDebt.class);
+        startActivity(intent);
     }
 
     private void addTransactionMain() {
