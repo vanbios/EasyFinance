@@ -20,6 +20,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.adapters.MyFragmentPagerAdapter;
 import com.androidcollider.easyfin.fragments.FrgAccounts;
 import com.androidcollider.easyfin.fragments.FrgMain;
@@ -48,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isSnackBarDisabled;
 
+    private MaterialDialog appAboutDialog;
+
 
 
     @Override
@@ -72,7 +75,12 @@ public class MainActivity extends AppCompatActivity {
 
         if (!isSnackBarDisabled) {
             makeBroadcastReceiver();}
+
+        buildAppAboutDialog();
+
     }
+
+
 
     private void setToolbar (int id) {
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbarMain);
@@ -132,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             }
                             case R.id.nav_about: {
-
+                                appAboutDialog.show();
                                 break;
                             }
                         }
@@ -186,6 +194,15 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         if (!isSnackBarDisabled) {
         this.unregisterReceiver(broadcastReceiver);}
+    }
+
+    private void buildAppAboutDialog() {
+
+        appAboutDialog = new MaterialDialog.Builder(this)
+                .title(R.string.app_about)
+                .customView(R.layout.app_about, true)
+                .positiveText(R.string.ok)
+                .build();
     }
 
     private void goToDebtAct() {

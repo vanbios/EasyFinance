@@ -32,6 +32,7 @@
     <string name="cancel">Скасувати</string>
     <string name="get_it">Зрозуміло</string>
     <string name="done">Готово</string>
+    <string name="ok">OK</string>
 
     <string name="return_to_main">На головну</string>
 
@@ -160,6 +161,18 @@
         Також можна змінити тип графіку.
     </string>
 
+
+    //about
+    <string name="about_app_version">версія 1.0</string>
+    <string name="about_app_developer">Android Collider</string>
+
+    <string name="about_app_rates_source">Джерело курсів валют:</string>
+    <string name="about_app_rates_source_link"><a href="www.minfin.com.ua/currency/">http://www.minfin.com.ua/currency/</a></string>
+
+    <string name="about_app_mail_to_dev"><a href="mailto:android.collider@gmail.com">android.collider@gmail.com</a></string>
+
+    <string name="developers_mail">android.collider@gmail.com</string>
+    <string name="send_email">Відправка листа</string>
 
 
 
