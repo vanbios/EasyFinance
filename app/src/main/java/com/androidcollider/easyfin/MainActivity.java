@@ -77,9 +77,9 @@ public class MainActivity extends AppCompatActivity {
     private void setToolbar (int id) {
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbarMain);
         setSupportActionBar(toolBar);
-        final ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            toolBar.setTitle(id);
+            actionBar.setTitle(id);
             actionBar.setDisplayHomeAsUpEnabled(true);
             toolBar.setNavigationIcon(R.drawable.ic_menu);
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             }
                             case R.id.nav_faq: {
-
+                                goToFAQAct();
                                 break;
                             }
                             case R.id.nav_about: {
@@ -190,6 +190,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void goToDebtAct() {
         Intent intent = new Intent(this, ActDebt.class);
+        startActivity(intent);
+    }
+
+    private void goToFAQAct() {
+        Intent intent = new Intent(this, ActFAQ.class);
         startActivity(intent);
     }
 
