@@ -89,7 +89,7 @@
                     <ImageView
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:src="@drawable/ic_settings_cyan_48dp"
+                        android:src="@drawable/ic_tune_gray_48dp"
                         android:id="@+id/ivMainBalanceSettings"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentTop="true"/>

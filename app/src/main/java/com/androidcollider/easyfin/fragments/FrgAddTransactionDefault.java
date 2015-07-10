@@ -241,7 +241,7 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
     public void onClick(View view) {
 
         switch (view.getId()) {
-            case R.id.tvTransactionDate: datePickerDialog.show(); break;
+            case R.id.tvTransactionDate: {datePickerDialog.show(); break;}
         }
     }
 

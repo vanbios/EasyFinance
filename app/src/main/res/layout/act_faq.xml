@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/cardFAQApp"
             card_view:cardUseCompatPadding="true"
-            card_view:cardElevation="@dimen/card_elevation_medium">
+            card_view:cardElevation="@dimen/card_elevation_small">
 
 
             <RelativeLayout
@@ -56,7 +56,7 @@
 
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/app_name"
                     android:id="@+id/tvFAQAppHead"
@@ -68,8 +68,10 @@
                     android:layout_height="wrap_content"
                     android:text="@string/faq_about_app"
                     android:layout_below="@+id/tvFAQAppHead"
+                    android:id="@+id/tvFAQAppBody"
                     style="@style/BodyFontSecondary"
-                    android:layout_marginTop="@dimen/common_padding_medium"/>
+                    android:layout_marginTop="@dimen/common_padding_medium"
+                    android:visibility="gone"/>
 
 
             </RelativeLayout>
@@ -82,7 +84,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/cardFAQAccounts"
             card_view:cardUseCompatPadding="true"
-            card_view:cardElevation="@dimen/card_elevation_medium"
+            card_view:cardElevation="@dimen/card_elevation_small"
             android:layout_below="@+id/cardFAQApp">
 
 
@@ -94,7 +96,7 @@
 
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/tab_accounts"
                     android:id="@+id/tvFAQAccountsHead"
@@ -106,8 +108,10 @@
                     android:layout_height="wrap_content"
                     android:text="@string/faq_about_accounts"
                     android:layout_below="@+id/tvFAQAccountsHead"
+                    android:id="@+id/tvFAQAccountsBody"
                     style="@style/BodyFontSecondary"
-                    android:layout_marginTop="@dimen/common_padding_medium"/>
+                    android:layout_marginTop="@dimen/common_padding_medium"
+                    android:visibility="gone"/>
 
 
             </RelativeLayout>
@@ -120,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/cardFAQTransactions"
                 card_view:cardUseCompatPadding="true"
-                card_view:cardElevation="@dimen/card_elevation_medium"
+                card_view:cardElevation="@dimen/card_elevation_small"
                 android:layout_below="@+id/cardFAQAccounts">
 
 
@@ -132,7 +136,7 @@
 
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/tab_transactions"
                         android:id="@+id/tvFAQTransactionsHead"
@@ -144,8 +148,10 @@
                         android:layout_height="wrap_content"
                         android:text="@string/faq_about_transactions"
                         android:layout_below="@+id/tvFAQTransactionsHead"
+                        android:id="@+id/tvFAQTransactionsBody"
                         style="@style/BodyFontSecondary"
-                        android:layout_marginTop="@dimen/common_padding_medium"/>
+                        android:layout_marginTop="@dimen/common_padding_medium"
+                        android:visibility="gone"/>
 
 
                 </RelativeLayout>
@@ -158,7 +164,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/cardFAQDebts"
                 card_view:cardUseCompatPadding="true"
-                card_view:cardElevation="@dimen/card_elevation_medium"
+                card_view:cardElevation="@dimen/card_elevation_small"
                 android:layout_below="@+id/cardFAQTransactions">
 
 
@@ -170,7 +176,7 @@
 
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/debts"
                         android:id="@+id/tvFAQDebtsHead"
@@ -182,8 +188,10 @@
                         android:layout_height="wrap_content"
                         android:text="@string/faq_about_debts"
                         android:layout_below="@+id/tvFAQDebtsHead"
+                        android:id="@+id/tvFAQDebtsBody"
                         style="@style/BodyFontSecondary"
-                        android:layout_marginTop="@dimen/common_padding_medium"/>
+                        android:layout_marginTop="@dimen/common_padding_medium"
+                        android:visibility="gone"/>
 
 
                 </RelativeLayout>
@@ -196,7 +204,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/cardFAQHome"
                 card_view:cardUseCompatPadding="true"
-                card_view:cardElevation="@dimen/card_elevation_medium"
+                card_view:cardElevation="@dimen/card_elevation_small"
                 android:layout_below="@+id/cardFAQDebts">
 
 
@@ -208,7 +216,7 @@
 
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/tab_home"
                         android:id="@+id/tvFAQHomeHead"
@@ -220,8 +228,10 @@
                         android:layout_height="wrap_content"
                         android:text="@string/faq_about_home"
                         android:layout_below="@+id/tvFAQHomeHead"
+                        android:id="@+id/tvFAQHomeBody"
                         style="@style/BodyFontSecondary"
-                        android:layout_marginTop="@dimen/common_padding_medium"/>
+                        android:layout_marginTop="@dimen/common_padding_medium"
+                        android:visibility="gone"/>
 
 
                 </RelativeLayout>
