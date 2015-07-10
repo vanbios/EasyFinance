@@ -27,7 +27,22 @@ public class ChartLargeValueFormatter implements ValueFormatter {
 
         String resBig;
 
-        if (length > 6 && length <= 9) {
+
+
+        if (length > 3 && length <= 6) {
+
+            StringBuilder sb = new StringBuilder(natural);
+            sb.insert(sb.length() - 3, " ");
+
+            if (b) {
+                sb.insert(sb.length(), input.substring(j));
+                return checkForRedundantZeros(sb.toString());
+            }
+
+            return sb.toString();
+        }
+
+        else if (length > 6 && length <= 9) {
             resBig = String.format("%.2f", value/1000000.0);
 
             return checkForRedundantZeros(resBig) + "M";

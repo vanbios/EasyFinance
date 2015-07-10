@@ -80,8 +80,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-
     private void setToolbar (int id) {
         Toolbar toolBar = (Toolbar) findViewById(R.id.toolbarMain);
         setSupportActionBar(toolBar);
