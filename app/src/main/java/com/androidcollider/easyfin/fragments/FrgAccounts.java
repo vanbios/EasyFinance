@@ -10,10 +10,13 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.androidcollider.easyfin.ActAccount;
 import com.androidcollider.easyfin.R;
 
 import com.androidcollider.easyfin.adapters.RecyclerAccountAdapter;
@@ -105,6 +108,96 @@ public class FrgAccounts extends Fragment{
             tvEmpty.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
         }
+    }
+
+
+
+    public boolean onContextItemSelected(MenuItem item) {
+        int pos;
+        try {
+            pos = (int) recyclerAdapter.getPosition();
+        } catch (Exception e) {
+            return super.onContextItemSelected(item);
+        }
+
+        switch (item.getItemId()) {
+
+            case R.id.ctx_menu_edit_account:
+
+            {
+                goToActAccount(pos);
+                break;
+            }
+
+            case R.id.ctx_menu_delete_account:
+
+            {
+                showDialogDeleteAccount(pos);
+                break;
+            }
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    private void showDialogDeleteAccount(final int pos) {
+
+        new MaterialDialog.Builder(getActivity())
+                .title(getString(R.string.dialog_title_delete_account))
+                .content(getString(R.string.dialog_text_delete_account))
+                .positiveText(getString(R.string.delete))
+                .negativeText(getString(R.string.cancel))
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        deleteAccount(pos);
+                    }
+
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+
+                    }
+                })
+                .cancelable(false)
+                .show();
+    }
+
+    private void goToActAccount(int pos){
+        Intent intent = new Intent(getActivity(), ActAccount.class);
+
+        Account account = accountList.get(pos);
+
+        intent.putExtra("account", account);
+        intent.putExtra("mode", 1);
+        startActivity(intent);
+    }
+
+    private void deleteAccount(int pos) {
+        Account account = accountList.get(pos);
+        int idAccount = account.getId();
+
+        if (InfoFromDB.getInstance().getDataSource().checkAccountForTransactionOrDebtExist(idAccount)) {
+            InfoFromDB.getInstance().getDataSource().makeAccountInvisible(idAccount);
+        }
+        else {
+            InfoFromDB.getInstance().getDataSource().deleteAccount(idAccount);}
+
+        accountList.remove(pos);
+
+        recyclerAdapter.notifyDataSetChanged();
+
+        InfoFromDB.getInstance().updateAccountList();
+        pushBroadcast();
+
+    }
+
+    private void pushBroadcast() {
+        Intent intentFrgMain = new Intent(FrgMain.BROADCAST_FRG_MAIN_ACTION);
+        intentFrgMain.putExtra(FrgMain.PARAM_STATUS_FRG_MAIN, FrgMain.STATUS_UPDATE_FRG_MAIN_BALANCE);
+        getActivity().sendBroadcast(intentFrgMain);
+
+        Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);
+        intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
+        getActivity().sendBroadcast(intentFrgAccounts);
     }
 
 }

@@ -2,6 +2,7 @@
 
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollAddTransDef"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentTop="true"
@@ -16,7 +17,7 @@
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/cardAddTransactionElements"
+        android:id="@+id/cardAddTransDefElements"
         card_view:cardElevation="@dimen/card_elevation_medium"
         card_view:cardUseCompatPadding="true">
 
@@ -75,17 +76,15 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/radioButtonCost"
                     android:checked="true"
-                    android:gravity="center_vertical|left"
                     style="@style/RadioButtonMinusStyle"
-                    android:padding="@dimen/common_padding_small"/>
+                    android:layout_marginRight="12dp"/>
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/radioButtonIncome"
                     style="@style/RadioButtonPlusStyle"
-                    android:gravity="center_vertical|right"
-                    android:padding="@dimen/common_padding_small"/>
+                    android:layout_marginLeft="12dp"/>
 
 
             </RadioGroup>

@@ -29,6 +29,7 @@ import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.utils.DateFormatUtils;
 import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
+import com.androidcollider.easyfin.utils.HideKeyboardUtils;
 import com.androidcollider.easyfin.utils.ShakeEditText;
 
 import java.util.ArrayList;
@@ -76,6 +77,8 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
             setDateTimeField();
 
             setSpinner();
+
+            HideKeyboardUtils.setupUI(findViewById(R.id.layoutActAddDebtParent), this);
         }
     }
 
@@ -198,7 +201,7 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
     private void setDateTimeField() {
         tvDate.setOnClickListener(this);
 
-        Calendar newCalendar = Calendar.getInstance();
+        final Calendar newCalendar = Calendar.getInstance();
         tvDate.setText(DateFormatUtils.dateToString(newCalendar.getTime(), DATEFORMAT));
 
         datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -206,7 +209,13 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
-                tvDate.setText(DateFormatUtils.dateToString(newDate.getTime(), DATEFORMAT));
+                if (newDate.getTimeInMillis() < newCalendar.getTimeInMillis()) {
+                    Toast.makeText(ActAddDebt.this, R.string.debt_deadline_past, Toast.LENGTH_SHORT).show();
+
+                } else {
+
+                    tvDate.setText(DateFormatUtils.dateToString(newDate.getTime(), DATEFORMAT));
+                }
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));

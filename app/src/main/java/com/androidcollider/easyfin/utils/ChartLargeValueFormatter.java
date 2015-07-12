@@ -3,6 +3,7 @@ package com.androidcollider.easyfin.utils;
 
 import com.github.mikephil.charting.utils.ValueFormatter;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 
 public class ChartLargeValueFormatter implements ValueFormatter {
@@ -17,7 +18,14 @@ public class ChartLargeValueFormatter implements ValueFormatter {
 
     private String format(float value, boolean b) {
 
-        String input = new DecimalFormat("0.00").format(value);
+        DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+        dfs.setDecimalSeparator(',');
+        dfs.setGroupingSeparator('\0');
+        DecimalFormat df = new DecimalFormat("0.00", dfs);
+
+        //String input = new DecimalFormat("0.00").format(value);
+
+        String input = df.format(value);
         int j = input.indexOf(",");
 
         String natural = input.substring(0, j);
@@ -43,13 +51,15 @@ public class ChartLargeValueFormatter implements ValueFormatter {
         }
 
         else if (length > 6 && length <= 9) {
-            resBig = String.format("%.2f", value/1000000.0);
+            //resBig = String.format("%.2f", value/1000000.0);
+            resBig = df.format(value/1000000.0);
 
             return checkForRedundantZeros(resBig) + "M";
         }
 
         else if (length > 9) {
-            resBig = String.format("%.2f", value/1000000000.0);
+            //resBig = String.format("%.2f", value/1000000000.0);
+            resBig = df.format(value/1000000000.0);
 
             return checkForRedundantZeros(resBig) + "B";
         }

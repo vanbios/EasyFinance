@@ -2,6 +2,7 @@
 
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -12,11 +13,14 @@
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabsMain"
-        style="@style/CustomTabLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/tabs_height"
         android:background="?attr/colorPrimary"
-        android:layout_marginTop="@dimen/toolbar_height"/>
+        android:layout_marginTop="@dimen/toolbar_height"
+        app:tabMode="fixed"
+        app:tabTextAppearance="@style/TabsFont"
+        app:tabIndicatorColor="@color/custom_text_light"
+        app:tabIndicatorHeight="2dp"/>
 
 
     <FrameLayout

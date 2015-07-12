@@ -20,6 +20,7 @@ import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
 import com.androidcollider.easyfin.utils.ExchangeUtils;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
+import com.androidcollider.easyfin.utils.HideKeyboardUtils;
 import com.androidcollider.easyfin.utils.ShakeEditText;
 
 import java.util.ArrayList;
@@ -55,6 +56,8 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
         layoutExchange = (RelativeLayout) view.findViewById(R.id.layoutAddTransBTWExchange);
 
         setSpinners();
+
+        HideKeyboardUtils.setupUI(view.findViewById(R.id.scrollAddTransBTW), getActivity());
 
         return view;
     }

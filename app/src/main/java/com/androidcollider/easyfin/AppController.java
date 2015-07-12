@@ -9,6 +9,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
+
 public class AppController extends Application {
 
     public static final String AppTAG = AppController.class.getSimpleName();
@@ -44,7 +45,7 @@ public class AppController extends Application {
         getRequestQueue().add(req);
     }
 
-    public <T> void addToRequestQueue(Request<T> req) {
+    /*public <T> void addToRequestQueue(Request<T> req) {
         req.setTag(AppTAG);
         getRequestQueue().add(req);
     }
@@ -53,7 +54,7 @@ public class AppController extends Application {
         if (mRequestQueue != null) {
             mRequestQueue.cancelAll(tag);
         }
-    }
+    }*/
 
 
 

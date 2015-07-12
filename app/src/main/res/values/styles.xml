@@ -18,12 +18,6 @@
 
 
 
-    <style name="CustomTabLayout" parent="Widget.Design.TabLayout">
-        <item name="tabIndicatorColor">@color/custom_text_light</item>
-    </style>
-
-
-
     <style name="RadioButtonPlusStyle" parent="@android:style/Widget.CompoundButton.RadioButton">
         <item name="android:button">@drawable/custom_radio_btn_plus</item>
     </style>
@@ -96,6 +90,14 @@
         <item name="android:textColor">@color/custom_text_gray_dark</item>
         <item name="android:textStyle">normal</item>
         <item name="android:typeface">sans</item>
+    </style>
+
+    <style name="TabsFont" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/custom_text_gray_dark</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:textAllCaps">true</item>
     </style>
 
 </resources>

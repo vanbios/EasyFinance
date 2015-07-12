@@ -2,6 +2,7 @@ package com.androidcollider.easyfin.utils;
 
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 
 public class DoubleFormatUtils {
@@ -9,7 +10,11 @@ public class DoubleFormatUtils {
 
     public static String doubleToStringFormatter(double number, String format, int precise){
 
-        DecimalFormat dfRate = new DecimalFormat(format);
+        DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+        dfs.setDecimalSeparator(',');
+        dfs.setGroupingSeparator(' ');
+
+        DecimalFormat dfRate = new DecimalFormat(format, dfs);
         precise = 10^precise;
         number = number*precise;
         long i = Math.round(number);

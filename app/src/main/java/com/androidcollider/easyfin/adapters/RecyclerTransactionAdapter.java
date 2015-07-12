@@ -30,11 +30,11 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
     private final TypedArray catIconsArray;
     private final TypedArray typeIconsArray;
 
-    private final String[] catArray;
+    //private final String[] catArray;
     private final String[] curArray;
 
     private final String[] curLangArray;
-    private final String[] typeArray;
+    //private final String[] typeArray;
 
 
 
@@ -43,10 +43,10 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
         this.transactionArrayList = transactionArrayList;
 
         catIconsArray = context.getResources().obtainTypedArray(R.array.transaction_categories_icons);
-        catArray = context.getResources().getStringArray(R.array.transaction_category_array);
+        //catArray = context.getResources().getStringArray(R.array.transaction_category_array);
         curArray = context.getResources().getStringArray(R.array.account_currency_array);
         curLangArray = context.getResources().getStringArray(R.array.account_currency_array_language);
-        typeArray = context.getResources().getStringArray(R.array.account_type_array);
+        //typeArray = context.getResources().getStringArray(R.array.account_type_array);
         typeIconsArray = context.getResources().obtainTypedArray(R.array.account_type_icons);
     }
 
@@ -103,7 +103,7 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
             holder.tvTransAmount.setTextColor(context.getResources().getColor(R.color.custom_green));
         }
 
-        String cat = transaction.getCategory();
+        /*String cat = transaction.getCategory();
 
         for (int i = 0; i < catArray.length; i++) {
             if (catArray[i].equals(cat)) {
@@ -119,7 +119,14 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
                 holder.ivTransAccountType.setImageDrawable(typeIconsArray.getDrawable(i));
                 break;
             }
-        }
+        }*/
+
+
+        holder.ivTransCategory.setImageDrawable(catIconsArray.getDrawable(transaction.getCategory()));
+
+        holder.ivTransAccountType.setImageDrawable(typeIconsArray.getDrawable(transaction.getAccountType()));
+
+
 
 
         holder.mView.setOnLongClickListener(new View.OnLongClickListener() {

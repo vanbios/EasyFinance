@@ -26,6 +26,7 @@ import com.androidcollider.easyfin.objects.Transaction;
 import com.androidcollider.easyfin.utils.DateFormatUtils;
 import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
+import com.androidcollider.easyfin.utils.HideKeyboardUtils;
 import com.androidcollider.easyfin.utils.ShakeEditText;
 
 import java.util.ArrayList;
@@ -87,6 +88,8 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
 
         setSpinner();
 
+        HideKeyboardUtils.setupUI(view.findViewById(R.id.scrollAddTransDef), getActivity());
+
         return view;
     }
 
@@ -119,7 +122,7 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
         if (mode == 1) {
 
             String accountName = transFromIntent.getAccountName();
-            String category = transFromIntent.getCategory();
+            //String category = transFromIntent.getCategory();
 
             for (int i = 0; i < accountList.size(); i++) {
 
@@ -132,13 +135,15 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
             }
             spinAccount.setEnabled(false);
 
-            for (int j = 0; j < categoryArray.length; j++) {
+            /*for (int j = 0; j < categoryArray.length; j++) {
 
                 if (categoryArray[j].equals(category)) {
                     spinCategory.setSelection(j);
                     break;
                 }
-            }
+            }*/
+
+            spinCategory.setSelection(transFromIntent.getCategory());
         }
     }
 
@@ -152,10 +157,12 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
                 switch (i) {
                     case R.id.radioButtonCost: {
                         etSum.setTextColor(getResources().getColor(R.color.custom_red));
-                        break;}
+                        break;
+                    }
                     case R.id.radioButtonIncome: {
                         etSum.setTextColor(getResources().getColor(R.color.custom_green));
-                        break;}
+                        break;
+                    }
                 }
             }
         });
@@ -196,7 +203,8 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
             else {
                 accountAmount += amount;
 
-                String category = spinCategory.getSelectedItem().toString();
+                //String category = spinCategory.getSelectedItem().toString();
+                int category = spinCategory.getSelectedItemPosition();
                 int idAccount = account.getId();
 
 
@@ -231,7 +239,14 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
-                tvDate.setText(DateFormatUtils.dateToString(newDate.getTime(), DATEFORMAT));
+
+                if (newDate.getTimeInMillis() > System.currentTimeMillis()) {
+                    Toast.makeText(getActivity(), R.string.transaction_date_future, Toast.LENGTH_SHORT).show();
+
+                } else {
+
+                    tvDate.setText(DateFormatUtils.dateToString(newDate.getTime(), DATEFORMAT));
+                }
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));

@@ -1,6 +1,8 @@
 package com.androidcollider.easyfin.utils;
 
 
+import com.androidcollider.easyfin.AppController;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -38,5 +40,16 @@ public class UpdateRatesUtils {
             }
         }
         return false;
+    }
+
+    public static boolean checkForTodayUpdate() {
+
+        SharedPref sharedPref = new SharedPref(AppController.getContext());
+
+        Calendar currentCalendar = Calendar.getInstance();
+        Calendar oldCalendar = Calendar.getInstance();
+        oldCalendar.setTimeInMillis(sharedPref.getRatesUpdateTime());
+
+        return currentCalendar.get(Calendar.DAY_OF_YEAR) == oldCalendar.get(Calendar.DAY_OF_YEAR);
     }
 }

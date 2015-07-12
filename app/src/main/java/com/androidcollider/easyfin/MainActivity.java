@@ -16,7 +16,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -77,6 +76,10 @@ public class MainActivity extends AppCompatActivity {
             makeBroadcastReceiver();}
 
         buildAppAboutDialog();
+
+        if (InfoFromDB.getInstance().getAccountsNumber() == 0) {
+            showDialogNoAccount();
+        }
 
     }
 
@@ -148,11 +151,11 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -161,9 +164,9 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
                 mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
-            case R.id.main_debt:
+            /*case R.id.main_debt:
                 Intent intent = new Intent(this, ActDebt.class);
-                startActivity(intent);
+                startActivity(intent);*/
         }
 
         return super.onOptionsItemSelected(item);
@@ -201,6 +204,33 @@ public class MainActivity extends AppCompatActivity {
                 .customView(R.layout.app_about, true)
                 .positiveText(R.string.ok)
                 .build();
+    }
+
+    private void showDialogNoAccount() {
+
+        new MaterialDialog.Builder(this)
+                .title(getString(R.string.no_account))
+                .content(getString(R.string.dialog_text_main_no_accounts))
+                .positiveText(getString(R.string.new_account))
+                .negativeText(getString(R.string.later))
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        openAddAccountActivity();
+                    }
+
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+
+                    }
+                })
+                .cancelable(false)
+                .show();
+    }
+
+    private void openAddAccountActivity() {
+        Intent intent = new Intent(this, ActAccount.class);
+        startActivity(intent);
     }
 
     private void goToDebtAct() {

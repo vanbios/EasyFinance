@@ -24,6 +24,7 @@ import com.androidcollider.easyfin.objects.Debt;
 import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
+import com.androidcollider.easyfin.utils.HideKeyboardUtils;
 import com.androidcollider.easyfin.utils.ShakeEditText;
 
 import java.util.ArrayList;
@@ -72,6 +73,8 @@ public class ActPayDebt extends AppCompatActivity {
             initializeView();
 
             setView();
+
+            HideKeyboardUtils.setupUI(findViewById(R.id.layoutActPayDebtParent), this);
         }
     }
 

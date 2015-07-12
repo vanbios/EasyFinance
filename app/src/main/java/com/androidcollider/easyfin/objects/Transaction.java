@@ -9,15 +9,15 @@ public class Transaction implements Serializable {
     private long date;
     private int idAccount;
     private double amount;
-    private String category;
+    private int category;
     private String currency;
     private double accountAmount;
     private String accountName;
-    private String accountType;
+    private int accountType;
 
 
 
-    public Transaction (long date, double amount, String category, int idAccount, double accountAmount) {
+    public Transaction (long date, double amount, int category, int idAccount, double accountAmount) {
         this.date = date;
         this.amount = amount;
         this.category = category;
@@ -26,7 +26,7 @@ public class Transaction implements Serializable {
     }
 
 
-    public Transaction (long date, double amount, String category, int idAccount, double accountAmount, int id) {
+    public Transaction (long date, double amount, int category, int idAccount, double accountAmount, int id) {
         this.date = date;
         this.amount = amount;
         this.category = category;
@@ -36,8 +36,8 @@ public class Transaction implements Serializable {
     }
 
 
-    public Transaction (long date, double amount, String category, String accountName,
-                        String currency, String accountType, int idAccount, int id) {
+    public Transaction (long date, double amount, int category, String accountName,
+                        String currency, int accountType, int idAccount, int id) {
         this.date = date;
         this.amount = amount;
         this.category = category;
@@ -56,13 +56,13 @@ public class Transaction implements Serializable {
 
     public double getAmount() {return amount;}
 
-    public String getCategory() {return category;}
+    public int getCategory() {return category;}
 
     public String getCurrency() {return currency;}
 
     public String getAccountName() {return accountName;}
 
-    public String getAccountType() {return accountType;}
+    public int getAccountType() {return accountType;}
 
     public double getAccountAmount() {return accountAmount;}
 

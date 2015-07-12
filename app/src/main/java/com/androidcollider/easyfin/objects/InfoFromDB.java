@@ -8,7 +8,6 @@ import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.fragments.FrgMain;
 import com.androidcollider.easyfin.utils.InternetTester;
 import com.androidcollider.easyfin.utils.RatesParser;
-import com.androidcollider.easyfin.utils.SharedPref;
 import com.androidcollider.easyfin.utils.UpdateRatesUtils;
 
 import java.util.ArrayList;
@@ -25,7 +24,6 @@ public class InfoFromDB {
 
     private double[] ratesForExchange;
 
-    private final SharedPref sharedPref = new SharedPref(AppController.getContext());
 
 
     private InfoFromDB() {
@@ -62,16 +60,15 @@ public class InfoFromDB {
         return false;
     }
 
+    public int getAccountsNumber() {return accountList.size();}
+
     public DataSource getDataSource() {
         return dataSource;
     }
 
     public void updateRatesForExchange() {
 
-        long ratesUpdateTime = sharedPref.getRatesUpdateTime();
-        long currentTime = System.currentTimeMillis();
-
-        if (currentTime - ratesUpdateTime > DateConstants.RATES_UPDATE_PERIOD) {
+        if (!UpdateRatesUtils.checkForTodayUpdate()) {
 
             if (InternetTester.isConnectionEnabled(AppController.getContext()) &&
                     UpdateRatesUtils.checkForAvailableNewRates()) {

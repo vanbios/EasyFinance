@@ -8,6 +8,7 @@ import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
+import com.androidcollider.easyfin.utils.HideKeyboardUtils;
 import com.androidcollider.easyfin.utils.ShakeEditText;
 import com.androidcollider.easyfin.utils.SharedPref;
 
@@ -44,6 +45,8 @@ public class ActAccount extends AppCompatActivity {
         initializeFields();
 
         setMode();
+
+        HideKeyboardUtils.setupUI(findViewById(R.id.layoutActAccountParent), this);
     }
 
     private void initializeFields() {
@@ -96,7 +99,9 @@ public class ActAccount extends AppCompatActivity {
                 getResources().obtainTypedArray(R.array.flag_icons)));
 
         if (mode == 1) {
-            String[] typeArray = getResources().getStringArray(R.array.account_type_array);
+
+
+            /*String[] typeArray = getResources().getStringArray(R.array.account_type_array);
 
             String typeVal = accFrIntent.getType();
 
@@ -104,7 +109,10 @@ public class ActAccount extends AppCompatActivity {
                 if (typeArray[i].equals(typeVal)) {
                     spinType.setSelection(i);
                 }
-            }
+            }*/
+
+
+            spinType.setSelection(accFrIntent.getType());
 
             String[] currencyArray = getResources().getStringArray(R.array.account_currency_array);
 
@@ -161,8 +169,10 @@ public class ActAccount extends AppCompatActivity {
                 else {
 
                     double amount = Double.parseDouble(DoubleFormatUtils.prepareStringToParse(etSum.getText().toString()));
-                    String type = spinType.getSelectedItem().toString();
+                    //String type = spinType.getSelectedItem().toString();
                     String currency = spinCurrency.getSelectedItem().toString();
+
+                    int type = spinType.getSelectedItemPosition();
 
                     Account account = new Account(name, amount, type, currency);
 
@@ -189,8 +199,10 @@ public class ActAccount extends AppCompatActivity {
                     String sum = DoubleFormatUtils.prepareStringToParse(etSum.getText().toString());
 
                     double amount = Double.parseDouble(sum);
-                    String type = spinType.getSelectedItem().toString();
+                    //String type = spinType.getSelectedItem().toString();
                     String currency = spinCurrency.getSelectedItem().toString();
+
+                    int type = spinType.getSelectedItemPosition();
 
                     Account account = new Account(idAccount, name, amount, type, currency);
 
@@ -252,7 +264,7 @@ public class ActAccount extends AppCompatActivity {
         }
     }
 
-    private void showDeleteAccountDialog() {
+    /*private void showDeleteAccountDialog() {
 
         new MaterialDialog.Builder(this)
                 .title(getString(R.string.dialog_title_delete_account))
@@ -276,7 +288,7 @@ public class ActAccount extends AppCompatActivity {
             InfoFromDB.getInstance().getDataSource().deleteAccount(idAccount);}
 
         lastActions();
-    }
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -294,9 +306,9 @@ public class ActAccount extends AppCompatActivity {
 
                 return true;}
 
-            case R.id.account_action_delete: {
+            /*case R.id.account_action_delete: {
                 showDeleteAccountDialog();
-                return true;}
+                return true;}*/
         }
         return false;
     }
@@ -305,12 +317,12 @@ public class ActAccount extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.toolbar_account_menu, menu);
-        MenuItem deleteAccountItem = menu.findItem(R.id.account_action_delete);
+        /*MenuItem deleteAccountItem = menu.findItem(R.id.account_action_delete);
 
         switch (mode) {
             case 0: {deleteAccountItem.setVisible(false); break;}
             case 1: {deleteAccountItem.setVisible(true); break;}
-        }
+        }*/
 
         return true;
     }

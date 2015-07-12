@@ -5,6 +5,7 @@ import com.androidcollider.easyfin.adapters.MyFragmentPagerAdapter;
 import com.androidcollider.easyfin.fragments.FrgAddTransactionBetweenAccounts;
 import com.androidcollider.easyfin.fragments.FrgAddTransactionDefault;
 import com.androidcollider.easyfin.objects.InfoFromDB;
+import com.androidcollider.easyfin.utils.HideKeyboardUtils;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,7 +18,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.ArrayList;
-
 
 
 public class ActTransaction extends AppCompatActivity {
@@ -33,7 +33,7 @@ public class ActTransaction extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_add_transaction);
+        setContentView(R.layout.act_transaction);
 
         intent = getIntent();
         modeTransDef = intent.getIntExtra("mode", 1);
@@ -52,6 +52,7 @@ public class ActTransaction extends AppCompatActivity {
         }
         else {
             setViewPager();
+            HideKeyboardUtils.setupUI(findViewById(R.id.layoutActTransactionParent), this);
         }
     }
 
@@ -140,7 +141,6 @@ public class ActTransaction extends AppCompatActivity {
             case R.id.transaction_action_save: {
                 checkTransactionType();
                 return true;}
-
         }
         return false;
     }
@@ -174,4 +174,5 @@ public class ActTransaction extends AppCompatActivity {
                 break;}
         }
     }
+
 }

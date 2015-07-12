@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -19,11 +21,13 @@ import java.util.ArrayList;
 
 public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccountAdapter.ViewHolder> {
 
+    private long pos;
+
     Context context;
     ArrayList<Account> accountsList;
 
     final TypedArray typeIconsArray;
-    final String[] typeArray;
+    //final String[] typeArray;
 
     final String[] curArray;
     final String[] curLangArray;
@@ -34,7 +38,7 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
         this.accountsList = accountsList;
 
         typeIconsArray = context.getResources().obtainTypedArray(R.array.account_type_icons);
-        typeArray = context.getResources().getStringArray(R.array.account_type_array);
+        //typeArray = context.getResources().getStringArray(R.array.account_type_array);
 
         curArray = context.getResources().getStringArray(R.array.account_currency_array);
         curLangArray = context.getResources().getStringArray(R.array.account_currency_array_language);
@@ -77,7 +81,7 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
         holder.tvAccountAmount.setText(DoubleFormatUtils.doubleToStringFormatter(account.getAmount(), FORMAT, PRECISE) +
                 " " + curLang);
 
-        holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
+        /*holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 Context context = v.getContext();
@@ -90,20 +94,41 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
                 context.startActivity(intent);
                 return true;
             }
-        });
+        });*/
 
-        String type = account.getType();
+        /*String type = account.getType();
 
         for (int i = 0; i < typeArray.length; i++) {
             if (typeArray[i].equals(type)) {
-                holder.ivAccountType.setImageDrawable(typeIconsArray.getDrawable(i));
+                holder.ivAccountType.setImageDrawable(typeIconsArray.getDrawable(account.getType()));
                 break;
             }
-        }
+        }*/
+
+        holder.ivAccountType.setImageDrawable(typeIconsArray.getDrawable(account.getType()));
+
+        holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                setPosition(position);
+                return false;
+            }
+        });
     }
 
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
+    public long getPosition() {
+        return pos;
+    }
+
+    public void setPosition(long pos) {
+        this.pos = pos;
+    }
+
+
+
+
+    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         public final View mView;
         public final ImageView ivAccountType;
         public final TextView tvAccountName;
@@ -116,6 +141,14 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
             ivAccountType = (ImageView) view.findViewById(R.id.ivItemFragmentAccountType);
             tvAccountName = (TextView) view.findViewById(R.id.tvItemFragmentAccountName);
             tvAccountAmount = (TextView) view.findViewById(R.id.tvItemFragmentAccountAmount);
+
+            view.setOnCreateContextMenuListener(this);
+        }
+
+        @Override
+        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+            menu.add(Menu.NONE, R.id.ctx_menu_edit_account, 1, R.string.edit);
+            menu.add(Menu.NONE, R.id.ctx_menu_delete_account, 2, R.string.delete);
         }
     }
 }

@@ -9,6 +9,9 @@
         <item>@drawable/ic_hospital_grey600_24dp</item>
         <item>@drawable/ic_school_grey600_24dp</item>
         <item>@drawable/ic_cellphone_android_grey600_24dp</item>
+        <item>@drawable/ic_cash_multiple_grey600_24dp</item>
+        <item>@drawable/ic_cash_grey600_24dp</item>
+        <item>@drawable/ic_margin_grey600_24dp</item>
         <item>@drawable/ic_more_grey600_24dp</item>
     </array>
 

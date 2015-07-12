@@ -198,7 +198,7 @@ public class DataSource {
 
     public HashMap<String, double[]> getAccountsSumGroupByTypeAndCurrency() {
 
-        String[] typeArray = context.getResources().getStringArray(R.array.account_type_array);
+        //String[] typeArray = context.getResources().getStringArray(R.array.account_type_array);
         String[] currencyArray = context.getResources().getStringArray(R.array.account_currency_array);
 
         HashMap<String, double[]> results = new HashMap<>();
@@ -213,11 +213,11 @@ public class DataSource {
 
             double[] result = new double[4];
 
-            for (int i = 0; i < typeArray.length; i++) {
+            for (int i = 0; i < 3; i++) {
 
                 selectQuery = "SELECT SUM(amount) FROM Account "
                         + "WHERE visibility = 1 AND "
-                        + "type = '" + typeArray[i] + "' AND "
+                        + "type = '" + i + "' AND "
                         + "currency = '" + currency + "' ";
 
                 cursor = db.rawQuery(selectQuery, null);
@@ -289,7 +289,7 @@ public class DataSource {
                         cursor.getInt(idColIndex),
                         cursor.getString(nameColIndex),
                         cursor.getDouble(amountColIndex),
-                        cursor.getString(typeColIndex),
+                        cursor.getInt(typeColIndex),
                         cursor.getString(currencyColIndex));
 
                 accountArrayList.add(account);
@@ -335,10 +335,10 @@ public class DataSource {
                 Transaction transaction = new Transaction(
                         cursor.getLong(dateColIndex),
                         cursor.getDouble(amountColIndex),
-                        cursor.getString(categoryColIndex),
+                        cursor.getInt(categoryColIndex),
                         cursor.getString(nameColIndex),
                         cursor.getString(currencyColIndex),
-                        cursor.getString(typeColIndex),
+                        cursor.getInt(typeColIndex),
                         cursor.getInt(idAccountColIndex),
                         cursor.getInt(idTransColIndex));
 

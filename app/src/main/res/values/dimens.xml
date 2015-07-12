@@ -7,7 +7,7 @@
 
     <dimen name="toolbar_height">56dp</dimen>
     <dimen name="toolbar_shadow_height">5dp</dimen>
-    <dimen name="tabs_height">40dp</dimen>
+    <dimen name="tabs_height">36dp</dimen>
 
 
     <dimen name="text_size_big">24sp</dimen>
