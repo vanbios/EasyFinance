@@ -5,8 +5,8 @@
     <string name="app_name">FinU</string>
     <string name="settings">Настройки</string>
 
-    <string name="app_etc">Другое</string>
-    <string name="app_faq">FAQ</string>
+    <string name="app_etc">Информация</string>
+    <string name="app_faq">Справка</string>
     <string name="app_about">О программе</string>
 
 
@@ -79,8 +79,7 @@
 
     // warnings and alarms (dialogs, toasts etc.)
 
-    <string name="dialog_text_main_no_accounts">Для начала работы добавьте Ваши счета.
-    Для этого нажмите "Новый счет".</string>
+    <string name="dialog_text_main_no_accounts">Для начала работы добавьте Ваши счета.</string>
 
     <string name="empty_amount_field">Введите сумму</string>
     <string name="empty_name_field">Введите название</string>
@@ -118,14 +117,14 @@
 
 
     //etc.
-    <string name="main_balance_menu_exchange">Конвертировать все средства у выбранную валюту</string>
+    <string name="main_balance_menu_exchange">Конвертировать все средства в выбранную валюту</string>
     <string name="main_balance_menu_show_cents">Отображать копейки на графиках</string>
 
 
 
     //FAQ
     <string name="faq_about_app">
-        Мультивалютное приложение для ведения приватной бухгалтерии.
+        Мультивалютное приложение для ведения личной бухгалтерии.
     </string>
     <string name="faq_about_accounts">
         Для начала работы с FinU нужно добавить счета.
@@ -169,7 +168,7 @@
 
 
     //about
-    <string name="about_app_version">версия 1.0</string>
+    <string name="about_app_version">версия</string>
     <string name="about_app_developer">Android Collider</string>
 
     <string name="about_app_rates_source">Источник курсов валют:</string>

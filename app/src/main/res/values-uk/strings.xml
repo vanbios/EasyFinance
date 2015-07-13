@@ -5,8 +5,8 @@
     <string name="app_name">FinU</string>
     <string name="settings">Налаштування</string>
 
-    <string name="app_etc">Інше</string>
-    <string name="app_faq">FAQ</string>
+    <string name="app_etc">Інформація</string>
+    <string name="app_faq">Довідка</string>
     <string name="app_about">Про програму</string>
 
 
@@ -79,8 +79,7 @@
 
     // warnings and alarms (dialogs, toasts etc.)
 
-    <string name="dialog_text_main_no_accounts">Для початку роботи додайте Ваші рахунки.
-    Для цього натисніть "Новий рахунок".</string>
+    <string name="dialog_text_main_no_accounts">Для початку роботи додайте Ваші рахунки.</string>
 
     <string name="empty_amount_field">Введіть суму</string>
     <string name="empty_name_field">Введіть назву</string>
@@ -94,9 +93,9 @@
     <string name="dialog_text_delete_account">Увага! Рахунок буде видалено.</string>
     <string name="dialog_title_delete_account">Видалення</string>
 
-    <string name="account_empty_list">Тут будуть відображатись ваші рахунки</string>
-    <string name="transaction_empty_list">Тут будуть відображатись ваші транзакції</string>
-    <string name="debt_empty_list">Тут будуть відображатись ваші борги</string>
+    <string name="account_empty_list">Тут будуть відображатись Ваші рахунки</string>
+    <string name="transaction_empty_list">Тут будуть відображатись Ваші транзакції</string>
+    <string name="debt_empty_list">Тут будуть відображатись Ваші борги</string>
 
     <string name="not_enough_costs">Недостатньо коштів на рахунку</string>
 
@@ -169,7 +168,7 @@
 
 
     //about
-    <string name="about_app_version">версія 1.0</string>
+    <string name="about_app_version">версія</string>
     <string name="about_app_developer">Android Collider</string>
 
     <string name="about_app_rates_source">Джерело курсів валют:</string>

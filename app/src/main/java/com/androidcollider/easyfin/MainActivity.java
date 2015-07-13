@@ -18,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.adapters.MyFragmentPagerAdapter;
@@ -204,6 +205,12 @@ public class MainActivity extends AppCompatActivity {
                 .customView(R.layout.app_about, true)
                 .positiveText(R.string.ok)
                 .build();
+
+        View appAboutLayout = appAboutDialog.getCustomView();
+        if (appAboutLayout != null) {
+            TextView tvVersion = (TextView) appAboutLayout.findViewById(R.id.tvAboutAppVersion);
+            tvVersion.setText(getString(R.string.about_app_version) + " " + BuildConfig.VERSION_NAME);
+        }
     }
 
     private void showDialogNoAccount() {

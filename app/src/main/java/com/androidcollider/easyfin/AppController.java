@@ -9,6 +9,18 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
+import org.acra.ACRA;
+import org.acra.annotation.ReportsCrashes;
+import org.acra.sender.HttpSender;
+
+
+@ReportsCrashes (
+        formKey = "",
+        httpMethod = HttpSender.Method.PUT,
+        reportType = HttpSender.Type.JSON,
+        formUri ="http://560671.acolider.web.hosting-test.net/MAB-LAB-master/MAB-LAB-master/report/report.php"
+)
+
 
 public class AppController extends Application {
 
@@ -20,6 +32,7 @@ public class AppController extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        ACRA.init(this);
         mInstance = this;
     }
 
