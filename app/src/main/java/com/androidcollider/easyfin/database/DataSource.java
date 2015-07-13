@@ -604,7 +604,7 @@ public class DataSource {
 
                 id = rates.getId();
 
-                cv.put("date", rates.getDate().getTime());
+                cv.put("date", rates.getDate());
                 cv.put("currency", rates.getCurrency());
                 cv.put("rate_type", rates.getRateType());
                 cv.put("bid", rates.getBid());
@@ -615,6 +615,7 @@ public class DataSource {
                 if (count == 0) {
                     cv.put("id_rate", id);
                     db.insert("Rates", null, cv);
+                    sharedPref.setRatesInsertFirstTimeStatus(true);
                 }
             }
 

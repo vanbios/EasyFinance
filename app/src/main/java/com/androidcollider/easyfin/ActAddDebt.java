@@ -11,10 +11,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,7 +42,7 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
     private TextView tvDate;
     private EditText etName, etSum;
-    Spinner spinType, spinAccount;
+    Spinner spinAccount;
 
     private final String DATEFORMAT = "dd.MM.yyyy";
 
@@ -71,6 +72,7 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
             etName = (EditText) findViewById(R.id.editTextDebtName);
             etSum = (EditText) findViewById(R.id.editTextDebtSum);
             etSum.addTextChangedListener(new EditTextAmountWatcher(etSum));
+            etSum.setTextColor(getResources().getColor(R.color.custom_red));
 
             tvDate = (TextView) findViewById(R.id.tvAddDebtDate);
 
@@ -78,12 +80,35 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
             setSpinner();
 
+            setRadioGroupEvents();
+
             HideKeyboardUtils.setupUI(findViewById(R.id.layoutActAddDebtParent), this);
         }
     }
 
+    private void setRadioGroupEvents() {
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.radioGroupDebtType);
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+
+                switch (i) {
+                    case R.id.radioButtonDebtTake: {
+                        etSum.setTextColor(getResources().getColor(R.color.custom_red));
+                        break;
+                    }
+                    case R.id.radioButtonDebtGive: {
+                        etSum.setTextColor(getResources().getColor(R.color.custom_green));
+                        break;
+                    }
+                }
+            }
+        });
+    }
+
     private void setSpinner() {
-        spinType = (Spinner) findViewById(R.id.spinAddDebtType);
+        //spinType = (Spinner) findViewById(R.id.spinAddDebtType);
         spinAccount = (Spinner) findViewById(R.id.spinAddDebtAccount);
 
         ArrayAdapter<?> adapterType = ArrayAdapter.createFromResource(
@@ -93,7 +118,7 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
         adapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        spinType.setAdapter(adapterType);
+        //spinType.setAdapter(adapterType);
 
 
         spinAccount.setAdapter(new SpinAccountForTransHeadIconAdapter(
@@ -102,7 +127,7 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
                 accountList
         ));
 
-        spinType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        /*spinType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i) {
@@ -119,7 +144,7 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
             public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
-        });
+        });*/
     }
 
     private void addDebt() {
@@ -129,7 +154,14 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
             Account account = (Account) spinAccount.getSelectedItem();
             double accountAmount = account.getAmount();
 
-            int type = spinType.getSelectedItemPosition();
+            //int type = spinType.getSelectedItemPosition();
+            int type = 1;
+
+            RadioButton rbGive = (RadioButton) findViewById(R.id.radioButtonDebtGive);
+            if (rbGive.isChecked()) {
+                type = 0;
+            }
+
             double amount = Double.parseDouble(DoubleFormatUtils.prepareStringToParse(etSum.getText().toString()));
 
 

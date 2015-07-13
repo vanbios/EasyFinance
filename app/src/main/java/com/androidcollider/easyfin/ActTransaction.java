@@ -83,7 +83,7 @@ public class ActTransaction extends AppCompatActivity {
         pagerTrans.setAdapter(adapterPager);
         pagerTrans.setOffscreenPageLimit(2);
 
-        if (accountNames.size() > 1) {
+        if (accountNames.size() > 1 && modeTransDef == 0) {
 
             TabLayout tabLayout = (TabLayout) findViewById(R.id.tabsAddTransaction);
 

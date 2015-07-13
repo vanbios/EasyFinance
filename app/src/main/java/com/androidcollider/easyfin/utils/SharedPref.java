@@ -52,4 +52,12 @@ public class SharedPref {
         return sharedPreferences.getLong("ratesUpdateTime", 0);
     }
 
+    public void setRatesInsertFirstTimeStatus(boolean b) {
+        sharedPreferences.edit().putBoolean("ratesInsertFirstTimeStatus", b).apply();
+    }
+
+    public boolean getRatesInsertFirstTimeStatus() {
+        return sharedPreferences.getBoolean("ratesInsertFirstTimeStatus", false);
+    }
+
 }

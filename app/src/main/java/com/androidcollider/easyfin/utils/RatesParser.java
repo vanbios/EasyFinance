@@ -18,7 +18,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,7 +28,7 @@ public class RatesParser {
     public static void postRequest() {
 
         final String TAG_STRING_REQ = "get_last_rates";
-        final String URL = "http://560671.acolider.web.hosting-test.net/fin-u/api/api_finu.php";
+        final String URL = "http://560671.acolider.web.hosting-test.net/fin-u/api/api_finu_new.php";
 
         StringRequest req = new StringRequest(Request.Method.POST, URL,
                 new Response.Listener<String>() {
@@ -45,30 +44,34 @@ public class RatesParser {
 
                         try {
 
-                            JSONObject results = new JSONObject(response).getJSONObject("results");
+                            //JSONObject results = new JSONObject(response);
 
                             for (String cur : currencyArray) {
 
 
-                                JSONArray jsonArray = results.getJSONArray(cur);
+                                JSONArray jsonArray = new JSONObject(response).getJSONArray(cur);
 
                                 for (int j = 0; j < jsonArray.length(); j++) {
 
                                     JSONObject jsonObject = jsonArray.getJSONObject(j);
 
-                                    int id = jsonObject.getInt("id");
-                                    Date date = DateFormatUtils.stringToDate(jsonObject.getString("date"), "yyyy-MM-dd HH:mm:ss");
-                                    String currency = jsonObject.getString("currency");
                                     String rate_type = jsonObject.getString("rate_type");
-                                    double bid = jsonObject.getDouble("bid");
-                                    double ask = jsonObject.getDouble("ask");
 
-                                    Log.d(TAG_STRING_REQ, id + " " + date.toString() + " " + currency + " " +
-                                            rate_type + " " + String.valueOf(bid) + " " + String.valueOf(ask));
+                                    if (rate_type.equals("bank")) {
 
-                                    Rates rates = new Rates(id, date, currency, rate_type, bid, ask);
+                                        int id = jsonObject.getInt("id");
+                                        long date = jsonObject.getLong("date");
+                                        String currency = jsonObject.getString("currency");
+                                        double bid = jsonObject.getDouble("bid");
+                                        double ask = jsonObject.getDouble("ask");
 
-                                    ratesList.add(rates);
+                                        Log.d(TAG_STRING_REQ, id + " " + date + " " + currency + " " +
+                                                rate_type + " " + String.valueOf(bid) + " " + String.valueOf(ask));
+
+                                        Rates rates = new Rates(id, date, currency, rate_type, bid, ask);
+
+                                        ratesList.add(rates);
+                                    }
                                 }
                             }
 

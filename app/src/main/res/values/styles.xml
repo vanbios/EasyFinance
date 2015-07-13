@@ -27,6 +27,15 @@
     </style>
 
 
+    <style name="RadioButtonDebtGiveStyle" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/custom_radio_btn_debt_give</item>
+    </style>
+
+    <style name="RadioButtonDebtTakeStyle" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/custom_radio_btn_debt_take</item>
+    </style>
+
+
 
 
     <style name="TitleFont" parent="@android:style/TextAppearance.Medium">

@@ -83,43 +83,49 @@
                 </RelativeLayout>
 
 
+
+
+
+
+                    <RadioGroup
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/radioGroupDebtType"
+                        android:layout_below="@+id/layoutAddDebtName"
+                        android:orientation='horizontal'
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/common_padding_xlarge">
+
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/radioButtonDebtTake"
+                            android:checked="true"
+                            style="@style/RadioButtonDebtTakeStyle"
+                            android:layout_marginRight="12dp"/>
+
+                        <RadioButton
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/radioButtonDebtGive"
+                            style="@style/RadioButtonDebtGiveStyle"
+                            android:layout_marginLeft="12dp"/>
+
+
+                    </RadioGroup>
+
+
+
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:id="@+id/cvAddDebtDividerTop"
-                    android:layout_below="@+id/layoutAddDebtName"
+                    android:layout_below="@+id/radioGroupDebtType"
                     android:background="@color/custom_divider"
                     android:layout_marginLeft="68dp"
-                    android:layout_marginTop="40dp"/>
-
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/layoutAddDebtType"
-                    android:layout_below="@+id/cvAddDebtDividerTop"
-                    android:baselineAligned="false"
-                    android:gravity="center_vertical">
-
-
-                    <Spinner
-                        android:layout_width="match_parent"
-                        android:layout_height="60dp"
-                        android:id="@+id/spinAddDebtType"
-                        android:prompt="@string/debt_type"
-                        android:layout_marginLeft="60dp" />
-
-
-                </LinearLayout>
-
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_below="@+id/layoutAddDebtType"
-                    android:background="@color/custom_divider"
-                    android:layout_marginLeft="68dp" />
+                    android:layout_marginTop="32dp"/>
 
 
                 <LinearLayout
@@ -127,7 +133,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/layoutAddDebtAccount"
-                    android:layout_below="@+id/layoutAddDebtType"
+                    android:layout_below="@+id/cvAddDebtDividerTop"
                     android:baselineAligned="false"
                     android:gravity="center_vertical">
 

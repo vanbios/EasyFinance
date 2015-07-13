@@ -8,6 +8,7 @@ import com.androidcollider.easyfin.utils.ChartDataUtils;
 import com.androidcollider.easyfin.utils.ChartLargeValueFormatter;
 import com.androidcollider.easyfin.utils.ExchangeUtils;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
+import com.androidcollider.easyfin.utils.MultiTapUtils;
 import com.androidcollider.easyfin.utils.SharedPref;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -164,6 +165,10 @@ public class FrgMain extends Fragment implements View.OnClickListener{
 
         currencyArray = getResources().getStringArray(R.array.account_currency_array);
         currencyLangArray = getResources().getStringArray(R.array.account_currency_array_language);
+
+        TextView tvBalance = (TextView) view.findViewById(R.id.tvMainCurrentBalance);
+
+        MultiTapUtils.multiTapListener(tvBalance, getActivity());
     }
 
     @Override

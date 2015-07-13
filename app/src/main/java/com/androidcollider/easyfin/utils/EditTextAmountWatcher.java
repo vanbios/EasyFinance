@@ -69,13 +69,13 @@ public class EditTextAmountWatcher implements TextWatcher {
             }
 
             et.setText(res);
-            et.setSelection(res.length());
+            et.setSelection(et.getText().length());
         }
 
         else {
 
             et.setText(input);
-            et.setSelection(j);
+            et.setSelection(et.getText().length());
         }
 
         isInWatcher = false;
