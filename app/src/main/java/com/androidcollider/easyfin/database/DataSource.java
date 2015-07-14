@@ -687,4 +687,52 @@ public class DataSource {
         closeLocal();
     }
 
+    public void editDebt(Debt debt, int idDebt) {
+        ContentValues cv1 = new ContentValues();
+        ContentValues cv2 = new ContentValues();
+
+        int id_account = debt.getIdAccount();
+
+        cv1.put("name", debt.getName());
+        cv1.put("amount_current", debt.getAmountCurrent());
+        cv1.put("type", debt.getType());
+        cv1.put("id_account", debt.getIdAccount());
+        cv1.put("deadline", debt.getDate());
+        cv1.put("amount_all", debt.getAmountCurrent());
+
+        cv2.put("amount", debt.getAccountAmount());
+
+
+        openLocalToWrite();
+        db.update("Debt", cv1, "id_debt = " + idDebt, null);
+        db.update("Account", cv2, "id_account = " + id_account, null);
+        closeLocal();
+    }
+
+    public void editDebtDifferentAccounts(Debt debt, double oldAccountAmount, int oldAccountId, int idDebt) {
+        ContentValues cv1 = new ContentValues();
+        ContentValues cv2 = new ContentValues();
+        ContentValues cv3 = new ContentValues();
+
+        int id_account = debt.getIdAccount();
+
+        cv1.put("name", debt.getName());
+        cv1.put("amount_current", debt.getAmountCurrent());
+        cv1.put("type", debt.getType());
+        cv1.put("id_account", debt.getIdAccount());
+        cv1.put("deadline", debt.getDate());
+        cv1.put("amount_all", debt.getAmountCurrent());
+
+        cv2.put("amount", debt.getAccountAmount());
+
+        cv3.put("amount", oldAccountAmount);
+
+
+        openLocalToWrite();
+        db.update("Debt", cv1, "id_debt = " + idDebt, null);
+        db.update("Account", cv2, "id_account = " + id_account, null);
+        db.update("Account", cv3, "id_account = " + oldAccountId, null);
+        closeLocal();
+    }
+
 }

@@ -43,7 +43,7 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
     private TextView tvDate;
     private EditText etName, etSum;
-    private RadioButton rbGive, rbTake;
+    private RadioButton rbGive;
     private Spinner spinAccount;
 
     private final String DATEFORMAT = "dd.MM.yyyy";
@@ -107,14 +107,11 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
         etName = (EditText) findViewById(R.id.editTextDebtName);
         etSum = (EditText) findViewById(R.id.editTextDebtSum);
         etSum.addTextChangedListener(new EditTextAmountWatcher(etSum));
-
         etSum.setTextColor(getResources().getColor(R.color.custom_red));
-
 
         tvDate = (TextView) findViewById(R.id.tvAddDebtDate);
 
         rbGive = (RadioButton) findViewById(R.id.radioButtonDebtGive);
-        rbTake = (RadioButton) findViewById(R.id.radioButtonDebtTake);
     }
 
     private void setViewsToEdit() {
@@ -133,8 +130,6 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
         if (type == 0) {
             rbGive.setChecked(true);
         }
-
-
 
     }
 
@@ -163,11 +158,28 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
         spinAccount = (Spinner) findViewById(R.id.spinAddDebtAccount);
 
-        spinAccount.setAdapter(new SpinAccountForTransHeadIconAdapter (
+        spinAccount.setAdapter(new SpinAccountForTransHeadIconAdapter(
                 this,
                 R.layout.spin_head_icon_text,
                 accountList
         ));
+
+
+        if (mode == 1) {
+
+            int idAccount = debtFrIntent.getIdAccount();
+            int pos = 0;
+
+            for (int i = 0; i < accountList.size(); i++) {
+
+                if (idAccount == accountList.get(i).getId()) {
+                    pos = i;
+                    break;
+                }
+            }
+
+            spinAccount.setSelection(pos);
+        }
 
     }
 
@@ -205,6 +217,91 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
                 Debt debt = new Debt(name, amount, type, accountId, date, accountAmount);
 
                 InfoFromDB.getInstance().getDataSource().insertNewDebt(debt);
+
+                InfoFromDB.getInstance().updateAccountList();
+
+                pushBroadcast();
+
+                this.finish();
+            }
+        }
+    }
+
+    private void editDebt() {
+
+        if (checkForFillNameSumFields()) {
+
+            Account account = (Account) spinAccount.getSelectedItem();
+            double accountAmount = account.getAmount();
+
+            int type = 1;
+
+            if (rbGive.isChecked()) {
+                type = 0;
+            }
+
+            double amount = Double.parseDouble(DoubleFormatUtils.prepareStringToParse(etSum.getText().toString()));
+
+            int accountId = account.getId();
+            int oldAccountId = debtFrIntent.getIdAccount();
+
+
+            boolean isAccountsTheSame = accountId == oldAccountId;
+
+
+            double oldAmount = debtFrIntent.getAmountCurrent();
+            double oldAccountAmount = 0;
+            int oldType = debtFrIntent.getType();
+
+            if (isAccountsTheSame) {
+
+                switch (oldType) {
+                    case 0: {accountAmount += oldAmount; break;}
+                    case 1: {accountAmount -= oldAmount; break;}
+                }
+            }
+
+            else {
+
+                for (int i = 0; i < accountList.size(); i++) {
+
+                    if (oldAccountId == accountList.get(i).getId()) {
+                        oldAccountAmount = accountList.get(i).getAmount();
+                        break;
+                    }
+                }
+
+                switch (oldType) {
+                    case 0: {oldAccountAmount += oldAmount; break;}
+                    case 1: {oldAccountAmount -= oldAmount; break;}
+                }
+            }
+
+
+            if (type == 0 && Math.abs(amount) > accountAmount) {
+                //Toast.makeText(this, getResources().getString(R.string.not_enough_costs), Toast.LENGTH_SHORT).show();
+                ToastUtils.showClosableToast(this, getResources().getString(R.string.not_enough_costs), 1);
+
+            } else {
+
+                String name = etName.getText().toString();
+                Long date = DateFormatUtils.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
+
+                switch (type){
+                    case 0: {accountAmount -= amount; break;}
+                    case 1: {accountAmount += amount; break;}
+                }
+
+                int idDebt = debtFrIntent.getId();
+
+                Debt debt = new Debt(name, amount, type, accountId, date, accountAmount);
+
+                if (isAccountsTheSame) {
+                    InfoFromDB.getInstance().getDataSource().editDebt(debt, idDebt);
+                }
+                else {
+                    InfoFromDB.getInstance().getDataSource().editDebtDifferentAccounts(debt, oldAccountAmount, oldAccountId, idDebt);
+                }
 
                 InfoFromDB.getInstance().updateAccountList();
 
@@ -260,6 +357,8 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
         final Calendar newCalendar = Calendar.getInstance();
 
+        final long initTime = newCalendar.getTimeInMillis();
+
         if (mode == 1) {
 
             newCalendar.setTime(new Date(debtFrIntent.getDate()));
@@ -272,7 +371,7 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
-                if (newDate.getTimeInMillis() < newCalendar.getTimeInMillis()) {
+                if (newDate.getTimeInMillis() < initTime) {
                     //Toast.makeText(ActAddDebt.this, R.string.debt_deadline_past, Toast.LENGTH_SHORT).show();
                     ToastUtils.showClosableToast(ActAddDebt.this,
                             getResources().getString(R.string.debt_deadline_past), 1);
@@ -345,9 +444,14 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
                 this.finish();
                 return true;}
             case R.id.debt_action_save: {
-                addDebt();
-                return true;}
 
+                switch (mode) {
+                    case 0: {addDebt(); break;}
+                    case 1: {editDebt(); break;}
+                }
+
+                return true;
+            }
         }
         return false;
     }
