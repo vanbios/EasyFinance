@@ -14,7 +14,6 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.androidcollider.easyfin.ActTransaction;
 import com.androidcollider.easyfin.R;
@@ -28,10 +27,11 @@ import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.androidcollider.easyfin.utils.HideKeyboardUtils;
 import com.androidcollider.easyfin.utils.ShakeEditText;
+import com.androidcollider.easyfin.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-
+import java.util.Date;
 
 
 public class FrgAddTransactionDefault extends Fragment implements View.OnClickListener {
@@ -174,7 +174,9 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
 
         if (! sum.matches(".*\\d.*") || Double.parseDouble(sum) == 0) {
             ShakeEditText.highlightEditText(etSum);
-            Toast.makeText(getActivity(), getResources().getString(R.string.empty_amount_field), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), getResources().getString(R.string.empty_amount_field), Toast.LENGTH_SHORT).show();
+            ToastUtils.showClosableToast(getActivity(),
+                    getResources().getString(R.string.empty_amount_field), 1);
         }
 
         else {
@@ -198,8 +200,10 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
 
 
             if (rbCost.isChecked() && Math.abs(amount) > accountAmount) {
-                Toast.makeText(getActivity(),
-                        getResources().getString(R.string.not_enough_costs), Toast.LENGTH_SHORT).show();}
+                /*Toast.makeText(getActivity(),
+                        getResources().getString(R.string.not_enough_costs), Toast.LENGTH_SHORT).show();*/
+            ToastUtils.showClosableToast(getActivity(),
+                    getResources().getString(R.string.not_enough_costs), 1);}
             else {
                 accountAmount += amount;
 
@@ -232,6 +236,12 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
         tvDate.setOnClickListener(this);
 
         Calendar newCalendar = Calendar.getInstance();
+
+        if (mode == 1) {
+
+            newCalendar.setTime(new Date(transFromIntent.getDate()));
+        }
+
         tvDate.setText(DateFormatUtils.dateToString(newCalendar.getTime(), DATEFORMAT));
 
         datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
@@ -241,7 +251,9 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
                 newDate.set(year, monthOfYear, dayOfMonth);
 
                 if (newDate.getTimeInMillis() > System.currentTimeMillis()) {
-                    Toast.makeText(getActivity(), R.string.transaction_date_future, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getActivity(), R.string.transaction_date_future, Toast.LENGTH_SHORT).show();
+                    ToastUtils.showClosableToast(getActivity(),
+                            getResources().getString(R.string.transaction_date_future), 1);
 
                 } else {
 
@@ -250,6 +262,7 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+
     }
 
     @Override

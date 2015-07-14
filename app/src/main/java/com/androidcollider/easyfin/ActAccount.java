@@ -1,6 +1,6 @@
 package com.androidcollider.easyfin;
 
-import com.afollestad.materialdialogs.MaterialDialog;
+
 import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
 import com.androidcollider.easyfin.fragments.FrgAccounts;
 import com.androidcollider.easyfin.fragments.FrgMain;
@@ -11,6 +11,7 @@ import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.androidcollider.easyfin.utils.HideKeyboardUtils;
 import com.androidcollider.easyfin.utils.ShakeEditText;
 import com.androidcollider.easyfin.utils.SharedPref;
+import com.androidcollider.easyfin.utils.ToastUtils;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,7 +23,7 @@ import android.view.MenuItem;
 
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
+
 
 
 public class ActAccount extends AppCompatActivity {
@@ -163,7 +164,8 @@ public class ActAccount extends AppCompatActivity {
 
                 if (InfoFromDB.getInstance().checkForAccountNameMatches(name)) {
                     ShakeEditText.highlightEditText(etName);
-                    Toast.makeText(this, getResources().getString(R.string.account_name_exist), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, getResources().getString(R.string.account_name_exist), Toast.LENGTH_SHORT).show();
+                    ToastUtils.showClosableToast(this, getResources().getString(R.string.account_name_exist), 1);
                 }
 
                 else {
@@ -191,7 +193,8 @@ public class ActAccount extends AppCompatActivity {
 
                 if (InfoFromDB.getInstance().checkForAccountNameMatches(name) && ! name.equals(oldName)) {
                     ShakeEditText.highlightEditText(etName);
-                    Toast.makeText(this, getResources().getString(R.string.account_name_exist), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, getResources().getString(R.string.account_name_exist), Toast.LENGTH_SHORT).show();
+                    ToastUtils.showClosableToast(this, getResources().getString(R.string.account_name_exist), 1);
                 }
 
                 else {
@@ -225,7 +228,8 @@ public class ActAccount extends AppCompatActivity {
 
         if (st.isEmpty()) {
             ShakeEditText.highlightEditText(etName);
-            Toast.makeText(this, getResources().getString(R.string.empty_name_field), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, getResources().getString(R.string.empty_name_field), Toast.LENGTH_SHORT).show();
+            ToastUtils.showClosableToast(this, getResources().getString(R.string.empty_name_field), 1);
 
             return false;
         }
@@ -234,7 +238,8 @@ public class ActAccount extends AppCompatActivity {
 
             if (!DoubleFormatUtils.prepareStringToParse(etSum.getText().toString()).matches(".*\\d.*")) {
                 ShakeEditText.highlightEditText(etSum);
-                Toast.makeText(this, getResources().getString(R.string.empty_amount_field), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, getResources().getString(R.string.empty_amount_field), Toast.LENGTH_SHORT).show();
+                ToastUtils.showClosableToast(this, getResources().getString(R.string.empty_amount_field), 1);
 
                 return false;
             }

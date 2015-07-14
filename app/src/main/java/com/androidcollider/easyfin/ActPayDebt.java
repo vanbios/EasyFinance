@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.adapters.SpinAccountForTransHeadIconAdapter;
@@ -26,6 +25,7 @@ import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.androidcollider.easyfin.utils.HideKeyboardUtils;
 import com.androidcollider.easyfin.utils.ShakeEditText;
+import com.androidcollider.easyfin.utils.ToastUtils;
 
 import java.util.ArrayList;
 
@@ -146,6 +146,7 @@ public class ActPayDebt extends AppCompatActivity {
         }
 
         else {
+
             for (Account account : accountList) {
                 if (account.getCurrency().equals(currency)) {
 
@@ -189,7 +190,8 @@ public class ActPayDebt extends AppCompatActivity {
 
             if (amountDebt > amountAllDebt) {
                 ShakeEditText.highlightEditText(etSum);
-                Toast.makeText(this, getResources().getString(R.string.debt_sum_more_then_amount), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, getResources().getString(R.string.debt_sum_more_then_amount), Toast.LENGTH_SHORT).show();
+                ToastUtils.showClosableToast(this, getResources().getString(R.string.debt_sum_more_then_amount), 1);
 
             } else {
 
@@ -202,7 +204,8 @@ public class ActPayDebt extends AppCompatActivity {
 
                 if (type == 1 && amountDebt > amountAccount) {
                     ShakeEditText.highlightEditText(etSum);
-                    Toast.makeText(this, getResources().getString(R.string.not_enough_costs), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, getResources().getString(R.string.not_enough_costs), Toast.LENGTH_SHORT).show();
+                    ToastUtils.showClosableToast(this, getResources().getString(R.string.not_enough_costs), 1);
 
                 } else {
 
@@ -254,7 +257,8 @@ public class ActPayDebt extends AppCompatActivity {
 
             if (type == 0 && amountDebt > amountAccount) {
                 ShakeEditText.highlightEditText(etSum);
-                Toast.makeText(this, getResources().getString(R.string.not_enough_costs), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, getResources().getString(R.string.not_enough_costs), Toast.LENGTH_SHORT).show();
+                ToastUtils.showClosableToast(this, getResources().getString(R.string.not_enough_costs), 1);
 
             } else {
 
@@ -284,7 +288,8 @@ public class ActPayDebt extends AppCompatActivity {
 
         if (! s.matches(".*\\d.*") || Double.parseDouble(s) == 0) {
             ShakeEditText.highlightEditText(etSum);
-            Toast.makeText(this, getResources().getString(R.string.empty_amount_field), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, getResources().getString(R.string.empty_amount_field), Toast.LENGTH_SHORT).show();
+            ToastUtils.showClosableToast(this, getResources().getString(R.string.empty_amount_field), 1);
 
             return false;
         }

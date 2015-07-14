@@ -23,6 +23,12 @@
 
 
     <item
+        android:id="@+id/ctx_menu_edit_debt"
+        android:title="@string/edit"
+        app:showAsAction="never" />
+
+
+    <item
         android:id="@+id/ctx_menu_delete_debt"
         android:title="@string/delete"
         app:showAsAction="never" />

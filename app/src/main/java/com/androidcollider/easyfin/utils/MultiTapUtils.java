@@ -2,12 +2,12 @@ package com.androidcollider.easyfin.utils;
 
 
 import android.content.Context;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
 
 import com.androidcollider.easyfin.R;
+
+
 
 public class MultiTapUtils {
 
@@ -22,7 +22,7 @@ public class MultiTapUtils {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
-                Log.d("COLLIDER", String.valueOf(count));
+                //Log.d("COLLIDER", String.valueOf(count));
 
 
                 long currentTime = System.currentTimeMillis();
@@ -38,7 +38,8 @@ public class MultiTapUtils {
                     if (count == 7) {
 
                         String rates = prepareContentForToast(context);
-                        Toast.makeText(context, rates, Toast.LENGTH_LONG).show();
+                        //Toast.makeText(context, rates, Toast.LENGTH_LONG).show();
+                        ToastUtils.showClosableToast(context, rates, 1);
                     }
                 }
 

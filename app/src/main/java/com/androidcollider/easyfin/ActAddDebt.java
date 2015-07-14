@@ -11,14 +11,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.adapters.SpinAccountForTransHeadIconAdapter;
@@ -32,9 +30,12 @@ import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.androidcollider.easyfin.utils.HideKeyboardUtils;
 import com.androidcollider.easyfin.utils.ShakeEditText;
+import com.androidcollider.easyfin.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+
 
 public class ActAddDebt extends AppCompatActivity implements View.OnClickListener{
 
@@ -42,11 +43,18 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
     private TextView tvDate;
     private EditText etName, etSum;
-    Spinner spinAccount;
+    private RadioButton rbGive, rbTake;
+    private Spinner spinAccount;
 
     private final String DATEFORMAT = "dd.MM.yyyy";
 
     private ArrayList<Account> accountList = null;
+
+    private int mode;
+
+    private Debt debtFrIntent;
+
+
 
 
     @Override
@@ -54,7 +62,17 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_add_debt);
 
-        setToolbar(R.string.new_debt);
+        Intent intent = getIntent();
+        mode = intent.getIntExtra("mode", 0);
+
+        switch (mode) {
+
+            case 0: {setToolbar(R.string.new_debt); break;}
+            case 1: {setToolbar(R.string.edit_debt);
+                     debtFrIntent = (Debt) intent.getSerializableExtra("debt");
+                     break;}
+        }
+
 
         CardView cardView = (CardView) findViewById(R.id.cardAddDebtElements);
 
@@ -69,12 +87,7 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
             cardView.setVisibility(View.VISIBLE);
 
-            etName = (EditText) findViewById(R.id.editTextDebtName);
-            etSum = (EditText) findViewById(R.id.editTextDebtSum);
-            etSum.addTextChangedListener(new EditTextAmountWatcher(etSum));
-            etSum.setTextColor(getResources().getColor(R.color.custom_red));
-
-            tvDate = (TextView) findViewById(R.id.tvAddDebtDate);
+            initializeFields();
 
             setDateTimeField();
 
@@ -83,7 +96,46 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
             setRadioGroupEvents();
 
             HideKeyboardUtils.setupUI(findViewById(R.id.layoutActAddDebtParent), this);
+
+            if (mode == 1) {
+                setViewsToEdit();
+            }
         }
+    }
+
+    private void initializeFields() {
+        etName = (EditText) findViewById(R.id.editTextDebtName);
+        etSum = (EditText) findViewById(R.id.editTextDebtSum);
+        etSum.addTextChangedListener(new EditTextAmountWatcher(etSum));
+
+        etSum.setTextColor(getResources().getColor(R.color.custom_red));
+
+
+        tvDate = (TextView) findViewById(R.id.tvAddDebtDate);
+
+        rbGive = (RadioButton) findViewById(R.id.radioButtonDebtGive);
+        rbTake = (RadioButton) findViewById(R.id.radioButtonDebtTake);
+    }
+
+    private void setViewsToEdit() {
+
+        etName.setText(debtFrIntent.getName());
+        etName.setSelection(etName.getText().length());
+
+        final int PRECISE = 100;
+        final String FORMAT = "0.00";
+
+        etSum.setText(DoubleFormatUtils.doubleToStringFormatter(debtFrIntent.getAmountCurrent(), FORMAT, PRECISE));
+
+
+        int type = debtFrIntent.getType();
+
+        if (type == 0) {
+            rbGive.setChecked(true);
+        }
+
+
+
     }
 
     private void setRadioGroupEvents() {
@@ -108,43 +160,15 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
     }
 
     private void setSpinner() {
-        //spinType = (Spinner) findViewById(R.id.spinAddDebtType);
+
         spinAccount = (Spinner) findViewById(R.id.spinAddDebtAccount);
 
-        ArrayAdapter<?> adapterType = ArrayAdapter.createFromResource(
-                this,
-                R.array.debt_type_array,
-                R.layout.spin_head_text);
-
-        adapterType.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        //spinType.setAdapter(adapterType);
-
-
-        spinAccount.setAdapter(new SpinAccountForTransHeadIconAdapter(
+        spinAccount.setAdapter(new SpinAccountForTransHeadIconAdapter (
                 this,
                 R.layout.spin_head_icon_text,
                 accountList
         ));
 
-        /*spinType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                switch (i) {
-                    case 0: {
-                        etSum.setTextColor(getResources().getColor(R.color.custom_green));
-                        break;}
-                    case 1: {
-                        etSum.setTextColor(getResources().getColor(R.color.custom_red));
-                        break;}
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });*/
     }
 
     private void addDebt() {
@@ -154,10 +178,8 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
             Account account = (Account) spinAccount.getSelectedItem();
             double accountAmount = account.getAmount();
 
-            //int type = spinType.getSelectedItemPosition();
             int type = 1;
 
-            RadioButton rbGive = (RadioButton) findViewById(R.id.radioButtonDebtGive);
             if (rbGive.isChecked()) {
                 type = 0;
             }
@@ -166,7 +188,8 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
 
             if (type == 0 && Math.abs(amount) > accountAmount) {
-                Toast.makeText(this, getResources().getString(R.string.not_enough_costs), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, getResources().getString(R.string.not_enough_costs), Toast.LENGTH_SHORT).show();
+                ToastUtils.showClosableToast(this, getResources().getString(R.string.not_enough_costs), 1);
 
             } else {
 
@@ -212,7 +235,8 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
         if (st.isEmpty()) {
             ShakeEditText.highlightEditText(etName);
-            Toast.makeText(this, getResources().getString(R.string.empty_name_field), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, getResources().getString(R.string.empty_name_field), Toast.LENGTH_SHORT).show();
+            ToastUtils.showClosableToast(this, getResources().getString(R.string.empty_name_field), 1);
 
             return false;
         }
@@ -221,7 +245,8 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
             if (!DoubleFormatUtils.prepareStringToParse(etSum.getText().toString()).matches(".*\\d.*")) {
                 ShakeEditText.highlightEditText(etSum);
-                Toast.makeText(this, getResources().getString(R.string.empty_amount_field), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(this, getResources().getString(R.string.empty_amount_field), Toast.LENGTH_SHORT).show();
+                ToastUtils.showClosableToast(this, getResources().getString(R.string.empty_amount_field), 1);
 
                 return false;
             }
@@ -234,6 +259,12 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
         tvDate.setOnClickListener(this);
 
         final Calendar newCalendar = Calendar.getInstance();
+
+        if (mode == 1) {
+
+            newCalendar.setTime(new Date(debtFrIntent.getDate()));
+        }
+
         tvDate.setText(DateFormatUtils.dateToString(newCalendar.getTime(), DATEFORMAT));
 
         datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
@@ -242,7 +273,9 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
                 if (newDate.getTimeInMillis() < newCalendar.getTimeInMillis()) {
-                    Toast.makeText(ActAddDebt.this, R.string.debt_deadline_past, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(ActAddDebt.this, R.string.debt_deadline_past, Toast.LENGTH_SHORT).show();
+                    ToastUtils.showClosableToast(ActAddDebt.this,
+                            getResources().getString(R.string.debt_deadline_past), 1);
 
                 } else {
 

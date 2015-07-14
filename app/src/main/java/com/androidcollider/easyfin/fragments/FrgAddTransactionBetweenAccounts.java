@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinAccountForTransAdapter;
@@ -22,6 +21,7 @@ import com.androidcollider.easyfin.utils.ExchangeUtils;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.androidcollider.easyfin.utils.HideKeyboardUtils;
 import com.androidcollider.easyfin.utils.ShakeEditText;
+import com.androidcollider.easyfin.utils.ToastUtils;
 
 import java.util.ArrayList;
 
@@ -168,8 +168,10 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
             double accountAmountFrom = accountFrom.getAmount();
 
             if (amount > accountAmountFrom) {
-                Toast.makeText(getActivity(),
-                        getResources().getString(R.string.not_enough_costs), Toast.LENGTH_SHORT).show();
+                /*Toast.makeText(getActivity(),
+                        getResources().getString(R.string.not_enough_costs), Toast.LENGTH_SHORT).show();*/
+                ToastUtils.showClosableToast(getActivity(),
+                        getResources().getString(R.string.not_enough_costs), 1);
 
             } else {
 
@@ -223,7 +225,8 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
         if (!s.matches(".*\\d.*") || Double.parseDouble(s) == 0) {
             ShakeEditText.highlightEditText(et);
-            Toast.makeText(getActivity(), getResources().getString(strRes), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), getResources().getString(strRes), Toast.LENGTH_SHORT).show();
+            ToastUtils.showClosableToast(getActivity(), getResources().getString(strRes), 1);
 
         return false;
         }

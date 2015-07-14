@@ -183,6 +183,8 @@ public class FrgTransactions extends Fragment{
 
         transactionList.remove(pos);
 
+        setVisibility();
+
         recyclerAdapter.notifyDataSetChanged();
 
         InfoFromDB.getInstance().updateAccountList();

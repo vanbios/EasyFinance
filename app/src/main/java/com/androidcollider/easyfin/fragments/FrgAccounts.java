@@ -183,6 +183,8 @@ public class FrgAccounts extends Fragment{
 
         accountList.remove(pos);
 
+        setVisibility();
+
         recyclerAdapter.notifyDataSetChanged();
 
         InfoFromDB.getInstance().updateAccountList();
@@ -195,9 +197,9 @@ public class FrgAccounts extends Fragment{
         intentFrgMain.putExtra(FrgMain.PARAM_STATUS_FRG_MAIN, FrgMain.STATUS_UPDATE_FRG_MAIN_BALANCE);
         getActivity().sendBroadcast(intentFrgMain);
 
-        Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);
+        /*Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);
         intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
-        getActivity().sendBroadcast(intentFrgAccounts);
+        getActivity().sendBroadcast(intentFrgAccounts);*/
     }
 
 }

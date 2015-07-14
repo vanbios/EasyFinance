@@ -18,6 +18,7 @@
     <string name="edit_transaction">Edit transaction</string>
     <string name="delete_transaction">Delete transaction</string>
     <string name="edit_account">Edit account</string>
+    <string name="edit_debt">Edit debt</string>
     <string name="delete_debt">Delete debt</string>
     <string name="pay_all_debt">Pay whole debt</string>
     <string name="pay_part_debt">Pay part of debt</string>
@@ -97,7 +98,7 @@
     <string name="transaction_empty_list">Your transactions will be here</string>
     <string name="debt_empty_list">Your debts will be here</string>
 
-    <string name="not_enough_costs">Not enough money in the account</string>
+    <string name="not_enough_costs">Not enough money in account</string>
 
     <string name="dialog_text_transaction_no_account">You must have at least one account for transactions.
     Click "New account".</string>
@@ -161,6 +162,7 @@
 
 
     //about
+    <string name="general_info">General information</string>
     <string name="about_app_version">version</string>
     <string name="about_app_developer">Android Collider</string>
 

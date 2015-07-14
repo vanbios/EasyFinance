@@ -8,6 +8,8 @@ import android.text.TextUtils;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
 
 import org.acra.ACRA;
 import org.acra.annotation.ReportsCrashes;
@@ -28,12 +30,22 @@ public class AppController extends Application {
     private RequestQueue mRequestQueue;
     private static AppController mInstance;
 
+    public static GoogleAnalytics analytics;
+    public final static String TRACKER_ID ="UA-65109395-1";
+    public static Tracker tracker;
+
 
     @Override
     public void onCreate() {
         super.onCreate();
         ACRA.init(this);
         mInstance = this;
+
+        analytics = GoogleAnalytics.getInstance(this);
+        analytics.setLocalDispatchPeriod(1800);
+
+        tracker = analytics.newTracker(TRACKER_ID);
+        tracker.enableAutoActivityTracking(true);
     }
 
 

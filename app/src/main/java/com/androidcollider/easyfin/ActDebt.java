@@ -105,6 +105,7 @@ public class ActDebt extends AppCompatActivity {
 
     public void goToAddDebtAct(View view) {
         Intent intent = new Intent(this, ActAddDebt.class);
+        intent.putExtra("mode", 0);
         startActivity(intent);
     }
 
@@ -160,6 +161,11 @@ public class ActDebt extends AppCompatActivity {
                 goToActPayDebt(pos, 3);
                 break;}
 
+            case R.id.ctx_menu_edit_debt: {
+                editDebtAct(pos, 1);
+                break;
+            }
+
             case R.id.ctx_menu_delete_debt: {
                 showDialogDeleteDebt(pos);
                 break;}
@@ -203,6 +209,8 @@ public class ActDebt extends AppCompatActivity {
 
         debtList.remove(pos);
 
+        setVisibility();
+
         recyclerAdapter.notifyDataSetChanged();
 
         InfoFromDB.getInstance().updateAccountList();
@@ -222,6 +230,16 @@ public class ActDebt extends AppCompatActivity {
 
     private void goToActPayDebt(int pos, int mode){
         Intent intent = new Intent(this, ActPayDebt.class);
+
+        Debt debt = debtList.get(pos);
+
+        intent.putExtra("debt", debt);
+        intent.putExtra("mode", mode);
+        startActivity(intent);
+    }
+
+    public void editDebtAct(int pos, int mode) {
+        Intent intent = new Intent(this, ActAddDebt.class);
 
         Debt debt = debtList.get(pos);
 

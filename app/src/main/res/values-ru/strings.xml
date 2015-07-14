@@ -18,6 +18,7 @@
     <string name="edit_transaction">Редактирование транзакции</string>
     <string name="delete_transaction">Удаление транзакции</string>
     <string name="edit_account">Редактирование счета</string>
+    <string name="edit_debt">Редактирование долга</string>
     <string name="delete_debt">Удаление долга</string>
     <string name="pay_all_debt">Оплатить весь долг</string>
     <string name="pay_part_debt">Оплатить часть долга</string>
@@ -168,6 +169,7 @@
 
 
     //about
+    <string name="general_info">Общая информация</string>
     <string name="about_app_version">версия</string>
     <string name="about_app_developer">Android Collider</string>
 
