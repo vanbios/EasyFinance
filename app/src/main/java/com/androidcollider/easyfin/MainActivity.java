@@ -1,5 +1,6 @@
 package com.androidcollider.easyfin;
 
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,9 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -18,10 +22,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.adapters.MyFragmentPagerAdapter;
+import com.androidcollider.easyfin.fragments.CommonFragment;
 import com.androidcollider.easyfin.fragments.FrgAccounts;
 import com.androidcollider.easyfin.fragments.FrgMain;
 import com.androidcollider.easyfin.fragments.FrgTransactions;
@@ -33,7 +39,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
 
     public final static String BROADCAST_MAIN_SNACK_ACTION = "com.androidcollider.easyfin.mainsnack.broadcast";
     public final static String PARAM_STATUS_MAIN_SNACK = "show_main_snack";
@@ -290,5 +296,61 @@ public class MainActivity extends AppCompatActivity {
 
     private static final ScheduledExecutorService worker =
             Executors.newSingleThreadScheduledExecutor();
+
+
+
+    public void addFragment(CommonFragment f){
+        treatFragment(f, true, false);
+    }
+
+    public void replaceFragment(CommonFragment f){
+        treatFragment(f, false, true);
+    }
+
+    public Fragment getTopFragment(){
+        return getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+    }
+
+
+    private void treatFragment(CommonFragment f, boolean addToBackStack, boolean replace){
+        String tag = f.getRealTag();
+        FragmentTransaction ft =  getSupportFragmentManager().beginTransaction();
+        if(replace){
+            ft.replace(R.id.fragment_container, f, tag);
+        }else{
+            Fragment currentTop = getTopFragment();
+            if(currentTop!=null) ft.hide(currentTop);
+            ft.add(R.id.fragment_container, f, tag);
+        }
+        if(addToBackStack) ft.addToBackStack(tag);
+        ft.commitAllowingStateLoss();
+    }
+
+    @Override
+    public void onBackStackChanged() {
+        int cnt = getSupportFragmentManager().getBackStackEntryCount();
+        if(getSupportActionBar()!=null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(cnt > 0);
+        }
+
+        Fragment topFragment = getTopFragment();
+
+        if(topFragment instanceof CommonFragment){
+            setTitle(((CommonFragment) topFragment).getTitle());
+        }
+        hideKeyboard();
+    }
+
+
+    public void hideKeyboard() {
+        InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+
+
 
 }
