@@ -3,6 +3,7 @@ package com.androidcollider.easyfin;
 
 import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
 import com.androidcollider.easyfin.fragments.FrgAccounts;
+import com.androidcollider.easyfin.fragments.FrgHome;
 import com.androidcollider.easyfin.fragments.FrgMain;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.InfoFromDB;
@@ -249,8 +250,8 @@ public class ActAccount extends AppCompatActivity {
     }
 
     private void pushBroadcast() {
-        Intent intentFrgMain = new Intent(FrgMain.BROADCAST_FRG_MAIN_ACTION);
-        intentFrgMain.putExtra(FrgMain.PARAM_STATUS_FRG_MAIN, FrgMain.STATUS_UPDATE_FRG_MAIN_BALANCE);
+        Intent intentFrgMain = new Intent(FrgHome.BROADCAST_FRG_MAIN_ACTION);
+        intentFrgMain.putExtra(FrgHome.PARAM_STATUS_FRG_MAIN, FrgHome.STATUS_UPDATE_FRG_MAIN_BALANCE);
         sendBroadcast(intentFrgMain);
 
         Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);
@@ -262,8 +263,8 @@ public class ActAccount extends AppCompatActivity {
             SharedPref sp = new SharedPref(this);
             if(!sp.isSnackBarAccountDisable()) {
 
-                Intent intentMainSnack = new Intent(MainActivity.BROADCAST_MAIN_SNACK_ACTION);
-                intentMainSnack.putExtra(MainActivity.PARAM_STATUS_MAIN_SNACK, MainActivity.STATUS_MAIN_SNACK);
+                Intent intentMainSnack = new Intent(FrgMain.BROADCAST_MAIN_SNACK_ACTION);
+                intentMainSnack.putExtra(FrgMain.PARAM_STATUS_MAIN_SNACK, FrgMain.STATUS_MAIN_SNACK);
                 sendBroadcast(intentMainSnack);
             }
         }

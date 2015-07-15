@@ -18,7 +18,7 @@ public class ActFAQ extends AppCompatActivity implements View.OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_faq);
+        setContentView(R.layout.frg_faq);
 
         setToolbar(R.string.app_faq);
 

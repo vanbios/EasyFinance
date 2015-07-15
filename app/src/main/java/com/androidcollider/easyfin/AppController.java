@@ -38,7 +38,7 @@ public class AppController extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        ACRA.init(this);
+        //ACRA.init(this);
         mInstance = this;
 
         analytics = GoogleAnalytics.getInstance(this);

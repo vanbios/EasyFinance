@@ -1,437 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_content"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentTop="true"
-    android:layout_centerHorizontal="true"
-    android:id="@+id/scrollView"
-    android:paddingTop="@dimen/common_padding_small"
-    android:paddingBottom="@dimen/common_padding_small"
-    android:paddingLeft="@dimen/card_elevation_small"
-    android:paddingRight="@dimen/card_elevation_small"
-    android:scrollbars="none">
+    android:layout_height="match_parent">
 
 
-    <RelativeLayout
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabsMain"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/tabs_height"
+        android:background="?attr/colorPrimary"
+        app:tabMode="fixed"
+        app:tabTextAppearance="@style/TabsFont"
+        app:tabIndicatorColor="@color/custom_text_light"
+        app:tabIndicatorHeight="2dp"/>
 
 
-        <android.support.v7.widget.CardView
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tabsMain">
+
+
+        <View
             android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_shadow_height"
+            android:background="@drawable/toolbar_drop_shadow" />
+
+    </FrameLayout>
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pagerMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabsMain" />
+
+
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/coordinateLayoutFloatMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="right|bottom">
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btnFloatMain"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/cardMainBalance"
-            android:layout_alignParentTop="true"
-            card_view:cardElevation="@dimen/card_elevation_small"
-            android:layout_margin="@dimen/common_padding_small">
+            android:layout_gravity="right|bottom"
+            android:layout_margin="@dimen/common_padding_large"
+            android:src="@drawable/ic_plus_white_48dp"
+            app:borderWidth="0dp"/>
 
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/common_padding_small">
-
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/layoutMainBalance"
-                    android:baselineAligned="false"
-                    android:paddingTop="@dimen/common_padding_small"
-                    android:paddingRight="@dimen/common_padding_large">
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/balance"
-                        android:id="@+id/tvMainCurrentBalance"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="@dimen/common_padding_large"
-                        android:layout_marginTop="@dimen/common_padding_small"
-                        android:singleLine="true"
-                        style="@style/TitleFontSecondary" />
-
-
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="36dp"
-                        android:background="@color/custom_divider"
-                        android:id="@+id/cvMainDividerBalanceVerticalLeft"
-                        android:layout_alignParentTop="true"
-                        android:layout_toRightOf="@+id/tvMainCurrentBalance"
-                        android:layout_marginLeft="@dimen/common_padding_large"/>
-
-
-                    <Spinner
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/spinMainCurrency"
-                        android:layout_marginLeft="@dimen/common_padding_medium"
-                        android:layout_marginRight="@dimen/common_padding_medium"
-                        android:layout_toRightOf="@+id/cvMainDividerBalanceVerticalLeft"
-                        android:layout_toLeftOf="@+id/cvMainDividerBalanceVerticalRight"/>
-
-
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="36dp"
-                        android:background="@color/custom_divider"
-                        android:id="@+id/cvMainDividerBalanceVerticalRight"
-                        android:layout_alignParentTop="true"
-                        android:layout_toLeftOf="@+id/ivMainBalanceSettings"
-                        android:layout_marginRight="@dimen/common_padding_large"/>
-
-
-                    <ImageView
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:src="@drawable/ic_tune_gray_48dp"
-                        android:id="@+id/ivMainBalanceSettings"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"/>
-
-
-                </RelativeLayout>
-
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:id="@+id/cvMainDividerBalanceCurrency"
-                    android:layout_below="@+id/layoutMainBalance"
-                    android:background="@color/custom_divider"
-                    android:layout_marginLeft="@dimen/common_padding_small"
-                    android:layout_marginRight="@dimen/common_padding_small"/>
-
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/layoutMainBalanceChart"
-                    android:layout_below="@+id/cvMainDividerBalanceCurrency"
-                    android:layout_marginTop="@dimen/common_padding_medium"
-                    android:paddingLeft="@dimen/common_padding_medium"
-                    android:paddingBottom="2dp"
-                    android:baselineAligned="false">
-
-
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="150dp"
-                        android:layout_weight="2">
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/cash"
-                            android:id="@+id/tvMainCash"
-                            android:layout_marginTop="28dp"
-                            android:layout_alignParentLeft="true"
-                            android:singleLine="true"
-                            style="@style/BodyFontSecondary" />
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/cards"
-                            android:id="@+id/tvMainCard"
-                            android:layout_below="@+id/tvMainCash"
-                            android:layout_alignLeft="@+id/tvMainCash"
-                            android:layout_marginTop="7dp"
-                            android:singleLine="true"
-                            style="@style/BodyFontSecondary" />
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/deposits"
-                            android:id="@+id/tvMainDeposit"
-                            android:layout_below="@+id/tvMainCard"
-                            android:layout_alignLeft="@+id/tvMainCard"
-                            android:layout_marginTop="7dp"
-                            android:singleLine="true"
-                            style="@style/BodyFontSecondary" />
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/debts"
-                            android:id="@+id/tvMainDebt"
-                            android:layout_below="@+id/tvMainDeposit"
-                            android:layout_alignLeft="@+id/tvMainDeposit"
-                            android:layout_marginTop="7dp"
-                            android:singleLine="true"
-                            style="@style/BodyFontSecondary" />
-
-
-                    </RelativeLayout>
-
-
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="150dp"
-                        android:layout_weight="7">
-
-
-                        <com.github.mikephil.charting.charts.HorizontalBarChart
-                            android:id="@+id/chartMainBalance"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
-
-
-                    </RelativeLayout>
-                </LinearLayout>
-
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:id="@+id/cvMainDividerBalanceCurrencyBottom"
-                    android:layout_below="@+id/layoutMainBalanceChart"
-                    android:background="@color/custom_divider"
-                    android:layout_marginLeft="@dimen/common_padding_small"
-                    android:layout_marginRight="@dimen/common_padding_small"/>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:id="@+id/layoutMainBalanceSum"
-                    android:layout_below="@+id/layoutMainBalanceChart"
-                    android:layout_marginLeft="@dimen/common_padding_medium"
-                    android:layout_marginTop="@dimen/common_padding_medium"
-                    android:layout_marginBottom="2dp">
-
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/sum"
-                        android:id="@+id/tvMainSum"
-                        style="@style/SubheadFont"
-                        android:singleLine="true"
-                        android:layout_weight="2"/>
-
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tvMainSumValue"
-                        style="@style/SubheadFont"
-                        android:singleLine="true"
-                        android:layout_weight="7"
-                        android:layout_marginLeft="10dp" />
-
-
-                </LinearLayout>
-            </RelativeLayout>
-        </android.support.v7.widget.CardView>
-
-
-
-        <android.support.v7.widget.CardView
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/cardMainStatistic"
-            card_view:cardElevation="@dimen/card_elevation_small"
-            android:layout_margin="@dimen/common_padding_small"
-            android:layout_below="@+id/cardMainBalance" >
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/common_padding_small">
-
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/layoutMainStatisticTitle"
-                    android:paddingTop="@dimen/common_padding_small">
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/report"
-                        android:id="@+id/tvMainStatistic"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="@dimen/common_padding_large"
-                        android:layout_marginTop="@dimen/common_padding_small"
-                        android:singleLine="true"
-                        style="@style/TitleFontSecondary"/>
-
-
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="36dp"
-                        android:background="@color/custom_divider"
-                        android:id="@+id/cvMainDividerStatisticVerticalLeft"
-                        android:layout_alignParentTop="true"
-                        android:layout_toRightOf="@+id/tvMainStatistic"
-                        android:layout_marginLeft="@dimen/common_padding_large"/>
-
-
-                    <Spinner
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/spinMainChart"
-                        android:layout_toRightOf="@+id/cvMainDividerStatisticVerticalLeft"
-                        android:layout_toLeftOf="@+id/cvMainDividerStatisticVerticalRight" />
-
-
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="36dp"
-                        android:background="@color/custom_divider"
-                        android:id="@+id/cvMainDividerStatisticVerticalRight"
-                        android:layout_alignParentTop="true"
-                        android:layout_toLeftOf="@+id/spinMainPeriod"
-                        android:layout_marginLeft="4dp"/>
-
-
-                    <Spinner
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/spinMainPeriod"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/common_padding_medium" />
-
-
-                </RelativeLayout>
-
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:id="@+id/cvMainDividerStatisticTop"
-                    android:layout_below="@+id/layoutMainStatisticTitle"
-                    android:background="@color/custom_divider"
-                    android:layout_marginLeft="@dimen/common_padding_small"
-                    android:layout_marginRight="@dimen/common_padding_small"/>
-
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/layoutMainStatisticChart"
-                    android:layout_below="@+id/cvMainDividerStatisticTop"
-                    android:layout_marginTop="@dimen/common_padding_medium"
-                    android:paddingBottom="2dp"
-                    android:baselineAligned="false">
-
-
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="100dp"
-                        android:layout_weight="2"
-                        android:layout_marginLeft="@dimen/common_padding_medium">
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/income"
-                            android:id="@+id/tvMainIncome"
-                            android:layout_marginTop="30dp"
-                            android:singleLine="true"
-                            style="@style/BodyFontSecondary" />
-
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/cost"
-                            android:id="@+id/tvMainCost"
-                            android:layout_below="@+id/tvMainIncome"
-                            android:layout_alignLeft="@+id/tvMainIncome"
-                            android:layout_marginTop="7dp"
-                            android:singleLine="true"
-                            style="@style/BodyFontSecondary" />
-
-
-                    </RelativeLayout>
-
-
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="7" >
-
-
-                        <com.github.mikephil.charting.charts.HorizontalBarChart
-                            android:id="@+id/chartHBarMainStatistic"
-                            android:layout_width="match_parent"
-                            android:layout_height="100dp" />
-
-
-                        <com.github.mikephil.charting.charts.PieChart
-                            android:id="@+id/chartPieMainStatistic"
-                            android:layout_width="match_parent"
-                            android:layout_height="150dp"
-                            android:visibility="gone"/>
-
-
-                    </RelativeLayout>
-                </LinearLayout>
-
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:id="@+id/cvMainDividerStatisticBottom"
-                    android:layout_below="@+id/layoutMainStatisticChart"
-                    android:background="@color/custom_divider"
-                    android:layout_marginLeft="@dimen/common_padding_small"
-                    android:layout_marginRight="@dimen/common_padding_small"/>
-
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/layoutMainStatisticSum"
-                    android:layout_below="@+id/layoutMainStatisticChart"
-                    android:layout_marginLeft="@dimen/common_padding_medium"
-                    android:layout_marginTop="@dimen/common_padding_medium"
-                    android:layout_marginBottom="2dp">
-
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="@string/sum"
-                        android:id="@+id/tvMainStatisticSumTitle"
-                        style="@style/SubheadFont"
-                        android:singleLine="true"
-                        android:layout_weight="2"/>
-
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tvMainStatisticSum"
-                        style="@style/SubheadFont"
-                        android:singleLine="true"
-                        android:layout_weight="7"
-                        android:layout_marginLeft="10dp" />
-
-
-                </LinearLayout>
-            </RelativeLayout>
-        </android.support.v7.widget.CardView>
-    </RelativeLayout>
-</ScrollView>
+    </android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

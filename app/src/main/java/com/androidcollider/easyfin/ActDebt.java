@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.adapters.RecyclerDebtAdapter;
 import com.androidcollider.easyfin.fragments.FrgAccounts;
-import com.androidcollider.easyfin.fragments.FrgMain;
+import com.androidcollider.easyfin.fragments.FrgHome;
 import com.androidcollider.easyfin.objects.Debt;
 import com.androidcollider.easyfin.objects.InfoFromDB;
 
@@ -219,8 +219,8 @@ public class ActDebt extends AppCompatActivity {
     }
 
     private void pushBroadcast() {
-        Intent intentFrgMain = new Intent(FrgMain.BROADCAST_FRG_MAIN_ACTION);
-        intentFrgMain.putExtra(FrgMain.PARAM_STATUS_FRG_MAIN, FrgMain.STATUS_UPDATE_FRG_MAIN_BALANCE);
+        Intent intentFrgMain = new Intent(FrgHome.BROADCAST_FRG_MAIN_ACTION);
+        intentFrgMain.putExtra(FrgHome.PARAM_STATUS_FRG_MAIN, FrgHome.STATUS_UPDATE_FRG_MAIN_BALANCE);
         sendBroadcast(intentFrgMain);
 
         Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);

@@ -7,28 +7,11 @@
     android:layout_height="match_parent">
 
 
-    <include layout="@layout/toolbar" />
-
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/toolbar_height">
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/toolbar_shadow_height"
-            android:background="@drawable/toolbar_drop_shadow" />
-
-    </FrameLayout>
-
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="@dimen/margin_big_card_top"
+        android:layout_marginTop="@dimen/common_padding_large"
         android:paddingLeft="@dimen/common_padding_medium"
         android:paddingRight="@dimen/common_padding_medium"
         android:scrollbars="none">
