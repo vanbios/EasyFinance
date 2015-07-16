@@ -238,4 +238,7 @@ public abstract class PreferenceFragment extends Fragment {
         mList = (ListView) rawListView;
         mHandler.sendEmptyMessage(MSG_REQUEST_FOCUS);
     }
+
+
+    public abstract String getTitle();
 }

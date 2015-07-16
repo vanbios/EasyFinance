@@ -13,6 +13,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -23,7 +24,8 @@ import com.androidcollider.easyfin.fragments.CommonFragment;
 import com.androidcollider.easyfin.fragments.FrgDebts;
 import com.androidcollider.easyfin.fragments.FrgFAQ;
 import com.androidcollider.easyfin.fragments.FrgMain;
-import com.androidcollider.easyfin.fragments.FrgPref1;
+import com.androidcollider.easyfin.fragments.FrgPref;
+import com.androidcollider.easyfin.fragments.PreferenceFragment;
 import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.utils.ToastUtils;
 
@@ -41,6 +43,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation_drawer);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.addOnBackStackChangedListener(this);
 
         InfoFromDB.getInstance().updateRatesForExchange();
 
@@ -66,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             toolBar.setNavigationIcon(R.drawable.ic_menu);
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         }
-
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -94,8 +98,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                                 break;
                             }
                             case R.id.nav_settings: {
-                                getSupportFragmentManager().beginTransaction()
-                                        .replace(R.id.fragment_container, new FrgPref1()).commit();
+                                addFragment(new FrgPref());
                                 break;
                             }
                             case R.id.nav_faq: {
@@ -115,8 +118,11 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     private void openSelectedFrgMainPage(int page) {
         popFragments();
+
         Fragment f = getTopFragment();
+
         if (f instanceof FrgMain) {
+
             FrgMain frgMain = (FrgMain) f;
             frgMain.openSelectedPage(page);
         }
@@ -150,12 +156,11 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     }
 
 
-
-    public void addFragment(CommonFragment f){
+    public void addFragment(Fragment f){
         treatFragment(f, true, false);
     }
 
-    public void replaceFragment(CommonFragment f){
+    public void replaceFragment(Fragment f){
         treatFragment(f, false, true);
     }
 
@@ -163,32 +168,50 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         return getSupportFragmentManager().findFragmentById(R.id.fragment_container);
     }
     
-    private void treatFragment(CommonFragment f, boolean addToBackStack, boolean replace){
-        String tag = f.getRealTag();
+    private void treatFragment(Fragment f, boolean addToBackStack, boolean replace){
+        String tag = f.getClass().getName();
         FragmentTransaction ft =  getSupportFragmentManager().beginTransaction();
-        if(replace){
+
+        if (replace) {
+
             ft.replace(R.id.fragment_container, f, tag);
-        }else{
+
+        } else {
+
             Fragment currentTop = getTopFragment();
-            if(currentTop!=null) ft.hide(currentTop);
+
+            if (currentTop != null) ft.hide(currentTop);
+
             ft.add(R.id.fragment_container, f, tag);
         }
-        if(addToBackStack) ft.addToBackStack(tag);
+
+        if (addToBackStack) ft.addToBackStack(tag);
+
         ft.commitAllowingStateLoss();
     }
 
     @Override
     public void onBackStackChanged() {
         int cnt = getSupportFragmentManager().getBackStackEntryCount();
-        if(getSupportActionBar()!=null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(cnt > 0);
+
+        Log.d("COLLIDER", String.valueOf(cnt));
+
+        ActionBar actionBar = getSupportActionBar();
+
+        if (actionBar != null) {
+
+            actionBar.setDisplayHomeAsUpEnabled(cnt > 0);
+
+            Fragment topFragment = getTopFragment();
+
+            if (topFragment instanceof CommonFragment) {
+                actionBar.setTitle(((CommonFragment) topFragment).getTitle());
+            }
+            else if (topFragment instanceof PreferenceFragment) {
+                actionBar.setTitle(((PreferenceFragment) topFragment).getTitle());
+            }
         }
 
-        Fragment topFragment = getTopFragment();
-
-        if(topFragment instanceof CommonFragment){
-            setTitle(((CommonFragment) topFragment).getTitle());
-        }
         hideKeyboard();
     }
 
@@ -206,9 +229,10 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     @Override
     public void onBackPressed() {
-        CommonFragment f = (CommonFragment) getTopFragment();
 
-        if (f instanceof FrgMain) {
+        Fragment fragment = getTopFragment();
+
+        if (fragment instanceof FrgMain) {
 
             if (backPressExitTime + 2000 > System.currentTimeMillis()) {
 
