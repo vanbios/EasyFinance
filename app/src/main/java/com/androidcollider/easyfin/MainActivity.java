@@ -2,7 +2,6 @@ package com.androidcollider.easyfin;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.design.widget.NavigationView;
@@ -21,6 +20,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.fragments.CommonFragment;
+import com.androidcollider.easyfin.fragments.FrgDebts;
 import com.androidcollider.easyfin.fragments.FrgFAQ;
 import com.androidcollider.easyfin.fragments.FrgMain;
 
@@ -71,10 +71,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
 
-                        //popFragment();
-
-                        //FrgMain frgMain = (FrgMain) getTopFragment();
-
                         switch (menuItem.getItemId()) {
 
                             case R.id.nav_home: {
@@ -96,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                                 break;
                             }
                             case R.id.nav_debts: {
-                                goToDebtAct();
+                                addFragment(new FrgDebts());
                                 break;
                             }
                             case R.id.nav_faq: {
@@ -159,16 +155,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         }
     }
 
-    private void goToDebtAct() {
-        Intent intent = new Intent(this, ActDebt.class);
-        startActivity(intent);
-    }
-
-    private void goToFAQAct() {
-        Intent intent = new Intent(this, ActFAQ.class);
-        startActivity(intent);
-    }
-
 
 
     public void addFragment(CommonFragment f){
@@ -219,7 +205,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
-
 
     private void popFragment() {
         getSupportFragmentManager().popBackStackImmediate(1, 1);

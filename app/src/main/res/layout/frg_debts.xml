@@ -6,31 +6,14 @@
     android:layout_height="match_parent">
 
 
-    <include layout="@layout/toolbar" />
-
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/toolbar_height">
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/toolbar_shadow_height"
-            android:background="@drawable/toolbar_drop_shadow" />
-
-    </FrameLayout>
-
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerDebt"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="@dimen/common_padding_medium"
         android:layout_marginBottom="@dimen/common_padding_medium"
         android:layout_marginLeft="@dimen/common_padding_small"
-        android:layout_marginRight="@dimen/common_padding_small" />
+        android:layout_marginRight="@dimen/common_padding_small"/>
 
 
     <TextView
@@ -52,13 +35,12 @@
 
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btnFloatMain"
+            android:id="@+id/btnFloatDebts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
             android:layout_margin="@dimen/common_padding_large"
             android:src="@drawable/ic_plus_white_48dp"
-            android:onClick="goToAddDebtAct"
             app:borderWidth="0dp"/>
 
 

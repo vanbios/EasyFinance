@@ -84,11 +84,9 @@ public class FrgFAQ extends CommonFragment implements View.OnClickListener {
     }
 
 
-
     @Override
     public String getTitle() {
-        return getString(R.string.app_name);
+        return getString(R.string.app_faq);
     }
-
 
 }

@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.adapters.SpinAccountForTransHeadIconAdapter;
 import com.androidcollider.easyfin.fragments.FrgAccounts;
+import com.androidcollider.easyfin.fragments.FrgDebts;
 import com.androidcollider.easyfin.fragments.FrgHome;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.Debt;
@@ -321,8 +322,8 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
         intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
         sendBroadcast(intentFrgAccounts);
 
-        Intent intentDebt = new Intent(ActDebt.BROADCAST_DEBT_ACTION);
-        intentDebt.putExtra(ActDebt.PARAM_STATUS_DEBT, ActDebt.STATUS_UPDATE_DEBT);
+        Intent intentDebt = new Intent(FrgDebts.BROADCAST_DEBT_ACTION);
+        intentDebt.putExtra(FrgDebts.PARAM_STATUS_DEBT, FrgDebts.STATUS_UPDATE_DEBT);
         sendBroadcast(intentDebt);
     }
 

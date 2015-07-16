@@ -1,4 +1,4 @@
-package com.androidcollider.easyfin;
+package com.androidcollider.easyfin.fragments;
 
 
 import android.content.BroadcastReceiver;
@@ -6,25 +6,28 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.androidcollider.easyfin.ActAddDebt;
+import com.androidcollider.easyfin.ActPayDebt;
+import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.RecyclerDebtAdapter;
-import com.androidcollider.easyfin.fragments.FrgAccounts;
-import com.androidcollider.easyfin.fragments.FrgHome;
 import com.androidcollider.easyfin.objects.Debt;
 import com.androidcollider.easyfin.objects.InfoFromDB;
 
 import java.util.ArrayList;
 
-public class ActDebt extends AppCompatActivity {
+
+
+public class FrgDebts extends CommonFragment {
 
     public final static String BROADCAST_DEBT_ACTION = "com.androidcollider.easyfin.debt.broadcast";
     public final static String PARAM_STATUS_DEBT = "update_debt";
@@ -40,24 +43,33 @@ public class ActDebt extends AppCompatActivity {
     private BroadcastReceiver broadcastReceiver;
 
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_debt);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        setToolbar(R.string.debts);
+        View view = inflater.inflate(R.layout.frg_debts, container, false);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerDebt);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerDebt);
 
-        tvEmpty = (TextView) findViewById(R.id.tvEmptyDebt);
+        tvEmpty = (TextView) view.findViewById(R.id.tvEmptyDebt);
 
         setItemDebt();
 
         registerForContextMenu(recyclerView);
 
+        FloatingActionButton faButton = (FloatingActionButton) view.findViewById(R.id.btnFloatDebts);
+        faButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+               goToAddDebtAct();
+            }
+        });
+
         makeBroadcastReceiver();
+
+        return view;
     }
+
 
     private void setItemDebt() {
 
@@ -66,20 +78,11 @@ public class ActDebt extends AppCompatActivity {
         setVisibility();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        recyclerAdapter = new RecyclerDebtAdapter(this, debtList);
+        recyclerAdapter = new RecyclerDebtAdapter(getActivity(), debtList);
         recyclerView.setAdapter(recyclerAdapter);
-
     }
 
-    private void setToolbar (int id) {
-        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbarMain);
-        setSupportActionBar(toolBar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle(id);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
-    }
+
 
     private void setVisibility() {
         if (debtList.isEmpty()) {
@@ -103,11 +106,13 @@ public class ActDebt extends AppCompatActivity {
         return false;
     }
 
-    public void goToAddDebtAct(View view) {
-        Intent intent = new Intent(this, ActAddDebt.class);
+    private void goToAddDebtAct() {
+        Intent intent = new Intent(getActivity(), ActAddDebt.class);
         intent.putExtra("mode", 0);
         startActivity(intent);
     }
+
+
 
     private void makeBroadcastReceiver() {
         broadcastReceiver = new BroadcastReceiver() {
@@ -129,14 +134,16 @@ public class ActDebt extends AppCompatActivity {
 
         IntentFilter intentFilter = new IntentFilter(BROADCAST_DEBT_ACTION);
 
-        this.registerReceiver(broadcastReceiver, intentFilter);
+        getActivity().registerReceiver(broadcastReceiver, intentFilter);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        this.unregisterReceiver(broadcastReceiver);
+        getActivity().unregisterReceiver(broadcastReceiver);
     }
+
+
 
     public boolean onContextItemSelected(MenuItem item) {
         int pos;
@@ -174,9 +181,11 @@ public class ActDebt extends AppCompatActivity {
         return super.onContextItemSelected(item);
     }
 
+
+
     private void showDialogDeleteDebt(final int pos) {
 
-        new MaterialDialog.Builder(this)
+        new MaterialDialog.Builder(getActivity())
                 .title(getString(R.string.delete_debt))
                 .content(getString(R.string.debt_delete_warning))
                 .positiveText(getString(R.string.delete))
@@ -221,15 +230,15 @@ public class ActDebt extends AppCompatActivity {
     private void pushBroadcast() {
         Intent intentFrgMain = new Intent(FrgHome.BROADCAST_FRG_MAIN_ACTION);
         intentFrgMain.putExtra(FrgHome.PARAM_STATUS_FRG_MAIN, FrgHome.STATUS_UPDATE_FRG_MAIN_BALANCE);
-        sendBroadcast(intentFrgMain);
+        getActivity().sendBroadcast(intentFrgMain);
 
         Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);
         intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
-        sendBroadcast(intentFrgAccounts);
+        getActivity().sendBroadcast(intentFrgAccounts);
     }
 
     private void goToActPayDebt(int pos, int mode){
-        Intent intent = new Intent(this, ActPayDebt.class);
+        Intent intent = new Intent(getActivity(), ActPayDebt.class);
 
         Debt debt = debtList.get(pos);
 
@@ -239,7 +248,7 @@ public class ActDebt extends AppCompatActivity {
     }
 
     public void editDebtAct(int pos, int mode) {
-        Intent intent = new Intent(this, ActAddDebt.class);
+        Intent intent = new Intent(getActivity(), ActAddDebt.class);
 
         Debt debt = debtList.get(pos);
 
@@ -248,4 +257,9 @@ public class ActDebt extends AppCompatActivity {
         startActivity(intent);
     }
 
+
+    @Override
+    public String getTitle() {
+        return getString(R.string.debts);
+    }
 }
