@@ -50,7 +50,7 @@ public class FrgMain extends CommonFragment {
 
         view = inflater.inflate(R.layout.frg_main, container, false);
 
-        InfoFromDB.getInstance().updateRatesForExchange();
+        //InfoFromDB.getInstance().updateRatesForExchange();
 
         setViewPager();
 
@@ -77,8 +77,6 @@ public class FrgMain extends CommonFragment {
         return view;
     }
 
-
-
     private void setViewPager() {
         pager = (ViewPager) view.findViewById(R.id.pagerMain);
         MyFragmentPagerAdapter adapterPager = new MyFragmentPagerAdapter(getFragmentManager());
@@ -95,8 +93,6 @@ public class FrgMain extends CommonFragment {
                 getResources().getColor(R.color.custom_text_light));
         tabs.setupWithViewPager(pager);
     }
-
-
 
     private void makeBroadcastReceiver() {
         broadcastReceiver = new BroadcastReceiver() {
@@ -123,7 +119,6 @@ public class FrgMain extends CommonFragment {
             getActivity().unregisterReceiver(broadcastReceiver);}
     }
 
-
     private void showSnackBar() {
         final CoordinatorLayout coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.coordinateLayoutFloatMain);
 
@@ -145,14 +140,9 @@ public class FrgMain extends CommonFragment {
     private static final ScheduledExecutorService worker =
             Executors.newSingleThreadScheduledExecutor();
 
-
-
-
     public void openSelectedPage(int page) {
         pager.setCurrentItem(page);
     }
-
-
 
     public void checkPageNum(){
         switch (pager.getCurrentItem()) {
@@ -173,7 +163,6 @@ public class FrgMain extends CommonFragment {
         intent.putExtra("mode", 0);
         startActivity(intent);
     }
-
 
     private void showDialogNoAccount() {
 
@@ -197,10 +186,9 @@ public class FrgMain extends CommonFragment {
                 .show();
     }
 
-
-
     @Override
     public String getTitle() {
         return getString(R.string.app_name);
     }
+
 }

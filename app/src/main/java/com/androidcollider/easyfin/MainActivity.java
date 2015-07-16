@@ -23,13 +23,17 @@ import com.androidcollider.easyfin.fragments.CommonFragment;
 import com.androidcollider.easyfin.fragments.FrgDebts;
 import com.androidcollider.easyfin.fragments.FrgFAQ;
 import com.androidcollider.easyfin.fragments.FrgMain;
-
+import com.androidcollider.easyfin.fragments.FrgPref1;
+import com.androidcollider.easyfin.objects.InfoFromDB;
+import com.androidcollider.easyfin.utils.ToastUtils;
 
 
 public class MainActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
 
     private DrawerLayout mDrawerLayout;
     private MaterialDialog appAboutDialog;
+
+    private static long backPressExitTime;
 
 
 
@@ -38,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.navigation_drawer);
 
-        //InfoFromDB.getInstance().updateRatesForExchange();
+        InfoFromDB.getInstance().updateRatesForExchange();
 
         setToolbar(R.string.app_name);
 
@@ -74,25 +78,24 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                         switch (menuItem.getItemId()) {
 
                             case R.id.nav_home: {
-                                FrgMain frgMain = (FrgMain) getFrgMain();
-
-                                frgMain.openSelectedPage(0);
+                                openSelectedFrgMainPage(0);
                                 break;
                             }
                             case R.id.nav_transactions: {
-                                FrgMain frgMain = (FrgMain) getFrgMain();
-
-                                frgMain.openSelectedPage(1);
+                                openSelectedFrgMainPage(1);
                                 break;
                             }
                             case R.id.nav_accounts: {
-                                FrgMain frgMain = (FrgMain) getFrgMain();
-
-                                frgMain.openSelectedPage(2);
+                                openSelectedFrgMainPage(2);
                                 break;
                             }
                             case R.id.nav_debts: {
                                 addFragment(new FrgDebts());
+                                break;
+                            }
+                            case R.id.nav_settings: {
+                                getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.fragment_container, new FrgPref1()).commit();
                                 break;
                             }
                             case R.id.nav_faq: {
@@ -110,23 +113,14 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                 });
     }
 
-    private Fragment getFrgMain() {
-
-        Fragment fragment = getTopFragment();
-
-        if (fragment instanceof FrgMain) {
-
-            return fragment;
+    private void openSelectedFrgMainPage(int page) {
+        popFragments();
+        Fragment f = getTopFragment();
+        if (f instanceof FrgMain) {
+            FrgMain frgMain = (FrgMain) f;
+            frgMain.openSelectedPage(page);
         }
-
-        else {
-
-            popFragment();
-        }
-
-        return getFrgMain();
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -206,8 +200,31 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         }
     }
 
-    private void popFragment() {
-        getSupportFragmentManager().popBackStackImmediate(1, 1);
+    private void popFragments() {
+        getSupportFragmentManager().popBackStackImmediate(1, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        CommonFragment f = (CommonFragment) getTopFragment();
+
+        if (f instanceof FrgMain) {
+
+            if (backPressExitTime + 2000 > System.currentTimeMillis()) {
+
+                this.finish();
+
+            } else {
+
+                ToastUtils.showClosableToast(this, getString(R.string.press_again_to_exit), 1);
+                backPressExitTime = System.currentTimeMillis();
+            }
+        }
+
+        else {
+
+            popFragments();
+        }
     }
 
 }

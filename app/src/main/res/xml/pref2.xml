@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/app_name">
+        <CheckBoxPreference
+            android:key="chb2"
+            android:summary="@string/app_name"
+            android:title="@string/app_name">
+        </CheckBoxPreference>
+        <EditTextPreference
+            android:key="address2"
+            android:summary="@string/app_name"
+            android:title="@string/app_name">
+        </EditTextPreference>
+        <ListPreference
+            android:entries="@array/account_type_array"
+            android:entryValues="@array/account_type_array"
+            android:key="list2"
+            android:summary="@string/app_name"
+            android:title="@string/app_name">
+        </ListPreference>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/app_name">
+        <PreferenceScreen
+            android:fragment="com.androidcollider.easyfin.fragments.FrgPref1"
+            android:summary="@string/app_name"
+            android:title="@string/app_name">
+        </PreferenceScreen>
+    </PreferenceCategory>
+</PreferenceScreen>

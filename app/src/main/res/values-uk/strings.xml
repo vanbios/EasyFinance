@@ -115,6 +115,8 @@
     <string name="transaction_date_future">Дата транзакції не може бути майбутньою</string>
     <string name="debt_deadline_past">Дедлайн боргу не може бути в минулому</string>
 
+    <string name="press_again_to_exit">Натисніть ще раз, щоб вийти</string>
+
 
 
     //etc.
