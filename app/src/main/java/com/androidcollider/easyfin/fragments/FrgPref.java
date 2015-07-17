@@ -3,9 +3,12 @@ package com.androidcollider.easyfin.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.Preference;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,10 +18,13 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.AppController;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.database.DbHelper;
+import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.utils.DBExportImportUtils;
 import com.androidcollider.easyfin.utils.ToastUtils;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 
 
 public class FrgPref extends PreferenceFragment {
@@ -27,7 +33,7 @@ public class FrgPref extends PreferenceFragment {
 
     private final String TAG = "COLLIDER";
 
-    private static String filePath;
+    private static Uri uri;
 
     private static final Context context = AppController.getContext();
 
@@ -129,24 +135,20 @@ public class FrgPref extends PreferenceFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case FILE_SELECT_CODE:
-                if (resultCode == getActivity().RESULT_OK) {
+                if (resultCode == -1) {
                     // Get the Uri of the selected file
-                    Uri uri = data.getData();
+                    uri = data.getData();
                     Log.d(TAG, "File Uri: " + uri.toString());
-                    // Get the path
 
-                    try {String path = uri.getPath();
+                    try {
+                        String path = uri.getPath();
                         Log.d(TAG, "File Path: " + uri.getPath());
                         tvBrowseDB.setText(path);
-                        filePath = path;
                     }
 
                     catch (Exception e) {
                         e.printStackTrace();
                     }
-                    // Get the file instance
-                    // File file = new File(path);
-                    // Initiate the upload
                 }
                 break;
         }
@@ -156,12 +158,10 @@ public class FrgPref extends PreferenceFragment {
 
     private void importDB() {
 
-        DbHelper dbHelper = new DbHelper(context);
-
         boolean importDB = false;
 
         try {
-            importDB = dbHelper.importDatabase(filePath);
+            importDB = InfoFromDB.getInstance().getDataSource().importDatabase(uri);
         }
 
         catch (IOException e) {
@@ -176,8 +176,6 @@ public class FrgPref extends PreferenceFragment {
             ToastUtils.showClosableToast(context, "ERROR!", 2);
         }
     }
-
-
 
 
 

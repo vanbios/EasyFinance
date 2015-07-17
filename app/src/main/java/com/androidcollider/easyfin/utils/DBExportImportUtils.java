@@ -13,8 +13,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.channels.FileChannel;
 
 
 public class DBExportImportUtils {
@@ -46,7 +46,7 @@ public class DBExportImportUtils {
         File backupDirectory = new File(outFilePath);
 
         if (!backupDirectory.mkdirs()) {
-            Log.d("COLLIDER", "Folder create problem");
+            Log.d("COLLIDER", "Folder is already exist");
         }
 
         File backupFile = new File(backupDirectory, DbHelper.DATABASE_NAME);
@@ -75,47 +75,40 @@ public class DBExportImportUtils {
 
 
 
-
-
-    /**
-     * Creates the specified <code>toFile</code> as a byte for byte copy of the
-     * <code>fromFile</code>. If <code>toFile</code> already exists, then it
-     * will be replaced with a copy of <code>fromFile</code>. The name and path
-     * of <code>toFile</code> will be that of <code>toFile</code>.<br/>
-     * <br/>
-     * <i> Note: <code>fromFile</code> and <code>toFile</code> will be closed by
-     * this function.</i>
-     *
-     * @param fromFile
-     *            - FileInputStream for the file to copy from.
-     * @param toFile
-     *            - FileInputStream for the file to copy to.
-     */
-
-
-    public static void copyFile(FileInputStream fromFile, FileOutputStream toFile) throws IOException {
-
-        FileChannel fromChannel = null;
-        FileChannel toChannel = null;
+    public static void copyFromStream(InputStream inputStream, FileOutputStream toFile) throws IOException {
 
         try {
 
-            fromChannel = fromFile.getChannel();
-            toChannel = toFile.getChannel();
-            fromChannel.transferTo(0, fromChannel.size(), toChannel);
+            int read;
+            byte[] bytes = new byte[1024];
+
+            while ((read = inputStream.read(bytes)) != -1) {
+                toFile.write(bytes, 0, read);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
 
         } finally {
 
-            try {
+            if (inputStream != null) {
 
-                if (fromChannel != null) {
-                    fromChannel.close();
+                try {
+                    inputStream.close();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+            }
 
-            } finally {
+            if (toFile != null) {
 
-                if (toChannel != null) {
-                    toChannel.close();
+                try {
+
+                    toFile.close();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 
 import com.androidcollider.easyfin.AppController;
 import com.androidcollider.easyfin.R;
@@ -14,9 +15,14 @@ import com.androidcollider.easyfin.objects.Debt;
 import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.objects.Rates;
 import com.androidcollider.easyfin.objects.Transaction;
+import com.androidcollider.easyfin.utils.DBExportImportUtils;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.androidcollider.easyfin.utils.SharedPref;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,6 +30,7 @@ import java.util.HashMap;
 
 public class DataSource {
 
+    public static String DB_FILEPATH = "/data/data/com.androidcollider.easyfin/databases/" + DbHelper.DATABASE_NAME;
 
     private DbHelper dbHelper;
     private SQLiteDatabase db;
@@ -733,6 +740,27 @@ public class DataSource {
         db.update("Account", cv2, "id_account = " + id_account, null);
         db.update("Account", cv3, "id_account = " + oldAccountId, null);
         closeLocal();
+    }
+
+
+
+    public boolean importDatabase(Uri uri) throws IOException {
+        // Close the SQLiteOpenHelper so it will commit the created empty database to internal storage.
+        dbHelper.close();
+
+        File oldDb = new File(DB_FILEPATH);
+
+        InputStream newDbStream = context.getContentResolver().openInputStream(uri);
+
+        if (newDbStream != null) {
+
+            DBExportImportUtils.copyFromStream(newDbStream, new FileOutputStream(oldDb));
+            // Access the copied database so SQLiteHelper will cache it and mark it as created.
+            openLocalToWrite();
+            closeLocal();
+            return true;
+        }
+        return false;
     }
 
 }
