@@ -1,21 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <CheckBoxPreference
-        android:key="chb1"
-        android:summary="@string/app_name"
-        android:title="@string/app_name">
-    </CheckBoxPreference>
-    <EditTextPreference
-        android:key="address1"
-        android:summary="@string/app_name"
-        android:title="@string/app_name">
-    </EditTextPreference>
-    <ListPreference
-        android:entries="@array/account_type_array"
-        android:entryValues="@array/account_type_array"
-        android:key="list1"
-        android:summary="@string/app_name"
-        android:title="@string/app_name">
-    </ListPreference>
+    <Preference
+        android:key="export_db"
+        android:summary="@string/export_db_summary"
+        android:title="@string/export_db">
+    </Preference>
+
+    <Preference
+        android:key="import_db"
+        android:summary="@string/import_db_summary"
+        android:title="@string/import_db"/>
 </PreferenceScreen>

@@ -37,6 +37,15 @@
     <string name="return_to_main">На главную</string>
 
 
+    <string name="export_db">Backup DB</string>
+    <string name="import_db">Import DB</string>
+    <string name="export_db_summary">Click here to backup DB</string>
+    <string name="import_db_summary">Click here to import DB</string>
+
+    <string name="browse_db_to_import">Click here to browse DB file</string>
+    <string name="import_db_button">Import</string>
+
+
 
     // tabs
     <string name="tab_transactions">Транзакции</string>
@@ -116,6 +125,8 @@
     <string name="debt_deadline_past">Дедлайн долга не может быть в прошлом</string>
 
     <string name="press_again_to_exit">Нажмите еще раз, чтобы выйти</string>
+
+    <string name="db_backup_to">Резервная копия БД сохранена в</string>
 
 
 
