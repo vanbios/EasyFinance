@@ -26,7 +26,7 @@ import com.androidcollider.easyfin.objects.InfoFromDB;
 import java.util.ArrayList;
 
 
-public class FrgAccounts extends Fragment{
+public class FrgAccounts extends Fragment {
 
     public final static String BROADCAST_FRG_ACCOUNT_ACTION = "com.androidcollider.easyfin.frgaccount.broadcast";
     public final static String PARAM_STATUS_FRG_ACCOUNT = "update_frg_account";

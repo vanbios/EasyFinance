@@ -25,7 +25,7 @@ import com.androidcollider.easyfin.objects.Transaction;
 import java.util.ArrayList;
 
 
-public class FrgTransactions extends Fragment{
+public class FrgTransactions extends Fragment {
 
     public final static String BROADCAST_FRG_TRANSACTION_ACTION = "com.androidcollider.easyfin.frgtransaction.broadcast";
     public final static String PARAM_STATUS_FRG_TRANSACTION = "update_frg_transaction";
