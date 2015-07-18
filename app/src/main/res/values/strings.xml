@@ -39,11 +39,18 @@
 
     <string name="export_db">Backup DB</string>
     <string name="import_db">Import DB</string>
-    <string name="export_db_summary">Click here to backup DB</string>
-    <string name="import_db_summary">Click here to import DB</string>
+    <string name="export_db_summary">Click to backup DB</string>
+    <string name="import_db_summary">Click to import DB</string>
 
-    <string name="browse_db_to_import">Click here to browse DB file</string>
-    <string name="import_db_button">Import DB</string>
+    <string name="browse_db_to_import">Click to browse DB file</string>
+
+    <string name="import_complete">Import complete!</string>
+    <string name="import_error">Something went wrong. Try again later</string>
+
+    <string name="import_wrong_file_type">Wrong file type. Try another one</string>
+    <string name="import_no_file_explorer">You have no one file explorer!</string>
+
+    <string name="view_more">View more</string>
 
 
 

@@ -197,9 +197,8 @@ public class FrgDebts extends CommonFragment {
                     }
 
                     @Override
-                    public void onNegative(MaterialDialog dialog) {
+                    public void onNegative(MaterialDialog dialog) {}
 
-                    }
                 })
                 .cancelable(false)
                 .show();
@@ -257,9 +256,9 @@ public class FrgDebts extends CommonFragment {
         startActivity(intent);
     }
 
-
     @Override
     public String getTitle() {
         return getString(R.string.debts);
     }
+
 }

@@ -30,8 +30,6 @@ import java.util.HashMap;
 
 public class DataSource {
 
-    public static String DB_FILEPATH = "/data/data/com.androidcollider.easyfin/databases/" + DbHelper.DATABASE_NAME;
-
     private DbHelper dbHelper;
     private SQLiteDatabase db;
     private Context context;
@@ -205,7 +203,6 @@ public class DataSource {
 
     public HashMap<String, double[]> getAccountsSumGroupByTypeAndCurrency() {
 
-        //String[] typeArray = context.getResources().getStringArray(R.array.account_type_array);
         String[] currencyArray = context.getResources().getStringArray(R.array.account_currency_array);
 
         HashMap<String, double[]> results = new HashMap<>();
@@ -337,7 +334,14 @@ public class DataSource {
             int idTransColIndex = cursor.getColumnIndex("id_transaction");
 
 
-            for (int i = cursor.getCount()-1; i >= 0; i--){
+            int cursorCount = cursor.getCount();
+            int limit = 0;
+
+            if (cursorCount > 120) {
+                limit = cursorCount - 120;
+            }
+
+            for (int i = cursorCount-1; i >= limit; i--){
                 cursor.moveToPosition(i);
                 Transaction transaction = new Transaction(
                         cursor.getLong(dateColIndex),
@@ -743,12 +747,11 @@ public class DataSource {
     }
 
 
-
     public boolean importDatabase(Uri uri) throws IOException {
         // Close the SQLiteOpenHelper so it will commit the created empty database to internal storage.
         dbHelper.close();
 
-        File oldDb = new File(DB_FILEPATH);
+        File oldDb = new File("/data/data/com.androidcollider.easyfin/databases/" + DbHelper.DATABASE_NAME);
 
         InputStream newDbStream = context.getContentResolver().openInputStream(uri);
 

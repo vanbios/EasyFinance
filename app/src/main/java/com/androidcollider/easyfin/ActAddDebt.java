@@ -38,7 +38,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-public class ActAddDebt extends AppCompatActivity implements View.OnClickListener{
+public class ActAddDebt extends AppCompatActivity {
 
     private DatePickerDialog datePickerDialog;
 
@@ -201,8 +201,8 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
 
             if (type == 0 && Math.abs(amount) > accountAmount) {
-                //Toast.makeText(this, getResources().getString(R.string.not_enough_costs), Toast.LENGTH_SHORT).show();
-                ToastUtils.showClosableToast(this, getResources().getString(R.string.not_enough_costs), 1);
+
+                ToastUtils.showClosableToast(this, getString(R.string.not_enough_costs), 1);
 
             } else {
 
@@ -280,8 +280,8 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
 
             if (type == 0 && Math.abs(amount) > accountAmount) {
-                //Toast.makeText(this, getResources().getString(R.string.not_enough_costs), Toast.LENGTH_SHORT).show();
-                ToastUtils.showClosableToast(this, getResources().getString(R.string.not_enough_costs), 1);
+
+                ToastUtils.showClosableToast(this, getString(R.string.not_enough_costs), 1);
 
             } else {
 
@@ -333,8 +333,7 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
         if (st.isEmpty()) {
             ShakeEditText.highlightEditText(etName);
-            //Toast.makeText(this, getResources().getString(R.string.empty_name_field), Toast.LENGTH_SHORT).show();
-            ToastUtils.showClosableToast(this, getResources().getString(R.string.empty_name_field), 1);
+            ToastUtils.showClosableToast(this, getString(R.string.empty_name_field), 1);
 
             return false;
         }
@@ -343,8 +342,7 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
 
             if (!DoubleFormatUtils.prepareStringToParse(etSum.getText().toString()).matches(".*\\d.*")) {
                 ShakeEditText.highlightEditText(etSum);
-                //Toast.makeText(this, getResources().getString(R.string.empty_amount_field), Toast.LENGTH_SHORT).show();
-                ToastUtils.showClosableToast(this, getResources().getString(R.string.empty_amount_field), 1);
+                ToastUtils.showClosableToast(this, getString(R.string.empty_amount_field), 1);
 
                 return false;
             }
@@ -354,7 +352,12 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
     }
 
     private void setDateTimeField() {
-        tvDate.setOnClickListener(this);
+        tvDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datePickerDialog.show();
+            }
+        });
 
         final Calendar newCalendar = Calendar.getInstance();
 
@@ -373,9 +376,7 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
                 if (newDate.getTimeInMillis() < initTime) {
-                    //Toast.makeText(ActAddDebt.this, R.string.debt_deadline_past, Toast.LENGTH_SHORT).show();
-                    ToastUtils.showClosableToast(ActAddDebt.this,
-                            getResources().getString(R.string.debt_deadline_past), 1);
+                    ToastUtils.showClosableToast(ActAddDebt.this, getString(R.string.debt_deadline_past), 1);
 
                 } else {
 
@@ -384,14 +385,6 @@ public class ActAddDebt extends AppCompatActivity implements View.OnClickListene
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-    }
-
-    @Override
-    public void onClick(View view) {
-
-        switch (view.getId()) {
-            case R.id.tvAddDebtDate: datePickerDialog.show(); break;
-        }
     }
 
     private void setToolbar (int id) {

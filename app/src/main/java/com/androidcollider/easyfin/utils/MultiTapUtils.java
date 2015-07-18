@@ -8,7 +8,6 @@ import android.view.View;
 import com.androidcollider.easyfin.R;
 
 
-
 public class MultiTapUtils {
 
     private static final long DOUBLE_PRESS_INTERVAL = 1000;
@@ -21,9 +20,6 @@ public class MultiTapUtils {
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-
-                //Log.d("COLLIDER", String.valueOf(count));
-
 
                 long currentTime = System.currentTimeMillis();
 

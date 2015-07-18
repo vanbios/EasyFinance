@@ -102,18 +102,6 @@ public class ActAccount extends AppCompatActivity {
 
         if (mode == 1) {
 
-
-            /*String[] typeArray = getResources().getStringArray(R.array.account_type_array);
-
-            String typeVal = accFrIntent.getType();
-
-            for (int i = 0; i < typeArray.length; i++) {
-                if (typeArray[i].equals(typeVal)) {
-                    spinType.setSelection(i);
-                }
-            }*/
-
-
             spinType.setSelection(accFrIntent.getType());
 
             String[] currencyArray = getResources().getStringArray(R.array.account_currency_array);
@@ -165,16 +153,13 @@ public class ActAccount extends AppCompatActivity {
 
                 if (InfoFromDB.getInstance().checkForAccountNameMatches(name)) {
                     ShakeEditText.highlightEditText(etName);
-                    //Toast.makeText(this, getResources().getString(R.string.account_name_exist), Toast.LENGTH_SHORT).show();
-                    ToastUtils.showClosableToast(this, getResources().getString(R.string.account_name_exist), 1);
+                    ToastUtils.showClosableToast(this, getString(R.string.account_name_exist), 1);
                 }
 
                 else {
 
                     double amount = Double.parseDouble(DoubleFormatUtils.prepareStringToParse(etSum.getText().toString()));
-                    //String type = spinType.getSelectedItem().toString();
                     String currency = spinCurrency.getSelectedItem().toString();
-
                     int type = spinType.getSelectedItemPosition();
 
                     Account account = new Account(name, amount, type, currency);
@@ -194,18 +179,14 @@ public class ActAccount extends AppCompatActivity {
 
                 if (InfoFromDB.getInstance().checkForAccountNameMatches(name) && ! name.equals(oldName)) {
                     ShakeEditText.highlightEditText(etName);
-                    //Toast.makeText(this, getResources().getString(R.string.account_name_exist), Toast.LENGTH_SHORT).show();
-                    ToastUtils.showClosableToast(this, getResources().getString(R.string.account_name_exist), 1);
+                    ToastUtils.showClosableToast(this, getString(R.string.account_name_exist), 1);
                 }
 
                 else {
 
                     String sum = DoubleFormatUtils.prepareStringToParse(etSum.getText().toString());
-
                     double amount = Double.parseDouble(sum);
-                    //String type = spinType.getSelectedItem().toString();
                     String currency = spinCurrency.getSelectedItem().toString();
-
                     int type = spinType.getSelectedItemPosition();
 
                     Account account = new Account(idAccount, name, amount, type, currency);
@@ -229,8 +210,7 @@ public class ActAccount extends AppCompatActivity {
 
         if (st.isEmpty()) {
             ShakeEditText.highlightEditText(etName);
-            //Toast.makeText(this, getResources().getString(R.string.empty_name_field), Toast.LENGTH_SHORT).show();
-            ToastUtils.showClosableToast(this, getResources().getString(R.string.empty_name_field), 1);
+            ToastUtils.showClosableToast(this, getString(R.string.empty_name_field), 1);
 
             return false;
         }
@@ -239,8 +219,7 @@ public class ActAccount extends AppCompatActivity {
 
             if (!DoubleFormatUtils.prepareStringToParse(etSum.getText().toString()).matches(".*\\d.*")) {
                 ShakeEditText.highlightEditText(etSum);
-                //Toast.makeText(this, getResources().getString(R.string.empty_amount_field), Toast.LENGTH_SHORT).show();
-                ToastUtils.showClosableToast(this, getResources().getString(R.string.empty_amount_field), 1);
+                ToastUtils.showClosableToast(this, getString(R.string.empty_amount_field), 1);
 
                 return false;
             }
@@ -270,32 +249,6 @@ public class ActAccount extends AppCompatActivity {
         }
     }
 
-    /*private void showDeleteAccountDialog() {
-
-        new MaterialDialog.Builder(this)
-                .title(getString(R.string.dialog_title_delete_account))
-                .content(getString(R.string.dialog_text_delete_account))
-                .positiveText(getString(R.string.delete))
-                .negativeText(getString(R.string.cancel))
-                .callback(new MaterialDialog.ButtonCallback() {
-                    @Override
-                    public void onPositive(MaterialDialog dialog) {
-                        deleteAccount();
-                    }
-                })
-                .show();
-    }
-
-    private void deleteAccount() {
-        if (InfoFromDB.getInstance().getDataSource().checkAccountForTransactionOrDebtExist(idAccount)) {
-            InfoFromDB.getInstance().getDataSource().makeAccountInvisible(idAccount);
-        }
-        else {
-            InfoFromDB.getInstance().getDataSource().deleteAccount(idAccount);}
-
-        lastActions();
-    }*/
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -310,11 +263,8 @@ public class ActAccount extends AppCompatActivity {
                     case 1: {editAccount(); break;}
                 }
 
-                return true;}
-
-            /*case R.id.account_action_delete: {
-                showDeleteAccountDialog();
-                return true;}*/
+                return true;
+            }
         }
         return false;
     }
@@ -323,12 +273,6 @@ public class ActAccount extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.toolbar_account_menu, menu);
-        /*MenuItem deleteAccountItem = menu.findItem(R.id.account_action_delete);
-
-        switch (mode) {
-            case 0: {deleteAccountItem.setVisible(false); break;}
-            case 1: {deleteAccountItem.setVisible(true); break;}
-        }*/
 
         return true;
     }

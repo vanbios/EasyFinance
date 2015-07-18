@@ -196,10 +196,6 @@ public class FrgAccounts extends Fragment {
         Intent intentFrgMain = new Intent(FrgHome.BROADCAST_FRG_MAIN_ACTION);
         intentFrgMain.putExtra(FrgHome.PARAM_STATUS_FRG_MAIN, FrgHome.STATUS_UPDATE_FRG_MAIN_BALANCE);
         getActivity().sendBroadcast(intentFrgMain);
-
-        /*Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);
-        intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
-        getActivity().sendBroadcast(intentFrgAccounts);*/
     }
 
 }

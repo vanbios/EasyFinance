@@ -21,7 +21,6 @@ public class SpinAccountForTransAdapter extends ArrayAdapter<Account> {
 
     final TypedArray typeIconsArray;
     final ArrayList<Account> accountList;
-    //final String[] typeArray;
     final String[] curArray;
     final String[] curLangArray;
     LayoutInflater inflater;
@@ -33,7 +32,6 @@ public class SpinAccountForTransAdapter extends ArrayAdapter<Account> {
         accountList = accountL;
 
         typeIconsArray = context.getResources().obtainTypedArray(R.array.account_type_icons);
-        //typeArray = context.getResources().getStringArray(R.array.account_type_array);
         curArray = context.getResources().getStringArray(R.array.account_currency_array);
         curLangArray = context.getResources().getStringArray(R.array.account_currency_array_language);
         inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -51,15 +49,6 @@ public class SpinAccountForTransAdapter extends ArrayAdapter<Account> {
         name.setText(accountList.get(position).getName());
 
         ImageView icon = (ImageView) dropSpinner.findViewById(R.id.ivSpinDropdownAccountType);
-
-        /*String typeAcc = accountList.get(position).getType();
-
-        for (int i = 0; i < typeArray.length; i++) {
-            if (typeArray[i].equals(typeAcc)) {
-                icon.setImageResource(typeIconsArray.getResourceId(i, 0));
-                break;
-            }
-        }*/
 
 
         icon.setImageResource(typeIconsArray.getResourceId(accountList.get(position).getType(), 0));

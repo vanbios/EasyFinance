@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,7 +21,7 @@ import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import java.util.ArrayList;
 
 
-public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTransactionAdapter.ViewHolder> {
+public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTransactionAdapter.MainViewHolder> {
 
     private long pos;
 
@@ -30,11 +31,16 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
     private final TypedArray catIconsArray;
     private final TypedArray typeIconsArray;
 
-    //private final String[] catArray;
     private final String[] curArray;
-
     private final String[] curLangArray;
-    //private final String[] typeArray;
+
+    public final int CONTENT_TYPE = 1;
+    public final int BUTTON_TYPE = 2;
+
+    private static int itemCount;
+    private static int maxCount = 30;
+
+    private static boolean showButton;
 
 
 
@@ -43,16 +49,33 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
         this.transactionArrayList = transactionArrayList;
 
         catIconsArray = context.getResources().obtainTypedArray(R.array.transaction_categories_icons);
-        //catArray = context.getResources().getStringArray(R.array.transaction_category_array);
         curArray = context.getResources().getStringArray(R.array.account_currency_array);
         curLangArray = context.getResources().getStringArray(R.array.account_currency_array_language);
-        //typeArray = context.getResources().getStringArray(R.array.account_type_array);
         typeIconsArray = context.getResources().obtainTypedArray(R.array.account_type_icons);
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        if (showButton) {return (position == itemCount) ? BUTTON_TYPE : CONTENT_TYPE;}
+        else {return CONTENT_TYPE;}
+    }
 
     @Override
-    public int getItemCount() {return transactionArrayList.size();}
+    public int getItemCount() {
+        int arraySize = transactionArrayList.size();
+
+        if (arraySize <= maxCount) {
+            showButton = false;
+            itemCount = arraySize;
+        return itemCount;
+        }
+
+        else {
+            showButton = true;
+            itemCount = maxCount;
+            return itemCount + 1;
+        }
+    }
 
     @Override
     public long getItemId(int position) {return position;}
@@ -63,79 +86,87 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
 
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_frg_transaction, parent, false);
-        return new ViewHolder(view);
+    public MainViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+        switch (viewType) {
+
+            case CONTENT_TYPE: {
+                return new ViewHolderItem(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_frg_transaction, parent, false));
+            }
+            case BUTTON_TYPE: {
+                return new ViewHolderButton(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_button_show_more, parent, false));
+            }
+        }
+
+        return null;
     }
 
+
+
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
+    public void onBindViewHolder(final MainViewHolder holder, final int position) {
 
-        final int PRECISE = 100;
-        final String FORMAT = "###,##0.00";
-        final String DATEFORMAT = "dd.MM.yyyy";
+        if (holder instanceof ViewHolderItem) {
 
-        Transaction transaction = getTransaction(position);
+            ViewHolderItem holderItem = (ViewHolderItem) holder;
 
-        holder.tvTransAccountName.setText(transaction.getAccountName());
-        holder.tvTransDate.setText(DateFormatUtils.longToDateString(transaction.getDate(), DATEFORMAT));
+            final int PRECISE = 100;
+            final String FORMAT = "###,##0.00";
+            final String DATEFORMAT = "dd.MM.yyyy";
 
-        String amount = DoubleFormatUtils.doubleToStringFormatter(transaction.getAmount(), FORMAT, PRECISE);
+            Transaction transaction = getTransaction(position);
 
-        String cur = transaction.getCurrency();
+            holderItem.tvTransAccountName.setText(transaction.getAccountName());
+            holderItem.tvTransDate.setText(DateFormatUtils.longToDateString(transaction.getDate(), DATEFORMAT));
 
-        String curLang = null;
+            String amount = DoubleFormatUtils.doubleToStringFormatter(transaction.getAmount(), FORMAT, PRECISE);
 
-        for (int i = 0; i < curArray.length; i++) {
-            if (cur.equals(curArray[i])) {
-                curLang = curLangArray[i];
-                break;
+            String cur = transaction.getCurrency();
+
+            String curLang = null;
+
+            for (int i = 0; i < curArray.length; i++) {
+                if (cur.equals(curArray[i])) {
+                    curLang = curLangArray[i];
+                    break;
+                }
             }
+
+            if (amount.contains("-")) {
+                holderItem.tvTransAmount.setText(amount + " " + curLang);
+                holderItem.tvTransAmount.setTextColor(context.getResources().getColor(R.color.custom_red));
+            } else {
+                holderItem.tvTransAmount.setText("+" + amount + " " + curLang);
+                holderItem.tvTransAmount.setTextColor(context.getResources().getColor(R.color.custom_green));
+            }
+
+            holderItem.ivTransCategory.setImageDrawable(catIconsArray.getDrawable(transaction.getCategory()));
+
+            holderItem.ivTransAccountType.setImageDrawable(typeIconsArray.getDrawable(transaction.getAccountType()));
+
+
+            holderItem.mView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    setPosition(position);
+                    return false;
+                }
+            });
         }
 
+        else if (holder instanceof ViewHolderButton){
 
-        if (amount.contains("-")) {
-            holder.tvTransAmount.setText(amount + " " + curLang);
-            holder.tvTransAmount.setTextColor(context.getResources().getColor(R.color.custom_red));
+            ViewHolderButton holderButton = (ViewHolderButton) holder;
+
+            holderButton.btnShowMore.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    maxCount += 30;
+                    notifyDataSetChanged();
+                }
+            });
+
         }
-        else {
-            holder.tvTransAmount.setText("+" + amount + " " + curLang);
-            holder.tvTransAmount.setTextColor(context.getResources().getColor(R.color.custom_green));
-        }
-
-        /*String cat = transaction.getCategory();
-
-        for (int i = 0; i < catArray.length; i++) {
-            if (catArray[i].equals(cat)) {
-                holder.ivTransCategory.setImageDrawable(catIconsArray.getDrawable(i));
-                break;
-            }
-        }
-
-        String type = transaction.getAccountType();
-
-        for (int i = 0; i < typeArray.length; i++) {
-            if (typeArray[i].equals(type)) {
-                holder.ivTransAccountType.setImageDrawable(typeIconsArray.getDrawable(i));
-                break;
-            }
-        }*/
-
-
-        holder.ivTransCategory.setImageDrawable(catIconsArray.getDrawable(transaction.getCategory()));
-
-        holder.ivTransAccountType.setImageDrawable(typeIconsArray.getDrawable(transaction.getAccountType()));
-
-
-
-
-        holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                setPosition(position);
-                return false;
-            }
-        });
     }
 
 
@@ -148,7 +179,13 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
     }
 
 
-    static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
+    static class MainViewHolder extends RecyclerView.ViewHolder {
+        public MainViewHolder (View view) {
+            super (view);
+        }
+    }
+
+    static class ViewHolderItem extends MainViewHolder implements View.OnCreateContextMenuListener {
         private final View mView;
         private final TextView tvTransAmount;
         private final TextView tvTransAccountName;
@@ -157,7 +194,7 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
         private final ImageView ivTransAccountType;
 
 
-        public ViewHolder(View view) {
+        public ViewHolderItem(View view) {
             super(view);
             mView = view;
             tvTransAmount = (TextView) view.findViewById(R.id.tvItemTransactionAmount);
@@ -174,6 +211,18 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             menu.add(Menu.NONE, R.id.ctx_menu_edit_transaction, 1, R.string.edit);
             menu.add(Menu.NONE, R.id.ctx_menu_delete_transaction, 2, R.string.delete);
+        }
+    }
+
+
+    static class ViewHolderButton extends MainViewHolder {
+        //private final View mView;
+        private final Button btnShowMore;
+
+        public ViewHolderButton(View view) {
+            super(view);
+            //mView = view;
+            btnShowMore = (Button) view.findViewById(R.id.btnItemShowMore);
         }
     }
 }

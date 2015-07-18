@@ -168,10 +168,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
             double accountAmountFrom = accountFrom.getAmount();
 
             if (amount > accountAmountFrom) {
-                /*Toast.makeText(getActivity(),
-                        getResources().getString(R.string.not_enough_costs), Toast.LENGTH_SHORT).show();*/
-                ToastUtils.showClosableToast(getActivity(),
-                        getResources().getString(R.string.not_enough_costs), 1);
+                ToastUtils.showClosableToast(getActivity(), getString(R.string.not_enough_costs), 1);
 
             } else {
 
@@ -225,8 +222,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
         if (!s.matches(".*\\d.*") || Double.parseDouble(s) == 0) {
             ShakeEditText.highlightEditText(et);
-            //Toast.makeText(getActivity(), getResources().getString(strRes), Toast.LENGTH_SHORT).show();
-            ToastUtils.showClosableToast(getActivity(), getResources().getString(strRes), 1);
+            ToastUtils.showClosableToast(getActivity(), getString(strRes), 1);
 
         return false;
         }

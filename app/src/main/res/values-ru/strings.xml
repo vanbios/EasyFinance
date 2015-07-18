@@ -37,13 +37,20 @@
     <string name="return_to_main">На главную</string>
 
 
-    <string name="export_db">Backup DB</string>
-    <string name="import_db">Import DB</string>
-    <string name="export_db_summary">Click here to backup DB</string>
-    <string name="import_db_summary">Click here to import DB</string>
+    <string name="export_db">Резервное копирование БД</string>
+    <string name="import_db">Импорт БД</string>
+    <string name="export_db_summary">Нажмите для резервного копирования БД</string>
+    <string name="import_db_summary">Нажмите для импорта БД</string>
 
-    <string name="browse_db_to_import">Click here to browse DB file</string>
-    <string name="import_db_button">Import</string>
+    <string name="browse_db_to_import">Нажмите, чтобы выбрать файл БД</string>
+
+    <string name="import_complete">Импорт успешно завершен!</string>
+    <string name="import_error">Что-то пошло не так. Попробуйте позже</string>
+
+    <string name="import_wrong_file_type">Неверный тип файла. Попробуйте другой</string>
+    <string name="import_no_file_explorer">У Вас нет ни одного файлового менеджера!</string>
+
+    <string name="view_more">Показать еще</string>
 
 
 

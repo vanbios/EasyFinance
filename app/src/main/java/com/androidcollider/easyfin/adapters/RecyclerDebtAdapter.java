@@ -53,7 +53,7 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_debt, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_frg_debt, parent, false);
         return new ViewHolder(view);
     }
 

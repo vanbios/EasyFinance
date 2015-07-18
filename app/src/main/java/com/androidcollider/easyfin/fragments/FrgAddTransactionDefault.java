@@ -34,7 +34,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-public class FrgAddTransactionDefault extends Fragment implements View.OnClickListener {
+public class FrgAddTransactionDefault extends Fragment {
 
     private TextView tvDate;
     private DatePickerDialog datePickerDialog;
@@ -122,7 +122,6 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
         if (mode == 1) {
 
             String accountName = transFromIntent.getAccountName();
-            //String category = transFromIntent.getCategory();
 
             for (int i = 0; i < accountList.size(); i++) {
 
@@ -134,14 +133,6 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
                 }
             }
             spinAccount.setEnabled(false);
-
-            /*for (int j = 0; j < categoryArray.length; j++) {
-
-                if (categoryArray[j].equals(category)) {
-                    spinCategory.setSelection(j);
-                    break;
-                }
-            }*/
 
             spinCategory.setSelection(transFromIntent.getCategory());
         }
@@ -174,9 +165,7 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
 
         if (! sum.matches(".*\\d.*") || Double.parseDouble(sum) == 0) {
             ShakeEditText.highlightEditText(etSum);
-            //Toast.makeText(getActivity(), getResources().getString(R.string.empty_amount_field), Toast.LENGTH_SHORT).show();
-            ToastUtils.showClosableToast(getActivity(),
-                    getResources().getString(R.string.empty_amount_field), 1);
+            ToastUtils.showClosableToast(getActivity(), getString(R.string.empty_amount_field), 1);
         }
 
         else {
@@ -200,14 +189,10 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
 
 
             if (rbCost.isChecked() && Math.abs(amount) > accountAmount) {
-                /*Toast.makeText(getActivity(),
-                        getResources().getString(R.string.not_enough_costs), Toast.LENGTH_SHORT).show();*/
-            ToastUtils.showClosableToast(getActivity(),
-                    getResources().getString(R.string.not_enough_costs), 1);}
+            ToastUtils.showClosableToast(getActivity(), getString(R.string.not_enough_costs), 1);}
             else {
                 accountAmount += amount;
 
-                //String category = spinCategory.getSelectedItem().toString();
                 int category = spinCategory.getSelectedItemPosition();
                 int idAccount = account.getId();
 
@@ -233,7 +218,12 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
     }
 
     private void setDateTimeField() {
-        tvDate.setOnClickListener(this);
+        tvDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                datePickerDialog.show();
+            }
+        });
 
         Calendar newCalendar = Calendar.getInstance();
 
@@ -251,9 +241,7 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
                 newDate.set(year, monthOfYear, dayOfMonth);
 
                 if (newDate.getTimeInMillis() > System.currentTimeMillis()) {
-                    //Toast.makeText(getActivity(), R.string.transaction_date_future, Toast.LENGTH_SHORT).show();
-                    ToastUtils.showClosableToast(getActivity(),
-                            getResources().getString(R.string.transaction_date_future), 1);
+                    ToastUtils.showClosableToast(getActivity(), getString(R.string.transaction_date_future), 1);
 
                 } else {
 
@@ -263,14 +251,6 @@ public class FrgAddTransactionDefault extends Fragment implements View.OnClickLi
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
-    }
-
-    @Override
-    public void onClick(View view) {
-
-        switch (view.getId()) {
-            case R.id.tvTransactionDate: {datePickerDialog.show(); break;}
-        }
     }
 
     private void pushBroadcast() {

@@ -50,8 +50,6 @@ public class FrgMain extends CommonFragment {
 
         view = inflater.inflate(R.layout.frg_main, container, false);
 
-        //InfoFromDB.getInstance().updateRatesForExchange();
-
         setViewPager();
 
         FloatingActionButton faButton = (FloatingActionButton) view.findViewById(R.id.btnFloatMain);

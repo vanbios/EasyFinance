@@ -219,9 +219,8 @@ public class FrgHome extends Fragment implements View.OnClickListener{
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+            public void onNothingSelected(AdapterView<?> adapterView) {}
 
-            }
         });
 
     }

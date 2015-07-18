@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -26,12 +25,9 @@ public class FrgPref extends PreferenceFragment {
 
     private static final int FILE_SELECT_CODE = 0;
 
-    private final String TAG = "COLLIDER";
-
     private static Uri uri;
 
     private static final Context context = AppController.getContext();
-
 
     private MaterialDialog importDialog;
     private TextView tvBrowseDB;
@@ -45,6 +41,10 @@ public class FrgPref extends PreferenceFragment {
         buildImportDialog();
         initializeImportDialogViews();
 
+        initializePrefs();
+    }
+
+    private void initializePrefs() {
 
         Preference exportDB = findPreference("export_db");
         exportDB.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -52,7 +52,6 @@ public class FrgPref extends PreferenceFragment {
             public boolean onPreferenceClick(Preference preference) {
 
                 DBExportImportUtils.backupDB();
-
                 return false;
             }
         });
@@ -64,12 +63,10 @@ public class FrgPref extends PreferenceFragment {
             public boolean onPreferenceClick(Preference preference) {
 
                 importDialog.show();
-
                 return false;
             }
         });
     }
-
 
     private void buildImportDialog() {
 
@@ -121,11 +118,11 @@ public class FrgPref extends PreferenceFragment {
                     Intent.createChooser(intent, "Select a File to Upload"),
                     FILE_SELECT_CODE);
         } catch (android.content.ActivityNotFoundException ex) {
-            // Potentially direct the user to the Market with a Dialog
+
+            ToastUtils.showClosableToast(context, getString(R.string.import_no_file_explorer), 2);
 
         }
     }
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -138,17 +135,15 @@ public class FrgPref extends PreferenceFragment {
 
                     // Get the Uri of the selected file
                     uri = data.getData();
-                    Log.d(TAG, "File Uri: " + uri.toString());
 
                     if (!uri.toString().contains(DbHelper.DATABASE_NAME)) {
-                        ToastUtils.showClosableToast(context, "Wrong file type. Try again", 2);
+                        ToastUtils.showClosableToast(context, getString(R.string.import_wrong_file_type), 2);
 
                     } else {
 
                         try {
 
                             String path = uri.getPath();
-                            Log.d(TAG, "File Path: " + uri.getPath());
                             tvBrowseDB.setText(path);
                             btnImportDB.setEnabled(true);
 
@@ -161,7 +156,6 @@ public class FrgPref extends PreferenceFragment {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
 
     private void importDB() {
 
@@ -176,15 +170,14 @@ public class FrgPref extends PreferenceFragment {
         }
 
         if (importDB) {
-            ToastUtils.showClosableToast(context, "DONE!", 2);
+            ToastUtils.showClosableToast(context, getString(R.string.import_complete), 2);
             pushBroadcast();
         }
 
         else {
-            ToastUtils.showClosableToast(context, "ERROR!", 2);
+            ToastUtils.showClosableToast(context, getString(R.string.import_error), 2);
         }
     }
-
 
     private void pushBroadcast() {
 
@@ -208,8 +201,6 @@ public class FrgPref extends PreferenceFragment {
 
         InfoFromDB.getInstance().updateAccountList();
     }
-
-
 
     @Override
     public String getTitle() {

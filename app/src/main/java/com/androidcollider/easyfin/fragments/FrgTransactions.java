@@ -44,6 +44,7 @@ public class FrgTransactions extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.frg_transactions, container, false);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerTransaction);
@@ -65,7 +66,8 @@ public class FrgTransactions extends Fragment {
 
         setVisibility();
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(recyclerView.getContext());
+        recyclerView.setLayoutManager(layoutManager);
         recyclerAdapter = new RecyclerTransactionAdapter(getActivity(), transactionList);
         recyclerView.setAdapter(recyclerAdapter);
     }
