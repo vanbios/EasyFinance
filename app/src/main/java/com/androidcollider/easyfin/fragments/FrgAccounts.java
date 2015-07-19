@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.androidcollider.easyfin.ActAccount;
 import com.androidcollider.easyfin.R;
 
 import com.androidcollider.easyfin.adapters.RecyclerAccountAdapter;
@@ -26,7 +24,7 @@ import com.androidcollider.easyfin.objects.InfoFromDB;
 import java.util.ArrayList;
 
 
-public class FrgAccounts extends Fragment {
+public class FrgAccounts extends CommonFragment {
 
     public final static String BROADCAST_FRG_ACCOUNT_ACTION = "com.androidcollider.easyfin.frgaccount.broadcast";
     public final static String PARAM_STATUS_FRG_ACCOUNT = "update_frg_account";
@@ -162,13 +160,15 @@ public class FrgAccounts extends Fragment {
     }
 
     private void goToActAccount(int pos){
-        Intent intent = new Intent(getActivity(), ActAccount.class);
-
         Account account = accountList.get(pos);
 
-        intent.putExtra("account", account);
-        intent.putExtra("mode", 1);
-        startActivity(intent);
+        FrgAddAccount frgAddAccount = new FrgAddAccount();
+        Bundle arguments = new Bundle();
+        arguments.putInt("mode", 1);
+        arguments.putSerializable("account", account);
+        frgAddAccount.setArguments(arguments);
+
+        addFragment(frgAddAccount);
     }
 
     private void deleteAccount(int pos) {
@@ -196,6 +196,11 @@ public class FrgAccounts extends Fragment {
         Intent intentFrgMain = new Intent(FrgHome.BROADCAST_FRG_MAIN_ACTION);
         intentFrgMain.putExtra(FrgHome.PARAM_STATUS_FRG_MAIN, FrgHome.STATUS_UPDATE_FRG_MAIN_BALANCE);
         getActivity().sendBroadcast(intentFrgMain);
+    }
+
+    @Override
+    public String getTitle() {
+        return getString(R.string.app_name);
     }
 
 }

@@ -67,7 +67,7 @@ public abstract class CommonFragment extends Fragment {
     }
 
     protected void popAll(){
-        getFragmentManager().popBackStack(0, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        getFragmentManager().popBackStack(1, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 
     public abstract String getTitle();

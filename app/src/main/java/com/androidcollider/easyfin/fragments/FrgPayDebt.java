@@ -1,4 +1,4 @@
-package com.androidcollider.easyfin;
+package com.androidcollider.easyfin.fragments;
 
 
 import android.content.Intent;
@@ -7,30 +7,33 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinAccountForTransHeadIconAdapter;
-import com.androidcollider.easyfin.fragments.FrgAccounts;
-import com.androidcollider.easyfin.fragments.FrgDebts;
-import com.androidcollider.easyfin.fragments.FrgHome;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.Debt;
 import com.androidcollider.easyfin.objects.InfoFromDB;
-import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
+import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
 import com.androidcollider.easyfin.utils.HideKeyboardUtils;
 import com.androidcollider.easyfin.utils.ShakeEditText;
 import com.androidcollider.easyfin.utils.ToastUtils;
 
 import java.util.ArrayList;
 
-public class ActPayDebt extends AppCompatActivity {
+
+
+public class FrgPayDebt extends CommonFragmentAddEdit {
+
+    private View view;
 
     private TextView tvDebtName;
     private EditText etSum;
@@ -43,24 +46,21 @@ public class ActPayDebt extends AppCompatActivity {
     private int mode;
 
 
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_pay_debt);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        Intent intent = getIntent();
-        mode = intent.getIntExtra("mode", 1);
-        debt = (Debt) intent.getSerializableExtra("debt");
+        view = inflater.inflate(R.layout.frg_pay_debt, container, false);
 
-        switch (mode) {
-            case 1: {setToolbar(R.string.pay_all_debt); break;}
-            case 2: {setToolbar(R.string.pay_part_debt); break;}
-            case 3: {setToolbar(R.string.take_more_debt); break;}
-        }
+        mode = getArguments().getInt("mode", 0);
+        debt = (Debt) getArguments().getSerializable("debt");
+
+        setToolbar();
 
         fillAvailableAccountsList();
 
-        CardView cardView = (CardView) findViewById(R.id.cardPayDebtElements);
+        CardView cardView = (CardView) view.findViewById(R.id.cardPayDebtElements);
 
         if (accountsAvailableList.isEmpty()) {
             cardView.setVisibility(View.GONE);
@@ -75,16 +75,20 @@ public class ActPayDebt extends AppCompatActivity {
 
             setView();
 
-            HideKeyboardUtils.setupUI(findViewById(R.id.layoutActPayDebtParent), this);
+            HideKeyboardUtils.setupUI(view.findViewById(R.id.layoutActPayDebtParent), getActivity());
         }
+
+        return view;
     }
 
+
     private void initializeView() {
-        tvDebtName = (TextView) findViewById(R.id.tvPayDebtName);
-        etSum = (EditText) findViewById(R.id.editTextPayDebtSum);
+        tvDebtName = (TextView) view.findViewById(R.id.tvPayDebtName);
+        etSum = (EditText) view.findViewById(R.id.editTextPayDebtSum);
         etSum.addTextChangedListener(new EditTextAmountWatcher(etSum));
-        spinAccount = (Spinner) findViewById(R.id.spinPayDebtAccount);
+        spinAccount = (Spinner) view.findViewById(R.id.spinPayDebtAccount);
     }
+
 
     private void setView() {
 
@@ -104,7 +108,7 @@ public class ActPayDebt extends AppCompatActivity {
 
 
         spinAccount.setAdapter(new SpinAccountForTransHeadIconAdapter(
-                this,
+                getActivity(),
                 R.layout.spin_head_icon_text,
                 accountsAvailableList));
 
@@ -156,6 +160,8 @@ public class ActPayDebt extends AppCompatActivity {
         }
     }
 
+
+
     private void payAllDebt(){
 
         int idDebt = debt.getId();
@@ -190,7 +196,7 @@ public class ActPayDebt extends AppCompatActivity {
 
             if (amountDebt > amountAllDebt) {
                 ShakeEditText.highlightEditText(etSum);
-                ToastUtils.showClosableToast(this, getString(R.string.debt_sum_more_then_amount), 1);
+                ToastUtils.showClosableToast(getActivity(), getString(R.string.debt_sum_more_then_amount), 1);
 
             } else {
 
@@ -203,7 +209,7 @@ public class ActPayDebt extends AppCompatActivity {
 
                 if (type == 1 && amountDebt > amountAccount) {
                     ShakeEditText.highlightEditText(etSum);
-                    ToastUtils.showClosableToast(this, getString(R.string.not_enough_costs), 1);
+                    ToastUtils.showClosableToast(getActivity(), getString(R.string.not_enough_costs), 1);
 
                 } else {
 
@@ -255,7 +261,7 @@ public class ActPayDebt extends AppCompatActivity {
 
             if (type == 0 && amountDebt > amountAccount) {
                 ShakeEditText.highlightEditText(etSum);
-                ToastUtils.showClosableToast(this, getString(R.string.not_enough_costs), 1);
+                ToastUtils.showClosableToast(getActivity(), getString(R.string.not_enough_costs), 1);
 
             } else {
 
@@ -285,7 +291,7 @@ public class ActPayDebt extends AppCompatActivity {
 
         if (! s.matches(".*\\d.*") || Double.parseDouble(s) == 0) {
             ShakeEditText.highlightEditText(etSum);
-            ToastUtils.showClosableToast(this, getString(R.string.empty_amount_field), 1);
+            ToastUtils.showClosableToast(getActivity(), getString(R.string.empty_amount_field), 1);
 
             return false;
         }
@@ -302,75 +308,22 @@ public class ActPayDebt extends AppCompatActivity {
     private void pushBroadcast() {
         Intent intentFrgMain = new Intent(FrgHome.BROADCAST_FRG_MAIN_ACTION);
         intentFrgMain.putExtra(FrgHome.PARAM_STATUS_FRG_MAIN, FrgHome.STATUS_UPDATE_FRG_MAIN_BALANCE);
-        sendBroadcast(intentFrgMain);
+        getActivity().sendBroadcast(intentFrgMain);
 
         Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);
         intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
-        sendBroadcast(intentFrgAccounts);
+        getActivity().sendBroadcast(intentFrgAccounts);
 
         Intent intentDebt = new Intent(FrgDebts.BROADCAST_DEBT_ACTION);
         intentDebt.putExtra(FrgDebts.PARAM_STATUS_DEBT, FrgDebts.STATUS_UPDATE_DEBT);
-        sendBroadcast(intentDebt);
+        getActivity().sendBroadcast(intentDebt);
     }
 
-    private void setToolbar (int id) {
-        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbarMain);
-        setSupportActionBar(toolBar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle(id);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
 
-        toolBar.inflateMenu(R.menu.toolbar_debt_menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-
-            case android.R.id.home: {
-                this.finish();
-                return true;
-            }
-
-            case R.id.debt_action_save: {
-
-                switch (mode) {
-                    case 1: {
-                        payAllDebt();
-                        break;
-                    }
-                    case 2: {
-                        payPartDebt();
-                        break;
-                    }
-                    case 3: {
-                        takeMoreDebt();
-                        break;
-                    }
-                }
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.toolbar_debt_menu, menu);
-        MenuItem saveDebtItem = menu.findItem(R.id.debt_action_save);
-        saveDebtItem.setEnabled(true);
-
-        if (accountsAvailableList.isEmpty()) {
-            saveDebtItem.setVisible(false);}
-
-        return true;
-    }
 
     private void showDialogNoAccount() {
 
-        new MaterialDialog.Builder(this)
+        new MaterialDialog.Builder(getActivity())
                 .title(getString(R.string.no_account))
                 .content(getString(R.string.debt_no_available_accounts_warning))
                 .positiveText(getString(R.string.new_account))
@@ -382,22 +335,66 @@ public class ActPayDebt extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNegative(MaterialDialog dialog) { closeAct();}
+                    public void onNegative(MaterialDialog dialog) { finish();}
                 })
                 .cancelable(false)
                 .show();
     }
 
-    private void closeAct() {this.finish();}
-
     private void goToAddNewAccount() {
-        this.finish();
-        openAddAccountActivity();
+        finish();
+        FrgAddAccount frgAddAccount = new FrgAddAccount();
+        Bundle arguments = new Bundle();
+        arguments.putInt("mode", 0);
+        frgAddAccount.setArguments(arguments);
+
+        addFragment(frgAddAccount);
     }
 
-    private void openAddAccountActivity() {
-        Intent intent = new Intent(this, ActAccount.class);
-        startActivity(intent);
+    private void setToolbar() {
+
+        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+
+        if (actionBar != null) {
+
+            ViewGroup actionBarLayout = (ViewGroup) getActivity().getLayoutInflater().inflate(
+                    R.layout.save_close_buttons_toolbar, null);
+
+            ActionBar.LayoutParams layoutParams = new ActionBar.LayoutParams(
+                    ActionBar.LayoutParams.MATCH_PARENT,
+                    ActionBar.LayoutParams.MATCH_PARENT);
+
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setDisplayShowCustomEnabled(true);
+            actionBar.setCustomView(actionBarLayout, layoutParams);
+
+            Toolbar parent = (Toolbar) actionBarLayout.getParent();
+            parent.setContentInsetsAbsolute(0, 0);
+
+
+            Button btnSave = (Button) actionBarLayout.findViewById(R.id.btnToolbarSave);
+            Button btnClose = (Button) actionBarLayout.findViewById(R.id.btnToolbarClose);
+
+            btnSave.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    switch (mode) {
+                        case 1: {payAllDebt(); break;}
+                        case 2: {payPartDebt(); break;}
+                        case 3: {takeMoreDebt(); break;}
+                    }
+                }
+            });
+
+            btnClose.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+        }
     }
 
 }

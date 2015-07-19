@@ -21,6 +21,8 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.fragments.CommonFragment;
+import com.androidcollider.easyfin.fragments.CommonFragmentAddEdit;
+import com.androidcollider.easyfin.fragments.FrgAddAccount;
 import com.androidcollider.easyfin.fragments.FrgDebts;
 import com.androidcollider.easyfin.fragments.FrgFAQ;
 import com.androidcollider.easyfin.fragments.FrgMain;
@@ -37,6 +39,13 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     private static long backPressExitTime;
 
+    private Toolbar toolbar;
+
+    //private ViewGroup actionBarLayout;
+
+    private final int TOOLBAR_DEFAULT = 1;
+    //private final int TOOLBAR_SAVE_CANCEL = 2;
+
 
 
     @Override
@@ -49,27 +58,54 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
         InfoFromDB.getInstance().updateRatesForExchange();
 
-        setToolbar(R.string.app_name);
+        initializeViews();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
-        if (navigationView != null) {
-            setupDrawerContent(navigationView);
-        }
+        setToolbar(getString(R.string.app_name), TOOLBAR_DEFAULT);
 
         buildAppAboutDialog();
 
         addFragment(new FrgMain());
     }
 
-    private void setToolbar (int id) {
-        Toolbar toolBar = (Toolbar) findViewById(R.id.toolbarMain);
-        setSupportActionBar(toolBar);
+    private void initializeViews() {
+        toolbar = (Toolbar) findViewById(R.id.toolbarMain);
+        setSupportActionBar(toolbar);
+
+        //actionBarLayout = (ViewGroup) getLayoutInflater().inflate(R.layout.save_close_buttons_toolbar, null);
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
+        if (navigationView != null) {
+            setupDrawerContent(navigationView);
+        }
+    }
+
+    private void setToolbar (String title, int mode) {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle(id);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            toolBar.setNavigationIcon(R.drawable.ic_menu);
-            mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+            switch (mode) {
+
+                case TOOLBAR_DEFAULT: {
+                    actionBar.setDisplayShowCustomEnabled(false);
+                    actionBar.setDisplayShowTitleEnabled(true);
+                    actionBar.setTitle(title);
+                    actionBar.setDisplayHomeAsUpEnabled(true);
+                    toolbar.setNavigationIcon(R.drawable.ic_menu);
+                    break;
+                }
+                /*case TOOLBAR_SAVE_CANCEL: {
+                    ActionBar.LayoutParams layoutParams = new ActionBar.LayoutParams(
+                            ActionBar.LayoutParams.MATCH_PARENT,
+                            ActionBar.LayoutParams.MATCH_PARENT);
+                    actionBar.setDisplayShowTitleEnabled(false);
+                    actionBar.setDisplayHomeAsUpEnabled(false);
+                    actionBar.setDisplayShowCustomEnabled(true);
+                    actionBar.setCustomView(actionBarLayout, layoutParams);
+                    break;
+                }*/
+            }
         }
     }
 
@@ -192,25 +228,21 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     @Override
     public void onBackStackChanged() {
-        int cnt = getSupportFragmentManager().getBackStackEntryCount();
-
-        Log.d("COLLIDER", String.valueOf(cnt));
-
-        ActionBar actionBar = getSupportActionBar();
-
-        if (actionBar != null) {
-
-            actionBar.setDisplayHomeAsUpEnabled(cnt > 0);
 
             Fragment topFragment = getTopFragment();
 
-            if (topFragment instanceof CommonFragment) {
-                actionBar.setTitle(((CommonFragment) topFragment).getTitle());
+            if (topFragment instanceof CommonFragmentAddEdit) {
+                //setToolbar((((CommonFragment) topFragment).getTitle()), TOOLBAR_SAVE_CANCEL);
+                Log.d("COLLIDER", "CommonFragmentAddEdit");
+            }
+
+            else if (topFragment instanceof CommonFragment) {
+                setToolbar((((CommonFragment) topFragment).getTitle()), TOOLBAR_DEFAULT);
+                Log.d("COLLIDER", "CommonFragment");
             }
             else if (topFragment instanceof PreferenceFragment) {
-                actionBar.setTitle(((PreferenceFragment) topFragment).getTitle());
+                setToolbar((((PreferenceFragment) topFragment).getTitle()), TOOLBAR_DEFAULT);
             }
-        }
 
         hideKeyboard();
     }
@@ -225,6 +257,10 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     private void popFragments() {
         getSupportFragmentManager().popBackStackImmediate(1, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    }
+
+    private void popFragment() {
+        getSupportFragmentManager().popBackStack();
     }
 
     @Override
@@ -243,6 +279,16 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                 ToastUtils.showClosableToast(this, getString(R.string.press_again_to_exit), 1);
                 backPressExitTime = System.currentTimeMillis();
             }
+        }
+
+        else if (fragment instanceof FrgAddAccount) {
+
+            popFragments();
+        }
+
+        else if (fragment instanceof CommonFragmentAddEdit) {
+
+            popFragment();
         }
 
         else {

@@ -16,8 +16,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.androidcollider.easyfin.ActAddDebt;
-import com.androidcollider.easyfin.ActPayDebt;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.RecyclerDebtAdapter;
 import com.androidcollider.easyfin.objects.Debt;
@@ -61,7 +59,7 @@ public class FrgDebts extends CommonFragment {
         faButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               goToAddDebtAct();
+               goToAddDebt();
             }
         });
 
@@ -69,7 +67,6 @@ public class FrgDebts extends CommonFragment {
 
         return view;
     }
-
 
     private void setItemDebt() {
 
@@ -81,8 +78,6 @@ public class FrgDebts extends CommonFragment {
         recyclerAdapter = new RecyclerDebtAdapter(getActivity(), debtList);
         recyclerView.setAdapter(recyclerAdapter);
     }
-
-
 
     private void setVisibility() {
         if (debtList.isEmpty()) {
@@ -106,13 +101,14 @@ public class FrgDebts extends CommonFragment {
         return false;
     }
 
-    private void goToAddDebtAct() {
-        Intent intent = new Intent(getActivity(), ActAddDebt.class);
-        intent.putExtra("mode", 0);
-        startActivity(intent);
+    private void goToAddDebt() {
+        FrgAddDebt frgAddDebt = new FrgAddDebt();
+        Bundle arguments = new Bundle();
+        arguments.putInt("mode", 0);
+        frgAddDebt.setArguments(arguments);
+
+        addFragment(frgAddDebt);
     }
-
-
 
     private void makeBroadcastReceiver() {
         broadcastReceiver = new BroadcastReceiver() {
@@ -143,8 +139,6 @@ public class FrgDebts extends CommonFragment {
         getActivity().unregisterReceiver(broadcastReceiver);
     }
 
-
-
     public boolean onContextItemSelected(MenuItem item) {
         int pos;
 
@@ -157,19 +151,19 @@ public class FrgDebts extends CommonFragment {
         switch (item.getItemId()) {
 
             case R.id.ctx_menu_pay_all_debt: {
-                goToActPayDebt(pos, 1);
+                goToPayDebt(pos, 1);
                 break;}
 
             case R.id.ctx_menu_pay_part_debt: {
-                goToActPayDebt(pos, 2);
+                goToPayDebt(pos, 2);
                 break;}
 
             case R.id.ctx_menu_take_more_debt: {
-                goToActPayDebt(pos, 3);
+                goToPayDebt(pos, 3);
                 break;}
 
             case R.id.ctx_menu_edit_debt: {
-                editDebtAct(pos, 1);
+                goToEditDebt(pos, 1);
                 break;
             }
 
@@ -180,8 +174,6 @@ public class FrgDebts extends CommonFragment {
 
         return super.onContextItemSelected(item);
     }
-
-
 
     private void showDialogDeleteDebt(final int pos) {
 
@@ -236,24 +228,28 @@ public class FrgDebts extends CommonFragment {
         getActivity().sendBroadcast(intentFrgAccounts);
     }
 
-    private void goToActPayDebt(int pos, int mode){
-        Intent intent = new Intent(getActivity(), ActPayDebt.class);
-
+    private void goToPayDebt(int pos, int mode){
         Debt debt = debtList.get(pos);
 
-        intent.putExtra("debt", debt);
-        intent.putExtra("mode", mode);
-        startActivity(intent);
+        FrgPayDebt frgPayDebt = new FrgPayDebt();
+        Bundle arguments = new Bundle();
+        arguments.putInt("mode", mode);
+        arguments.putSerializable("debt", debt);
+        frgPayDebt.setArguments(arguments);
+
+        addFragment(frgPayDebt);
     }
 
-    public void editDebtAct(int pos, int mode) {
-        Intent intent = new Intent(getActivity(), ActAddDebt.class);
-
+    public void goToEditDebt(int pos, int mode) {
         Debt debt = debtList.get(pos);
 
-        intent.putExtra("debt", debt);
-        intent.putExtra("mode", mode);
-        startActivity(intent);
+        FrgAddDebt frgAddDebt = new FrgAddDebt();
+        Bundle arguments = new Bundle();
+        arguments.putInt("mode", mode);
+        arguments.putSerializable("debt", debt);
+        frgAddDebt.setArguments(arguments);
+
+        addFragment(frgAddDebt);
     }
 
     @Override

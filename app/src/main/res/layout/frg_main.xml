@@ -50,14 +50,58 @@
 
 
         <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnFloatAddTransBTW"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_trans_btw_white_48dp"
+            android:layout_marginRight="@dimen/common_padding_xlarge"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="200dp"
+            app:borderWidth="0dp"
+            app:fabSize="mini"
+            app:backgroundTint="@color/custom_indigo"
+            android:visibility="gone"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnFloatAddTransIncome"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_plus_white_48dp"
+            android:layout_marginRight="@dimen/common_padding_xlarge"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="144dp"
+            app:borderWidth="0dp"
+            app:fabSize="mini"
+            app:backgroundTint="@color/custom_green"
+            android:visibility="gone"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnFloatAddTransExpense"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_minus_white_48dp"
+            android:layout_marginRight="@dimen/common_padding_xlarge"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="88dp"
+            app:borderWidth="0dp"
+            app:fabSize="mini"
+            app:backgroundTint="@color/custom_red"
+            android:visibility="gone"/>
+
+
+
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/btnFloatMain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
             android:layout_margin="@dimen/common_padding_large"
             android:src="@drawable/ic_plus_white_48dp"
-            app:borderWidth="0dp"/>
-
+            app:borderWidth="0dp"
+            app:fabSize="normal"/>
 
     </android.support.design.widget.CoordinatorLayout>
 </RelativeLayout>

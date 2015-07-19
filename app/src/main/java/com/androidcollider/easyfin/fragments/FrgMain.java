@@ -16,8 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.androidcollider.easyfin.ActAccount;
-import com.androidcollider.easyfin.ActTransaction;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.MyFragmentPagerAdapter;
 import com.androidcollider.easyfin.objects.InfoFromDB;
@@ -43,6 +41,8 @@ public class FrgMain extends CommonFragment {
     private View view;
     private ViewPager pager;
 
+    private FloatingActionButton faButtonMain, faButtonExpense, faButtonIncome, faButtonBTW;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,11 +52,39 @@ public class FrgMain extends CommonFragment {
 
         setViewPager();
 
-        FloatingActionButton faButton = (FloatingActionButton) view.findViewById(R.id.btnFloatMain);
-        faButton.setOnClickListener(new View.OnClickListener() {
+        faButtonMain = (FloatingActionButton) view.findViewById(R.id.btnFloatMain);
+        faButtonMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checkPageNum();
+            }
+        });
+
+        faButtonExpense = (FloatingActionButton) view.findViewById(R.id.btnFloatAddTransExpense);
+        faButtonIncome = (FloatingActionButton) view.findViewById(R.id.btnFloatAddTransIncome);
+        faButtonBTW = (FloatingActionButton) view.findViewById(R.id.btnFloatAddTransBTW);
+
+        faButtonExpense.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addTransaction();
+                setFloatButtonsVisibility();
+            }
+        });
+
+        faButtonIncome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addTransaction();
+                setFloatButtonsVisibility();
+            }
+        });
+
+        faButtonBTW.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addTransBTW();
+                setFloatButtonsVisibility();
             }
         });
 
@@ -84,6 +112,30 @@ public class FrgMain extends CommonFragment {
 
         pager.setAdapter(adapterPager);
         pager.setOffscreenPageLimit(3);
+
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                if (position == 2 && faButtonExpense.getVisibility() == View.VISIBLE) {
+
+                    faButtonExpense.setVisibility(View.GONE);
+                    faButtonIncome.setVisibility(View.GONE);
+                    faButtonBTW.setVisibility(View.GONE);
+                    faButtonMain.setImageResource(R.drawable.ic_plus_white_48dp);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         TabLayout tabs = (TabLayout) view.findViewById(R.id.tabsMain);
 
@@ -145,21 +197,50 @@ public class FrgMain extends CommonFragment {
     public void checkPageNum(){
         switch (pager.getCurrentItem()) {
             case 0:
-            case 1: addTransaction(); break;
-            case 2: addAccount(); break;
+            case 1: {setFloatButtonsVisibility(); break;}
+            case 2: {addAccount(); break;}
         }
     }
 
+    private void setFloatButtonsVisibility() {
+
+        if (faButtonExpense.getVisibility() == View.GONE) {
+
+            faButtonExpense.setVisibility(View.VISIBLE);
+            faButtonIncome.setVisibility(View.VISIBLE);
+            faButtonBTW.setVisibility(View.VISIBLE);
+            faButtonMain.setImageResource(R.drawable.ic_close_white_24dp);
+        }
+
+        else {
+
+            faButtonExpense.setVisibility(View.GONE);
+            faButtonIncome.setVisibility(View.GONE);
+            faButtonBTW.setVisibility(View.GONE);
+            faButtonMain.setImageResource(R.drawable.ic_plus_white_48dp);
+        }
+
+    }
+
     private void addTransaction() {
-        Intent intent = new Intent(getActivity(), ActTransaction.class);
-        intent.putExtra("mode", 0);
-        startActivity(intent);
+        FrgAddTransactionDefault frgAddTransDef = new FrgAddTransactionDefault();
+        Bundle arguments = new Bundle();
+        arguments.putInt("mode", 0);
+        frgAddTransDef.setArguments(arguments);
+        addFragment(frgAddTransDef);
+    }
+
+    private void addTransBTW() {
+        addFragment(new FrgAddTransactionBetweenAccounts());
     }
 
     private void addAccount() {
-        Intent intent = new Intent(getActivity(), ActAccount.class);
-        intent.putExtra("mode", 0);
-        startActivity(intent);
+        FrgAddAccount frgAddAccount = new FrgAddAccount();
+        Bundle arguments = new Bundle();
+        arguments.putInt("mode", 0);
+        frgAddAccount.setArguments(arguments);
+
+        addFragment(frgAddAccount);
     }
 
     private void showDialogNoAccount() {

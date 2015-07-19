@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.androidcollider.easyfin.ActTransaction;
 import com.androidcollider.easyfin.R;
 
 import com.androidcollider.easyfin.adapters.RecyclerTransactionAdapter;
@@ -25,7 +23,7 @@ import com.androidcollider.easyfin.objects.Transaction;
 import java.util.ArrayList;
 
 
-public class FrgTransactions extends Fragment {
+public class FrgTransactions extends CommonFragment {
 
     public final static String BROADCAST_FRG_TRANSACTION_ACTION = "com.androidcollider.easyfin.frgtransaction.broadcast";
     public final static String PARAM_STATUS_FRG_TRANSACTION = "update_frg_transaction";
@@ -163,13 +161,14 @@ public class FrgTransactions extends Fragment {
     }
 
     private void goToActTransaction(int pos){
-        Intent intent = new Intent(getActivity(), ActTransaction.class);
-
         Transaction transaction = transactionList.get(pos);
 
-        intent.putExtra("transaction", transaction);
-        intent.putExtra("mode", 1);
-        startActivity(intent);
+        FrgAddTransactionDefault frgAddTransDef = new FrgAddTransactionDefault();
+        Bundle arguments = new Bundle();
+        arguments.putInt("mode", 1);
+        arguments.putSerializable("transaction", transaction);
+        frgAddTransDef.setArguments(arguments);
+        addFragment(frgAddTransDef);
     }
 
     private void deleteTransaction(int pos) {
@@ -202,6 +201,11 @@ public class FrgTransactions extends Fragment {
         Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);
         intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
         getActivity().sendBroadcast(intentFrgAccounts);
+    }
+
+    @Override
+    public String getTitle() {
+        return getString(R.string.app_name);
     }
 
 }

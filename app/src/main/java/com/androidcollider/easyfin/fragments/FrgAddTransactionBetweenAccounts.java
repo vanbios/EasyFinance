@@ -3,15 +3,19 @@ package com.androidcollider.easyfin.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinAccountForTransAdapter;
 import com.androidcollider.easyfin.objects.Account;
@@ -26,7 +30,7 @@ import com.androidcollider.easyfin.utils.ToastUtils;
 import java.util.ArrayList;
 
 
-public class FrgAddTransactionBetweenAccounts extends Fragment {
+public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit {
 
     private Spinner spinAccountFrom, spinAccountTo;
 
@@ -47,17 +51,28 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frg_add_transaction_between_accounts, container, false);
 
-        etExchange = (EditText) view.findViewById(R.id.editTextTransBTWExchange);
-        etExchange.addTextChangedListener(new EditTextAmountWatcher(etExchange));
+        setToolbar();
 
-        etSum = (EditText) view.findViewById(R.id.editTextTransBTWSum);
-        etSum.addTextChangedListener(new EditTextAmountWatcher(etSum));
+        accountListFrom = InfoFromDB.getInstance().getAccountList();
 
-        layoutExchange = (RelativeLayout) view.findViewById(R.id.layoutAddTransBTWExchange);
+        if (accountListFrom.size() < 2) {
+            showDialogNoAccount();
+        }
 
-        setSpinners();
+        else {
 
-        HideKeyboardUtils.setupUI(view.findViewById(R.id.scrollAddTransBTW), getActivity());
+            etExchange = (EditText) view.findViewById(R.id.editTextTransBTWExchange);
+            etExchange.addTextChangedListener(new EditTextAmountWatcher(etExchange));
+
+            etSum = (EditText) view.findViewById(R.id.editTextTransBTWSum);
+            etSum.addTextChangedListener(new EditTextAmountWatcher(etSum));
+
+            layoutExchange = (RelativeLayout) view.findViewById(R.id.layoutAddTransBTWExchange);
+
+            setSpinners();
+
+            HideKeyboardUtils.setupUI(view.findViewById(R.id.scrollAddTransBTW), getActivity());
+        }
 
         return view;
     }
@@ -66,7 +81,6 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
         spinAccountFrom = (Spinner) view.findViewById(R.id.spinAddTransBTWAccountFrom);
         spinAccountTo = (Spinner) view.findViewById(R.id.spinAddTransBTWAccountTo);
 
-        accountListFrom = InfoFromDB.getInstance().getAccountList();
         accountListTo = new ArrayList<>();
 
         spinAccountFrom.setAdapter(new SpinAccountForTransAdapter(getActivity(),
@@ -91,7 +105,6 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
 
@@ -103,7 +116,6 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
         });
     }
@@ -117,6 +129,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
     }
 
     private void setCurrencyMode(boolean mode) {
+
         if (mode) {
 
             layoutExchange.setVisibility(View.VISIBLE);
@@ -137,6 +150,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
         }
 
         else {
+
             layoutExchange.setVisibility(View.GONE);
         }
     }
@@ -213,7 +227,7 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
 
         pushBroadcast();
 
-        getActivity().finish();
+        finish();
     }
 
     private boolean checkEditTextForCorrect(EditText et, int strRes) {
@@ -228,6 +242,79 @@ public class FrgAddTransactionBetweenAccounts extends Fragment {
         }
 
         return true;
+    }
+
+    private void setToolbar() {
+
+        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+
+        if (actionBar != null) {
+
+            ViewGroup actionBarLayout = (ViewGroup) getActivity().getLayoutInflater().inflate(
+                    R.layout.save_close_buttons_toolbar, null);
+
+            ActionBar.LayoutParams layoutParams = new ActionBar.LayoutParams(
+                    ActionBar.LayoutParams.MATCH_PARENT,
+                    ActionBar.LayoutParams.MATCH_PARENT);
+
+            actionBar.setDisplayShowTitleEnabled(false);
+            actionBar.setDisplayHomeAsUpEnabled(false);
+            actionBar.setDisplayShowCustomEnabled(true);
+            actionBar.setCustomView(actionBarLayout, layoutParams);
+
+            Toolbar parent = (Toolbar) actionBarLayout.getParent();
+            parent.setContentInsetsAbsolute(0, 0);
+
+
+            Button btnSave = (Button) actionBarLayout.findViewById(R.id.btnToolbarSave);
+            Button btnClose = (Button) actionBarLayout.findViewById(R.id.btnToolbarClose);
+
+            btnSave.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    addTransactionBTW();
+                }
+            });
+
+            btnClose.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+        }
+    }
+
+    private void showDialogNoAccount() {
+
+        new MaterialDialog.Builder(getActivity())
+                .title(getString(R.string.no_account))
+                .content(getString(R.string.dialog_text_transaction_no_account))
+                .positiveText(getString(R.string.new_account))
+                .negativeText(getString(R.string.return_to_main))
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        addAccount();
+                    }
+
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+                        finish();
+                    }
+                })
+                .cancelable(false)
+                .show();
+    }
+
+    private void addAccount() {
+        FrgAddAccount frgAddAccount = new FrgAddAccount();
+        Bundle arguments = new Bundle();
+        arguments.putInt("mode", 0);
+        frgAddAccount.setArguments(arguments);
+
+        addFragment(frgAddAccount);
     }
 
 }
