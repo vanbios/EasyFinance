@@ -11,15 +11,21 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.androidcollider.easyfin.adapters.NavigationDrawerRecyclerAdapter;
 import com.androidcollider.easyfin.fragments.CommonFragment;
 import com.androidcollider.easyfin.fragments.CommonFragmentAddEdit;
 import com.androidcollider.easyfin.fragments.FrgAddAccount;
@@ -35,6 +41,8 @@ import com.androidcollider.easyfin.utils.ToastUtils;
 public class MainActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
 
     private DrawerLayout mDrawerLayout;
+    private RecyclerView recyclerNavDrawer;
+
     private MaterialDialog appAboutDialog;
 
     private static long backPressExitTime;
@@ -46,12 +54,14 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     private final int TOOLBAR_DEFAULT = 1;
     //private final int TOOLBAR_SAVE_CANCEL = 2;
 
+    ActionBarDrawerToggle mDrawerToggle;
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.navigation_drawer);
+        setContentView(R.layout.nav_drawer_root_layout);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.addOnBackStackChangedListener(this);
@@ -73,13 +83,105 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
         //actionBarLayout = (ViewGroup) getLayoutInflater().inflate(R.layout.save_close_buttons_toolbar, null);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.navDrawerLayout);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
+        /*NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         if (navigationView != null) {
             setupDrawerContent(navigationView);
-        }
+        }*/
+
+
+        recyclerNavDrawer = (RecyclerView) findViewById(R.id.recyclerViewNavDrawer);
+        recyclerNavDrawer.setHasFixedSize(true);
+
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerNavDrawer.setLayoutManager(layoutManager);
+
+
+        recyclerNavDrawer.setAdapter(new NavigationDrawerRecyclerAdapter(this));
+
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.app_name, R.string.app_name) {
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+
+        };
+
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
+
+        final GestureDetector gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onSingleTapUp(MotionEvent e) {
+                return true;
+            }
+
+        });
+
+        recyclerNavDrawer.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+
+                View child = rv.findChildViewUnder(e.getX(),e.getY());
+
+                if(child != null && gestureDetector.onTouchEvent(e)) {
+
+                    int position = recyclerNavDrawer.getChildAdapterPosition(child);
+                    mDrawerLayout.closeDrawers();
+
+
+                    switch (position) {
+
+                        case 1: {
+                            openSelectedFrgMainPage(0);
+                            break;
+                        }
+                        case 2: {
+                            openSelectedFrgMainPage(1);
+                            break;
+                        }
+                        case 3: {
+                            openSelectedFrgMainPage(2);
+                            break;
+                        }
+                        case 4: {
+                            addFragment(new FrgDebts());
+                            break;
+                        }
+                        case 6: {
+                            addFragment(new FrgPref());
+                            break;
+                        }
+                        case 7: {
+                            addFragment(new FrgFAQ());
+                            break;
+                        }
+                        case 8: {
+                            appAboutDialog.show();
+                            break;
+                        }
+                    }
+                }
+
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {}
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {}
+        });
     }
+
 
     private void setToolbar (String title, int mode) {
         ActionBar actionBar = getSupportActionBar();
@@ -109,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         }
     }
 
-    private void setupDrawerContent(NavigationView navigationView) {
+    /*private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -150,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                         return true;
                     }
                 });
-    }
+    }*/
 
     private void openSelectedFrgMainPage(int page) {
         popFragments();

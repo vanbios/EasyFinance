@@ -95,7 +95,7 @@
                 android:layout_height="1dp"
                 android:id="@+id/cvAddTransDefDividerTop"
                 android:layout_below="@+id/radioGroupTransDef"
-                android:background="@color/custom_divider"
+                android:background="@color/custom_light_gray"
                 android:layout_marginLeft="68dp"
                 android:layout_marginTop="36dp"/>
 
@@ -125,7 +125,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/linLayoutAddTransDefAccount"
-                android:background="@color/custom_divider"
+                android:background="@color/custom_light_gray"
                 android:layout_marginLeft="68dp" />
 
 
@@ -154,7 +154,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/linLayoutAddTransDefCategory"
-                android:background="@color/custom_divider"
+                android:background="@color/custom_light_gray"
                 android:layout_marginLeft="68dp" />
 
 

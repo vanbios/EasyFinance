@@ -107,7 +107,7 @@
                     android:layout_height="1dp"
                     android:id="@+id/cvPayDebtDividerTop"
                     android:layout_below="@+id/layoutPayDebtSum"
-                    android:background="@color/custom_divider"
+                    android:background="@color/custom_light_gray"
                     android:layout_marginLeft="68dp"
                     android:layout_marginTop="40dp"/>
 
@@ -137,7 +137,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/layoutPayDebtAccount"
-                    android:background="@color/custom_divider"
+                    android:background="@color/custom_light_gray"
                     android:layout_marginLeft="68dp" />
 
 

@@ -38,4 +38,15 @@
     </array>
 
 
+    <array name="navigation_drawer_icons_array">
+        <item>@drawable/ic_view_dashboard_grey600_24dp</item>
+        <item>@drawable/ic_contrast_box_grey600_24dp</item>
+        <item>@drawable/ic_clipboard_text_grey600_24dp</item>
+        <item>@drawable/ic_debt_gray_24dp</item>
+        <item>@drawable/ic_settings_grey600_24dp</item>
+        <item>@drawable/ic_help_circle_grey600_24dp</item>
+        <item>@drawable/ic_information_grey600_24dp</item>
+    </array>
+
+
 </resources>

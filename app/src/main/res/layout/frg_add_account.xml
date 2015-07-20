@@ -73,7 +73,7 @@
                     android:layout_height="1dp"
                     android:id="@+id/cvAddAccountDividerTop"
                     android:layout_below="@+id/linLayoutAddAccountName"
-                    android:background="@color/custom_divider"
+                    android:background="@color/custom_light_gray"
                     android:layout_marginLeft="68dp"
                     android:layout_marginTop="40dp"/>
 
@@ -103,7 +103,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/linLayoutAddAccountType"
-                    android:background="@color/custom_divider"
+                    android:background="@color/custom_light_gray"
                     android:layout_marginLeft="68dp" />
 
 
@@ -133,7 +133,7 @@
                     android:layout_height="1dp"
                     android:id="@+id/cvAddAccountDividerBottom"
                     android:layout_below="@+id/linLayoutAddAccountCurrency"
-                    android:background="@color/custom_divider"
+                    android:background="@color/custom_light_gray"
                     android:layout_marginLeft="68dp" />
 
 

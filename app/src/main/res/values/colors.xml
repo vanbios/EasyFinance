@@ -12,7 +12,8 @@
     <color name="custom_text_primary">#212121</color>
     <color name="custom_text_secondary">#727272</color>
     <color name="custom_text_gray_dark">#ff616161</color>
-    <color name="custom_divider">#B6B6B6</color>
+    <color name="custom_light_gray">#d3d3d3</color>
+    <color name="custom_medium_gray">#B6B6B6</color>
 
     <color name="custom_red">#D32F2F</color>
     <color name="custom_green">#4CAF50</color>

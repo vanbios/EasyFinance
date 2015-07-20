@@ -273,5 +273,16 @@
     </string-array>
 
 
+    <string-array name="navigation_drawer_string_array">
+        <item>@string/tab_home</item>
+        <item>@string/tab_transactions</item>
+        <item>@string/tab_accounts</item>
+        <item>@string/debts</item>
+        <item>@string/settings</item>
+        <item>@string/app_faq</item>
+        <item>@string/app_about</item>
+    </string-array>
+
+
 
 </resources>

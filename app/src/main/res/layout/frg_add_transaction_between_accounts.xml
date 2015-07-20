@@ -68,7 +68,7 @@
                 android:layout_height="1dp"
                 android:id="@+id/cvAddTransBTWDivider"
                 android:layout_below="@+id/layoutAddTransBTWSum"
-                android:background="@color/custom_divider"
+                android:background="@color/custom_light_gray"
                 android:layout_marginLeft="68dp"
                 android:layout_marginTop="64dp"/>
 
@@ -107,7 +107,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/layoutAddTransBTWAccountFrom"
-                android:background="@color/custom_divider"
+                android:background="@color/custom_light_gray"
                 android:layout_marginLeft="68dp" />
 
 
@@ -154,7 +154,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:id="@+id/cvAddTransBTWDividerExchange"
-                    android:background="@color/custom_divider"
+                    android:background="@color/custom_light_gray"
                     android:layout_marginLeft="68dp"
                     android:layout_alignParentTop="true" />
 

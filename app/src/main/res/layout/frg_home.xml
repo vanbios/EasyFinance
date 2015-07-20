@@ -59,7 +59,7 @@
                     <View
                         android:layout_width="1dp"
                         android:layout_height="36dp"
-                        android:background="@color/custom_divider"
+                        android:background="@color/custom_light_gray"
                         android:id="@+id/cvMainDividerBalanceVerticalLeft"
                         android:layout_alignParentTop="true"
                         android:layout_toRightOf="@+id/tvMainCurrentBalance"
@@ -79,7 +79,7 @@
                     <View
                         android:layout_width="1dp"
                         android:layout_height="36dp"
-                        android:background="@color/custom_divider"
+                        android:background="@color/custom_light_gray"
                         android:id="@+id/cvMainDividerBalanceVerticalRight"
                         android:layout_alignParentTop="true"
                         android:layout_toLeftOf="@+id/ivMainBalanceSettings"
@@ -103,7 +103,7 @@
                     android:layout_height="1dp"
                     android:id="@+id/cvMainDividerBalanceCurrency"
                     android:layout_below="@+id/layoutMainBalance"
-                    android:background="@color/custom_divider"
+                    android:background="@color/custom_light_gray"
                     android:layout_marginLeft="@dimen/common_padding_small"
                     android:layout_marginRight="@dimen/common_padding_small"/>
 
@@ -197,7 +197,7 @@
                     android:layout_height="1dp"
                     android:id="@+id/cvMainDividerBalanceCurrencyBottom"
                     android:layout_below="@+id/layoutMainBalanceChart"
-                    android:background="@color/custom_divider"
+                    android:background="@color/custom_light_gray"
                     android:layout_marginLeft="@dimen/common_padding_small"
                     android:layout_marginRight="@dimen/common_padding_small"/>
 
@@ -277,7 +277,7 @@
                     <View
                         android:layout_width="1dp"
                         android:layout_height="36dp"
-                        android:background="@color/custom_divider"
+                        android:background="@color/custom_light_gray"
                         android:id="@+id/cvMainDividerStatisticVerticalLeft"
                         android:layout_alignParentTop="true"
                         android:layout_toRightOf="@+id/tvMainStatistic"
@@ -295,7 +295,7 @@
                     <View
                         android:layout_width="1dp"
                         android:layout_height="36dp"
-                        android:background="@color/custom_divider"
+                        android:background="@color/custom_light_gray"
                         android:id="@+id/cvMainDividerStatisticVerticalRight"
                         android:layout_alignParentTop="true"
                         android:layout_toLeftOf="@+id/spinMainPeriod"
@@ -318,7 +318,7 @@
                     android:layout_height="1dp"
                     android:id="@+id/cvMainDividerStatisticTop"
                     android:layout_below="@+id/layoutMainStatisticTitle"
-                    android:background="@color/custom_divider"
+                    android:background="@color/custom_light_gray"
                     android:layout_marginLeft="@dimen/common_padding_small"
                     android:layout_marginRight="@dimen/common_padding_small"/>
 
@@ -394,7 +394,7 @@
                     android:layout_height="1dp"
                     android:id="@+id/cvMainDividerStatisticBottom"
                     android:layout_below="@+id/layoutMainStatisticChart"
-                    android:background="@color/custom_divider"
+                    android:background="@color/custom_light_gray"
                     android:layout_marginLeft="@dimen/common_padding_small"
                     android:layout_marginRight="@dimen/common_padding_small"/>
 
