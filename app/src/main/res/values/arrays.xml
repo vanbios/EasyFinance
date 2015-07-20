@@ -26,9 +26,9 @@
 
 
     <array name="account_type_icons">
-        <item>@drawable/ic_cash_48dp</item>
-        <item>@drawable/ic_credit_card_48dp</item>
-        <item>@drawable/ic_deposit_48dp</item>
+        <item>@drawable/ic_cash_new_48dp</item>
+        <item>@drawable/ic_card_new_48dp</item>
+        <item>@drawable/ic_bank_new_48dp</item>
     </array>
 
 

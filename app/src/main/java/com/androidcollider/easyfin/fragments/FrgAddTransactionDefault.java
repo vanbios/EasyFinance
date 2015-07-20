@@ -331,7 +331,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit {
                 .title(getString(R.string.no_account))
                 .content(getString(R.string.dialog_text_transaction_no_account))
                 .positiveText(getString(R.string.new_account))
-                .negativeText(getString(R.string.return_to_main))
+                .negativeText(getString(R.string.close))
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {

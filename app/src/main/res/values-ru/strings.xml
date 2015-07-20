@@ -34,8 +34,6 @@
     <string name="ok">OK</string>
     <string name="later">Не сейчас</string>
 
-    <string name="return_to_main">На главную</string>
-
 
     <string name="export_db">Резервное копирование БД</string>
     <string name="import_db">Импорт БД</string>
@@ -96,7 +94,7 @@
 
     // warnings and alarms (dialogs, toasts etc.)
 
-    <string name="dialog_text_main_no_accounts">Для начала работы добавьте Ваши счета.</string>
+    <string name="dialog_text_main_no_accounts">Для начала работы добавьте Ваши счета</string>
 
     <string name="empty_amount_field">Введите сумму</string>
     <string name="empty_name_field">Введите название</string>
@@ -107,7 +105,7 @@
     <string name="account_name_exist">Счет с таким названием уже существует. Попробуйте другую</string>
     <string name="snack_account_list">Для редактирования сделайте долгое нажатие на счет</string>
 
-    <string name="dialog_text_delete_account">Внимание! Счет будет удален.</string>
+    <string name="dialog_text_delete_account">Внимание! Счет будет удален</string>
     <string name="dialog_title_delete_account">Удаление</string>
 
     <string name="account_empty_list">Здесь будут отображены Ваши счета</string>
@@ -116,16 +114,15 @@
 
     <string name="not_enough_costs">Недостаточно средств на счету</string>
 
-    <string name="dialog_text_transaction_no_account">Для совершения транзакций нужно иметь хотя бы один счет.
-    Нажмите "Новый счет", чтобы добавить.</string>
+    <string name="dialog_text_transaction_no_account">Для совершения транзакций нужно иметь хотя бы один счет</string>
+    <string name="dialog_text_transfer_no_accounts">Нужно минимум 2 счета для перевода</string>
 
-    <string name="transaction_delete_warning">Удаление транзакции изменит состояние счета.</string>
+    <string name="transaction_delete_warning">Удаление транзакции изменит состояние счета</string>
 
-    <string name="dialog_text_debt_no_account">Для работы с долгами нужно иметь хотя бы один счет.
-    Нажмите "Новый счет", чтобы добавить.</string>
+    <string name="dialog_text_debt_no_account">Для работы с долгами нужно иметь хотя бы один счет</string>
 
-    <string name="debt_delete_warning">Удаление долга изменит состояние счета.</string>
-    <string name="debt_no_available_accounts_warning">Нет доступных счетов для этого действия.</string>
+    <string name="debt_delete_warning">Удаление долга изменит состояние счета</string>
+    <string name="debt_no_available_accounts_warning">Нет доступных счетов для этого действия</string>
     <string name="debt_sum_more_then_amount">Введенная сумма превышает сумму долга</string>
 
     <string name="transaction_date_future">Дата транзакции не может быть будущей</string>
@@ -191,7 +188,7 @@
     //about
     <string name="general_info">Общая информация</string>
     <string name="about_app_version">версия</string>
-    <string name="about_app_developer">Android Collider</string>
+    <string name="about_app_developer">Android Collider © 2015</string>
 
     <string name="about_app_rates_source">Источник курсов валют:</string>
     <string name="about_app_rates_source_link"><a href="www.minfin.com.ua/currency/">http://www.minfin.com.ua/currency/</a></string>

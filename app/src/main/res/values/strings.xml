@@ -34,8 +34,6 @@
     <string name="ok">OK</string>
     <string name="later">Later</string>
 
-    <string name="return_to_main">Home</string>
-
 
     <string name="export_db">Backup DB</string>
     <string name="import_db">Import DB</string>
@@ -96,7 +94,7 @@
 
     // warnings and alarms (dialogs, toasts etc.)
 
-    <string name="dialog_text_main_no_accounts">To get started add your accounts.</string>
+    <string name="dialog_text_main_no_accounts">To get started add your accounts</string>
 
     <string name="empty_amount_field">Type amount</string>
     <string name="empty_name_field">Type name</string>
@@ -116,16 +114,15 @@
 
     <string name="not_enough_costs">Not enough money in account</string>
 
-    <string name="dialog_text_transaction_no_account">You must have at least one account for transactions.
-    Click "New account".</string>
+    <string name="dialog_text_transaction_no_account">You must have at least one account for transactions</string>
+    <string name="dialog_text_transfer_no_accounts">You must have at least two accounts for transfer</string>
 
     <string name="transaction_delete_warning">Removal of transaction change the account.</string>
 
-    <string name="dialog_text_debt_no_account">You must have at least one account for debts.
-    Click "New account".</string>
+    <string name="dialog_text_debt_no_account">You must have at least one account for debts</string>
 
-    <string name="debt_delete_warning">Removal of debt change the account.</string>
-    <string name="debt_no_available_accounts_warning">No available accounts.</string>
+    <string name="debt_delete_warning">Removal of debt change the account</string>
+    <string name="debt_no_available_accounts_warning">No available accounts</string>
     <string name="debt_sum_more_then_amount">The amount you entered more then amount of the debt</string>
 
     <string name="transaction_date_future">Transaction date can not be in the future</string>
@@ -184,7 +181,7 @@
     //about
     <string name="general_info">General information</string>
     <string name="about_app_version">version</string>
-    <string name="about_app_developer">Android Collider</string>
+    <string name="about_app_developer">Android Collider © 2015</string>
 
     <string name="about_app_rates_source">Exchange rates source:</string>
     <string name="about_app_rates_source_link"><a href="www.minfin.com.ua/currency/">http://www.minfin.com.ua/currency/</a></string>
