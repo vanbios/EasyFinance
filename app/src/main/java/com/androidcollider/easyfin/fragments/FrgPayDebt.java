@@ -84,8 +84,8 @@ public class FrgPayDebt extends CommonFragmentAddEdit {
 
     private void initializeView() {
         tvDebtName = (TextView) view.findViewById(R.id.tvPayDebtName);
-        etSum = (EditText) view.findViewById(R.id.editTextPayDebtSum);
-        etSum.addTextChangedListener(new EditTextAmountWatcher(etSum));
+        //etSum = (EditText) view.findViewById(R.id.editTextPayDebtSum);
+        //etSum.addTextChangedListener(new EditTextAmountWatcher(etSum));
         spinAccount = (Spinner) view.findViewById(R.id.spinPayDebtAccount);
     }
 
@@ -99,11 +99,11 @@ public class FrgPayDebt extends CommonFragmentAddEdit {
             final int PRECISE = 100;
             final String FORMAT = "0.00";
 
-            etSum.setText(DoubleFormatUtils.doubleToStringFormatter(debt.getAmountCurrent(), FORMAT, PRECISE));
+            //etSum.setText(DoubleFormatUtils.doubleToStringFormatter(debt.getAmountCurrent(), FORMAT, PRECISE));
         }
 
         if (mode == 1) {
-            etSum.setEnabled(false);
+            //etSum.setEnabled(false);
         }
 
 

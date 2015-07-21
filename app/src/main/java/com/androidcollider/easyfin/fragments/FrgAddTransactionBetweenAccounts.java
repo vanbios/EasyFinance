@@ -64,8 +64,8 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit {
             etExchange = (EditText) view.findViewById(R.id.editTextTransBTWExchange);
             etExchange.addTextChangedListener(new EditTextAmountWatcher(etExchange));
 
-            etSum = (EditText) view.findViewById(R.id.editTextTransBTWSum);
-            etSum.addTextChangedListener(new EditTextAmountWatcher(etSum));
+            //etSum = (EditText) view.findViewById(R.id.editTextTransBTWSum);
+            //etSum.addTextChangedListener(new EditTextAmountWatcher(etSum));
 
             layoutExchange = (RelativeLayout) view.findViewById(R.id.layoutAddTransBTWExchange);
 

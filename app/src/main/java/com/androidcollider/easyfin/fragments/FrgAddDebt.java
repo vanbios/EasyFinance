@@ -49,7 +49,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit {
     private RadioButton rbGive;
     private Spinner spinAccount;
 
-    private final String DATEFORMAT = "dd.MM.yyyy";
+    private final String DATEFORMAT = "dd MMMM yyyy";
 
     private ArrayList<Account> accountList = null;
 
@@ -62,7 +62,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.frg_add_debt, container, false);
+        view = inflater.inflate(R.layout.frg_add_debt_new, container, false);
 
         mode = getArguments().getInt("mode", 0);
 
@@ -91,12 +91,12 @@ public class FrgAddDebt extends CommonFragmentAddEdit {
 
             setSpinner();
 
-            setRadioGroupEvents();
+            //setRadioGroupEvents();
 
             HideKeyboardUtils.setupUI(view.findViewById(R.id.layoutActAddDebtParent), getActivity());
 
             if (mode == 1) {
-                setViewsToEdit();
+                //setViewsToEdit();
             }
         }
 
@@ -106,9 +106,9 @@ public class FrgAddDebt extends CommonFragmentAddEdit {
 
     private void initializeFields() {
         etName = (EditText) view.findViewById(R.id.editTextDebtName);
-        etSum = (EditText) view.findViewById(R.id.editTextDebtSum);
-        etSum.addTextChangedListener(new EditTextAmountWatcher(etSum));
-        etSum.setTextColor(getResources().getColor(R.color.custom_red));
+        //etSum = (EditText) view.findViewById(R.id.editTextDebtSum);
+        //etSum.addTextChangedListener(new EditTextAmountWatcher(etSum));
+        //etSum.setTextColor(getResources().getColor(R.color.custom_red));
 
         tvDate = (TextView) view.findViewById(R.id.tvAddDebtDate);
 
@@ -123,7 +123,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit {
         final int PRECISE = 100;
         final String FORMAT = "0.00";
 
-        etSum.setText(DoubleFormatUtils.doubleToStringFormatter(debtFrIntent.getAmountCurrent(), FORMAT, PRECISE));
+        //etSum.setText(DoubleFormatUtils.doubleToStringFormatter(debtFrIntent.getAmountCurrent(), FORMAT, PRECISE));
 
 
         int type = debtFrIntent.getType();
@@ -142,11 +142,11 @@ public class FrgAddDebt extends CommonFragmentAddEdit {
 
                 switch (i) {
                     case R.id.radioButtonDebtTake: {
-                        etSum.setTextColor(getResources().getColor(R.color.custom_red));
+                        //etSum.setTextColor(getResources().getColor(R.color.custom_red));
                         break;
                     }
                     case R.id.radioButtonDebtGive: {
-                        etSum.setTextColor(getResources().getColor(R.color.custom_green));
+                        //etSum.setTextColor(getResources().getColor(R.color.custom_green));
                         break;
                     }
                 }
