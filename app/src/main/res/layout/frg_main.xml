@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/btnFloatAddTransBTW"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_trans_btw_white_48dp"
+            android:src="@drawable/ic_trans_btw_white_pad_20_48dp"
             android:layout_marginRight="@dimen/common_padding_xlarge"
             android:layout_gravity="right|bottom"
             android:layout_marginBottom="200dp"

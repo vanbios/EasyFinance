@@ -39,7 +39,7 @@ import com.androidcollider.easyfin.utils.ToastUtils;
 
 public class MainActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
 
-    private DrawerLayout mDrawerLayout;
+    private DrawerLayout drawerLayout;
     private RecyclerView recyclerNavDrawer;
 
     private MaterialDialog appAboutDialog;
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
         //actionBarLayout = (ViewGroup) getLayoutInflater().inflate(R.layout.save_close_buttons_toolbar, null);
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.navDrawerLayout);
+        drawerLayout = (DrawerLayout) findViewById(R.id.navDrawerLayout);
 
         /*NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
         if (navigationView != null) {
@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
         recyclerNavDrawer.setAdapter(new NavigationDrawerRecyclerAdapter(this));
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.app_name, R.string.app_name) {
+        mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name) {
 
             @Override
             public void onDrawerOpened(View drawerView) {
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
         };
 
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        drawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
         final GestureDetector gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
@@ -134,38 +134,40 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                 if(child != null && gestureDetector.onTouchEvent(e)) {
 
                     int position = recyclerNavDrawer.getChildAdapterPosition(child);
-                    mDrawerLayout.closeDrawers();
 
+                    if (position != 0 && position != 5) {
+                        drawerLayout.closeDrawers();
 
-                    switch (position) {
+                        switch (position) {
 
-                        case 1: {
-                            openSelectedFrgMainPage(0);
-                            break;
-                        }
-                        case 2: {
-                            openSelectedFrgMainPage(1);
-                            break;
-                        }
-                        case 3: {
-                            openSelectedFrgMainPage(2);
-                            break;
-                        }
-                        case 4: {
-                            addFragment(new FrgDebts());
-                            break;
-                        }
-                        case 6: {
-                            addFragment(new FrgPref());
-                            break;
-                        }
-                        case 7: {
-                            addFragment(new FrgFAQ());
-                            break;
-                        }
-                        case 8: {
-                            appAboutDialog.show();
-                            break;
+                            case 1: {
+                                openSelectedFrgMainPage(0);
+                                break;
+                            }
+                            case 2: {
+                                openSelectedFrgMainPage(1);
+                                break;
+                            }
+                            case 3: {
+                                openSelectedFrgMainPage(2);
+                                break;
+                            }
+                            case 4: {
+                                addFragment(new FrgDebts());
+                                break;
+                            }
+                            case 6: {
+                                addFragment(new FrgPref());
+                                break;
+                            }
+                            case 7: {
+                                addFragment(new FrgFAQ());
+                                break;
+                            }
+                            case 8: {
+                                appAboutDialog.show();
+                                break;
+                            }
                         }
                     }
                 }
@@ -247,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                                 break;
                             }
                         }
-                        mDrawerLayout.closeDrawers();
+                        drawerLayout.closeDrawers();
                         return true;
                     }
                 });
@@ -270,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
         switch (item.getItemId()){
             case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
+                drawerLayout.openDrawer(GravityCompat.START);
                 return true;
         }
 

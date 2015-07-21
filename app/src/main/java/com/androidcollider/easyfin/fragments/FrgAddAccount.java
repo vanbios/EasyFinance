@@ -44,7 +44,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.frg_add_account, container, false);
+        view = inflater.inflate(R.layout.frg_add_account_new, container, false);
 
         initializeFields();
 

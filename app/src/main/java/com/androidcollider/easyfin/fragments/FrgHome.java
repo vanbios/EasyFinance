@@ -22,7 +22,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +38,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 
-public class FrgHome extends Fragment implements View.OnClickListener{
+public class FrgHome extends CommonFragment implements View.OnClickListener{
 
     public final static String BROADCAST_FRG_MAIN_ACTION = "com.androidcollider.easyfin.frgmain.broadcast";
     public final static String PARAM_STATUS_FRG_MAIN = "update_frg_main";
@@ -593,6 +592,11 @@ public class FrgHome extends Fragment implements View.OnClickListener{
     public void onDestroy() {
         super.onDestroy();
         getActivity().unregisterReceiver(broadcastReceiver);
+    }
+
+    @Override
+    public String getTitle() {
+        return getString(R.string.app_name);
     }
 
 }

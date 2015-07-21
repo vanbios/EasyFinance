@@ -49,7 +49,7 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.frg_add_transaction_between_accounts, container, false);
+        view = inflater.inflate(R.layout.frg_add_trans_btw, container, false);
 
         setToolbar();
 

@@ -44,7 +44,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit {
     private Spinner spinCategory, spinAccount;
     private EditText etSum;
 
-    private final String DATEFORMAT = "dd.MM.yyyy";
+    private final String DATEFORMAT = "dd MMMM yyyy";
 
     private View view;
 
@@ -59,7 +59,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.frg_add_transaction_default, container, false);
+        view = inflater.inflate(R.layout.frg_add_trans_def, container, false);
 
         mode = getArguments().getInt("mode", 0);
 
@@ -67,7 +67,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit {
 
         accountList = InfoFromDB.getInstance().getAccountList();
 
-        if (accountList.isEmpty()) {
+        /*if (accountList.isEmpty()) {
             showDialogNoAccount();
         }
 
@@ -93,7 +93,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit {
                     RadioButton rbPlus = (RadioButton) view.findViewById(R.id.radioButtonIncome);
                     rbPlus.setChecked(true);
                 }
-            }
+            }*/
 
             tvDate = (TextView) view.findViewById(R.id.tvTransactionDate);
 
@@ -101,9 +101,9 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit {
 
             setSpinner();
 
-            HideKeyboardUtils.setupUI(view.findViewById(R.id.scrollAddTransDef), getActivity());
+            //HideKeyboardUtils.setupUI(view.findViewById(R.id.scrollAddTransDef), getActivity());
 
-        }
+        //}
 
         return view;
     }
