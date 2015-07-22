@@ -43,7 +43,7 @@
 
     <android.support.design.widget.CoordinatorLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/coordinateLayoutFloatMain"
+        android:id="@+id/coordinatorLayoutFloatMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="right|bottom">
@@ -60,8 +60,7 @@
             android:layout_marginBottom="200dp"
             app:borderWidth="0dp"
             app:fabSize="mini"
-            app:backgroundTint="@color/custom_indigo"
-            android:visibility="gone"/>
+            app:backgroundTint="@color/custom_indigo" />
 
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
@@ -74,8 +73,7 @@
             android:layout_marginBottom="144dp"
             app:borderWidth="0dp"
             app:fabSize="mini"
-            app:backgroundTint="@color/custom_green"
-            android:visibility="gone"/>
+            app:backgroundTint="@color/custom_green" />
 
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
@@ -88,8 +86,7 @@
             android:layout_marginBottom="88dp"
             app:borderWidth="0dp"
             app:fabSize="mini"
-            app:backgroundTint="@color/custom_red"
-            android:visibility="gone"/>
+            app:backgroundTint="@color/custom_red" />
 
 
 

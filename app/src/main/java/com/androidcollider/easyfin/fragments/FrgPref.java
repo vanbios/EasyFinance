@@ -6,9 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.AppController;
@@ -29,57 +26,84 @@ public class FrgPref extends PreferenceFragment {
 
     private static final Context context = AppController.getContext();
 
-    private MaterialDialog importDialog;
-    private TextView tvBrowseDB;
-    private Button btnImportDB;
+    //private MaterialDialog importDialog;
+    //private TextView tvBrowseDB;
+    //private Button btnImportDB;
+
+    Preference exportDBPref, importDBPref;
 
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
 
-        buildImportDialog();
-        initializeImportDialogViews();
+        //buildImportDialog();
+        //initializeImportDialogViews();
 
         initializePrefs();
     }
 
     private void initializePrefs() {
 
-        final Preference exportDB = findPreference("export_db");
-        exportDB.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        exportDBPref = findPreference("export_db");
+        exportDBPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
 
-                exportDB.setEnabled(false);
+                exportDBPref.setEnabled(false);
                 DBExportImportUtils.backupDB();
-                exportDB.setEnabled(true);
+                //exportDB.setEnabled(true);
                 return false;
             }
         });
 
 
-        Preference importDB = findPreference("import_db");
-        importDB.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        importDBPref = findPreference("import_db");
+        importDBPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
 
-                importDialog.show();
+                //importDialog.show();
+
+                openFileExplorer();
                 return false;
             }
         });
     }
 
-    private void buildImportDialog() {
+    private void showDialogImportDB() {
+
+        new MaterialDialog.Builder(getActivity())
+                .title(getString(R.string.import_db))
+                .content(getString(R.string.import_dialog_warning))
+                .positiveText(getString(R.string.confirm))
+                .negativeText(getString(R.string.cancel))
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+
+                        importDB();
+                    }
+
+                    @Override
+                    public void onNegative(MaterialDialog dialog) {
+
+                    }
+                })
+                .cancelable(false)
+                .show();
+    }
+
+    /*private void buildImportDialog() {
 
         importDialog = new MaterialDialog.Builder(getActivity())
                 .title(R.string.import_db)
                 .customView(R.layout.item_import_db, true)
                 .positiveText(R.string.close)
                 .build();
-    }
+    }*/
 
-    private void initializeImportDialogViews() {
+    /*private void initializeImportDialogViews() {
 
         View view = importDialog.getCustomView();
 
@@ -107,7 +131,7 @@ public class FrgPref extends PreferenceFragment {
             });
         }
 
-    }
+    }*/
 
     private void openFileExplorer() {
 
@@ -116,13 +140,13 @@ public class FrgPref extends PreferenceFragment {
         intent.addCategory(Intent.CATEGORY_OPENABLE);
 
         try {
+
             startActivityForResult(
                     Intent.createChooser(intent, "Select a File to Upload"),
                     FILE_SELECT_CODE);
         } catch (android.content.ActivityNotFoundException ex) {
 
             ToastUtils.showClosableToast(context, getString(R.string.import_no_file_explorer), 2);
-
         }
     }
 
@@ -145,9 +169,11 @@ public class FrgPref extends PreferenceFragment {
 
                         try {
 
-                            String path = uri.getPath();
-                            tvBrowseDB.setText(path);
-                            btnImportDB.setEnabled(true);
+                            //String path = uri.getPath();
+                            //tvBrowseDB.setText(path);
+                            //btnImportDB.setEnabled(true);
+
+                            showDialogImportDB();
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -172,6 +198,7 @@ public class FrgPref extends PreferenceFragment {
         }
 
         if (importDB) {
+            importDBPref.setEnabled(false);
             ToastUtils.showClosableToast(context, getString(R.string.import_complete), 2);
             pushBroadcast();
         }

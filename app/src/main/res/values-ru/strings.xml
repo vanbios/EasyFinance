@@ -31,6 +31,7 @@
     <string name="done">Готово</string>
     <string name="ok">OK</string>
     <string name="later">Не сейчас</string>
+    <string name="confirm">Подтверждаю</string>
 
 
     <string name="export_db">Резервное копирование БД</string>
@@ -45,6 +46,8 @@
 
     <string name="import_wrong_file_type">Неверный тип файла. Попробуйте другой</string>
     <string name="import_no_file_explorer">У Вас нет ни одного файлового менеджера!</string>
+
+    <string name="import_dialog_warning">Вы уверены? Ваши данные будут перезаписаны!</string>
 
     <string name="view_more">Показать еще</string>
 

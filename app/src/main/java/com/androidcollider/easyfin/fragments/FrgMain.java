@@ -1,10 +1,14 @@
 package com.androidcollider.easyfin.fragments;
 
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -14,6 +18,7 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
@@ -43,6 +48,14 @@ public class FrgMain extends CommonFragment {
 
     private FloatingActionButton faButtonMain, faButtonExpense, faButtonIncome, faButtonBTW;
 
+    private boolean expanded = false;
+
+    private float offset1;
+    private float offset2;
+    private float offset3;
+
+    final private boolean isApiHoneycombAndHigher = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,6 +64,9 @@ public class FrgMain extends CommonFragment {
         view = inflater.inflate(R.layout.frg_main, container, false);
 
         setViewPager();
+
+
+        final ViewGroup fabContainer = (ViewGroup) view.findViewById(R.id.coordinatorLayoutFloatMain);
 
         faButtonMain = (FloatingActionButton) view.findViewById(R.id.btnFloatMain);
         faButtonMain.setOnClickListener(new View.OnClickListener() {
@@ -89,6 +105,31 @@ public class FrgMain extends CommonFragment {
         });
 
 
+        if (isApiHoneycombAndHigher) {
+
+            fabContainer.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    fabContainer.getViewTreeObserver().removeOnPreDrawListener(this);
+                    offset1 = faButtonMain.getY() - faButtonExpense.getY();
+                    faButtonExpense.setTranslationY(offset1);
+                    offset2 = faButtonMain.getY() - faButtonIncome.getY();
+                    faButtonIncome.setTranslationY(offset2);
+                    offset3 = faButtonMain.getY() - faButtonBTW.getY();
+                    faButtonBTW.setTranslationY(offset3);
+                    return true;
+                }
+            });
+        }
+
+        else {
+
+            faButtonExpense.setVisibility(View.GONE);
+            faButtonIncome.setVisibility(View.GONE);
+            faButtonBTW.setVisibility(View.GONE);
+        }
+
+
         if (InfoFromDB.getInstance().getAccountsNumber() == 0) {
             showDialogNoAccount();
         }
@@ -123,12 +164,26 @@ public class FrgMain extends CommonFragment {
             @Override
             public void onPageSelected(int position) {
 
-                if (position == 2 && faButtonExpense.getVisibility() == View.VISIBLE) {
+                if (isApiHoneycombAndHigher) {
 
-                    faButtonExpense.setVisibility(View.GONE);
-                    faButtonIncome.setVisibility(View.GONE);
-                    faButtonBTW.setVisibility(View.GONE);
-                    faButtonMain.setImageResource(R.drawable.ic_plus_white_48dp);
+                    if (position == 2 && expanded) {
+
+                        collapseFab();
+                        faButtonMain.setImageResource(R.drawable.ic_plus_white_48dp);
+                        expanded = !expanded;
+                    }
+
+                }
+
+                else {
+
+                    if (position == 2 && faButtonExpense.getVisibility() == View.VISIBLE) {
+
+                        faButtonExpense.setVisibility(View.GONE);
+                        faButtonIncome.setVisibility(View.GONE);
+                        faButtonBTW.setVisibility(View.GONE);
+                        faButtonMain.setImageResource(R.drawable.ic_plus_white_48dp);
+                    }
                 }
             }
 
@@ -205,20 +260,36 @@ public class FrgMain extends CommonFragment {
 
     private void setFloatButtonsVisibility() {
 
-        if (faButtonExpense.getVisibility() == View.GONE) {
+        if (isApiHoneycombAndHigher) {
 
-            faButtonExpense.setVisibility(View.VISIBLE);
-            faButtonIncome.setVisibility(View.VISIBLE);
-            faButtonBTW.setVisibility(View.VISIBLE);
-            faButtonMain.setImageResource(R.drawable.ic_close_white_24dp);
+            expanded = !expanded;
+            if (expanded) {
+                expandFab();
+                faButtonMain.setImageResource(R.drawable.ic_close_white_24dp);
+            } else {
+                collapseFab();
+                faButtonMain.setImageResource(R.drawable.ic_plus_white_48dp);
+            }
+
         }
 
         else {
 
-            faButtonExpense.setVisibility(View.GONE);
-            faButtonIncome.setVisibility(View.GONE);
-            faButtonBTW.setVisibility(View.GONE);
-            faButtonMain.setImageResource(R.drawable.ic_plus_white_48dp);
+            if (faButtonExpense.getVisibility() == View.GONE) {
+
+                faButtonExpense.setVisibility(View.VISIBLE);
+                faButtonIncome.setVisibility(View.VISIBLE);
+                faButtonBTW.setVisibility(View.VISIBLE);
+                faButtonMain.setImageResource(R.drawable.ic_close_white_24dp);
+            }
+
+            else {
+
+                faButtonExpense.setVisibility(View.GONE);
+                faButtonIncome.setVisibility(View.GONE);
+                faButtonBTW.setVisibility(View.GONE);
+                faButtonMain.setImageResource(R.drawable.ic_plus_white_48dp);
+            }
         }
 
     }
@@ -265,6 +336,36 @@ public class FrgMain extends CommonFragment {
                 .cancelable(false)
                 .show();
     }
+
+
+    private void collapseFab() {
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(createCollapseAnimator(faButtonExpense, offset1),
+                createCollapseAnimator(faButtonIncome, offset2),
+                createCollapseAnimator(faButtonBTW, offset3));
+        animatorSet.start();
+    }
+
+    private void expandFab() {
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(createExpandAnimator(faButtonExpense, offset1),
+                createExpandAnimator(faButtonIncome, offset2),
+                createExpandAnimator(faButtonBTW, offset3));
+        animatorSet.start();
+    }
+
+    private static final String TRANSLATION_Y = "translationY";
+
+    private Animator createCollapseAnimator(View view, float offset) {
+        return ObjectAnimator.ofFloat(view, TRANSLATION_Y, 0, offset)
+                .setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
+    }
+
+    private Animator createExpandAnimator(View view, float offset) {
+        return ObjectAnimator.ofFloat(view, TRANSLATION_Y, offset, 0)
+                .setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
+    }
+
 
     @Override
     public String getTitle() {
