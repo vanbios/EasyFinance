@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,7 +26,7 @@ import com.androidcollider.easyfin.objects.InfoFromDB;
 import java.util.ArrayList;
 
 
-public class FrgAccounts extends CommonFragment {
+public class FrgAccounts extends Fragment {
 
     public final static String BROADCAST_FRG_ACCOUNT_ACTION = "com.androidcollider.easyfin.frgaccount.broadcast";
     public final static String PARAM_STATUS_FRG_ACCOUNT = "update_frg_account";
@@ -123,7 +125,7 @@ public class FrgAccounts extends CommonFragment {
             case R.id.ctx_menu_edit_account:
 
             {
-                goToActAccount(pos);
+                goToEditAccount(pos);
                 break;
             }
 
@@ -159,7 +161,7 @@ public class FrgAccounts extends CommonFragment {
                 .show();
     }
 
-    private void goToActAccount(int pos){
+    private void goToEditAccount(int pos){
         Account account = accountList.get(pos);
 
         FrgAddAccount frgAddAccount = new FrgAddAccount();
@@ -198,9 +200,35 @@ public class FrgAccounts extends CommonFragment {
         getActivity().sendBroadcast(intentFrgMain);
     }
 
-    @Override
-    public String getTitle() {
-        return getString(R.string.app_name);
+
+    public void addFragment(Fragment f){
+        treatFragment(f, true, false);
+    }
+
+    public Fragment getTopFragment(){
+        return getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+    }
+
+    private void treatFragment(Fragment f, boolean addToBackStack, boolean replace){
+        String tag = f.getClass().getName();
+        FragmentTransaction ft =  getActivity().getSupportFragmentManager().beginTransaction();
+
+        if (replace) {
+
+            ft.replace(R.id.fragment_container, f, tag);
+
+        } else {
+
+            Fragment currentTop = getTopFragment();
+
+            if (currentTop != null) ft.hide(currentTop);
+
+            ft.add(R.id.fragment_container, f, tag);
+        }
+
+        if (addToBackStack) ft.addToBackStack(tag);
+
+        ft.commitAllowingStateLoss();
     }
 
 }

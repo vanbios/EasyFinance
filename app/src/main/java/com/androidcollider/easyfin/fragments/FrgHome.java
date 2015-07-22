@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 
-public class FrgHome extends CommonFragment implements View.OnClickListener{
+public class FrgHome extends Fragment {
 
     public final static String BROADCAST_FRG_MAIN_ACTION = "com.androidcollider.easyfin.frgmain.broadcast";
     public final static String PARAM_STATUS_FRG_MAIN = "update_frg_main";
@@ -117,7 +118,12 @@ public class FrgHome extends CommonFragment implements View.OnClickListener{
         chartStatisticPie = (PieChart) view.findViewById(R.id.chartPieMainStatistic);
 
         ImageView ivBalanceSettings = (ImageView) view.findViewById(R.id.ivMainBalanceSettings);
-        ivBalanceSettings.setOnClickListener(this);
+        ivBalanceSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                balanceSettingsDialog.show();
+            }
+        });
 
 
         buildBalanceSettingsDialog();
@@ -168,17 +174,6 @@ public class FrgHome extends CommonFragment implements View.OnClickListener{
         TextView tvBalance = (TextView) view.findViewById(R.id.tvMainCurrentBalance);
 
         MultiTapUtils.multiTapListener(tvBalance, getActivity());
-    }
-
-    @Override
-    public void onClick(View view) {
-
-        switch (view.getId()) {
-
-            case R.id.ivMainBalanceSettings: {
-                balanceSettingsDialog.show();
-                break;}
-        }
     }
 
     private void buildBalanceSettingsDialog() {
@@ -592,11 +587,6 @@ public class FrgHome extends CommonFragment implements View.OnClickListener{
     public void onDestroy() {
         super.onDestroy();
         getActivity().unregisterReceiver(broadcastReceiver);
-    }
-
-    @Override
-    public String getTitle() {
-        return getString(R.string.app_name);
     }
 
 }

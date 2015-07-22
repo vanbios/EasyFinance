@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.adapters.MyFragmentPagerAdapter;
+import com.androidcollider.easyfin.adapters.ViewPagerFragmentAdapter;
 import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.utils.SharedPref;
 
@@ -98,14 +98,15 @@ public class FrgMain extends CommonFragment {
         isSnackBarDisabled = sharedPref.isSnackBarAccountDisable();
 
         if (!isSnackBarDisabled) {
-            makeBroadcastReceiver();}
+            makeBroadcastReceiver();
+        }
 
         return view;
     }
 
     private void setViewPager() {
         pager = (ViewPager) view.findViewById(R.id.pagerMain);
-        MyFragmentPagerAdapter adapterPager = new MyFragmentPagerAdapter(getFragmentManager());
+        ViewPagerFragmentAdapter adapterPager = new ViewPagerFragmentAdapter(getFragmentManager());
         adapterPager.addFragment(new FrgHome(), getResources().getString(R.string.tab_home));
         adapterPager.addFragment(new FrgTransactions(), getResources().getString(R.string.tab_transactions));
         adapterPager.addFragment(new FrgAccounts(), getResources().getString(R.string.tab_accounts));

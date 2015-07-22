@@ -4,8 +4,6 @@
     // app info
     <string name="app_name">FinU</string>
     <string name="settings">Settings</string>
-
-    <string name="app_etc">Info</string>
     <string name="app_faq">FAQ</string>
     <string name="app_about">About</string>
 
@@ -135,7 +133,7 @@
 
 
     //etc.
-    <string name="main_balance_menu_exchange">Convert all money to selected currency</string>
+    <string name="main_balance_menu_exchange">Convert all costs to selected currency</string>
     <string name="main_balance_menu_show_cents">Show cents on the graphs</string>
 
 
@@ -203,6 +201,29 @@
         <item>Health</item>
         <item>Education</item>
         <item>Electronics</item>
+        <item>Salary</item>
+        <item>Freelance</item>
+        <item>Profit</item>
+        <item>Other</item>
+    </string-array>
+
+
+
+    <string-array name="transaction_category_expense_array">
+        <item>Food</item>
+        <item>Transport</item>
+        <item>Clothing</item>
+        <item>Fun</item>
+        <item>Gifts</item>
+        <item>Health</item>
+        <item>Education</item>
+        <item>Electronics</item>
+        <item>Other</item>
+    </string-array>
+
+
+
+    <string-array name="transaction_category_income_array">
         <item>Salary</item>
         <item>Freelance</item>
         <item>Profit</item>

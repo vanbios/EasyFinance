@@ -4,8 +4,6 @@
     // app info
     <string name="app_name">FinU</string>
     <string name="settings">Настройки</string>
-
-    <string name="app_etc">Информация</string>
     <string name="app_faq">Справка</string>
     <string name="app_about">О программе</string>
 
@@ -210,6 +208,28 @@
         <item>Здоровье</item>
         <item>Учеба</item>
         <item>Электроника</item>
+        <item>Зарплата</item>
+        <item>Подработка</item>
+        <item>Проценты</item>
+        <item>Другое</item>
+    </string-array>
+
+
+
+    <string-array name="transaction_category_expense_array">
+        <item>Еда</item>
+        <item>Проезд</item>
+        <item>Одежда</item>
+        <item>Развлечения</item>
+        <item>Подарки</item>
+        <item>Здоровье</item>
+        <item>Учеба</item>
+        <item>Электроника</item>
+        <item>Другое</item>
+    </string-array>
+
+
+    <string-array name="transaction_category_income_array">
         <item>Зарплата</item>
         <item>Подработка</item>
         <item>Проценты</item>

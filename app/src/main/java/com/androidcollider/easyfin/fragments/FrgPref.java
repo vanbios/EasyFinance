@@ -46,12 +46,14 @@ public class FrgPref extends PreferenceFragment {
 
     private void initializePrefs() {
 
-        Preference exportDB = findPreference("export_db");
+        final Preference exportDB = findPreference("export_db");
         exportDB.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
 
+                exportDB.setEnabled(false);
                 DBExportImportUtils.backupDB();
+                exportDB.setEnabled(true);
                 return false;
             }
         });

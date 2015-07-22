@@ -8,12 +8,12 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import java.util.ArrayList;
 
 
-public class MyFragmentPagerAdapter extends FragmentStatePagerAdapter {
+public class ViewPagerFragmentAdapter extends FragmentStatePagerAdapter {
 
     private final ArrayList<Fragment> mFragments = new ArrayList<>();
     private final ArrayList<String> mFragmentTitles = new ArrayList<>();
 
-    public MyFragmentPagerAdapter(FragmentManager fm) {
+    public ViewPagerFragmentAdapter(FragmentManager fm) {
         super(fm);
     }
 
