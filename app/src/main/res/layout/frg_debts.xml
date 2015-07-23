@@ -28,10 +28,37 @@
 
     <android.support.design.widget.CoordinatorLayout
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/coordinateLayoutFloatMain"
+        android:id="@+id/coordinatorLayoutFloatDebt"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="right|bottom">
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnFloatAddDebtGive"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_debt_give_white_pad_10_48dp"
+            android:layout_marginRight="@dimen/common_padding_xlarge"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="144dp"
+            app:borderWidth="0dp"
+            app:fabSize="mini"
+            app:backgroundTint="@color/custom_green" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btnFloatAddDebtTake"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_debt_take_white_pad_10_48dp"
+            android:layout_marginRight="@dimen/common_padding_xlarge"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="88dp"
+            app:borderWidth="0dp"
+            app:fabSize="mini"
+            app:backgroundTint="@color/custom_red" />
 
 
         <android.support.design.widget.FloatingActionButton
@@ -41,7 +68,8 @@
             android:layout_gravity="right|bottom"
             android:layout_margin="@dimen/common_padding_large"
             android:src="@drawable/ic_plus_white_48dp"
-            app:borderWidth="0dp"/>
+            app:borderWidth="0dp"
+            app:fabSize="normal"/>
 
 
     </android.support.design.widget.CoordinatorLayout>

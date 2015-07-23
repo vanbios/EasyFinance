@@ -172,7 +172,6 @@ public class FrgMain extends CommonFragment {
                         faButtonMain.setImageResource(R.drawable.ic_plus_white_48dp);
                         expanded = !expanded;
                     }
-
                 }
 
                 else {
@@ -226,7 +225,7 @@ public class FrgMain extends CommonFragment {
     }
 
     private void showSnackBar() {
-        final CoordinatorLayout coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.coordinateLayoutFloatMain);
+        final CoordinatorLayout coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.coordinatorLayoutFloatMain);
 
         Runnable task = new Runnable() {
             public void run() {
@@ -291,7 +290,6 @@ public class FrgMain extends CommonFragment {
                 faButtonMain.setImageResource(R.drawable.ic_plus_white_48dp);
             }
         }
-
     }
 
     private void addTransaction() {

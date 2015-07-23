@@ -1,10 +1,14 @@
 package com.androidcollider.easyfin.fragments;
 
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -40,6 +45,16 @@ public class FrgDebts extends CommonFragment {
 
     private BroadcastReceiver broadcastReceiver;
 
+    private FloatingActionButton faButtonMain, faButtonTake, faButtonGive;
+
+    private boolean expanded = false;
+
+    private float offset1;
+    private float offset2;
+
+    final private boolean isApiHoneycombAndHigher = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,17 +70,95 @@ public class FrgDebts extends CommonFragment {
 
         registerForContextMenu(recyclerView);
 
-        FloatingActionButton faButton = (FloatingActionButton) view.findViewById(R.id.btnFloatDebts);
-        faButton.setOnClickListener(new View.OnClickListener() {
+        final ViewGroup fabContainer = (ViewGroup) view.findViewById(R.id.coordinatorLayoutFloatDebt);
+
+        faButtonMain = (FloatingActionButton) view.findViewById(R.id.btnFloatDebts);
+        faButtonMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               goToAddDebt();
+
+                setFloatButtonsVisibility();
             }
         });
+
+        faButtonTake = (FloatingActionButton) view.findViewById(R.id.btnFloatAddDebtTake);
+        faButtonGive = (FloatingActionButton) view.findViewById(R.id.btnFloatAddDebtGive);
+
+        faButtonTake.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                goToAddDebt();
+                setFloatButtonsVisibility();
+            }
+        });
+
+        faButtonGive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                goToAddDebt();
+                setFloatButtonsVisibility();
+            }
+        });
+
+        if (isApiHoneycombAndHigher) {
+
+            fabContainer.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+                @Override
+                public boolean onPreDraw() {
+                    fabContainer.getViewTreeObserver().removeOnPreDrawListener(this);
+                    offset1 = faButtonMain.getY() - faButtonTake.getY();
+                    faButtonTake.setTranslationY(offset1);
+                    offset2 = faButtonMain.getY() - faButtonGive.getY();
+                    faButtonGive.setTranslationY(offset2);
+                    return true;
+                }
+            });
+        }
+
+        else {
+
+            faButtonTake.setVisibility(View.GONE);
+            faButtonGive.setVisibility(View.GONE);
+        }
 
         makeBroadcastReceiver();
 
         return view;
+    }
+
+    private void setFloatButtonsVisibility() {
+
+        if (isApiHoneycombAndHigher) {
+
+            expanded = !expanded;
+            if (expanded) {
+                expandFab();
+                faButtonMain.setImageResource(R.drawable.ic_close_white_24dp);
+            } else {
+                collapseFab();
+                faButtonMain.setImageResource(R.drawable.ic_plus_white_48dp);
+            }
+
+        }
+
+        else {
+
+            if (faButtonTake.getVisibility() == View.GONE) {
+
+                faButtonTake.setVisibility(View.VISIBLE);
+                faButtonGive.setVisibility(View.VISIBLE);
+                faButtonMain.setImageResource(R.drawable.ic_close_white_24dp);
+            }
+
+            else {
+
+                faButtonTake.setVisibility(View.GONE);
+                faButtonGive.setVisibility(View.GONE);
+                faButtonMain.setImageResource(R.drawable.ic_plus_white_48dp);
+            }
+        }
     }
 
     private void setItemDebt() {
@@ -250,6 +343,33 @@ public class FrgDebts extends CommonFragment {
         frgAddDebt.setArguments(arguments);
 
         addFragment(frgAddDebt);
+    }
+
+
+    private void collapseFab() {
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(createCollapseAnimator(faButtonTake, offset1),
+                createCollapseAnimator(faButtonGive, offset2));
+        animatorSet.start();
+    }
+
+    private void expandFab() {
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(createExpandAnimator(faButtonTake, offset1),
+                createExpandAnimator(faButtonGive, offset2));
+        animatorSet.start();
+    }
+
+    private static final String TRANSLATION_Y = "translationY";
+
+    private Animator createCollapseAnimator(View view, float offset) {
+        return ObjectAnimator.ofFloat(view, TRANSLATION_Y, 0, offset)
+                .setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
+    }
+
+    private Animator createExpandAnimator(View view, float offset) {
+        return ObjectAnimator.ofFloat(view, TRANSLATION_Y, offset, 0)
+                .setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
     }
 
     @Override
