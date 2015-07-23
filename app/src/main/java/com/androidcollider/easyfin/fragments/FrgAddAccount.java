@@ -3,6 +3,7 @@ package com.androidcollider.easyfin.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
@@ -26,12 +28,14 @@ import com.androidcollider.easyfin.utils.ToastUtils;
 
 
 
-public class FrgAddAccount extends CommonFragmentAddEdit {
+public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDialog.OnCommitAmountListener {
 
     private View view;
 
     private Spinner spinType, spinCurrency;
     private EditText etName, etSum;
+    private TextView tvAmount;
+
     private String oldName;
     private int idAccount;
 
@@ -39,12 +43,17 @@ public class FrgAddAccount extends CommonFragmentAddEdit {
 
     private Account accFrIntent;
 
+    private DialogFragment numericDialog;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.frg_add_account_new, container, false);
+
+        numericDialog = new FrgNumericDialog();
+        numericDialog.setTargetFragment(this, 1);
 
         initializeFields();
 
@@ -65,6 +74,15 @@ public class FrgAddAccount extends CommonFragmentAddEdit {
         etName = (EditText) view.findViewById(R.id.editTextAccountName);
         etSum = (EditText) view.findViewById(R.id.editTextAccountSum);
         etSum.addTextChangedListener(new EditTextAmountWatcher(etSum));
+
+
+        tvAmount = (TextView) view.findViewById(R.id.tvAddAccountAmount);
+        tvAmount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog1");
+            }
+        });
     }
 
     private void setToolbar() {
@@ -289,6 +307,12 @@ public class FrgAddAccount extends CommonFragmentAddEdit {
                 getActivity().sendBroadcast(intentMainSnack);
             }
         }
+    }
+
+    @Override
+    public void onCommitAmountSubmit(String amount) {
+
+        //set amount to tvAmount
     }
 
 }

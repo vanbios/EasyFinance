@@ -4,6 +4,7 @@ package com.androidcollider.easyfin.fragments;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -37,9 +38,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 
-public class FrgAddTransactionDefault extends CommonFragmentAddEdit {
+public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements FrgNumericDialog.OnCommitAmountListener {
 
-    private TextView tvDate;
+    private TextView tvDate, tvAmount;
     private DatePickerDialog datePickerDialog;
     private Spinner spinCategory, spinAccount;
     private EditText etSum;
@@ -54,12 +55,17 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit {
 
     private Transaction transFromIntent;
 
+    private DialogFragment numericDialog;
+
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frg_add_trans_def, container, false);
+
+        numericDialog = new FrgNumericDialog();
+        numericDialog.setTargetFragment(this, 2);
 
         mode = getArguments().getInt("mode", 0);
 
@@ -94,6 +100,15 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit {
                     rbPlus.setChecked(true);
                 }
             }*/
+
+
+        tvAmount = (TextView) view.findViewById(R.id.tvAddTransDefAmount);
+        tvAmount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog2");
+            }
+        });
 
             tvDate = (TextView) view.findViewById(R.id.tvTransactionDate);
 
@@ -354,6 +369,13 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit {
         frgAddAccount.setArguments(arguments);
 
         addFragment(frgAddAccount);
+    }
+
+
+    @Override
+    public void onCommitAmountSubmit(String amount) {
+
+        //set amount to tvAmount
     }
 
 }

@@ -4,6 +4,7 @@ package com.androidcollider.easyfin.fragments;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -38,13 +39,13 @@ import java.util.Date;
 
 
 
-public class FrgAddDebt extends CommonFragmentAddEdit {
+public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialog.OnCommitAmountListener {
 
     private View view;
 
     private DatePickerDialog datePickerDialog;
 
-    private TextView tvDate;
+    private TextView tvDate, tvAmount;
     private EditText etName, etSum;
     private RadioButton rbGive;
     private Spinner spinAccount;
@@ -57,12 +58,17 @@ public class FrgAddDebt extends CommonFragmentAddEdit {
 
     private Debt debtFrIntent;
 
+    private DialogFragment numericDialog;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.frg_add_debt_new, container, false);
+
+        numericDialog = new FrgNumericDialog();
+        numericDialog.setTargetFragment(this, 4);
 
         mode = getArguments().getInt("mode", 0);
 
@@ -111,6 +117,14 @@ public class FrgAddDebt extends CommonFragmentAddEdit {
         //etSum.setTextColor(getResources().getColor(R.color.custom_red));
 
         tvDate = (TextView) view.findViewById(R.id.tvAddDebtDate);
+
+        tvAmount = (TextView) view.findViewById(R.id.tvAddDebtAmount);
+        tvAmount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog4");
+            }
+        });
 
         rbGive = (RadioButton) view.findViewById(R.id.radioButtonDebtGive);
     }
@@ -459,6 +473,13 @@ public class FrgAddDebt extends CommonFragmentAddEdit {
                 }
             });
         }
+    }
+
+
+    @Override
+    public void onCommitAmountSubmit(String amount) {
+
+        //set amount to tvAmount
     }
 
 }

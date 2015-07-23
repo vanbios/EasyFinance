@@ -3,6 +3,7 @@ package com.androidcollider.easyfin.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
@@ -30,7 +32,7 @@ import com.androidcollider.easyfin.utils.ToastUtils;
 import java.util.ArrayList;
 
 
-public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit {
+public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit implements FrgNumericDialog.OnCommitAmountListener {
 
     private Spinner spinAccountFrom, spinAccountTo;
 
@@ -40,9 +42,13 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit {
 
     private EditText etExchange, etSum;
 
+    private TextView tvAmount;
+
     private RelativeLayout layoutExchange;
 
     private ArrayList<Account> accountListFrom, accountListTo = null;
+
+    private DialogFragment numericDialog;
 
 
 
@@ -50,6 +56,9 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frg_add_trans_btw, container, false);
+
+        numericDialog = new FrgNumericDialog();
+        numericDialog.setTargetFragment(this, 3);
 
         setToolbar();
 
@@ -60,6 +69,14 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit {
         }
 
         else {
+
+            tvAmount = (TextView) view.findViewById(R.id.tvAddTransBTWAmount);
+            tvAmount.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog3");
+                }
+            });
 
             etExchange = (EditText) view.findViewById(R.id.editTextTransBTWExchange);
             etExchange.addTextChangedListener(new EditTextAmountWatcher(etExchange));
@@ -315,6 +332,13 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit {
         frgAddAccount.setArguments(arguments);
 
         addFragment(frgAddAccount);
+    }
+
+
+    @Override
+    public void onCommitAmountSubmit(String amount) {
+
+        //set amount to tvAmount
     }
 
 }
