@@ -34,12 +34,12 @@
     <string name="confirm">Подтверждаю</string>
 
 
-    <string name="export_db">Резервное копирование БД</string>
-    <string name="import_db">Импорт БД</string>
-    <string name="export_db_summary">Нажмите для резервного копирования БД</string>
-    <string name="import_db_summary">Нажмите для импорта БД</string>
+    <string name="export_db">Резервное копирование данных</string>
+    <string name="import_db">Импорт данных</string>
+    <string name="export_db_summary">Нажмите для резервного копирования данных</string>
+    <string name="import_db_summary">Нажмите для импорта данных</string>
 
-    <string name="browse_db_to_import">Нажмите, чтобы выбрать файл БД</string>
+    <string name="browse_db_to_import">Нажмите, чтобы выбрать файл данных</string>
 
     <string name="import_complete">Импорт успешно завершен!</string>
     <string name="import_error">Что-то пошло не так. Попробуйте позже</string>
@@ -131,7 +131,9 @@
 
     <string name="press_again_to_exit">Нажмите еще раз, чтобы выйти</string>
 
-    <string name="db_backup_to">Резервная копия БД сохранена в</string>
+    <string name="db_backup_to">Резервная копия данных сохранена в</string>
+
+    <string name="no_data_yet">Нет данных</string>
 
 
 

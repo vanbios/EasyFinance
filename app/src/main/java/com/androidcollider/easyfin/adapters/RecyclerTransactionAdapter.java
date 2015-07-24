@@ -28,18 +28,11 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
     private Context context;
     private ArrayList<Transaction> transactionArrayList;
 
-    private final TypedArray catIconsArray;
-    private final TypedArray typeIconsArray;
+    private final TypedArray catExpenseIconsArray, catIncomeIconsArray, typeIconsArray;
+    private final String[] curArray, curLangArray;
 
-    private final String[] curArray;
-    private final String[] curLangArray;
-
-    public final int CONTENT_TYPE = 1;
-    public final int BUTTON_TYPE = 2;
-
-    private static int itemCount;
-    private static int maxCount = 30;
-
+    public final int CONTENT_TYPE = 1, BUTTON_TYPE = 2;
+    private static int itemCount, maxCount = 30;
     private static boolean showButton;
 
 
@@ -48,7 +41,8 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
         this.context = context;
         this.transactionArrayList = transactionArrayList;
 
-        catIconsArray = context.getResources().obtainTypedArray(R.array.transaction_categories_icons);
+        catExpenseIconsArray = context.getResources().obtainTypedArray(R.array.transaction_category_expense_icons);
+        catIncomeIconsArray = context.getResources().obtainTypedArray(R.array.transaction_category_income_icons);
         curArray = context.getResources().getStringArray(R.array.account_currency_array);
         curLangArray = context.getResources().getStringArray(R.array.account_currency_array_language);
         typeIconsArray = context.getResources().obtainTypedArray(R.array.account_type_icons);
@@ -67,7 +61,7 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
         if (arraySize <= maxCount) {
             showButton = false;
             itemCount = arraySize;
-        return itemCount;
+            return itemCount;
         }
 
         else {
@@ -133,14 +127,14 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
             }
 
             if (amount.contains("-")) {
-                holderItem.tvTransAmount.setText(amount + " " + curLang);
+                holderItem.tvTransAmount.setText("- " + amount.substring(1) + " " + curLang);
                 holderItem.tvTransAmount.setTextColor(context.getResources().getColor(R.color.custom_red));
+                holderItem.ivTransCategory.setImageDrawable(catExpenseIconsArray.getDrawable(transaction.getCategory()));
             } else {
-                holderItem.tvTransAmount.setText("+" + amount + " " + curLang);
+                holderItem.tvTransAmount.setText("+ " + amount + " " + curLang);
                 holderItem.tvTransAmount.setTextColor(context.getResources().getColor(R.color.custom_green));
+                holderItem.ivTransCategory.setImageDrawable(catIncomeIconsArray.getDrawable(transaction.getCategory()));
             }
-
-            holderItem.ivTransCategory.setImageDrawable(catIconsArray.getDrawable(transaction.getCategory()));
 
             holderItem.ivTransAccountType.setImageDrawable(typeIconsArray.getDrawable(transaction.getAccountType()));
 

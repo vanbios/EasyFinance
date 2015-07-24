@@ -31,9 +31,20 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/common_padding_large"
-                android:paddingRight="@dimen/common_padding_large"
+                android:paddingLeft="@dimen/common_padding_xlarge"
+                android:paddingRight="@dimen/common_padding_xlarge"
+                android:paddingTop="@dimen/common_padding_xlarge"
                 android:paddingBottom="30dp">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/tvAddAccountAmount"
+                    android:text="5 138,16"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/custom_text_gray_dark"
+                    android:textSize="36sp"/>
 
 
                 <LinearLayout
@@ -41,8 +52,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/linLayoutAddAccountName"
+                    android:layout_below="@+id/tvAddAccountAmount"
                     android:baselineAligned="false"
-                    android:layout_marginTop="@dimen/common_padding_large"
+                    android:layout_marginTop="32dp"
+                    android:paddingLeft="@dimen/common_padding_small"
+                    android:paddingRight="@dimen/common_padding_small"
                     android:gravity="center_vertical">
 
 
@@ -50,9 +64,10 @@
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:id="@+id/ivAddAccountName"
-                        android:src="@drawable/ic_clipboard_text_cyan_dark_48dp"
+                        android:src="@drawable/ic_clipboard_text_blue_gray_48dp"
                         android:contentDescription="@string/empty_amount_field"
-                        android:layout_marginRight="38dp" />
+                        android:layout_marginRight="12dp"
+                        android:layout_marginTop="4dp"/>
 
 
                     <EditText
@@ -74,8 +89,7 @@
                     android:id="@+id/cvAddAccountDividerTop"
                     android:layout_below="@+id/linLayoutAddAccountName"
                     android:background="@color/custom_light_gray"
-                    android:layout_marginLeft="68dp"
-                    android:layout_marginTop="40dp"/>
+                    android:layout_marginTop="32dp"/>
 
 
                 <LinearLayout
@@ -103,8 +117,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_below="@+id/linLayoutAddAccountType"
-                    android:background="@color/custom_light_gray"
-                    android:layout_marginLeft="68dp" />
+                    android:background="@color/custom_light_gray" />
 
 
                 <LinearLayout
@@ -133,42 +146,9 @@
                     android:layout_height="1dp"
                     android:id="@+id/cvAddAccountDividerBottom"
                     android:layout_below="@+id/linLayoutAddAccountCurrency"
-                    android:background="@color/custom_light_gray"
-                    android:layout_marginLeft="68dp" />
+                    android:background="@color/custom_light_gray" />
 
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/cvAddAccountDividerBottom"
-                    android:layout_marginTop="@dimen/common_padding_xlarge">
-
-
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:id="@+id/ivAddAccountSum"
-                        android:src="@drawable/ic_coin_stacks_cyan_48dp"
-                        android:contentDescription="@string/empty_amount_field"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"/>
-
-
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
-                        android:ems="6"
-                        android:hint="@string/empty_amount_field"
-                        android:maxLength="14"
-                        android:id="@+id/editTextAccountSum"
-                        android:layout_centerHorizontal="true"
-                        android:gravity="center_horizontal"
-                        android:singleLine="true"
-                        style="@style/TitleFont" />
-
-
-                </RelativeLayout>
             </RelativeLayout>
         </android.support.v7.widget.CardView>
     </ScrollView>

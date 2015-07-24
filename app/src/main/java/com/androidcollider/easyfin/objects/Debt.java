@@ -5,16 +5,10 @@ import java.io.Serializable;
 
 public class Debt implements Serializable {
 
-    private int id;
-    private String name;
-    private double amountCurrent;
-    private double amountAll;
-    private int type;
-    private int idAccount;
+    private int id, type, idAccount;
+    private String name, accountName, currency;
+    private double amountCurrent, amountAll, accountAmount;
     private long date;
-    private double accountAmount;
-    private String accountName;
-    private String currency;
 
 
     public Debt (String name, double amountCurrent, int type, int idAccount, long date, double accountAmount) {

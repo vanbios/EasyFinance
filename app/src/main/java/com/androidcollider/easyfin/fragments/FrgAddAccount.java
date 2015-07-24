@@ -20,7 +20,6 @@ import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
-import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
 import com.androidcollider.easyfin.utils.HideKeyboardUtils;
 import com.androidcollider.easyfin.utils.ShakeEditText;
 import com.androidcollider.easyfin.utils.SharedPref;
@@ -37,9 +36,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
     private TextView tvAmount;
 
     private String oldName;
-    private int idAccount;
-
-    private int mode;
+    private int idAccount, mode;
 
     private Account accFrIntent;
 
@@ -50,7 +47,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.frg_add_account_new, container, false);
+        view = inflater.inflate(R.layout.frg_add_account, container, false);
 
         numericDialog = new FrgNumericDialog();
         numericDialog.setTargetFragment(this, 1);
@@ -72,9 +69,6 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
         spinCurrency = (Spinner) view.findViewById(R.id.spinAddAccountCurrency);
 
         etName = (EditText) view.findViewById(R.id.editTextAccountName);
-        //etSum = (EditText) view.findViewById(R.id.editTextAccountSum);
-        //etSum.addTextChangedListener(new EditTextAmountWatcher(etSum));
-
 
         tvAmount = (TextView) view.findViewById(R.id.tvAddAccountAmount);
         tvAmount.setOnClickListener(new View.OnClickListener() {
@@ -135,7 +129,6 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
         mode = getArguments().getInt("mode", 0);
 
         switch (mode) {
-            //case 0: {break;}
 
             case 1: {
                 accFrIntent = (Account) getArguments().getSerializable("account");
@@ -198,9 +191,6 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
 
         final int PRECISE = 100;
         final String FORMAT = "###,##0.00";
-
-        //etSum.setText(DoubleFormatUtils.doubleToStringFormatter(accFrIntent.getAmount(), FORMAT, PRECISE));
-        //etSum.setSelection(etSum.getText().length());
 
         tvAmount.setText(DoubleFormatUtils.doubleToStringFormatter(accFrIntent.getAmount(), FORMAT, PRECISE));
 
@@ -276,16 +266,6 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
 
             return false;
         }
-
-        /*else {
-
-            if (!DoubleFormatUtils.prepareStringToParse(etSum.getText().toString()).matches(".*\\d.*")) {
-                ShakeEditText.highlightEditText(etSum);
-                ToastUtils.showClosableToast(getActivity(), getString(R.string.empty_amount_field), 1);
-
-                return false;
-            }
-        }*/
 
         return true;
     }

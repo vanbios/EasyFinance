@@ -3,13 +3,11 @@ package com.androidcollider.easyfin.objects;
 
 import java.io.Serializable;
 
-public class Account implements Serializable{
+public class Account implements Serializable {
 
-    private int id;
-    private String name;
+    private int id, type;
+    private String name, currency;
     private double amount;
-    private int type;
-    private String currency;
 
 
 

@@ -14,18 +14,13 @@ import android.widget.TextView;
 
 public class SpinIconTextHeadAdapter extends ArrayAdapter<String> {
 
-    final TypedArray iconsArray;
-    final String[] textArray;
+    private final TypedArray iconsArray;
+    private final String[] textArray;
 
-    final int headLayout;
-    final int headTvId;
-    final int headIvId;
+    private final int headLayout, headTvId, headIvId, dropLayout, dropTvId, dropIvId;
 
-    final int dropLayout;
-    final int dropTvId;
-    final int dropIvId;
+    private LayoutInflater inflater;
 
-    LayoutInflater inflater;
 
     public SpinIconTextHeadAdapter(Context context,
                                    int headLayout, int headTvId, int headIvId,
@@ -72,4 +67,5 @@ public class SpinIconTextHeadAdapter extends ArrayAdapter<String> {
 
         return headSpinner;
     }
+
 }

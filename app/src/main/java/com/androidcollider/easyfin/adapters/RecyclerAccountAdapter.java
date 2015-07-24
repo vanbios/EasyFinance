@@ -27,8 +27,7 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
 
     final TypedArray typeIconsArray;
 
-    final String[] curArray;
-    final String[] curLangArray;
+    final String[] curArray, curLangArray;
 
 
     public RecyclerAccountAdapter(Context context, ArrayList<Account> accountsList) {

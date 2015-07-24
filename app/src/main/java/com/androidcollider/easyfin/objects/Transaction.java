@@ -5,15 +5,10 @@ import java.io.Serializable;
 
 public class Transaction implements Serializable {
 
-    private int id;
+    private int id, idAccount, category, accountType;
     private long date;
-    private int idAccount;
-    private double amount;
-    private int category;
-    private String currency;
-    private double accountAmount;
-    private String accountName;
-    private int accountType;
+    private double amount, accountAmount;
+    private String currency, accountName;
 
 
 

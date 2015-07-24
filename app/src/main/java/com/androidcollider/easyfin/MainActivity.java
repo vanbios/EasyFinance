@@ -15,7 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -48,10 +47,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     private Toolbar toolbar;
 
-    //private ViewGroup actionBarLayout;
-
     private final int TOOLBAR_DEFAULT = 1;
-    //private final int TOOLBAR_SAVE_CANCEL = 2;
 
     ActionBarDrawerToggle mDrawerToggle;
 
@@ -80,15 +76,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         toolbar = (Toolbar) findViewById(R.id.toolbarMain);
         setSupportActionBar(toolbar);
 
-        //actionBarLayout = (ViewGroup) getLayoutInflater().inflate(R.layout.save_close_buttons_toolbar, null);
-
         drawerLayout = (DrawerLayout) findViewById(R.id.navDrawerLayout);
-
-        /*NavigationView navigationView = (NavigationView) findViewById(R.id.navigationView);
-        if (navigationView != null) {
-            setupDrawerContent(navigationView);
-        }*/
-
 
         recyclerNavDrawer = (RecyclerView) findViewById(R.id.recyclerViewNavDrawer);
         recyclerNavDrawer.setHasFixedSize(true);
@@ -183,9 +171,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         });
     }
 
-
     private void setToolbar (String title, int mode) {
         ActionBar actionBar = getSupportActionBar();
+
         if (actionBar != null) {
 
             switch (mode) {
@@ -198,62 +186,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                     toolbar.setNavigationIcon(R.drawable.ic_menu);
                     break;
                 }
-                /*case TOOLBAR_SAVE_CANCEL: {
-                    ActionBar.LayoutParams layoutParams = new ActionBar.LayoutParams(
-                            ActionBar.LayoutParams.MATCH_PARENT,
-                            ActionBar.LayoutParams.MATCH_PARENT);
-                    actionBar.setDisplayShowTitleEnabled(false);
-                    actionBar.setDisplayHomeAsUpEnabled(false);
-                    actionBar.setDisplayShowCustomEnabled(true);
-                    actionBar.setCustomView(actionBarLayout, layoutParams);
-                    break;
-                }*/
             }
         }
     }
-
-    /*private void setupDrawerContent(NavigationView navigationView) {
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-
-                        switch (menuItem.getItemId()) {
-
-                            case R.id.nav_home: {
-                                openSelectedFrgMainPage(0);
-                                break;
-                            }
-                            case R.id.nav_transactions: {
-                                openSelectedFrgMainPage(1);
-                                break;
-                            }
-                            case R.id.nav_accounts: {
-                                openSelectedFrgMainPage(2);
-                                break;
-                            }
-                            case R.id.nav_debts: {
-                                addFragment(new FrgDebts());
-                                break;
-                            }
-                            case R.id.nav_settings: {
-                                addFragment(new FrgPref());
-                                break;
-                            }
-                            case R.id.nav_faq: {
-                                addFragment(new FrgFAQ());
-                                break;
-                            }
-                            case R.id.nav_about: {
-                                appAboutDialog.show();
-                                break;
-                            }
-                        }
-                        drawerLayout.closeDrawers();
-                        return true;
-                    }
-                });
-    }*/
 
     private void openSelectedFrgMainPage(int page) {
         popFragments();
@@ -335,13 +270,11 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             Fragment topFragment = getTopFragment();
 
             if (topFragment instanceof CommonFragmentAddEdit) {
-                //setToolbar((((CommonFragment) topFragment).getTitle()), TOOLBAR_SAVE_CANCEL);
-                Log.d("COLLIDER", "CommonFragmentAddEdit");
+                //set toolbar from fragment class
             }
 
             else if (topFragment instanceof CommonFragment) {
                 setToolbar((((CommonFragment) topFragment).getTitle()), TOOLBAR_DEFAULT);
-                Log.d("COLLIDER", "CommonFragment");
             }
             else if (topFragment instanceof PreferenceFragment) {
                 setToolbar((((PreferenceFragment) topFragment).getTitle()), TOOLBAR_DEFAULT);

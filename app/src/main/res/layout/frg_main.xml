@@ -60,7 +60,8 @@
             android:layout_marginBottom="200dp"
             app:borderWidth="0dp"
             app:fabSize="mini"
-            app:backgroundTint="@color/custom_indigo" />
+            app:backgroundTint="@color/custom_indigo"
+            app:layout_behavior="com.androidcollider.easyfin.utils.FloatingActionButtonBehavior"/>
 
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
@@ -73,7 +74,8 @@
             android:layout_marginBottom="144dp"
             app:borderWidth="0dp"
             app:fabSize="mini"
-            app:backgroundTint="@color/custom_green" />
+            app:backgroundTint="@color/custom_green"
+            app:layout_behavior="com.androidcollider.easyfin.utils.FloatingActionButtonBehavior"/>
 
         <android.support.design.widget.FloatingActionButton
             android:layout_width="wrap_content"
@@ -86,7 +88,8 @@
             android:layout_marginBottom="88dp"
             app:borderWidth="0dp"
             app:fabSize="mini"
-            app:backgroundTint="@color/custom_red" />
+            app:backgroundTint="@color/custom_red"
+            app:layout_behavior="com.androidcollider.easyfin.utils.FloatingActionButtonBehavior"/>
 
 
         <android.support.design.widget.FloatingActionButton

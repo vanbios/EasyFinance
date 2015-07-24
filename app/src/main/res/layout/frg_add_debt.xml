@@ -31,26 +31,40 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/common_padding_large"
-                android:paddingRight="@dimen/common_padding_large"
-                android:paddingBottom="@dimen/common_padding_medium">
+                android:paddingLeft="@dimen/common_padding_xlarge"
+                android:paddingRight="@dimen/common_padding_xlarge"
+                android:paddingBottom="@dimen/common_padding_medium"
+                android:paddingTop="@dimen/common_padding_xlarge">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/tvAddDebtAmount"
+                    android:text="5 138,16"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/custom_red"
+                    android:textSize="36sp"/>
 
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/layoutAddDebtName"
-                    android:layout_marginTop="@dimen/common_padding_large">
+                    android:layout_below="@+id/tvAddDebtAmount"
+                    android:layout_marginTop="32dp"
+                    android:paddingLeft="@dimen/common_padding_small"
+                    android:paddingRight="@dimen/common_padding_small">
 
 
                     <ImageView
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:id="@+id/ivAddDebtName"
-                        android:src="@drawable/ic_clipboard_text_cyan_dark_48dp"
+                        android:src="@drawable/ic_clipboard_text_blue_gray_48dp"
                         android:contentDescription="@string/empty_name_field"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="38dp" />
+                        android:layout_marginTop="12dp"
+                        android:layout_marginRight="12dp" />
 
 
                     <EditText
@@ -69,47 +83,13 @@
 
 
 
-
-
-                <RadioGroup
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/radioGroupDebtType"
-                    android:layout_below="@+id/layoutAddDebtName"
-                    android:orientation='horizontal'
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/common_padding_xlarge">
-
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/radioButtonDebtTake"
-                        android:checked="true"
-                        style="@style/RadioButtonDebtTakeStyle"
-                        android:layout_marginRight="12dp"/>
-
-                    <RadioButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/radioButtonDebtGive"
-                        style="@style/RadioButtonDebtGiveStyle"
-                        android:layout_marginLeft="12dp"/>
-
-
-                </RadioGroup>
-
-
-
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:id="@+id/cvAddDebtDividerTop"
-                    android:layout_below="@+id/radioGroupDebtType"
+                    android:layout_below="@+id/layoutAddDebtName"
                     android:background="@color/custom_light_gray"
-                    android:layout_marginLeft="68dp"
-                    android:layout_marginTop="32dp"/>
+                    android:layout_marginTop="@dimen/common_padding_xlarge"/>
 
 
                 <LinearLayout
@@ -138,56 +118,26 @@
                     android:layout_height="1dp"
                     android:id="@+id/cvAddDebtDividerBottom"
                     android:layout_below="@+id/layoutAddDebtAccount"
-                    android:background="@color/custom_light_gray"
-                    android:layout_marginLeft="68dp" />
+                    android:background="@color/custom_light_gray" />
 
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/cvAddDebtDividerBottom"
-                    android:layout_marginTop="@dimen/common_padding_xlarge"
-                    android:id="@+id/layoutAddDebtSum">
 
-
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:id="@+id/ivAddDebtSum"
-                        android:src="@drawable/ic_coin_stacks_cyan_48dp"
-                        android:layout_centerVertical="true"
-                        android:contentDescription="@string/empty_amount_field" />
-
-
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
-                        android:ems="6"
-                        android:hint="@string/empty_amount_field"
-                        android:maxLength="14"
-                        android:id="@+id/editTextDebtSum"
-                        android:layout_centerHorizontal="true"
-                        android:gravity="center_horizontal"
-                        android:singleLine="true"
-                        style="@style/TitleFont" />
-
-
-                </RelativeLayout>
 
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/layoutAddDebtDate"
-                    android:layout_below="@+id/layoutAddDebtSum">
+                    android:layout_below="@+id/cvAddDebtDividerBottom"
+                    android:paddingLeft="@dimen/common_padding_small"
+                    android:paddingRight="@dimen/common_padding_small">
 
 
                     <ImageView
                         android:layout_width="28dp"
                         android:layout_height="28dp"
                         android:id="@+id/ivAddDebtDate"
-                        android:src="@drawable/ic_calendar_clock_cyan_48dp"
+                        android:src="@drawable/ic_calendar_clock_blue_gray_48dp"
                         android:contentDescription="@string/date"
                         android:layout_centerVertical="true"/>
 

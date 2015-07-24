@@ -39,10 +39,10 @@
     <string name="confirm">Підтверджую</string>
 
 
-    <string name="export_db">Резервне копіювання БД</string>
-    <string name="import_db">Імпорт БД</string>
-    <string name="export_db_summary">Настиність для резервного копіювання БД</string>
-    <string name="import_db_summary">Натисніть для імпорту БД</string>
+    <string name="export_db">Резервне копіювання даних</string>
+    <string name="import_db">Імпорт даних</string>
+    <string name="export_db_summary">Настиність для резервного копіювання даних</string>
+    <string name="import_db_summary">Натисніть для імпорту даних</string>
 
     <string name="browse_db_to_import">Натисніть, щоб вибрати файл БД</string>
 
@@ -146,7 +146,9 @@
 
     <string name="press_again_to_exit">Натисніть ще раз, щоб вийти</string>
 
-    <string name="db_backup_to">Резервна копія БД збережена до</string>
+    <string name="db_backup_to">Резервна копія даних збережена до</string>
+
+    <string name="no_data_yet">Немає даних</string>
 
 
 

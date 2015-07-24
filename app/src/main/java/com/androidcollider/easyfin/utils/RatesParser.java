@@ -44,8 +44,6 @@ public class RatesParser {
 
                         try {
 
-                            //JSONObject results = new JSONObject(response);
-
                             for (String cur : currencyArray) {
 
 

@@ -81,9 +81,6 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
             etExchange = (EditText) view.findViewById(R.id.editTextTransBTWExchange);
             etExchange.addTextChangedListener(new EditTextAmountWatcher(etExchange));
 
-            //etSum = (EditText) view.findViewById(R.id.editTextTransBTWSum);
-            //etSum.addTextChangedListener(new EditTextAmountWatcher(etSum));
-
             layoutExchange = (RelativeLayout) view.findViewById(R.id.layoutAddTransBTWExchange);
 
             setSpinners();
@@ -190,8 +187,6 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
     }
 
     public void addTransactionBTW() {
-
-        //if (checkEditTextForCorrect(etSum, R.string.empty_amount_field)) {
 
             double amount = Double.parseDouble(DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString()));
 

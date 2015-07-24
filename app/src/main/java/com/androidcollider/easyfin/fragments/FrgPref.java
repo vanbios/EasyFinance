@@ -26,19 +26,12 @@ public class FrgPref extends PreferenceFragment {
 
     private static final Context context = AppController.getContext();
 
-    //private MaterialDialog importDialog;
-    //private TextView tvBrowseDB;
-    //private Button btnImportDB;
-
-    Preference exportDBPref, importDBPref;
+    private Preference exportDBPref, importDBPref;
 
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
-
-        //buildImportDialog();
-        //initializeImportDialogViews();
 
         initializePrefs();
     }
@@ -52,7 +45,6 @@ public class FrgPref extends PreferenceFragment {
 
                 exportDBPref.setEnabled(false);
                 DBExportImportUtils.backupDB();
-                //exportDB.setEnabled(true);
                 return false;
             }
         });
@@ -62,8 +54,6 @@ public class FrgPref extends PreferenceFragment {
         importDBPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-
-                //importDialog.show();
 
                 openFileExplorer();
                 return false;
@@ -86,52 +76,11 @@ public class FrgPref extends PreferenceFragment {
                     }
 
                     @Override
-                    public void onNegative(MaterialDialog dialog) {
-
-                    }
+                    public void onNegative(MaterialDialog dialog) {}
                 })
                 .cancelable(false)
                 .show();
     }
-
-    /*private void buildImportDialog() {
-
-        importDialog = new MaterialDialog.Builder(getActivity())
-                .title(R.string.import_db)
-                .customView(R.layout.item_import_db, true)
-                .positiveText(R.string.close)
-                .build();
-    }*/
-
-    /*private void initializeImportDialogViews() {
-
-        View view = importDialog.getCustomView();
-
-        if (view != null) {
-
-            tvBrowseDB = (TextView) view.findViewById(R.id.tvItemImportDb);
-            btnImportDB = (Button) view.findViewById(R.id.btnItemImportDB);
-            btnImportDB.setEnabled(false);
-
-            tvBrowseDB.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    openFileExplorer();
-
-                }
-            });
-
-            btnImportDB.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    importDB();
-                }
-            });
-        }
-
-    }*/
 
     private void openFileExplorer() {
 
@@ -164,14 +113,11 @@ public class FrgPref extends PreferenceFragment {
 
                     if (!uri.toString().contains(DbHelper.DATABASE_NAME)) {
                         ToastUtils.showClosableToast(context, getString(R.string.import_wrong_file_type), 2);
+                    }
 
-                    } else {
+                    else {
 
                         try {
-
-                            //String path = uri.getPath();
-                            //tvBrowseDB.setText(path);
-                            //btnImportDB.setEnabled(true);
 
                             showDialogImportDB();
 

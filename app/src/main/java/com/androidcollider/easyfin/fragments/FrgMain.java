@@ -50,9 +50,7 @@ public class FrgMain extends CommonFragment {
 
     private boolean expanded = false;
 
-    private float offset1;
-    private float offset2;
-    private float offset3;
+    public static float offset1, offset2, offset3;
 
     final private boolean isApiHoneycombAndHigher = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
 
@@ -363,7 +361,6 @@ public class FrgMain extends CommonFragment {
         return ObjectAnimator.ofFloat(view, TRANSLATION_Y, offset, 0)
                 .setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
     }
-
 
     @Override
     public String getTitle() {

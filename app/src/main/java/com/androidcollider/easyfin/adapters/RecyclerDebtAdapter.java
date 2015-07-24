@@ -27,8 +27,7 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
     private Context context;
     private ArrayList<Debt> debtList;
 
-    private final String[] curArray;
-    private final String[] curLangArray;
+    private final String[] curArray, curLangArray;
 
 
     public RecyclerDebtAdapter(Context context, ArrayList<Debt> debtList) {

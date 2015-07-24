@@ -110,8 +110,6 @@ public class FrgAccounts extends Fragment {
         }
     }
 
-
-
     public boolean onContextItemSelected(MenuItem item) {
         int pos;
         try {
@@ -153,9 +151,7 @@ public class FrgAccounts extends Fragment {
                     }
 
                     @Override
-                    public void onNegative(MaterialDialog dialog) {
-
-                    }
+                    public void onNegative(MaterialDialog dialog) {}
                 })
                 .cancelable(false)
                 .show();

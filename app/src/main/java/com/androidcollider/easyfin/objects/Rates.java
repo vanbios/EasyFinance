@@ -6,10 +6,8 @@ public class Rates {
 
     private int id;
     private long date;
-    private String currency;
-    private String rateType;
-    private double bid;
-    private double ask;
+    private String currency, rateType;
+    private double bid, ask;
 
 
     public Rates (int id, long date, String currency, String rateType, double bid, double ask) {

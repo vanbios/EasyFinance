@@ -382,6 +382,18 @@
                             android:id="@+id/chartPieMainStatistic"
                             android:layout_width="match_parent"
                             android:layout_height="150dp"
+                            android:visibility="gone"
+                            android:layout_marginRight="30dp"/>
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="100dp"
+                            android:text="@string/no_data_yet"
+                            android:id="@+id/tvMainNoData"
+                            style="@style/SubheadFontSecondary"
+                            android:gravity="center"
+                            android:layout_centerInParent="true"
                             android:visibility="gone"/>
 
 

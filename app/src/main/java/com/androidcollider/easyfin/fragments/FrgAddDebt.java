@@ -15,8 +15,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -28,7 +26,6 @@ import com.androidcollider.easyfin.objects.Debt;
 import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.utils.DateFormatUtils;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
-import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
 import com.androidcollider.easyfin.utils.HideKeyboardUtils;
 import com.androidcollider.easyfin.utils.ShakeEditText;
 import com.androidcollider.easyfin.utils.ToastUtils;
@@ -47,7 +44,6 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
     private TextView tvDate, tvAmount;
     private EditText etName;
-    //private RadioButton rbGive;
     private Spinner spinAccount;
 
     private final String DATEFORMAT = "dd MMMM yyyy";
@@ -65,7 +61,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        view = inflater.inflate(R.layout.frg_add_debt_new, container, false);
+        view = inflater.inflate(R.layout.frg_add_debt, container, false);
 
         numericDialog = new FrgNumericDialog();
         numericDialog.setTargetFragment(this, 4);
@@ -102,8 +98,6 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
             setSpinner();
 
-            //setRadioGroupEvents();
-
             HideKeyboardUtils.setupUI(view.findViewById(R.id.layoutActAddDebtParent), getActivity());
 
             if (mode == 1) {
@@ -122,9 +116,6 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
     private void initializeFields() {
         etName = (EditText) view.findViewById(R.id.editTextDebtName);
-        //etSum = (EditText) view.findViewById(R.id.editTextDebtSum);
-        //etSum.addTextChangedListener(new EditTextAmountWatcher(etSum));
-        //etSum.setTextColor(getResources().getColor(R.color.custom_red));
 
         tvDate = (TextView) view.findViewById(R.id.tvAddDebtDate);
 
@@ -135,8 +126,6 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                 numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog4");
             }
         });
-
-        //rbGive = (RadioButton) view.findViewById(R.id.radioButtonDebtGive);
     }
 
     private void setViewsToEdit() {
@@ -149,36 +138,8 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
         tvAmount.setText(DoubleFormatUtils.doubleToStringFormatter(debtFrIntent.getAmountCurrent(), FORMAT, PRECISE));
 
-        //etSum.setText(DoubleFormatUtils.doubleToStringFormatter(debtFrIntent.getAmountCurrent(), FORMAT, PRECISE));
-
-
         debtType = debtFrIntent.getType();
-
-        /*if (type == 0) {
-            rbGive.setChecked(true);
-        }*/
     }
-
-    /*private void setRadioGroupEvents() {
-        RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.radioGroupDebtType);
-
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int i) {
-
-                switch (i) {
-                    case R.id.radioButtonDebtTake: {
-                        //etSum.setTextColor(getResources().getColor(R.color.custom_red));
-                        break;
-                    }
-                    case R.id.radioButtonDebtGive: {
-                        //etSum.setTextColor(getResources().getColor(R.color.custom_green));
-                        break;
-                    }
-                }
-            }
-        });
-    }*/
 
     private void setSpinner() {
 
@@ -217,12 +178,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
             int type = debtType;
 
-            /*if (rbGive.isChecked()) {
-                type = 0;
-            }*/
-
             double amount = Double.parseDouble(DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString()));
-
 
             if (type == 0 && Math.abs(amount) > accountAmount) {
 
@@ -260,10 +216,6 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
             double accountAmount = account.getAmount();
 
             int type = debtType;
-
-            /*if (rbGive.isChecked()) {
-                type = 0;
-            }*/
 
             double amount = Double.parseDouble(DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString()));
 
@@ -361,16 +313,6 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
             return false;
         }
-
-        /*else {
-
-            if (!DoubleFormatUtils.prepareStringToParse(etSum.getText().toString()).matches(".*\\d.*")) {
-                ShakeEditText.highlightEditText(etSum);
-                ToastUtils.showClosableToast(getActivity(), getString(R.string.empty_amount_field), 1);
-
-                return false;
-            }
-        }*/
 
         return true;
     }

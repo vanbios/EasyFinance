@@ -14,15 +14,13 @@ import com.androidcollider.easyfin.R;
 
 public class NavigationDrawerRecyclerAdapter extends RecyclerView.Adapter<NavigationDrawerRecyclerAdapter.ViewHolder> {
 
-    private String navTitles[];
-    private TypedArray navIcons;
+    private final String navTitles[];
+    private final TypedArray navIcons;
 
-    final static int TYPE_HEADER = 0;
-    final static int TYPE_ITEM = 1;
-    final static int TYPE_DIVIDER = 2;
+    final static int TYPE_HEADER = 0, TYPE_ITEM = 1, TYPE_DIVIDER = 2;
 
 
-    public NavigationDrawerRecyclerAdapter(Context context){
+    public NavigationDrawerRecyclerAdapter(Context context) {
         navTitles = context.getResources().getStringArray(R.array.navigation_drawer_string_array);
         navIcons = context.getResources().obtainTypedArray(R.array.navigation_drawer_icons_array);
     }

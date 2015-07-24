@@ -19,11 +19,10 @@ import java.util.ArrayList;
 
 public class SpinAccountForTransAdapter extends ArrayAdapter<Account> {
 
-    final TypedArray typeIconsArray;
-    final ArrayList<Account> accountList;
-    final String[] curArray;
-    final String[] curLangArray;
-    LayoutInflater inflater;
+    private final TypedArray typeIconsArray;
+    private final ArrayList<Account> accountList;
+    private final String[] curArray, curLangArray;
+    private LayoutInflater inflater;
 
 
     public SpinAccountForTransAdapter(Context context, int headLayout, ArrayList<Account> accountL) {

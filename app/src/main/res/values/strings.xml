@@ -34,12 +34,12 @@
     <string name="confirm">Confirm</string>
 
 
-    <string name="export_db">Backup DB</string>
-    <string name="import_db">Import DB</string>
-    <string name="export_db_summary">Click to backup DB</string>
-    <string name="import_db_summary">Click to import DB</string>
+    <string name="export_db">Backup data</string>
+    <string name="import_db">Import data</string>
+    <string name="export_db_summary">Click to backup data</string>
+    <string name="import_db_summary">Click to import data</string>
 
-    <string name="browse_db_to_import">Click to browse DB file</string>
+    <string name="browse_db_to_import">Click to browse data file</string>
 
     <string name="import_complete">Import complete!</string>
     <string name="import_error">Something went wrong. Try again later</string>
@@ -131,7 +131,9 @@
 
     <string name="press_again_to_exit">Press again to exit</string>
 
-    <string name="db_backup_to">DB backup to</string>
+    <string name="db_backup_to">Data backup to</string>
+
+    <string name="no_data_yet">No data</string>
 
 
 

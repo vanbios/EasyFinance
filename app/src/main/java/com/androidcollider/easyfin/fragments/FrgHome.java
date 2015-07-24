@@ -43,12 +43,9 @@ public class FrgHome extends Fragment {
 
     public final static String BROADCAST_FRG_MAIN_ACTION = "com.androidcollider.easyfin.frgmain.broadcast";
     public final static String PARAM_STATUS_FRG_MAIN = "update_frg_main";
-    public final static int STATUS_UPDATE_FRG_MAIN = 1;
-    public final static int STATUS_UPDATE_FRG_MAIN_BALANCE = 2;
-    public final static int STATUS_NEW_RATES = 7;
+    public final static int STATUS_UPDATE_FRG_MAIN = 1, STATUS_UPDATE_FRG_MAIN_BALANCE = 2, STATUS_NEW_RATES = 7;
 
-    private String[] currencyArray;
-    private String[] currencyLangArray;
+    private String[] currencyArray, currencyLangArray;
 
     private double[] statistic = new double[2];
 
@@ -62,7 +59,7 @@ public class FrgHome extends Fragment {
     private View view;
 
     private Spinner spinPeriod, spinBalanceCurrency, spinChartType;
-    private TextView tvStatisticSum, tvBalanceSum;
+    private TextView tvStatisticSum, tvBalanceSum, tvNoData;
 
     private HorizontalBarChart chartStatistic, chartBalance;
     private PieChart chartStatisticPie;
@@ -173,6 +170,8 @@ public class FrgHome extends Fragment {
 
         TextView tvBalance = (TextView) view.findViewById(R.id.tvMainCurrentBalance);
 
+        tvNoData = (TextView) view.findViewById(R.id.tvMainNoData);
+
         MultiTapUtils.multiTapListener(tvBalance, getActivity());
     }
 
@@ -270,10 +269,23 @@ public class FrgHome extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 if (i == 1) {
+
                     chartStatistic.setVisibility(View.GONE);
-                    chartStatisticPie.setVisibility(View.VISIBLE);
-                    setStatisticPieChart();
-                } else {
+
+                    if (statistic[0] == 0 && statistic[1] == 0) {
+                        tvNoData.setVisibility(View.VISIBLE);
+                    }
+
+                    else {
+
+                        chartStatisticPie.setVisibility(View.VISIBLE);
+                        setStatisticPieChart();
+                    }
+                }
+
+                else {
+
+                    tvNoData.setVisibility(View.GONE);
                     chartStatisticPie.setVisibility(View.GONE);
                     chartStatistic.setVisibility(View.VISIBLE);
                     setStatisticBarChart();
