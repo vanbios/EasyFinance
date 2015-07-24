@@ -88,7 +88,7 @@ public class FrgDebts extends CommonFragment {
             @Override
             public void onClick(View view) {
 
-                goToAddDebt();
+                goToAddDebt(1);
                 setFloatButtonsVisibility();
             }
         });
@@ -97,7 +97,7 @@ public class FrgDebts extends CommonFragment {
             @Override
             public void onClick(View view) {
 
-                goToAddDebt();
+                goToAddDebt(0);
                 setFloatButtonsVisibility();
             }
         });
@@ -194,10 +194,11 @@ public class FrgDebts extends CommonFragment {
         return false;
     }
 
-    private void goToAddDebt() {
+    private void goToAddDebt(int type) {
         FrgAddDebt frgAddDebt = new FrgAddDebt();
         Bundle arguments = new Bundle();
         arguments.putInt("mode", 0);
+        arguments.putInt("type", type);
         frgAddDebt.setArguments(arguments);
 
         addFragment(frgAddDebt);

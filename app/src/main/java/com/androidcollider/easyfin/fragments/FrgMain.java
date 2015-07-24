@@ -83,7 +83,7 @@ public class FrgMain extends CommonFragment {
         faButtonExpense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addTransaction();
+                addTransaction(0);
                 setFloatButtonsVisibility();
             }
         });
@@ -91,7 +91,7 @@ public class FrgMain extends CommonFragment {
         faButtonIncome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addTransaction();
+                addTransaction(1);
                 setFloatButtonsVisibility();
             }
         });
@@ -269,7 +269,6 @@ public class FrgMain extends CommonFragment {
                 collapseFab();
                 faButtonMain.setImageResource(R.drawable.ic_plus_white_48dp);
             }
-
         }
 
         else {
@@ -292,10 +291,11 @@ public class FrgMain extends CommonFragment {
         }
     }
 
-    private void addTransaction() {
+    private void addTransaction(int type) {
         FrgAddTransactionDefault frgAddTransDef = new FrgAddTransactionDefault();
         Bundle arguments = new Bundle();
         arguments.putInt("mode", 0);
+        arguments.putInt("type", type);
         frgAddTransDef.setArguments(arguments);
         addFragment(frgAddTransDef);
     }

@@ -33,7 +33,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
     private View view;
 
     private Spinner spinType, spinCurrency;
-    private EditText etName, etSum;
+    private EditText etName;
     private TextView tvAmount;
 
     private String oldName;
@@ -72,8 +72,8 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
         spinCurrency = (Spinner) view.findViewById(R.id.spinAddAccountCurrency);
 
         etName = (EditText) view.findViewById(R.id.editTextAccountName);
-        etSum = (EditText) view.findViewById(R.id.editTextAccountSum);
-        etSum.addTextChangedListener(new EditTextAmountWatcher(etSum));
+        //etSum = (EditText) view.findViewById(R.id.editTextAccountSum);
+        //etSum.addTextChangedListener(new EditTextAmountWatcher(etSum));
 
 
         tvAmount = (TextView) view.findViewById(R.id.tvAddAccountAmount);
@@ -135,13 +135,13 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
         mode = getArguments().getInt("mode", 0);
 
         switch (mode) {
-            case 0: {
-                break;
-            }
+            //case 0: {break;}
+
             case 1: {
                 accFrIntent = (Account) getArguments().getSerializable("account");
                 setEdits();
-                break;}
+                break;
+            }
         }
 
         setSpinner();
@@ -197,10 +197,12 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
         etName.setSelection(etName.getText().length());
 
         final int PRECISE = 100;
-        final String FORMAT = "0.00";
+        final String FORMAT = "###,##0.00";
 
-        etSum.setText(DoubleFormatUtils.doubleToStringFormatter(accFrIntent.getAmount(), FORMAT, PRECISE));
-        etSum.setSelection(etSum.getText().length());
+        //etSum.setText(DoubleFormatUtils.doubleToStringFormatter(accFrIntent.getAmount(), FORMAT, PRECISE));
+        //etSum.setSelection(etSum.getText().length());
+
+        tvAmount.setText(DoubleFormatUtils.doubleToStringFormatter(accFrIntent.getAmount(), FORMAT, PRECISE));
 
         idAccount = accFrIntent.getId();
     }
@@ -218,7 +220,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
 
             else {
 
-                double amount = Double.parseDouble(DoubleFormatUtils.prepareStringToParse(etSum.getText().toString()));
+                double amount = Double.parseDouble(DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString()));
                 String currency = spinCurrency.getSelectedItem().toString();
                 int type = spinType.getSelectedItemPosition();
 
@@ -244,7 +246,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
 
             else {
 
-                String sum = DoubleFormatUtils.prepareStringToParse(etSum.getText().toString());
+                String sum = DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString());
                 double amount = Double.parseDouble(sum);
                 String currency = spinCurrency.getSelectedItem().toString();
                 int type = spinType.getSelectedItemPosition();
@@ -275,7 +277,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
             return false;
         }
 
-        else {
+        /*else {
 
             if (!DoubleFormatUtils.prepareStringToParse(etSum.getText().toString()).matches(".*\\d.*")) {
                 ShakeEditText.highlightEditText(etSum);
@@ -283,7 +285,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
 
                 return false;
             }
-        }
+        }*/
 
         return true;
     }

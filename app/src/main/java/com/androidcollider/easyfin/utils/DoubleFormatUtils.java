@@ -37,6 +37,13 @@ public class DoubleFormatUtils {
 
     public static String prepareStringToParse(String s) {
 
+        if (s.contains("+")) {
+            s = s.replace("+", "");
+        }
+        else if (s.contains("-")) {
+            s = s.replace("-", "");
+        }
+
         if (s.contains(" ")) {
             s = s.replaceAll("\\s+", "");
         }

@@ -149,39 +149,6 @@
                     android:background="@color/custom_light_gray" />
 
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/cvAddAccountDividerBottom"
-                    android:layout_marginTop="@dimen/common_padding_xlarge"
-                    android:visibility="gone">
-
-
-                    <ImageView
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
-                        android:id="@+id/ivAddAccountSum"
-                        android:src="@drawable/ic_coin_stacks_cyan_48dp"
-                        android:contentDescription="@string/empty_amount_field"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"/>
-
-
-                    <EditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
-                        android:ems="6"
-                        android:hint="@string/empty_amount_field"
-                        android:maxLength="14"
-                        android:id="@+id/editTextAccountSum"
-                        android:layout_centerHorizontal="true"
-                        android:gravity="center_horizontal"
-                        android:singleLine="true"
-                        style="@style/TitleFont" />
-
-
-                </RelativeLayout>
             </RelativeLayout>
         </android.support.v7.widget.CardView>
     </ScrollView>

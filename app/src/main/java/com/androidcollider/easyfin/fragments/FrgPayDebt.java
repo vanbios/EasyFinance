@@ -37,7 +37,6 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     private View view;
 
     private TextView tvDebtName, tvAmount;
-    private EditText etSum;
     private Spinner spinAccount;
 
     private Debt debt;
@@ -111,13 +110,16 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         if (mode == 1 || mode == 2) {
 
             final int PRECISE = 100;
-            final String FORMAT = "0.00";
+            final String FORMAT = "###,##0.00";
+
+            tvAmount.setText(DoubleFormatUtils.doubleToStringFormatter(debt.getAmountCurrent(), FORMAT, PRECISE));
 
             //etSum.setText(DoubleFormatUtils.doubleToStringFormatter(debt.getAmountCurrent(), FORMAT, PRECISE));
         }
 
         if (mode == 1) {
             //etSum.setEnabled(false);
+            tvAmount.setClickable(false);
         }
 
 
@@ -175,7 +177,6 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     }
 
 
-
     private void payAllDebt(){
 
         int idDebt = debt.getId();
@@ -201,15 +202,15 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
     private void payPartDebt(){
 
-        String sum = DoubleFormatUtils.prepareStringToParse(etSum.getText().toString());
+        String sum = DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString());
 
-        if (checkForFillSumField(sum)) {
+        //if (checkForFillSumField(sum)) {
 
             double amountDebt = Double.parseDouble(sum);
             double amountAllDebt = debt.getAmountCurrent();
 
             if (amountDebt > amountAllDebt) {
-                ShakeEditText.highlightEditText(etSum);
+                //ShakeEditText.highlightEditText(etSum);
                 ToastUtils.showClosableToast(getActivity(), getString(R.string.debt_sum_more_then_amount), 1);
 
             } else {
@@ -222,7 +223,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
 
                 if (type == 1 && amountDebt > amountAccount) {
-                    ShakeEditText.highlightEditText(etSum);
+                    //ShakeEditText.highlightEditText(etSum);
                     ToastUtils.showClosableToast(getActivity(), getString(R.string.not_enough_costs), 1);
 
                 } else {
@@ -252,14 +253,14 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                     lastActions();
                 }
             }
-        }
+        //}
     }
 
     private void takeMoreDebt() {
 
-        String sum = DoubleFormatUtils.prepareStringToParse(etSum.getText().toString());
+        String sum = DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString());
 
-        if (checkForFillSumField(sum)) {
+        //if (checkForFillSumField(sum)) {
 
             double amountDebt = Double.parseDouble(sum);
             double amountDebtCurrent = debt.getAmountCurrent();
@@ -274,7 +275,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
 
             if (type == 0 && amountDebt > amountAccount) {
-                ShakeEditText.highlightEditText(etSum);
+                //ShakeEditText.highlightEditText(etSum);
                 ToastUtils.showClosableToast(getActivity(), getString(R.string.not_enough_costs), 1);
 
             } else {
@@ -298,10 +299,10 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
                 lastActions();
             }
-        }
+        //}
     }
 
-    private boolean checkForFillSumField(String s) {
+    /*private boolean checkForFillSumField(String s) {
 
         if (! s.matches(".*\\d.*") || Double.parseDouble(s) == 0) {
             ShakeEditText.highlightEditText(etSum);
@@ -311,7 +312,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         }
 
         return true;
-    }
+    }*/
 
     private void lastActions() {
         InfoFromDB.getInstance().updateAccountList();

@@ -3,6 +3,7 @@ package com.androidcollider.easyfin.fragments;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
@@ -43,7 +44,6 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
     private TextView tvDate, tvAmount;
     private DatePickerDialog datePickerDialog;
     private Spinner spinCategory, spinAccount;
-    private EditText etSum;
 
     private final String DATEFORMAT = "dd MMMM yyyy";
 
@@ -51,11 +51,14 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
 
     private ArrayList<Account> accountList = null;
 
-    private int mode;
+    private int mode, transType;
 
     private Transaction transFromIntent;
 
     private DialogFragment numericDialog;
+
+    private final String prefixExpense = "- ";
+    private final String prefixIncome = "+ ";
 
 
 
@@ -69,52 +72,98 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
 
         mode = getArguments().getInt("mode", 0);
 
+        if (mode == 0) {
+            transType = getArguments().getInt("type", 0);
+        }
+
         setToolbar();
 
         accountList = InfoFromDB.getInstance().getAccountList();
 
-        /*if (accountList.isEmpty()) {
+        if (accountList.isEmpty()) {
             showDialogNoAccount();
         }
 
         else {
 
-            etSum = (EditText) view.findViewById(R.id.editTextTransSum);
-            etSum.setTextColor(getResources().getColor(R.color.custom_red));
+            tvAmount = (TextView) view.findViewById(R.id.tvAddTransDefAmount);
+            tvAmount.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog2");
+                }
+            });
 
-            etSum.addTextChangedListener(new EditTextAmountWatcher(etSum));
+            //etSum = (EditText) view.findViewById(R.id.editTextTransSum);
+            //etSum.setTextColor(getResources().getColor(R.color.custom_red));
 
-            setRadioGroupEvents();
+            //etSum.addTextChangedListener(new EditTextAmountWatcher(etSum));
+
+            //setRadioGroupEvents();
 
             if (mode == 1) {
+
                 transFromIntent = (Transaction) getArguments().getSerializable("transaction");
 
                 final int PRECISE = 100;
-                final String FORMAT = "0.00";
+                final String FORMAT = "###,##0.00";
 
                 double amount = transFromIntent.getAmount();
-                etSum.setText(DoubleFormatUtils.doubleToStringFormatter(Math.abs(amount), FORMAT, PRECISE));
+                //etSum.setText(DoubleFormatUtils.doubleToStringFormatter(Math.abs(amount), FORMAT, PRECISE));
 
                 if (!DoubleFormatUtils.isDoubleNegative(amount)) {
-                    RadioButton rbPlus = (RadioButton) view.findViewById(R.id.radioButtonIncome);
-                    rbPlus.setChecked(true);
+                    //RadioButton rbPlus = (RadioButton) view.findViewById(R.id.radioButtonIncome);
+                    //rbPlus.setChecked(true);
+
+                    transType = 1;
+                    tvAmount.setText(prefixIncome +
+                            DoubleFormatUtils.doubleToStringFormatter(amount, FORMAT, PRECISE));
+
                 }
-            }*/
 
+                else {
 
-        tvAmount = (TextView) view.findViewById(R.id.tvAddTransDefAmount);
-        tvAmount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog2");
+                    transType = 0;
+                    tvAmount.setText(prefixExpense +
+                            DoubleFormatUtils.doubleToStringFormatter(Math.abs(amount), FORMAT, PRECISE));
+                }
             }
-        });
+
+            else {
+                switch (transType) {
+                    case 0: {
+                        tvAmount.setText(prefixExpense + "0,00");
+                        break;
+                    }
+                    case 1: {
+                        tvAmount.setText(prefixIncome + "0,00");
+                        break;
+                    }
+                }
+            }
+
+            }
+
 
             tvDate = (TextView) view.findViewById(R.id.tvTransactionDate);
 
             setDateTimeField();
 
             setSpinner();
+
+
+        switch (transType) {
+            case 0: {
+                tvAmount.setTextColor(getResources().getColor(R.color.custom_red));
+                break;
+            }
+            case 1: {
+                tvAmount.setTextColor(getResources().getColor(R.color.custom_green));
+                break;
+            }
+        }
+
+
 
             //HideKeyboardUtils.setupUI(view.findViewById(R.id.scrollAddTransDef), getActivity());
 
@@ -127,8 +176,22 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
         spinCategory = (Spinner) view.findViewById(R.id.spinAddTransCategory);
         spinAccount = (Spinner) view.findViewById(R.id.spinAddTransDefAccount);
 
-        String[] categoryArray = getResources().getStringArray(R.array.transaction_category_array);
+        String[] categoryArray;
+        TypedArray categoryIcons;
 
+
+        switch (transType) {
+
+            case 1: {
+                categoryArray = getResources().getStringArray(R.array.transaction_category_income_array);
+                categoryIcons = getResources().obtainTypedArray(R.array.transaction_category_income_icons);
+                break;
+            }
+
+            default: {categoryArray = getResources().getStringArray(R.array.transaction_category_expense_array);
+                categoryIcons = getResources().obtainTypedArray(R.array.transaction_category_expense_icons);
+            break;}
+        }
 
         spinCategory.setAdapter(new SpinIconTextHeadAdapter(
                 getActivity(),
@@ -139,7 +202,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                 R.id.tvSpinDropIconText,
                 R.id.ivSpinDropIconText,
                 categoryArray,
-                getResources().obtainTypedArray(R.array.transaction_categories_icons)));
+                categoryIcons));
 
         spinCategory.setSelection(categoryArray.length - 1);
 
@@ -168,7 +231,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
         }
     }
 
-    private void setRadioGroupEvents() {
+    /*private void setRadioGroupEvents() {
         RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.radioGroupTransDef);
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -187,26 +250,32 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                 }
             }
         });
-    }
+    }*/
 
     public void addTransaction() {
 
-        String sum = DoubleFormatUtils.prepareStringToParse(etSum.getText().toString());
+        String sum = DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString());
 
         if (! sum.matches(".*\\d.*") || Double.parseDouble(sum) == 0) {
-            ShakeEditText.highlightEditText(etSum);
+            //ShakeEditText.highlightEditText(etSum);
             ToastUtils.showClosableToast(getActivity(), getString(R.string.empty_amount_field), 1);
         }
 
         else {
 
-            RadioButton rbCost = (RadioButton) view.findViewById(R.id.radioButtonCost);
+            //RadioButton rbCost = (RadioButton) view.findViewById(R.id.radioButtonCost);
 
             Long date = DateFormatUtils.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
 
             double amount = Double.parseDouble(sum);
-            if (rbCost.isChecked()) {
-                amount *= -1;}
+            /*if (rbCost.isChecked()) {
+                amount *= -1;}*/
+
+            boolean isExpense = transType == 0;
+
+            if (isExpense) {
+                amount *= -1;
+            }
 
 
             Account account = (Account) spinAccount.getSelectedItem();
@@ -218,7 +287,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
             }
 
 
-            if (rbCost.isChecked() && Math.abs(amount) > accountAmount) {
+            if (isExpense && Math.abs(amount) > accountAmount) {
             ToastUtils.showClosableToast(getActivity(), getString(R.string.not_enough_costs), 1);}
             else {
                 accountAmount += amount;

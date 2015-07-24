@@ -40,7 +40,7 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
 
     private View view;
 
-    private EditText etExchange, etSum;
+    private EditText etExchange;
 
     private TextView tvAmount;
 
@@ -191,9 +191,9 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
 
     public void addTransactionBTW() {
 
-        if (checkEditTextForCorrect(etSum, R.string.empty_amount_field)) {
+        //if (checkEditTextForCorrect(etSum, R.string.empty_amount_field)) {
 
-            double amount = Double.parseDouble(DoubleFormatUtils.prepareStringToParse(etSum.getText().toString()));
+            double amount = Double.parseDouble(DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString()));
 
             Account accountFrom = (Account) spinAccountFrom.getSelectedItem();
             double accountAmountFrom = accountFrom.getAmount();
@@ -227,7 +227,7 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
                     lastActions(amount, amount, accountIdFrom, accountIdTo, accountAmountFrom, accountAmountTo);
                 }
             }
-        }
+        //}
     }
 
     private void lastActions(double amount, double amountTo,

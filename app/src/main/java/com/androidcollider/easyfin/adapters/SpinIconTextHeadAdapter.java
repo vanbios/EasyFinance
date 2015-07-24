@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 
 
-public class SpinIconTextHeadAdapter extends ArrayAdapter<String>{
+public class SpinIconTextHeadAdapter extends ArrayAdapter<String> {
 
     final TypedArray iconsArray;
     final String[] textArray;

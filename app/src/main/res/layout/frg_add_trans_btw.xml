@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/common_padding_xlarge"
             android:paddingRight="@dimen/common_padding_xlarge"
-            android:paddingBottom="@dimen/common_padding_medium"
+            android:paddingBottom="30dp"
             android:paddingTop="@dimen/common_padding_xlarge">
 
 
@@ -125,22 +125,20 @@
 
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:id="@+id/cvAddTransBTWDividerExchange"
+                android:background="@color/custom_light_gray"
+                android:layout_below="@+id/layoutAddTransBTWAccountTo"/>
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/layoutAddTransBTWExchange"
-                android:layout_below="@+id/layoutAddTransBTWAccountTo"
-                android:layout_marginBottom="@dimen/common_padding_large"
+                android:layout_below="@+id/cvAddTransBTWDividerExchange"
                 android:visibility="gone">
-
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:id="@+id/cvAddTransBTWDividerExchange"
-                    android:background="@color/custom_light_gray"
-                    android:layout_alignParentTop="true" />
 
 
                 <ImageView
@@ -149,7 +147,7 @@
                     android:id="@+id/ivAddTransBTWExchange"
                     android:src="@drawable/ic_trans_btw_blue_gray_48dp"
                     android:contentDescription="@string/account"
-                    android:layout_below="@+id/cvAddTransBTWDividerExchange"
+                    android:layout_alignParentTop="true"
                     android:layout_marginTop="28dp" />
 
 
@@ -162,7 +160,7 @@
                     android:hint="@string/exchange"
                     android:maxLength="8"
                     style="@style/TitleFont"
-                    android:layout_below="@+id/cvAddTransBTWDividerExchange"
+                    android:layout_alignParentTop="true"
                     android:layout_marginTop="@dimen/common_padding_large"
                     android:layout_centerHorizontal="true"
                     android:gravity="center_horizontal" />

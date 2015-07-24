@@ -40,7 +40,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/tvAddTransDefAmount"
-                    android:text="+ 5 138,16"
+                    android:text="5 138,16"
                     android:gravity="center_horizontal"
                     android:textColor="@color/custom_green"
                     android:textSize="36sp"/>
