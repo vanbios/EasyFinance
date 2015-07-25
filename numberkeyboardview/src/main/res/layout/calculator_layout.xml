@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+    <TextView
+        android:id="@+id/display"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.28"
+        android:text="0,00"
+        android:paddingRight="20dp"
+        android:textSize="38dp"
+        android:gravity="center_vertical|right" />
+    <LinearLayout
+        android:id="@+id/keyboard_1row"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.18"></LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/keyboard_2row"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.18"></LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/keyboard_3row"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.18"></LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/keyboard_4row"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.18"></LinearLayout>
+
+</LinearLayout>

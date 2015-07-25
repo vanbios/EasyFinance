@@ -34,4 +34,5 @@ dependencies {
     compile 'com.github.PhilJay:MPAndroidChart:v2.1.0'
     compile files('libs/volley.jar')
     compile files('libs/acra-4.5.0.jar')
+    compile project (':numberkeyboardview')
 }

@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
-        android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+        android:textColor="@color/custom_text_light"
+        android:textSize="26sp"/>
 
 </LinearLayout>

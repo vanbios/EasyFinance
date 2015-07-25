@@ -2,6 +2,7 @@ package com.androidcollider.easyfin.fragments;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -13,13 +14,17 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
+import com.acollider.numberkeyboardview.CalculatorView;
 import com.androidcollider.easyfin.R;
+import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 
 
 public class FrgNumericDialog extends DialogFragment {
 
 
     private OnCommitAmountListener callback;
+
+    final private boolean isApiHoneycombAndHigher = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
 
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,8 +40,54 @@ public class FrgNumericDialog extends DialogFragment {
         }
 
 
+        final CalculatorView calculatorView = new CalculatorView(getActivity());
+        calculatorView.setShowSpaces(true);
+        calculatorView.setShowSelectors(true);
+        calculatorView.build();
+
+        try {
+
+            String inputValue = getArguments().getString("value");
+
+            if (inputValue != null) {
+
+                String s2 = DoubleFormatUtils.prepareStringToSeperate(inputValue);
+
+                String integers;
+                String hundreds = "";
+
+                if (s2.contains(",")) {
+                    int j = s2.indexOf(",");
+                    integers = s2.substring(0, j);
+
+                    String h = s2.substring(j + 1);
+
+                    if (!h.equals("00")) {
+                        hundreds = h;
+                    }
+                }
+
+                else {
+                    integers = s2;
+                }
+
+                if (integers.equals("0")) {
+                    integers = "";
+                }
+
+                calculatorView.setIntegers(integers);
+                calculatorView.setHundredths(hundreds);
+                calculatorView.formatAndShow();
+
+            }
+        }
+
+        catch (NullPointerException e) {e.printStackTrace();}
+
+
         FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.containerFrgNumericDialog);
-        //add calculator view
+        frameLayout.addView(calculatorView);
+
 
         Button btnCommit = (Button) view.findViewById(R.id.btnFrgNumericDialogCommit);
         Button btnCancel = (Button) view.findViewById(R.id.btnFrgNumericDialogCancel);
@@ -45,7 +96,7 @@ public class FrgNumericDialog extends DialogFragment {
             @Override
             public void onClick(View v) {
 
-                //commit callback with string result
+                callback.onCommitAmountSubmit(calculatorView.getCalculatorValue());
                 dismiss();
             }
         });
@@ -69,7 +120,18 @@ public class FrgNumericDialog extends DialogFragment {
         root.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
         // creating the fullscreen dialog
-        final Dialog dialog = new Dialog(getActivity());
+
+        Dialog dialog;
+
+        if (!isApiHoneycombAndHigher) {
+            dialog = new Dialog(getActivity(), android.R.style.Theme_Light_NoTitleBar);
+        }
+
+        else {
+            dialog = new Dialog(getActivity());
+        }
+
+
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(root);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);

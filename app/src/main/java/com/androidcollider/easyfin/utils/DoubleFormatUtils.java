@@ -8,7 +8,7 @@ import java.text.DecimalFormatSymbols;
 public class DoubleFormatUtils {
 
 
-    public static String doubleToStringFormatter(double number, String format, int precise){
+    public static String doubleToStringFormatter(double number, String format, int precise) {
 
         DecimalFormatSymbols dfs = new DecimalFormatSymbols();
         dfs.setDecimalSeparator(',');
@@ -34,6 +34,20 @@ public class DoubleFormatUtils {
         return s;
     }
 
+    public static String doubleToStringFormatterForEdit(double number, String format, int precise) {
+
+        DecimalFormatSymbols dfs = new DecimalFormatSymbols();
+        dfs.setDecimalSeparator(',');
+        dfs.setGroupingSeparator(' ');
+
+        DecimalFormat dfRate = new DecimalFormat(format, dfs);
+        precise = 10^precise;
+        number = number*precise;
+        long i = Math.round(number);
+        double result = (double) i/precise;
+
+        return dfRate.format(result);
+    }
 
     public static String prepareStringToParse(String s) {
 
@@ -49,6 +63,25 @@ public class DoubleFormatUtils {
         }
         if (s.contains(",")) {
             s = s.replaceAll(",", ".");
+        }
+
+        return s;
+    }
+
+    public static String prepareStringToSeperate(String s) {
+
+        if (s.contains("+")) {
+            s = s.replace("+", "");
+        }
+        else if (s.contains("-")) {
+            s = s.replace("-", "");
+        }
+
+        if (s.contains(" ")) {
+            s = s.replaceAll("\\s+", "");
+        }
+        if (s.contains(".")) {
+            s = s.replaceAll("\\.", ",");
         }
 
         return s;

@@ -7,6 +7,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -55,28 +57,34 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.frg_add_trans_btw, container, false);
 
-        numericDialog = new FrgNumericDialog();
-        numericDialog.setTargetFragment(this, 3);
+        view = inflater.inflate(R.layout.frg_add_trans_btw, container, false);
 
         setToolbar();
 
         accountListFrom = InfoFromDB.getInstance().getAccountList();
 
+        ScrollView scrollView = (ScrollView) view.findViewById(R.id.scrollAddTransBTW);
+
         if (accountListFrom.size() < 2) {
+            scrollView.setVisibility(View.GONE);
             showDialogNoAccount();
         }
 
         else {
 
+            scrollView.setVisibility(View.VISIBLE);
+
             tvAmount = (TextView) view.findViewById(R.id.tvAddTransBTWAmount);
+            tvAmount.setText("0,00");
             tvAmount.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog3");
+                    openNumericDialog();
                 }
             });
+
+            openNumericDialog();
 
             etExchange = (EditText) view.findViewById(R.id.editTextTransBTWExchange);
             etExchange.addTextChangedListener(new EditTextAmountWatcher(etExchange));
@@ -222,7 +230,6 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
                     lastActions(amount, amount, accountIdFrom, accountIdTo, accountAmountFrom, accountAmountTo);
                 }
             }
-        //}
     }
 
     private void lastActions(double amount, double amountTo,
@@ -329,11 +336,38 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
         addFragment(frgAddAccount);
     }
 
+    private void openNumericDialog() {
+        Bundle args = new Bundle();
+        args.putString("value", tvAmount.getText().toString());
+
+        numericDialog = new FrgNumericDialog();
+        numericDialog.setTargetFragment(this, 3);
+        numericDialog.setArguments(args);
+        numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog3");
+    }
 
     @Override
     public void onCommitAmountSubmit(String amount) {
 
-        //set amount to tvAmount
+        setTVTextSize(amount);
+        tvAmount.setText(amount);
+    }
+
+    private void setTVTextSize(String s) {
+
+        int length = s.length();
+
+        if (length > 10 && length <= 15) {
+            tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+        }
+
+        else if (length > 15) {
+            tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
+        }
+
+        else {
+            tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36);
+        }
     }
 
 }

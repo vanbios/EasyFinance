@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,8 +53,8 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
         view = inflater.inflate(R.layout.frg_pay_debt, container, false);
 
-        numericDialog = new FrgNumericDialog();
-        numericDialog.setTargetFragment(this, 5);
+        //numericDialog = new FrgNumericDialog();
+        //numericDialog.setTargetFragment(this, 5);
 
         mode = getArguments().getInt("mode", 0);
         debt = (Debt) getArguments().getSerializable("debt");
@@ -83,7 +84,6 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         return view;
     }
 
-
     private void initializeView() {
         tvDebtName = (TextView) view.findViewById(R.id.tvPayDebtName);
 
@@ -91,7 +91,8 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         tvAmount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog5");
+                //numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog5");
+                openNumericDialog();
             }
         });
         spinAccount = (Spinner) view.findViewById(R.id.spinPayDebtAccount);
@@ -107,7 +108,14 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
             final int PRECISE = 100;
             final String FORMAT = "###,##0.00";
 
-            tvAmount.setText(DoubleFormatUtils.doubleToStringFormatter(debt.getAmountCurrent(), FORMAT, PRECISE));
+            String amount = DoubleFormatUtils.doubleToStringFormatterForEdit(debt.getAmountCurrent(), FORMAT, PRECISE);
+            setTVTextSize(amount);
+            tvAmount.setText(amount);
+        }
+
+        else {
+            tvAmount.setText("0,00");
+            openNumericDialog();
         }
 
         if (mode == 1) {
@@ -167,7 +175,6 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
             }
         }
     }
-
 
     private void payAllDebt(){
 
@@ -398,11 +405,37 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         }
     }
 
+    private void openNumericDialog() {
+        Bundle args = new Bundle();
+        args.putString("value", tvAmount.getText().toString());
+
+        numericDialog = new FrgNumericDialog();
+        numericDialog.setTargetFragment(this, 5);
+        numericDialog.setArguments(args);
+        numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog5");
+    }
 
     @Override
     public void onCommitAmountSubmit(String amount) {
+        setTVTextSize(amount);
+        tvAmount.setText(amount);
+    }
 
-        //set amount to tvAmount
+    private void setTVTextSize(String s) {
+
+        int length = s.length();
+
+        if (length > 10 && length <= 15) {
+            tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+        }
+
+        else if (length > 15) {
+            tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
+        }
+
+        else {
+            tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36);
+        }
     }
 
 }

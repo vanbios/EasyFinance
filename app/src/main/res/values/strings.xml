@@ -113,7 +113,7 @@
     <string name="transaction_empty_list">Your transactions will be here</string>
     <string name="debt_empty_list">Your debts will be here</string>
 
-    <string name="not_enough_costs">Not enough money in account</string>
+    <string name="not_enough_costs">Not enough costs in account</string>
 
     <string name="dialog_text_transaction_no_account">You must have at least one account for transactions</string>
     <string name="dialog_text_transfer_no_accounts">You must have at least two accounts for transfer</string>
@@ -149,34 +149,36 @@
     </string>
     <string name="faq_about_accounts">
         To start working with FinU you need to add your accounts.
-        Specify name, type (cash, card, deposit), currency and amount.
+        Specify amount, name, type (cash, card, deposit), currency.
         You can see your accounts in Accounts tab.
         Call context menu (long press on item) to edit/delete account.
     </string>
     <string name="faq_about_transactions">
         Expenses/incomes.
         You must have at least one account for transactions.
-        Specify amount, expense (`-`, red) or income (`+`, green), account, category and date.
-        If you have 2 or more accounts, you can transfer costs between accounts.
+        Red button - expense, green button - income.
+        Specify amount, account, category and date.
+        If you have 2 or more accounts, you can transfer costs between accounts (blue button).
         Specify amount, account from and account to.
         If costs on accounts in different currencies, additionally appears exchange rate field.
         If you need you can change value in this field.
-        You can see your expense/income transactions in Transactions tab.
+        You can see your expenses and incomes in Transactions tab.
         Call context menu (long press on item) to edit/delete transaction.
     </string>
     <string name="faq_about_debts">
-        If you give money - costs are deducted from the account, if you take – costs are added to the account.
-        Specify name, type (give money, green color, or take money, red color), account, amount and deadline.
-        Debts displayed as Accounts and Transactions.
+        If you give money (green button) - costs are deducted from the account, if you take (red button) – costs are added to the account.
+        Specify amount, name, account, and deadline.
+        Debts displayed in list like Accounts and Transactions.
         The scale at the bottom of each debt showing its current status (how much percent of debt remains and must be paid).
-        Call context menu to see next items: pay whole debt, pay part of debt, increase debt amount, and delete.
+        Call context menu to see next items: pay whole debt, pay part of debt, increase debt amount, edit, delete.
     </string>
     <string name="faq_about_home">
         Primary information about accounts, debts (Balance) and transactions (Report).
         Balance. Chart displays sum of costs, group by type (cash, cards, deposits, debts) and currency, which selected from dropdown list.
         If you click on icon to right above the chart, will appear settings dialog.
         If check `Convert all money to selected currency` chart will be display sum of accounts in all currencies group by type.
-        Report. Chart displays sum of all expense/income transactions for the selected period (day, week, month, year). Bind with currency which selected in Balance.
+        Report. Chart displays sum of all expenses and incomes for the selected period (day, week, month, year),
+        bind with currency which selected in Balance.
         Also you can change chart type.
     </string>
 

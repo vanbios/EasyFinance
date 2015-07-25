@@ -590,8 +590,24 @@ public class FrgHome extends Fragment {
     private void checkStatChartTypeForUpdate() {
 
         switch (spinChartType.getSelectedItemPosition()) {
-            case 0: {setStatisticBarChart(); break;}
-            case 1: {setStatisticPieChart(); break;}
+            case 0: {
+                setStatisticBarChart();
+                break;
+            }
+            case 1: {
+
+                if (statistic[0] == 0 && statistic[1] == 0) {
+                    tvNoData.setVisibility(View.VISIBLE);
+                    chartStatisticPie.setVisibility(View.GONE);
+                }
+
+                else {
+                    tvNoData.setVisibility(View.GONE);
+                    chartStatisticPie.setVisibility(View.VISIBLE);
+                    setStatisticPieChart();
+                }
+                break;
+            }
         }
     }
 

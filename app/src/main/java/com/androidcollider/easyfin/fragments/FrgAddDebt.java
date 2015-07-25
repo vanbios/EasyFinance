@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,8 +64,8 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
         view = inflater.inflate(R.layout.frg_add_debt, container, false);
 
-        numericDialog = new FrgNumericDialog();
-        numericDialog.setTargetFragment(this, 4);
+        //numericDialog = new FrgNumericDialog();
+        //numericDialog.setTargetFragment(this, 4);
 
         mode = getArguments().getInt("mode", 0);
 
@@ -120,10 +121,17 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         tvDate = (TextView) view.findViewById(R.id.tvAddDebtDate);
 
         tvAmount = (TextView) view.findViewById(R.id.tvAddDebtAmount);
+
+        if (mode == 0) {
+            tvAmount.setText("0,00");
+            openNumericDialog();
+        }
+
         tvAmount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog4");
+                //numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog4");
+                openNumericDialog();
             }
         });
     }
@@ -136,7 +144,9 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         final int PRECISE = 100;
         final String FORMAT = "###,##0.00";
 
-        tvAmount.setText(DoubleFormatUtils.doubleToStringFormatter(debtFrIntent.getAmountCurrent(), FORMAT, PRECISE));
+        String amount = DoubleFormatUtils.doubleToStringFormatterForEdit(debtFrIntent.getAmountCurrent(), FORMAT, PRECISE);
+        setTVTextSize(amount);
+        tvAmount.setText(amount);
 
         debtType = debtFrIntent.getType();
     }
@@ -429,11 +439,38 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         }
     }
 
+    private void openNumericDialog() {
+        Bundle args = new Bundle();
+        args.putString("value", tvAmount.getText().toString());
+
+        numericDialog = new FrgNumericDialog();
+        numericDialog.setTargetFragment(this, 4);
+        numericDialog.setArguments(args);
+        numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog4");
+    }
 
     @Override
     public void onCommitAmountSubmit(String amount) {
 
-        //set amount to tvAmount
+        setTVTextSize(amount);
+        tvAmount.setText(amount);
+    }
+
+    private void setTVTextSize(String s) {
+
+        int length = s.length();
+
+        if (length > 10 && length <= 15) {
+            tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+        }
+
+        else if (length > 15) {
+            tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
+        }
+
+        else {
+            tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36);
+        }
     }
 
 }

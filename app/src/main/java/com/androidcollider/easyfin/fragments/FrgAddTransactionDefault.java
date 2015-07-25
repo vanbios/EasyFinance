@@ -9,11 +9,13 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -51,25 +53,33 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
 
     private DialogFragment numericDialog;
 
+    private final String prefixExpense = "- ", prefixIncome = "+ ";
+
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         view = inflater.inflate(R.layout.frg_add_trans_def, container, false);
 
         setToolbar();
 
         accountList = InfoFromDB.getInstance().getAccountList();
 
+        ScrollView scrollView = (ScrollView) view.findViewById(R.id.scrollAddTransDef);
+
         if (accountList.isEmpty()) {
+            scrollView.setVisibility(View.GONE);
             showDialogNoAccount();
         }
 
         else {
 
-            numericDialog = new FrgNumericDialog();
-            numericDialog.setTargetFragment(this, 2);
+            scrollView.setVisibility(View.VISIBLE);
+
+            //numericDialog = new FrgNumericDialog();
+            //numericDialog.setTargetFragment(this, 2);
 
             mode = getArguments().getInt("mode", 0);
 
@@ -77,70 +87,82 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
             tvAmount.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog2");
+                    //numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog2");
+                    openNumericDialog();
                 }
             });
 
-            final String prefixExpense = "- ", prefixIncome = "+ ";
 
-            if (mode == 1) {
+            switch (mode) {
 
-                transFromIntent = (Transaction) getArguments().getSerializable("transaction");
+                case 0: {
 
-                final int PRECISE = 100;
-                final String FORMAT = "###,##0.00";
+                    transType = getArguments().getInt("type", 0);
 
-                double amount = transFromIntent.getAmount();
+                    switch (transType) {
 
-                if (!DoubleFormatUtils.isDoubleNegative(amount)) {
+                        case 0: {
+                            tvAmount.setText(prefixExpense + "0,00");
+                            break;
+                        }
 
-                    transType = 1;
-                    tvAmount.setText(prefixIncome +
-                            DoubleFormatUtils.doubleToStringFormatter(amount, FORMAT, PRECISE));
-                }
-
-                else {
-
-                    transType = 0;
-                    tvAmount.setText(prefixExpense +
-                            DoubleFormatUtils.doubleToStringFormatter(Math.abs(amount), FORMAT, PRECISE));
-                }
-            }
-
-            else {
-
-                transType = getArguments().getInt("type", 0);
-
-                switch (transType) {
-
-                    case 0: {
-                        tvAmount.setText(prefixExpense + "1,00");
-                        break;
+                        case 1: {
+                            tvAmount.setText(prefixIncome + "0,00");
+                            break;
+                        }
                     }
 
-                    case 1: {
-                        tvAmount.setText(prefixIncome + "1,00");
-                        break;
+                    openNumericDialog();
+
+                    break;
+                }
+
+                case 1: {
+
+                    transFromIntent = (Transaction) getArguments().getSerializable("transaction");
+
+                    final int PRECISE = 100;
+                    final String FORMAT = "###,##0.00";
+
+                    double amount = transFromIntent.getAmount();
+
+                    if (!DoubleFormatUtils.isDoubleNegative(amount)) {
+
+                        transType = 1;
+                        String amountS = DoubleFormatUtils.doubleToStringFormatterForEdit(amount, FORMAT, PRECISE);
+                        setTVTextSize(amountS);
+                        tvAmount.setText(prefixIncome + amountS);
                     }
+
+                    else {
+
+                        transType = 0;
+                        String amountS = DoubleFormatUtils.doubleToStringFormatterForEdit(Math.abs(amount), FORMAT, PRECISE);
+                        setTVTextSize(amountS);
+                        tvAmount.setText(prefixExpense + amountS);
+                    }
+
+                    break;
                 }
             }
-        }
-
-        tvDate = (TextView) view.findViewById(R.id.tvTransactionDate);
-
-        setDateTimeField();
-
-        setSpinner();
 
 
-        switch (transType) {
-            case 0: {
-                tvAmount.setTextColor(getResources().getColor(R.color.custom_red));
-                break;
-            }
-            case 1: {
-                tvAmount.setTextColor(getResources().getColor(R.color.custom_green));
-                break;
+            tvDate = (TextView) view.findViewById(R.id.tvTransactionDate);
+
+            setDateTimeField();
+
+            setSpinner();
+
+
+            switch (transType) {
+                case 0: {
+                    tvAmount.setTextColor(getResources().getColor(R.color.custom_red));
+                    break;
+                }
+                case 1: {
+                    tvAmount.setTextColor(getResources().getColor(R.color.custom_green));
+                    break;
+                }
             }
         }
 
@@ -391,10 +413,49 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
         addFragment(frgAddAccount);
     }
 
+    private void openNumericDialog() {
+        Bundle args = new Bundle();
+        args.putString("value", tvAmount.getText().toString());
+
+        numericDialog = new FrgNumericDialog();
+        numericDialog.setTargetFragment(this, 2);
+        numericDialog.setArguments(args);
+        numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog2");
+    }
+
     @Override
     public void onCommitAmountSubmit(String amount) {
 
-        //set amount to tvAmount
+        setTVTextSize(amount);
+
+        switch (transType) {
+
+            case 0: {
+                tvAmount.setText(prefixExpense + amount);
+                break;
+            }
+            case 1: {
+                tvAmount.setText(prefixIncome + amount);
+                break;
+            }
+        }
+    }
+
+    private void setTVTextSize(String s) {
+
+        int length = s.length();
+
+        if (length > 9 && length <= 14) {
+            tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+        }
+
+        else if (length > 14) {
+            tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
+        }
+
+        else {
+            tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36);
+        }
     }
 
 }

@@ -7,6 +7,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,9 +50,6 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
 
         view = inflater.inflate(R.layout.frg_add_account, container, false);
 
-        numericDialog = new FrgNumericDialog();
-        numericDialog.setTargetFragment(this, 1);
-
         initializeFields();
 
         setMode();
@@ -63,7 +61,6 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
         return view;
     }
 
-
     private void initializeFields() {
         spinType = (Spinner) view.findViewById(R.id.spinAddAccountType);
         spinCurrency = (Spinner) view.findViewById(R.id.spinAddAccountCurrency);
@@ -74,7 +71,8 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
         tvAmount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog1");
+                //numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog1");
+                openNumericDialog();
             }
         });
     }
@@ -124,15 +122,19 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
         }
     }
 
-
     private void setMode () {
         mode = getArguments().getInt("mode", 0);
 
         switch (mode) {
 
+            case 0: {
+                tvAmount.setText("0,00");
+                openNumericDialog();
+                break;}
+
             case 1: {
                 accFrIntent = (Account) getArguments().getSerializable("account");
-                setEdits();
+                setFields();
                 break;
             }
         }
@@ -183,7 +185,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
         }
     }
 
-    private void setEdits() {
+    private void setFields() {
 
         oldName = accFrIntent.getName();
         etName.setText(oldName);
@@ -192,7 +194,9 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
         final int PRECISE = 100;
         final String FORMAT = "###,##0.00";
 
-        tvAmount.setText(DoubleFormatUtils.doubleToStringFormatter(accFrIntent.getAmount(), FORMAT, PRECISE));
+        String amount = DoubleFormatUtils.doubleToStringFormatterForEdit(accFrIntent.getAmount(), FORMAT, PRECISE);
+        setTVTextSize(amount);
+        tvAmount.setText(amount);
 
         idAccount = accFrIntent.getId();
     }
@@ -291,10 +295,37 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
         }
     }
 
+    private void openNumericDialog() {
+        Bundle args = new Bundle();
+        args.putString("value", tvAmount.getText().toString());
+
+        numericDialog = new FrgNumericDialog();
+        numericDialog.setTargetFragment(this, 1);
+        numericDialog.setArguments(args);
+        numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog1");
+    }
+
     @Override
     public void onCommitAmountSubmit(String amount) {
+        setTVTextSize(amount);
+        tvAmount.setText(amount);
+    }
 
-        //set amount to tvAmount
+    private void setTVTextSize(String s) {
+
+        int length = s.length();
+
+        if (length > 10 && length <= 15) {
+            tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
+        }
+
+        else if (length > 15) {
+            tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
+        }
+
+        else {
+            tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36);
+        }
     }
 
 }

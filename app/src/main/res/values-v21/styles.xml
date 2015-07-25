@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="floating_action_button_big">
+        <item name="android:layout_margin">16dp</item>
+    </style>
+
+    <style name="floating_action_button_small_expense">
+        <item name="android:layout_marginLeft">24dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginRight">24dp</item>
+        <item name="android:layout_marginBottom">88dp</item>
+    </style>
+
+    <style name="floating_action_button_small_income">
+        <item name="android:layout_marginLeft">24dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginRight">24dp</item>
+        <item name="android:layout_marginBottom">144dp</item>
+    </style>
+
+    <style name="floating_action_button_small_transfer">
+        <item name="android:layout_marginLeft">24dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginRight">24dp</item>
+        <item name="android:layout_marginBottom">200dp</item>
+    </style>
+
+</resources>

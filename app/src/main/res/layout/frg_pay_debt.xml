@@ -44,7 +44,8 @@
                     android:text="5 138,16"
                     android:gravity="center_horizontal"
                     android:textColor="@color/custom_text_gray_dark"
-                    android:textSize="36sp"/>
+                    android:textSize="36sp"
+                    android:singleLine="true"/>
 
 
                 <RelativeLayout
