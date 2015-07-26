@@ -11,13 +11,6 @@
 
     // actions
     <string name="new_account">New account</string>
-    <string name="new_debt">New debt</string>
-    <string name="new_transaction">New transaction</string>
-    <string name="edit_transaction">Edit transaction</string>
-    <string name="delete_transaction">Delete transaction</string>
-    <string name="edit_account">Edit account</string>
-    <string name="edit_debt">Edit debt</string>
-    <string name="delete_debt">Delete debt</string>
     <string name="pay_all_debt">Pay whole debt</string>
     <string name="pay_part_debt">Pay part of debt</string>
     <string name="take_more_debt">Increase debt amount</string>
@@ -58,9 +51,6 @@
     <string name="tab_accounts">Accounts</string>
     <string name="tab_home">Home</string>
 
-    <string name="tab_transaction_default">Expense / Income</string>
-    <string name="tab_transaction_between">Btw accounts</string>
-
 
 
     // text fields main
@@ -79,7 +69,6 @@
 
     // add accounts, debts,  transactions activities text fields
     <string name="account_type">Account type</string>
-    <string name="debt_type">Debt type</string>
 
     <string name="currency">Currency</string>
     <string name="date">Date</string>
@@ -89,7 +78,6 @@
     <string name="account_from">From account</string>
     <string name="account_to">To account</string>
     <string name="exchange">Rate</string>
-    <string name="rates">Rates</string>
 
 
 
@@ -107,7 +95,7 @@
     <string name="snack_account_list">Long press on item to edit account</string>
 
     <string name="dialog_text_delete_account">Account will be deleted!</string>
-    <string name="dialog_title_delete_account">Delete</string>
+    <string name="dialog_title_delete">Delete</string>
 
     <string name="account_empty_list">Your accounts will be here</string>
     <string name="transaction_empty_list">Your transactions will be here</string>
@@ -199,22 +187,6 @@
 
 
     //string arrays
-    <string-array name="transaction_category_array">
-        <item>Food</item>
-        <item>Transport</item>
-        <item>Clothing</item>
-        <item>Fun</item>
-        <item>Gifts</item>
-        <item>Health</item>
-        <item>Education</item>
-        <item>Electronics</item>
-        <item>Salary</item>
-        <item>Freelance</item>
-        <item>Profit</item>
-        <item>Other</item>
-    </string-array>
-
-
 
     <string-array name="transaction_category_expense_array">
         <item>Food</item>
@@ -229,7 +201,6 @@
     </string-array>
 
 
-
     <string-array name="transaction_category_income_array">
         <item>Salary</item>
         <item>Freelance</item>
@@ -242,12 +213,6 @@
         <item>Cash</item>
         <item>Card</item>
         <item>Deposit</item>
-    </string-array>
-
-
-    <string-array name="debt_type_array">
-        <item>Give</item>
-        <item>Take</item>
     </string-array>
 
 

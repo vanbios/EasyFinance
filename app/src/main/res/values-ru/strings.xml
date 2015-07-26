@@ -11,13 +11,6 @@
 
     // actions
     <string name="new_account">Новый счет</string>
-    <string name="new_debt">Новый долг</string>
-    <string name="new_transaction">Новая транзакция</string>
-    <string name="edit_transaction">Редактирование транзакции</string>
-    <string name="delete_transaction">Удаление транзакции</string>
-    <string name="edit_account">Редактирование счета</string>
-    <string name="edit_debt">Редактирование долга</string>
-    <string name="delete_debt">Удаление долга</string>
     <string name="pay_all_debt">Оплатить весь долг</string>
     <string name="pay_part_debt">Оплатить часть долга</string>
     <string name="take_more_debt">Добавить сумму к долгу</string>
@@ -58,9 +51,6 @@
     <string name="tab_accounts">Счета</string>
     <string name="tab_home">Главная</string>
 
-    <string name="tab_transaction_default">Расходы / Доходы</string>
-    <string name="tab_transaction_between">Между счетами</string>
-
 
 
     // text fields main
@@ -79,7 +69,6 @@
 
     // add accounts, debts,  transactions activities text fields
     <string name="account_type">Тип счета</string>
-    <string name="debt_type">Тип долга</string>
 
     <string name="currency">Валюта</string>
     <string name="date">Дата</string>
@@ -89,7 +78,6 @@
     <string name="account_from">Со счета</string>
     <string name="account_to">На счет</string>
     <string name="exchange">Курс</string>
-    <string name="rates">Курсы</string>
 
 
 
@@ -107,7 +95,7 @@
     <string name="snack_account_list">Для редактирования сделайте долгое нажатие на счет</string>
 
     <string name="dialog_text_delete_account">Внимание! Счет будет удален</string>
-    <string name="dialog_title_delete_account">Удаление</string>
+    <string name="dialog_title_delete">Удаление</string>
 
     <string name="account_empty_list">Здесь будут отображены Ваши счета</string>
     <string name="transaction_empty_list">Здесь будут отображены Ваши транзакции</string>
@@ -203,22 +191,6 @@
 
 
     //string arrays
-    <string-array name="transaction_category_array">
-        <item>Еда</item>
-        <item>Проезд</item>
-        <item>Одежда</item>
-        <item>Развлечения</item>
-        <item>Подарки</item>
-        <item>Здоровье</item>
-        <item>Учеба</item>
-        <item>Электроника</item>
-        <item>Зарплата</item>
-        <item>Подработка</item>
-        <item>Проценты</item>
-        <item>Другое</item>
-    </string-array>
-
-
 
     <string-array name="transaction_category_expense_array">
         <item>Еда</item>
@@ -245,12 +217,6 @@
         <item>Наличные</item>
         <item>Карточки</item>
         <item>Депозиты</item>
-    </string-array>
-
-
-    <string-array name="debt_type_array">
-        <item>Дать в долг</item>
-        <item>Взять в долг</item>
     </string-array>
 
 

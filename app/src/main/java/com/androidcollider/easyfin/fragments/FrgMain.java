@@ -146,9 +146,9 @@ public class FrgMain extends CommonFragment {
     private void setViewPager() {
         pager = (ViewPager) view.findViewById(R.id.pagerMain);
         ViewPagerFragmentAdapter adapterPager = new ViewPagerFragmentAdapter(getFragmentManager());
-        adapterPager.addFragment(new FrgHome(), getResources().getString(R.string.tab_home));
-        adapterPager.addFragment(new FrgTransactions(), getResources().getString(R.string.tab_transactions));
-        adapterPager.addFragment(new FrgAccounts(), getResources().getString(R.string.tab_accounts));
+        adapterPager.addFragment(new FrgHome(), getResources().getString(R.string.tab_home).toUpperCase());
+        adapterPager.addFragment(new FrgTransactions(), getResources().getString(R.string.tab_transactions).toUpperCase());
+        adapterPager.addFragment(new FrgAccounts(), getResources().getString(R.string.tab_accounts).toUpperCase());
 
         pager.setAdapter(adapterPager);
         pager.setOffscreenPageLimit(3);
@@ -192,8 +192,8 @@ public class FrgMain extends CommonFragment {
 
         TabLayout tabs = (TabLayout) view.findViewById(R.id.tabsMain);
 
-        tabs.setTabTextColors(getResources().getColor(R.color.custom_blue_gray_light),
-                getResources().getColor(R.color.custom_text_light));
+        /*tabs.setTabTextColors(getResources().getColor(R.color.custom_blue_gray_light),
+                getResources().getColor(R.color.custom_text_light));*/
         tabs.setupWithViewPager(pager);
     }
 

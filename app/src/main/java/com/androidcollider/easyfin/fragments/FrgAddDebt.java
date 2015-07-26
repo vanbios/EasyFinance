@@ -55,8 +55,6 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
     private Debt debtFrIntent;
 
-    private DialogFragment numericDialog;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,11 +62,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
         view = inflater.inflate(R.layout.frg_add_debt, container, false);
 
-        //numericDialog = new FrgNumericDialog();
-        //numericDialog.setTargetFragment(this, 4);
-
         mode = getArguments().getInt("mode", 0);
-
 
         if (mode == 1) {
             debtFrIntent = (Debt) getArguments().getSerializable("debt");
@@ -130,7 +124,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         tvAmount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog4");
+
                 openNumericDialog();
             }
         });
@@ -181,7 +175,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
     private void addDebt() {
 
-        if (checkForFillNameSumFields()) {
+        if (checkForFillNameField()) {
 
             Account account = (Account) spinAccount.getSelectedItem();
             double accountAmount = account.getAmount();
@@ -190,11 +184,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
             double amount = Double.parseDouble(DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString()));
 
-            if (type == 0 && Math.abs(amount) > accountAmount) {
-
-                ToastUtils.showClosableToast(getActivity(), getString(R.string.not_enough_costs), 1);
-
-            } else {
+            if (checkIsEnoughCosts(type, amount, accountAmount)) {
 
                 String name = etName.getText().toString();
                 int accountId = account.getId();
@@ -209,18 +199,14 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
                 InfoFromDB.getInstance().getDataSource().insertNewDebt(debt);
 
-                InfoFromDB.getInstance().updateAccountList();
-
-                pushBroadcast();
-
-                this.finish();
+                lastActions();
             }
         }
     }
 
     private void editDebt() {
 
-        if (checkForFillNameSumFields()) {
+        if (checkForFillNameField()) {
 
             Account account = (Account) spinAccount.getSelectedItem();
             double accountAmount = account.getAmount();
@@ -265,38 +251,50 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
             }
 
 
-            if (type == 0 && Math.abs(amount) > accountAmount) {
-
-                ToastUtils.showClosableToast(getActivity(), getString(R.string.not_enough_costs), 1);
-
-            } else {
+            if (checkIsEnoughCosts(type, amount, accountAmount)) {
 
                 String name = etName.getText().toString();
                 Long date = DateFormatUtils.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
 
-                switch (type){
+                switch (type) {
                     case 0: {accountAmount -= amount; break;}
                     case 1: {accountAmount += amount; break;}
                 }
 
                 int idDebt = debtFrIntent.getId();
 
-                Debt debt = new Debt(name, amount, type, accountId, date, accountAmount);
+                Debt debt = new Debt(name, amount, type, accountId, date, accountAmount, idDebt);
 
                 if (isAccountsTheSame) {
-                    InfoFromDB.getInstance().getDataSource().editDebt(debt, idDebt);
+
+                    InfoFromDB.getInstance().getDataSource().editDebt(debt);
                 }
+
                 else {
-                    InfoFromDB.getInstance().getDataSource().editDebtDifferentAccounts(debt, oldAccountAmount, oldAccountId, idDebt);
+
+                    InfoFromDB.getInstance().getDataSource().editDebtDifferentAccounts(debt, oldAccountAmount, oldAccountId);
                 }
 
-                InfoFromDB.getInstance().updateAccountList();
-
-                pushBroadcast();
-
-                this.finish();
+                lastActions();
             }
         }
+    }
+
+    private boolean checkIsEnoughCosts(int type, double amount, double accountAmount) {
+
+        if (type == 0 && Math.abs(amount) > accountAmount) {
+            ToastUtils.showClosableToast(getActivity(), getString(R.string.not_enough_costs), 1);
+
+            return false;
+        }
+
+        return true;
+    }
+
+    private void lastActions() {
+        InfoFromDB.getInstance().updateAccountList();
+        pushBroadcast();
+        this.finish();
     }
 
     private void pushBroadcast() {
@@ -313,7 +311,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         getActivity().sendBroadcast(intentDebt);
     }
 
-    private boolean checkForFillNameSumFields() {
+    private boolean checkForFillNameField() {
 
         String st = etName.getText().toString().replaceAll("\\s+", "");
 
@@ -443,7 +441,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         Bundle args = new Bundle();
         args.putString("value", tvAmount.getText().toString());
 
-        numericDialog = new FrgNumericDialog();
+        DialogFragment numericDialog = new FrgNumericDialog();
         numericDialog.setTargetFragment(this, 4);
         numericDialog.setArguments(args);
         numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog4");

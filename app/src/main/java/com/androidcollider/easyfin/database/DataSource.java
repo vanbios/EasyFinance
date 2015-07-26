@@ -698,11 +698,36 @@ public class DataSource {
         closeLocal();
     }
 
-    public void editDebt(Debt debt, int idDebt) {
+    public void editTransactionDifferentAccounts(Transaction transaction, double oldAccountAmount, int oldAccountId) {
+        ContentValues cv1 = new ContentValues();
+        ContentValues cv2 = new ContentValues();
+        ContentValues cv3 = new ContentValues();
+
+        int id_account = transaction.getIdAccount();
+        int id_transaction = transaction.getId();
+
+        cv1.put("id_account", id_account);
+        cv1.put("date", transaction.getDate());
+        cv1.put("amount", transaction.getAmount());
+        cv1.put("category", transaction.getCategory());
+
+        cv2.put("amount", transaction.getAccountAmount());
+
+        cv3.put("amount", oldAccountAmount);
+
+        openLocalToWrite();
+        db.update("Transactions", cv1, "id_transaction = " + id_transaction, null);
+        db.update("Account", cv2, "id_account = " + id_account, null);
+        db.update("Account", cv3, "id_account = " + oldAccountId, null);
+        closeLocal();
+    }
+
+    public void editDebt(Debt debt) {
         ContentValues cv1 = new ContentValues();
         ContentValues cv2 = new ContentValues();
 
         int id_account = debt.getIdAccount();
+        int id_debt = debt.getId();
 
         cv1.put("name", debt.getName());
         cv1.put("amount_current", debt.getAmountCurrent());
@@ -715,17 +740,18 @@ public class DataSource {
 
 
         openLocalToWrite();
-        db.update("Debt", cv1, "id_debt = " + idDebt, null);
+        db.update("Debt", cv1, "id_debt = " + id_debt, null);
         db.update("Account", cv2, "id_account = " + id_account, null);
         closeLocal();
     }
 
-    public void editDebtDifferentAccounts(Debt debt, double oldAccountAmount, int oldAccountId, int idDebt) {
+    public void editDebtDifferentAccounts(Debt debt, double oldAccountAmount, int oldAccountId) {
         ContentValues cv1 = new ContentValues();
         ContentValues cv2 = new ContentValues();
         ContentValues cv3 = new ContentValues();
 
         int id_account = debt.getIdAccount();
+        int id_debt = debt.getId();
 
         cv1.put("name", debt.getName());
         cv1.put("amount_current", debt.getAmountCurrent());
@@ -740,7 +766,7 @@ public class DataSource {
 
 
         openLocalToWrite();
-        db.update("Debt", cv1, "id_debt = " + idDebt, null);
+        db.update("Debt", cv1, "id_debt = " + id_debt, null);
         db.update("Account", cv2, "id_account = " + id_account, null);
         db.update("Account", cv3, "id_account = " + oldAccountId, null);
         closeLocal();

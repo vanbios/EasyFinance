@@ -140,7 +140,7 @@ public class FrgAccounts extends Fragment {
     private void showDialogDeleteAccount(final int pos) {
 
         new MaterialDialog.Builder(getActivity())
-                .title(getString(R.string.dialog_title_delete_account))
+                .title(getString(R.string.dialog_title_delete))
                 .content(getString(R.string.dialog_text_delete_account))
                 .positiveText(getString(R.string.delete))
                 .negativeText(getString(R.string.cancel))

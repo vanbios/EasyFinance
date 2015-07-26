@@ -49,8 +49,7 @@ public class FrgDebts extends CommonFragment {
 
     private boolean expanded = false;
 
-    private float offset1;
-    private float offset2;
+    private float offset1, offset2;
 
     final private boolean isApiHoneycombAndHigher = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
 
@@ -272,7 +271,7 @@ public class FrgDebts extends CommonFragment {
     private void showDialogDeleteDebt(final int pos) {
 
         new MaterialDialog.Builder(getActivity())
-                .title(getString(R.string.delete_debt))
+                .title(getString(R.string.dialog_title_delete))
                 .content(getString(R.string.debt_delete_warning))
                 .positiveText(getString(R.string.delete))
                 .negativeText(getString(R.string.cancel))

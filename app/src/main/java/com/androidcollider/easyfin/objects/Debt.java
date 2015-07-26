@@ -20,6 +20,16 @@ public class Debt implements Serializable {
         this.accountAmount = accountAmount;
     }
 
+    public Debt (String name, double amountCurrent, int type, int idAccount, long date, double accountAmount, int id) {
+        this.name = name;
+        this.amountCurrent = amountCurrent;
+        this.type = type;
+        this.idAccount = idAccount;
+        this.date = date;
+        this.accountAmount = accountAmount;
+        this.id = id;
+    }
+
     public Debt (String name, double amountCurrent, double amountAll, int type, long date, String accountName, String currency, int idAccount, int id) {
         this.name = name;
         this.amountCurrent = amountCurrent;

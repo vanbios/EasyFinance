@@ -50,8 +50,6 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
 
     private ArrayList<Account> accountListFrom, accountListTo = null;
 
-    private DialogFragment numericDialog;
-
 
 
     @Override
@@ -340,7 +338,7 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
         Bundle args = new Bundle();
         args.putString("value", tvAmount.getText().toString());
 
-        numericDialog = new FrgNumericDialog();
+        DialogFragment numericDialog = new FrgNumericDialog();
         numericDialog.setTargetFragment(this, 3);
         numericDialog.setArguments(args);
         numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog3");

@@ -15,9 +15,15 @@
         android:layout_height="@dimen/tabs_height"
         android:background="?attr/colorPrimary"
         app:tabMode="fixed"
-        app:tabTextAppearance="@style/TabsFont"
         app:tabIndicatorColor="@color/custom_text_light"
-        app:tabIndicatorHeight="2dp"/>
+        app:tabIndicatorHeight="2dp"
+        app:tabSelectedTextColor="@color/custom_text_light"
+        app:tabTextColor="@color/custom_blue_gray_light"
+        app:tabPaddingStart="0dp"
+        app:tabPaddingEnd="0dp"
+        app:tabPaddingTop="8dp"
+        app:tabPaddingBottom="8dp"
+        app:tabTextAppearance="@style/TabsFont"/>
 
 
     <FrameLayout

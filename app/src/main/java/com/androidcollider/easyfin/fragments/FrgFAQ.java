@@ -57,19 +57,24 @@ public class FrgFAQ extends CommonFragment implements View.OnClickListener {
 
             case R.id.cardFAQApp: {
                 setVisibility(tvAppBody);
-                break;}
+                break;
+            }
             case R.id.cardFAQAccounts: {
                 setVisibility(tvAccountsBody);
-                break;}
+                break;
+            }
             case R.id.cardFAQTransactions: {
                 setVisibility(tvTransactionsBody);
-                break;}
+                break;
+            }
             case R.id.cardFAQDebts: {
                 setVisibility(tvDebtsBody);
-                break;}
+                break;
+            }
             case R.id.cardFAQHome: {
                 setVisibility(tvHomeBody);
-                break;}
+                break;
+            }
         }
     }
 
@@ -82,7 +87,6 @@ public class FrgFAQ extends CommonFragment implements View.OnClickListener {
             textView.setVisibility(View.GONE);
         }
     }
-
 
     @Override
     public String getTitle() {

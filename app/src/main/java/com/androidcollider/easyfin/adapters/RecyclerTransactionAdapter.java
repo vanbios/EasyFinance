@@ -96,7 +96,6 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
     }
 
 
-
     @Override
     public void onBindViewHolder(final MainViewHolder holder, final int position) {
 
@@ -159,10 +158,8 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
                     notifyDataSetChanged();
                 }
             });
-
         }
     }
-
 
     public long getPosition() {
         return pos;
@@ -173,11 +170,13 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
     }
 
 
+
     static class MainViewHolder extends RecyclerView.ViewHolder {
         public MainViewHolder (View view) {
             super (view);
         }
     }
+
 
     static class ViewHolderItem extends MainViewHolder implements View.OnCreateContextMenuListener {
         private final View mView;
@@ -200,7 +199,6 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
             view.setOnCreateContextMenuListener(this);
         }
 
-
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             menu.add(Menu.NONE, R.id.ctx_menu_edit_transaction, 1, R.string.edit);
@@ -210,13 +208,13 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
 
 
     static class ViewHolderButton extends MainViewHolder {
-        //private final View mView;
         private final Button btnShowMore;
+
 
         public ViewHolderButton(View view) {
             super(view);
-            //mView = view;
             btnShowMore = (Button) view.findViewById(R.id.btnItemShowMore);
         }
     }
+
 }

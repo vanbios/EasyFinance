@@ -1,7 +1,5 @@
 package com.androidcollider.easyfin.fragments;
 
-
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,10 +12,8 @@ import com.google.android.gms.analytics.Tracker;
 
 import java.util.LinkedList;
 
+
 public abstract class CommonFragment extends Fragment {
-
-    private Tracker mTracker;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,12 +21,10 @@ public abstract class CommonFragment extends Fragment {
         setRetainInstance(true);
         setHasOptionsMenu(true);
 
-        mTracker = AppController.tracker;
+        Tracker mTracker = AppController.tracker;
         mTracker.setScreenName(getRealTag());
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
-
-
 
     @Override
     public void onResume(){
@@ -39,10 +33,6 @@ public abstract class CommonFragment extends Fragment {
             Log.d("COLLIDER", "Executing pending transaction");
             pendingTransactions.pollFirst().run();
         }
-    }
-
-    public boolean onBack(){
-        return false;
     }
 
     public String getRealTag(){
@@ -82,4 +72,5 @@ public abstract class CommonFragment extends Fragment {
             pendingTransactions.addLast(runnable);
         }
     }
+
 }

@@ -1,21 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <array name="transaction_categories_icons">
-        <item>@drawable/ic_food_blue_gray_48dp</item>
-        <item>@drawable/ic_tram_blue_gray_48dp</item>
-        <item>@drawable/ic_tshirt_crew_blue_gray_48dp</item>
-        <item>@drawable/ic_google_controller_blue_gray_48dp</item>
-        <item>@drawable/ic_gift_blue_gray_48dp</item>
-        <item>@drawable/ic_hospital_blue_gray_48dp</item>
-        <item>@drawable/ic_school_blue_gray_48dp</item>
-        <item>@drawable/ic_cellphone_android_blue_gray_48dp</item>
-        <item>@drawable/ic_cash_multiple_blue_gray_48dp</item>
-        <item>@drawable/ic_cash_blue_gray_48dp</item>
-        <item>@drawable/ic_margin_blue_gray_48dp</item>
-        <item>@drawable/ic_more_blue_gray_48dp</item>
-    </array>
-
-
 
     <array name="transaction_category_expense_icons">
         <item>@drawable/ic_food_blue_gray_48dp</item>

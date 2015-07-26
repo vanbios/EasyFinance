@@ -21,7 +21,6 @@ import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 
 public class FrgNumericDialog extends DialogFragment {
 
-
     private OnCommitAmountListener callback;
 
     final private boolean isApiHoneycombAndHigher = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
@@ -120,7 +119,6 @@ public class FrgNumericDialog extends DialogFragment {
         root.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
         // creating the fullscreen dialog
-
         Dialog dialog;
 
         if (!isApiHoneycombAndHigher) {

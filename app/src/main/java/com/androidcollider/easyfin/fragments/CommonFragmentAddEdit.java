@@ -9,4 +9,5 @@ public class CommonFragmentAddEdit extends CommonFragment {
     public String getTitle() {
         return getString(R.string.app_name);
     }
+
 }

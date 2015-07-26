@@ -11,18 +11,7 @@
 
     // actions
 
-    //UNUSED!!!
-    <string name="new_debt">Новий борг</string>
-    <string name="new_transaction">Нова транзакція</string>
-    <string name="edit_transaction">Редагування транзакції</string>
-    <string name="edit_account">Редагування рахунку</string>
-    <string name="edit_debt">Редагування боргу</string>
-
-
-
     <string name="new_account">Новий рахунок</string>
-    <string name="delete_transaction">Видалення транзакції</string>
-    <string name="delete_debt">Видалення боргу</string>
     <string name="pay_all_debt">Сплатити весь борг</string>
     <string name="pay_part_debt">Сплатити частину боргу</string>
     <string name="take_more_debt">Додати суму до боргу</string>
@@ -41,7 +30,7 @@
 
     <string name="export_db">Резервне копіювання даних</string>
     <string name="import_db">Імпорт даних</string>
-    <string name="export_db_summary">Настиність для резервного копіювання даних</string>
+    <string name="export_db_summary">Натиcність для резервного копіювання даних</string>
     <string name="import_db_summary">Натисніть для імпорту даних</string>
 
     <string name="browse_db_to_import">Натисніть, щоб вибрати файл БД</string>
@@ -62,12 +51,6 @@
     <string name="tab_transactions">Транзакції</string>
     <string name="tab_accounts">Рахунки</string>
     <string name="tab_home">Головна</string>
-
-
-
-    //UNUSED!!!
-    <string name="tab_transaction_default">Витрати / Дохід</string>
-    <string name="tab_transaction_between">Між рахунками</string>
 
 
 
@@ -122,7 +105,7 @@
     <string name="snack_account_list">Для редагування зробіть довге натискання на рахунок</string>
 
     <string name="dialog_text_delete_account">Увага! Рахунок буде видалено</string>
-    <string name="dialog_title_delete_account">Видалення</string>
+    <string name="dialog_title_delete">Видалення</string>
 
     <string name="account_empty_list">Тут будуть відображатись Ваші рахунки</string>
     <string name="transaction_empty_list">Тут будуть відображатись Ваші транзакції</string>
@@ -222,23 +205,7 @@
 
 
 
-
     //string arrays
-    <string-array name="transaction_category_array">
-        <item>Їжа</item>
-        <item>Проїзд</item>
-        <item>Одяг</item>
-        <item>Розваги</item>
-        <item>Подарунки</item>
-        <item>Здоров`я</item>
-        <item>Освіта</item>
-        <item>Електроніка</item>
-        <item>Зарплата</item>
-        <item>Підробіток</item>
-        <item>Відсотки</item>
-        <item>Інше</item>
-    </string-array>
-
 
     <string-array name="transaction_category_expense_array">
         <item>Їжа</item>
@@ -251,7 +218,6 @@
         <item>Електроніка</item>
         <item>Інше</item>
     </string-array>
-
 
 
     <string-array name="transaction_category_income_array">
@@ -267,17 +233,6 @@
         <item>Картки</item>
         <item>Депозити</item>
     </string-array>
-
-
-
-
-    //UNUSED!!!
-    <string-array name="debt_type_array">
-        <item>Дати в борг</item>
-        <item>Взяти в борг</item>
-    </string-array>
-
-
 
 
     <string-array name="account_currency_array">
@@ -329,7 +284,6 @@
         <item>@string/app_faq</item>
         <item>@string/app_about</item>
     </string-array>
-
 
 
 </resources>

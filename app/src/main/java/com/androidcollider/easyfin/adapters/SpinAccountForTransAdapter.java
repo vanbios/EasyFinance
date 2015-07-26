@@ -83,7 +83,6 @@ public class SpinAccountForTransAdapter extends ArrayAdapter<Account> {
         return headSpinner;
     }
 
-
     public Account getItem (int position) {
         return accountList.get(position);
     }

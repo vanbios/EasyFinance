@@ -39,7 +39,6 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
     }
 
 
-
     @Override
     public int getItemCount() {return debtList.size();}
 
@@ -111,8 +110,6 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
             }
         }
 
-
-
         holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -121,8 +118,6 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
             }
         });
     }
-
-
 
     public long getPosition() {
         return pos;
@@ -157,7 +152,6 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
             view.setOnCreateContextMenuListener(this);
         }
 
-
         @Override
         public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
             menu.add(Menu.NONE, R.id.ctx_menu_pay_all_debt, 1, R.string.pay_all_debt);
@@ -167,4 +161,5 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
             menu.add(Menu.NONE, R.id.ctx_menu_delete_debt, 5, R.string.delete);
         }
     }
+
 }

@@ -43,8 +43,6 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
     private int mode;
 
-    private DialogFragment numericDialog;
-
 
 
     @Override
@@ -53,8 +51,6 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
         view = inflater.inflate(R.layout.frg_pay_debt, container, false);
 
-        //numericDialog = new FrgNumericDialog();
-        //numericDialog.setTargetFragment(this, 5);
 
         mode = getArguments().getInt("mode", 0);
         debt = (Debt) getArguments().getSerializable("debt");
@@ -91,7 +87,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         tvAmount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog5");
+
                 openNumericDialog();
             }
         });
@@ -409,7 +405,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         Bundle args = new Bundle();
         args.putString("value", tvAmount.getText().toString());
 
-        numericDialog = new FrgNumericDialog();
+        DialogFragment numericDialog = new FrgNumericDialog();
         numericDialog.setTargetFragment(this, 5);
         numericDialog.setArguments(args);
         numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog5");

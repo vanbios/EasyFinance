@@ -74,7 +74,6 @@ public class FrgHome extends Fragment {
 
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -213,9 +212,7 @@ public class FrgHome extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {}
-
         });
-
     }
 
     private void setStatisticSpinner() {

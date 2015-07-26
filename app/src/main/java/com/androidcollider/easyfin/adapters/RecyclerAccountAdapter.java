@@ -22,16 +22,15 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
 
     private long pos;
 
-    Context context;
-    ArrayList<Account> accountsList;
+    private ArrayList<Account> accountsList;
 
-    final TypedArray typeIconsArray;
+    private final TypedArray typeIconsArray;
 
-    final String[] curArray, curLangArray;
+    private final String[] curArray, curLangArray;
 
 
     public RecyclerAccountAdapter(Context context, ArrayList<Account> accountsList) {
-        this.context = context;
+
         this.accountsList = accountsList;
 
         typeIconsArray = context.getResources().obtainTypedArray(R.array.account_type_icons);
@@ -89,7 +88,6 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
         });
     }
 
-
     public long getPosition() {
         return pos;
     }
@@ -97,7 +95,6 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
     public void setPosition(long pos) {
         this.pos = pos;
     }
-
 
 
 
@@ -124,4 +121,5 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
             menu.add(Menu.NONE, R.id.ctx_menu_delete_account, 2, R.string.delete);
         }
     }
+
 }

@@ -41,7 +41,6 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
 
     private Account accFrIntent;
 
-    private DialogFragment numericDialog;
 
 
     @Override
@@ -71,7 +70,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
         tvAmount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog1");
+
                 openNumericDialog();
             }
         });
@@ -299,7 +298,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
         Bundle args = new Bundle();
         args.putString("value", tvAmount.getText().toString());
 
-        numericDialog = new FrgNumericDialog();
+        DialogFragment numericDialog = new FrgNumericDialog();
         numericDialog.setTargetFragment(this, 1);
         numericDialog.setArguments(args);
         numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog1");

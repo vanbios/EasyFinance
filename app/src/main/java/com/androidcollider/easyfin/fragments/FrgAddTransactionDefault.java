@@ -51,8 +51,6 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
 
     private Transaction transFromIntent;
 
-    private DialogFragment numericDialog;
-
     private final String prefixExpense = "- ", prefixIncome = "+ ";
 
 
@@ -78,16 +76,13 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
 
             scrollView.setVisibility(View.VISIBLE);
 
-            //numericDialog = new FrgNumericDialog();
-            //numericDialog.setTargetFragment(this, 2);
-
             mode = getArguments().getInt("mode", 0);
 
             tvAmount = (TextView) view.findViewById(R.id.tvAddTransDefAmount);
             tvAmount.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog2");
+
                     openNumericDialog();
                 }
             });
@@ -225,7 +220,6 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                     break;
                 }
             }
-            spinAccount.setEnabled(false);
 
             spinCategory.setSelection(transFromIntent.getCategory());
         }
@@ -235,13 +229,8 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
 
         String sum = DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString());
 
-        if (! sum.matches(".*\\d.*") || Double.parseDouble(sum) == 0) {
-            ToastUtils.showClosableToast(getActivity(), getString(R.string.empty_amount_field), 1);
-        }
+        if (checkSumField(sum)) {
 
-        else {
-
-            Long date = DateFormatUtils.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
             double amount = Double.parseDouble(sum);
 
             boolean isExpense = transType == 0;
@@ -255,38 +244,115 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
 
             double accountAmount = account.getAmount();
 
-            if (mode == 1) {
-                accountAmount -= transFromIntent.getAmount();
-            }
 
+            if (checkIsEnoughCosts(isExpense, amount, accountAmount)) {
 
-            if (isExpense && Math.abs(amount) > accountAmount) {
-                ToastUtils.showClosableToast(getActivity(), getString(R.string.not_enough_costs), 1);}
-            else {
                 accountAmount += amount;
 
                 int category = spinCategory.getSelectedItemPosition();
+                Long date = DateFormatUtils.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
                 int idAccount = account.getId();
 
 
-                if (mode == 1) {
-                    int idTrans = transFromIntent.getId();
-                    Transaction transaction = new Transaction(date, amount, category, idAccount, accountAmount, idTrans);
+                Transaction transaction = new Transaction(date, amount, category, idAccount, accountAmount);
+                InfoFromDB.getInstance().getDataSource().insertNewTransaction(transaction);
+
+                lastActions();
+            }
+        }
+    }
+
+    private void editTransaction() {
+
+        String sum = DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString());
+
+        if (checkSumField(sum)) {
+
+            double amount = Double.parseDouble(sum);
+
+            boolean isExpense = transType == 0;
+
+            if (isExpense) {
+                amount *= -1;
+            }
+
+
+            Account account = (Account) spinAccount.getSelectedItem();
+            double accountAmount = account.getAmount();
+            int accountId = account.getId();
+
+            int oldAccountId = transFromIntent.getIdAccount();
+
+            boolean isAccountTheSame = accountId == oldAccountId;
+
+            double oldAmount = transFromIntent.getAmount();
+
+            double oldAccountAmount = 0;
+
+
+            if (isAccountTheSame) {
+
+                accountAmount -= oldAmount;
+            }
+
+            else {
+
+                for (int i = 0; i < accountList.size(); i++) {
+
+                    if (oldAccountId == accountList.get(i).getId()) {
+
+                        oldAccountAmount = accountList.get(i).getAmount() - oldAmount;
+                    }
+                }
+            }
+
+
+            if (checkIsEnoughCosts(isExpense, amount, accountAmount)) {
+
+                accountAmount += amount;
+
+                int category = spinCategory.getSelectedItemPosition();
+                Long date = DateFormatUtils.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
+                int idAccount = account.getId();
+
+
+                int idTrans = transFromIntent.getId();
+                Transaction transaction = new Transaction(date, amount, category, idAccount, accountAmount, idTrans);
+
+                if (isAccountTheSame) {
                     InfoFromDB.getInstance().getDataSource().editTransaction(transaction);
                 }
 
                 else {
-                    Transaction transaction = new Transaction(date, amount, category, idAccount, accountAmount);
-                    InfoFromDB.getInstance().getDataSource().insertNewTransaction(transaction);
+
+                    InfoFromDB.getInstance().getDataSource().editTransactionDifferentAccounts(transaction, oldAccountAmount, oldAccountId);
                 }
 
-                InfoFromDB.getInstance().updateAccountList();
-
-                pushBroadcast();
-
-                finish();
+                lastActions();
             }
         }
+    }
+
+    private boolean checkSumField(String sum) {
+        if (! sum.matches(".*\\d.*") || Double.parseDouble(sum) == 0) {
+            ToastUtils.showClosableToast(getActivity(), getString(R.string.empty_amount_field), 1);
+            return false;
+        }
+        return true;
+    }
+
+    private boolean checkIsEnoughCosts(boolean isExpense, double amount, double accountAmount) {
+        if (isExpense && Math.abs(amount) > accountAmount) {
+            ToastUtils.showClosableToast(getActivity(), getString(R.string.not_enough_costs), 1);
+        return false;
+        }
+        return true;
+    }
+
+    private void lastActions() {
+        InfoFromDB.getInstance().updateAccountList();
+        pushBroadcast();
+        finish();
     }
 
     private void setDateTimeField() {
@@ -368,7 +434,10 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                 @Override
                 public void onClick(View v) {
 
-                    addTransaction();
+                    switch (mode) {
+                        case 0: {addTransaction(); break;}
+                        case 1: {editTransaction(); break;}
+                    }
                 }
             });
 
@@ -417,7 +486,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
         Bundle args = new Bundle();
         args.putString("value", tvAmount.getText().toString());
 
-        numericDialog = new FrgNumericDialog();
+        DialogFragment numericDialog = new FrgNumericDialog();
         numericDialog.setTargetFragment(this, 2);
         numericDialog.setArguments(args);
         numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog2");
