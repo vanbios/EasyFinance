@@ -78,7 +78,7 @@
 
     <string name="account_from">From account</string>
     <string name="account_to">To account</string>
-    <string name="exchange">Rate</string>
+    <string name="exchange">Exchange rate</string>
 
     <string name="deadline">Deadline</string>
 

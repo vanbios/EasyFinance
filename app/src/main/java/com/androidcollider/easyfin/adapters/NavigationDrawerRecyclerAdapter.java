@@ -46,7 +46,7 @@ public class NavigationDrawerRecyclerAdapter extends RecyclerView.Adapter<Naviga
 
             case TYPE_DIVIDER: {
                 return new ViewHolder(
-                        LayoutInflater.from(parent.getContext()).inflate(R.layout.item_divider_nav, parent, false),
+                        LayoutInflater.from(parent.getContext()).inflate(R.layout.item_nav_divider, parent, false),
                         TYPE_DIVIDER
                 );
             }

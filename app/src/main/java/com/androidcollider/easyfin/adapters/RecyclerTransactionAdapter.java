@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -151,7 +150,7 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
 
             ViewHolderButton holderButton = (ViewHolderButton) holder;
 
-            holderButton.btnShowMore.setOnClickListener(new View.OnClickListener() {
+            holderButton.tvShowMore.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     maxCount += 30;
@@ -208,12 +207,12 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
 
 
     static class ViewHolderButton extends MainViewHolder {
-        private final Button btnShowMore;
+        private final TextView tvShowMore;
 
 
         public ViewHolderButton(View view) {
             super(view);
-            btnShowMore = (Button) view.findViewById(R.id.btnItemShowMore);
+            tvShowMore = (TextView) view.findViewById(R.id.tvItemShowMore);
         }
     }
 

@@ -32,4 +32,8 @@
     <dimen name="icon_medium">36dp</dimen>
     <dimen name="icon_big">48dp</dimen>
 
+
+    <dimen name="numeric_dialog_width">320dp</dimen>
+    <dimen name="numeric_dialog_height">520dp</dimen>
+
 </resources>
