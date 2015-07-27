@@ -23,8 +23,9 @@
 
     <dimen name="margin_big_card_top">72dp</dimen>
 
-    <dimen name="card_elevation_small">2dp</dimen>
-    <dimen name="card_elevation_medium">4dp</dimen>
+    <dimen name="elevation_small">2dp</dimen>
+    <dimen name="elevation_medium">4dp</dimen>
+    <dimen name="elevation_big">6dp</dimen>
 
 
     <dimen name="icon_small">24dp</dimen>

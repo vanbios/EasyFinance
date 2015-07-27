@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cardItemDebt"
-        card_view:cardElevation="@dimen/card_elevation_small"
-        android:layout_margin="@dimen/card_elevation_small">
+        card_view:cardElevation="@dimen/elevation_small"
+        android:layout_margin="@dimen/elevation_small">
 
         <RelativeLayout
             android:layout_width="match_parent"

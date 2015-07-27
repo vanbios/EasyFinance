@@ -70,6 +70,7 @@ public class FrgMain extends CommonFragment {
         faButtonMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 checkPageNum();
             }
         });
@@ -109,11 +110,11 @@ public class FrgMain extends CommonFragment {
                 @Override
                 public boolean onPreDraw() {
                     fabContainer.getViewTreeObserver().removeOnPreDrawListener(this);
-                    offset1 = faButtonMain.getY() - faButtonExpense.getY();
+                    offset1 = faButtonMain.getY() + faButtonMain.getHeight()/6 - faButtonExpense.getY();
                     faButtonExpense.setTranslationY(offset1);
-                    offset2 = faButtonMain.getY() - faButtonIncome.getY();
+                    offset2 = faButtonMain.getY() + faButtonMain.getHeight()/6 - faButtonIncome.getY();
                     faButtonIncome.setTranslationY(offset2);
-                    offset3 = faButtonMain.getY() - faButtonBTW.getY();
+                    offset3 = faButtonMain.getY() + faButtonMain.getHeight()/6 - faButtonBTW.getY();
                     faButtonBTW.setTranslationY(offset3);
                     return true;
                 }

@@ -64,6 +64,7 @@
             android:layout_gravity="right|bottom"
             app:borderWidth="0dp"
             app:fabSize="mini"
+            app:elevation="@dimen/elevation_medium"
             app:backgroundTint="@color/custom_indigo"
             app:layout_behavior="com.androidcollider.easyfin.utils.FloatingActionButtonBehavior"/>
 
@@ -76,6 +77,7 @@
             style="@style/floating_action_button_small_income"
             app:borderWidth="0dp"
             app:fabSize="mini"
+            app:elevation="@dimen/elevation_medium"
             app:backgroundTint="@color/custom_green"
             app:layout_behavior="com.androidcollider.easyfin.utils.FloatingActionButtonBehavior"/>
 
@@ -88,6 +90,7 @@
             android:layout_gravity="right|bottom"
             app:borderWidth="0dp"
             app:fabSize="mini"
+            app:elevation="@dimen/elevation_medium"
             app:backgroundTint="@color/custom_red"
             app:layout_behavior="com.androidcollider.easyfin.utils.FloatingActionButtonBehavior"/>
 
@@ -100,7 +103,9 @@
             style="@style/floating_action_button_big"
             android:src="@drawable/ic_plus_white_48dp"
             app:borderWidth="0dp"
-            app:fabSize="normal"/>
+            app:elevation="@dimen/elevation_big"
+            app:fabSize="normal"
+            app:backgroundTint="@color/custom_cyan_dark"/>
 
     </android.support.design.widget.CoordinatorLayout>
 </RelativeLayout>

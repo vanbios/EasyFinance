@@ -21,6 +21,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -376,8 +377,19 @@ public class FrgHome extends Fragment {
         YAxis rightAxis = chartBalance.getAxisRight();
         rightAxis.setEnabled(false);
         leftAxis.setSpaceTop(35f);
-        leftAxis.setLabelCount(3);
+        leftAxis.setLabelCount(3, false);
         leftAxis.setValueFormatter(new ChartLargeValueFormatter(false));
+
+        leftAxis.setDrawGridLines(false);
+        leftAxis.removeAllLimitLines();
+        leftAxis.setDrawTopYLabelEntry(false);
+        leftAxis.setDrawLimitLinesBehindData(false);
+        leftAxis.setDrawAxisLine(false);
+
+        chartBalance.setDrawGridBackground(false);
+        chartBalance.setBackgroundColor(Color.TRANSPARENT);
+        chartBalance.setDrawBorders(false);
+
         chartBalance.animateXY(2000, 2000);
         chartBalance.setTouchEnabled(false);
         chartBalance.invalidate();
@@ -403,8 +415,19 @@ public class FrgHome extends Fragment {
         YAxis rightAxis = chartStatistic.getAxisRight();
         rightAxis.setEnabled(false);
         leftAxis.setSpaceTop(35f);
-        leftAxis.setLabelCount(3);
+        leftAxis.setLabelCount(3, false);
         leftAxis.setValueFormatter(new ChartLargeValueFormatter(false));
+
+        leftAxis.setDrawGridLines(false);
+        leftAxis.removeAllLimitLines();
+        leftAxis.setDrawTopYLabelEntry(false);
+        leftAxis.setDrawLimitLinesBehindData(false);
+        leftAxis.setDrawAxisLine(false);
+
+        chartStatistic.setDrawGridBackground(false);
+        chartStatistic.setBackgroundColor(Color.TRANSPARENT);
+        chartStatistic.setDrawBorders(false);
+
         chartStatistic.animateXY(2000, 2000);
         chartStatistic.setTouchEnabled(false);
         chartStatistic.invalidate();

@@ -45,6 +45,7 @@
             android:layout_marginBottom="144dp"
             app:borderWidth="0dp"
             app:fabSize="mini"
+            app:elevation="@dimen/elevation_medium"
             app:backgroundTint="@color/custom_green" />
 
         <android.support.design.widget.FloatingActionButton
@@ -58,6 +59,7 @@
             android:layout_marginBottom="88dp"
             app:borderWidth="0dp"
             app:fabSize="mini"
+            app:elevation="@dimen/elevation_medium"
             app:backgroundTint="@color/custom_red" />
 
 
@@ -69,7 +71,9 @@
             android:layout_margin="@dimen/common_padding_large"
             android:src="@drawable/ic_plus_white_48dp"
             app:borderWidth="0dp"
-            app:fabSize="normal"/>
+            app:elevation="@dimen/elevation_big"
+            app:fabSize="normal"
+            app:backgroundTint="@color/custom_cyan_dark"/>
 
 
     </android.support.design.widget.CoordinatorLayout>

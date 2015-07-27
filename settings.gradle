@@ -1,1 +1,1 @@
-include ':app', ':numberkeyboardview'
+include ':numberkeyboardview', ':app'

@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cardAddTransDefElements"
-        card_view:cardElevation="@dimen/card_elevation_medium"
+        card_view:cardElevation="@dimen/elevation_medium"
         card_view:cardUseCompatPadding="true">
 
 

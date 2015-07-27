@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/cardAddAccountElements"
             card_view:cardUseCompatPadding="true"
-            card_view:cardElevation="@dimen/card_elevation_medium">
+            card_view:cardElevation="@dimen/elevation_medium">
 
 
             <RelativeLayout

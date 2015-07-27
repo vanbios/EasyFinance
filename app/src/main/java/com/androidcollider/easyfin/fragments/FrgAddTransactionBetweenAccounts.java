@@ -161,8 +161,8 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
 
             double exchangeRate = ExchangeUtils.getExchangeRate(currFrom, currTo);
 
-            final int PRECISE = 100;
-            final String FORMAT = "0.00";
+            final int PRECISE = 100000;
+            final String FORMAT = "#.#####";
 
             etExchange.setText(DoubleFormatUtils.doubleToStringFormatter(exchangeRate, FORMAT, PRECISE));
 

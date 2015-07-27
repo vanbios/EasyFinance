@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/cardFAQApp"
             card_view:cardUseCompatPadding="true"
-            card_view:cardElevation="@dimen/card_elevation_small">
+            card_view:cardElevation="@dimen/elevation_small">
 
 
             <RelativeLayout
@@ -67,7 +67,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/cardFAQAccounts"
             card_view:cardUseCompatPadding="true"
-            card_view:cardElevation="@dimen/card_elevation_small"
+            card_view:cardElevation="@dimen/elevation_small"
             android:layout_below="@+id/cardFAQHome">
 
 
@@ -107,7 +107,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/cardFAQTransactions"
                 card_view:cardUseCompatPadding="true"
-                card_view:cardElevation="@dimen/card_elevation_small"
+                card_view:cardElevation="@dimen/elevation_small"
                 android:layout_below="@+id/cardFAQAccounts">
 
 
@@ -147,7 +147,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/cardFAQDebts"
                 card_view:cardUseCompatPadding="true"
-                card_view:cardElevation="@dimen/card_elevation_small"
+                card_view:cardElevation="@dimen/elevation_small"
                 android:layout_below="@+id/cardFAQTransactions">
 
 
@@ -187,7 +187,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/cardFAQHome"
                 card_view:cardUseCompatPadding="true"
-                card_view:cardElevation="@dimen/card_elevation_small"
+                card_view:cardElevation="@dimen/elevation_small"
                 android:layout_below="@+id/cardFAQApp">
 
 

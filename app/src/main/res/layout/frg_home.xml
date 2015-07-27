@@ -9,8 +9,8 @@
     android:id="@+id/scrollView"
     android:paddingTop="@dimen/common_padding_small"
     android:paddingBottom="@dimen/common_padding_small"
-    android:paddingLeft="@dimen/card_elevation_small"
-    android:paddingRight="@dimen/card_elevation_small"
+    android:paddingLeft="@dimen/elevation_small"
+    android:paddingRight="@dimen/elevation_small"
     android:scrollbars="none">
 
 
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/cardMainBalance"
             android:layout_alignParentTop="true"
-            card_view:cardElevation="@dimen/card_elevation_small"
+            card_view:cardElevation="@dimen/elevation_small"
             android:layout_margin="@dimen/common_padding_small">
 
 
@@ -131,7 +131,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/cash"
                             android:id="@+id/tvMainCash"
-                            android:layout_marginTop="28dp"
+                            android:layout_marginTop="26dp"
                             android:layout_alignParentLeft="true"
                             android:singleLine="true"
                             style="@style/BodyFontSecondary" />
@@ -244,7 +244,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/cardMainStatistic"
-            card_view:cardElevation="@dimen/card_elevation_small"
+            card_view:cardElevation="@dimen/elevation_small"
             android:layout_margin="@dimen/common_padding_small"
             android:layout_below="@+id/cardMainBalance" >
 

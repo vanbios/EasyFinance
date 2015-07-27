@@ -107,9 +107,9 @@ public class FrgDebts extends CommonFragment {
                 @Override
                 public boolean onPreDraw() {
                     fabContainer.getViewTreeObserver().removeOnPreDrawListener(this);
-                    offset1 = faButtonMain.getY() - faButtonTake.getY();
+                    offset1 = faButtonMain.getY() + faButtonMain.getHeight()/6 - faButtonTake.getY();
                     faButtonTake.setTranslationY(offset1);
-                    offset2 = faButtonMain.getY() - faButtonGive.getY();
+                    offset2 = faButtonMain.getY() + faButtonMain.getHeight()/6 - faButtonGive.getY();
                     faButtonGive.setTranslationY(offset2);
                     return true;
                 }
