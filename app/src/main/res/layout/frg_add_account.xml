@@ -48,14 +48,33 @@
                     android:singleLine="true"/>
 
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/name"
+                    android:textAllCaps="true"
+                    android:id="@+id/tvAddAccountName"
+                    android:layout_below="@+id/tvAddAccountAmount"
+                    android:layout_marginTop="32dp"
+                    style="@style/BodyFontSecondary"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:id="@+id/cvAddAccountDividerName"
+                    android:layout_below="@+id/tvAddAccountName"
+                    android:background="@color/custom_light_gray"
+                    android:layout_marginTop="@dimen/common_padding_small"/>
+
+
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/linLayoutAddAccountName"
-                    android:layout_below="@+id/tvAddAccountAmount"
+                    android:layout_below="@+id/cvAddAccountDividerName"
                     android:baselineAligned="false"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="16dp"
                     android:paddingLeft="@dimen/common_padding_small"
                     android:paddingRight="@dimen/common_padding_small"
                     android:gravity="center_vertical">
@@ -76,7 +95,7 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/editTextAccountName"
                         android:maxLength="50"
-                        android:hint="@string/empty_name_field"
+
                         android:singleLine="true"
                         style="@style/TitleFont" />
 
@@ -84,13 +103,24 @@
                 </LinearLayout>
 
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/account_type"
+                    android:textAllCaps="true"
+                    android:id="@+id/tvAddAccountType"
+                    android:layout_below="@+id/linLayoutAddAccountName"
+                    android:layout_marginTop="@dimen/common_padding_xlarge"
+                    style="@style/BodyFontSecondary"/>
+
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:id="@+id/cvAddAccountDividerTop"
-                    android:layout_below="@+id/linLayoutAddAccountName"
+                    android:layout_below="@+id/tvAddAccountType"
                     android:background="@color/custom_light_gray"
-                    android:layout_marginTop="32dp"/>
+                    android:layout_marginTop="@dimen/common_padding_small"/>
 
 
                 <LinearLayout
@@ -114,11 +144,25 @@
                 </LinearLayout>
 
 
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/currency"
+                    android:textAllCaps="true"
+                    android:id="@+id/tvAddAccountCurrency"
+                    android:layout_below="@+id/linLayoutAddAccountType"
+                    android:layout_marginTop="12dp"
+                    style="@style/BodyFontSecondary"/>
+
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@+id/linLayoutAddAccountType"
-                    android:background="@color/custom_light_gray" />
+                    android:id="@+id/cvAddAccountDividerCurrencyTop"
+                    android:layout_below="@+id/tvAddAccountCurrency"
+                    android:background="@color/custom_light_gray"
+                    android:layout_marginTop="@dimen/common_padding_small"/>
 
 
                 <LinearLayout
@@ -126,7 +170,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/linLayoutAddAccountCurrency"
-                    android:layout_below="@+id/linLayoutAddAccountType"
+                    android:layout_below="@+id/cvAddAccountDividerCurrencyTop"
                     android:baselineAligned="false"
                     android:gravity="center_vertical">
 
@@ -147,7 +191,8 @@
                     android:layout_height="1dp"
                     android:id="@+id/cvAddAccountDividerBottom"
                     android:layout_below="@+id/linLayoutAddAccountCurrency"
-                    android:background="@color/custom_light_gray" />
+                    android:background="@color/custom_light_gray"
+                    android:visibility="visible"/>
 
 
             </RelativeLayout>

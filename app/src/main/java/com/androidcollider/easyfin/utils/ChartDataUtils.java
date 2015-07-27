@@ -20,7 +20,6 @@ public class ChartDataUtils {
 
     public static BarData getDataSetMainBalanceHorizontalBarChart(double[] values, Context context) {
 
-
         float cash = (float) values[0];
         float card = (float) values[1];
         float deposit = (float) values[2];
@@ -68,7 +67,7 @@ public class ChartDataUtils {
 
         BarData data = new BarData(getXAxisValues(), dataSets);
         data.setValueTextSize(12f);
-
+        data.setValueTextColor(context.getResources().getColor(R.color.custom_text_gray_dark));
 
         return data;
     }
@@ -101,7 +100,7 @@ public class ChartDataUtils {
 
         BarData data = new BarData(getXAxisValues(), dataSets);
         data.setValueTextSize(12f);
-
+        data.setValueTextColor(context.getResources().getColor(R.color.custom_text_gray_dark));
 
         return data;
     }
@@ -148,7 +147,7 @@ public class ChartDataUtils {
 
         PieData data = new PieData(getXAxisValuesPie(), pieDataSet);
         data.setValueTextSize(12f);
-
+        data.setValueTextColor(context.getResources().getColor(R.color.custom_text_light));
 
         return data;
     }

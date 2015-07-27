@@ -68,6 +68,7 @@
 
 
     // add accounts, debts,  transactions activities text fields
+    <string name="name">Name</string>
     <string name="account_type">Account type</string>
 
     <string name="currency">Currency</string>
@@ -78,6 +79,8 @@
     <string name="account_from">From account</string>
     <string name="account_to">To account</string>
     <string name="exchange">Rate</string>
+
+    <string name="deadline">Deadline</string>
 
 
 

@@ -13,6 +13,7 @@ import com.androidcollider.easyfin.utils.SharedPref;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.PieData;
@@ -380,15 +381,27 @@ public class FrgHome extends Fragment {
         leftAxis.setLabelCount(3, false);
         leftAxis.setValueFormatter(new ChartLargeValueFormatter(false));
 
-        leftAxis.setDrawGridLines(false);
-        leftAxis.removeAllLimitLines();
-        leftAxis.setDrawTopYLabelEntry(false);
-        leftAxis.setDrawLimitLinesBehindData(false);
-        leftAxis.setDrawAxisLine(false);
+        XAxis xAxis = chartBalance.getXAxis();
+        //xAxis.setEnabled(false);
+        xAxis.setDrawAxisLine(false);
+        xAxis.setDrawLabels(false);
+        xAxis.setDrawGridLines(false);
+
+        //leftAxis.setDrawGridLines(false);
+        //leftAxis.removeAllLimitLines();
+        //leftAxis.setDrawTopYLabelEntry(false);
+        //leftAxis.setDrawLimitLinesBehindData(false);
+        //leftAxis.setDrawAxisLine(false);
+        leftAxis.setAxisLineColor(getResources().getColor(R.color.custom_light_gray));
+        leftAxis.setGridColor(getResources().getColor(R.color.custom_light_gray));
+        leftAxis.setTextColor(getResources().getColor(R.color.custom_text_gray_dark));
+
+        chartBalance.getXAxis().setTextColor(getResources().getColor(R.color.custom_text_gray_dark));
 
         chartBalance.setDrawGridBackground(false);
         chartBalance.setBackgroundColor(Color.TRANSPARENT);
-        chartBalance.setDrawBorders(false);
+        chartBalance.setDrawBorders(true);
+        chartBalance.setBorderColor(Color.TRANSPARENT);
 
         chartBalance.animateXY(2000, 2000);
         chartBalance.setTouchEnabled(false);
@@ -418,11 +431,23 @@ public class FrgHome extends Fragment {
         leftAxis.setLabelCount(3, false);
         leftAxis.setValueFormatter(new ChartLargeValueFormatter(false));
 
-        leftAxis.setDrawGridLines(false);
-        leftAxis.removeAllLimitLines();
-        leftAxis.setDrawTopYLabelEntry(false);
-        leftAxis.setDrawLimitLinesBehindData(false);
-        leftAxis.setDrawAxisLine(false);
+
+        XAxis xAxis = chartStatistic.getXAxis();
+        //xAxis.setEnabled(false);
+        xAxis.setDrawAxisLine(false);
+        xAxis.setDrawLabels(false);
+        xAxis.setDrawGridLines(false);
+
+        //leftAxis.setDrawGridLines(false);
+        //leftAxis.removeAllLimitLines();
+        //leftAxis.setDrawTopYLabelEntry(false);
+        //leftAxis.setDrawLimitLinesBehindData(false);
+        //leftAxis.setDrawAxisLine(false);
+        leftAxis.setAxisLineColor(getResources().getColor(R.color.custom_light_gray));
+        leftAxis.setGridColor(getResources().getColor(R.color.custom_light_gray));
+        leftAxis.setTextColor(getResources().getColor(R.color.custom_text_gray_dark));
+
+        chartStatistic.getXAxis().setTextColor(getResources().getColor(R.color.custom_text_gray_dark));
 
         chartStatistic.setDrawGridBackground(false);
         chartStatistic.setBackgroundColor(Color.TRANSPARENT);

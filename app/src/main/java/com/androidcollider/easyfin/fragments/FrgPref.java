@@ -14,6 +14,8 @@ import com.androidcollider.easyfin.database.DbHelper;
 import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.utils.DBExportImportUtils;
 import com.androidcollider.easyfin.utils.ToastUtils;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import java.io.IOException;
 
@@ -34,6 +36,11 @@ public class FrgPref extends PreferenceFragment {
         addPreferencesFromResource(R.xml.preferences);
 
         initializePrefs();
+
+
+        Tracker mTracker = AppController.tracker;
+        mTracker.setScreenName(this.getClass().getName());
+        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     private void initializePrefs() {

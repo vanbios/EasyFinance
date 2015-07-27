@@ -99,21 +99,21 @@
     <style name="floating_action_button_small_expense">
         <item name="android:layout_marginLeft">0dp</item>
         <item name="android:layout_marginTop">0dp</item>
-        <item name="android:layout_marginRight">12dp</item>
+        <item name="android:layout_marginRight">14dp</item>
         <item name="android:layout_marginBottom">72dp</item>
     </style>
 
     <style name="floating_action_button_small_income">
         <item name="android:layout_marginLeft">0dp</item>
         <item name="android:layout_marginTop">0dp</item>
-        <item name="android:layout_marginRight">12dp</item>
+        <item name="android:layout_marginRight">14dp</item>
         <item name="android:layout_marginBottom">128dp</item>
     </style>
 
     <style name="floating_action_button_small_transfer">
         <item name="android:layout_marginLeft">0dp</item>
         <item name="android:layout_marginTop">0dp</item>
-        <item name="android:layout_marginRight">12dp</item>
+        <item name="android:layout_marginRight">14dp</item>
         <item name="android:layout_marginBottom">184dp</item>
     </style>
 

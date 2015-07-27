@@ -48,14 +48,33 @@
                     android:singleLine="true"/>
 
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/name"
+                    android:textAllCaps="true"
+                    android:id="@+id/tvPayDebtNameHeader"
+                    android:layout_below="@+id/tvPayDebtAmount"
+                    android:layout_marginTop="32dp"
+                    style="@style/BodyFontSecondary"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:id="@+id/cvAddAccountDividerName"
+                    android:layout_below="@+id/tvPayDebtNameHeader"
+                    android:background="@color/custom_light_gray"
+                    android:layout_marginTop="5dp"/>
+
+
                 <RelativeLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/layoutPayDebtName"
                     android:baselineAligned="false"
-                    android:layout_below="@+id/tvPayDebtAmount"
-                    android:layout_marginTop="32dp"
+                    android:layout_below="@+id/cvAddAccountDividerName"
+                    android:layout_marginTop="16dp"
                     android:paddingLeft="@dimen/common_padding_small"
                     android:paddingRight="@dimen/common_padding_small"
                     android:gravity="center_vertical">
@@ -82,13 +101,24 @@
                 </RelativeLayout>
 
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/account"
+                    android:textAllCaps="true"
+                    android:id="@+id/tvPayDebtAccount"
+                    android:layout_below="@+id/layoutPayDebtName"
+                    android:layout_marginTop="24dp"
+                    style="@style/BodyFontSecondary"/>
+
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:id="@+id/cvPayDebtDividerTop"
-                    android:layout_below="@+id/layoutPayDebtName"
+                    android:layout_below="@+id/tvPayDebtAccount"
                     android:background="@color/custom_light_gray"
-                    android:layout_marginTop="@dimen/common_padding_xlarge"/>
+                    android:layout_marginTop="5dp"/>
 
 
                 <LinearLayout

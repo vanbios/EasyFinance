@@ -26,7 +26,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/common_padding_xlarge"
-            android:paddingRight="@dimen/common_padding_xlarge">
+            android:paddingRight="@dimen/common_padding_xlarge"
+            android:paddingBottom="@dimen/common_padding_medium">
 
 
             <RelativeLayout
@@ -56,7 +57,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Account"
+                android:text="@string/account"
                 android:textAllCaps="true"
                 android:id="@+id/tvAddTransDefAccount"
                 android:layout_below="@+id/layoutAddTransDefSum"
@@ -98,7 +99,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Category"
+                android:text="@string/category"
                 android:textAllCaps="true"
                 android:id="@+id/tvAddTransDefCategory"
                 android:layout_below="@+id/linLayoutAddTransDefAccount"
@@ -140,7 +141,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Date"
+                android:text="@string/date"
                 android:textAllCaps="true"
                 android:id="@+id/tvAddTransDefDate"
                 android:layout_below="@+id/linLayoutAddTransDefCategory"

@@ -68,6 +68,7 @@
 
 
     // add accounts, debts,  transactions activities text fields
+    <string name="name">Название</string>
     <string name="account_type">Тип счета</string>
 
     <string name="currency">Валюта</string>
@@ -78,6 +79,8 @@
     <string name="account_from">Со счета</string>
     <string name="account_to">На счет</string>
     <string name="exchange">Курс</string>
+
+    <string name="deadline">Дедлайн</string>
 
 
 
