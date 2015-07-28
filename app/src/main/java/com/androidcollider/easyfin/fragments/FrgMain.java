@@ -25,6 +25,7 @@ import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.ViewPagerFragmentAdapter;
 import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.utils.SharedPref;
+import com.androidcollider.easyfin.utils.TabletTesterUtils;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -137,7 +138,9 @@ public class FrgMain extends CommonFragment {
 
         isSnackBarDisabled = sharedPref.isSnackBarAccountDisable();
 
-        if (!isSnackBarDisabled) {
+        boolean isTablet = TabletTesterUtils.isTablet(getActivity());
+
+        if (!isSnackBarDisabled && !isTablet) {
             makeBroadcastReceiver();
         }
 
@@ -229,7 +232,7 @@ public class FrgMain extends CommonFragment {
         Runnable task = new Runnable() {
             public void run() {
                 Snackbar.make(coordinatorLayout, R.string.snack_account_list, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.get_it, new View.OnClickListener() {
+                        .setAction(R.string.got_it, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 sharedPref.disableSnackBarAccount();
