@@ -34,12 +34,12 @@ public class SharedPref {
     }
 
 
-    public void setMainBalanceSettingsShowCentsCheck(boolean b) {
-        sharedPreferences.edit().putBoolean("mainBalanceSettingsShowCentsChecked", b).apply();
+    public void setMainBalanceSettingsShowOnlyIntegersCheck(boolean b) {
+        sharedPreferences.edit().putBoolean("mainBalanceSettingsShowOnlyIntegersChecked", b).apply();
     }
 
-    public boolean getMainBalanceSettingsShowCentsCheck() {
-        return sharedPreferences.getBoolean("mainBalanceSettingsShowCentsChecked", false);
+    public boolean getMainBalanceSettingsShowOnlyIntegersCheck() {
+        return sharedPreferences.getBoolean("mainBalanceSettingsShowOnlyIntegersChecked", true);
     }
 
 

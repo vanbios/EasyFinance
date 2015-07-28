@@ -31,8 +31,8 @@
         android:orientation="horizontal"
         android:id="@+id/layoutFrgNumericDialogButtons"
         android:layout_alignParentBottom="true"
-        android:paddingTop="@dimen/common_padding_medium"
-        android:paddingBottom="@dimen/common_padding_medium"
+        android:paddingTop="@dimen/common_padding_small"
+        android:paddingBottom="@dimen/common_padding_small"
         android:paddingLeft="@dimen/common_padding_small"
         android:paddingRight="@dimen/common_padding_small">
 
@@ -50,6 +50,11 @@
             android:textSize="@dimen/text_size_subhead"
             android:textColor="@color/custom_cyan_dark"
             android:background="@drawable/text_view_selector"/>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#d3d3d3"/>
 
         <TextView
             android:layout_width="0dp"

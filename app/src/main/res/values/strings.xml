@@ -32,15 +32,12 @@
     <string name="export_db_summary">Click to backup data</string>
     <string name="import_db_summary">Click to import data</string>
 
-    <string name="browse_db_to_import">Click to browse data file</string>
-
     <string name="import_complete">Import complete!</string>
     <string name="import_error">Something went wrong. Try again later</string>
-
     <string name="import_wrong_file_type">Wrong file type. Try another one</string>
     <string name="import_no_file_explorer">You have no one file explorer!</string>
-
     <string name="import_dialog_warning">Are You sure? Your current data will be overwritten!</string>
+
 
     <string name="view_more">View more</string>
 
@@ -109,7 +106,7 @@
     <string name="dialog_text_transaction_no_account">You must have at least one account for transactions</string>
     <string name="dialog_text_transfer_no_accounts">You must have at least two accounts for transfer</string>
 
-    <string name="transaction_delete_warning">Removal of transaction change the account.</string>
+    <string name="transaction_delete_warning">Removal of transaction change the account</string>
 
     <string name="dialog_text_debt_no_account">You must have at least one account for debts</string>
 
@@ -130,7 +127,7 @@
 
     //etc.
     <string name="main_balance_menu_exchange">Convert all costs to selected currency</string>
-    <string name="main_balance_menu_show_cents">Show cents on the graphs</string>
+    <string name="main_balance_menu_show_only_integers">Show only integer values on the graphs</string>
 
 
 

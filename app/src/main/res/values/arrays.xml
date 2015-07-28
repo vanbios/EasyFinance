@@ -14,7 +14,6 @@
     </array>
 
 
-
     <array name="transaction_category_income_icons">
         <item>@drawable/ic_cash_multiple_blue_gray_48dp</item>
         <item>@drawable/ic_cash_blue_gray_48dp</item>

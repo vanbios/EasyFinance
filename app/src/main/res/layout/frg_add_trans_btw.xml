@@ -152,20 +152,13 @@
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:id="@+id/cvAddTransBTWDividerToAccountBelow"
-                android:background="@color/custom_light_gray"
-                android:layout_below="@+id/layoutAddTransBTWAccountTo"
-                android:visibility="invisible"/>
 
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/layoutAddTransBTWExchange"
-                android:layout_below="@+id/cvAddTransBTWDividerToAccountBelow"
+                android:layout_below="@+id/layoutAddTransBTWAccountTo"
                 android:layout_marginTop="12dp"
                 android:visibility="gone">
 

@@ -191,8 +191,7 @@
                     android:layout_height="1dp"
                     android:id="@+id/cvAddAccountDividerBottom"
                     android:layout_below="@+id/linLayoutAddAccountCurrency"
-                    android:background="@color/custom_light_gray"
-                    android:visibility="visible"/>
+                    android:background="@color/custom_light_gray" />
 
 
             </RelativeLayout>

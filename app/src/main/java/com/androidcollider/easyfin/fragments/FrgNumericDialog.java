@@ -6,13 +6,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.acollider.numberkeyboardview.CalculatorView;
@@ -113,7 +112,6 @@ public class FrgNumericDialog extends DialogFragment {
         return view;
     }
 
-
     @Override
     public void onStart() {
         super.onStart();
@@ -122,34 +120,19 @@ public class FrgNumericDialog extends DialogFragment {
             return;
         }
 
-        //RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        DisplayMetrics metrics = new DisplayMetrics();
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
-        //layoutParams.setMargins(100, 100, 100, 100);
-        int dialogWidth = getResources().getDimensionPixelOffset(R.dimen.numeric_dialog_width);
-        int dialogHeight = getResources().getDimensionPixelOffset(R.dimen.numeric_dialog_height);
+        int height = (metrics.heightPixels*4)/5;
+        int width = (metrics.widthPixels*7)/8;
 
-        //int dialogWidth = (layoutParams.width*2)/3;
-        //int dialogHeight = (layoutParams.height*2)/3;
-
-        getDialog().getWindow().setLayout(dialogWidth, dialogHeight);
+        getDialog().getWindow().setLayout(width, height);
     }
 
     @Override
     @NonNull
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
-        // the content
-        //final RelativeLayout root = new RelativeLayout(getActivity());
-        //root.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-        //ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-
-        //RelativeLayout.LayoutParams layoutParams1= new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-
-        //layoutParams1.setMargins(100, 100, 50, 50);
-
-        //root.setLayoutParams(layoutParams1);
-
-        // creating the fullscreen dialog
         Dialog dialog;
 
         if (!isApiHoneycombAndHigher) {
@@ -162,8 +145,6 @@ public class FrgNumericDialog extends DialogFragment {
 
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //dialog.setContentView(root);
-        //dialog.getWindow().setLayout(layoutParams1.width, layoutParams1.height);
 
         return dialog;
     }

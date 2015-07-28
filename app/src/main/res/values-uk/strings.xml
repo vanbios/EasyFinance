@@ -33,15 +33,12 @@
     <string name="export_db_summary">Натиcність для резервного копіювання даних</string>
     <string name="import_db_summary">Натисніть для імпорту даних</string>
 
-    <string name="browse_db_to_import">Натисніть, щоб вибрати файл БД</string>
-
     <string name="import_complete">Імпорт успішно завершено!</string>
     <string name="import_error">Щось пішло не так. Спробуйте пізніше</string>
-
     <string name="import_wrong_file_type">Невірний тип файлу. Спробуйте інший</string>
     <string name="import_no_file_explorer">У Вас немає жодного файлового менеджера!</string>
-
     <string name="import_dialog_warning">Ви впевнені? Ваші дані будуть перезаписані!</string>
+
 
     <string name="view_more">Показати ще</string>
 
@@ -82,14 +79,6 @@
     <string name="exchange">Курс</string>
 
     <string name="deadline">Дедлайн</string>
-
-
-
-    //UNUSED!!!
-    <string name="rates">Курси</string>
-    <string name="debt_type">Тип боргу</string>
-
-
 
 
 
@@ -140,7 +129,7 @@
 
     //etc.
     <string name="main_balance_menu_exchange">Конвертувати всі кошти у вибрану валюту</string>
-    <string name="main_balance_menu_show_cents">Відображати копійки на графіках</string>
+    <string name="main_balance_menu_show_only_integers">Відображати тільки цілі значення на графіках</string>
 
 
 
@@ -150,8 +139,8 @@
     </string>
     <string name="faq_about_accounts">
         Для початку роботи з FinU потрібно додати рахунки.
-        При створенні вказується сума, назва, тип (готівка, картка, депозит), і валюта рахунку.
-        Всі створені рахунки відображаються у вкладці Рахунки.
+        При створенні вказується сума, назва, тип (готівка, картка, депозит), і валюта.
+        Всі створені рахунки відображаються у відповідній вкладці.
         Для редагування/видалення потрібно викликати контекстне меню
         (зробити довге натискання на потрібний рахунок в списку).
     </string>

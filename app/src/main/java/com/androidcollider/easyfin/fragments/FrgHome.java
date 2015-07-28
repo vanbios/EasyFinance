@@ -68,11 +68,11 @@ public class FrgHome extends Fragment {
 
     private MaterialDialog balanceSettingsDialog;
 
-    private CheckBox chkBoxConvert, chkBoxShowCents;
+    private CheckBox chkBoxConvert, chkBoxShowOnlyIntegers;
 
     private SharedPref sharedPref;
 
-    private boolean convert, showCents;
+    private boolean convert, showOnlyIntegers;
 
 
 
@@ -131,16 +131,16 @@ public class FrgHome extends Fragment {
 
         if (balanceSettings != null) {
             chkBoxConvert = (CheckBox) balanceSettings.findViewById(R.id.checkBoxMainBalanceSettingsConvert);
-            chkBoxShowCents = (CheckBox) balanceSettings.findViewById(R.id.checkBoxMainBalanceSettingsShowCents);}
+            chkBoxShowOnlyIntegers = (CheckBox) balanceSettings.findViewById(R.id.checkBoxMainBalanceSettingsShowCents);}
 
 
         sharedPref = new SharedPref(getActivity());
 
         convert = sharedPref.getMainBalanceSettingsConvertCheck();
-        showCents = sharedPref.getMainBalanceSettingsShowCentsCheck();
+        showOnlyIntegers = sharedPref.getMainBalanceSettingsShowOnlyIntegersCheck();
 
         chkBoxConvert.setChecked(convert);
-        chkBoxShowCents.setChecked(showCents);
+        chkBoxShowOnlyIntegers.setChecked(showOnlyIntegers);
 
         chkBoxConvert.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -155,11 +155,11 @@ public class FrgHome extends Fragment {
             }
         });
 
-        chkBoxShowCents.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        chkBoxShowOnlyIntegers.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                sharedPref.setMainBalanceSettingsShowCentsCheck(b);
-                showCents = b;
+                sharedPref.setMainBalanceSettingsShowOnlyIntegersCheck(b);
+                showOnlyIntegers = b;
                 setBalance(spinBalanceCurrency.getSelectedItemPosition());
                 checkStatChartTypeForUpdate();
             }
@@ -363,7 +363,7 @@ public class FrgHome extends Fragment {
         BarData data = ChartDataUtils.getDataSetMainBalanceHorizontalBarChart(balance, getActivity());
         chartBalance.setData(data);
 
-        if (showCents) {
+        if (!showOnlyIntegers) {
             data.setValueFormatter(new ChartLargeValueFormatter(true));
         }
 
@@ -413,7 +413,7 @@ public class FrgHome extends Fragment {
         BarData data = ChartDataUtils.getDataSetMainStatisticHorizontalBarChart(statistic, getActivity());
         chartStatistic.setData(data);
 
-        if (showCents) {
+        if (!showOnlyIntegers) {
             data.setValueFormatter(new ChartLargeValueFormatter(true));
         }
 
@@ -476,7 +476,7 @@ public class FrgHome extends Fragment {
 
         PieData data = ChartDataUtils.getDataSetMainStatisticPieChart(statistic, getActivity());
 
-        if (showCents) {
+        if (!showOnlyIntegers) {
             data.setValueFormatter(new ChartLargeValueFormatter(true));
         }
 
