@@ -34,7 +34,7 @@ public class MultiTapUtils {
                     if (count == 7) {
 
                         String rates = prepareContentForToast(context);
-                        //Toast.makeText(context, rates, Toast.LENGTH_LONG).show();
+
                         ToastUtils.showClosableToast(context, rates, 1);
                     }
                 }

@@ -30,6 +30,8 @@ public class FrgPref extends PreferenceFragment {
 
     private Preference exportDBPref, importDBPref;
 
+    private Tracker mTracker;
+
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +39,7 @@ public class FrgPref extends PreferenceFragment {
 
         initializePrefs();
 
-
-        Tracker mTracker = AppController.tracker;
+        mTracker = AppController.tracker();
         mTracker.setScreenName(this.getClass().getName());
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
@@ -52,6 +53,11 @@ public class FrgPref extends PreferenceFragment {
 
                 exportDBPref.setEnabled(false);
                 DBExportImportUtils.backupDB();
+
+                mTracker.send(new HitBuilders.EventBuilder("click", "export")
+                        .setLabel("export_db")
+                        .build());
+
                 return false;
             }
         });
@@ -63,6 +69,11 @@ public class FrgPref extends PreferenceFragment {
             public boolean onPreferenceClick(Preference preference) {
 
                 openFileExplorer();
+
+                mTracker.send(new HitBuilders.EventBuilder("open", "file_explorer")
+                        .setLabel("open_file_explorer")
+                        .build());
+
                 return false;
             }
         });
@@ -80,6 +91,10 @@ public class FrgPref extends PreferenceFragment {
                     public void onPositive(MaterialDialog dialog) {
 
                         importDB();
+
+                        mTracker.send(new HitBuilders.EventBuilder("click", "import")
+                                .setLabel("import_confirm")
+                                .build());
                     }
 
                     @Override
@@ -100,6 +115,7 @@ public class FrgPref extends PreferenceFragment {
             startActivityForResult(
                     Intent.createChooser(intent, "Select a File to Upload"),
                     FILE_SELECT_CODE);
+
         } catch (android.content.ActivityNotFoundException ex) {
 
             ToastUtils.showClosableToast(context, getString(R.string.import_no_file_explorer), 2);

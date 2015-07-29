@@ -372,7 +372,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
-                        goToAddNewAccount();
+                        goToAddAccount();
                     }
 
                     @Override
@@ -382,7 +382,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                 .show();
     }
 
-    private void goToAddNewAccount() {
+    private void goToAddAccount() {
         finish();
         FrgAddAccount frgAddAccount = new FrgAddAccount();
         Bundle arguments = new Bundle();

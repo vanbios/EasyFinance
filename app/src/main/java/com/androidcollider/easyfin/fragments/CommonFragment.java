@@ -21,7 +21,7 @@ public abstract class CommonFragment extends Fragment {
         setRetainInstance(true);
         setHasOptionsMenu(true);
 
-        Tracker mTracker = AppController.tracker;
+        Tracker mTracker = AppController.tracker();
         mTracker.setScreenName(getRealTag());
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
@@ -43,9 +43,9 @@ public abstract class CommonFragment extends Fragment {
         ((MainActivity) getActivity()).addFragment(f);
     }
 
-    protected void replaceFragment(CommonFragment f){
+    /*protected void replaceFragment(CommonFragment f){
         ((MainActivity) getActivity()).replaceFragment(f);
-    }
+    }*/
 
     protected void finish(){
         tryExecuteTransaction(new Runnable() {

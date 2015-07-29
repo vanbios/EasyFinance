@@ -2,6 +2,8 @@ package com.androidcollider.easyfin;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import android.support.v4.app.Fragment;
@@ -15,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -331,6 +334,20 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
             popFragments();
         }
+    }
+
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        restartActivity();
+        Log.d("COLLIDER", "CONFIGURATION CHANGED!");
+        super.onConfigurationChanged(newConfig);
+    }
+
+    private void restartActivity() {
+        Intent intent = getIntent();
+        this.finish();
+        startActivity(intent);
     }
 
 }

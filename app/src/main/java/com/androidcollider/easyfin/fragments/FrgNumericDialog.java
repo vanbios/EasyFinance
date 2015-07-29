@@ -51,16 +51,16 @@ public class FrgNumericDialog extends DialogFragment {
 
             if (inputValue != null) {
 
-                String s2 = DoubleFormatUtils.prepareStringToSeperate(inputValue);
+                String str = DoubleFormatUtils.prepareStringToSeperate(inputValue);
 
                 String integers;
                 String hundreds = "";
 
-                if (s2.contains(",")) {
-                    int j = s2.indexOf(",");
-                    integers = s2.substring(0, j);
+                if (str.contains(",")) {
+                    int j = str.indexOf(",");
+                    integers = str.substring(0, j);
 
-                    String h = s2.substring(j + 1);
+                    String h = str.substring(j + 1);
 
                     if (!h.equals("00")) {
                         hundreds = h;
@@ -68,7 +68,7 @@ public class FrgNumericDialog extends DialogFragment {
                 }
 
                 else {
-                    integers = s2;
+                    integers = str;
                 }
 
                 if (integers.equals("0")) {

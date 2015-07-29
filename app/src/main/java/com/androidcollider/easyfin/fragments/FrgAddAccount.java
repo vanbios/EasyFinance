@@ -202,7 +202,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
 
     private void addAccount() {
 
-        if(checkForFillNameSumFields()) {
+        if(checkForFillNameField()) {
 
             String name = etName.getText().toString();
 
@@ -228,7 +228,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
 
     private void editAccount() {
 
-        if (checkForFillNameSumFields()) {
+        if (checkForFillNameField()) {
 
             String name = etName.getText().toString();
 
@@ -259,7 +259,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
         popAll();
     }
 
-    private boolean checkForFillNameSumFields() {
+    private boolean checkForFillNameField() {
 
         String st = etName.getText().toString().replaceAll("\\s+", "");
 

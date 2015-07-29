@@ -83,7 +83,7 @@ public class FrgMain extends CommonFragment {
         faButtonExpense.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addTransaction(0);
+                goToAddTransaction(0);
                 setFloatButtonsVisibility();
             }
         });
@@ -91,7 +91,7 @@ public class FrgMain extends CommonFragment {
         faButtonIncome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addTransaction(1);
+                goToAddTransaction(1);
                 setFloatButtonsVisibility();
             }
         });
@@ -99,7 +99,7 @@ public class FrgMain extends CommonFragment {
         faButtonBTW.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addTransBTW();
+                goToAddTransBTW();
                 setFloatButtonsVisibility();
             }
         });
@@ -255,7 +255,8 @@ public class FrgMain extends CommonFragment {
         switch (pager.getCurrentItem()) {
             case 0:
             case 1: {setFloatButtonsVisibility(); break;}
-            case 2: {addAccount(); break;}
+            case 2: {
+                goToAddAccount(); break;}
         }
     }
 
@@ -293,7 +294,7 @@ public class FrgMain extends CommonFragment {
         }
     }
 
-    private void addTransaction(int type) {
+    private void goToAddTransaction(int type) {
         FrgAddTransactionDefault frgAddTransDef = new FrgAddTransactionDefault();
         Bundle arguments = new Bundle();
         arguments.putInt("mode", 0);
@@ -302,11 +303,11 @@ public class FrgMain extends CommonFragment {
         addFragment(frgAddTransDef);
     }
 
-    private void addTransBTW() {
+    private void goToAddTransBTW() {
         addFragment(new FrgAddTransactionBetweenAccounts());
     }
 
-    private void addAccount() {
+    private void goToAddAccount() {
         FrgAddAccount frgAddAccount = new FrgAddAccount();
         Bundle arguments = new Bundle();
         arguments.putInt("mode", 0);
@@ -325,13 +326,11 @@ public class FrgMain extends CommonFragment {
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
-                        addAccount();
+                        goToAddAccount();
                     }
 
                     @Override
-                    public void onNegative(MaterialDialog dialog) {
-
-                    }
+                    public void onNegative(MaterialDialog dialog) {}
                 })
                 .cancelable(false)
                 .show();

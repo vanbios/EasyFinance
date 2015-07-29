@@ -313,7 +313,7 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
-                        addAccount();
+                        goToAddAccount();
                     }
 
                     @Override
@@ -325,7 +325,7 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
                 .show();
     }
 
-    private void addAccount() {
+    private void goToAddAccount() {
         FrgAddAccount frgAddAccount = new FrgAddAccount();
         Bundle arguments = new Bundle();
         arguments.putInt("mode", 0);

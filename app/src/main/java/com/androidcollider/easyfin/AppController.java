@@ -31,21 +31,30 @@ public class AppController extends Application {
     private static AppController mInstance;
 
     public static GoogleAnalytics analytics;
-    public final static String TRACKER_ID ="UA-65109395-1";
-    public static Tracker tracker;
+    //private final static String TRACKER_ID ="UA-65109395-1";
+    private static Tracker tracker;
+
+
+
+    public static Tracker tracker() {
+        return tracker;
+    }
 
 
     @Override
     public void onCreate() {
         super.onCreate();
+
         ACRA.init(this);
+
         mInstance = this;
 
         analytics = GoogleAnalytics.getInstance(this);
         analytics.setLocalDispatchPeriod(1800);
-
-        tracker = analytics.newTracker(TRACKER_ID);
+        tracker = analytics.newTracker("UA-65734136-1");
         tracker.enableAutoActivityTracking(true);
+        tracker.enableAdvertisingIdCollection(true);
+        tracker.enableExceptionReporting(true);
     }
 
 

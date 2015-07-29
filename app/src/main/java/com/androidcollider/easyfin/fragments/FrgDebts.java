@@ -188,7 +188,8 @@ public class FrgDebts extends CommonFragment {
         switch (item.getItemId()) {
             case android.R.id.home: {
                 this.finish();
-                return true;}
+                return true;
+            }
         }
         return false;
     }
