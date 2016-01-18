@@ -25,7 +25,7 @@ public class FrgPref extends PreferenceFragment {
     private static final int FILE_SELECT_CODE = 0;
     private static Uri uri;
     private static final Context context = AppController.getContext();
-    private Preference exportDBPref, importDBPref;
+    private Preference exportDBPref, importDBPref, updateRatesAutoPref;
     private Tracker mTracker;
 
 

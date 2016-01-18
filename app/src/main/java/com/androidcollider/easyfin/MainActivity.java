@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -58,7 +59,10 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.addOnBackStackChangedListener(this);
 
-        InfoFromDB.getInstance().updateRatesForExchange();
+        if (PreferenceManager.getDefaultSharedPreferences(this)
+                .getBoolean(getString(R.string.update_rates_automatically), true)) {
+            InfoFromDB.getInstance().updateRatesForExchange();
+        }
 
         initializeViews();
         setToolbar(getString(R.string.app_name), TOOLBAR_DEFAULT);

@@ -25,8 +25,7 @@ public class UpdateRatesUtils {
             case 2:
             case 3:
             case 4:
-            case 5:
-            {
+            case 5: {
                 SimpleDateFormat sdfHour = new SimpleDateFormat("HH", Locale.UK);
                 sdfHour.setTimeZone(timeZone);
 

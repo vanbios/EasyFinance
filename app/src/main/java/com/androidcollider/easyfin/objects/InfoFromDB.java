@@ -6,8 +6,8 @@ import android.content.Intent;
 import com.androidcollider.easyfin.AppController;
 import com.androidcollider.easyfin.database.DataSource;
 import com.androidcollider.easyfin.fragments.FrgHome;
+import com.androidcollider.easyfin.requests.ReqUpdateRates;
 import com.androidcollider.easyfin.utils.InternetTester;
-import com.androidcollider.easyfin.utils.RatesParser;
 import com.androidcollider.easyfin.utils.SharedPref;
 import com.androidcollider.easyfin.utils.UpdateRatesUtils;
 
@@ -54,21 +54,21 @@ public class InfoFromDB {
         return false;
     }
 
-    public int getAccountsNumber() {return accountList.size();}
+    public int getAccountsNumber() {
+        return accountList.size();
+    }
 
     public DataSource getDataSource() {
         return dataSource;
     }
 
     public void updateRatesForExchange() {
-        boolean internet = InternetTester.isConnectionEnabled(AppController.getContext());
-        if (!sharedPref.getRatesInsertFirstTimeStatus() && internet) {
-            RatesParser.postRequest();
-        }
-        else if (!UpdateRatesUtils.checkForTodayUpdate()) {
-            if (internet && UpdateRatesUtils.checkForAvailableNewRates()) {
-                RatesParser.postRequest();
-            }
+        if (InternetTester.isConnectionEnabled(AppController.getContext())
+                && (!sharedPref.getRatesInsertFirstTimeStatus()
+                || !UpdateRatesUtils.checkForTodayUpdate()
+                && UpdateRatesUtils.checkForAvailableNewRates())) {
+            //RatesParser.postRequest();
+            ReqUpdateRates.getNewRates();
         }
     }
 

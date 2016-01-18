@@ -11,4 +11,9 @@
         android:key="import_db"
         android:summary="@string/import_db_summary"
         android:title="@string/import_db"/>
+
+    <CheckBoxPreference
+        android:key="@string/update_rates_automatically"
+        android:title="@string/update_rates_automatically"
+        android:defaultValue="true"/>
 </PreferenceScreen>
