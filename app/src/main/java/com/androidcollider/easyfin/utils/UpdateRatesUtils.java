@@ -11,9 +11,7 @@ import java.util.TimeZone;
 
 public class UpdateRatesUtils {
 
-
     public static boolean checkForAvailableNewRates() {
-
         Date date = new Date();
         TimeZone timeZone = TimeZone.getTimeZone("UTC");
         Calendar calendar = Calendar.getInstance(timeZone, Locale.UK);
@@ -33,7 +31,6 @@ public class UpdateRatesUtils {
                 sdfHour.setTimeZone(timeZone);
 
                 int hour = Integer.parseInt(sdfHour.format(date));
-
                 if (hour >= 8) {
                     return true;
                 }
@@ -43,13 +40,10 @@ public class UpdateRatesUtils {
     }
 
     public static boolean checkForTodayUpdate() {
-
         SharedPref sharedPref = new SharedPref(AppController.getContext());
-
         Calendar currentCalendar = Calendar.getInstance();
         Calendar oldCalendar = Calendar.getInstance();
         oldCalendar.setTimeInMillis(sharedPref.getRatesUpdateTime());
-
         return currentCalendar.get(Calendar.DAY_OF_YEAR) == oldCalendar.get(Calendar.DAY_OF_YEAR);
     }
 }

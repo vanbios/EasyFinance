@@ -22,17 +22,13 @@ public class FloatingActionButtonBehavior extends CoordinatorLayout.Behavior<Flo
 
     @Override
     public boolean onDependentViewChanged(CoordinatorLayout parent, FloatingActionButton child, View dependency) {
-
         float offset = 0;
-
         switch (child.getId()) {
             case R.id.btnFloatAddTransExpense: {offset = FrgMain.offset1; break;}
             case R.id.btnFloatAddTransIncome: {offset = FrgMain.offset2; break;}
             case R.id.btnFloatAddTransBTW: {offset = FrgMain.offset3; break;}
         }
-
         child.setTranslationY(offset + dependency.getTranslationY() - dependency.getHeight());
-
         return true;
     }
 

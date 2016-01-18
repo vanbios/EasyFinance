@@ -9,19 +9,14 @@ import java.util.Locale;
 
 public class DateFormatUtils {
 
-
     public static String dateToString(Date date, String dateFormat){
-        java.text.DateFormat df = new SimpleDateFormat(dateFormat, Locale.getDefault());
-
-        return df.format(date);
-
+        return new SimpleDateFormat(dateFormat, Locale.getDefault()).format(date);
     }
 
     public static Date stringToDate(String dateStr, String dateFormat){
-        java.text.DateFormat format = new SimpleDateFormat(dateFormat, Locale.getDefault());
         Date date = null;
         try {
-            date = format.parse(dateStr);
+            date = new SimpleDateFormat(dateFormat, Locale.getDefault()).parse(dateStr);
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -29,10 +24,7 @@ public class DateFormatUtils {
     }
 
     public static String longToDateString(long dateLong, String dateFormat){
-        Date date = new Date(dateLong);
-        java.text.DateFormat df = new SimpleDateFormat(dateFormat, Locale.getDefault());
-
-        return df.format(date);
+        return new SimpleDateFormat(dateFormat, Locale.getDefault()).format(new Date(dateLong));
     }
 
 }

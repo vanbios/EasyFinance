@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -40,27 +41,18 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
     private TextView tvDate, tvAmount;
     private DatePickerDialog datePickerDialog;
     private Spinner spinCategory, spinAccount;
-
     private final String DATEFORMAT = "dd MMMM yyyy";
-
     private View view;
-
     private ArrayList<Account> accountList = null;
-
     private int mode, transType;
-
     private Transaction transFromIntent;
-
-    private final String prefixExpense = "- ", prefixIncome = "+ ";
-
+    private final String prefixExpense = "-", prefixIncome = "+";
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.frg_add_trans_def, container, false);
-
         setToolbar();
 
         accountList = InfoFromDB.getInstance().getAccountList();
@@ -71,91 +63,67 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
             scrollView.setVisibility(View.GONE);
             showDialogNoAccount();
         }
-
         else {
-
             scrollView.setVisibility(View.VISIBLE);
-
             mode = getArguments().getInt("mode", 0);
-
             tvAmount = (TextView) view.findViewById(R.id.tvAddTransDefAmount);
             tvAmount.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     openNumericDialog();
                 }
             });
 
-
             switch (mode) {
-
                 case 0: {
-
                     transType = getArguments().getInt("type", 0);
-
                     switch (transType) {
-
                         case 0: {
-                            tvAmount.setText(prefixExpense + "0,00");
+                            tvAmount.setText(String.format("%1$s %2$s", prefixExpense, "0,00"));
                             break;
                         }
-
                         case 1: {
-                            tvAmount.setText(prefixIncome + "0,00");
+                            tvAmount.setText(String.format("%1$s %2$s", prefixIncome, "0,00"));
                             break;
                         }
                     }
-
                     openNumericDialog();
-
                     break;
                 }
-
                 case 1: {
-
                     transFromIntent = (Transaction) getArguments().getSerializable("transaction");
-
                     final int PRECISE = 100;
                     final String FORMAT = "###,##0.00";
 
-                    double amount = transFromIntent.getAmount();
-
-                    if (!DoubleFormatUtils.isDoubleNegative(amount)) {
-
-                        transType = 1;
-                        String amountS = DoubleFormatUtils.doubleToStringFormatterForEdit(amount, FORMAT, PRECISE);
-                        setTVTextSize(amountS);
-                        tvAmount.setText(prefixIncome + amountS);
+                    if (transFromIntent != null) {
+                        double amount = transFromIntent.getAmount();
+                        if (!DoubleFormatUtils.isDoubleNegative(amount)) {
+                            transType = 1;
+                            String amountS = DoubleFormatUtils.doubleToStringFormatterForEdit(amount, FORMAT, PRECISE);
+                            setTVTextSize(amountS);
+                            tvAmount.setText(String.format("%1$s %2$s", prefixIncome, amountS));
+                        } else {
+                            transType = 0;
+                            String amountS = DoubleFormatUtils.doubleToStringFormatterForEdit(Math.abs(amount), FORMAT, PRECISE);
+                            setTVTextSize(amountS);
+                            tvAmount.setText(String.format("%1$s %2$s", prefixExpense, amountS));
+                        }
                     }
-
-                    else {
-
-                        transType = 0;
-                        String amountS = DoubleFormatUtils.doubleToStringFormatterForEdit(Math.abs(amount), FORMAT, PRECISE);
-                        setTVTextSize(amountS);
-                        tvAmount.setText(prefixExpense + amountS);
-                    }
-
                     break;
                 }
             }
 
-
             tvDate = (TextView) view.findViewById(R.id.tvTransactionDate);
-
             setDateTimeField();
-
             setSpinner();
-
 
             switch (transType) {
                 case 0: {
-                    tvAmount.setTextColor(getResources().getColor(R.color.custom_red));
+                    tvAmount.setTextColor(ContextCompat.getColor(getActivity(), R.color.custom_red));
                     break;
                 }
                 case 1: {
-                    tvAmount.setTextColor(getResources().getColor(R.color.custom_green));
+                    tvAmount.setTextColor(ContextCompat.getColor(getActivity(), R.color.custom_green));
                     break;
                 }
             }
@@ -165,22 +133,18 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
     }
 
     private void setSpinner() {
-
         spinCategory = (Spinner) view.findViewById(R.id.spinAddTransCategory);
         spinAccount = (Spinner) view.findViewById(R.id.spinAddTransDefAccount);
 
         String[] categoryArray;
         TypedArray categoryIcons;
 
-
         switch (transType) {
-
             case 1: {
                 categoryArray = getResources().getStringArray(R.array.transaction_category_income_array);
                 categoryIcons = getResources().obtainTypedArray(R.array.transaction_category_income_icons);
                 break;
             }
-
             default: {
                 categoryArray = getResources().getStringArray(R.array.transaction_category_expense_array);
                 categoryIcons = getResources().obtainTypedArray(R.array.transaction_category_expense_icons);
@@ -201,21 +165,15 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
 
         spinCategory.setSelection(categoryArray.length - 1);
 
-
         spinAccount.setAdapter(new SpinAccountForTransHeadIconAdapter(
                 getActivity(),
                 R.layout.spin_head_icon_text,
                 accountList));
 
         if (mode == 1) {
-
             String accountName = transFromIntent.getAccountName();
-
             for (int i = 0; i < accountList.size(); i++) {
-
-                Account account = accountList.get(i);
-
-                if (account.getName().equals(accountName)) {
+                if (accountList.get(i).getName().equals(accountName)) {
                     spinAccount.setSelection(i);
                     break;
                 }
@@ -226,95 +184,67 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
     }
 
     public void addTransaction() {
-
         String sum = DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString());
-
         if (checkSumField(sum)) {
-
             double amount = Double.parseDouble(sum);
-
             boolean isExpense = transType == 0;
-
             if (isExpense) {
                 amount *= -1;
             }
-
 
             Account account = (Account) spinAccount.getSelectedItem();
 
             double accountAmount = account.getAmount();
 
-
             if (checkIsEnoughCosts(isExpense, amount, accountAmount)) {
-
                 accountAmount += amount;
 
                 int category = spinCategory.getSelectedItemPosition();
                 Long date = DateFormatUtils.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
                 int idAccount = account.getId();
 
-
                 Transaction transaction = new Transaction(date, amount, category, idAccount, accountAmount);
                 InfoFromDB.getInstance().getDataSource().insertNewTransaction(transaction);
-
                 lastActions();
             }
         }
     }
 
     private void editTransaction() {
-
         String sum = DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString());
-
         if (checkSumField(sum)) {
-
             double amount = Double.parseDouble(sum);
-
             boolean isExpense = transType == 0;
-
             if (isExpense) {
                 amount *= -1;
             }
-
 
             Account account = (Account) spinAccount.getSelectedItem();
             double accountAmount = account.getAmount();
             int accountId = account.getId();
 
             int oldAccountId = transFromIntent.getIdAccount();
-
             boolean isAccountTheSame = accountId == oldAccountId;
-
             double oldAmount = transFromIntent.getAmount();
-
             double oldAccountAmount = 0;
 
-
             if (isAccountTheSame) {
-
                 accountAmount -= oldAmount;
             }
-
             else {
-
                 for (int i = 0; i < accountList.size(); i++) {
-
                     if (oldAccountId == accountList.get(i).getId()) {
-
                         oldAccountAmount = accountList.get(i).getAmount() - oldAmount;
                     }
                 }
             }
 
-
             if (checkIsEnoughCosts(isExpense, amount, accountAmount)) {
-
                 accountAmount += amount;
 
                 int category = spinCategory.getSelectedItemPosition();
                 Long date = DateFormatUtils.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
                 int idAccount = account.getId();
-
 
                 int idTrans = transFromIntent.getId();
                 Transaction transaction = new Transaction(date, amount, category, idAccount, accountAmount, idTrans);
@@ -322,19 +252,16 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                 if (isAccountTheSame) {
                     InfoFromDB.getInstance().getDataSource().editTransaction(transaction);
                 }
-
                 else {
-
                     InfoFromDB.getInstance().getDataSource().editTransactionDifferentAccounts(transaction, oldAccountAmount, oldAccountId);
                 }
-
                 lastActions();
             }
         }
     }
 
     private boolean checkSumField(String sum) {
-        if (! sum.matches(".*\\d.*") || Double.parseDouble(sum) == 0) {
+        if (!sum.matches(".*\\d.*") || Double.parseDouble(sum) == 0) {
             ToastUtils.showClosableToast(getActivity(), getString(R.string.empty_amount_field), 1);
             return false;
         }
@@ -362,14 +289,10 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                 datePickerDialog.show();
             }
         });
-
         Calendar newCalendar = Calendar.getInstance();
-
         if (mode == 1) {
-
             newCalendar.setTime(new Date(transFromIntent.getDate()));
         }
-
         tvDate.setText(DateFormatUtils.dateToString(newCalendar.getTime(), DATEFORMAT));
 
         datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
@@ -406,11 +329,8 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
     }
 
     private void setToolbar() {
-
         ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
-
         if (actionBar != null) {
-
             ViewGroup actionBarLayout = (ViewGroup) getActivity().getLayoutInflater().inflate(
                     R.layout.save_close_buttons_toolbar, null);
 
@@ -426,14 +346,12 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
             Toolbar parent = (Toolbar) actionBarLayout.getParent();
             parent.setContentInsetsAbsolute(0, 0);
 
-
             Button btnSave = (Button) actionBarLayout.findViewById(R.id.btnToolbarSave);
             Button btnClose = (Button) actionBarLayout.findViewById(R.id.btnToolbarClose);
 
             btnSave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     switch (mode) {
                         case 0: {addTransaction(); break;}
                         case 1: {editTransaction(); break;}
@@ -444,7 +362,6 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
             btnClose.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     finish();
                 }
             });
@@ -452,7 +369,6 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
     }
 
     private void showDialogNoAccount() {
-
         new MaterialDialog.Builder(getActivity())
                 .title(getString(R.string.no_account))
                 .content(getString(R.string.dialog_text_transaction_no_account))
@@ -494,34 +410,27 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
 
     @Override
     public void onCommitAmountSubmit(String amount) {
-
         setTVTextSize(amount);
-
         switch (transType) {
-
             case 0: {
-                tvAmount.setText(prefixExpense + amount);
+                tvAmount.setText(String.format("%1$s %2$s", prefixExpense, amount));
                 break;
             }
             case 1: {
-                tvAmount.setText(prefixIncome + amount);
+                tvAmount.setText(String.format("%1$s %2$s", prefixIncome, amount));
                 break;
             }
         }
     }
 
     private void setTVTextSize(String s) {
-
         int length = s.length();
-
         if (length > 9 && length <= 14) {
             tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
         }
-
         else if (length > 14) {
             tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
         }
-
         else {
             tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36);
         }

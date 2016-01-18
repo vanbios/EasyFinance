@@ -16,7 +16,6 @@ public class NavigationDrawerRecyclerAdapter extends RecyclerView.Adapter<Naviga
 
     private final String navTitles[];
     private final TypedArray navIcons;
-
     final static int TYPE_HEADER = 0, TYPE_ITEM = 1, TYPE_DIVIDER = 2;
 
 
@@ -27,49 +26,36 @@ public class NavigationDrawerRecyclerAdapter extends RecyclerView.Adapter<Naviga
 
     @Override
     public NavigationDrawerRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
         switch (viewType) {
-
             case TYPE_ITEM: {
                 return new ViewHolder(
                         LayoutInflater.from(parent.getContext()).inflate(R.layout.item_nav_row,parent,false),
-                        TYPE_ITEM
-                );
+                        TYPE_ITEM);
             }
-
             case TYPE_HEADER: {
                 return new ViewHolder(
                         LayoutInflater.from(parent.getContext()).inflate(R.layout.nav_header, parent, false),
-                        TYPE_HEADER
-                );
+                        TYPE_HEADER);
             }
-
             case TYPE_DIVIDER: {
                 return new ViewHolder(
                         LayoutInflater.from(parent.getContext()).inflate(R.layout.item_nav_divider, parent, false),
-                        TYPE_DIVIDER
-                );
+                        TYPE_DIVIDER);
             }
         }
-
         return null;
     }
 
     @Override
     public void onBindViewHolder(NavigationDrawerRecyclerAdapter.ViewHolder holder, int position) {
-
         if (holder.holderId == TYPE_ITEM) {
-
             int arrayPos = 0;
-
             if (position < 5) {
                 arrayPos = position - 1;
             }
-
             else if (position > 5) {
                 arrayPos = position - 2;
             }
-
             holder.tvNavItem.setText(navTitles[arrayPos]);
             holder.ivNavItem.setImageDrawable(navIcons.getDrawable(arrayPos));
         }
@@ -80,16 +66,10 @@ public class NavigationDrawerRecyclerAdapter extends RecyclerView.Adapter<Naviga
         return navTitles.length + 2;
     }
 
-
     @Override
     public int getItemViewType(int position) {
-        if (isPositionHeader(position)) {
-            return TYPE_HEADER;}
-
-        if (isPositionDivider(position)) {
-            return TYPE_DIVIDER;
-        }
-
+        if (isPositionHeader(position)) return TYPE_HEADER;
+        if (isPositionDivider(position)) return TYPE_DIVIDER;
         return TYPE_ITEM;
     }
 
@@ -103,31 +83,21 @@ public class NavigationDrawerRecyclerAdapter extends RecyclerView.Adapter<Naviga
 
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-
         int holderId;
-
         private TextView tvNavItem;
         private ImageView ivNavItem;
 
-
         public ViewHolder(View itemView, int viewType) {
             super(itemView);
-
             if (viewType == TYPE_ITEM) {
-
                 tvNavItem = (TextView) itemView.findViewById(R.id.tvItemNavRow);
                 ivNavItem = (ImageView) itemView.findViewById(R.id.ivItemNavRow);
-
                 holderId = TYPE_ITEM;
             }
-
             else if (viewType == TYPE_HEADER){
-
                 holderId = TYPE_HEADER;
             }
-
             else {
-
                 holderId = TYPE_DIVIDER;
             }
         }

@@ -4,7 +4,6 @@ package com.androidcollider.easyfin.objects;
 import java.io.Serializable;
 
 public class Debt implements Serializable {
-
     private int id, type, idAccount;
     private String name, accountName, currency;
     private double amountCurrent, amountAll, accountAmount;
@@ -41,7 +40,6 @@ public class Debt implements Serializable {
         this.idAccount = idAccount;
         this.id = id;
     }
-
 
 
     public String getName() {return name;}

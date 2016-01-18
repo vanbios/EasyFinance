@@ -29,95 +29,69 @@ import com.androidcollider.easyfin.objects.InfoFromDB;
 import java.util.ArrayList;
 
 
-
 public class FrgDebts extends CommonFragment {
 
     public final static String BROADCAST_DEBT_ACTION = "com.androidcollider.easyfin.debt.broadcast";
     public final static String PARAM_STATUS_DEBT = "update_debt";
     public final static int STATUS_UPDATE_DEBT = 6;
-
     private RecyclerView recyclerView;
     private TextView tvEmpty;
-
     private ArrayList<Debt> debtList = null;
-
     private RecyclerDebtAdapter recyclerAdapter;
-
     private BroadcastReceiver broadcastReceiver;
-
     private FloatingActionButton faButtonMain, faButtonTake, faButtonGive;
-
     private boolean expanded = false;
-
     private float offset1, offset2;
-
     final private boolean isApiHoneycombAndHigher = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
-
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.frg_debts, container, false);
-
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerDebt);
-
         tvEmpty = (TextView) view.findViewById(R.id.tvEmptyDebt);
-
         setItemDebt();
-
         registerForContextMenu(recyclerView);
 
         final ViewGroup fabContainer = (ViewGroup) view.findViewById(R.id.coordinatorLayoutFloatDebt);
-
         faButtonMain = (FloatingActionButton) view.findViewById(R.id.btnFloatDebts);
         faButtonMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 setFloatButtonsVisibility();
             }
         });
-
         faButtonTake = (FloatingActionButton) view.findViewById(R.id.btnFloatAddDebtTake);
         faButtonGive = (FloatingActionButton) view.findViewById(R.id.btnFloatAddDebtGive);
-
         faButtonTake.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 goToAddDebt(1);
                 setFloatButtonsVisibility();
             }
         });
-
         faButtonGive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 goToAddDebt(0);
                 setFloatButtonsVisibility();
             }
         });
 
         if (isApiHoneycombAndHigher) {
-
             fabContainer.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                 @Override
                 public boolean onPreDraw() {
                     fabContainer.getViewTreeObserver().removeOnPreDrawListener(this);
-                    offset1 = faButtonMain.getY() + faButtonMain.getHeight()/6 - faButtonTake.getY();
+                    offset1 = faButtonMain.getY() + faButtonMain.getHeight() / 6 - faButtonTake.getY();
                     faButtonTake.setTranslationY(offset1);
-                    offset2 = faButtonMain.getY() + faButtonMain.getHeight()/6 - faButtonGive.getY();
+                    offset2 = faButtonMain.getY() + faButtonMain.getHeight() / 6 - faButtonGive.getY();
                     faButtonGive.setTranslationY(offset2);
                     return true;
                 }
             });
-        }
-
-        else {
-
+        } else {
             faButtonTake.setVisibility(View.GONE);
             faButtonGive.setVisibility(View.GONE);
         }
@@ -128,9 +102,7 @@ public class FrgDebts extends CommonFragment {
     }
 
     private void setFloatButtonsVisibility() {
-
         if (isApiHoneycombAndHigher) {
-
             expanded = !expanded;
             if (expanded) {
                 expandFab();
@@ -139,20 +111,12 @@ public class FrgDebts extends CommonFragment {
                 collapseFab();
                 faButtonMain.setImageResource(R.drawable.ic_plus_white_48dp);
             }
-
-        }
-
-        else {
-
+        } else {
             if (faButtonTake.getVisibility() == View.GONE) {
-
                 faButtonTake.setVisibility(View.VISIBLE);
                 faButtonGive.setVisibility(View.VISIBLE);
                 faButtonMain.setImageResource(R.drawable.ic_close_white_24dp);
-            }
-
-            else {
-
+            } else {
                 faButtonTake.setVisibility(View.GONE);
                 faButtonGive.setVisibility(View.GONE);
                 faButtonMain.setImageResource(R.drawable.ic_plus_white_48dp);
@@ -161,26 +125,16 @@ public class FrgDebts extends CommonFragment {
     }
 
     private void setItemDebt() {
-
         debtList = InfoFromDB.getInstance().getDataSource().getAllDebtInfo();
-
         setVisibility();
-
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerAdapter = new RecyclerDebtAdapter(getActivity(), debtList);
         recyclerView.setAdapter(recyclerAdapter);
     }
 
     private void setVisibility() {
-        if (debtList.isEmpty()) {
-            recyclerView.setVisibility(View.GONE);
-            tvEmpty.setVisibility(View.VISIBLE);
-        }
-
-        else {
-            tvEmpty.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-        }
+        recyclerView.setVisibility(debtList.isEmpty() ? View.GONE : View.VISIBLE);
+        tvEmpty.setVisibility(debtList.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -208,22 +162,15 @@ public class FrgDebts extends CommonFragment {
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                int status = intent.getIntExtra(PARAM_STATUS_DEBT, 0);
-
-                if (status == STATUS_UPDATE_DEBT) {
-
+                if (intent.getIntExtra(PARAM_STATUS_DEBT, 0) == STATUS_UPDATE_DEBT) {
                     debtList.clear();
                     debtList.addAll(InfoFromDB.getInstance().getDataSource().getAllDebtInfo());
-
                     setVisibility();
-
                     recyclerAdapter.notifyDataSetChanged();
                 }
             }
         };
-
         IntentFilter intentFilter = new IntentFilter(BROADCAST_DEBT_ACTION);
-
         getActivity().registerReceiver(broadcastReceiver, intentFilter);
     }
 
@@ -235,7 +182,6 @@ public class FrgDebts extends CommonFragment {
 
     public boolean onContextItemSelected(MenuItem item) {
         int pos;
-
         try {
             pos = (int) recyclerAdapter.getPosition();
         } catch (Exception e) {
@@ -243,34 +189,31 @@ public class FrgDebts extends CommonFragment {
         }
 
         switch (item.getItemId()) {
-
             case R.id.ctx_menu_pay_all_debt: {
                 goToPayDebt(pos, 1);
-                break;}
-
+                break;
+            }
             case R.id.ctx_menu_pay_part_debt: {
                 goToPayDebt(pos, 2);
-                break;}
-
+                break;
+            }
             case R.id.ctx_menu_take_more_debt: {
                 goToPayDebt(pos, 3);
-                break;}
-
+                break;
+            }
             case R.id.ctx_menu_edit_debt: {
                 goToEditDebt(pos, 1);
                 break;
             }
-
             case R.id.ctx_menu_delete_debt: {
                 showDialogDeleteDebt(pos);
-                break;}
+                break;
+            }
         }
-
         return super.onContextItemSelected(item);
     }
 
     private void showDialogDeleteDebt(final int pos) {
-
         new MaterialDialog.Builder(getActivity())
                 .title(getString(R.string.dialog_title_delete))
                 .content(getString(R.string.debt_delete_warning))
@@ -283,7 +226,8 @@ public class FrgDebts extends CommonFragment {
                     }
 
                     @Override
-                    public void onNegative(MaterialDialog dialog) {}
+                    public void onNegative(MaterialDialog dialog) {
+                    }
 
                 })
                 .cancelable(false)
@@ -291,24 +235,18 @@ public class FrgDebts extends CommonFragment {
     }
 
     private void deleteDebt(int pos) {
-
         Debt debt = debtList.get(pos);
         int idAccount = debt.getIdAccount();
         int idDebt = debt.getId();
         double amount = debt.getAmountCurrent();
         int type = debt.getType();
 
-
         InfoFromDB.getInstance().getDataSource().deleteDebt(idAccount, idDebt, amount, type);
 
         debtList.remove(pos);
-
         setVisibility();
-
         recyclerAdapter.notifyDataSetChanged();
-
         InfoFromDB.getInstance().updateAccountList();
-
         pushBroadcast();
     }
 
@@ -322,7 +260,7 @@ public class FrgDebts extends CommonFragment {
         getActivity().sendBroadcast(intentFrgAccounts);
     }
 
-    private void goToPayDebt(int pos, int mode){
+    private void goToPayDebt(int pos, int mode) {
         Debt debt = debtList.get(pos);
 
         FrgPayDebt frgPayDebt = new FrgPayDebt();

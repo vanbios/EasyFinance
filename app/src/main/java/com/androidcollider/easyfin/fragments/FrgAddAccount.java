@@ -31,32 +31,22 @@ import com.androidcollider.easyfin.utils.ToastUtils;
 public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDialog.OnCommitAmountListener {
 
     private View view;
-
     private Spinner spinType, spinCurrency;
     private EditText etName;
     private TextView tvAmount;
-
     private String oldName;
     private int idAccount, mode;
-
     private Account accFrIntent;
-
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.frg_add_account, container, false);
-
         initializeFields();
-
         setMode();
-
         setToolbar();
-
         HideKeyboardUtils.setupUI(view.findViewById(R.id.layoutActAccountParent), getActivity());
-
         return view;
     }
 
@@ -70,18 +60,15 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
         tvAmount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 openNumericDialog();
             }
         });
     }
 
     private void setToolbar() {
-
         ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
 
         if (actionBar != null) {
-
             ViewGroup actionBarLayout = (ViewGroup) getActivity().getLayoutInflater().inflate(
                     R.layout.save_close_buttons_toolbar, null);
 
@@ -97,14 +84,12 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
             Toolbar parent = (Toolbar) actionBarLayout.getParent();
             parent.setContentInsetsAbsolute(0, 0);
 
-
             Button btnSave = (Button) actionBarLayout.findViewById(R.id.btnToolbarSave);
             Button btnClose = (Button) actionBarLayout.findViewById(R.id.btnToolbarClose);
 
             btnSave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     switch (mode) {
                         case 0: {addAccount(); break;}
                         case 1: {editAccount(); break;}
@@ -123,26 +108,22 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
 
     private void setMode () {
         mode = getArguments().getInt("mode", 0);
-
         switch (mode) {
-
             case 0: {
                 tvAmount.setText("0,00");
                 openNumericDialog();
-                break;}
-
+                break;
+            }
             case 1: {
                 accFrIntent = (Account) getArguments().getSerializable("account");
                 setFields();
                 break;
             }
         }
-
         setSpinner();
     }
 
     private void setSpinner() {
-
         spinType.setAdapter(new SpinIconTextHeadAdapter(
                 getActivity(),
                 R.layout.spin_head_icon_text,
@@ -153,7 +134,6 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
                 R.id.ivSpinDropIconText,
                 getResources().getStringArray(R.array.account_type_array),
                 getResources().obtainTypedArray(R.array.account_type_icons)));
-
 
         spinCurrency.setAdapter(new SpinIconTextHeadAdapter(
                 getActivity(),
@@ -167,11 +147,8 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
                 getResources().obtainTypedArray(R.array.flag_icons)));
 
         if (mode == 1) {
-
             spinType.setSelection(accFrIntent.getType());
-
             String[] currencyArray = getResources().getStringArray(R.array.account_currency_array);
-
             String currencyVal = accFrIntent.getCurrency();
 
             for (int i = 0; i < currencyArray.length; i++) {
@@ -185,7 +162,6 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
     }
 
     private void setFields() {
-
         oldName = accFrIntent.getName();
         etName.setText(oldName);
         etName.setSelection(etName.getText().length());
@@ -201,53 +177,39 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
     }
 
     private void addAccount() {
-
-        if(checkForFillNameField()) {
-
+        if (checkForFillNameField()) {
             String name = etName.getText().toString();
 
             if (InfoFromDB.getInstance().checkForAccountNameMatches(name)) {
                 ShakeEditText.highlightEditText(etName);
                 ToastUtils.showClosableToast(getActivity(), getString(R.string.account_name_exist), 1);
             }
-
             else {
-
                 double amount = Double.parseDouble(DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString()));
                 String currency = spinCurrency.getSelectedItem().toString();
                 int type = spinType.getSelectedItemPosition();
 
-                Account account = new Account(name, amount, type, currency);
-
-                InfoFromDB.getInstance().getDataSource().insertNewAccount(account);
-
+                InfoFromDB.getInstance().getDataSource().insertNewAccount(new Account(name, amount, type, currency));
                 lastActions();
             }
         }
     }
 
     private void editAccount() {
-
         if (checkForFillNameField()) {
-
             String name = etName.getText().toString();
 
             if (InfoFromDB.getInstance().checkForAccountNameMatches(name) && ! name.equals(oldName)) {
                 ShakeEditText.highlightEditText(etName);
                 ToastUtils.showClosableToast(getActivity(), getString(R.string.account_name_exist), 1);
             }
-
             else {
-
                 String sum = DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString());
                 double amount = Double.parseDouble(sum);
                 String currency = spinCurrency.getSelectedItem().toString();
                 int type = spinType.getSelectedItemPosition();
 
-                Account account = new Account(idAccount, name, amount, type, currency);
-
-                InfoFromDB.getInstance().getDataSource().editAccount(account);
-
+                InfoFromDB.getInstance().getDataSource().editAccount(new Account(idAccount, name, amount, type, currency));
                 lastActions();
             }
         }
@@ -260,16 +222,12 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
     }
 
     private boolean checkForFillNameField() {
-
         String st = etName.getText().toString().replaceAll("\\s+", "");
-
         if (st.isEmpty()) {
             ShakeEditText.highlightEditText(etName);
             ToastUtils.showClosableToast(getActivity(), getString(R.string.empty_name_field), 1);
-
             return false;
         }
-
         return true;
     }
 
@@ -282,11 +240,8 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
         intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
         getActivity().sendBroadcast(intentFrgAccounts);
 
-
         if (mode == 0) {
-            SharedPref sp = new SharedPref(getActivity());
-            if(!sp.isSnackBarAccountDisable()) {
-
+            if (!new SharedPref(getActivity()).isSnackBarAccountDisable()) {
                 Intent intentMainSnack = new Intent(FrgMain.BROADCAST_MAIN_SNACK_ACTION);
                 intentMainSnack.putExtra(FrgMain.PARAM_STATUS_MAIN_SNACK, FrgMain.STATUS_MAIN_SNACK);
                 getActivity().sendBroadcast(intentMainSnack);
@@ -311,17 +266,13 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
     }
 
     private void setTVTextSize(String s) {
-
         int length = s.length();
-
         if (length > 10 && length <= 15) {
             tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
         }
-
         else if (length > 15) {
             tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
         }
-
         else {
             tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36);
         }

@@ -37,27 +37,18 @@ import java.util.ArrayList;
 public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit implements FrgNumericDialog.OnCommitAmountListener {
 
     private Spinner spinAccountFrom, spinAccountTo;
-
     private SpinAccountForTransAdapter adapterAccountTo;
-
     private View view;
-
     private EditText etExchange;
-
     private TextView tvAmount;
-
     private RelativeLayout layoutExchange;
-
     private ArrayList<Account> accountListFrom, accountListTo = null;
-
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.frg_add_trans_btw, container, false);
-
         setToolbar();
 
         accountListFrom = InfoFromDB.getInstance().getAccountList();
@@ -67,10 +58,7 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
         if (accountListFrom.size() < 2) {
             scrollView.setVisibility(View.GONE);
             showDialogNoAccount();
-        }
-
-        else {
-
+        } else {
             scrollView.setVisibility(View.VISIBLE);
 
             tvAmount = (TextView) view.findViewById(R.id.tvAddTransBTWAmount);
@@ -90,7 +78,6 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
             layoutExchange = (RelativeLayout) view.findViewById(R.id.layoutAddTransBTWExchange);
 
             setSpinners();
-
             HideKeyboardUtils.setupUI(view.findViewById(R.id.scrollAddTransBTW), getActivity());
         }
 
@@ -106,7 +93,6 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
         spinAccountFrom.setAdapter(new SpinAccountForTransAdapter(getActivity(),
                 R.layout.spin_head_text, accountListFrom));
 
-
         accountListTo.addAll(accountListFrom);
         accountListTo.remove(spinAccountFrom.getSelectedItemPosition());
 
@@ -114,7 +100,6 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
                 R.layout.spin_head_text, accountListTo);
 
         spinAccountTo.setAdapter(adapterAccountTo);
-
 
         spinAccountFrom.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -144,14 +129,11 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
         accountListTo.clear();
         accountListTo.addAll(accountListFrom);
         accountListTo.remove(spinAccountFrom.getSelectedItemPosition());
-
         adapterAccountTo.notifyDataSetChanged();
     }
 
     private void setCurrencyMode(boolean mode) {
-
         if (mode) {
-
             layoutExchange.setVisibility(View.VISIBLE);
 
             Account accountFrom = (Account) spinAccountFrom.getSelectedItem();
@@ -167,10 +149,7 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
             etExchange.setText(DoubleFormatUtils.doubleToStringFormatter(exchangeRate, FORMAT, PRECISE));
 
             etExchange.setSelection(etExchange.getText().length());
-        }
-
-        else {
-
+        } else {
             layoutExchange.setVisibility(View.GONE);
         }
     }
@@ -178,7 +157,6 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
     private boolean checkForMultiCurrency() {
         Account accountFrom = (Account) spinAccountFrom.getSelectedItem();
         Account accountTo = (Account) spinAccountTo.getSelectedItem();
-
         return !accountFrom.getCurrency().equals(accountTo.getCurrency());
     }
 
@@ -193,80 +171,59 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
     }
 
     public void addTransactionBTW() {
+        double amount = Double.parseDouble(DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString()));
 
-            double amount = Double.parseDouble(DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString()));
+        Account accountFrom = (Account) spinAccountFrom.getSelectedItem();
+        double accountAmountFrom = accountFrom.getAmount();
 
-            Account accountFrom = (Account) spinAccountFrom.getSelectedItem();
-            double accountAmountFrom = accountFrom.getAmount();
+        if (amount > accountAmountFrom) {
+            ToastUtils.showClosableToast(getActivity(), getString(R.string.not_enough_costs), 1);
+        } else {
+            int accountIdFrom = accountFrom.getId();
 
-            if (amount > accountAmountFrom) {
-                ToastUtils.showClosableToast(getActivity(), getString(R.string.not_enough_costs), 1);
+            Account accountTo = (Account) spinAccountTo.getSelectedItem();
 
-            } else {
+            int accountIdTo = accountTo.getId();
+            double accountAmountTo = accountTo.getAmount();
 
-                int accountIdFrom = accountFrom.getId();
-
-                Account accountTo = (Account) spinAccountTo.getSelectedItem();
-
-                int accountIdTo = accountTo.getId();
-                double accountAmountTo = accountTo.getAmount();
-
-
-                if (layoutExchange.getVisibility() == View.VISIBLE) {
-
-                    if (checkEditTextForCorrect(etExchange, R.string.empty_exchange_field)) {
-
-                        double exchange = Double.parseDouble(DoubleFormatUtils.prepareStringToParse(etExchange.getText().toString()));
-
-                        double amountTo = amount / exchange;
-
-                        lastActions(amount, amountTo, accountIdFrom, accountIdTo, accountAmountFrom, accountAmountTo);
-                    }
-
-                } else {
-
-                    lastActions(amount, amount, accountIdFrom, accountIdTo, accountAmountFrom, accountAmountTo);
+            if (layoutExchange.getVisibility() == View.VISIBLE) {
+                if (checkEditTextForCorrect(etExchange, R.string.empty_exchange_field)) {
+                    double exchange = Double.parseDouble(DoubleFormatUtils.prepareStringToParse(etExchange.getText().toString()));
+                    double amountTo = amount / exchange;
+                    lastActions(amount, amountTo, accountIdFrom, accountIdTo, accountAmountFrom, accountAmountTo);
                 }
+            } else {
+                lastActions(amount, amount, accountIdFrom, accountIdTo, accountAmountFrom, accountAmountTo);
             }
+        }
     }
 
     private void lastActions(double amount, double amountTo,
                              int idFrom, int idTo,
                              double accAmountFrom, double accAmountTo) {
-
         double accountAmountFrom = accAmountFrom - amount;
         double accountAmountTo = accAmountTo + amountTo;
 
         InfoFromDB.getInstance().getDataSource().updateAccountsAmountAfterTransfer(idFrom,
                 accountAmountFrom, idTo, accountAmountTo);
-
         InfoFromDB.getInstance().updateAccountList();
-
         pushBroadcast();
-
         finish();
     }
 
     private boolean checkEditTextForCorrect(EditText et, int strRes) {
-
         String s = DoubleFormatUtils.prepareStringToParse(et.getText().toString());
-
         if (!s.matches(".*\\d.*") || Double.parseDouble(s) == 0) {
             ShakeEditText.highlightEditText(et);
             ToastUtils.showClosableToast(getActivity(), getString(strRes), 1);
-
-        return false;
+            return false;
         }
-
         return true;
     }
 
     private void setToolbar() {
-
-        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
-
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (actionBar != null) {
-
             ViewGroup actionBarLayout = (ViewGroup) getActivity().getLayoutInflater().inflate(
                     R.layout.save_close_buttons_toolbar, null);
 
@@ -282,14 +239,12 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
             Toolbar parent = (Toolbar) actionBarLayout.getParent();
             parent.setContentInsetsAbsolute(0, 0);
 
-
             Button btnSave = (Button) actionBarLayout.findViewById(R.id.btnToolbarSave);
             Button btnClose = (Button) actionBarLayout.findViewById(R.id.btnToolbarClose);
 
             btnSave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     addTransactionBTW();
                 }
             });
@@ -304,7 +259,6 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
     }
 
     private void showDialogNoAccount() {
-
         new MaterialDialog.Builder(getActivity())
                 .title(getString(R.string.no_account))
                 .content(getString(R.string.dialog_text_transfer_no_accounts))
@@ -346,24 +300,17 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
 
     @Override
     public void onCommitAmountSubmit(String amount) {
-
         setTVTextSize(amount);
         tvAmount.setText(amount);
     }
 
     private void setTVTextSize(String s) {
-
         int length = s.length();
-
         if (length > 10 && length <= 15) {
             tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-        }
-
-        else if (length > 15) {
+        } else if (length > 15) {
             tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
-        }
-
-        else {
+        } else {
             tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36);
         }
     }

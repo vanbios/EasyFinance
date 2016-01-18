@@ -3,6 +3,7 @@ package com.androidcollider.easyfin.adapters;
 import android.content.Context;
 import android.graphics.LightingColorFilter;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -23,21 +24,17 @@ import java.util.ArrayList;
 public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapter.ViewHolder> {
 
     private long pos;
-
     private Context context;
     private ArrayList<Debt> debtList;
-
     private final String[] curArray, curLangArray;
 
 
     public RecyclerDebtAdapter(Context context, ArrayList<Debt> debtList) {
         this.context = context;
         this.debtList = debtList;
-
         curArray = context.getResources().getStringArray(R.array.account_currency_array);
         curLangArray = context.getResources().getStringArray(R.array.account_currency_array_language);
     }
-
 
     @Override
     public int getItemCount() {return debtList.size();}
@@ -46,7 +43,6 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
     public long getItemId(int position) {return position;}
 
     public Debt getDebt(int position) {return debtList.get(position);}
-
 
 
     @Override
@@ -59,9 +55,7 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-
         Debt debt = getDebt(position);
-
         final int PRECISE = 100;
         final String FORMAT = "###,##0.00";
         final String DATEFORMAT = "dd.MM.yyyy";
@@ -81,28 +75,30 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
         double amountCurrent = debt.getAmountCurrent();
         double amountAll = debt.getAmountAll();
 
-        holder.tvAmount.setText(DoubleFormatUtils.doubleToStringFormatter(amountCurrent, FORMAT, PRECISE)
-        + " " + curLang);
+        holder.tvAmount.setText(String.format("%1$s %2$s",
+                DoubleFormatUtils.doubleToStringFormatter(amountCurrent, FORMAT, PRECISE), curLang));
         holder.tvAccountName.setText(debt.getAccountName());
         holder.tvDate.setText(DateFormatUtils.longToDateString(debt.getDate(), DATEFORMAT));
 
         int progress = (int) (amountCurrent/amountAll*100);
         holder.prgBar.setProgress(progress);
-        holder.tvProgress.setText(progress + "%");
+        //holder.tvProgress.setText(progress + "%");
+        holder.tvProgress.setText(String.format("%s%%", progress));
 
         Drawable prgDraw = holder.prgBar.getProgressDrawable();
 
-
         switch (debt.getType()) {
             case 0: {
-                int green = context.getResources().getColor(R.color.custom_green);
+                //int green = context.getResources().getColor(R.color.custom_green);
+                int green = ContextCompat.getColor(context, R.color.custom_green);
                 holder.tvAmount.setTextColor(green);
                 prgDraw.setColorFilter(new LightingColorFilter(0xFF000000, green));
                 holder.tvProgress.setTextColor(green);
                 break;
             }
             case 1: {
-                int red = context.getResources().getColor(R.color.custom_red);
+                //int red = context.getResources().getColor(R.color.custom_red);
+                int red = ContextCompat.getColor(context, R.color.custom_red);
                 holder.tvAmount.setTextColor(red);
                 prgDraw.setColorFilter(new LightingColorFilter(0xFF000000, red));
                 holder.tvProgress.setTextColor(red);
@@ -148,7 +144,6 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
             tvDate = (TextView) view.findViewById(R.id.tvItemDebtDate);
             prgBar = (ProgressBar) view.findViewById(R.id.progressBarItemDebt);
             tvProgress = (TextView) view.findViewById(R.id.tvItemDebtProgress);
-
             view.setOnCreateContextMenuListener(this);
         }
 

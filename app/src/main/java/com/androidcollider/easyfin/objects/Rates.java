@@ -1,7 +1,6 @@
 package com.androidcollider.easyfin.objects;
 
 
-
 public class Rates {
 
     private int id;

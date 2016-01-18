@@ -19,19 +19,14 @@ import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 
 
-
 public class FrgNumericDialog extends DialogFragment {
 
     private OnCommitAmountListener callback;
-
     final private boolean isApiHoneycombAndHigher = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
-
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.frg_numeric_dialog, container, false);
-
 
         try {
             callback = (OnCommitAmountListener) getTargetFragment();
@@ -39,34 +34,26 @@ public class FrgNumericDialog extends DialogFragment {
             throw new ClassCastException("Calling Fragment must implement OnCommitAmountListener");
         }
 
-
         final CalculatorView calculatorView = new CalculatorView(getActivity());
         calculatorView.setShowSpaces(true);
         calculatorView.setShowSelectors(true);
         calculatorView.build();
 
         try {
-
             String inputValue = getArguments().getString("value");
-
             if (inputValue != null) {
-
                 String str = DoubleFormatUtils.prepareStringToSeperate(inputValue);
-
                 String integers;
                 String hundreds = "";
 
                 if (str.contains(",")) {
                     int j = str.indexOf(",");
                     integers = str.substring(0, j);
-
                     String h = str.substring(j + 1);
-
                     if (!h.equals("00")) {
                         hundreds = h;
                     }
                 }
-
                 else {
                     integers = str;
                 }
@@ -78,16 +65,13 @@ public class FrgNumericDialog extends DialogFragment {
                 calculatorView.setIntegers(integers);
                 calculatorView.setHundredths(hundreds);
                 calculatorView.formatAndShow();
-
             }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
         }
-
-        catch (NullPointerException e) {e.printStackTrace();}
-
 
         FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.containerFrgNumericDialog);
         frameLayout.addView(calculatorView);
-
 
         TextView tvCommit = (TextView) view.findViewById(R.id.btnFrgNumericDialogCommit);
         TextView tvCancel = (TextView) view.findViewById(R.id.btnFrgNumericDialogCancel);
@@ -95,7 +79,6 @@ public class FrgNumericDialog extends DialogFragment {
         tvCommit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 callback.onCommitAmountSubmit(calculatorView.getCalculatorValue());
                 dismiss();
             }
@@ -104,7 +87,6 @@ public class FrgNumericDialog extends DialogFragment {
         tvCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 dismiss();
             }
         });
@@ -115,10 +97,7 @@ public class FrgNumericDialog extends DialogFragment {
     @Override
     public void onStart() {
         super.onStart();
-
-        if (getDialog() == null) {
-            return;
-        }
+        if (getDialog() == null) return;
 
         DisplayMetrics metrics = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -132,20 +111,10 @@ public class FrgNumericDialog extends DialogFragment {
     @Override
     @NonNull
     public Dialog onCreateDialog(final Bundle savedInstanceState) {
-
-        Dialog dialog;
-
-        if (!isApiHoneycombAndHigher) {
-            dialog = new Dialog(getActivity(), android.R.style.Theme_Light_NoTitleBar);
-        }
-
-        else {
-            dialog = new Dialog(getActivity());
-        }
-
-
+        Dialog dialog = isApiHoneycombAndHigher ?
+                new Dialog(getActivity()) :
+                new Dialog(getActivity(), android.R.style.Theme_Light_NoTitleBar);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
         return dialog;
     }
 

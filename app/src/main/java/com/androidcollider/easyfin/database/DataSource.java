@@ -103,7 +103,6 @@ public class DataSource {
 
         cv2.put("amount", debt.getAccountAmount());
 
-
         openLocalToWrite();
         db.insert("Debt", null, cv1);
         db.update("Account", cv2, "id_account = " + id_account, null);
@@ -137,23 +136,17 @@ public class DataSource {
             case 4: period = DateConstants.YEAR; break;
         }
 
-
         String[] currencyArray = context.getResources().getStringArray(R.array.account_currency_array);
 
         HashMap<String, double[]> result = new HashMap<>();
 
-
         Cursor cursor;
         String selectQuery;
 
-
         openLocalToRead();
 
-
         for (String currency : currencyArray) {
-
             double[] arrStat = new double[2];
-
 
             selectQuery = "SELECT t.date, t.amount FROM Transactions t, Account a "
                     + "WHERE t.id_account = a.id_account "
@@ -164,7 +157,6 @@ public class DataSource {
             double cost = 0.0;
             double income = 0.0;
 
-
             if (cursor.moveToFirst()) {
                 int amountColIndex = cursor.getColumnIndex("amount");
                 int dateColIndex = cursor.getColumnIndex("date");
@@ -173,12 +165,9 @@ public class DataSource {
 
                 for (int i = cursor.getCount() - 1; i >= 0; i--) {
                     cursor.moveToPosition(i);
-
                     long date = cursor.getLong(dateColIndex);
                     double amount = cursor.getDouble(amountColIndex);
-
                     if (currentTime > date && period >= (currentTime - date)) {
-
                         if (DoubleFormatUtils.isDoubleNegative(amount)) {
                             cost += amount;
                         } else {
@@ -187,7 +176,6 @@ public class DataSource {
                     }
                 }
             }
-
             cursor.close();
 
             arrStat[0] = cost;
@@ -197,28 +185,20 @@ public class DataSource {
         }
 
         closeLocal();
-
         return result;
     }
 
     public HashMap<String, double[]> getAccountsSumGroupByTypeAndCurrency() {
-
         String[] currencyArray = context.getResources().getStringArray(R.array.account_currency_array);
-
         HashMap<String, double[]> results = new HashMap<>();
-
         Cursor cursor;
         String selectQuery;
 
         openLocalToRead();
 
-
         for (String currency : currencyArray) {
-
             double[] result = new double[4];
-
             for (int i = 0; i < 3; i++) {
-
                 selectQuery = "SELECT SUM(amount) FROM Account "
                         + "WHERE visibility = 1 AND "
                         + "type = '" + i + "' AND "
@@ -246,37 +226,29 @@ public class DataSource {
             if (cursor.moveToFirst()) {
                 int amountColIndex = cursor.getColumnIndex("amount_current");
                 int typeColIndex = cursor.getColumnIndex("type");
-
                 do {
                     debtVal = cursor.getDouble(amountColIndex);
                     debtType = cursor.getInt(typeColIndex);
-
                     if (debtType == 1) {
                         debtVal *= -1;
                     }
-
                     debtSum += debtVal;
-                }
-
-                while (cursor.moveToNext());
+                } while (cursor.moveToNext());
 
                 cursor.close();
 
                 result[3] = debtSum;
             }
-
             results.put(currency, result);
         }
-
         closeLocal();
         return results;
     }
 
     public ArrayList<Account> getAllAccountsInfo() {
-
         ArrayList<Account> accountArrayList = new ArrayList<>();
-
         String selectQuery = "SELECT * FROM Account WHERE visibility = 1";
+
         openLocalToRead();
 
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -302,13 +274,11 @@ public class DataSource {
 
             cursor.close();
             closeLocal();
-
             return accountArrayList;
         }
 
         cursor.close();
         closeLocal();
-
         return accountArrayList;
     }
 
@@ -332,7 +302,6 @@ public class DataSource {
             int typeColIndex = cursor.getColumnIndex("type");
             int idAccountColIndex = cursor.getColumnIndex("id_account");
             int idTransColIndex = cursor.getColumnIndex("id_transaction");
-
 
             int cursorCount = cursor.getCount();
             int limit = 0;
@@ -361,7 +330,6 @@ public class DataSource {
         }
         cursor.close();
         closeLocal();
-
         return transactionArrayList;
     }
 
@@ -376,7 +344,6 @@ public class DataSource {
         openLocalToRead();
 
         Cursor cursor = db.rawQuery(selectQuery, null);
-
 
         if (cursor.moveToFirst()) {
             int dNameColIndex = cursor.getColumnIndex("d_name");
@@ -401,20 +368,16 @@ public class DataSource {
                         cursor.getInt(idAccountColIndex),
                         cursor.getInt(idDebtColIndex)
                 );
-
                 debtArrayList.add(debt);
-            }
-            while (cursor.moveToNext());
+            } while (cursor.moveToNext());
 
             cursor.close();
             closeLocal();
-
             return debtArrayList;
         }
 
         cursor.close();
         closeLocal();
-
         return debtArrayList;
     }
 
@@ -440,7 +403,6 @@ public class DataSource {
     }
 
     public void makeAccountInvisible(int id) {
-
         ContentValues cv = new ContentValues();
         cv.put("visibility", 0);
 
@@ -450,7 +412,6 @@ public class DataSource {
     }
 
     public boolean checkAccountForTransactionOrDebtExist(int id) {
-
         String selectQuery = "SELECT COUNT(id_transaction) FROM Transactions "
                 + "WHERE id_account = '" + id +  "' ";
 
@@ -458,55 +419,43 @@ public class DataSource {
 
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if(cursor.moveToFirst()) {
-            int c = cursor.getInt(0);
+        if (cursor.moveToFirst()) {
             cursor.close();
-
-            if (c > 0) {
-            return true;}}
-
+            if (cursor.getInt(0) > 0) return true;
+        }
 
         selectQuery = "SELECT COUNT(id_debt) FROM Debt "
                 + "WHERE id_account = '" + id +  "' ";
 
         cursor = db.rawQuery(selectQuery, null);
 
-        if(cursor.moveToFirst()) {
-            int c = cursor.getInt(0);
-
-            if (c > 0) {
+        if (cursor.moveToFirst()) {
+            if (cursor.getInt(0) > 0) {
                 cursor.close();
                 closeLocal();
-
-                return true;}}
-
+                return true;
+            }
+        }
 
         cursor.close();
         closeLocal();
-
         return false;
     }
 
     public void deleteTransaction(int id_account, int id_trans, double amount) {
-
         String selectQuery = "SELECT amount FROM Account "
                 + "WHERE id_account = '" + id_account + "' ";
-
 
         openLocalToWrite();
 
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         double accountAmount = 0;
-
-        if(cursor.moveToFirst()) {
+        if (cursor.moveToFirst()) {
             accountAmount = cursor.getDouble(0);
         }
-
         cursor.close();
-
         accountAmount -= amount;
-
 
         ContentValues cv = new ContentValues();
 
@@ -519,59 +468,43 @@ public class DataSource {
     }
 
     public void deleteDebt(int id_account, int id_debt, double amount, int type) {
-
         String selectQuery = "SELECT amount FROM Account "
                 + "WHERE id_account = '" + id_account + "' ";
-
 
         openLocalToWrite();
 
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         double accountAmount = 0;
-
-        if(cursor.moveToFirst()) {
+        if (cursor.moveToFirst()) {
             accountAmount = cursor.getDouble(0);
         }
-
         cursor.close();
-
 
         if (type == 1) {
             accountAmount -= amount;
         }
-
         else {
             accountAmount += amount;
         }
 
-
         ContentValues cv = new ContentValues();
-
         cv.put("amount", accountAmount);
-
         db.update("Account", cv, "id_account = " + id_account, null);
         db.delete("Debt", "id_debt = '" + id_debt + "' ", null);
-
         closeLocal();
     }
 
     public void payAllDebt(int idAccount, double accountAmount, int idDebt) {
-
         ContentValues cv = new ContentValues();
-
         cv.put("amount", accountAmount);
-
         openLocalToWrite();
-
         db.update("Account", cv, "id_account = " + idAccount, null);
         db.delete("Debt", "id_debt = '" + idDebt + "' ", null);
-
         closeLocal();
     }
 
     public void payPartDebt(int idAccount, double accountAmount, int idDebt, double debtAmount) {
-
         ContentValues cv1 = new ContentValues();
         cv1.put("amount", accountAmount);
 
@@ -579,15 +512,12 @@ public class DataSource {
         cv2.put("amount_current", debtAmount);
 
         openLocalToWrite();
-
         db.update("Account", cv1, "id_account = " + idAccount, null);
         db.update("Debt", cv2, "id_debt = '" + idDebt + "' ", null);
-
         closeLocal();
     }
 
     public void takeMoreDebt(int idAccount, double accountAmount, int idDebt, double debtAmount, double debtAllAmount) {
-
         ContentValues cv1 = new ContentValues();
         cv1.put("amount", accountAmount);
 
@@ -596,23 +526,17 @@ public class DataSource {
         cv2.put("amount_all", debtAllAmount);
 
         openLocalToWrite();
-
         db.update("Account", cv1, "id_account = " + idAccount, null);
         db.update("Debt", cv2, "id_debt = '" + idDebt + "' ", null);
-
         closeLocal();
     }
 
     public void insertRates(ArrayList<Rates> ratesList) {
-
         ContentValues cv = new ContentValues();
 
         openLocalToWrite();
-
         int id;
-
             for (Rates rates : ratesList) {
-
                 id = rates.getId();
 
                 cv.put("date", rates.getDate());
@@ -621,37 +545,27 @@ public class DataSource {
                 cv.put("bid", rates.getBid());
                 cv.put("ask", rates.getAsk());
 
-                int count = db.update("Rates", cv, "id_rate = '" + id + "' ", null);
-
-                if (count == 0) {
+                if (db.update("Rates", cv, "id_rate = '" + id + "' ", null) == 0) {
                     cv.put("id_rate", id);
                     db.insert("Rates", null, cv);
                     sharedPref.setRatesInsertFirstTimeStatus(true);
                 }
             }
-
         closeLocal();
-
         InfoFromDB.getInstance().setRatesForExchange();
         sharedPref.setRatesUpdateTime();
-
     }
 
     public double[] getRates() {
-
         String[] rateNamesArray = context.getResources().getStringArray(R.array.json_rates_array);
         String rateType = "bank";
-
         double[] results = new double[4];
-
         Cursor cursor;
         String selectQuery;
-
 
         openLocalToRead();
 
         for (int i = 0; i < rateNamesArray.length; i++) {
-
             String currency = rateNamesArray[i];
 
             selectQuery = "SELECT ask FROM Rates "
@@ -659,22 +573,10 @@ public class DataSource {
                     + "AND currency = '" + currency + "' ";
 
             cursor = db.rawQuery(selectQuery, null);
-
-
-            if (cursor.moveToFirst()) {
-                results[i] = cursor.getDouble(0);
-            }
-
-            else {
-                results[i] = 0;
-            }
-
+            results[i] = cursor.moveToFirst() ? cursor.getDouble(0) : 0;
             cursor.close();
-
         }
-
         closeLocal();
-
         return results;
     }
 
@@ -738,7 +640,6 @@ public class DataSource {
 
         cv2.put("amount", debt.getAccountAmount());
 
-
         openLocalToWrite();
         db.update("Debt", cv1, "id_debt = " + id_debt, null);
         db.update("Account", cv2, "id_account = " + id_account, null);
@@ -764,7 +665,6 @@ public class DataSource {
 
         cv3.put("amount", oldAccountAmount);
 
-
         openLocalToWrite();
         db.update("Debt", cv1, "id_debt = " + id_debt, null);
         db.update("Account", cv2, "id_account = " + id_account, null);
@@ -782,7 +682,6 @@ public class DataSource {
         InputStream newDbStream = context.getContentResolver().openInputStream(uri);
 
         if (newDbStream != null) {
-
             DBExportImportUtils.copyFromStream(newDbStream, new FileOutputStream(oldDb));
             // Access the copied database so SQLiteHelper will cache it and mark it as created.
             openLocalToWrite();

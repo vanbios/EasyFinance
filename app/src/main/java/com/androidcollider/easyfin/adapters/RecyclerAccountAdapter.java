@@ -21,20 +21,14 @@ import java.util.ArrayList;
 public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccountAdapter.ViewHolder> {
 
     private long pos;
-
     private ArrayList<Account> accountsList;
-
     private final TypedArray typeIconsArray;
-
     private final String[] curArray, curLangArray;
 
 
     public RecyclerAccountAdapter(Context context, ArrayList<Account> accountsList) {
-
         this.accountsList = accountsList;
-
         typeIconsArray = context.getResources().obtainTypedArray(R.array.account_type_icons);
-
         curArray = context.getResources().getStringArray(R.array.account_currency_array);
         curLangArray = context.getResources().getStringArray(R.array.account_currency_array_language);
     }
@@ -56,9 +50,7 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-
         Account account = getAccount(position);
-
         final int PRECISE = 100;
         final String FORMAT = "###,##0.00";
 
@@ -73,9 +65,8 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
         }
 
         holder.tvAccountName.setText(account.getName());
-        holder.tvAccountAmount.setText(DoubleFormatUtils.doubleToStringFormatter(account.getAmount(), FORMAT, PRECISE) +
-                " " + curLang);
-
+        holder.tvAccountAmount.setText(String.format("%1$s %2$s",
+                        DoubleFormatUtils.doubleToStringFormatter(account.getAmount(), FORMAT, PRECISE), curLang));
 
         holder.ivAccountType.setImageDrawable(typeIconsArray.getDrawable(account.getType()));
 
@@ -97,7 +88,6 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
     }
 
 
-
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
         public final View mView;
         public final ImageView ivAccountType;
@@ -111,7 +101,6 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
             ivAccountType = (ImageView) view.findViewById(R.id.ivItemFragmentAccountType);
             tvAccountName = (TextView) view.findViewById(R.id.tvItemFragmentAccountName);
             tvAccountAmount = (TextView) view.findViewById(R.id.tvItemFragmentAccountAmount);
-
             view.setOnCreateContextMenuListener(this);
         }
 

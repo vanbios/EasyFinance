@@ -30,42 +30,28 @@ public class FrgTransactions extends Fragment {
     public final static String BROADCAST_FRG_TRANSACTION_ACTION = "com.androidcollider.easyfin.frgtransaction.broadcast";
     public final static String PARAM_STATUS_FRG_TRANSACTION = "update_frg_transaction";
     public final static int STATUS_UPDATE_FRG_TRANSACTION = 3;
-
     private RecyclerView recyclerView;
     private TextView tvEmpty;
-
     private BroadcastReceiver broadcastReceiver;
-
     private ArrayList<Transaction> transactionList = null;
     private RecyclerTransactionAdapter recyclerAdapter;
-
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.frg_transactions, container, false);
-
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerTransaction);
-
         tvEmpty = (TextView) view.findViewById(R.id.tvEmptyTransactions);
-
         setItemTransaction();
-
         registerForContextMenu(recyclerView);
-
         makeBroadcastReceiver();
-
         return view;
     }
 
     private void setItemTransaction() {
-
         transactionList = InfoFromDB.getInstance().getDataSource().getAllTransactionsInfo();
-
         setVisibility();
-
         final LinearLayoutManager layoutManager = new LinearLayoutManager(recyclerView.getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerAdapter = new RecyclerTransactionAdapter(getActivity(), transactionList);
@@ -76,22 +62,15 @@ public class FrgTransactions extends Fragment {
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                int status = intent.getIntExtra(PARAM_STATUS_FRG_TRANSACTION, 0);
-
-                if (status == STATUS_UPDATE_FRG_TRANSACTION) {
-
+                if (intent.getIntExtra(PARAM_STATUS_FRG_TRANSACTION, 0) == STATUS_UPDATE_FRG_TRANSACTION) {
                     transactionList.clear();
                     transactionList.addAll(InfoFromDB.getInstance().getDataSource().getAllTransactionsInfo());
-
                     setVisibility();
-
                     recyclerAdapter.notifyDataSetChanged();
                 }
             }
         };
-
         IntentFilter intentFilter = new IntentFilter(BROADCAST_FRG_TRANSACTION_ACTION);
-
         getActivity().registerReceiver(broadcastReceiver, intentFilter);
     }
 
@@ -102,15 +81,8 @@ public class FrgTransactions extends Fragment {
     }
 
     private void setVisibility() {
-        if (transactionList.isEmpty()) {
-            recyclerView.setVisibility(View.GONE);
-            tvEmpty.setVisibility(View.VISIBLE);
-        }
-
-        else {
-            tvEmpty.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-        }
+        recyclerView.setVisibility(transactionList.isEmpty() ? View.GONE : View.VISIBLE);
+        tvEmpty.setVisibility(transactionList.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     public boolean onContextItemSelected(MenuItem item) {
@@ -122,17 +94,11 @@ public class FrgTransactions extends Fragment {
         }
 
         switch (item.getItemId()) {
-
-            case R.id.ctx_menu_edit_transaction:
-
-            {
+            case R.id.ctx_menu_edit_transaction: {
                 goToEditTransaction(pos);
                 break;
             }
-
-            case R.id.ctx_menu_delete_transaction:
-
-            {
+            case R.id.ctx_menu_delete_transaction: {
                 showDialogDeleteTransaction(pos);
                 break;
             }
@@ -141,7 +107,6 @@ public class FrgTransactions extends Fragment {
     }
 
     private void showDialogDeleteTransaction(final int pos) {
-
         new MaterialDialog.Builder(getActivity())
                 .title(getString(R.string.dialog_title_delete))
                 .content(getString(R.string.transaction_delete_warning))
@@ -176,22 +141,15 @@ public class FrgTransactions extends Fragment {
     private void deleteTransaction(int pos) {
         Transaction transaction = transactionList.get(pos);
         int idAccount = transaction.getIdAccount();
-
         int idTrans = transaction.getId();
-
         double amount = transaction.getAmount();
-
 
         InfoFromDB.getInstance().getDataSource().deleteTransaction(idAccount, idTrans, amount);
 
         transactionList.remove(pos);
-
         setVisibility();
-
         recyclerAdapter.notifyDataSetChanged();
-
         InfoFromDB.getInstance().updateAccountList();
-
         pushBroadcast();
     }
 
@@ -217,22 +175,14 @@ public class FrgTransactions extends Fragment {
     private void treatFragment(Fragment f, boolean addToBackStack, boolean replace){
         String tag = f.getClass().getName();
         FragmentTransaction ft =  getActivity().getSupportFragmentManager().beginTransaction();
-
         if (replace) {
-
             ft.replace(R.id.fragment_container, f, tag);
-
         } else {
-
             Fragment currentTop = getTopFragment();
-
             if (currentTop != null) ft.hide(currentTop);
-
             ft.add(R.id.fragment_container, f, tag);
         }
-
         if (addToBackStack) ft.addToBackStack(tag);
-
         ft.commitAllowingStateLoss();
     }
 

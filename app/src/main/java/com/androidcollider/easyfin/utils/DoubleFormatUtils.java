@@ -7,9 +7,7 @@ import java.text.DecimalFormatSymbols;
 
 public class DoubleFormatUtils {
 
-
     public static String doubleToStringFormatter(double number, String format, int precise) {
-
         DecimalFormatSymbols dfs = new DecimalFormatSymbols();
         dfs.setDecimalSeparator(',');
         dfs.setGroupingSeparator(' ');
@@ -17,16 +15,13 @@ public class DoubleFormatUtils {
         DecimalFormat dfRate = new DecimalFormat(format, dfs);
         precise = 10^precise;
         number = number*precise;
-        long i = Math.round(number);
-        double result = (double) i/precise;
+        double result = (double) Math.round(number)/precise;
         String s = dfRate.format(result);
 
         int length = s.length();
-
         if (s.substring(length-2, length).equals("00")) {
             return s.substring(0, length-3);
         }
-
         else if (s.charAt(length-1) == '0') {
             return s.substring(0, length-1);
         }
@@ -35,7 +30,6 @@ public class DoubleFormatUtils {
     }
 
     public static String doubleToStringFormatterForEdit(double number, String format, int precise) {
-
         DecimalFormatSymbols dfs = new DecimalFormatSymbols();
         dfs.setDecimalSeparator(',');
         dfs.setGroupingSeparator(' ');
@@ -43,14 +37,12 @@ public class DoubleFormatUtils {
         DecimalFormat dfRate = new DecimalFormat(format, dfs);
         precise = 10^precise;
         number = number*precise;
-        long i = Math.round(number);
-        double result = (double) i/precise;
+        double result = (double) Math.round(number)/precise;
 
         return dfRate.format(result);
     }
 
     public static String prepareStringToParse(String s) {
-
         if (s.contains("+")) {
             s = s.replace("+", "");
         }
@@ -69,7 +61,6 @@ public class DoubleFormatUtils {
     }
 
     public static String prepareStringToSeperate(String s) {
-
         if (s.contains("+")) {
             s = s.replace("+", "");
         }

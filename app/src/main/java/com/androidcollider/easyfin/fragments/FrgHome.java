@@ -1,23 +1,5 @@
 package com.androidcollider.easyfin.fragments;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
-import com.androidcollider.easyfin.objects.InfoFromDB;
-import com.androidcollider.easyfin.utils.ChartDataUtils;
-import com.androidcollider.easyfin.utils.ChartLargeValueFormatter;
-import com.androidcollider.easyfin.utils.ExchangeUtils;
-import com.androidcollider.easyfin.utils.DoubleFormatUtils;
-import com.androidcollider.easyfin.utils.MultiTapUtils;
-import com.androidcollider.easyfin.utils.SharedPref;
-import com.github.mikephil.charting.charts.HorizontalBarChart;
-import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.PieData;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +7,7 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,8 +19,24 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.androidcollider.easyfin.R;
+import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
+import com.androidcollider.easyfin.objects.InfoFromDB;
+import com.androidcollider.easyfin.utils.ChartDataUtils;
+import com.androidcollider.easyfin.utils.ChartLargeValueFormatter;
+import com.androidcollider.easyfin.utils.DoubleFormatUtils;
+import com.androidcollider.easyfin.utils.ExchangeUtils;
+import com.androidcollider.easyfin.utils.MultiTapUtils;
+import com.androidcollider.easyfin.utils.SharedPref;
+import com.github.mikephil.charting.charts.HorizontalBarChart;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.PieData;
+
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 
@@ -48,9 +47,7 @@ public class FrgHome extends Fragment {
     public final static int STATUS_UPDATE_FRG_MAIN = 1, STATUS_UPDATE_FRG_MAIN_BALANCE = 2, STATUS_NEW_RATES = 7;
 
     private String[] currencyArray, currencyLangArray;
-
     private double[] statistic = new double[2];
-
     private HashMap<String, double[]> balanceMap, statisticMap = null;
 
     private final int PRECISE = 100;
@@ -59,55 +56,39 @@ public class FrgHome extends Fragment {
     private BroadcastReceiver broadcastReceiver;
 
     private View view;
-
     private Spinner spinPeriod, spinBalanceCurrency, spinChartType;
     private TextView tvStatisticSum, tvBalanceSum, tvNoData;
-
     private HorizontalBarChart chartStatistic, chartBalance;
     private PieChart chartStatisticPie;
-
     private MaterialDialog balanceSettingsDialog;
-
     private CheckBox chkBoxConvert, chkBoxShowOnlyIntegers;
 
     private SharedPref sharedPref;
-
     private boolean convert, showOnlyIntegers;
-
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.frg_home, container, false);
 
         initializeViewsAndRes();
 
         balanceMap = InfoFromDB.getInstance().getDataSource().getAccountsSumGroupByTypeAndCurrency();
-
         setBalanceCurrencySpinner();
-
         setStatisticSpinner();
-
         statisticMap = InfoFromDB.getInstance().getDataSource().getTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1);
 
         setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
-
         setBalance(spinBalanceCurrency.getSelectedItemPosition());
-
         setStatisticBarChart();
-
         setStatisticSumTV();
-
         setChartTypeSpinner();
-
         makeBroadcastReceiver();
 
         return view;
     }
 
     private void initializeViewsAndRes() {
-
         tvStatisticSum = (TextView) view.findViewById(R.id.tvMainStatisticSum);
         tvBalanceSum = (TextView) view.findViewById(R.id.tvMainSumValue);
 
@@ -123,16 +104,14 @@ public class FrgHome extends Fragment {
             }
         });
 
-
         buildBalanceSettingsDialog();
-
 
         View balanceSettings = balanceSettingsDialog.getCustomView();
 
         if (balanceSettings != null) {
             chkBoxConvert = (CheckBox) balanceSettings.findViewById(R.id.checkBoxMainBalanceSettingsConvert);
-            chkBoxShowOnlyIntegers = (CheckBox) balanceSettings.findViewById(R.id.checkBoxMainBalanceSettingsShowCents);}
-
+            chkBoxShowOnlyIntegers = (CheckBox) balanceSettings.findViewById(R.id.checkBoxMainBalanceSettingsShowCents);
+        }
 
         sharedPref = new SharedPref(getActivity());
 
@@ -170,14 +149,12 @@ public class FrgHome extends Fragment {
         currencyLangArray = getResources().getStringArray(R.array.account_currency_array_language);
 
         TextView tvBalance = (TextView) view.findViewById(R.id.tvMainCurrentBalance);
-
         tvNoData = (TextView) view.findViewById(R.id.tvMainNoData);
 
         MultiTapUtils.multiTapListener(tvBalance, getActivity());
     }
 
     private void buildBalanceSettingsDialog() {
-
         balanceSettingsDialog = new MaterialDialog.Builder(getActivity())
                 .title(R.string.settings)
                 .customView(R.layout.item_main_balance_menu, true)
@@ -199,21 +176,18 @@ public class FrgHome extends Fragment {
                 getResources().getStringArray(R.array.account_currency_array),
                 getResources().obtainTypedArray(R.array.flag_icons)));
 
-
         spinBalanceCurrency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
                 setBalance(i);
-
                 setTransactionStatisticArray(i);
-
                 setStatisticSumTV();
                 checkStatChartTypeForUpdate();
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {}
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
         });
     }
 
@@ -232,7 +206,6 @@ public class FrgHome extends Fragment {
         spinPeriod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
                 statisticMap.clear();
                 statisticMap = InfoFromDB.getInstance().getDataSource().getTransactionsStatistic(i + 1);
                 setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
@@ -250,7 +223,6 @@ public class FrgHome extends Fragment {
     }
 
     private void setChartTypeSpinner() {
-
         spinChartType = (Spinner) view.findViewById(R.id.spinMainChart);
         spinChartType.setAdapter(new SpinIconTextHeadAdapter(
                 getActivity(),
@@ -266,24 +238,15 @@ public class FrgHome extends Fragment {
         spinChartType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
                 if (i == 1) {
-
                     chartStatistic.setVisibility(View.GONE);
-
                     if (statistic[0] == 0 && statistic[1] == 0) {
                         tvNoData.setVisibility(View.VISIBLE);
-                    }
-
-                    else {
-
+                    } else {
                         chartStatisticPie.setVisibility(View.VISIBLE);
                         setStatisticPieChart();
                     }
-                }
-
-                else {
-
+                } else {
                     tvNoData.setVisibility(View.GONE);
                     chartStatisticPie.setVisibility(View.GONE);
                     chartStatistic.setVisibility(View.VISIBLE);
@@ -303,77 +266,48 @@ public class FrgHome extends Fragment {
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                int status = intent.getIntExtra(PARAM_STATUS_FRG_MAIN, 0);
-
-
-                switch (status) {
-
+                switch (intent.getIntExtra(PARAM_STATUS_FRG_MAIN, 0)) {
                     case STATUS_UPDATE_FRG_MAIN_BALANCE: {
-
                         balanceMap.clear();
                         balanceMap.putAll(InfoFromDB.getInstance().getDataSource().getAccountsSumGroupByTypeAndCurrency());
-
                         setBalance(spinBalanceCurrency.getSelectedItemPosition());
-
                         break;
                     }
-
                     case STATUS_UPDATE_FRG_MAIN: {
-
                         balanceMap.clear();
                         balanceMap.putAll(InfoFromDB.getInstance().getDataSource().getAccountsSumGroupByTypeAndCurrency());
-
                         setBalance(spinBalanceCurrency.getSelectedItemPosition());
-
                         statisticMap.clear();
                         statisticMap.putAll(InfoFromDB.getInstance().getDataSource().getTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1));
-
-
                         setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
-
                         setStatisticSumTV();
                         checkStatChartTypeForUpdate();
-
                         break;
                     }
-
                     case STATUS_NEW_RATES: {
-
                         if (convert) {
                             setBalance(spinBalanceCurrency.getSelectedItemPosition());
-
                             setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
-
                             setStatisticSumTV();
                             checkStatChartTypeForUpdate();
                         }
-
                         break;
                     }
                 }
             }
         };
-
         IntentFilter intentFilter = new IntentFilter(BROADCAST_FRG_MAIN_ACTION);
         getActivity().registerReceiver(broadcastReceiver, intentFilter);
     }
 
     private void setBalanceBarChart(double[] balance) {
-
         BarData data = ChartDataUtils.getDataSetMainBalanceHorizontalBarChart(balance, getActivity());
         chartBalance.setData(data);
 
-        if (!showOnlyIntegers) {
-            data.setValueFormatter(new ChartLargeValueFormatter(true));
-        }
-
-        else {
-            data.setValueFormatter(new ChartLargeValueFormatter(false));
-        }
+        data.setValueFormatter(new ChartLargeValueFormatter(!showOnlyIntegers));
 
         chartBalance.setDescription("");
-        Legend legend = chartBalance.getLegend();
-        legend.setEnabled(false);
+        chartBalance.getLegend().setEnabled(false);
         YAxis leftAxis = chartBalance.getAxisLeft();
         YAxis rightAxis = chartBalance.getAxisRight();
         rightAxis.setEnabled(false);
@@ -392,11 +326,11 @@ public class FrgHome extends Fragment {
         //leftAxis.setDrawTopYLabelEntry(false);
         //leftAxis.setDrawLimitLinesBehindData(false);
         //leftAxis.setDrawAxisLine(false);
-        leftAxis.setAxisLineColor(getResources().getColor(R.color.custom_light_gray));
-        leftAxis.setGridColor(getResources().getColor(R.color.custom_light_gray));
-        leftAxis.setTextColor(getResources().getColor(R.color.custom_text_gray_dark));
+        leftAxis.setAxisLineColor(ContextCompat.getColor(getActivity(), R.color.custom_light_gray));
+        leftAxis.setGridColor(ContextCompat.getColor(getActivity(), R.color.custom_light_gray));
+        leftAxis.setTextColor(ContextCompat.getColor(getActivity(), R.color.custom_text_gray_dark));
 
-        chartBalance.getXAxis().setTextColor(getResources().getColor(R.color.custom_text_gray_dark));
+        chartBalance.getXAxis().setTextColor(ContextCompat.getColor(getActivity(), R.color.custom_text_gray_dark));
 
         chartBalance.setDrawGridBackground(false);
         chartBalance.setBackgroundColor(Color.TRANSPARENT);
@@ -409,28 +343,19 @@ public class FrgHome extends Fragment {
     }
 
     private void setStatisticBarChart() {
-
         BarData data = ChartDataUtils.getDataSetMainStatisticHorizontalBarChart(statistic, getActivity());
         chartStatistic.setData(data);
 
-        if (!showOnlyIntegers) {
-            data.setValueFormatter(new ChartLargeValueFormatter(true));
-        }
-
-        else {
-            data.setValueFormatter(new ChartLargeValueFormatter(false));
-        }
+        data.setValueFormatter(new ChartLargeValueFormatter(!showOnlyIntegers));
 
         chartStatistic.setDescription("");
-        Legend legend = chartStatistic.getLegend();
-        legend.setEnabled(false);
+        chartStatistic.getLegend().setEnabled(false);
         YAxis leftAxis = chartStatistic.getAxisLeft();
         YAxis rightAxis = chartStatistic.getAxisRight();
         rightAxis.setEnabled(false);
         leftAxis.setSpaceTop(35f);
         leftAxis.setLabelCount(3, false);
         leftAxis.setValueFormatter(new ChartLargeValueFormatter(false));
-
 
         XAxis xAxis = chartStatistic.getXAxis();
         //xAxis.setEnabled(false);
@@ -443,11 +368,11 @@ public class FrgHome extends Fragment {
         //leftAxis.setDrawTopYLabelEntry(false);
         //leftAxis.setDrawLimitLinesBehindData(false);
         //leftAxis.setDrawAxisLine(false);
-        leftAxis.setAxisLineColor(getResources().getColor(R.color.custom_light_gray));
-        leftAxis.setGridColor(getResources().getColor(R.color.custom_light_gray));
-        leftAxis.setTextColor(getResources().getColor(R.color.custom_text_gray_dark));
+        leftAxis.setAxisLineColor(ContextCompat.getColor(getActivity(), R.color.custom_light_gray));
+        leftAxis.setGridColor(ContextCompat.getColor(getActivity(), R.color.custom_light_gray));
+        leftAxis.setTextColor(ContextCompat.getColor(getActivity(), R.color.custom_text_gray_dark));
 
-        chartStatistic.getXAxis().setTextColor(getResources().getColor(R.color.custom_text_gray_dark));
+        chartStatistic.getXAxis().setTextColor(ContextCompat.getColor(getActivity(), R.color.custom_text_gray_dark));
 
         chartStatistic.setDrawGridBackground(false);
         chartStatistic.setBackgroundColor(Color.TRANSPARENT);
@@ -459,7 +384,6 @@ public class FrgHome extends Fragment {
     }
 
     private void setStatisticPieChart() {
-
         chartStatisticPie.setDescription("");
         chartStatisticPie.animateXY(2000, 2000);
 
@@ -471,39 +395,30 @@ public class FrgHome extends Fragment {
         chartStatisticPie.setRotationAngle(0);
         chartStatisticPie.setRotationEnabled(true);
 
-        Legend legend = chartStatisticPie.getLegend();
-        legend.setEnabled(false);
+        chartStatisticPie.getLegend().setEnabled(false);
 
         PieData data = ChartDataUtils.getDataSetMainStatisticPieChart(statistic, getActivity());
 
-        if (!showOnlyIntegers) {
-            data.setValueFormatter(new ChartLargeValueFormatter(true));
-        }
-
-        else {
-            data.setValueFormatter(new ChartLargeValueFormatter(false));
-        }
+        data.setValueFormatter(new ChartLargeValueFormatter(!showOnlyIntegers));
 
         chartStatisticPie.setData(data);
-
         chartStatisticPie.highlightValues(null);
-
         chartStatisticPie.invalidate();
     }
 
     private void setStatisticSumTV() {
         double statSum = statistic[0] + statistic[1];
-        tvStatisticSum.setText(DoubleFormatUtils.doubleToStringFormatter(statSum, FORMAT, PRECISE) + " " + getCurrencyLang());
+        tvStatisticSum.setText(String.format("%1$s %2$s",
+                DoubleFormatUtils.doubleToStringFormatter(statSum, FORMAT, PRECISE), getCurrencyLang()));
     }
 
-    private void setBalanceTV (double[] balance) {
-
+    private void setBalanceTV(double[] balance) {
         double sum = 0;
-        for (double i: balance) {
+        for (double i : balance) {
             sum += i;
         }
-
-        tvBalanceSum.setText(DoubleFormatUtils.doubleToStringFormatter(sum, FORMAT, PRECISE) + " " + getCurrencyLang());
+        tvBalanceSum.setText(String.format("%1$s %2$s",
+                DoubleFormatUtils.doubleToStringFormatter(sum, FORMAT, PRECISE), getCurrencyLang()));
     }
 
     private void setBalance(int posCurrency) {
@@ -513,29 +428,15 @@ public class FrgHome extends Fragment {
     }
 
     private double[] getCurrentBalance(int posCurrency) {
-
-        if (convert) {
-            return convertAllCurrencyToOne(posCurrency, balanceMap, 4);
+        if (convert) return convertAllCurrencyToOne(posCurrency, balanceMap, 4);
+        for (Object o : balanceMap.entrySet()) {
+            Map.Entry pair = (Map.Entry) o;
+            if (currencyArray[posCurrency].equals(pair.getKey())) return (double[]) pair.getValue();
         }
-
-        else {
-
-            Iterator it = balanceMap.entrySet().iterator();
-
-            while (it.hasNext()) {
-                Map.Entry pair = (Map.Entry) it.next();
-
-                if (currencyArray[posCurrency].equals(pair.getKey())) {
-                    return (double[]) pair.getValue();
-                }
-            }
-        }
-
         return new double[]{0, 0, 0, 0};
     }
 
     private double[] convertAllCurrencyToOne(int posCurrency, HashMap<String, double[]> map, int arrSize) {
-
         double[] uahArr = new double[arrSize];
         double[] usdArr = new double[arrSize];
         double[] eurArr = new double[arrSize];
@@ -548,31 +449,23 @@ public class FrgHome extends Fragment {
         final String rubCurName = currencyArray[3];
         final String gbpCurName = currencyArray[4];
 
-        Iterator it = map.entrySet().iterator();
-
-        while (it.hasNext()) {
-
-            Map.Entry pair = (Map.Entry) it.next();
+        for (Object o : map.entrySet()) {
+            Map.Entry pair = (Map.Entry) o;
             String key = (String) pair.getKey();
             double[] value = (double[]) pair.getValue();
 
             if (uahCurName.equals(key)) {
                 System.arraycopy(value, 0, uahArr, 0, uahArr.length);
-            }
-            else if (usdCurName.equals(key)) {
+            } else if (usdCurName.equals(key)) {
                 System.arraycopy(value, 0, usdArr, 0, usdArr.length);
-            }
-            else if (eurCurName.equals(key)) {
+            } else if (eurCurName.equals(key)) {
                 System.arraycopy(value, 0, eurArr, 0, eurArr.length);
-            }
-            else if (rubCurName.equals(key)) {
+            } else if (rubCurName.equals(key)) {
                 System.arraycopy(value, 0, rubArr, 0, rubArr.length);
-            }
-            else if (gbpCurName.equals(key)) {
+            } else if (gbpCurName.equals(key)) {
                 System.arraycopy(value, 0, gbpArr, 0, gbpArr.length);
             }
         }
-
 
         String convertTo = currencyArray[posCurrency];
 
@@ -582,13 +475,11 @@ public class FrgHome extends Fragment {
         double rubExchange = ExchangeUtils.getExchangeRate(rubCurName, convertTo);
         double gbpExchange = ExchangeUtils.getExchangeRate(gbpCurName, convertTo);
 
-
         uahArr = convertArray(uahArr, uahExchange);
         usdArr = convertArray(usdArr, usdExchange);
         eurArr = convertArray(eurArr, eurExchange);
         rubArr = convertArray(rubArr, rubExchange);
         gbpArr = convertArray(gbpArr, gbpExchange);
-
 
         double[] result = new double[arrSize];
 
@@ -600,26 +491,18 @@ public class FrgHome extends Fragment {
     }
 
     private double[] convertArray(double[] arr, double exc) {
-
         for (int i = 0; i < arr.length; i++) {
             arr[i] = arr[i] / exc;
         }
-
         return arr;
     }
 
     private void setTransactionStatisticArray(int posCurrency) {
-
         if (convert) {
             System.arraycopy(convertAllCurrencyToOne(posCurrency, statisticMap, 2), 0, statistic, 0, statistic.length);
-        }
-        else {
-
-            Iterator it = statisticMap.entrySet().iterator();
-
-            while (it.hasNext()) {
-                Map.Entry pair = (Map.Entry) it.next();
-
+        } else {
+            for (Object o : statisticMap.entrySet()) {
+                Map.Entry pair = (Map.Entry) o;
                 if (currencyArray[posCurrency].equals(pair.getKey())) {
                     double[] st = (double[]) pair.getValue();
                     System.arraycopy(st, 0, statistic, 0, statistic.length);
@@ -633,20 +516,16 @@ public class FrgHome extends Fragment {
     }
 
     private void checkStatChartTypeForUpdate() {
-
         switch (spinChartType.getSelectedItemPosition()) {
             case 0: {
                 setStatisticBarChart();
                 break;
             }
             case 1: {
-
                 if (statistic[0] == 0 && statistic[1] == 0) {
                     tvNoData.setVisibility(View.VISIBLE);
                     chartStatisticPie.setVisibility(View.GONE);
-                }
-
-                else {
+                } else {
                     tvNoData.setVisibility(View.GONE);
                     chartStatisticPie.setVisibility(View.VISIBLE);
                     setStatisticPieChart();

@@ -11,22 +11,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-
 public class SpinIconTextHeadAdapter extends ArrayAdapter<String> {
 
     private final TypedArray iconsArray;
     private final String[] textArray;
-
     private final int headLayout, headTvId, headIvId, dropLayout, dropTvId, dropIvId;
-
     private LayoutInflater inflater;
-
 
     public SpinIconTextHeadAdapter(Context context,
                                    int headLayout, int headTvId, int headIvId,
                                    int dropLayout, int dropTvId, int dropIvId,
                                    String[] text, TypedArray icons) {
-
         super(context, headLayout, text);
         textArray = text;
         iconsArray = icons;
@@ -41,30 +36,25 @@ public class SpinIconTextHeadAdapter extends ArrayAdapter<String> {
 
     @Override
     public View getDropDownView(int position, View view, ViewGroup parent) {return getCustomDropView(position, parent);}
+
     @Override
     public View getView(int pos, View view, ViewGroup parent) {return getCustomHeadView(pos, parent);}
 
     public View getCustomDropView(int position, ViewGroup parent) {
         View dropSpinner = inflater.inflate(dropLayout, parent, false);
-
         TextView text = (TextView) dropSpinner.findViewById(dropTvId);
         text.setText(textArray[position]);
-
         ImageView icon = (ImageView) dropSpinner.findViewById(dropIvId);
         icon.setImageResource(iconsArray.getResourceId(position, 0));
-
         return dropSpinner;
     }
 
     public View getCustomHeadView(int position, ViewGroup parent) {
         View headSpinner = inflater.inflate(headLayout, parent, false);
-
         TextView headText = (TextView) headSpinner.findViewById(headTvId);
         headText.setText(textArray[position]);
-
         ImageView icon = (ImageView) headSpinner.findViewById(headIvId);
         icon.setImageResource(iconsArray.getResourceId(position, 0));
-
         return headSpinner;
     }
 

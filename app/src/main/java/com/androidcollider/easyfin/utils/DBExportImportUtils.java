@@ -19,7 +19,6 @@ import java.io.OutputStream;
 
 public class DBExportImportUtils {
 
-
     public static void backupDB() {
         try {
             backupDatabase();
@@ -29,13 +28,10 @@ public class DBExportImportUtils {
     }
 
     private static void backupDatabase() throws IOException {
-
         Context context = AppController.getContext();
-
         //Open local db as the input stream
         File dbFile = context.getDatabasePath(DbHelper.DATABASE_NAME);
         FileInputStream fis = new FileInputStream(dbFile);
-
 
         int stringId = context.getApplicationInfo().labelRes;
         String appName = context.getString(stringId);
@@ -67,7 +63,6 @@ public class DBExportImportUtils {
         output.close();
         fis.close();
 
-
         ToastUtils.showClosableToast(context,
                 context.getResources().getString(R.string.db_backup_to)
                         + " " + outFilePath, 2);
@@ -75,23 +70,17 @@ public class DBExportImportUtils {
 
 
     public static void copyFromStream(InputStream inputStream, FileOutputStream toFile) throws IOException {
-
         try {
-
             int read;
             byte[] bytes = new byte[1024];
 
             while ((read = inputStream.read(bytes)) != -1) {
                 toFile.write(bytes, 0, read);
             }
-
         } catch (IOException e) {
             e.printStackTrace();
-
         } finally {
-
             if (inputStream != null) {
-
                 try {
                     inputStream.close();
 
@@ -99,13 +88,9 @@ public class DBExportImportUtils {
                     e.printStackTrace();
                 }
             }
-
             if (toFile != null) {
-
                 try {
-
                     toFile.close();
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

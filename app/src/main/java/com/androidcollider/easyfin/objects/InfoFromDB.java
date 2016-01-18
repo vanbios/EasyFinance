@@ -14,19 +14,13 @@ import com.androidcollider.easyfin.utils.UpdateRatesUtils;
 import java.util.ArrayList;
 
 
-
 public class InfoFromDB {
 
     private final DataSource dataSource = new DataSource(AppController.getContext());
-
     private static volatile InfoFromDB instance;
-
     private ArrayList<Account> accountList;
-
     private double[] ratesForExchange;
-
-    SharedPref sharedPref = new SharedPref(AppController.getContext());
-
+    private SharedPref sharedPref = new SharedPref(AppController.getContext());
 
 
     private InfoFromDB() {
@@ -44,17 +38,14 @@ public class InfoFromDB {
 
     public ArrayList<String> getAccountNames() {
         ArrayList<String> accountNames = new ArrayList<>();
-
         for (Account account : accountList) {
             accountNames.add(account.getName());
         }
-
         return accountNames;
     }
 
     public boolean checkForAccountNameMatches(String name) {
         ArrayList<String> accountNames = getAccountNames();
-
         for (String account : accountNames) {
             if (account.equals(name)) {
                 return true;
@@ -70,26 +61,19 @@ public class InfoFromDB {
     }
 
     public void updateRatesForExchange() {
-
         boolean internet = InternetTester.isConnectionEnabled(AppController.getContext());
-
         if (!sharedPref.getRatesInsertFirstTimeStatus() && internet) {
             RatesParser.postRequest();
         }
-
         else if (!UpdateRatesUtils.checkForTodayUpdate()) {
-
             if (internet && UpdateRatesUtils.checkForAvailableNewRates()) {
-
                 RatesParser.postRequest();
             }
         }
     }
 
     public void setRatesForExchange() {
-
         System.arraycopy(dataSource.getRates(), 0, ratesForExchange, 0, ratesForExchange.length);
-
         Intent intentRates = new Intent(FrgHome.BROADCAST_FRG_MAIN_ACTION);
         intentRates.putExtra(FrgHome.PARAM_STATUS_FRG_MAIN, FrgHome.STATUS_NEW_RATES);
         AppController.getContext().sendBroadcast(intentRates);
@@ -98,7 +82,6 @@ public class InfoFromDB {
     public double[] getRatesForExchange() {
         return ratesForExchange;
     }
-
 
 
     public static InfoFromDB getInstance() {

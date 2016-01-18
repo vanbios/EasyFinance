@@ -43,17 +43,11 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     private DrawerLayout drawerLayout;
     private RecyclerView recyclerNavDrawer;
-
     private MaterialDialog appAboutDialog;
-
     private static long backPressExitTime;
-
     private Toolbar toolbar;
-
     private final int TOOLBAR_DEFAULT = 1;
-
     ActionBarDrawerToggle mDrawerToggle;
-
 
 
     @Override
@@ -67,9 +61,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         InfoFromDB.getInstance().updateRatesForExchange();
 
         initializeViews();
-
         setToolbar(getString(R.string.app_name), TOOLBAR_DEFAULT);
-
         buildAppAboutDialog();
 
         addFragment(new FrgMain());
@@ -87,7 +79,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerNavDrawer.setLayoutManager(layoutManager);
-
 
         recyclerNavDrawer.setAdapter(new NavigationDrawerRecyclerAdapter(this));
 
@@ -119,18 +110,14 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         recyclerNavDrawer.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-
                 View child = rv.findChildViewUnder(e.getX(),e.getY());
 
-                if(child != null && gestureDetector.onTouchEvent(e)) {
-
+                if (child != null && gestureDetector.onTouchEvent(e)) {
                     int position = recyclerNavDrawer.getChildAdapterPosition(child);
-
                     if (position != 0 && position != 5) {
                         drawerLayout.closeDrawers();
 
                         switch (position) {
-
                             case 1: {
                                 openSelectedFrgMainPage(0);
                                 break;
@@ -162,7 +149,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                         }
                     }
                 }
-
                 return false;
             }
 
@@ -176,11 +162,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     private void setToolbar (String title, int mode) {
         ActionBar actionBar = getSupportActionBar();
-
         if (actionBar != null) {
-
             switch (mode) {
-
                 case TOOLBAR_DEFAULT: {
                     actionBar.setDisplayShowCustomEnabled(false);
                     actionBar.setDisplayShowTitleEnabled(true);
@@ -195,11 +178,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     private void openSelectedFrgMainPage(int page) {
         popFragments();
-
         Fragment f = getTopFragment();
-
         if (f instanceof FrgMain) {
-
             FrgMain frgMain = (FrgMain) f;
             frgMain.openSelectedPage(page);
         }
@@ -207,18 +187,15 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()){
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     private void buildAppAboutDialog() {
-
         appAboutDialog = new MaterialDialog.Builder(this)
                 .title(R.string.app_about)
                 .customView(R.layout.app_about, true)
@@ -228,17 +205,13 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         View appAboutLayout = appAboutDialog.getCustomView();
         if (appAboutLayout != null) {
             TextView tvVersion = (TextView) appAboutLayout.findViewById(R.id.tvAboutAppVersion);
-            tvVersion.setText(getString(R.string.about_app_version) + " " + BuildConfig.VERSION_NAME);
+            tvVersion.setText(String.format("%1$s %2$s", getString(R.string.about_app_version), BuildConfig.VERSION_NAME));
         }
     }
 
 
     public void addFragment(Fragment f){
         treatFragment(f, true, false);
-    }
-
-    public void replaceFragment(Fragment f){
-        treatFragment(f, false, true);
     }
 
     public Fragment getTopFragment(){
@@ -248,34 +221,23 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     private void treatFragment(Fragment f, boolean addToBackStack, boolean replace){
         String tag = f.getClass().getName();
         FragmentTransaction ft =  getSupportFragmentManager().beginTransaction();
-
         if (replace) {
-
             ft.replace(R.id.fragment_container, f, tag);
-
         } else {
-
             Fragment currentTop = getTopFragment();
-
             if (currentTop != null) ft.hide(currentTop);
-
             ft.add(R.id.fragment_container, f, tag);
         }
-
         if (addToBackStack) ft.addToBackStack(tag);
-
         ft.commitAllowingStateLoss();
     }
 
     @Override
     public void onBackStackChanged() {
-
             Fragment topFragment = getTopFragment();
-
             if (topFragment instanceof CommonFragmentAddEdit) {
                 //set toolbar from fragment class
             }
-
             else if (topFragment instanceof CommonFragment) {
                 setToolbar((((CommonFragment) topFragment).getTitle()), TOOLBAR_DEFAULT);
             }
@@ -304,34 +266,22 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     @Override
     public void onBackPressed() {
-
         Fragment fragment = getTopFragment();
-
         if (fragment instanceof FrgMain) {
-
             if (backPressExitTime + 2000 > System.currentTimeMillis()) {
-
                 this.finish();
-
             } else {
-
                 ToastUtils.showClosableToast(this, getString(R.string.press_again_to_exit), 1);
                 backPressExitTime = System.currentTimeMillis();
             }
         }
-
         else if (fragment instanceof FrgAddAccount) {
-
             popFragments();
         }
-
         else if (fragment instanceof CommonFragmentAddEdit) {
-
             popFragment();
         }
-
         else {
-
             popFragments();
         }
     }

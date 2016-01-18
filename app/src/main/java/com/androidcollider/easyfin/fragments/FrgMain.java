@@ -149,7 +149,7 @@ public class FrgMain extends CommonFragment {
 
     private void setViewPager() {
         pager = (ViewPager) view.findViewById(R.id.pagerMain);
-        ViewPagerFragmentAdapter adapterPager = new ViewPagerFragmentAdapter(getFragmentManager());
+        ViewPagerFragmentAdapter adapterPager = new ViewPagerFragmentAdapter(getChildFragmentManager());
         adapterPager.addFragment(new FrgHome(), getResources().getString(R.string.tab_home).toUpperCase());
         adapterPager.addFragment(new FrgTransactions(), getResources().getString(R.string.tab_transactions).toUpperCase());
         adapterPager.addFragment(new FrgAccounts(), getResources().getString(R.string.tab_accounts).toUpperCase());

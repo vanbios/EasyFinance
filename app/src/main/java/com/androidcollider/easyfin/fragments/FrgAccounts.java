@@ -31,39 +31,27 @@ public class FrgAccounts extends Fragment {
     public final static String BROADCAST_FRG_ACCOUNT_ACTION = "com.androidcollider.easyfin.frgaccount.broadcast";
     public final static String PARAM_STATUS_FRG_ACCOUNT = "update_frg_account";
     public final static int STATUS_UPDATE_FRG_ACCOUNT = 4;
-
     private RecyclerView recyclerView;
-
     private TextView tvEmpty;
-
     private RecyclerAccountAdapter recyclerAdapter;
     private ArrayList<Account> accountList = null;
-
     private BroadcastReceiver broadcastReceiver;
-
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frg_accounts, container, false);
-
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerAccount);
         tvEmpty = (TextView) view.findViewById(R.id.tvEmptyAccounts);
-
         setItemAccount();
-
         makeBroadcastReceiver();
-
         return view;
     }
 
     private void setItemAccount() {
-
         accountList = InfoFromDB.getInstance().getAccountList();
-
         setVisibility();
-
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerAdapter = new RecyclerAccountAdapter(getActivity(), accountList);
         recyclerView.setAdapter(recyclerAdapter);
@@ -73,22 +61,15 @@ public class FrgAccounts extends Fragment {
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                int status = intent.getIntExtra(PARAM_STATUS_FRG_ACCOUNT, 0);
-
-                if (status == STATUS_UPDATE_FRG_ACCOUNT) {
-
+                if (intent.getIntExtra(PARAM_STATUS_FRG_ACCOUNT, 0) == STATUS_UPDATE_FRG_ACCOUNT) {
                     accountList.clear();
                     accountList.addAll(InfoFromDB.getInstance().getAccountList());
-
                     setVisibility();
-
                     recyclerAdapter.notifyDataSetChanged();
                 }
             }
         };
-
         IntentFilter intentFilter = new IntentFilter(BROADCAST_FRG_ACCOUNT_ACTION);
-
         getActivity().registerReceiver(broadcastReceiver, intentFilter);
     }
 
@@ -99,15 +80,8 @@ public class FrgAccounts extends Fragment {
     }
 
     private void setVisibility() {
-        if (accountList.isEmpty()) {
-            recyclerView.setVisibility(View.GONE);
-            tvEmpty.setVisibility(View.VISIBLE);
-        }
-
-        else {
-            tvEmpty.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-        }
+        recyclerView.setVisibility(accountList.isEmpty() ? View.GONE : View.VISIBLE);
+        tvEmpty.setVisibility(accountList.isEmpty() ? View.VISIBLE : View.GONE);
     }
 
     public boolean onContextItemSelected(MenuItem item) {
@@ -119,17 +93,11 @@ public class FrgAccounts extends Fragment {
         }
 
         switch (item.getItemId()) {
-
-            case R.id.ctx_menu_edit_account:
-
-            {
+            case R.id.ctx_menu_edit_account: {
                 goToEditAccount(pos);
                 break;
             }
-
-            case R.id.ctx_menu_delete_account:
-
-            {
+            case R.id.ctx_menu_delete_account: {
                 showDialogDeleteAccount(pos);
                 break;
             }
@@ -138,7 +106,6 @@ public class FrgAccounts extends Fragment {
     }
 
     private void showDialogDeleteAccount(final int pos) {
-
         new MaterialDialog.Builder(getActivity())
                 .title(getString(R.string.dialog_title_delete))
                 .content(getString(R.string.dialog_text_delete_account))
@@ -170,24 +137,20 @@ public class FrgAccounts extends Fragment {
     }
 
     private void deleteAccount(int pos) {
-        Account account = accountList.get(pos);
-        int idAccount = account.getId();
+        int idAccount = accountList.get(pos).getId();
 
         if (InfoFromDB.getInstance().getDataSource().checkAccountForTransactionOrDebtExist(idAccount)) {
             InfoFromDB.getInstance().getDataSource().makeAccountInvisible(idAccount);
         }
         else {
-            InfoFromDB.getInstance().getDataSource().deleteAccount(idAccount);}
+            InfoFromDB.getInstance().getDataSource().deleteAccount(idAccount);
+        }
 
         accountList.remove(pos);
-
         setVisibility();
-
         recyclerAdapter.notifyDataSetChanged();
-
         InfoFromDB.getInstance().updateAccountList();
         pushBroadcast();
-
     }
 
     private void pushBroadcast() {
@@ -208,22 +171,14 @@ public class FrgAccounts extends Fragment {
     private void treatFragment(Fragment f, boolean addToBackStack, boolean replace){
         String tag = f.getClass().getName();
         FragmentTransaction ft =  getActivity().getSupportFragmentManager().beginTransaction();
-
         if (replace) {
-
             ft.replace(R.id.fragment_container, f, tag);
-
         } else {
-
             Fragment currentTop = getTopFragment();
-
             if (currentTop != null) ft.hide(currentTop);
-
             ft.add(R.id.fragment_container, f, tag);
         }
-
         if (addToBackStack) ft.addToBackStack(tag);
-
         ft.commitAllowingStateLoss();
     }
 

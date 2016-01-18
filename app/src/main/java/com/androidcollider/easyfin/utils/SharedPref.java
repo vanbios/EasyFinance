@@ -14,7 +14,6 @@ public class SharedPref {
         this.sharedPreferences = context.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
     }
 
-
     public void disableSnackBarAccount() {
         sharedPreferences.edit().putBoolean("snackAccountDisabled", true).apply();
     }
@@ -22,7 +21,6 @@ public class SharedPref {
     public boolean isSnackBarAccountDisable() {
         return sharedPreferences.contains("snackAccountDisabled");
     }
-
 
 
     public void setMainBalanceSettingsConvertCheck(boolean b) {
@@ -41,7 +39,6 @@ public class SharedPref {
     public boolean getMainBalanceSettingsShowOnlyIntegersCheck() {
         return sharedPreferences.getBoolean("mainBalanceSettingsShowOnlyIntegersChecked", true);
     }
-
 
 
     public void setRatesUpdateTime() {

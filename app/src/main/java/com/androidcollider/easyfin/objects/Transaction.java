@@ -11,7 +11,6 @@ public class Transaction implements Serializable {
     private String currency, accountName;
 
 
-
     public Transaction (long date, double amount, int category, int idAccount, double accountAmount) {
         this.date = date;
         this.amount = amount;
@@ -42,7 +41,6 @@ public class Transaction implements Serializable {
         this.idAccount = idAccount;
         this.id = id;
     }
-
 
 
     public long getDate() {return date;}

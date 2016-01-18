@@ -26,10 +26,8 @@ public class SpinAccountForTransAdapter extends ArrayAdapter<Account> {
 
 
     public SpinAccountForTransAdapter(Context context, int headLayout, ArrayList<Account> accountL) {
-
         super(context, headLayout, accountL);
         accountList = accountL;
-
         typeIconsArray = context.getResources().obtainTypedArray(R.array.account_type_icons);
         curArray = context.getResources().getStringArray(R.array.account_currency_array);
         curLangArray = context.getResources().getStringArray(R.array.account_currency_array_language);
@@ -38,20 +36,16 @@ public class SpinAccountForTransAdapter extends ArrayAdapter<Account> {
 
     @Override
     public View getDropDownView(int position, View view, ViewGroup parent) {return getCustomDropView(position, parent);}
+
     @Override
     public View getView(int position, View view, ViewGroup parent) {return getCustomHeadView(position, parent);}
 
     public View getCustomDropView(int position, ViewGroup parent) {
         View dropSpinner = inflater.inflate(R.layout.spin_account_for_trans_dropdown, parent, false);
-
         TextView name = (TextView) dropSpinner.findViewById(R.id.tvSpinDropdownAccountName);
         name.setText(accountList.get(position).getName());
-
         ImageView icon = (ImageView) dropSpinner.findViewById(R.id.ivSpinDropdownAccountType);
-
-
         icon.setImageResource(typeIconsArray.getResourceId(accountList.get(position).getType(), 0));
-
         TextView amountText = (TextView) dropSpinner.findViewById(R.id.tvSpinDropdownAccountAmount);
 
         final int PRECISE = 100;
@@ -59,7 +53,6 @@ public class SpinAccountForTransAdapter extends ArrayAdapter<Account> {
 
         String amount = DoubleFormatUtils.doubleToStringFormatter(accountList.get(position).getAmount(), FORMAT, PRECISE);
         String cur = accountList.get(position).getCurrency();
-
         String curLang = null;
 
         for (int i = 0; i < curArray.length; i++) {
@@ -69,17 +62,15 @@ public class SpinAccountForTransAdapter extends ArrayAdapter<Account> {
             }
         }
 
-        amountText.setText(amount + " " + curLang);
+        amountText.setText(String.format("%1$s %2$s", amount, curLang));
 
         return dropSpinner;
     }
 
     public View getCustomHeadView(int position, ViewGroup parent) {
         View headSpinner = inflater.inflate(R.layout.spin_head_text, parent, false);
-
         TextView headText = (TextView) headSpinner.findViewById(R.id.tvSpinHeadText);
         headText.setText(accountList.get(position).getName());
-
         return headSpinner;
     }
 

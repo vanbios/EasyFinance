@@ -24,9 +24,7 @@ import java.util.Map;
 
 public class RatesParser {
 
-
     public static void postRequest() {
-
         final String TAG_STRING_REQ = "get_last_rates";
         final String URL = "http://560671.acolider.web.hosting-test.net/fin-u/api/api_finu_new.php";
 
@@ -34,29 +32,20 @@ public class RatesParser {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
                         Log.d(TAG_STRING_REQ, response);
-
                         ArrayList<Rates> ratesList = new ArrayList<>();
-
                         String[] currencyArray = AppController.getContext().getResources().getStringArray(R.array.json_rates_array);
 
-
                         try {
-
                             for (String cur : currencyArray) {
 
-
                                 JSONArray jsonArray = new JSONObject(response).getJSONArray(cur);
-
                                 for (int j = 0; j < jsonArray.length(); j++) {
 
                                     JSONObject jsonObject = jsonArray.getJSONObject(j);
-
                                     String rate_type = jsonObject.getString("rate_type");
 
                                     if (rate_type.equals("bank")) {
-
                                         int id = jsonObject.getInt("id");
                                         long date = jsonObject.getLong("date");
                                         String currency = jsonObject.getString("currency");
@@ -75,11 +64,9 @@ public class RatesParser {
 
                             InfoFromDB.getInstance().getDataSource().insertRates(ratesList);
 
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-
-                            catch (JSONException e) {
-                                e.printStackTrace();
-                            }
 
                     }
                 }, new Response.ErrorListener() {
@@ -88,7 +75,7 @@ public class RatesParser {
             public void onErrorResponse(VolleyError error) {
                 VolleyLog.e("Error: ", error.getMessage());
             }
-        }){
+        }) {
 
             @Override
             protected Map<String, String> getParams() {

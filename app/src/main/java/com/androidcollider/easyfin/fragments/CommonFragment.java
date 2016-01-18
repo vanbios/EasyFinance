@@ -29,7 +29,7 @@ public abstract class CommonFragment extends Fragment {
     @Override
     public void onResume(){
         super.onResume();
-        while(!pendingTransactions.isEmpty()){
+        while (!pendingTransactions.isEmpty()) {
             Log.d("COLLIDER", "Executing pending transaction");
             pendingTransactions.pollFirst().run();
         }
@@ -42,10 +42,6 @@ public abstract class CommonFragment extends Fragment {
     protected void addFragment(CommonFragment f){
         ((MainActivity) getActivity()).addFragment(f);
     }
-
-    /*protected void replaceFragment(CommonFragment f){
-        ((MainActivity) getActivity()).replaceFragment(f);
-    }*/
 
     protected void finish(){
         tryExecuteTransaction(new Runnable() {
@@ -65,9 +61,9 @@ public abstract class CommonFragment extends Fragment {
     private LinkedList<Runnable> pendingTransactions = new LinkedList<>();
 
     protected void tryExecuteTransaction(Runnable runnable){
-        if(isResumed()){
+        if (isResumed()) {
             runnable.run();
-        }else{
+        } else {
             Log.d("COLLIDER", "Scheduling pending transaction");
             pendingTransactions.addLast(runnable);
         }

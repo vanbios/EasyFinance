@@ -11,26 +11,20 @@ import android.widget.TextView;
 import com.androidcollider.easyfin.R;
 
 
-
 public class FrgFAQ extends CommonFragment implements View.OnClickListener {
 
     private TextView tvAppBody, tvAccountsBody, tvTransactionsBody, tvDebtsBody, tvHomeBody;
     private View view;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.frg_faq, container, false);
-
         initializeViews();
-
         return view;
     }
 
     private void initializeViews() {
-
         CardView cardApp = (CardView) view.findViewById(R.id.cardFAQApp);
         CardView cardAccounts = (CardView) view.findViewById(R.id.cardFAQAccounts);
         CardView cardTransactions = (CardView) view.findViewById(R.id.cardFAQTransactions);
@@ -52,9 +46,7 @@ public class FrgFAQ extends CommonFragment implements View.OnClickListener {
 
     @Override
     public void onClick (View v) {
-
         switch (v.getId()) {
-
             case R.id.cardFAQApp: {
                 setVisibility(tvAppBody);
                 break;
@@ -79,13 +71,7 @@ public class FrgFAQ extends CommonFragment implements View.OnClickListener {
     }
 
     private void setVisibility(TextView textView) {
-
-        if (textView.getVisibility() == View.GONE) {
-            textView.setVisibility(View.VISIBLE);
-        }
-        else {
-            textView.setVisibility(View.GONE);
-        }
+        textView.setVisibility(textView.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
     }
 
     @Override

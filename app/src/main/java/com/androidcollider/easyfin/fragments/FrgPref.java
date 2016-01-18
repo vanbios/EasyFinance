@@ -23,13 +23,9 @@ import java.io.IOException;
 public class FrgPref extends PreferenceFragment {
 
     private static final int FILE_SELECT_CODE = 0;
-
     private static Uri uri;
-
     private static final Context context = AppController.getContext();
-
     private Preference exportDBPref, importDBPref;
-
     private Tracker mTracker;
 
 
@@ -45,42 +41,35 @@ public class FrgPref extends PreferenceFragment {
     }
 
     private void initializePrefs() {
-
         exportDBPref = findPreference("export_db");
         exportDBPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-
                 exportDBPref.setEnabled(false);
                 DBExportImportUtils.backupDB();
 
                 mTracker.send(new HitBuilders.EventBuilder("click", "export")
                         .setLabel("export_db")
                         .build());
-
                 return false;
             }
         });
-
 
         importDBPref = findPreference("import_db");
         importDBPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-
                 openFileExplorer();
 
                 mTracker.send(new HitBuilders.EventBuilder("open", "file_explorer")
                         .setLabel("open_file_explorer")
                         .build());
-
                 return false;
             }
         });
     }
 
     private void showDialogImportDB() {
-
         new MaterialDialog.Builder(getActivity())
                 .title(getString(R.string.import_db))
                 .content(getString(R.string.import_dialog_warning))
@@ -89,61 +78,45 @@ public class FrgPref extends PreferenceFragment {
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
-
                         importDB();
-
                         mTracker.send(new HitBuilders.EventBuilder("click", "import")
                                 .setLabel("import_confirm")
                                 .build());
                     }
 
                     @Override
-                    public void onNegative(MaterialDialog dialog) {}
+                    public void onNegative(MaterialDialog dialog) {
+                    }
                 })
                 .cancelable(false)
                 .show();
     }
 
     private void openFileExplorer() {
-
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("*/*");
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-
         try {
-
             startActivityForResult(
                     Intent.createChooser(intent, "Select a File to Upload"),
                     FILE_SELECT_CODE);
-
         } catch (android.content.ActivityNotFoundException ex) {
-
             ToastUtils.showClosableToast(context, getString(R.string.import_no_file_explorer), 2);
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         switch (requestCode) {
-
             case FILE_SELECT_CODE:
-
                 if (resultCode == -1) {
-
                     // Get the Uri of the selected file
                     uri = data.getData();
-
                     if (!uri.toString().contains(DbHelper.DATABASE_NAME)) {
                         ToastUtils.showClosableToast(context, getString(R.string.import_wrong_file_type), 2);
-                    }
-
-                    else {
-
+                    } else {
                         try {
-
                             showDialogImportDB();
-
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -155,14 +128,10 @@ public class FrgPref extends PreferenceFragment {
     }
 
     private void importDB() {
-
         boolean importDB = false;
-
         try {
             importDB = InfoFromDB.getInstance().getDataSource().importDatabase(uri);
-        }
-
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
@@ -170,15 +139,12 @@ public class FrgPref extends PreferenceFragment {
             importDBPref.setEnabled(false);
             ToastUtils.showClosableToast(context, getString(R.string.import_complete), 2);
             pushBroadcast();
-        }
-
-        else {
+        } else {
             ToastUtils.showClosableToast(context, getString(R.string.import_error), 2);
         }
     }
 
     private void pushBroadcast() {
-
         Intent intentFragmentMain = new Intent(FrgHome.BROADCAST_FRG_MAIN_ACTION);
         intentFragmentMain.putExtra(FrgHome.PARAM_STATUS_FRG_MAIN, FrgHome.STATUS_UPDATE_FRG_MAIN);
         getActivity().sendBroadcast(intentFragmentMain);
@@ -196,7 +162,6 @@ public class FrgPref extends PreferenceFragment {
         getActivity().sendBroadcast(intentDebt);
 
         InfoFromDB.getInstance().setRatesForExchange();
-
         InfoFromDB.getInstance().updateAccountList();
     }
 
