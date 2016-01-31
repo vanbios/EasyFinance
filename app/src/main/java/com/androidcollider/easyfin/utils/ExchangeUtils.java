@@ -29,10 +29,10 @@ public class ExchangeUtils {
     public static double[] getRates() {
         double[] rates = new double[5];
         rates[0] = 1;
-        rates[1] = 26.2;
-        rates[2] = 28.6;
+        rates[1] = 26.7;
+        rates[2] = 28.9;
         rates[3] = 0.34;
-        rates[4] = 37.5;
+        rates[4] = 38;
 
         double[] newRates = InfoFromDB.getInstance().getRatesForExchange();
 

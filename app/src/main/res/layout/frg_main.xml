@@ -8,7 +8,6 @@
     android:layout_height="match_parent">
 
 
-
     <android.support.design.widget.TabLayout
         android:id="@+id/tabsMain"
         android:layout_width="match_parent"
@@ -16,7 +15,7 @@
         android:background="?attr/colorPrimary"
         app:tabMode="fixed"
         app:tabIndicatorColor="@color/custom_text_light"
-        app:tabIndicatorHeight="2dp"
+        app:tabIndicatorHeight="3dp"
         app:tabSelectedTextColor="@color/custom_text_light"
         app:tabTextColor="@color/custom_blue_gray_light"
         app:tabPaddingStart="0dp"

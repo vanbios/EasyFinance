@@ -75,7 +75,7 @@ public class FrgHome extends Fragment {
 
         balanceMap = InfoFromDB.getInstance().getDataSource().getAccountsSumGroupByTypeAndCurrency();
         setBalanceCurrencySpinner();
-        setStatisticSpinner();
+        setStatisticPeriodSpinner();
         statisticMap = InfoFromDB.getInstance().getDataSource().getTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1);
 
         setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
@@ -183,15 +183,18 @@ public class FrgHome extends Fragment {
                 setTransactionStatisticArray(i);
                 setStatisticSumTV();
                 checkStatChartTypeForUpdate();
+                sharedPref.setHomeBalanceCurrencyPos(i);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
+
+        spinBalanceCurrency.setSelection(sharedPref.getHomeBalanceCurrencyPos());
     }
 
-    private void setStatisticSpinner() {
+    private void setStatisticPeriodSpinner() {
         spinPeriod = (Spinner) view.findViewById(R.id.spinMainPeriod);
 
         ArrayAdapter<?> adapterStatPeriod = ArrayAdapter.createFromResource(
@@ -201,7 +204,6 @@ public class FrgHome extends Fragment {
 
         adapterStatPeriod.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinPeriod.setAdapter(adapterStatPeriod);
-        spinPeriod.setSelection(1);
 
         spinPeriod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -212,6 +214,7 @@ public class FrgHome extends Fragment {
 
                 setStatisticSumTV();
                 checkStatChartTypeForUpdate();
+                sharedPref.setHomePeriodPos(i);
             }
 
             @Override
@@ -220,6 +223,7 @@ public class FrgHome extends Fragment {
             }
         });
 
+        spinPeriod.setSelection(sharedPref.getHomePeriodPos());
     }
 
     private void setChartTypeSpinner() {
@@ -252,6 +256,7 @@ public class FrgHome extends Fragment {
                     chartStatistic.setVisibility(View.VISIBLE);
                     setStatisticBarChart();
                 }
+                sharedPref.setHomeChartTypePos(i);
             }
 
             @Override
@@ -260,6 +265,7 @@ public class FrgHome extends Fragment {
             }
         });
 
+        spinChartType.setSelection(sharedPref.getHomeChartTypePos());
     }
 
     private void makeBroadcastReceiver() {

@@ -548,11 +548,11 @@ public class DataSource {
                 if (db.update("Rates", cv, "id_rate = '" + id + "' ", null) == 0) {
                     cv.put("id_rate", id);
                     db.insert("Rates", null, cv);
-                    sharedPref.setRatesInsertFirstTimeStatus(true);
                 }
             }
         closeLocal();
         InfoFromDB.getInstance().setRatesForExchange();
+        sharedPref.setRatesInsertFirstTimeStatus(true);
         sharedPref.setRatesUpdateTime();
     }
 

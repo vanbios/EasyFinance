@@ -33,37 +33,28 @@ import java.util.concurrent.TimeUnit;
 
 
 public class FrgMain extends CommonFragment {
-
     public final static String BROADCAST_MAIN_SNACK_ACTION = "com.androidcollider.easyfin.mainsnack.broadcast";
     public final static String PARAM_STATUS_MAIN_SNACK = "show_main_snack";
     public final static int STATUS_MAIN_SNACK = 5;
 
     private BroadcastReceiver broadcastReceiver;
-
     private SharedPref sharedPref;
-
-    private boolean isSnackBarDisabled;
 
     private View view;
     private ViewPager pager;
-
     private FloatingActionButton faButtonMain, faButtonExpense, faButtonIncome, faButtonBTW;
 
-    private boolean expanded = false;
-
+    private boolean isSnackBarDisabled, expanded = false;
     public static float offset1, offset2, offset3;
-
     final private boolean isApiHoneycombAndHigher = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.frg_main, container, false);
 
         setViewPager();
-
 
         final ViewGroup fabContainer = (ViewGroup) view.findViewById(R.id.coordinatorLayoutFloatMain);
 
@@ -71,7 +62,6 @@ public class FrgMain extends CommonFragment {
         faButtonMain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 checkPageNum();
             }
         });
@@ -104,9 +94,7 @@ public class FrgMain extends CommonFragment {
             }
         });
 
-
         if (isApiHoneycombAndHigher) {
-
             fabContainer.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                 @Override
                 public boolean onPreDraw() {
@@ -121,26 +109,20 @@ public class FrgMain extends CommonFragment {
                 }
             });
         }
-
         else {
-
             faButtonExpense.setVisibility(View.GONE);
             faButtonIncome.setVisibility(View.GONE);
             faButtonBTW.setVisibility(View.GONE);
         }
-
 
         if (InfoFromDB.getInstance().getAccountsNumber() == 0) {
             showDialogNoAccount();
         }
 
         sharedPref = new SharedPref(getActivity());
-
         isSnackBarDisabled = sharedPref.isSnackBarAccountDisable();
 
-        boolean isTablet = TabletTesterUtils.isTablet(getActivity());
-
-        if (!isSnackBarDisabled && !isTablet) {
+        if (!isSnackBarDisabled && !TabletTesterUtils.isTablet(getActivity())) {
             makeBroadcastReceiver();
         }
 
@@ -159,27 +141,19 @@ public class FrgMain extends CommonFragment {
 
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
             @Override
             public void onPageSelected(int position) {
-
                 if (isApiHoneycombAndHigher) {
-
                     if (position == 2 && expanded) {
-
                         collapseFab();
                         faButtonMain.setImageResource(R.drawable.ic_plus_white_48dp);
                         expanded = !expanded;
                     }
                 }
-
                 else {
-
                     if (position == 2 && faButtonExpense.getVisibility() == View.VISIBLE) {
-
                         faButtonExpense.setVisibility(View.GONE);
                         faButtonIncome.setVisibility(View.GONE);
                         faButtonBTW.setVisibility(View.GONE);
@@ -189,13 +163,10 @@ public class FrgMain extends CommonFragment {
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
+            public void onPageScrollStateChanged(int state) {}
         });
 
         TabLayout tabs = (TabLayout) view.findViewById(R.id.tabsMain);
-
         /*tabs.setTabTextColors(getResources().getColor(R.color.custom_blue_gray_light),
                 getResources().getColor(R.color.custom_text_light));*/
         tabs.setupWithViewPager(pager);
@@ -205,17 +176,12 @@ public class FrgMain extends CommonFragment {
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                int status = intent.getIntExtra(PARAM_STATUS_MAIN_SNACK, 0);
-
-                if (status == STATUS_MAIN_SNACK) {
-
+                if (intent.getIntExtra(PARAM_STATUS_MAIN_SNACK, 0) == STATUS_MAIN_SNACK) {
                     showSnackBar();
                 }
             }
         };
-
         IntentFilter intentFilter = new IntentFilter(BROADCAST_MAIN_SNACK_ACTION);
-
         getActivity().registerReceiver(broadcastReceiver, intentFilter);
     }
 
@@ -255,15 +221,12 @@ public class FrgMain extends CommonFragment {
         switch (pager.getCurrentItem()) {
             case 0:
             case 1: {setFloatButtonsVisibility(); break;}
-            case 2: {
-                goToAddAccount(); break;}
+            case 2: {goToAddAccount(); break;}
         }
     }
 
     private void setFloatButtonsVisibility() {
-
         if (isApiHoneycombAndHigher) {
-
             expanded = !expanded;
             if (expanded) {
                 expandFab();
@@ -272,20 +235,13 @@ public class FrgMain extends CommonFragment {
                 collapseFab();
                 faButtonMain.setImageResource(R.drawable.ic_plus_white_48dp);
             }
-        }
-
-        else {
-
+        } else {
             if (faButtonExpense.getVisibility() == View.GONE) {
-
                 faButtonExpense.setVisibility(View.VISIBLE);
                 faButtonIncome.setVisibility(View.VISIBLE);
                 faButtonBTW.setVisibility(View.VISIBLE);
                 faButtonMain.setImageResource(R.drawable.ic_close_white_24dp);
-            }
-
-            else {
-
+            } else {
                 faButtonExpense.setVisibility(View.GONE);
                 faButtonIncome.setVisibility(View.GONE);
                 faButtonBTW.setVisibility(View.GONE);
@@ -317,7 +273,6 @@ public class FrgMain extends CommonFragment {
     }
 
     private void showDialogNoAccount() {
-
         new MaterialDialog.Builder(getActivity())
                 .title(getString(R.string.no_account))
                 .content(getString(R.string.dialog_text_main_no_accounts))
@@ -335,7 +290,6 @@ public class FrgMain extends CommonFragment {
                 .cancelable(false)
                 .show();
     }
-
 
     private void collapseFab() {
         AnimatorSet animatorSet = new AnimatorSet();

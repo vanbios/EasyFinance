@@ -7,54 +7,79 @@ import android.content.SharedPreferences;
 
 public class SharedPref {
 
-    private SharedPreferences sharedPreferences;
+    private SharedPreferences sharedPref;
     private final static String APP_PREFERENCES = "FinUPref";
 
     public SharedPref(Context context) {
-        this.sharedPreferences = context.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+        this.sharedPref = context.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
     }
 
     public void disableSnackBarAccount() {
-        sharedPreferences.edit().putBoolean("snackAccountDisabled", true).apply();
+        sharedPref.edit().putBoolean("snackAccountDisabled", true).apply();
     }
 
     public boolean isSnackBarAccountDisable() {
-        return sharedPreferences.contains("snackAccountDisabled");
+        return sharedPref.contains("snackAccountDisabled");
     }
 
 
     public void setMainBalanceSettingsConvertCheck(boolean b) {
-        sharedPreferences.edit().putBoolean("mainBalanceSettingsConvertChecked", b).apply();
+        sharedPref.edit().putBoolean("mainBalanceSettingsConvertChecked", b).apply();
     }
 
     public boolean getMainBalanceSettingsConvertCheck() {
-        return sharedPreferences.getBoolean("mainBalanceSettingsConvertChecked", false);
+        return sharedPref.getBoolean("mainBalanceSettingsConvertChecked", false);
     }
 
 
     public void setMainBalanceSettingsShowOnlyIntegersCheck(boolean b) {
-        sharedPreferences.edit().putBoolean("mainBalanceSettingsShowOnlyIntegersChecked", b).apply();
+        sharedPref.edit().putBoolean("mainBalanceSettingsShowOnlyIntegersChecked", b).apply();
     }
 
     public boolean getMainBalanceSettingsShowOnlyIntegersCheck() {
-        return sharedPreferences.getBoolean("mainBalanceSettingsShowOnlyIntegersChecked", true);
+        return sharedPref.getBoolean("mainBalanceSettingsShowOnlyIntegersChecked", true);
     }
 
 
     public void setRatesUpdateTime() {
-        sharedPreferences.edit().putLong("ratesUpdateTime", System.currentTimeMillis()).apply();
+        sharedPref.edit().putLong("ratesUpdateTime", System.currentTimeMillis()).apply();
     }
 
     public long getRatesUpdateTime() {
-        return sharedPreferences.getLong("ratesUpdateTime", 0);
+        return sharedPref.getLong("ratesUpdateTime", 0);
     }
 
     public void setRatesInsertFirstTimeStatus(boolean b) {
-        sharedPreferences.edit().putBoolean("ratesInsertFirstTimeStatus", b).apply();
+        sharedPref.edit().putBoolean("ratesInsertFirstTimeStatus", b).apply();
     }
 
     public boolean getRatesInsertFirstTimeStatus() {
-        return sharedPreferences.getBoolean("ratesInsertFirstTimeStatus", false);
+        return sharedPref.getBoolean("ratesInsertFirstTimeStatus", false);
+    }
+
+
+    public void setHomeBalanceCurrencyPos(int pos) {
+        sharedPref.edit().putInt("homeBalanceCurrencyPos", pos).apply();
+    }
+
+    public int getHomeBalanceCurrencyPos() {
+        return sharedPref.getInt("homeBalanceCurrencyPos", 0);
+    }
+
+    public void setHomePeriodPos(int pos) {
+        sharedPref.edit().putInt("homePeriodPos", pos).apply();
+    }
+
+    public int getHomePeriodPos() {
+        return sharedPref.getInt("homePeriodPos", 1);
+    }
+
+    public void setHomeChartTypePos(int pos) {
+        sharedPref.edit().putInt("homeChartTypePos", pos).apply();
+    }
+
+    public int getHomeChartTypePos() {
+        return sharedPref.getInt("homeChartTypePos", 0);
     }
 
 }

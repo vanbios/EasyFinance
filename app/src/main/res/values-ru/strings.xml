@@ -180,7 +180,7 @@
     //about
     <string name="general_info">Общая информация</string>
     <string name="about_app_version">версия</string>
-    <string name="about_app_developer">Android Collider © 2015</string>
+    <string name="about_app_developer">Android Collider © 2015–2016</string>
 
     <string name="about_app_rates_source">Источник курсов валют:</string>
     <string name="about_app_rates_source_link"><a href="www.minfin.com.ua/currency/">http://www.minfin.com.ua/currency/</a></string>
