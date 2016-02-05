@@ -420,9 +420,13 @@ public class DataSource {
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
-            cursor.close();
-            if (cursor.getInt(0) > 0) return true;
+            if (cursor.getInt(0) > 0) {
+                cursor.close();
+                return true;
+            }
         }
+
+        cursor.close();
 
         selectQuery = "SELECT COUNT(id_debt) FROM Debt "
                 + "WHERE id_account = '" + id +  "' ";

@@ -1,6 +1,7 @@
 package com.androidcollider.easyfin.fragments;
 
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -8,6 +9,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -15,6 +17,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +30,8 @@ import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.utils.SharedPref;
 import com.androidcollider.easyfin.utils.TabletTesterUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -99,17 +104,16 @@ public class FrgMain extends CommonFragment {
                 @Override
                 public boolean onPreDraw() {
                     fabContainer.getViewTreeObserver().removeOnPreDrawListener(this);
-                    offset1 = faButtonMain.getY() + faButtonMain.getHeight()/6 - faButtonExpense.getY();
+                    offset1 = faButtonMain.getY() + faButtonMain.getHeight() / 6 - faButtonExpense.getY();
                     faButtonExpense.setTranslationY(offset1);
-                    offset2 = faButtonMain.getY() + faButtonMain.getHeight()/6 - faButtonIncome.getY();
+                    offset2 = faButtonMain.getY() + faButtonMain.getHeight() / 6 - faButtonIncome.getY();
                     faButtonIncome.setTranslationY(offset2);
-                    offset3 = faButtonMain.getY() + faButtonMain.getHeight()/6 - faButtonBTW.getY();
+                    offset3 = faButtonMain.getY() + faButtonMain.getHeight() / 6 - faButtonBTW.getY();
                     faButtonBTW.setTranslationY(offset3);
                     return true;
                 }
             });
-        }
-        else {
+        } else {
             faButtonExpense.setVisibility(View.GONE);
             faButtonIncome.setVisibility(View.GONE);
             faButtonBTW.setVisibility(View.GONE);
@@ -126,6 +130,8 @@ public class FrgMain extends CommonFragment {
             makeBroadcastReceiver();
         }
 
+        checkForAndroidMPermissions();
+
         return view;
     }
 
@@ -141,7 +147,8 @@ public class FrgMain extends CommonFragment {
 
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
             @Override
             public void onPageSelected(int position) {
@@ -151,8 +158,7 @@ public class FrgMain extends CommonFragment {
                         faButtonMain.setImageResource(R.drawable.ic_plus_white_48dp);
                         expanded = !expanded;
                     }
-                }
-                else {
+                } else {
                     if (position == 2 && faButtonExpense.getVisibility() == View.VISIBLE) {
                         faButtonExpense.setVisibility(View.GONE);
                         faButtonIncome.setVisibility(View.GONE);
@@ -163,7 +169,8 @@ public class FrgMain extends CommonFragment {
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrollStateChanged(int state) {
+            }
         });
 
         TabLayout tabs = (TabLayout) view.findViewById(R.id.tabsMain);
@@ -189,7 +196,8 @@ public class FrgMain extends CommonFragment {
     public void onDestroy() {
         super.onDestroy();
         if (!isSnackBarDisabled) {
-            getActivity().unregisterReceiver(broadcastReceiver);}
+            getActivity().unregisterReceiver(broadcastReceiver);
+        }
     }
 
     private void showSnackBar() {
@@ -217,11 +225,17 @@ public class FrgMain extends CommonFragment {
         pager.setCurrentItem(page);
     }
 
-    public void checkPageNum(){
+    public void checkPageNum() {
         switch (pager.getCurrentItem()) {
             case 0:
-            case 1: {setFloatButtonsVisibility(); break;}
-            case 2: {goToAddAccount(); break;}
+            case 1: {
+                setFloatButtonsVisibility();
+                break;
+            }
+            case 2: {
+                goToAddAccount();
+                break;
+            }
         }
     }
 
@@ -285,7 +299,8 @@ public class FrgMain extends CommonFragment {
                     }
 
                     @Override
-                    public void onNegative(MaterialDialog dialog) {}
+                    public void onNegative(MaterialDialog dialog) {
+                    }
                 })
                 .cancelable(false)
                 .show();
@@ -317,6 +332,41 @@ public class FrgMain extends CommonFragment {
     private Animator createExpandAnimator(View view, float offset) {
         return ObjectAnimator.ofFloat(view, TRANSLATION_Y, offset, 0)
                 .setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
+    }
+
+    private void checkForAndroidMPermissions() {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            int hasStoragePermission = getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            List<String> permissions = new ArrayList<>();
+            if (hasStoragePermission != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            }
+            if (!permissions.isEmpty()) {
+                requestPermissions(permissions.toArray(new String[permissions.size()]),
+                        REQUEST_CODE_SOME_FEATURES_PERMISSIONS);
+            }
+        }
+    }
+
+    private static final int REQUEST_CODE_SOME_FEATURES_PERMISSIONS = 123;
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_SOME_FEATURES_PERMISSIONS: {
+                for (int i = 0; i < permissions.length; i++) {
+                    if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                        Log.d("Permissions", "Permission Granted: " + permissions[i]);
+                    } else if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                        Log.d("Permissions", "Permission Denied: " + permissions[i]);
+                    }
+                }
+            }
+            break;
+            default: {
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+            }
+        }
     }
 
     @Override
