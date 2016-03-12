@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
         };
 
-        drawerLayout.addDrawerListener(mDrawerToggle);
+        drawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
         final GestureDetector gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
