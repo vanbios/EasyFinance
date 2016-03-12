@@ -1,9 +1,7 @@
 package com.androidcollider.easyfin.utils;
 
-
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-
 
 public class DoubleFormatUtils {
 
@@ -19,12 +17,10 @@ public class DoubleFormatUtils {
         String s = dfRate.format(result);
 
         int length = s.length();
-        if (s.substring(length-2, length).equals("00")) {
+        if (s.substring(length-2, length).equals("00"))
             return s.substring(0, length-3);
-        }
-        else if (s.charAt(length-1) == '0') {
+        else if (s.charAt(length-1) == '0')
             return s.substring(0, length-1);
-        }
 
         return s;
     }
@@ -43,37 +39,29 @@ public class DoubleFormatUtils {
     }
 
     public static String prepareStringToParse(String s) {
-        if (s.contains("+")) {
+        if (s.contains("+"))
             s = s.replace("+", "");
-        }
-        else if (s.contains("-")) {
+        else if (s.contains("-"))
             s = s.replace("-", "");
-        }
 
-        if (s.contains(" ")) {
+        if (s.contains(" "))
             s = s.replaceAll("\\s+", "");
-        }
-        if (s.contains(",")) {
+        if (s.contains(","))
             s = s.replaceAll(",", ".");
-        }
 
         return s;
     }
 
     public static String prepareStringToSeperate(String s) {
-        if (s.contains("+")) {
+        if (s.contains("+"))
             s = s.replace("+", "");
-        }
-        else if (s.contains("-")) {
+        else if (s.contains("-"))
             s = s.replace("-", "");
-        }
 
-        if (s.contains(" ")) {
+        if (s.contains(" "))
             s = s.replaceAll("\\s+", "");
-        }
-        if (s.contains(".")) {
+        if (s.contains("."))
             s = s.replaceAll("\\.", ",");
-        }
 
         return s;
     }

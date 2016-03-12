@@ -39,7 +39,6 @@ import com.github.mikephil.charting.data.PieData;
 import java.util.HashMap;
 import java.util.Map;
 
-
 public class FrgHome extends Fragment {
 
     public final static String BROADCAST_FRG_MAIN_ACTION = "com.androidcollider.easyfin.frgmain.broadcast";
@@ -244,9 +243,9 @@ public class FrgHome extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i == 1) {
                     chartStatistic.setVisibility(View.GONE);
-                    if (statistic[0] == 0 && statistic[1] == 0) {
+                    if (statistic[0] == 0 && statistic[1] == 0)
                         tvNoData.setVisibility(View.VISIBLE);
-                    } else {
+                    else {
                         chartStatisticPie.setVisibility(View.VISIBLE);
                         setStatisticPieChart();
                     }
@@ -322,16 +321,10 @@ public class FrgHome extends Fragment {
         leftAxis.setValueFormatter(new ChartLargeValueFormatter(false));
 
         XAxis xAxis = chartBalance.getXAxis();
-        //xAxis.setEnabled(false);
         xAxis.setDrawAxisLine(false);
         xAxis.setDrawLabels(false);
         xAxis.setDrawGridLines(false);
 
-        //leftAxis.setDrawGridLines(false);
-        //leftAxis.removeAllLimitLines();
-        //leftAxis.setDrawTopYLabelEntry(false);
-        //leftAxis.setDrawLimitLinesBehindData(false);
-        //leftAxis.setDrawAxisLine(false);
         leftAxis.setAxisLineColor(ContextCompat.getColor(getActivity(), R.color.custom_light_gray));
         leftAxis.setGridColor(ContextCompat.getColor(getActivity(), R.color.custom_light_gray));
         leftAxis.setTextColor(ContextCompat.getColor(getActivity(), R.color.custom_text_gray_dark));
@@ -364,16 +357,10 @@ public class FrgHome extends Fragment {
         leftAxis.setValueFormatter(new ChartLargeValueFormatter(false));
 
         XAxis xAxis = chartStatistic.getXAxis();
-        //xAxis.setEnabled(false);
         xAxis.setDrawAxisLine(false);
         xAxis.setDrawLabels(false);
         xAxis.setDrawGridLines(false);
 
-        //leftAxis.setDrawGridLines(false);
-        //leftAxis.removeAllLimitLines();
-        //leftAxis.setDrawTopYLabelEntry(false);
-        //leftAxis.setDrawLimitLinesBehindData(false);
-        //leftAxis.setDrawAxisLine(false);
         leftAxis.setAxisLineColor(ContextCompat.getColor(getActivity(), R.color.custom_light_gray));
         leftAxis.setGridColor(ContextCompat.getColor(getActivity(), R.color.custom_light_gray));
         leftAxis.setTextColor(ContextCompat.getColor(getActivity(), R.color.custom_text_gray_dark));
@@ -460,17 +447,16 @@ public class FrgHome extends Fragment {
             String key = (String) pair.getKey();
             double[] value = (double[]) pair.getValue();
 
-            if (uahCurName.equals(key)) {
+            if (uahCurName.equals(key))
                 System.arraycopy(value, 0, uahArr, 0, uahArr.length);
-            } else if (usdCurName.equals(key)) {
+            else if (usdCurName.equals(key))
                 System.arraycopy(value, 0, usdArr, 0, usdArr.length);
-            } else if (eurCurName.equals(key)) {
+            else if (eurCurName.equals(key))
                 System.arraycopy(value, 0, eurArr, 0, eurArr.length);
-            } else if (rubCurName.equals(key)) {
+            else if (rubCurName.equals(key))
                 System.arraycopy(value, 0, rubArr, 0, rubArr.length);
-            } else if (gbpCurName.equals(key)) {
+            else if (gbpCurName.equals(key))
                 System.arraycopy(value, 0, gbpArr, 0, gbpArr.length);
-            }
         }
 
         String convertTo = currencyArray[posCurrency];

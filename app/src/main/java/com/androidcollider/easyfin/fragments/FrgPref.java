@@ -1,6 +1,5 @@
 package com.androidcollider.easyfin.fragments;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -19,13 +18,12 @@ import com.google.android.gms.analytics.Tracker;
 
 import java.io.IOException;
 
-
 public class FrgPref extends PreferenceFragment {
 
     private static final int FILE_SELECT_CODE = 0;
     private static Uri uri;
     private static final Context context = AppController.getContext();
-    private Preference exportDBPref, importDBPref, updateRatesAutoPref;
+    private Preference exportDBPref, importDBPref;
     private Tracker mTracker;
 
 
@@ -112,9 +110,9 @@ public class FrgPref extends PreferenceFragment {
                 if (resultCode == -1) {
                     // Get the Uri of the selected file
                     uri = data.getData();
-                    if (!uri.toString().contains(DbHelper.DATABASE_NAME)) {
+                    if (!uri.toString().contains(DbHelper.DATABASE_NAME))
                         ToastUtils.showClosableToast(context, getString(R.string.import_wrong_file_type), 2);
-                    } else {
+                    else {
                         try {
                             showDialogImportDB();
                         } catch (Exception e) {
@@ -139,9 +137,8 @@ public class FrgPref extends PreferenceFragment {
             importDBPref.setEnabled(false);
             ToastUtils.showClosableToast(context, getString(R.string.import_complete), 2);
             pushBroadcast();
-        } else {
+        } else
             ToastUtils.showClosableToast(context, getString(R.string.import_error), 2);
-        }
     }
 
     private void pushBroadcast() {

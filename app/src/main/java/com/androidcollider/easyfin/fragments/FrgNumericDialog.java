@@ -18,7 +18,6 @@ import com.acollider.numberkeyboardview.CalculatorView;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 
-
 public class FrgNumericDialog extends DialogFragment {
 
     private OnCommitAmountListener callback;
@@ -50,17 +49,11 @@ public class FrgNumericDialog extends DialogFragment {
                     int j = str.indexOf(",");
                     integers = str.substring(0, j);
                     String h = str.substring(j + 1);
-                    if (!h.equals("00")) {
-                        hundreds = h;
-                    }
+                    if (!h.equals("00")) hundreds = h;
                 }
-                else {
-                    integers = str;
-                }
+                else integers = str;
 
-                if (integers.equals("0")) {
-                    integers = "";
-                }
+                if (integers.equals("0")) integers = "";
 
                 calculatorView.setIntegers(integers);
                 calculatorView.setHundredths(hundreds);

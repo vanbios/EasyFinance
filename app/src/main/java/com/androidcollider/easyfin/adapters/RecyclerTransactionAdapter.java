@@ -1,6 +1,5 @@
 package com.androidcollider.easyfin.adapters;
 
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v4.content.ContextCompat;
@@ -19,7 +18,6 @@ import com.androidcollider.easyfin.utils.DateFormatUtils;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 
 import java.util.ArrayList;
-
 
 public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTransactionAdapter.MainViewHolder> {
 

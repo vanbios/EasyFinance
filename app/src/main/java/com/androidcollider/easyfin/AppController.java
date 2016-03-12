@@ -1,6 +1,5 @@
 package com.androidcollider.easyfin;
 
-
 import android.app.Application;
 import android.content.Context;
 import android.text.TextUtils;
@@ -11,19 +10,6 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 
-import org.acra.ACRA;
-import org.acra.annotation.ReportsCrashes;
-import org.acra.sender.HttpSender;
-
-
-@ReportsCrashes (
-        formKey = "",
-        httpMethod = HttpSender.Method.PUT,
-        reportType = HttpSender.Type.JSON,
-        formUri ="http://560671.acolider.web.hosting-test.net/MAB-LAB-master/MAB-LAB-master/report/report.php"
-)
-
-
 public class AppController extends Application {
 
     public static final String AppTAG = AppController.class.getSimpleName();
@@ -31,9 +17,8 @@ public class AppController extends Application {
     private static AppController mInstance;
 
     public static GoogleAnalytics analytics;
-    //private final static String TRACKER_ID ="UA-65109395-1";
+    private final static String TRACKER_ID ="UA-65734136-1";
     private static Tracker tracker;
-
 
 
     public static Tracker tracker() {
@@ -45,13 +30,11 @@ public class AppController extends Application {
     public void onCreate() {
         super.onCreate();
 
-        ACRA.init(this);
-
         mInstance = this;
 
         analytics = GoogleAnalytics.getInstance(this);
         analytics.setLocalDispatchPeriod(1800);
-        tracker = analytics.newTracker("UA-65734136-1");
+        tracker = analytics.newTracker(TRACKER_ID);
         tracker.enableAutoActivityTracking(true);
         tracker.enableAdvertisingIdCollection(true);
         tracker.enableExceptionReporting(true);

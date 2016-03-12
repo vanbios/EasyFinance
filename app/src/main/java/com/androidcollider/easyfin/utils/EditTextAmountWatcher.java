@@ -30,9 +30,8 @@ public class EditTextAmountWatcher implements TextWatcher {
         int j = input.length();
         if (j > 3) {
             String res;
-            if (input.contains(",")) {
+            if (input.contains(","))
                 input = input.replaceAll(",", ".");
-            }
             if (input.contains(".")) {
                 j = input.indexOf(".");
                 StringBuilder sb = new StringBuilder(input.substring(0, j));

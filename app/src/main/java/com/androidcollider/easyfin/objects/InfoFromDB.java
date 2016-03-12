@@ -67,7 +67,6 @@ public class InfoFromDB {
                 && (!sharedPref.getRatesInsertFirstTimeStatus()
                 || !UpdateRatesUtils.checkForTodayUpdate()
                 && UpdateRatesUtils.checkForAvailableNewRates())) {
-            //RatesParser.postRequest();
             ReqUpdateRates.getNewRates();
         }
     }

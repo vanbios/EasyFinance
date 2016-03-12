@@ -1,6 +1,5 @@
 package com.androidcollider.easyfin.fragments;
 
-
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.TypedArray;
@@ -34,7 +33,6 @@ import com.androidcollider.easyfin.utils.ToastUtils;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
 
 public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements FrgNumericDialog.OnCommitAmountListener {
 
@@ -188,9 +186,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
         if (checkSumField(sum)) {
             double amount = Double.parseDouble(sum);
             boolean isExpense = transType == 0;
-            if (isExpense) {
-                amount *= -1;
-            }
+            if (isExpense) amount *= -1;
 
             Account account = (Account) spinAccount.getSelectedItem();
 
@@ -215,9 +211,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
         if (checkSumField(sum)) {
             double amount = Double.parseDouble(sum);
             boolean isExpense = transType == 0;
-            if (isExpense) {
-                amount *= -1;
-            }
+            if (isExpense) amount *= -1;
 
             Account account = (Account) spinAccount.getSelectedItem();
             double accountAmount = account.getAmount();
@@ -228,14 +222,11 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
             double oldAmount = transFromIntent.getAmount();
             double oldAccountAmount = 0;
 
-            if (isAccountTheSame) {
-                accountAmount -= oldAmount;
-            }
+            if (isAccountTheSame) accountAmount -= oldAmount;
             else {
                 for (int i = 0; i < accountList.size(); i++) {
-                    if (oldAccountId == accountList.get(i).getId()) {
+                    if (oldAccountId == accountList.get(i).getId())
                         oldAccountAmount = accountList.get(i).getAmount() - oldAmount;
-                    }
                 }
             }
 
@@ -249,12 +240,10 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                 int idTrans = transFromIntent.getId();
                 Transaction transaction = new Transaction(date, amount, category, idAccount, accountAmount, idTrans);
 
-                if (isAccountTheSame) {
+                if (isAccountTheSame)
                     InfoFromDB.getInstance().getDataSource().editTransaction(transaction);
-                }
-                else {
+                else
                     InfoFromDB.getInstance().getDataSource().editTransactionDifferentAccounts(transaction, oldAccountAmount, oldAccountId);
-                }
                 lastActions();
             }
         }
@@ -290,28 +279,21 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
             }
         });
         Calendar newCalendar = Calendar.getInstance();
-        if (mode == 1) {
+        if (mode == 1)
             newCalendar.setTime(new Date(transFromIntent.getDate()));
-        }
         tvDate.setText(DateFormatUtils.dateToString(newCalendar.getTime(), DATEFORMAT));
 
         datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
-
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
 
-                if (newDate.getTimeInMillis() > System.currentTimeMillis()) {
+                if (newDate.getTimeInMillis() > System.currentTimeMillis())
                     ToastUtils.showClosableToast(getActivity(), getString(R.string.transaction_date_future), 1);
-
-                } else {
-
+                else
                     tvDate.setText(DateFormatUtils.dateToString(newDate.getTime(), DATEFORMAT));
-                }
             }
-
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-
     }
 
     private void pushBroadcast() {
@@ -353,8 +335,8 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                 @Override
                 public void onClick(View v) {
                     switch (mode) {
-                        case 0: {addTransaction(); break;}
-                        case 1: {editTransaction(); break;}
+                        case 0: addTransaction(); break;
+                        case 1: editTransaction(); break;
                     }
                 }
             });
@@ -425,15 +407,12 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
 
     private void setTVTextSize(String s) {
         int length = s.length();
-        if (length > 9 && length <= 14) {
+        if (length > 9 && length <= 14)
             tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-        }
-        else if (length > 14) {
+        else if (length > 14)
             tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
-        }
-        else {
+        else
             tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36);
-        }
     }
 
 }

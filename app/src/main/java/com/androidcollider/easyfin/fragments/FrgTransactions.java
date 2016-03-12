@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,14 +15,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.androidcollider.easyfin.MainActivity;
 import com.androidcollider.easyfin.R;
-
 import com.androidcollider.easyfin.adapters.RecyclerTransactionAdapter;
 import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.objects.Transaction;
 
 import java.util.ArrayList;
-
 
 public class FrgTransactions extends Fragment {
 
@@ -135,7 +133,7 @@ public class FrgTransactions extends Fragment {
         arguments.putInt("mode", 1);
         arguments.putSerializable("transaction", transaction);
         frgAddTransDef.setArguments(arguments);
-        addFragment(frgAddTransDef);
+        ((MainActivity) getActivity()).addFragment(frgAddTransDef);
     }
 
     private void deleteTransaction(int pos) {
@@ -161,29 +159,6 @@ public class FrgTransactions extends Fragment {
         Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);
         intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
         getActivity().sendBroadcast(intentFrgAccounts);
-    }
-
-
-    public void addFragment(Fragment f){
-        treatFragment(f, true, false);
-    }
-
-    public Fragment getTopFragment(){
-        return getActivity().getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-    }
-
-    private void treatFragment(Fragment f, boolean addToBackStack, boolean replace){
-        String tag = f.getClass().getName();
-        FragmentTransaction ft =  getActivity().getSupportFragmentManager().beginTransaction();
-        if (replace) {
-            ft.replace(R.id.fragment_container, f, tag);
-        } else {
-            Fragment currentTop = getTopFragment();
-            if (currentTop != null) ft.hide(currentTop);
-            ft.add(R.id.fragment_container, f, tag);
-        }
-        if (addToBackStack) ft.addToBackStack(tag);
-        ft.commitAllowingStateLoss();
     }
 
 }

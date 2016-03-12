@@ -20,7 +20,6 @@ import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 
 import java.util.ArrayList;
 
-
 public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapter.ViewHolder> {
 
     private long pos;
@@ -82,14 +81,12 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
 
         int progress = (int) (amountCurrent/amountAll*100);
         holder.prgBar.setProgress(progress);
-        //holder.tvProgress.setText(progress + "%");
         holder.tvProgress.setText(String.format("%s%%", progress));
 
         Drawable prgDraw = holder.prgBar.getProgressDrawable();
 
         switch (debt.getType()) {
             case 0: {
-                //int green = context.getResources().getColor(R.color.custom_green);
                 int green = ContextCompat.getColor(context, R.color.custom_green);
                 holder.tvAmount.setTextColor(green);
                 prgDraw.setColorFilter(new LightingColorFilter(0xFF000000, green));
@@ -97,7 +94,6 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
                 break;
             }
             case 1: {
-                //int red = context.getResources().getColor(R.color.custom_red);
                 int red = ContextCompat.getColor(context, R.color.custom_red);
                 holder.tvAmount.setTextColor(red);
                 prgDraw.setColorFilter(new LightingColorFilter(0xFF000000, red));

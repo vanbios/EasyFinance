@@ -20,7 +20,6 @@ import android.widget.ListView;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
-
 public abstract class PreferenceFragment extends Fragment {
 
     private static final int FIRST_REQUEST_CODE = 100;
@@ -75,9 +74,7 @@ public abstract class PreferenceFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (mHavePrefs) {
-            bindPreferences();
-        }
+        if (mHavePrefs) bindPreferences();
 
         mInitDone = true;
 

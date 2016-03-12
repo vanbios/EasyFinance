@@ -119,16 +119,14 @@ public class FrgMain extends CommonFragment {
             faButtonBTW.setVisibility(View.GONE);
         }
 
-        if (InfoFromDB.getInstance().getAccountsNumber() == 0) {
+        if (InfoFromDB.getInstance().getAccountsNumber() == 0)
             showDialogNoAccount();
-        }
 
         sharedPref = new SharedPref(getActivity());
         isSnackBarDisabled = sharedPref.isSnackBarAccountDisable();
 
-        if (!isSnackBarDisabled && !TabletTesterUtils.isTablet(getActivity())) {
+        if (!isSnackBarDisabled && !TabletTesterUtils.isTablet(getActivity()))
             makeBroadcastReceiver();
-        }
 
         checkForAndroidMPermissions();
 
@@ -173,19 +171,15 @@ public class FrgMain extends CommonFragment {
             }
         });
 
-        TabLayout tabs = (TabLayout) view.findViewById(R.id.tabsMain);
-        /*tabs.setTabTextColors(getResources().getColor(R.color.custom_blue_gray_light),
-                getResources().getColor(R.color.custom_text_light));*/
-        tabs.setupWithViewPager(pager);
+        ((TabLayout) view.findViewById(R.id.tabsMain)).setupWithViewPager(pager);
     }
 
     private void makeBroadcastReceiver() {
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if (intent.getIntExtra(PARAM_STATUS_MAIN_SNACK, 0) == STATUS_MAIN_SNACK) {
+                if (intent.getIntExtra(PARAM_STATUS_MAIN_SNACK, 0) == STATUS_MAIN_SNACK)
                     showSnackBar();
-                }
             }
         };
         IntentFilter intentFilter = new IntentFilter(BROADCAST_MAIN_SNACK_ACTION);
@@ -195,9 +189,8 @@ public class FrgMain extends CommonFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (!isSnackBarDisabled) {
+        if (!isSnackBarDisabled)
             getActivity().unregisterReceiver(broadcastReceiver);
-        }
     }
 
     private void showSnackBar() {
@@ -282,7 +275,6 @@ public class FrgMain extends CommonFragment {
         Bundle arguments = new Bundle();
         arguments.putInt("mode", 0);
         frgAddAccount.setArguments(arguments);
-
         addFragment(frgAddAccount);
     }
 
@@ -338,13 +330,11 @@ public class FrgMain extends CommonFragment {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             int hasStoragePermission = getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
             List<String> permissions = new ArrayList<>();
-            if (hasStoragePermission != PackageManager.PERMISSION_GRANTED) {
+            if (hasStoragePermission != PackageManager.PERMISSION_GRANTED)
                 permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            }
-            if (!permissions.isEmpty()) {
+            if (!permissions.isEmpty())
                 requestPermissions(permissions.toArray(new String[permissions.size()]),
                         REQUEST_CODE_SOME_FEATURES_PERMISSIONS);
-            }
         }
     }
 
@@ -355,11 +345,10 @@ public class FrgMain extends CommonFragment {
         switch (requestCode) {
             case REQUEST_CODE_SOME_FEATURES_PERMISSIONS: {
                 for (int i = 0; i < permissions.length; i++) {
-                    if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                    if (grantResults[i] == PackageManager.PERMISSION_GRANTED)
                         Log.d("Permissions", "Permission Granted: " + permissions[i]);
-                    } else if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                    else if (grantResults[i] == PackageManager.PERMISSION_DENIED)
                         Log.d("Permissions", "Permission Denied: " + permissions[i]);
-                    }
                 }
             }
             break;

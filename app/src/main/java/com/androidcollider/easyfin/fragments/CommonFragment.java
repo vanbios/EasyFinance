@@ -3,7 +3,6 @@ package com.androidcollider.easyfin.fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 
 import com.androidcollider.easyfin.AppController;
 import com.androidcollider.easyfin.MainActivity;
@@ -11,7 +10,6 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 import java.util.LinkedList;
-
 
 public abstract class CommonFragment extends Fragment {
 
@@ -30,7 +28,6 @@ public abstract class CommonFragment extends Fragment {
     public void onResume(){
         super.onResume();
         while (!pendingTransactions.isEmpty()) {
-            Log.d("COLLIDER", "Executing pending transaction");
             pendingTransactions.pollFirst().run();
         }
     }
@@ -61,12 +58,8 @@ public abstract class CommonFragment extends Fragment {
     private LinkedList<Runnable> pendingTransactions = new LinkedList<>();
 
     protected void tryExecuteTransaction(Runnable runnable){
-        if (isResumed()) {
-            runnable.run();
-        } else {
-            Log.d("COLLIDER", "Scheduling pending transaction");
-            pendingTransactions.addLast(runnable);
-        }
+        if (isResumed()) runnable.run();
+        else pendingTransactions.addLast(runnable);
     }
 
 }

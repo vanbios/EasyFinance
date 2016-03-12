@@ -1,10 +1,8 @@
 package com.androidcollider.easyfin.utils;
 
-
 import com.androidcollider.easyfin.AppController;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.objects.InfoFromDB;
-
 
 public class ExchangeUtils {
 
@@ -16,12 +14,8 @@ public class ExchangeUtils {
         int posTo = 0;
 
         for (int i = 0; i < currencyArray.length; i++) {
-            if (currencyArray[i].equals(currFrom)) {
-                posFrom = i;
-            }
-            if (currencyArray[i].equals(currTo)) {
-                posTo = i;
-            }
+            if (currencyArray[i].equals(currFrom)) posFrom = i;
+            if (currencyArray[i].equals(currTo)) posTo = i;
         }
         return rates[posTo] / rates[posFrom];
     }
@@ -37,9 +31,7 @@ public class ExchangeUtils {
         double[] newRates = InfoFromDB.getInstance().getRatesForExchange();
 
         for (int i = 1; i < rates.length; i++) {
-            if (newRates[i-1] > 0) {
-                rates[i] = newRates[i-1];
-            }
+            if (newRates[i-1] > 0) rates[i] = newRates[i-1];
         }
 
         return rates;

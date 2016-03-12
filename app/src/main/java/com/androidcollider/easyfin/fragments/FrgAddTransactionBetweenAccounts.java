@@ -1,6 +1,5 @@
 package com.androidcollider.easyfin.fragments;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -32,7 +31,6 @@ import com.androidcollider.easyfin.utils.ShakeEditText;
 import com.androidcollider.easyfin.utils.ToastUtils;
 
 import java.util.ArrayList;
-
 
 public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit implements FrgNumericDialog.OnCommitAmountListener {
 
@@ -149,9 +147,8 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
             etExchange.setText(DoubleFormatUtils.doubleToStringFormatter(exchangeRate, FORMAT, PRECISE));
 
             etExchange.setSelection(etExchange.getText().length());
-        } else {
+        } else
             layoutExchange.setVisibility(View.GONE);
-        }
     }
 
     private boolean checkForMultiCurrency() {
@@ -176,9 +173,9 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
         Account accountFrom = (Account) spinAccountFrom.getSelectedItem();
         double accountAmountFrom = accountFrom.getAmount();
 
-        if (amount > accountAmountFrom) {
+        if (amount > accountAmountFrom)
             ToastUtils.showClosableToast(getActivity(), getString(R.string.not_enough_costs), 1);
-        } else {
+        else {
             int accountIdFrom = accountFrom.getId();
 
             Account accountTo = (Account) spinAccountTo.getSelectedItem();
@@ -192,9 +189,8 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
                     double amountTo = amount / exchange;
                     lastActions(amount, amountTo, accountIdFrom, accountIdTo, accountAmountFrom, accountAmountTo);
                 }
-            } else {
+            } else
                 lastActions(amount, amount, accountIdFrom, accountIdTo, accountAmountFrom, accountAmountTo);
-            }
         }
     }
 
@@ -306,13 +302,12 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
 
     private void setTVTextSize(String s) {
         int length = s.length();
-        if (length > 10 && length <= 15) {
+        if (length > 10 && length <= 15)
             tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-        } else if (length > 15) {
+        else if (length > 15)
             tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
-        } else {
+        else
             tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36);
-        }
     }
 
 }

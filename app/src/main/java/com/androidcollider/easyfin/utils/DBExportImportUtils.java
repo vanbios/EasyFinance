@@ -41,9 +41,8 @@ public class DBExportImportUtils {
 
         File backupDirectory = new File(outFilePath);
 
-        if (!backupDirectory.mkdirs()) {
+        if (!backupDirectory.mkdirs())
             Log.d("COLLIDER", "Folder is already exist");
-        }
 
         File backupFile = new File(backupDirectory, DbHelper.DATABASE_NAME);
 
@@ -54,7 +53,7 @@ public class DBExportImportUtils {
         byte[] buffer = new byte[1024];
         int length;
 
-        while ((length = fis.read(buffer))>0){
+        while ((length = fis.read(buffer)) > 0) {
             output.write(buffer, 0, length);
         }
 
@@ -64,8 +63,7 @@ public class DBExportImportUtils {
         fis.close();
 
         ToastUtils.showClosableToast(context,
-                context.getResources().getString(R.string.db_backup_to)
-                        + " " + outFilePath, 2);
+                context.getResources().getString(R.string.db_backup_to) + " " + outFilePath, 2);
     }
 
 

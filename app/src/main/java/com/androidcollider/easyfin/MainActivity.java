@@ -1,11 +1,9 @@
 package com.androidcollider.easyfin;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,7 +16,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -38,7 +35,6 @@ import com.androidcollider.easyfin.fragments.FrgPref;
 import com.androidcollider.easyfin.fragments.PreferenceFragment;
 import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.utils.ToastUtils;
-
 
 public class MainActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
 
@@ -78,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         drawerLayout = (DrawerLayout) findViewById(R.id.navDrawerLayout);
 
         recyclerNavDrawer = (RecyclerView) findViewById(R.id.recyclerViewNavDrawer);
-        recyclerNavDrawer.setHasFixedSize(true);
+        if (recyclerNavDrawer != null) recyclerNavDrawer.setHasFixedSize(true);
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -100,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
         };
 
-        drawerLayout.setDrawerListener(mDrawerToggle);
+        drawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
         final GestureDetector gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
@@ -114,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         recyclerNavDrawer.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
             @Override
             public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                View child = rv.findChildViewUnder(e.getX(),e.getY());
+                View child = rv.findChildViewUnder(e.getX(), e.getY());
 
                 if (child != null && gestureDetector.onTouchEvent(e)) {
                     int position = recyclerNavDrawer.getChildAdapterPosition(child);
@@ -157,10 +153,12 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             }
 
             @Override
-            public void onTouchEvent(RecyclerView rv, MotionEvent e) {}
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+            }
 
             @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {}
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+            }
         });
     }
 
@@ -239,25 +237,20 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     @Override
     public void onBackStackChanged() {
             Fragment topFragment = getTopFragment();
-            if (topFragment instanceof CommonFragmentAddEdit) {
-                //set toolbar from fragment class
-            }
-            else if (topFragment instanceof CommonFragment) {
+            if (topFragment instanceof CommonFragment && !(topFragment instanceof CommonFragmentAddEdit)) {
                 setToolbar((((CommonFragment) topFragment).getTitle()), TOOLBAR_DEFAULT);
             }
             else if (topFragment instanceof PreferenceFragment) {
                 setToolbar((((PreferenceFragment) topFragment).getTitle()), TOOLBAR_DEFAULT);
             }
-
         hideKeyboard();
     }
 
     public void hideKeyboard() {
         InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
         View view = this.getCurrentFocus();
-        if (view != null) {
+        if (view != null)
             inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-        }
     }
 
     private void popFragments() {
@@ -272,29 +265,20 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     public void onBackPressed() {
         Fragment fragment = getTopFragment();
         if (fragment instanceof FrgMain) {
-            if (backPressExitTime + 2000 > System.currentTimeMillis()) {
-                this.finish();
-            } else {
+            if (backPressExitTime + 2000 > System.currentTimeMillis()) this.finish();
+            else {
                 ToastUtils.showClosableToast(this, getString(R.string.press_again_to_exit), 1);
                 backPressExitTime = System.currentTimeMillis();
             }
         }
-        else if (fragment instanceof FrgAddAccount) {
-            popFragments();
-        }
-        else if (fragment instanceof CommonFragmentAddEdit) {
-            popFragment();
-        }
-        else {
-            popFragments();
-        }
+        else if (fragment instanceof FrgAddAccount) popFragments();
+        else if (fragment instanceof CommonFragmentAddEdit) popFragment();
+        else popFragments();
     }
-
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         restartActivity();
-        Log.d("COLLIDER", "CONFIGURATION CHANGED!");
         super.onConfigurationChanged(newConfig);
     }
 

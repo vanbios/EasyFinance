@@ -1,12 +1,10 @@
 package com.androidcollider.easyfin.utils;
 
-
 import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.androidcollider.easyfin.R;
-
 
 public class MultiTapUtils {
 
@@ -20,9 +18,7 @@ public class MultiTapUtils {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 long currentTime = System.currentTimeMillis();
-                if (count == 0) {
-                    lastPressTime = currentTime;
-                }
+                if (count == 0) lastPressTime = currentTime;
 
                 if (currentTime - lastPressTime < DOUBLE_PRESS_INTERVAL) {
                     count++;
@@ -31,9 +27,8 @@ public class MultiTapUtils {
                         ToastUtils.showClosableToast(context, rates, 1);
                     }
                 }
-                else {
-                    count = 0;
-                }
+                else count = 0;
+
                 lastPressTime = currentTime;
                 return false;
             }

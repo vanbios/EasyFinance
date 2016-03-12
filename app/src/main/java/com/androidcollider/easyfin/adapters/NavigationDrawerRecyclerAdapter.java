@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
 
-
 public class NavigationDrawerRecyclerAdapter extends RecyclerView.Adapter<NavigationDrawerRecyclerAdapter.ViewHolder> {
 
     private final String navTitles[];
@@ -29,18 +28,15 @@ public class NavigationDrawerRecyclerAdapter extends RecyclerView.Adapter<Naviga
         switch (viewType) {
             case TYPE_ITEM: {
                 return new ViewHolder(
-                        LayoutInflater.from(parent.getContext()).inflate(R.layout.item_nav_row,parent,false),
-                        TYPE_ITEM);
+                        LayoutInflater.from(parent.getContext()).inflate(R.layout.item_nav_row,parent,false), TYPE_ITEM);
             }
             case TYPE_HEADER: {
                 return new ViewHolder(
-                        LayoutInflater.from(parent.getContext()).inflate(R.layout.nav_header, parent, false),
-                        TYPE_HEADER);
+                        LayoutInflater.from(parent.getContext()).inflate(R.layout.nav_header, parent, false), TYPE_HEADER);
             }
             case TYPE_DIVIDER: {
                 return new ViewHolder(
-                        LayoutInflater.from(parent.getContext()).inflate(R.layout.item_nav_divider, parent, false),
-                        TYPE_DIVIDER);
+                        LayoutInflater.from(parent.getContext()).inflate(R.layout.item_nav_divider, parent, false), TYPE_DIVIDER);
             }
         }
         return null;
@@ -50,12 +46,8 @@ public class NavigationDrawerRecyclerAdapter extends RecyclerView.Adapter<Naviga
     public void onBindViewHolder(NavigationDrawerRecyclerAdapter.ViewHolder holder, int position) {
         if (holder.holderId == TYPE_ITEM) {
             int arrayPos = 0;
-            if (position < 5) {
-                arrayPos = position - 1;
-            }
-            else if (position > 5) {
-                arrayPos = position - 2;
-            }
+            if (position < 5) arrayPos = position - 1;
+            else if (position > 5) arrayPos = position - 2;
             holder.tvNavItem.setText(navTitles[arrayPos]);
             holder.ivNavItem.setImageDrawable(navIcons.getDrawable(arrayPos));
         }
@@ -94,12 +86,8 @@ public class NavigationDrawerRecyclerAdapter extends RecyclerView.Adapter<Naviga
                 ivNavItem = (ImageView) itemView.findViewById(R.id.ivItemNavRow);
                 holderId = TYPE_ITEM;
             }
-            else if (viewType == TYPE_HEADER){
-                holderId = TYPE_HEADER;
-            }
-            else {
-                holderId = TYPE_DIVIDER;
-            }
+            else if (viewType == TYPE_HEADER) holderId = TYPE_HEADER;
+            else holderId = TYPE_DIVIDER;
         }
     }
 

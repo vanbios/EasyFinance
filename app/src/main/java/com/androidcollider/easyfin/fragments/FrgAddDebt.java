@@ -1,10 +1,10 @@
 package com.androidcollider.easyfin.fragments;
 
-
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -35,7 +35,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-
 public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialog.OnCommitAmountListener {
 
     private View view;
@@ -55,12 +54,8 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
         view = inflater.inflate(R.layout.frg_add_debt, container, false);
         mode = getArguments().getInt("mode", 0);
-        if (mode == 1) {
-            debtFrIntent = (Debt) getArguments().getSerializable("debt");
-        }
-        else {
-            debtType = getArguments().getInt("type", 0);
-        }
+        if (mode == 1) debtFrIntent = (Debt) getArguments().getSerializable("debt");
+        else debtType = getArguments().getInt("type", 0);
 
         setToolbar();
 
@@ -79,13 +74,11 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
             setSpinner();
             HideKeyboardUtils.setupUI(view.findViewById(R.id.layoutActAddDebtParent), getActivity());
 
-            if (mode == 1) {
-                setViewsToEdit();
-            }
+            if (mode == 1) setViewsToEdit();
 
             switch (debtType) {
-                case 0: {tvAmount.setTextColor(getResources().getColor(R.color.custom_green)); break;}
-                case 1: {tvAmount.setTextColor(getResources().getColor(R.color.custom_red)); break;}
+                case 0: tvAmount.setTextColor(ContextCompat.getColor(getContext(), R.color.custom_green)); break;
+                case 1: tvAmount.setTextColor(ContextCompat.getColor(getContext(), R.color.custom_red)); break;
             }
         }
 
@@ -162,8 +155,8 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                 Long date = DateFormatUtils.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
 
                 switch (type){
-                    case 0: {accountAmount -= amount; break;}
-                    case 1: {accountAmount += amount; break;}
+                    case 0: accountAmount -= amount; break;
+                    case 1: accountAmount += amount; break;
                 }
 
                 Debt debt = new Debt(name, amount, type, accountId, date, accountAmount);
@@ -191,8 +184,8 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
             if (isAccountsTheSame) {
                 switch (oldType) {
-                    case 0: {accountAmount += oldAmount; break;}
-                    case 1: {accountAmount -= oldAmount; break;}
+                    case 0: accountAmount += oldAmount; break;
+                    case 1: accountAmount -= oldAmount; break;
                 }
             }
             else {
@@ -204,8 +197,8 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                 }
 
                 switch (oldType) {
-                    case 0: {oldAccountAmount += oldAmount; break;}
-                    case 1: {oldAccountAmount -= oldAmount; break;}
+                    case 0: oldAccountAmount += oldAmount; break;
+                    case 1: oldAccountAmount -= oldAmount; break;
                 }
             }
 
@@ -214,20 +207,18 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                 Long date = DateFormatUtils.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
 
                 switch (type) {
-                    case 0: {accountAmount -= amount; break;}
-                    case 1: {accountAmount += amount; break;}
+                    case 0: accountAmount -= amount; break;
+                    case 1: accountAmount += amount; break;
                 }
 
                 int idDebt = debtFrIntent.getId();
 
                 Debt debt = new Debt(name, amount, type, accountId, date, accountAmount, idDebt);
 
-                if (isAccountsTheSame) {
+                if (isAccountsTheSame)
                     InfoFromDB.getInstance().getDataSource().editDebt(debt);
-                }
-                else {
+                else
                     InfoFromDB.getInstance().getDataSource().editDebtDifferentAccounts(debt, oldAccountAmount, oldAccountId);
-                }
 
                 lastActions();
             }
@@ -281,9 +272,8 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         });
         final Calendar newCalendar = Calendar.getInstance();
         final long initTime = newCalendar.getTimeInMillis();
-        if (mode == 1) {
+        if (mode == 1)
             newCalendar.setTime(new Date(debtFrIntent.getDate()));
-        }
         tvDate.setText(DateFormatUtils.dateToString(newCalendar.getTime(), DATEFORMAT));
 
         datePickerDialog = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
@@ -291,11 +281,10 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
-                if (newDate.getTimeInMillis() < initTime) {
+                if (newDate.getTimeInMillis() < initTime)
                     ToastUtils.showClosableToast(getActivity(), getString(R.string.debt_deadline_past), 1);
-                } else {
+                else
                     tvDate.setText(DateFormatUtils.dateToString(newDate.getTime(), DATEFORMAT));
-                }
             }
 
         },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
@@ -355,8 +344,8 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                 @Override
                 public void onClick(View v) {
                     switch (mode) {
-                        case 0: {addDebt(); break;}
-                        case 1: {editDebt(); break;}
+                        case 0: addDebt(); break;
+                        case 1: editDebt(); break;
                     }
                 }
             });
@@ -388,15 +377,12 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
     private void setTVTextSize(String s) {
         int length = s.length();
-        if (length > 10 && length <= 15) {
+        if (length > 10 && length <= 15)
             tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-        }
-        else if (length > 15) {
+        else if (length > 15)
             tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
-        }
-        else {
+        else
             tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36);
-        }
     }
 
 }

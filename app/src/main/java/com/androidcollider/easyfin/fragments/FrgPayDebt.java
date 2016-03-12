@@ -1,6 +1,5 @@
 package com.androidcollider.easyfin.fragments;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -27,8 +26,6 @@ import com.androidcollider.easyfin.utils.HideKeyboardUtils;
 import com.androidcollider.easyfin.utils.ToastUtils;
 
 import java.util.ArrayList;
-
-
 
 public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialog.OnCommitAmountListener {
 
@@ -69,7 +66,6 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
     private void initializeView() {
         tvDebtName = (TextView) view.findViewById(R.id.tvPayDebtName);
-
         tvAmount = (TextView) view.findViewById(R.id.tvPayDebtAmount);
         tvAmount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,9 +92,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
             tvAmount.setText("0,00");
             openNumericDialog();
         }
-        if (mode == 1) {
-            tvAmount.setClickable(false);
-        }
+        if (mode == 1) tvAmount.setClickable(false);
 
         spinAccount.setAdapter(new SpinAccountForTransHeadIconAdapter(
                 getActivity(),
@@ -110,6 +104,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         for (int i = 0; i < accountsAvailableList.size(); i++) {
             if (idAccount == accountsAvailableList.get(i).getId()) {
                 pos = i;
+                break;
             }
         }
 
@@ -125,16 +120,14 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
         if (mode == 1 && type == 1) {
             for (Account account : accountList) {
-                if (account.getCurrency().equals(currency) && account.getAmount() >= amount) {
+                if (account.getCurrency().equals(currency) && account.getAmount() >= amount)
                     accountsAvailableList.add(account);
-                }
             }
         }
         else {
             for (Account account : accountList) {
-                if (account.getCurrency().equals(currency)) {
+                if (account.getCurrency().equals(currency))
                     accountsAvailableList.add(account);
-                }
             }
         }
     }
@@ -149,12 +142,8 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         int idAccount = account.getId();
         double amountAccount = account.getAmount();
 
-        if (type == 1) {
-            amountAccount -= amountDebt;
-        }
-        else {
-            amountAccount += amountDebt;
-        }
+        if (type == 1) amountAccount -= amountDebt;
+        else amountAccount += amountDebt;
 
         InfoFromDB.getInstance().getDataSource().payAllDebt(idAccount, amountAccount, idDebt);
         lastActions();
@@ -166,33 +155,29 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
             double amountDebt = Double.parseDouble(sum);
             double amountAllDebt = debt.getAmountCurrent();
 
-            if (amountDebt > amountAllDebt) {
+            if (amountDebt > amountAllDebt)
                 ToastUtils.showClosableToast(getActivity(), getString(R.string.debt_sum_more_then_amount), 1);
-            } else {
+            else {
                 int type = debt.getType();
                 Account account = (Account) spinAccount.getSelectedItem();
 
                 double amountAccount = account.getAmount();
 
-                if (type == 1 && amountDebt > amountAccount) {
+                if (type == 1 && amountDebt > amountAccount)
                     ToastUtils.showClosableToast(getActivity(), getString(R.string.not_enough_costs), 1);
-                } else {
+                else {
                     int idDebt = debt.getId();
                     int idAccount = account.getId();
 
-                    if (type == 1) {
-                        amountAccount -= amountDebt;
-                    } else {
-                        amountAccount += amountDebt;
-                    }
+                    if (type == 1) amountAccount -= amountDebt;
+                    else amountAccount += amountDebt;
 
-                    if (amountDebt == amountAllDebt) {
-                        InfoFromDB.getInstance().getDataSource().payAllDebt(idAccount, amountAccount, idDebt);}
+                    if (amountDebt == amountAllDebt)
+                        InfoFromDB.getInstance().getDataSource().payAllDebt(idAccount, amountAccount, idDebt);
                     else {
                         double newDebtAmount = amountAllDebt - amountDebt;
                         InfoFromDB.getInstance().getDataSource().payPartDebt(idAccount, amountAccount, idDebt, newDebtAmount);
                     }
-
                     lastActions();
                 }
             }
@@ -212,15 +197,15 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
             double amountAccount = account.getAmount();
 
-            if (type == 0 && amountDebt > amountAccount) {
+            if (type == 0 && amountDebt > amountAccount)
                 ToastUtils.showClosableToast(getActivity(), getString(R.string.not_enough_costs), 1);
-            } else {
+            else {
                 int idDebt = debt.getId();
                 int idAccount = account.getId();
 
                 switch (type) {
-                    case 0: {amountAccount -= amountDebt; break;}
-                    case 1: {amountAccount += amountDebt; break;}
+                    case 0: amountAccount -= amountDebt; break;
+                    case 1: amountAccount += amountDebt; break;
                 }
 
                 double newDebtCurrentAmount = amountDebtCurrent + amountDebt;
@@ -316,9 +301,9 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                 @Override
                 public void onClick(View v) {
                     switch (mode) {
-                        case 1: {payAllDebt(); break;}
-                        case 2: {payPartDebt(); break;}
-                        case 3: {takeMoreDebt(); break;}
+                        case 1: payAllDebt(); break;
+                        case 2: payPartDebt(); break;
+                        case 3: takeMoreDebt(); break;
                     }
                 }
             });
@@ -350,15 +335,12 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
     private void setTVTextSize(String s) {
         int length = s.length();
-        if (length > 10 && length <= 15) {
+        if (length > 10 && length <= 15)
             tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-        }
-        else if (length > 15) {
+        else if (length > 15)
             tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
-        }
-        else {
+        else
             tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36);
-        }
     }
 
 }

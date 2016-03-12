@@ -1,6 +1,5 @@
 package com.androidcollider.easyfin.fragments;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -25,8 +24,6 @@ import com.androidcollider.easyfin.utils.HideKeyboardUtils;
 import com.androidcollider.easyfin.utils.ShakeEditText;
 import com.androidcollider.easyfin.utils.SharedPref;
 import com.androidcollider.easyfin.utils.ToastUtils;
-
-
 
 public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDialog.OnCommitAmountListener {
 
@@ -91,8 +88,8 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
                 @Override
                 public void onClick(View v) {
                     switch (mode) {
-                        case 0: {addAccount(); break;}
-                        case 1: {editAccount(); break;}
+                        case 0: addAccount(); break;
+                        case 1: editAccount(); break;
                     }
                 }
             });
@@ -267,15 +264,12 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
 
     private void setTVTextSize(String s) {
         int length = s.length();
-        if (length > 10 && length <= 15) {
+        if (length > 10 && length <= 15)
             tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-        }
-        else if (length > 15) {
+        else if (length > 15)
             tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
-        }
-        else {
+        else
             tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36);
-        }
     }
 
 }

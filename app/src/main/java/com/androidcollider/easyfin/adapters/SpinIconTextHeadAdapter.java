@@ -1,6 +1,5 @@
 package com.androidcollider.easyfin.adapters;
 
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.view.LayoutInflater;
@@ -9,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 
 public class SpinIconTextHeadAdapter extends ArrayAdapter<String> {
 

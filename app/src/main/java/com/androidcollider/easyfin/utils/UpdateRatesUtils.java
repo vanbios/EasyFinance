@@ -1,6 +1,5 @@
 package com.androidcollider.easyfin.utils;
 
-
 import com.androidcollider.easyfin.AppController;
 
 import java.text.SimpleDateFormat;
@@ -31,10 +30,7 @@ public class UpdateRatesUtils {
                 SimpleDateFormat sdfHour = new SimpleDateFormat("HH", Locale.UK);
                 sdfHour.setTimeZone(timeZone);
 
-                int hour = Integer.parseInt(sdfHour.format(date));
-                if (hour >= 8) {
-                    return true;
-                }
+                if (Integer.parseInt(sdfHour.format(date)) >= 8) return true;
             }
         }
         return false;
