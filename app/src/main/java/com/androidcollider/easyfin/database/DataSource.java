@@ -681,7 +681,7 @@ public class DataSource {
         // Close the SQLiteOpenHelper so it will commit the created empty database to internal storage.
         dbHelper.close();
 
-        File oldDb = new File("/data/data/com.androidcollider.easyfin/databases/" + DbHelper.DATABASE_NAME);
+        File oldDb = context.getDatabasePath(DbHelper.DATABASE_NAME);
 
         InputStream newDbStream = context.getContentResolver().openInputStream(uri);
 

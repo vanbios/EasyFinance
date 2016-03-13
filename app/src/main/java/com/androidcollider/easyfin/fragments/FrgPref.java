@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
+import android.support.annotation.NonNull;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.AppController;
 import com.androidcollider.easyfin.R;
@@ -73,17 +75,13 @@ public class FrgPref extends PreferenceFragment {
                 .content(getString(R.string.import_dialog_warning))
                 .positiveText(getString(R.string.confirm))
                 .negativeText(getString(R.string.cancel))
-                .callback(new MaterialDialog.ButtonCallback() {
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onPositive(MaterialDialog dialog) {
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         importDB();
                         mTracker.send(new HitBuilders.EventBuilder("click", "import")
                                 .setLabel("import_confirm")
                                 .build());
-                    }
-
-                    @Override
-                    public void onNegative(MaterialDialog dialog) {
                     }
                 })
                 .cancelable(false)
@@ -135,10 +133,9 @@ public class FrgPref extends PreferenceFragment {
 
         if (importDB) {
             importDBPref.setEnabled(false);
-            ToastUtils.showClosableToast(context, getString(R.string.import_complete), 2);
             pushBroadcast();
-        } else
-            ToastUtils.showClosableToast(context, getString(R.string.import_error), 2);
+        }
+        ToastUtils.showClosableToast(context, importDB ? getString(R.string.import_complete) : getString(R.string.import_error), 2);
     }
 
     private void pushBroadcast() {

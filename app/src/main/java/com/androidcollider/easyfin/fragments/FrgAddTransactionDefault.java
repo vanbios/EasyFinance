@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -19,6 +20,7 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinAccountForTransHeadIconAdapter;
@@ -141,11 +143,13 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
             case 1: {
                 categoryArray = getResources().getStringArray(R.array.transaction_category_income_array);
                 categoryIcons = getResources().obtainTypedArray(R.array.transaction_category_income_icons);
+                categoryIcons.recycle();
                 break;
             }
             default: {
                 categoryArray = getResources().getStringArray(R.array.transaction_category_expense_array);
                 categoryIcons = getResources().obtainTypedArray(R.array.transaction_category_expense_icons);
+                categoryIcons.recycle();
                 break;
             }
         }
@@ -356,14 +360,15 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                 .content(getString(R.string.dialog_text_transaction_no_account))
                 .positiveText(getString(R.string.new_account))
                 .negativeText(getString(R.string.close))
-                .callback(new MaterialDialog.ButtonCallback() {
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onPositive(MaterialDialog dialog) {
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         goToAddAccount();
                     }
-
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onNegative(MaterialDialog dialog) {
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         finish();
                     }
                 })

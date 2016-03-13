@@ -12,6 +12,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -23,6 +24,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.ViewPagerFragmentAdapter;
@@ -284,14 +286,10 @@ public class FrgMain extends CommonFragment {
                 .content(getString(R.string.dialog_text_main_no_accounts))
                 .positiveText(getString(R.string.new_account))
                 .negativeText(getString(R.string.later))
-                .callback(new MaterialDialog.ButtonCallback() {
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onPositive(MaterialDialog dialog) {
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         goToAddAccount();
-                    }
-
-                    @Override
-                    public void onNegative(MaterialDialog dialog) {
                     }
                 })
                 .cancelable(false)
@@ -341,7 +339,7 @@ public class FrgMain extends CommonFragment {
     private static final int REQUEST_CODE_SOME_FEATURES_PERMISSIONS = 123;
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch (requestCode) {
             case REQUEST_CODE_SOME_FEATURES_PERMISSIONS: {
                 for (int i = 0; i < permissions.length; i++) {
