@@ -51,7 +51,6 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
     }
 
 
-
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         Debt debt = getDebt(position);

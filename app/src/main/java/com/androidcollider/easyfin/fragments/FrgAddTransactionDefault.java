@@ -62,8 +62,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
         if (accountList.isEmpty()) {
             scrollView.setVisibility(View.GONE);
             showDialogNoAccount();
-        }
-        else {
+        } else {
             scrollView.setVisibility(View.VISIBLE);
             mode = getArguments().getInt("mode", 0);
             tvAmount = (TextView) view.findViewById(R.id.tvAddTransDefAmount);
@@ -136,23 +135,14 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
         spinCategory = (Spinner) view.findViewById(R.id.spinAddTransCategory);
         spinAccount = (Spinner) view.findViewById(R.id.spinAddTransDefAccount);
 
-        String[] categoryArray;
-        TypedArray categoryIcons;
-
-        switch (transType) {
-            case 1: {
-                categoryArray = getResources().getStringArray(R.array.transaction_category_income_array);
-                categoryIcons = getResources().obtainTypedArray(R.array.transaction_category_income_icons);
-                categoryIcons.recycle();
-                break;
-            }
-            default: {
-                categoryArray = getResources().getStringArray(R.array.transaction_category_expense_array);
-                categoryIcons = getResources().obtainTypedArray(R.array.transaction_category_expense_icons);
-                categoryIcons.recycle();
-                break;
-            }
-        }
+        String[] categoryArray = getResources().getStringArray(
+                transType == 1 ?
+                R.array.transaction_category_income_array :
+                R.array.transaction_category_expense_array);
+        TypedArray categoryIcons = getResources().obtainTypedArray(
+                transType == 1 ?
+                R.array.transaction_category_income_icons :
+                R.array.transaction_category_expense_icons);
 
         spinCategory.setAdapter(new SpinIconTextHeadAdapter(
                 getActivity(),
@@ -168,9 +158,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
         spinCategory.setSelection(categoryArray.length - 1);
 
         spinAccount.setAdapter(new SpinAccountForTransHeadIconAdapter(
-                getActivity(),
-                R.layout.spin_head_icon_text,
-                accountList));
+                getActivity(), R.layout.spin_head_icon_text, accountList));
 
         if (mode == 1) {
             String accountName = transFromIntent.getAccountName();
@@ -264,7 +252,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
     private boolean checkIsEnoughCosts(boolean isExpense, double amount, double accountAmount) {
         if (isExpense && Math.abs(amount) > accountAmount) {
             ToastUtils.showClosableToast(getActivity(), getString(R.string.not_enough_costs), 1);
-        return false;
+            return false;
         }
         return true;
     }
@@ -297,7 +285,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                 else
                     tvDate.setText(DateFormatUtils.dateToString(newDate.getTime(), DATEFORMAT));
             }
-        },newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
     }
 
     private void pushBroadcast() {
@@ -315,7 +303,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
     }
 
     private void setToolbar() {
-        ActionBar actionBar = ((AppCompatActivity)getActivity()).getSupportActionBar();
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (actionBar != null) {
             ViewGroup actionBarLayout = (ViewGroup) getActivity().getLayoutInflater().inflate(
                     R.layout.save_close_buttons_toolbar, null);
@@ -339,8 +327,12 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                 @Override
                 public void onClick(View v) {
                     switch (mode) {
-                        case 0: addTransaction(); break;
-                        case 1: editTransaction(); break;
+                        case 0:
+                            addTransaction();
+                            break;
+                        case 1:
+                            editTransaction();
+                            break;
                     }
                 }
             });
