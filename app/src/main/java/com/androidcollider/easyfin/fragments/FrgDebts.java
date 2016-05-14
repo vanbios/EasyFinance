@@ -15,6 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -40,7 +41,7 @@ public class FrgDebts extends CommonFragment {
     private RecyclerDebtAdapter recyclerAdapter;
     private BroadcastReceiver broadcastReceiver;
     private FloatingActionButton faButtonMain, faButtonTake, faButtonGive;
-    private boolean expanded = false;
+    private boolean isExpanded = false;
     private float offset1, offset2;
     final private boolean isApiHoneycombAndHigher = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
 
@@ -98,13 +99,15 @@ public class FrgDebts extends CommonFragment {
 
         makeBroadcastReceiver();
 
+        addNonFabTouchListener(view.findViewById(R.id.debts_content));
+
         return view;
     }
 
     private void setFloatButtonsVisibility() {
         if (isApiHoneycombAndHigher) {
-            expanded = !expanded;
-            if (expanded) {
+            isExpanded = !isExpanded;
+            if (isExpanded) {
                 expandFab();
                 faButtonMain.setImageResource(R.drawable.ic_close_white_24dp);
             } else {
@@ -304,6 +307,24 @@ public class FrgDebts extends CommonFragment {
     private Animator createExpandAnimator(View view, float offset) {
         return ObjectAnimator.ofFloat(view, TRANSLATION_Y, offset, 0)
                 .setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
+    }
+
+    private void addNonFabTouchListener(View view) {
+        if (!(view instanceof FloatingActionButton)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (isExpanded) setFloatButtonsVisibility();
+                    return false;
+                }
+            });
+        }
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                addNonFabTouchListener(innerView);
+            }
+        }
     }
 
     @Override

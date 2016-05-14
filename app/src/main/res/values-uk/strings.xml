@@ -101,9 +101,9 @@
     <string name="dialog_text_delete_account">Увага! Рахунок буде видалено</string>
     <string name="dialog_title_delete">Видалення</string>
 
-    <string name="account_empty_list">Тут будуть відображатись Ваші рахунки</string>
-    <string name="transaction_empty_list">Тут будуть відображатись Ваші транзакції</string>
-    <string name="debt_empty_list">Тут будуть відображатись Ваші борги</string>
+    <string name="account_empty_list">Тут відображатимуться Ваші рахунки</string>
+    <string name="transaction_empty_list">Тут відображатимуться Ваші транзакції</string>
+    <string name="debt_empty_list">Тут відображатимуться Ваші борги</string>
 
     <string name="not_enough_costs">Недостатньо коштів на рахунку</string>
 

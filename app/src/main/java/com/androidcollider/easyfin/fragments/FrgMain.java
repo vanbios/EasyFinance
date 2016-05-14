@@ -20,6 +20,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -51,7 +52,7 @@ public class FrgMain extends CommonFragment {
     private ViewPager pager;
     private FloatingActionButton faButtonMain, faButtonExpense, faButtonIncome, faButtonBTW;
 
-    private boolean isSnackBarDisabled, expanded = false;
+    private boolean isSnackBarDisabled, isExpanded = false;
     public static float offset1, offset2, offset3;
     final private boolean isApiHoneycombAndHigher = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
 
@@ -121,8 +122,7 @@ public class FrgMain extends CommonFragment {
             faButtonBTW.setVisibility(View.GONE);
         }
 
-        if (InfoFromDB.getInstance().getAccountsNumber() == 0)
-            showDialogNoAccount();
+        if (InfoFromDB.getInstance().getAccountsNumber() == 0) showDialogNoAccount();
 
         sharedPref = new SharedPref(getActivity());
         isSnackBarDisabled = sharedPref.isSnackBarAccountDisable();
@@ -131,6 +131,8 @@ public class FrgMain extends CommonFragment {
             makeBroadcastReceiver();
 
         checkForAndroidMPermissions();
+
+        addNonFabTouchListener(view.findViewById(R.id.main_content));
 
         return view;
     }
@@ -153,10 +155,10 @@ public class FrgMain extends CommonFragment {
             @Override
             public void onPageSelected(int position) {
                 if (isApiHoneycombAndHigher) {
-                    if (position == 2 && expanded) {
+                    if (position == 2 && isExpanded) {
                         collapseFab();
                         faButtonMain.setImageResource(R.drawable.ic_plus_white_48dp);
-                        expanded = !expanded;
+                        isExpanded = !isExpanded;
                     }
                 } else {
                     if (position == 2 && faButtonExpense.getVisibility() == View.VISIBLE) {
@@ -236,8 +238,8 @@ public class FrgMain extends CommonFragment {
 
     private void setFloatButtonsVisibility() {
         if (isApiHoneycombAndHigher) {
-            expanded = !expanded;
-            if (expanded) {
+            isExpanded = !isExpanded;
+            if (isExpanded) {
                 expandFab();
                 faButtonMain.setImageResource(R.drawable.ic_close_white_24dp);
             } else {
@@ -322,6 +324,24 @@ public class FrgMain extends CommonFragment {
     private Animator createExpandAnimator(View view, float offset) {
         return ObjectAnimator.ofFloat(view, TRANSLATION_Y, offset, 0)
                 .setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
+    }
+
+    private void addNonFabTouchListener(View view) {
+        if (!(view instanceof FloatingActionButton)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (isExpanded) setFloatButtonsVisibility();
+                    return false;
+                }
+            });
+        }
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                addNonFabTouchListener(innerView);
+            }
+        }
     }
 
     private void checkForAndroidMPermissions() {
