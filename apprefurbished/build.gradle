@@ -1,0 +1,99 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.21.6'
+    }
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'io.fabric'
+apply plugin: 'me.tatarka.retrolambda'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "23.0.3"
+
+    defaultConfig {
+        applicationId "com.androidcollider.easyfin"
+        minSdkVersion 10
+        targetSdkVersion 25
+        versionCode 5
+        versionName "1.1.3"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile 'com.android.support:design:25.1.0'
+    compile 'com.android.support:cardview-v7:25.1.0'
+    /*compile 'com.android.support:recyclerview-v7:25.1.0'*/
+    compile 'com.google.android.gms:play-services-analytics:10.0.1'
+    compile ('com.github.afollestad.material-dialogs:core:0.8.5.8@aar') { transitive = true }
+    compile 'com.github.PhilJay:MPAndroidChart:v2.1.3'
+    compile project (':numberkeyboardview')
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
+        transitive = true;
+    }
+
+    //dagger 2
+    apt 'com.google.dagger:dagger-compiler:2.7'
+    compile 'com.google.dagger:dagger:2.7'
+    provided 'javax.annotation:jsr250-api:1.0'
+
+    //field and method binding
+    compile 'com.jakewharton:butterknife:8.4.0'
+    apt 'com.jakewharton:butterknife-compiler:8.4.0'
+
+    //retrofit 2
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    //compile 'com.squareup.okhttp:logging-interceptor:2.7.5'
+
+    compile 'com.google.code.gson:gson:2.8.0'
+
+    //events
+    compile 'org.greenrobot:eventbus:3.0.0'
+
+    // stream api
+    compile 'com.annimon:stream:1.1.4'
+
+    // rx
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.2.3'
+
+    provided "org.projectlombok:lombok:1.16.12"
+    apt "org.projectlombok:lombok:1.16.12"
+}

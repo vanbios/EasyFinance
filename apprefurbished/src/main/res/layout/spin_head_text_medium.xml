@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/tvSpinHeadTextMedium"
+    style="@style/SubheadFont"
+    android:singleLine="true"
+    android:padding="@dimen/common_padding_medium" />

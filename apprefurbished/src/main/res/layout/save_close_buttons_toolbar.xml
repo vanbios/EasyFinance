@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/toolbar_height">
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="@string/close"
+        android:id="@+id/btnToolbarClose"
+        android:drawableLeft="@drawable/ic_close_white_24dp"
+        android:background="@drawable/toolbar_button_selector"
+        android:paddingRight="@dimen/common_padding_large"
+        android:paddingLeft="@dimen/common_padding_large"
+        android:textColor="@color/custom_text_light"/>
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="@string/save"
+        android:id="@+id/btnToolbarSave"
+        android:drawableLeft="@drawable/ic_check_white_24dp"
+        android:background="@drawable/toolbar_button_selector"
+        android:paddingRight="@dimen/common_padding_large"
+        android:paddingLeft="@dimen/common_padding_large"
+        android:textColor="@color/custom_text_light"/>
+</LinearLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="custom_teal_dark">#00796B</color>
+    <color name="custom_teal_light">#B2DFDB</color>
+
+    <color name="custom_text_light">#FFFFFF</color>
+    <color name="custom_text_secondary">#727272</color>
+    <color name="custom_text_gray_dark">#ff616161</color>
+    <color name="custom_light_gray">#d3d3d3</color>
+
+    <color name="custom_red">#D32F2F</color>
+    <color name="custom_green">#4CAF50</color>
+
+    <color name="custom_amber_dark">#FFA000</color>
+    <color name="custom_indigo">#3F51B5</color>
+    <color name="custom_cyan_dark">#0097A7</color>
+    <color name="custom_blue_dark">#1976D2</color>
+
+    <color name="custom_blue_gray_dark">#455A64</color>
+    <color name="custom_blue_gray">#607D8B</color>
+    <color name="custom_blue_gray_light">#CFD8DC</color>
+
+</resources>

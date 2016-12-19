@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:id="@+id/layoutActAddDebtParent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="@dimen/common_padding_large"
+        android:paddingLeft="@dimen/common_padding_medium"
+        android:paddingRight="@dimen/common_padding_medium"
+        android:scrollbars="none">
+
+
+        <android.support.v7.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/cardAddDebtElements"
+            card_view:cardUseCompatPadding="true"
+            card_view:cardElevation="@dimen/elevation_medium">
+
+
+            <RelativeLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/common_padding_xlarge"
+                android:paddingRight="@dimen/common_padding_xlarge"
+                android:paddingBottom="@dimen/common_padding_medium"
+                android:paddingTop="@dimen/common_padding_xlarge">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/tvAddDebtAmount"
+                    android:text="5 138,16"
+                    android:textColor="@color/custom_text_gray_dark"
+                    android:gravity="center_horizontal"
+                    android:textSize="36sp"
+                    android:singleLine="true"/>
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/name"
+                    android:textAllCaps="true"
+                    android:id="@+id/tvAddDebtName"
+                    android:layout_below="@+id/tvAddDebtAmount"
+                    android:layout_marginTop="32dp"
+                    style="@style/BodyFontSecondary"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:id="@+id/cvAddDebtDividerName"
+                    android:layout_below="@+id/tvAddDebtName"
+                    android:background="@color/custom_light_gray"
+                    android:layout_marginTop="5dp"/>
+
+
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/layoutAddDebtName"
+                    android:layout_below="@+id/cvAddDebtDividerName"
+                    android:layout_marginTop="16dp"
+                    android:paddingLeft="@dimen/common_padding_small"
+                    android:paddingRight="@dimen/common_padding_small">
+
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:id="@+id/ivAddDebtName"
+                        android:src="@drawable/ic_clipboard_text_blue_gray_48dp"
+                        android:contentDescription="@string/empty_name_field"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginRight="12dp" />
+
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/editTextDebtName"
+                        android:maxLength="50"
+                        android:singleLine="true"
+                        android:layout_toRightOf="@+id/ivAddDebtName"
+                        style="@style/TitleFont" />
+
+
+                </RelativeLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/account"
+                    android:textAllCaps="true"
+                    android:id="@+id/tvAddDebtAccount"
+                    android:layout_below="@+id/layoutAddDebtName"
+                    android:layout_marginTop="24dp"
+                    style="@style/BodyFontSecondary"/>
+
+
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:id="@+id/cvAddDebtDividerTop"
+                    android:layout_below="@+id/tvAddDebtAccount"
+                    android:background="@color/custom_light_gray"
+                    android:layout_marginTop="5dp"/>
+
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/layoutAddDebtAccount"
+                    android:layout_below="@+id/cvAddDebtDividerTop"
+                    android:baselineAligned="false"
+                    android:gravity="center_vertical">
+
+
+                    <Spinner
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:id="@+id/spinAddDebtAccount"
+                        android:spinnerMode="dialog"
+                        android:prompt="@string/account" />
+
+
+                </LinearLayout>
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/deadline"
+                    android:textAllCaps="true"
+                    android:id="@+id/tvAddDebtDateHeader"
+                    android:layout_below="@+id/layoutAddDebtAccount"
+                    android:layout_marginTop="12dp"
+                    style="@style/BodyFontSecondary"/>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:id="@+id/cvAddDebtDividerBottom"
+                    android:layout_below="@+id/tvAddDebtDateHeader"
+                    android:background="@color/custom_light_gray"
+                    android:layout_marginTop="5dp"/>
+
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/layoutAddDebtDate"
+                    android:layout_below="@+id/cvAddDebtDividerBottom"
+                    android:paddingLeft="@dimen/common_padding_small"
+                    android:paddingRight="@dimen/common_padding_small">
+
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:id="@+id/ivAddDebtDate"
+                        android:src="@drawable/ic_calendar_clock_blue_gray_48dp"
+                        android:contentDescription="@string/date"
+                        android:layout_centerVertical="true"/>
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="68dp"
+                        android:id="@+id/tvAddDebtDate"
+                        android:clickable="true"
+                        style="@style/SpinnerFont"
+                        android:gravity="center"
+                        android:layout_centerHorizontal="true" />
+
+
+                </RelativeLayout>
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+    </ScrollView>
+</RelativeLayout>

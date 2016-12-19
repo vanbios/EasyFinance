@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollAddTransBTW"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_centerHorizontal="true"
+    android:paddingTop="@dimen/common_padding_large"
+    android:paddingLeft="@dimen/common_padding_medium"
+    android:paddingRight="@dimen/common_padding_medium"
+    android:scrollbars="none">
+
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cardAddTransBTWAccountsElements"
+        card_view:cardElevation="@dimen/elevation_medium"
+        card_view:cardUseCompatPadding="true">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/common_padding_xlarge"
+            android:paddingRight="@dimen/common_padding_xlarge"
+            android:paddingBottom="30dp"
+            android:paddingTop="@dimen/common_padding_xlarge">
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/layoutAddTransBTWSum">
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/tvAddTransBTWAmount"
+                    android:text="5 138,16"
+                    android:gravity="center_horizontal"
+                    android:textColor="@color/custom_text_gray_dark"
+                    android:textSize="36sp"
+                    android:singleLine="true"/>
+
+
+            </RelativeLayout>
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/account_from"
+                android:textAllCaps="true"
+                android:id="@+id/tvAddTransBTWAccountFrom"
+                android:layout_below="@+id/layoutAddTransBTWSum"
+                android:layout_marginTop="32dp"
+                style="@style/BodyFontSecondary"/>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:id="@+id/cvAddTransBTWDividerAccountFrom"
+                android:layout_below="@+id/tvAddTransBTWAccountFrom"
+                android:background="@color/custom_light_gray"
+                android:layout_marginTop="5dp"/>
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/layoutAddTransBTWAccountFrom"
+                android:layout_below="@+id/cvAddTransBTWDividerAccountFrom"
+                android:baselineAligned="false"
+                android:gravity="center_vertical">
+
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:id="@+id/ivAddTransBTWAccountFrom"
+                    android:src="@drawable/ic_outcome_red_48dp"
+                    android:contentDescription="@string/account"
+                    android:layout_marginRight="16dp" />
+
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:id="@+id/spinAddTransBTWAccountFrom"
+                    android:spinnerMode="dialog"
+                    android:prompt="@string/account_from" />
+
+
+            </LinearLayout>
+
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/account_to"
+                android:textAllCaps="true"
+                android:id="@+id/tvAddTransBTWAccountTo"
+                android:layout_below="@+id/layoutAddTransBTWAccountFrom"
+                android:layout_marginTop="12dp"
+                style="@style/BodyFontSecondary"/>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:id="@+id/cvAddTransBTWDividerAccountTo"
+                android:layout_below="@+id/tvAddTransBTWAccountTo"
+                android:background="@color/custom_light_gray"
+                android:layout_marginTop="5dp"/>
+
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/layoutAddTransBTWAccountTo"
+                android:layout_below="@+id/cvAddTransBTWDividerAccountTo"
+                android:baselineAligned="false"
+                android:gravity="center_vertical">
+
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:id="@+id/ivAddTransBTWAccountTo"
+                    android:src="@drawable/ic_income_green_48dp"
+                    android:contentDescription="@string/account"
+                    android:layout_marginRight="16dp" />
+
+
+                <Spinner
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:id="@+id/spinAddTransBTWAccountTo"
+                    android:spinnerMode="dialog"
+                    android:prompt="@string/account_to" />
+
+
+            </LinearLayout>
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/layoutAddTransBTWExchange"
+                android:layout_below="@+id/layoutAddTransBTWAccountTo"
+                android:layout_marginTop="12dp"
+                android:visibility="gone">
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/exchange"
+                    android:textAllCaps="true"
+                    android:id="@+id/tvAddTransBTWExchange"
+                    android:layout_alignParentTop="true"
+                    style="@style/BodyFontSecondary"/>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:id="@+id/cvAddTransBTWDividerExchange"
+                    android:layout_below="@+id/tvAddTransBTWExchange"
+                    android:background="@color/custom_light_gray"
+                    android:layout_marginTop="5dp"/>
+
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:id="@+id/ivAddTransBTWExchange"
+                    android:src="@drawable/ic_trans_btw_blue_gray_48dp"
+                    android:contentDescription="@string/account"
+                    android:layout_marginTop="28dp"
+                    android:layout_below="@+id/cvAddTransBTWDividerExchange"/>
+
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:ems="4"
+                    android:id="@+id/editTextTransBTWExchange"
+                    android:maxLength="8"
+                    style="@style/TitleFont"
+                    android:layout_below="@+id/cvAddTransBTWDividerExchange"
+                    android:layout_marginTop="@dimen/common_padding_large"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center_horizontal" />
+
+
+            </RelativeLayout>
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</ScrollView>

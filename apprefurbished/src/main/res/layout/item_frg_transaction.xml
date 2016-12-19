@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cardItemTransaction"
+        card_view:cardElevation="@dimen/elevation_small"
+        android:layout_margin="@dimen/elevation_small">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/common_padding_large"
+            android:paddingRight="@dimen/common_padding_large"
+            android:paddingTop="@dimen/common_padding_medium"
+            android:paddingBottom="@dimen/common_padding_medium"
+            android:background="@drawable/recycler_item_selector">
+
+
+            <ImageView
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:id="@+id/ivItemTransactionAccountType"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_marginRight="16dp"
+                android:contentDescription="@string/account_type"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvItemTransactionAmount"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/ivItemTransactionAccountType"
+                android:singleLine="true"
+                style="@style/TitleFont"
+                android:layout_toLeftOf="@+id/ivItemTransactionCategory" />
+
+
+            <ImageView
+                android:layout_width="@dimen/icon_small"
+                android:layout_height="@dimen/icon_small"
+                android:id="@+id/ivItemTransactionCategory"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/common_padding_large"
+                android:contentDescription="@string/category"/>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvItemTransactionAccountName"
+                style="@style/SubheadFontSecondary"
+                android:layout_below="@+id/tvItemTransactionAmount"
+                android:layout_toRightOf="@+id/ivItemTransactionAccountType"
+                android:layout_marginLeft="8dp"
+                android:singleLine="true"
+                android:layout_toLeftOf="@+id/tvItemTransactionDate" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvItemTransactionDate"
+                style="@style/CaptionFontSecondary"
+                android:layout_alignBaseline="@+id/tvItemTransactionAccountName"
+                android:layout_alignBottom="@+id/tvItemTransactionAccountName"
+                android:layout_alignParentRight="true"
+                android:layout_marginLeft="@dimen/common_padding_large"
+                android:singleLine="true"/>
+
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</RelativeLayout>
