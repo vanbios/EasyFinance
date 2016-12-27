@@ -1,97 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
         android:id="@+id/tvAboutAppName"
-        android:layout_centerHorizontal="true"
-        style="@style/TitleFont"/>
-
-
-    <TextView
+        style="@style/TitleFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/about_app_version"
+        android:layout_centerHorizontal="true"
+        android:text="@string/app_name" />
+
+    <TextView
         android:id="@+id/tvAboutAppVersion"
+        style="@style/BodyFontSecondary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/tvAboutAppName"
         android:layout_centerHorizontal="true"
-        style="@style/BodyFontSecondary"
-        android:layout_marginTop="@dimen/common_padding_small"/>
-
+        android:layout_marginTop="@dimen/common_padding_small"
+        android:text="@string/about_app_version" />
 
     <View
+        android:id="@+id/cvAboutAppDividerAboveRates"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:id="@+id/cvAboutAppDividerAboveRates"
-        android:background="@color/custom_light_gray"
         android:layout_alignLeft="@+id/tvAboutAppRatesSourceLink"
-        android:layout_below="@+id/tvAboutAppVersion"
         android:layout_alignRight="@+id/tvAboutAppRatesSourceLink"
-        android:layout_marginTop="@dimen/common_padding_large"/>
-
+        android:layout_below="@+id/tvAboutAppVersion"
+        android:layout_marginTop="@dimen/common_padding_large"
+        android:background="@color/custom_light_gray" />
 
     <TextView
+        android:id="@+id/tvAboutAppRatesSource"
+        style="@style/BodyFontSecondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/about_app_rates_source"
-        android:id="@+id/tvAboutAppRatesSource"
         android:layout_below="@+id/cvAboutAppDividerAboveRates"
         android:layout_centerHorizontal="true"
-        style="@style/BodyFontSecondary"
-        android:layout_marginTop="@dimen/common_padding_large"/>
-
+        android:layout_marginTop="@dimen/common_padding_large"
+        android:text="@string/about_app_rates_source" />
 
     <TextView
+        android:id="@+id/tvAboutAppRatesSourceLink"
+        style="@style/BodyFontSecondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/about_app_rates_source_link"
-        android:id="@+id/tvAboutAppRatesSourceLink"
         android:layout_below="@+id/tvAboutAppRatesSource"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/common_padding_small"
         android:autoLink="web"
-        style="@style/BodyFontSecondary"
-        android:layout_marginTop="@dimen/common_padding_small"/>
-
+        android:text="@string/about_app_rates_source_link" />
 
     <View
+        android:id="@+id/cvAboutAppDividerAboveDevelopers"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:id="@+id/cvAboutAppDividerAboveDevelopers"
-        android:background="@color/custom_light_gray"
         android:layout_alignLeft="@+id/tvAboutAppRatesSourceLink"
-        android:layout_below="@+id/tvAboutAppRatesSourceLink"
         android:layout_alignRight="@+id/tvAboutAppRatesSourceLink"
-        android:layout_marginTop="@dimen/common_padding_large"/>
-
+        android:layout_below="@+id/tvAboutAppRatesSourceLink"
+        android:layout_marginTop="@dimen/common_padding_large"
+        android:background="@color/custom_light_gray" />
 
     <TextView
+        android:id="@+id/tvAboutAppDeveloper"
+        style="@style/BodyFontSecondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/about_app_developer"
-        android:id="@+id/tvAboutAppDeveloper"
         android:layout_below="@+id/cvAboutAppDividerAboveDevelopers"
         android:layout_centerHorizontal="true"
-        style="@style/BodyFontSecondary"
-        android:layout_marginTop="@dimen/common_padding_large"/>
-
+        android:layout_marginTop="@dimen/common_padding_large"
+        android:text="@string/about_app_developer" />
 
     <TextView
+        android:id="@+id/tvAboutAppMailToDeveloper"
+        style="@style/BodyFontSecondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tvAboutAppMailToDeveloper"
         android:layout_below="@+id/tvAboutAppDeveloper"
         android:layout_centerHorizontal="true"
-        style="@style/BodyFontSecondary"
+        android:layout_marginTop="@dimen/common_padding_small"
         android:autoLink="web|email"
-        android:text="@string/about_app_mail_to_dev"
-        android:layout_marginTop="@dimen/common_padding_small"/>
-
+        android:text="@string/about_app_mail_to_dev" />
 
 </RelativeLayout>

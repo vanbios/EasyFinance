@@ -1,29 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <CheckBox
+        android:id="@+id/checkBoxMainBalanceSettingsConvert"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:text="@string/main_balance_menu_exchange"
+        android:textColor="@color/custom_text_gray_dark"
+        android:textSize="@dimen/text_size_body" />
 
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/checkBoxMainBalanceSettingsConvert"
-            android:layout_alignParentTop="true"
-            android:text="@string/main_balance_menu_exchange"
-            android:textColor="@color/custom_text_gray_dark"
-            android:textSize="@dimen/text_size_body"/>
-
-
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/checkBoxMainBalanceSettingsShowCents"
-            android:text="@string/main_balance_menu_show_only_integers"
-            android:textColor="@color/custom_text_gray_dark"
-            android:textSize="@dimen/text_size_body"
-            android:layout_below="@+id/checkBoxMainBalanceSettingsConvert"/>
-
+    <CheckBox
+        android:id="@+id/checkBoxMainBalanceSettingsShowCents"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkBoxMainBalanceSettingsConvert"
+        android:text="@string/main_balance_menu_show_only_integers"
+        android:textColor="@color/custom_text_gray_dark"
+        android:textSize="@dimen/text_size_body" />
 
 </RelativeLayout>

@@ -27,6 +27,7 @@
 
     <color name="custom_blue_gray_dark">#455A64</color>
     <color name="custom_blue_gray">#607D8B</color>
+    <color name="custom_blue_gray_medium">#6a8999</color>
     <color name="custom_blue_gray_light">#CFD8DC</color>
 
 </resources>

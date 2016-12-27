@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
     android:padding="@dimen/common_padding_large">
 
     <ImageView
+        android:id="@+id/ivSpinDropIconText"
         android:layout_width="@dimen/icon_small"
         android:layout_height="@dimen/icon_small"
-        android:id="@+id/ivSpinDropIconText"
         android:layout_marginRight="@dimen/common_padding_large" />
 
     <TextView
+        android:id="@+id/tvSpinDropIconText"
+        style="@style/SpinnerFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/SpinnerFont"
-        android:singleLine="true"
-        android:id="@+id/tvSpinDropIconText" />
+        android:singleLine="true" />
 
 </LinearLayout>

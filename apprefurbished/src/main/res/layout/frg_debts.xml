@@ -22,7 +22,6 @@
         android:text="@string/debt_empty_list"
         android:visibility="gone" />
 
-
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/btnFloatDebts"
         style="@style/MenuFabStyle"
