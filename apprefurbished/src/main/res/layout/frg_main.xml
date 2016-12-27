@@ -1,35 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabsMain"
         android:layout_width="match_parent"
         android:layout_height="@dimen/tabs_height"
         android:background="?attr/colorPrimary"
-        app:tabMode="fixed"
         app:tabIndicatorColor="@color/custom_text_light"
         app:tabIndicatorHeight="3dp"
-        app:tabSelectedTextColor="@color/custom_text_light"
-        app:tabTextColor="@color/custom_blue_gray_light"
-        app:tabPaddingStart="0dp"
-        app:tabPaddingEnd="0dp"
-        app:tabPaddingTop="8dp"
+        app:tabMode="fixed"
         app:tabPaddingBottom="8dp"
-        app:tabTextAppearance="@style/TabsFont"/>
-
+        app:tabPaddingEnd="0dp"
+        app:tabPaddingStart="0dp"
+        app:tabPaddingTop="8dp"
+        app:tabSelectedTextColor="@color/custom_text_light"
+        app:tabTextAppearance="@style/TabsFont"
+        app:tabTextColor="@color/custom_blue_gray_light" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tabsMain">
-
 
         <View
             android:layout_width="match_parent"
@@ -38,7 +33,6 @@
 
     </FrameLayout>
 
-
     <android.support.v4.view.ViewPager
         android:id="@+id/pagerMain"
         android:layout_width="match_parent"
@@ -46,65 +40,37 @@
         android:layout_below="@+id/tabsMain" />
 
 
-    <android.support.design.widget.CoordinatorLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <!--<android.support.design.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayoutFloatMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="right|bottom">
+        android:layout_gravity="right|bottom">-->
 
-
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnFloatAddTransBTW"
-            android:src="@drawable/ic_trans_btw_white_pad_20_48dp"
-            style="@style/floating_action_button_small_transfer"
-            android:layout_gravity="right|bottom"
-            app:borderWidth="0dp"
-            app:fabSize="mini"
-            app:elevation="@dimen/elevation_medium"
-            app:backgroundTint="@color/custom_indigo"
-            app:layout_behavior="com.androidcollider.easyfin.utils.FloatingActionButtonBehavior"/>
-
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnFloatAddTransIncome"
-            android:src="@drawable/ic_plus_white_48dp"
-            android:layout_gravity="right|bottom"
-            style="@style/floating_action_button_small_income"
-            app:borderWidth="0dp"
-            app:fabSize="mini"
-            app:elevation="@dimen/elevation_medium"
-            app:backgroundTint="@color/custom_green"
-            app:layout_behavior="com.androidcollider.easyfin.utils.FloatingActionButtonBehavior"/>
-
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnFloatAddTransExpense"
-            android:src="@drawable/ic_minus_white_48dp"
-            style="@style/floating_action_button_small_expense"
-            android:layout_gravity="right|bottom"
-            app:borderWidth="0dp"
-            app:fabSize="mini"
-            app:elevation="@dimen/elevation_medium"
-            app:backgroundTint="@color/custom_red"
-            app:layout_behavior="com.androidcollider.easyfin.utils.FloatingActionButtonBehavior"/>
-
-
-        <android.support.design.widget.FloatingActionButton
+        <com.github.clans.fab.FloatingActionMenu
             android:id="@+id/btnFloatMain"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|bottom"
-            style="@style/floating_action_button_big"
-            android:src="@drawable/ic_plus_white_48dp"
-            app:borderWidth="0dp"
-            app:elevation="@dimen/elevation_big"
-            app:fabSize="normal"
-            app:backgroundTint="@color/custom_cyan_dark"/>
+            style="@style/MenuFabStyle"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true">
 
-    </android.support.design.widget.CoordinatorLayout>
+            <!--android:layout_gravity="right|bottom"
+            app:layout_behavior="com.androidcollider.easyfin.utils.FloatingActionMenuBehavior"-->
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/btnFloatAddTransBTW"
+                style="@style/FabSmallBlue"
+                android:src="@drawable/ic_trans_btw_white_pad_20_48dp" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/btnFloatAddTransIncome"
+                style="@style/FabSmallGreen"
+                android:src="@drawable/ic_plus_white_48dp" />
+
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/btnFloatAddTransExpense"
+                style="@style/FabSmallRed"
+                android:src="@drawable/ic_minus_white_48dp" />
+
+        </com.github.clans.fab.FloatingActionMenu>
+
+    <!--</android.support.design.widget.CoordinatorLayout>-->
 </RelativeLayout>

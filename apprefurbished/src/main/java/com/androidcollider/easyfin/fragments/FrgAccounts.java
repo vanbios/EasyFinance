@@ -41,17 +41,37 @@ public class FrgAccounts extends Fragment {
         View view = inflater.inflate(R.layout.frg_accounts, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerAccount);
         tvEmpty = (TextView) view.findViewById(R.id.tvEmptyAccounts);
-        setItemAccount();
+        setupRecyclerView();
         makeBroadcastReceiver();
         return view;
     }
 
-    private void setItemAccount() {
+    private void setupRecyclerView() {
         accountList = InfoFromDB.getInstance().getAccountList();
         setVisibility();
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerAdapter = new RecyclerAccountAdapter(getActivity(), accountList);
         recyclerView.setAdapter(recyclerAdapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                FrgMain parentFragment = (FrgMain) getParentFragment();
+                if (parentFragment != null) {
+                    if (dy > 0) {
+                        parentFragment.hideMenu();
+                    } else if (dy < 0) {
+                        parentFragment.showMenu();
+                    }
+                }
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
     }
 
     private void makeBroadcastReceiver() {
@@ -142,5 +162,4 @@ public class FrgAccounts extends Fragment {
         intentFrgMain.putExtra(FrgHome.PARAM_STATUS_FRG_MAIN, FrgHome.STATUS_UPDATE_FRG_MAIN_BALANCE);
         getActivity().sendBroadcast(intentFrgMain);
     }
-
 }

@@ -1,81 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/debts_content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/debts_content">
-
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerDebt"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/common_padding_medium"
         android:layout_marginBottom="@dimen/common_padding_medium"
         android:layout_marginLeft="@dimen/common_padding_small"
-        android:layout_marginRight="@dimen/common_padding_small"/>
-
+        android:layout_marginRight="@dimen/common_padding_small"
+        android:layout_marginTop="@dimen/common_padding_medium" />
 
     <TextView
         android:id="@+id/tvEmptyDebt"
+        style="@style/BodyFontSecondary"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:visibility="gone"
         android:text="@string/debt_empty_list"
-        style="@style/BodyFontSecondary"/>
+        android:visibility="gone" />
 
 
-    <android.support.design.widget.CoordinatorLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/coordinatorLayoutFloatDebt"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="right|bottom">
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/btnFloatDebts"
+        style="@style/MenuFabStyle"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true">
 
-
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/btnFloatAddDebtGive"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_debt_give_white_pad_10_48dp"
-            android:layout_marginRight="@dimen/common_padding_xlarge"
-            android:layout_gravity="right|bottom"
-            android:layout_marginBottom="144dp"
-            app:borderWidth="0dp"
-            app:fabSize="mini"
-            app:elevation="@dimen/elevation_medium"
-            app:backgroundTint="@color/custom_green" />
+            style="@style/FabSmallGreen"
+            android:src="@drawable/ic_debt_give_white_pad_10_48dp" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <com.github.clans.fab.FloatingActionButton
             android:id="@+id/btnFloatAddDebtTake"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/ic_debt_take_white_pad_10_48dp"
-            android:layout_marginRight="@dimen/common_padding_xlarge"
-            android:layout_gravity="right|bottom"
-            android:layout_marginBottom="88dp"
-            app:borderWidth="0dp"
-            app:fabSize="mini"
-            app:elevation="@dimen/elevation_medium"
-            app:backgroundTint="@color/custom_red" />
+            style="@style/FabSmallRed"
+            android:src="@drawable/ic_debt_take_white_pad_10_48dp" />
 
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/btnFloatDebts"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|bottom"
-            android:layout_margin="@dimen/common_padding_large"
-            android:src="@drawable/ic_plus_white_48dp"
-            app:borderWidth="0dp"
-            app:elevation="@dimen/elevation_big"
-            app:fabSize="normal"
-            app:backgroundTint="@color/custom_cyan_dark"/>
-
-
-    </android.support.design.widget.CoordinatorLayout>
+    </com.github.clans.fab.FloatingActionMenu>
 </RelativeLayout>

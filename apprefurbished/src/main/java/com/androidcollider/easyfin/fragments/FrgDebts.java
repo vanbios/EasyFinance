@@ -1,22 +1,19 @@
 package com.androidcollider.easyfin.fragments;
 
-import android.animation.Animator;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -24,6 +21,8 @@ import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.RecyclerDebtAdapter;
 import com.androidcollider.easyfin.objects.Debt;
 import com.androidcollider.easyfin.objects.InfoFromDB;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.ArrayList;
 
@@ -37,93 +36,83 @@ public class FrgDebts extends CommonFragment {
     private ArrayList<Debt> debtList = null;
     private RecyclerDebtAdapter recyclerAdapter;
     private BroadcastReceiver broadcastReceiver;
-    private FloatingActionButton faButtonMain, faButtonTake, faButtonGive;
-    private boolean isExpanded = false;
-    private float offset1, offset2;
-    final private boolean isApiHoneycombAndHigher = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
+
+    private FloatingActionMenu fabMenu;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frg_debts, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerDebt);
-        tvEmpty = (TextView) view.findViewById(R.id.tvEmptyDebt);
-        setItemDebt();
-        registerForContextMenu(recyclerView);
-
-        final ViewGroup fabContainer = (ViewGroup) view.findViewById(R.id.coordinatorLayoutFloatDebt);
-        faButtonMain = (FloatingActionButton) view.findViewById(R.id.btnFloatDebts);
-        faButtonMain.setOnClickListener(view1 -> setFloatButtonsVisibility());
-        faButtonTake = (FloatingActionButton) view.findViewById(R.id.btnFloatAddDebtTake);
-        faButtonGive = (FloatingActionButton) view.findViewById(R.id.btnFloatAddDebtGive);
-        faButtonTake.setOnClickListener(view12 -> {
-            goToAddDebt(1);
-            setFloatButtonsVisibility();
-        });
-        faButtonGive.setOnClickListener(view13 -> {
-            goToAddDebt(0);
-            setFloatButtonsVisibility();
-        });
-
-        if (isApiHoneycombAndHigher) {
-            fabContainer.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-                @Override
-                public boolean onPreDraw() {
-                    fabContainer.getViewTreeObserver().removeOnPreDrawListener(this);
-                    offset1 = faButtonMain.getY() + faButtonMain.getHeight() / 6 - faButtonTake.getY();
-                    faButtonTake.setTranslationY(offset1);
-                    offset2 = faButtonMain.getY() + faButtonMain.getHeight() / 6 - faButtonGive.getY();
-                    faButtonGive.setTranslationY(offset2);
-                    return true;
-                }
-            });
-        } else {
-            faButtonTake.setVisibility(View.GONE);
-            faButtonGive.setVisibility(View.GONE);
-        }
-
+        debtList = InfoFromDB.getInstance().getDataSource().getAllDebtInfo();
+        initUI(view);
         makeBroadcastReceiver();
-
-        addNonFabTouchListener(view.findViewById(R.id.debts_content));
-
         return view;
     }
 
-    private void setFloatButtonsVisibility() {
-        if (isApiHoneycombAndHigher) {
-            isExpanded = !isExpanded;
-            if (isExpanded) {
-                expandFab();
-                faButtonMain.setImageResource(R.drawable.ic_close_white_24dp);
-            } else {
-                collapseFab();
-                faButtonMain.setImageResource(R.drawable.ic_plus_white_48dp);
-            }
-        } else {
-            if (faButtonTake.getVisibility() == View.GONE) {
-                faButtonTake.setVisibility(View.VISIBLE);
-                faButtonGive.setVisibility(View.VISIBLE);
-                faButtonMain.setImageResource(R.drawable.ic_close_white_24dp);
-            } else {
-                faButtonTake.setVisibility(View.GONE);
-                faButtonGive.setVisibility(View.GONE);
-                faButtonMain.setImageResource(R.drawable.ic_plus_white_48dp);
-            }
-        }
+    private void initUI(View view) {
+        tvEmpty = (TextView) view.findViewById(R.id.tvEmptyDebt);
+        initRecyclerView(view);
+        registerForContextMenu(recyclerView);
+        initFabs(view);
     }
 
-    private void setItemDebt() {
-        debtList = InfoFromDB.getInstance().getDataSource().getAllDebtInfo();
+    private void initRecyclerView(View view) {
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerDebt);
         setVisibility();
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerAdapter = new RecyclerDebtAdapter(getActivity(), debtList);
         recyclerView.setAdapter(recyclerAdapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
+                    if (!fabMenu.isMenuHidden()) {
+                        fabMenu.hideMenu(true);
+                    }
+                } else if (dy < 0) {
+                    if (fabMenu.isMenuHidden()) {
+                        fabMenu.showMenu(true);
+                    }
+                }
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
+    }
+
+    private void initFabs(View view) {
+        fabMenu = (FloatingActionMenu) view.findViewById(R.id.btnFloatDebts);
+        FloatingActionButton faButtonTake = (FloatingActionButton) view.findViewById(R.id.btnFloatAddDebtTake);
+        FloatingActionButton faButtonGive = (FloatingActionButton) view.findViewById(R.id.btnFloatAddDebtGive);
+        faButtonTake.setOnClickListener(view1 -> {
+            goToAddDebt(1);
+            collapseFloatingMenu(false);
+        });
+        faButtonGive.setOnClickListener(view2 -> {
+            goToAddDebt(0);
+            collapseFloatingMenu(false);
+        });
+
+        addNonFabTouchListener(view.findViewById(R.id.debts_content));
     }
 
     private void setVisibility() {
         recyclerView.setVisibility(debtList.isEmpty() ? View.GONE : View.VISIBLE);
         tvEmpty.setVisibility(debtList.isEmpty() ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        fabMenu.hideMenu(false);
+        new Handler().postDelayed(() -> fabMenu.showMenu(true), 300);
+
     }
 
     @Override
@@ -257,37 +246,18 @@ public class FrgDebts extends CommonFragment {
         addFragment(frgAddDebt);
     }
 
-
-    private void collapseFab() {
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(createCollapseAnimator(faButtonTake, offset1),
-                createCollapseAnimator(faButtonGive, offset2));
-        animatorSet.start();
-    }
-
-    private void expandFab() {
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(createExpandAnimator(faButtonTake, offset1),
-                createExpandAnimator(faButtonGive, offset2));
-        animatorSet.start();
-    }
-
-    private static final String TRANSLATION_Y = "translationY";
-
-    private Animator createCollapseAnimator(View view, float offset) {
-        return ObjectAnimator.ofFloat(view, TRANSLATION_Y, 0, offset)
-                .setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
-    }
-
-    private Animator createExpandAnimator(View view, float offset) {
-        return ObjectAnimator.ofFloat(view, TRANSLATION_Y, offset, 0)
-                .setDuration(getResources().getInteger(android.R.integer.config_mediumAnimTime));
+    private void collapseFloatingMenu(boolean withAnim) {
+        if (fabMenu.isOpened()) {
+            fabMenu.close(withAnim);
+        }
     }
 
     private void addNonFabTouchListener(View view) {
-        if (!(view instanceof FloatingActionButton)) {
+        if (view instanceof RelativeLayout
+                || view instanceof RecyclerView
+                || view instanceof TextView) {
             view.setOnTouchListener((v, event) -> {
-                if (isExpanded) setFloatButtonsVisibility();
+                collapseFloatingMenu(true);
                 return false;
             });
         }
@@ -304,5 +274,4 @@ public class FrgDebts extends CommonFragment {
     public String getTitle() {
         return getString(R.string.debts);
     }
-
 }
