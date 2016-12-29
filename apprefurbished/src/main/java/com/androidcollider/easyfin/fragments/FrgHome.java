@@ -1,12 +1,7 @@
 package com.androidcollider.easyfin.fragments;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +16,9 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
+import com.androidcollider.easyfin.events.UpdateFrgHome;
+import com.androidcollider.easyfin.events.UpdateFrgHomeBalance;
+import com.androidcollider.easyfin.events.UpdateFrgHomeNewRates;
 import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.utils.ChartDataUtils;
 import com.androidcollider.easyfin.utils.ChartLargeValueFormatter;
@@ -35,14 +33,17 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.PieData;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class FrgHome extends Fragment {
+public class FrgHome extends CommonFragmentWithEvents {
 
-    public final static String BROADCAST_FRG_MAIN_ACTION = "com.androidcollider.easyfin.frgmain.broadcast";
+    /*public final static String BROADCAST_FRG_MAIN_ACTION = "com.androidcollider.easyfin.frgmain.broadcast";
     public final static String PARAM_STATUS_FRG_MAIN = "update_frg_main";
-    public final static int STATUS_UPDATE_FRG_MAIN = 1, STATUS_UPDATE_FRG_MAIN_BALANCE = 2, STATUS_NEW_RATES = 7;
+    public final static int STATUS_UPDATE_FRG_MAIN = 1, STATUS_UPDATE_FRG_MAIN_BALANCE = 2, STATUS_NEW_RATES = 7;*/
 
     private String[] currencyArray, currencyLangArray;
     private double[] statistic = new double[2];
@@ -51,7 +52,7 @@ public class FrgHome extends Fragment {
     private final int PRECISE = 100;
     private final String FORMAT = "###,##0.00";
 
-    private BroadcastReceiver broadcastReceiver;
+    //private BroadcastReceiver broadcastReceiver;
 
     private View view;
     private Spinner spinPeriod, spinBalanceCurrency, spinChartType;
@@ -81,7 +82,8 @@ public class FrgHome extends Fragment {
         setStatisticBarChart();
         setStatisticSumTV();
         setChartTypeSpinner();
-        makeBroadcastReceiver();
+        //makeBroadcastReceiver();
+        super.onCreateView(inflater, container, savedInstanceState);
 
         return view;
     }
@@ -255,7 +257,7 @@ public class FrgHome extends Fragment {
         spinChartType.setSelection(sharedPref.getHomeChartTypePos());
     }
 
-    private void makeBroadcastReceiver() {
+    /*private void makeBroadcastReceiver() {
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -287,6 +289,35 @@ public class FrgHome extends Fragment {
             }
         };
         getActivity().registerReceiver(broadcastReceiver, new IntentFilter(BROADCAST_FRG_MAIN_ACTION));
+    }*/
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(UpdateFrgHome event) {
+        balanceMap.clear();
+        balanceMap.putAll(InfoFromDB.getInstance().getDataSource().getAccountsSumGroupByTypeAndCurrency());
+        setBalance(spinBalanceCurrency.getSelectedItemPosition());
+        statisticMap.clear();
+        statisticMap.putAll(InfoFromDB.getInstance().getDataSource().getTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1));
+        setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
+        setStatisticSumTV();
+        checkStatChartTypeForUpdate();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(UpdateFrgHomeBalance event) {
+        balanceMap.clear();
+        balanceMap.putAll(InfoFromDB.getInstance().getDataSource().getAccountsSumGroupByTypeAndCurrency());
+        setBalance(spinBalanceCurrency.getSelectedItemPosition());
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(UpdateFrgHomeNewRates event) {
+        if (convert) {
+            setBalance(spinBalanceCurrency.getSelectedItemPosition());
+            setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
+            setStatisticSumTV();
+            checkStatChartTypeForUpdate();
+        }
     }
 
     private void setBalanceBarChart(double[] balance) {
@@ -509,10 +540,9 @@ public class FrgHome extends Fragment {
         }
     }
 
-    @Override
+    /*@Override
     public void onDestroy() {
         super.onDestroy();
-        getActivity().unregisterReceiver(broadcastReceiver);
-    }
-
+        //getActivity().unregisterReceiver(broadcastReceiver);
+    }*/
 }

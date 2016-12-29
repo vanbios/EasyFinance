@@ -10,11 +10,17 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.AppController;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.database.DbHelper;
+import com.androidcollider.easyfin.events.UpdateFrgAccounts;
+import com.androidcollider.easyfin.events.UpdateFrgDebts;
+import com.androidcollider.easyfin.events.UpdateFrgHome;
+import com.androidcollider.easyfin.events.UpdateFrgTransactions;
 import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.utils.DBExportImportUtils;
 import com.androidcollider.easyfin.utils.ToastUtils;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 
@@ -128,21 +134,25 @@ public class FrgPref extends PreferenceFragment {
     }
 
     private void pushBroadcast() {
-        Intent intentFragmentMain = new Intent(FrgHome.BROADCAST_FRG_MAIN_ACTION);
+        EventBus.getDefault().post(new UpdateFrgHome());
+        /*Intent intentFragmentMain = new Intent(FrgHome.BROADCAST_FRG_MAIN_ACTION);
         intentFragmentMain.putExtra(FrgHome.PARAM_STATUS_FRG_MAIN, FrgHome.STATUS_UPDATE_FRG_MAIN);
-        getActivity().sendBroadcast(intentFragmentMain);
+        getActivity().sendBroadcast(intentFragmentMain);*/
 
-        Intent intentFragmentTransaction = new Intent(FrgTransactions.BROADCAST_FRG_TRANSACTION_ACTION);
+        EventBus.getDefault().post(new UpdateFrgTransactions());
+        /*Intent intentFragmentTransaction = new Intent(FrgTransactions.BROADCAST_FRG_TRANSACTION_ACTION);
         intentFragmentTransaction.putExtra(FrgTransactions.PARAM_STATUS_FRG_TRANSACTION, FrgTransactions.STATUS_UPDATE_FRG_TRANSACTION);
-        getActivity().sendBroadcast(intentFragmentTransaction);
+        getActivity().sendBroadcast(intentFragmentTransaction);*/
 
-        Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);
+        EventBus.getDefault().post(new UpdateFrgAccounts());
+        /*Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);
         intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
-        getActivity().sendBroadcast(intentFrgAccounts);
+        getActivity().sendBroadcast(intentFrgAccounts);*/
 
-        Intent intentDebt = new Intent(FrgDebts.BROADCAST_DEBT_ACTION);
+        EventBus.getDefault().post(new UpdateFrgDebts());
+        /*Intent intentDebt = new Intent(FrgDebts.BROADCAST_DEBT_ACTION);
         intentDebt.putExtra(FrgDebts.PARAM_STATUS_DEBT, FrgDebts.STATUS_UPDATE_DEBT);
-        getActivity().sendBroadcast(intentDebt);
+        getActivity().sendBroadcast(intentDebt);*/
 
         InfoFromDB.getInstance().setRatesForExchange();
         InfoFromDB.getInstance().updateAccountList();
@@ -152,5 +162,4 @@ public class FrgPref extends PreferenceFragment {
     public String getTitle() {
         return getString(R.string.settings);
     }
-
 }

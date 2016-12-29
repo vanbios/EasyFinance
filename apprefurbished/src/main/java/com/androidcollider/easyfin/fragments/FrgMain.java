@@ -27,9 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FrgMain extends CommonFragment {
-    public final static String BROADCAST_MAIN_SNACK_ACTION = "com.androidcollider.easyfin.mainsnack.broadcast";
+    /*public final static String BROADCAST_MAIN_SNACK_ACTION = "com.androidcollider.easyfin.mainsnack.broadcast";
     public final static String PARAM_STATUS_MAIN_SNACK = "show_main_snack";
-    public final static int STATUS_MAIN_SNACK = 5;
+    public final static int STATUS_MAIN_SNACK = 5;*/
 
     //private BroadcastReceiver broadcastReceiver;
     //private SharedPref sharedPref;

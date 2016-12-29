@@ -1,16 +1,16 @@
 package com.androidcollider.easyfin.objects;
 
 
-import android.content.Intent;
-
 import com.androidcollider.easyfin.AppController;
 import com.androidcollider.easyfin.database.DataSource;
-import com.androidcollider.easyfin.fragments.FrgHome;
+import com.androidcollider.easyfin.events.UpdateFrgHomeNewRates;
 import com.androidcollider.easyfin.managers.RatesManager;
 import com.androidcollider.easyfin.utils.InternetTester;
 import com.androidcollider.easyfin.utils.SharedPref;
 import com.androidcollider.easyfin.utils.UpdateRatesUtils;
 import com.annimon.stream.Stream;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -73,9 +73,10 @@ public class InfoFromDB {
 
     public void setRatesForExchange() {
         System.arraycopy(dataSource.getRates(), 0, ratesForExchange, 0, ratesForExchange.length);
-        Intent intentRates = new Intent(FrgHome.BROADCAST_FRG_MAIN_ACTION);
+        EventBus.getDefault().post(new UpdateFrgHomeNewRates());
+        /*Intent intentRates = new Intent(FrgHome.BROADCAST_FRG_MAIN_ACTION);
         intentRates.putExtra(FrgHome.PARAM_STATUS_FRG_MAIN, FrgHome.STATUS_NEW_RATES);
-        AppController.getContext().sendBroadcast(intentRates);
+        AppController.getContext().sendBroadcast(intentRates);*/
     }
 
     public static InfoFromDB getInstance() {

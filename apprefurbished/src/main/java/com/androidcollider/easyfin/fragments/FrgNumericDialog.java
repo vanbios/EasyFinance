@@ -114,5 +114,4 @@ public class FrgNumericDialog extends DialogFragment {
     public interface OnCommitAmountListener {
         void onCommitAmountSubmit(String amount);
     }
-
 }

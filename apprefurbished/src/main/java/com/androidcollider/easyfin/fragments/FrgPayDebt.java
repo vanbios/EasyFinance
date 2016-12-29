@@ -1,6 +1,5 @@
 package com.androidcollider.easyfin.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
@@ -18,6 +17,9 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinAccountForTransHeadIconAdapter;
+import com.androidcollider.easyfin.events.UpdateFrgAccounts;
+import com.androidcollider.easyfin.events.UpdateFrgDebts;
+import com.androidcollider.easyfin.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.objects.Account;
 import com.androidcollider.easyfin.objects.Debt;
 import com.androidcollider.easyfin.objects.InfoFromDB;
@@ -25,6 +27,8 @@ import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.androidcollider.easyfin.utils.HideKeyboardUtils;
 import com.androidcollider.easyfin.utils.ToastUtils;
 import com.annimon.stream.Stream;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -232,17 +236,20 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     }
 
     private void pushBroadcast() {
-        Intent intentFrgMain = new Intent(FrgHome.BROADCAST_FRG_MAIN_ACTION);
+        EventBus.getDefault().post(new UpdateFrgHomeBalance());
+        /*Intent intentFrgMain = new Intent(FrgHome.BROADCAST_FRG_MAIN_ACTION);
         intentFrgMain.putExtra(FrgHome.PARAM_STATUS_FRG_MAIN, FrgHome.STATUS_UPDATE_FRG_MAIN_BALANCE);
-        getActivity().sendBroadcast(intentFrgMain);
+        getActivity().sendBroadcast(intentFrgMain);*/
 
-        Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);
+        EventBus.getDefault().post(new UpdateFrgAccounts());
+        /*Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);
         intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
-        getActivity().sendBroadcast(intentFrgAccounts);
+        getActivity().sendBroadcast(intentFrgAccounts);*/
 
-        Intent intentDebt = new Intent(FrgDebts.BROADCAST_DEBT_ACTION);
+        EventBus.getDefault().post(new UpdateFrgDebts());
+        /*Intent intentDebt = new Intent(FrgDebts.BROADCAST_DEBT_ACTION);
         intentDebt.putExtra(FrgDebts.PARAM_STATUS_DEBT, FrgDebts.STATUS_UPDATE_DEBT);
-        getActivity().sendBroadcast(intentDebt);
+        getActivity().sendBroadcast(intentDebt);*/
     }
 
     private void showDialogNoAccount() {
@@ -331,5 +338,4 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         else
             tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36);
     }
-
 }

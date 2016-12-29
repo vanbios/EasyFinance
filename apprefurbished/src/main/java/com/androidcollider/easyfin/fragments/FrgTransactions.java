@@ -1,11 +1,6 @@
 package com.androidcollider.easyfin.fragments;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -18,20 +13,27 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.MainActivity;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.RecyclerTransactionAdapter;
+import com.androidcollider.easyfin.events.UpdateFrgAccounts;
+import com.androidcollider.easyfin.events.UpdateFrgHome;
+import com.androidcollider.easyfin.events.UpdateFrgTransactions;
 import com.androidcollider.easyfin.objects.InfoFromDB;
 import com.androidcollider.easyfin.objects.Transaction;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 
-public class FrgTransactions extends Fragment {
+public class FrgTransactions extends CommonFragmentWithEvents {
 
-    public final static String BROADCAST_FRG_TRANSACTION_ACTION = "com.androidcollider.easyfin.frgtransaction.broadcast";
+    /*public final static String BROADCAST_FRG_TRANSACTION_ACTION = "com.androidcollider.easyfin.frgtransaction.broadcast";
     public final static String PARAM_STATUS_FRG_TRANSACTION = "update_frg_transaction";
-    public final static int STATUS_UPDATE_FRG_TRANSACTION = 3;
+    public final static int STATUS_UPDATE_FRG_TRANSACTION = 3;*/
     private RecyclerView recyclerView;
     private TextView tvEmpty;
-    private BroadcastReceiver broadcastReceiver;
-    private ArrayList<Transaction> transactionList = null;
+    //private BroadcastReceiver broadcastReceiver;
+    private ArrayList<Transaction> transactionList;
     private RecyclerTransactionAdapter recyclerAdapter;
 
 
@@ -43,7 +45,8 @@ public class FrgTransactions extends Fragment {
         tvEmpty = (TextView) view.findViewById(R.id.tvEmptyTransactions);
         setupRecyclerView();
         registerForContextMenu(recyclerView);
-        makeBroadcastReceiver();
+        super.onCreateView(inflater, container, savedInstanceState);
+        //makeBroadcastReceiver();
         return view;
     }
 
@@ -76,7 +79,7 @@ public class FrgTransactions extends Fragment {
         });
     }
 
-    private void makeBroadcastReceiver() {
+    /*private void makeBroadcastReceiver() {
         broadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -90,13 +93,13 @@ public class FrgTransactions extends Fragment {
         };
         IntentFilter intentFilter = new IntentFilter(BROADCAST_FRG_TRANSACTION_ACTION);
         getActivity().registerReceiver(broadcastReceiver, intentFilter);
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void onDestroy() {
         super.onDestroy();
         getActivity().unregisterReceiver(broadcastReceiver);
-    }
+    }*/
 
     private void setVisibility() {
         recyclerView.setVisibility(transactionList.isEmpty() ? View.GONE : View.VISIBLE);
@@ -160,13 +163,22 @@ public class FrgTransactions extends Fragment {
     }
 
     private void pushBroadcast() {
-        Intent intentFragmentMain = new Intent(FrgHome.BROADCAST_FRG_MAIN_ACTION);
+        EventBus.getDefault().post(new UpdateFrgHome());
+        /*Intent intentFragmentMain = new Intent(FrgHome.BROADCAST_FRG_MAIN_ACTION);
         intentFragmentMain.putExtra(FrgHome.PARAM_STATUS_FRG_MAIN, FrgHome.STATUS_UPDATE_FRG_MAIN);
-        getActivity().sendBroadcast(intentFragmentMain);
+        getActivity().sendBroadcast(intentFragmentMain);*/
 
-        Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);
+        EventBus.getDefault().post(new UpdateFrgAccounts());
+        /*Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);
         intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
-        getActivity().sendBroadcast(intentFrgAccounts);
+        getActivity().sendBroadcast(intentFrgAccounts);*/
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(UpdateFrgTransactions event) {
+        transactionList.clear();
+        transactionList.addAll(InfoFromDB.getInstance().getDataSource().getAllTransactionsInfo());
+        setVisibility();
+        recyclerAdapter.notifyDataSetChanged();
+    }
 }
