@@ -135,24 +135,9 @@ public class FrgPref extends PreferenceFragment {
 
     private void pushBroadcast() {
         EventBus.getDefault().post(new UpdateFrgHome());
-        /*Intent intentFragmentMain = new Intent(FrgHome.BROADCAST_FRG_MAIN_ACTION);
-        intentFragmentMain.putExtra(FrgHome.PARAM_STATUS_FRG_MAIN, FrgHome.STATUS_UPDATE_FRG_MAIN);
-        getActivity().sendBroadcast(intentFragmentMain);*/
-
         EventBus.getDefault().post(new UpdateFrgTransactions());
-        /*Intent intentFragmentTransaction = new Intent(FrgTransactions.BROADCAST_FRG_TRANSACTION_ACTION);
-        intentFragmentTransaction.putExtra(FrgTransactions.PARAM_STATUS_FRG_TRANSACTION, FrgTransactions.STATUS_UPDATE_FRG_TRANSACTION);
-        getActivity().sendBroadcast(intentFragmentTransaction);*/
-
         EventBus.getDefault().post(new UpdateFrgAccounts());
-        /*Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);
-        intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
-        getActivity().sendBroadcast(intentFrgAccounts);*/
-
         EventBus.getDefault().post(new UpdateFrgDebts());
-        /*Intent intentDebt = new Intent(FrgDebts.BROADCAST_DEBT_ACTION);
-        intentDebt.putExtra(FrgDebts.PARAM_STATUS_DEBT, FrgDebts.STATUS_UPDATE_DEBT);
-        getActivity().sendBroadcast(intentDebt);*/
 
         InfoFromDB.getInstance().setRatesForExchange();
         InfoFromDB.getInstance().updateAccountList();

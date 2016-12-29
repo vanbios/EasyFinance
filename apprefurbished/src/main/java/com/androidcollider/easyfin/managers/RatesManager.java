@@ -20,6 +20,7 @@ import rx.schedulers.Schedulers;
 /**
  * @author Ihor Bilous
  */
+
 public class RatesManager {
 
     private static final String TAG = RatesManager.class.getSimpleName();

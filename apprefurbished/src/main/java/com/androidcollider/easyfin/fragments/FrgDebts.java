@@ -31,14 +31,10 @@ import java.util.ArrayList;
 
 public class FrgDebts extends CommonFragment {
 
-    /*public final static String BROADCAST_DEBT_ACTION = "com.androidcollider.easyfin.debt.broadcast";
-    public final static String PARAM_STATUS_DEBT = "update_debt";
-    public final static int STATUS_UPDATE_DEBT = 6;*/
     private RecyclerView recyclerView;
     private TextView tvEmpty;
     private ArrayList<Debt> debtList = null;
     private RecyclerDebtAdapter recyclerAdapter;
-    //private BroadcastReceiver broadcastReceiver;
 
     private FloatingActionMenu fabMenu;
 
@@ -50,7 +46,6 @@ public class FrgDebts extends CommonFragment {
         debtList = InfoFromDB.getInstance().getDataSource().getAllDebtInfo();
         initUI(view);
         EventBus.getDefault().register(this);
-        //makeBroadcastReceiver();
         return view;
     }
 
@@ -139,27 +134,10 @@ public class FrgDebts extends CommonFragment {
         addFragment(frgAddDebt);
     }
 
-    /*private void makeBroadcastReceiver() {
-        broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (intent.getIntExtra(PARAM_STATUS_DEBT, 0) == STATUS_UPDATE_DEBT) {
-                    debtList.clear();
-                    debtList.addAll(InfoFromDB.getInstance().getDataSource().getAllDebtInfo());
-                    setVisibility();
-                    recyclerAdapter.notifyDataSetChanged();
-                }
-            }
-        };
-        IntentFilter intentFilter = new IntentFilter(BROADCAST_DEBT_ACTION);
-        getActivity().registerReceiver(broadcastReceiver, intentFilter);
-    }*/
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-        //getActivity().unregisterReceiver(broadcastReceiver);
     }
 
     public boolean onContextItemSelected(MenuItem item) {
@@ -227,14 +205,7 @@ public class FrgDebts extends CommonFragment {
 
     private void pushBroadcast() {
         EventBus.getDefault().post(new UpdateFrgHomeBalance());
-        /*Intent intentFrgMain = new Intent(FrgHome.BROADCAST_FRG_MAIN_ACTION);
-        intentFrgMain.putExtra(FrgHome.PARAM_STATUS_FRG_MAIN, FrgHome.STATUS_UPDATE_FRG_MAIN_BALANCE);
-        getActivity().sendBroadcast(intentFrgMain);*/
-
         EventBus.getDefault().post(new UpdateFrgAccounts());
-        /*Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);
-        intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
-        getActivity().sendBroadcast(intentFrgAccounts);*/
     }
 
     private void goToPayDebt(int pos, int mode) {

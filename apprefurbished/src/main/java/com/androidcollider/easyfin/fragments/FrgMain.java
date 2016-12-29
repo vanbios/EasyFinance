@@ -27,18 +27,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FrgMain extends CommonFragment {
-    /*public final static String BROADCAST_MAIN_SNACK_ACTION = "com.androidcollider.easyfin.mainsnack.broadcast";
-    public final static String PARAM_STATUS_MAIN_SNACK = "show_main_snack";
-    public final static int STATUS_MAIN_SNACK = 5;*/
-
-    //private BroadcastReceiver broadcastReceiver;
-    //private SharedPref sharedPref;
 
     private View view;
     private ViewPager pager;
-
-    //private boolean isSnackBarDisabled;
-
     private FloatingActionMenu fabMenu;
 
 
@@ -50,13 +41,6 @@ public class FrgMain extends CommonFragment {
         initUI();
 
         if (InfoFromDB.getInstance().getAccountsNumber() == 0) showDialogNoAccount();
-
-        //sharedPref = new SharedPref(getActivity());
-        //isSnackBarDisabled = sharedPref.isSnackBarAccountDisable();
-
-        /*if (!isSnackBarDisabled) {
-            makeBroadcastReceiver();
-        }*/
 
         checkForAndroidMPermissions();
 
@@ -124,31 +108,12 @@ public class FrgMain extends CommonFragment {
         addNonFabTouchListener(view.findViewById(R.id.main_content));
     }
 
-    /*private void makeBroadcastReceiver() {
-        broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (intent.getIntExtra(PARAM_STATUS_MAIN_SNACK, 0) == STATUS_MAIN_SNACK)
-                    showSnackBar();
-            }
-        };
-        IntentFilter intentFilter = new IntentFilter(BROADCAST_MAIN_SNACK_ACTION);
-        getActivity().registerReceiver(broadcastReceiver, intentFilter);
-    }*/
-
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         fabMenu.hideMenu(false);
         new Handler().postDelayed(() -> fabMenu.showMenu(true), 1000);
     }
-
-    /*@Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (!isSnackBarDisabled)
-            getActivity().unregisterReceiver(broadcastReceiver);
-    }*/
 
     /*private void showSnackBar() {
         final CoordinatorLayout coordinatorLayout = (CoordinatorLayout) view.findViewById(R.id.coordinatorLayoutFloatMain);

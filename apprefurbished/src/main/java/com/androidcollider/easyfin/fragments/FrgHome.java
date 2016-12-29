@@ -41,18 +41,12 @@ import java.util.Map;
 
 public class FrgHome extends CommonFragmentWithEvents {
 
-    /*public final static String BROADCAST_FRG_MAIN_ACTION = "com.androidcollider.easyfin.frgmain.broadcast";
-    public final static String PARAM_STATUS_FRG_MAIN = "update_frg_main";
-    public final static int STATUS_UPDATE_FRG_MAIN = 1, STATUS_UPDATE_FRG_MAIN_BALANCE = 2, STATUS_NEW_RATES = 7;*/
-
     private String[] currencyArray, currencyLangArray;
     private double[] statistic = new double[2];
     private HashMap<String, double[]> balanceMap, statisticMap = null;
 
     private final int PRECISE = 100;
     private final String FORMAT = "###,##0.00";
-
-    //private BroadcastReceiver broadcastReceiver;
 
     private View view;
     private Spinner spinPeriod, spinBalanceCurrency, spinChartType;
@@ -82,9 +76,7 @@ public class FrgHome extends CommonFragmentWithEvents {
         setStatisticBarChart();
         setStatisticSumTV();
         setChartTypeSpinner();
-        //makeBroadcastReceiver();
         super.onCreateView(inflater, container, savedInstanceState);
-
         return view;
     }
 
@@ -256,40 +248,6 @@ public class FrgHome extends CommonFragmentWithEvents {
 
         spinChartType.setSelection(sharedPref.getHomeChartTypePos());
     }
-
-    /*private void makeBroadcastReceiver() {
-        broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                switch (intent.getIntExtra(PARAM_STATUS_FRG_MAIN, 0)) {
-                    case STATUS_UPDATE_FRG_MAIN_BALANCE:
-                        balanceMap.clear();
-                        balanceMap.putAll(InfoFromDB.getInstance().getDataSource().getAccountsSumGroupByTypeAndCurrency());
-                        setBalance(spinBalanceCurrency.getSelectedItemPosition());
-                        break;
-                    case STATUS_UPDATE_FRG_MAIN:
-                        balanceMap.clear();
-                        balanceMap.putAll(InfoFromDB.getInstance().getDataSource().getAccountsSumGroupByTypeAndCurrency());
-                        setBalance(spinBalanceCurrency.getSelectedItemPosition());
-                        statisticMap.clear();
-                        statisticMap.putAll(InfoFromDB.getInstance().getDataSource().getTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1));
-                        setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
-                        setStatisticSumTV();
-                        checkStatChartTypeForUpdate();
-                        break;
-                    case STATUS_NEW_RATES:
-                        if (convert) {
-                            setBalance(spinBalanceCurrency.getSelectedItemPosition());
-                            setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
-                            setStatisticSumTV();
-                            checkStatChartTypeForUpdate();
-                        }
-                        break;
-                }
-            }
-        };
-        getActivity().registerReceiver(broadcastReceiver, new IntentFilter(BROADCAST_FRG_MAIN_ACTION));
-    }*/
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(UpdateFrgHome event) {
@@ -539,10 +497,4 @@ public class FrgHome extends CommonFragmentWithEvents {
                 break;
         }
     }
-
-    /*@Override
-    public void onDestroy() {
-        super.onDestroy();
-        //getActivity().unregisterReceiver(broadcastReceiver);
-    }*/
 }

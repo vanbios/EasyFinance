@@ -183,7 +183,6 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                 Long date = DateFormatUtils.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
                 int idAccount = account.getId();
 
-                //Transaction transaction = new Transaction(date, amount, category, idAccount, accountAmount);
                 Transaction transaction = Transaction.builder()
                         .date(date)
                         .amount(amount)
@@ -229,7 +228,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                 int idAccount = account.getId();
 
                 int idTrans = transFromIntent.getId();
-                //Transaction transaction = new Transaction(date, amount, category, idAccount, accountAmount, idTrans);
+
                 Transaction transaction = Transaction.builder()
                         .date(date)
                         .amount(amount)
@@ -291,19 +290,8 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
 
     private void pushBroadcast() {
         EventBus.getDefault().post(new UpdateFrgHome());
-        /*Intent intentFragmentMain = new Intent(FrgHome.BROADCAST_FRG_MAIN_ACTION);
-        intentFragmentMain.putExtra(FrgHome.PARAM_STATUS_FRG_MAIN, FrgHome.STATUS_UPDATE_FRG_MAIN);
-        getActivity().sendBroadcast(intentFragmentMain);*/
-
         EventBus.getDefault().post(new UpdateFrgTransactions());
-        /*Intent intentFragmentTransaction = new Intent(FrgTransactions.BROADCAST_FRG_TRANSACTION_ACTION);
-        intentFragmentTransaction.putExtra(FrgTransactions.PARAM_STATUS_FRG_TRANSACTION, FrgTransactions.STATUS_UPDATE_FRG_TRANSACTION);
-        getActivity().sendBroadcast(intentFragmentTransaction);*/
-
         EventBus.getDefault().post(new UpdateFrgAccounts());
-        /*Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);
-        intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
-        getActivity().sendBroadcast(intentFrgAccounts);*/
     }
 
     private void setToolbar() {

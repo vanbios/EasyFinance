@@ -158,14 +158,7 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
 
     private void pushBroadcast() {
         EventBus.getDefault().post(new UpdateFrgHomeBalance());
-        /*Intent intentFragmentMain = new Intent(FrgHome.BROADCAST_FRG_MAIN_ACTION);
-        intentFragmentMain.putExtra(FrgHome.PARAM_STATUS_FRG_MAIN, FrgHome.STATUS_UPDATE_FRG_MAIN_BALANCE);
-        getActivity().sendBroadcast(intentFragmentMain);*/
-
         EventBus.getDefault().post(new UpdateFrgAccounts());
-        /*Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);
-        intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
-        getActivity().sendBroadcast(intentFrgAccounts);*/
     }
 
     public void addTransactionBTW() {
@@ -292,5 +285,4 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
         else
             tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36);
     }
-
 }

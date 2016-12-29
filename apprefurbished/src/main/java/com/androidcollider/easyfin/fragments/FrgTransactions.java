@@ -27,12 +27,8 @@ import java.util.ArrayList;
 
 public class FrgTransactions extends CommonFragmentWithEvents {
 
-    /*public final static String BROADCAST_FRG_TRANSACTION_ACTION = "com.androidcollider.easyfin.frgtransaction.broadcast";
-    public final static String PARAM_STATUS_FRG_TRANSACTION = "update_frg_transaction";
-    public final static int STATUS_UPDATE_FRG_TRANSACTION = 3;*/
     private RecyclerView recyclerView;
     private TextView tvEmpty;
-    //private BroadcastReceiver broadcastReceiver;
     private ArrayList<Transaction> transactionList;
     private RecyclerTransactionAdapter recyclerAdapter;
 
@@ -46,7 +42,6 @@ public class FrgTransactions extends CommonFragmentWithEvents {
         setupRecyclerView();
         registerForContextMenu(recyclerView);
         super.onCreateView(inflater, container, savedInstanceState);
-        //makeBroadcastReceiver();
         return view;
     }
 
@@ -78,28 +73,6 @@ public class FrgTransactions extends CommonFragmentWithEvents {
             }
         });
     }
-
-    /*private void makeBroadcastReceiver() {
-        broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (intent.getIntExtra(PARAM_STATUS_FRG_TRANSACTION, 0) == STATUS_UPDATE_FRG_TRANSACTION) {
-                    transactionList.clear();
-                    transactionList.addAll(InfoFromDB.getInstance().getDataSource().getAllTransactionsInfo());
-                    setVisibility();
-                    recyclerAdapter.notifyDataSetChanged();
-                }
-            }
-        };
-        IntentFilter intentFilter = new IntentFilter(BROADCAST_FRG_TRANSACTION_ACTION);
-        getActivity().registerReceiver(broadcastReceiver, intentFilter);
-    }*/
-
-    /*@Override
-    public void onDestroy() {
-        super.onDestroy();
-        getActivity().unregisterReceiver(broadcastReceiver);
-    }*/
 
     private void setVisibility() {
         recyclerView.setVisibility(transactionList.isEmpty() ? View.GONE : View.VISIBLE);
@@ -164,14 +137,7 @@ public class FrgTransactions extends CommonFragmentWithEvents {
 
     private void pushBroadcast() {
         EventBus.getDefault().post(new UpdateFrgHome());
-        /*Intent intentFragmentMain = new Intent(FrgHome.BROADCAST_FRG_MAIN_ACTION);
-        intentFragmentMain.putExtra(FrgHome.PARAM_STATUS_FRG_MAIN, FrgHome.STATUS_UPDATE_FRG_MAIN);
-        getActivity().sendBroadcast(intentFragmentMain);*/
-
         EventBus.getDefault().post(new UpdateFrgAccounts());
-        /*Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);
-        intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
-        getActivity().sendBroadcast(intentFrgAccounts);*/
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

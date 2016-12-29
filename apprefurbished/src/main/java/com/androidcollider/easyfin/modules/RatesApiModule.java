@@ -4,10 +4,9 @@ import com.androidcollider.easyfin.api.RatesApi;
 import com.androidcollider.easyfin.managers.ApiManager;
 
 /**
- * @author Ihor Bilous <ibilous@grossum.com>
- * @copyright (c) Grossum. (http://www.grossum.com)
- * @package net.dressbox.app.filters
+ * @author Ihor Bilous
  */
+
 public class RatesApiModule {
 
     public RatesApi getRatesApi(ApiManager apiManager) {

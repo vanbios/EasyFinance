@@ -56,5 +56,4 @@ public abstract class CommonFragment extends Fragment {
         if (isResumed()) runnable.run();
         else pendingTransactions.addLast(runnable);
     }
-
 }

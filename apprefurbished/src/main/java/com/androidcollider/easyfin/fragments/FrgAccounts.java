@@ -26,14 +26,10 @@ import java.util.ArrayList;
 
 public class FrgAccounts extends CommonFragmentWithEvents {
 
-    /*public final static String BROADCAST_FRG_ACCOUNT_ACTION = "com.androidcollider.easyfin.frgaccount.broadcast";
-    public final static String PARAM_STATUS_FRG_ACCOUNT = "update_frg_account";
-    public final static int STATUS_UPDATE_FRG_ACCOUNT = 4;*/
     private RecyclerView recyclerView;
     private TextView tvEmpty;
     private RecyclerAccountAdapter recyclerAdapter;
     private ArrayList<Account> accountList = null;
-    //private BroadcastReceiver broadcastReceiver;
 
 
     @Override
@@ -44,7 +40,6 @@ public class FrgAccounts extends CommonFragmentWithEvents {
         tvEmpty = (TextView) view.findViewById(R.id.tvEmptyAccounts);
         setupRecyclerView();
         super.onCreateView(inflater, container, savedInstanceState);
-        //makeBroadcastReceiver();
         return view;
     }
 
@@ -83,28 +78,6 @@ public class FrgAccounts extends CommonFragmentWithEvents {
         setVisibility();
         recyclerAdapter.notifyDataSetChanged();
     }
-
-    /*private void makeBroadcastReceiver() {
-        broadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (intent.getIntExtra(PARAM_STATUS_FRG_ACCOUNT, 0) == STATUS_UPDATE_FRG_ACCOUNT) {
-                    accountList.clear();
-                    accountList.addAll(InfoFromDB.getInstance().getAccountList());
-                    setVisibility();
-                    recyclerAdapter.notifyDataSetChanged();
-                }
-            }
-        };
-        IntentFilter intentFilter = new IntentFilter(BROADCAST_FRG_ACCOUNT_ACTION);
-        getActivity().registerReceiver(broadcastReceiver, intentFilter);
-    }*/
-
-    /*@Override
-    public void onDestroy() {
-        super.onDestroy();
-        //getActivity().unregisterReceiver(broadcastReceiver);
-    }*/
 
     private void setVisibility() {
         recyclerView.setVisibility(accountList.isEmpty() ? View.GONE : View.VISIBLE);
@@ -169,8 +142,5 @@ public class FrgAccounts extends CommonFragmentWithEvents {
 
     private void pushBroadcast() {
         EventBus.getDefault().post(new UpdateFrgHomeBalance());
-        /*Intent intentFrgMain = new Intent(FrgHome.BROADCAST_FRG_MAIN_ACTION);
-        intentFrgMain.putExtra(FrgHome.PARAM_STATUS_FRG_MAIN, FrgHome.STATUS_UPDATE_FRG_MAIN_BALANCE);
-        getActivity().sendBroadcast(intentFrgMain);*/
     }
 }

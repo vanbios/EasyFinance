@@ -164,7 +164,6 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                         break;
                 }
 
-                //Debt debt = new Debt(name, amount, type, accountId, date, accountAmount);
                 Debt debt = Debt.builder()
                         .name(name)
                         .amountCurrent(amount)
@@ -275,19 +274,8 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
     private void pushBroadcast() {
         EventBus.getDefault().post(new UpdateFrgHomeBalance());
-        /*Intent intentFrgMain = new Intent(FrgHome.BROADCAST_FRG_MAIN_ACTION);
-        intentFrgMain.putExtra(FrgHome.PARAM_STATUS_FRG_MAIN, FrgHome.STATUS_UPDATE_FRG_MAIN_BALANCE);
-        getActivity().sendBroadcast(intentFrgMain);*/
-
         EventBus.getDefault().post(new UpdateFrgAccounts());
-        /*Intent intentFrgAccounts = new Intent(FrgAccounts.BROADCAST_FRG_ACCOUNT_ACTION);
-        intentFrgAccounts.putExtra(FrgAccounts.PARAM_STATUS_FRG_ACCOUNT, FrgAccounts.STATUS_UPDATE_FRG_ACCOUNT);
-        getActivity().sendBroadcast(intentFrgAccounts);*/
-
         EventBus.getDefault().post(new UpdateFrgDebts());
-        /*Intent intentDebt = new Intent(FrgDebts.BROADCAST_DEBT_ACTION);
-        intentDebt.putExtra(FrgDebts.PARAM_STATUS_DEBT, FrgDebts.STATUS_UPDATE_DEBT);
-        getActivity().sendBroadcast(intentDebt);*/
     }
 
     private boolean checkForFillNameField() {
@@ -402,5 +390,4 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         else
             tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36);
     }
-
 }

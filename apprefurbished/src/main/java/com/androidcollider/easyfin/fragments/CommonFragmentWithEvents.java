@@ -12,6 +12,7 @@ import org.greenrobot.eventbus.EventBus;
 /**
  * @author Ihor Bilous
  */
+
 public class CommonFragmentWithEvents extends Fragment {
 
     @Nullable
