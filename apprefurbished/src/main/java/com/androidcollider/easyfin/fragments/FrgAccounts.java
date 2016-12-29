@@ -125,13 +125,7 @@ public class FrgAccounts extends CommonFragmentWithEvents {
     }
 
     private void deleteAccount(int pos) {
-        int idAccount = accountList.get(pos).getId();
-
-        if (MemoryRepository.getInstance().getDataSource().checkAccountForTransactionOrDebtExist(idAccount)) {
-            MemoryRepository.getInstance().getDataSource().makeAccountInvisible(idAccount);
-        } else {
-            MemoryRepository.getInstance().getDataSource().deleteAccount(idAccount);
-        }
+        MemoryRepository.getInstance().getDataSource().deleteAccount(accountList.get(pos).getId());
 
         accountList.remove(pos);
         setVisibility();

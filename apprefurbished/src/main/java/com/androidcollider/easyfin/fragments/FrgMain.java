@@ -40,7 +40,7 @@ public class FrgMain extends CommonFragment {
 
         initUI();
 
-        if (MemoryRepository.getInstance().getAccountsNumber() == 0) showDialogNoAccount();
+        if (MemoryRepository.getInstance().getAccountsCount() == 0) showDialogNoAccount();
 
         checkForAndroidMPermissions();
 

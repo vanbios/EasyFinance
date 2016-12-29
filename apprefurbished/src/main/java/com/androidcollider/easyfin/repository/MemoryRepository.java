@@ -23,6 +23,7 @@ public class MemoryRepository {
     @Getter
     private final DataSource dataSource;
     private static volatile MemoryRepository instance;
+    @Getter
     private ArrayList<Account> accountList;
     @Getter
     private double[] ratesForExchange;
@@ -37,10 +38,6 @@ public class MemoryRepository {
 
     public void updateAccountList() {
         accountList = MemoryRepository.getInstance().getDataSource().getAllAccountsInfo();
-    }
-
-    public ArrayList<Account> getAccountList() {
-        return accountList;
     }
 
     private ArrayList<String> getAccountNames() {
@@ -59,7 +56,7 @@ public class MemoryRepository {
         return false;
     }
 
-    public int getAccountsNumber() {
+    public int getAccountsCount() {
         return accountList.size();
     }
 

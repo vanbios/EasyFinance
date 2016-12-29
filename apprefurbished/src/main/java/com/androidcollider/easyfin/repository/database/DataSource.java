@@ -7,14 +7,14 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
-import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.R;
+import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.models.DateConstants;
 import com.androidcollider.easyfin.models.Debt;
-import com.androidcollider.easyfin.repository.MemoryRepository;
 import com.androidcollider.easyfin.models.Rates;
 import com.androidcollider.easyfin.models.Transaction;
+import com.androidcollider.easyfin.repository.MemoryRepository;
 import com.androidcollider.easyfin.utils.DBExportImportUtils;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.androidcollider.easyfin.utils.SharedPref;
@@ -84,7 +84,8 @@ public class DataSource {
 
         openLocalToWrite();
         db.insert("Transactions", null, cv1);
-        db.update("Account", cv2, "id_account = " + id_account, null);
+        updateAccount(cv2, id_account);
+        //db.update("Account", cv2, "id_account = " + id_account, null);
         closeLocal();
     }
 
@@ -105,7 +106,8 @@ public class DataSource {
 
         openLocalToWrite();
         db.insert("Debt", null, cv1);
-        db.update("Account", cv2, "id_account = " + id_account, null);
+        updateAccount(cv2, id_account);
+        //db.update("Account", cv2, "id_account = " + id_account, null);
         closeLocal();
     }
 
@@ -119,8 +121,10 @@ public class DataSource {
 
         openLocalToWrite();
 
-        db.update("Account", cv1, "id_account = " + id_account_1, null);
-        db.update("Account", cv2, "id_account = " + id_account_2, null);
+        updateAccount(cv1, id_account_1);
+        updateAccount(cv2, id_account_2);
+        /*db.update("Account", cv1, "id_account = " + id_account_1, null);
+        db.update("Account", cv2, "id_account = " + id_account_2, null);*/
 
         closeLocal();
     }
@@ -269,13 +273,6 @@ public class DataSource {
             int currencyColIndex = cursor.getColumnIndex("currency");
 
             do {
-                /*Account account = new Account(
-                        cursor.getInt(idColIndex),
-                        cursor.getString(nameColIndex),
-                        cursor.getDouble(amountColIndex),
-                        cursor.getInt(typeColIndex),
-                        cursor.getString(currencyColIndex));*/
-
                 Account account = Account.builder()
                         .id(cursor.getInt(idColIndex))
                         .name(cursor.getString(nameColIndex))
@@ -328,15 +325,6 @@ public class DataSource {
 
             for (int i = cursorCount - 1; i >= limit; i--) {
                 cursor.moveToPosition(i);
-                /*Transaction transaction = new Transaction(
-                        cursor.getLong(dateColIndex),
-                        cursor.getDouble(amountColIndex),
-                        cursor.getInt(categoryColIndex),
-                        cursor.getString(nameColIndex),
-                        cursor.getString(currencyColIndex),
-                        cursor.getInt(typeColIndex),
-                        cursor.getInt(idAccountColIndex),
-                        cursor.getInt(idTransColIndex));*/
 
                 Transaction transaction = Transaction.builder()
                         .date(cursor.getLong(dateColIndex))
@@ -385,18 +373,6 @@ public class DataSource {
             int idDebtColIndex = cursor.getColumnIndex("id_debt");
 
             do {
-                /*Debt debt = new Debt(
-                        cursor.getString(dNameColIndex),
-                        cursor.getDouble(amountColIndex),
-                        cursor.getDouble(amountAllColIndex),
-                        cursor.getInt(typeColIndex),
-                        cursor.getLong(dateColIndex),
-                        cursor.getString(aNameColIndex),
-                        cursor.getString(curColIndex),
-                        cursor.getInt(idAccountColIndex),
-                        cursor.getInt(idDebtColIndex)
-                );*/
-
                 Debt debt = Debt.builder()
                         .name(cursor.getString(dNameColIndex))
                         .amountCurrent(cursor.getDouble(amountColIndex))
@@ -432,26 +408,36 @@ public class DataSource {
         int id = account.getId();
 
         openLocalToWrite();
-        db.update("Account", cv, "id_account = '" + id + "' ", null);
+        updateAccount(cv, id);
+        //db.update("Account", cv, "id_account = '" + id + "' ", null);
         closeLocal();
     }
 
     public void deleteAccount(int id) {
+        if (checkAccountForTransactionOrDebtExist(id)) {
+            makeAccountInvisible(id);
+        } else {
+            deleteAccountFromDB(id);
+        }
+    }
+
+    private void deleteAccountFromDB(int id) {
         openLocalToWrite();
         db.delete("Account", "id_account = '" + id + "' ", null);
         closeLocal();
     }
 
-    public void makeAccountInvisible(int id) {
+    private void makeAccountInvisible(int id) {
         ContentValues cv = new ContentValues();
         cv.put("visibility", 0);
 
         openLocalToWrite();
-        db.update("Account", cv, "id_account = '" + id + "' ", null);
+        updateAccount(cv, id);
+        //db.update("Account", cv, "id_account = '" + id + "' ", null);
         closeLocal();
     }
 
-    public boolean checkAccountForTransactionOrDebtExist(int id) {
+    private boolean checkAccountForTransactionOrDebtExist(int id) {
         String selectQuery = "SELECT COUNT(id_transaction) FROM Transactions "
                 + "WHERE id_account = '" + id + "' ";
 
@@ -459,11 +445,9 @@ public class DataSource {
 
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if (cursor.moveToFirst()) {
-            if (cursor.getInt(0) > 0) {
-                cursor.close();
-                return true;
-            }
+        if (cursor.moveToFirst() && cursor.getInt(0) > 0) {
+            cursor.close();
+            return true;
         }
 
         cursor.close();
@@ -473,12 +457,10 @@ public class DataSource {
 
         cursor = db.rawQuery(selectQuery, null);
 
-        if (cursor.moveToFirst()) {
-            if (cursor.getInt(0) > 0) {
-                cursor.close();
-                closeLocal();
-                return true;
-            }
+        if (cursor.moveToFirst() && cursor.getInt(0) > 0) {
+            cursor.close();
+            closeLocal();
+            return true;
         }
 
         cursor.close();
@@ -505,7 +487,8 @@ public class DataSource {
 
         cv.put("amount", accountAmount);
 
-        db.update("Account", cv, "id_account = " + id_account, null);
+        updateAccount(cv, id_account);
+        //db.update("Account", cv, "id_account = " + id_account, null);
         db.delete("Transactions", "id_transaction = '" + id_trans + "' ", null);
 
         closeLocal();
@@ -533,7 +516,8 @@ public class DataSource {
 
         ContentValues cv = new ContentValues();
         cv.put("amount", accountAmount);
-        db.update("Account", cv, "id_account = " + id_account, null);
+        updateAccount(cv, id_account);
+        //db.update("Account", cv, "id_account = " + id_account, null);
         db.delete("Debt", "id_debt = '" + id_debt + "' ", null);
         closeLocal();
     }
@@ -542,7 +526,8 @@ public class DataSource {
         ContentValues cv = new ContentValues();
         cv.put("amount", accountAmount);
         openLocalToWrite();
-        db.update("Account", cv, "id_account = " + idAccount, null);
+        updateAccount(cv, idAccount);
+        //db.update("Account", cv, "id_account = " + idAccount, null);
         db.delete("Debt", "id_debt = '" + idDebt + "' ", null);
         closeLocal();
     }
@@ -555,8 +540,10 @@ public class DataSource {
         cv2.put("amount_current", debtAmount);
 
         openLocalToWrite();
-        db.update("Account", cv1, "id_account = " + idAccount, null);
-        db.update("Debt", cv2, "id_debt = '" + idDebt + "' ", null);
+        updateAccount(cv1, idAccount);
+        //db.update("Account", cv1, "id_account = " + idAccount, null);
+        updateDebt(cv2, idDebt);
+        //db.update("Debt", cv2, "id_debt = '" + idDebt + "' ", null);
         closeLocal();
     }
 
@@ -569,8 +556,10 @@ public class DataSource {
         cv2.put("amount_all", debtAllAmount);
 
         openLocalToWrite();
-        db.update("Account", cv1, "id_account = " + idAccount, null);
-        db.update("Debt", cv2, "id_debt = '" + idDebt + "' ", null);
+        updateAccount(cv1, idAccount);
+        //db.update("Account", cv1, "id_account = " + idAccount, null);
+        updateDebt(cv2, idDebt);
+        //db.update("Debt", cv2, "id_debt = '" + idDebt + "' ", null);
         closeLocal();
     }
 
@@ -638,8 +627,10 @@ public class DataSource {
         cv2.put("amount", transaction.getAccountAmount());
 
         openLocalToWrite();
-        db.update("Transactions", cv1, "id_transaction = " + id_transaction, null);
-        db.update("Account", cv2, "id_account = " + id_account, null);
+        updateTransaction(cv1, id_transaction);
+        //db.update("Transactions", cv1, "id_transaction = " + id_transaction, null);
+        updateAccount(cv2, id_account);
+        //db.update("Account", cv2, "id_account = " + id_account, null);
         closeLocal();
     }
 
@@ -661,9 +652,12 @@ public class DataSource {
         cv3.put("amount", oldAccountAmount);
 
         openLocalToWrite();
-        db.update("Transactions", cv1, "id_transaction = " + id_transaction, null);
-        db.update("Account", cv2, "id_account = " + id_account, null);
-        db.update("Account", cv3, "id_account = " + oldAccountId, null);
+        updateTransaction(cv1, id_transaction);
+        //db.update("Transactions", cv1, "id_transaction = " + id_transaction, null);
+        updateAccount(cv2, id_account);
+        updateAccount(cv3, oldAccountId);
+        /*db.update("Account", cv2, "id_account = " + id_account, null);
+        db.update("Account", cv3, "id_account = " + oldAccountId, null);*/
         closeLocal();
     }
 
@@ -684,8 +678,10 @@ public class DataSource {
         cv2.put("amount", debt.getAccountAmount());
 
         openLocalToWrite();
-        db.update("Debt", cv1, "id_debt = " + id_debt, null);
-        db.update("Account", cv2, "id_account = " + id_account, null);
+        updateDebt(cv1, id_debt);
+        //db.update("Debt", cv1, "id_debt = " + id_debt, null);
+        updateAccount(cv2, id_account);
+        //db.update("Account", cv2, "id_account = " + id_account, null);
         closeLocal();
     }
 
@@ -709,10 +705,25 @@ public class DataSource {
         cv3.put("amount", oldAccountAmount);
 
         openLocalToWrite();
-        db.update("Debt", cv1, "id_debt = " + id_debt, null);
-        db.update("Account", cv2, "id_account = " + id_account, null);
-        db.update("Account", cv3, "id_account = " + oldAccountId, null);
+        updateDebt(cv1, id_debt);
+        //db.update("Debt", cv1, "id_debt = " + id_debt, null);
+        updateAccount(cv2, id_account);
+        updateAccount(cv3, oldAccountId);
+        /*db.update("Account", cv2, "id_account = " + id_account, null);
+        db.update("Account", cv3, "id_account = " + oldAccountId, null);*/
         closeLocal();
+    }
+
+    private void updateAccount(ContentValues cv, int id) {
+        db.update("Account", cv, "id_account = " + id, null);
+    }
+
+    private void updateTransaction(ContentValues cv, int id) {
+        db.update("Transactions", cv, "id_transaction = " + id, null);
+    }
+
+    private void updateDebt(ContentValues cv, int id) {
+        db.update("Debt", cv, "id_debt = " + id, null);
     }
 
 
@@ -733,5 +744,4 @@ public class DataSource {
         }
         return false;
     }
-
 }
