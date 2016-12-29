@@ -5,9 +5,9 @@ import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
-import com.androidcollider.easyfin.AppController;
+import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.database.DbHelper;
+import com.androidcollider.easyfin.repository.database.DbHelper;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,7 +28,7 @@ public class DBExportImportUtils {
     }
 
     private static void backupDatabase() throws IOException {
-        Context context = AppController.getContext();
+        Context context = App.getContext();
         //Open local db as the input stream
         File dbFile = context.getDatabasePath(DbHelper.DATABASE_NAME);
         FileInputStream fis = new FileInputStream(dbFile);

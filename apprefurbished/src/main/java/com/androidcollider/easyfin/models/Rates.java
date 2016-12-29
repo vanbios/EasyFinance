@@ -1,4 +1,4 @@
-package com.androidcollider.easyfin.objects;
+package com.androidcollider.easyfin.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

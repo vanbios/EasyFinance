@@ -10,13 +10,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.androidcollider.easyfin.MainActivity;
+import com.androidcollider.easyfin.common.MainActivity;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.RecyclerAccountAdapter;
 import com.androidcollider.easyfin.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.events.UpdateFrgHomeBalance;
-import com.androidcollider.easyfin.objects.Account;
-import com.androidcollider.easyfin.objects.InfoFromDB;
+import com.androidcollider.easyfin.models.Account;
+import com.androidcollider.easyfin.repository.MemoryRepository;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -44,7 +44,7 @@ public class FrgAccounts extends CommonFragmentWithEvents {
     }
 
     private void setupRecyclerView() {
-        accountList = InfoFromDB.getInstance().getAccountList();
+        accountList = MemoryRepository.getInstance().getAccountList();
         setVisibility();
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerAdapter = new RecyclerAccountAdapter(getActivity(), accountList);
@@ -74,7 +74,7 @@ public class FrgAccounts extends CommonFragmentWithEvents {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(UpdateFrgAccounts event) {
         accountList.clear();
-        accountList.addAll(InfoFromDB.getInstance().getAccountList());
+        accountList.addAll(MemoryRepository.getInstance().getAccountList());
         setVisibility();
         recyclerAdapter.notifyDataSetChanged();
     }
@@ -127,16 +127,16 @@ public class FrgAccounts extends CommonFragmentWithEvents {
     private void deleteAccount(int pos) {
         int idAccount = accountList.get(pos).getId();
 
-        if (InfoFromDB.getInstance().getDataSource().checkAccountForTransactionOrDebtExist(idAccount)) {
-            InfoFromDB.getInstance().getDataSource().makeAccountInvisible(idAccount);
+        if (MemoryRepository.getInstance().getDataSource().checkAccountForTransactionOrDebtExist(idAccount)) {
+            MemoryRepository.getInstance().getDataSource().makeAccountInvisible(idAccount);
         } else {
-            InfoFromDB.getInstance().getDataSource().deleteAccount(idAccount);
+            MemoryRepository.getInstance().getDataSource().deleteAccount(idAccount);
         }
 
         accountList.remove(pos);
         setVisibility();
         recyclerAdapter.notifyDataSetChanged();
-        InfoFromDB.getInstance().updateAccountList();
+        MemoryRepository.getInstance().updateAccountList();
         pushBroadcast();
     }
 

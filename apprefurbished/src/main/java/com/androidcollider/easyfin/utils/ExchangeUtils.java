@@ -1,14 +1,14 @@
 package com.androidcollider.easyfin.utils;
 
-import com.androidcollider.easyfin.AppController;
+import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.objects.InfoFromDB;
+import com.androidcollider.easyfin.repository.MemoryRepository;
 
 public class ExchangeUtils {
 
     public static double getExchangeRate(String currFrom, String currTo) {
         double[] rates = getRates();
-        String[] currencyArray = AppController.getContext().getResources().getStringArray(R.array.account_currency_array);
+        String[] currencyArray = App.getContext().getResources().getStringArray(R.array.account_currency_array);
 
         int posFrom = 0;
         int posTo = 0;
@@ -28,7 +28,7 @@ public class ExchangeUtils {
         rates[3] = 0.3475;
         rates[4] = 38.5;
 
-        double[] newRates = InfoFromDB.getInstance().getRatesForExchange();
+        double[] newRates = MemoryRepository.getInstance().getRatesForExchange();
 
         for (int i = 1; i < rates.length; i++) {
             if (newRates[i - 1] > 0) rates[i] = newRates[i - 1];

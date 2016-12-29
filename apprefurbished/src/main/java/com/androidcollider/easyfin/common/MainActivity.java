@@ -1,4 +1,4 @@
-package com.androidcollider.easyfin;
+package com.androidcollider.easyfin.common;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +24,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.androidcollider.easyfin.BuildConfig;
+import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.NavigationDrawerRecyclerAdapter;
 import com.androidcollider.easyfin.fragments.CommonFragment;
 import com.androidcollider.easyfin.fragments.CommonFragmentAddEdit;
@@ -33,7 +35,7 @@ import com.androidcollider.easyfin.fragments.FrgFAQ;
 import com.androidcollider.easyfin.fragments.FrgMain;
 import com.androidcollider.easyfin.fragments.FrgPref;
 import com.androidcollider.easyfin.fragments.PreferenceFragment;
-import com.androidcollider.easyfin.objects.InfoFromDB;
+import com.androidcollider.easyfin.repository.MemoryRepository;
 import com.androidcollider.easyfin.utils.ToastUtils;
 
 public class MainActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
@@ -57,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
         if (PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean(getString(R.string.update_rates_automatically), true)) {
-            InfoFromDB.getInstance().updateRatesForExchange();
+            MemoryRepository.getInstance().updateRatesForExchange();
         }
 
         initializeViews();

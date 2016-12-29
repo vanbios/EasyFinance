@@ -1,6 +1,6 @@
 package com.androidcollider.easyfin.utils;
 
-import com.androidcollider.easyfin.AppController;
+import com.androidcollider.easyfin.common.app.App;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -37,7 +37,7 @@ public class UpdateRatesUtils {
     }
 
     public static boolean checkForTodayUpdate() {
-        SharedPref sharedPref = new SharedPref(AppController.getContext());
+        SharedPref sharedPref = new SharedPref(App.getContext());
         Calendar currentCalendar = Calendar.getInstance();
         Calendar oldCalendar = Calendar.getInstance();
         oldCalendar.setTimeInMillis(sharedPref.getRatesUpdateTime());

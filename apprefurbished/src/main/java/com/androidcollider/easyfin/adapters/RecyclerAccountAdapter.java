@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.objects.Account;
+import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 
 import java.util.ArrayList;

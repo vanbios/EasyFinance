@@ -1,4 +1,4 @@
-package com.androidcollider.easyfin.objects;
+package com.androidcollider.easyfin.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

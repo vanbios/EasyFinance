@@ -20,9 +20,9 @@ import com.androidcollider.easyfin.adapters.SpinAccountForTransHeadIconAdapter;
 import com.androidcollider.easyfin.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.events.UpdateFrgDebts;
 import com.androidcollider.easyfin.events.UpdateFrgHomeBalance;
-import com.androidcollider.easyfin.objects.Account;
-import com.androidcollider.easyfin.objects.Debt;
-import com.androidcollider.easyfin.objects.InfoFromDB;
+import com.androidcollider.easyfin.models.Account;
+import com.androidcollider.easyfin.models.Debt;
+import com.androidcollider.easyfin.repository.MemoryRepository;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.androidcollider.easyfin.utils.HideKeyboardUtils;
 import com.androidcollider.easyfin.utils.ToastUtils;
@@ -110,7 +110,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     }
 
     private void fillAvailableAccountsList() {
-        ArrayList<Account> accountList = InfoFromDB.getInstance().getAccountList();
+        ArrayList<Account> accountList = MemoryRepository.getInstance().getAccountList();
         accountsAvailableList = new ArrayList<>();
         String currency = debt.getCurrency();
         double amount = debt.getAmountCurrent();
@@ -140,7 +140,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
             amountAccount += amountDebt;
         }
 
-        InfoFromDB.getInstance().getDataSource().payAllDebt(idAccount, amountAccount, idDebt);
+        MemoryRepository.getInstance().getDataSource().payAllDebt(idAccount, amountAccount, idDebt);
         lastActions();
     }
 
@@ -171,10 +171,10 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                     }
 
                     if (amountDebt == amountAllDebt) {
-                        InfoFromDB.getInstance().getDataSource().payAllDebt(idAccount, amountAccount, idDebt);
+                        MemoryRepository.getInstance().getDataSource().payAllDebt(idAccount, amountAccount, idDebt);
                     } else {
                         double newDebtAmount = amountAllDebt - amountDebt;
-                        InfoFromDB.getInstance().getDataSource().payPartDebt(idAccount, amountAccount, idDebt, newDebtAmount);
+                        MemoryRepository.getInstance().getDataSource().payPartDebt(idAccount, amountAccount, idDebt, newDebtAmount);
                     }
                     lastActions();
                 }
@@ -213,7 +213,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                 double newDebtCurrentAmount = amountDebtCurrent + amountDebt;
                 double newDebtAllAmount = amountDebtAll + amountDebt;
 
-                InfoFromDB.getInstance().getDataSource().takeMoreDebt(idAccount, amountAccount,
+                MemoryRepository.getInstance().getDataSource().takeMoreDebt(idAccount, amountAccount,
                         idDebt, newDebtCurrentAmount, newDebtAllAmount);
 
                 lastActions();
@@ -230,7 +230,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     }
 
     private void lastActions() {
-        InfoFromDB.getInstance().updateAccountList();
+        MemoryRepository.getInstance().updateAccountList();
         pushBroadcast();
         this.finish();
     }

@@ -1,4 +1,4 @@
-package com.androidcollider.easyfin.database;
+package com.androidcollider.easyfin.repository.database;
 
 
 public class SqlQueries {

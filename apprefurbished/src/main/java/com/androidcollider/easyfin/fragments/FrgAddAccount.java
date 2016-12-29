@@ -18,8 +18,8 @@ import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
 import com.androidcollider.easyfin.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.events.UpdateFrgHomeBalance;
-import com.androidcollider.easyfin.objects.Account;
-import com.androidcollider.easyfin.objects.InfoFromDB;
+import com.androidcollider.easyfin.models.Account;
+import com.androidcollider.easyfin.repository.MemoryRepository;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.androidcollider.easyfin.utils.HideKeyboardUtils;
 import com.androidcollider.easyfin.utils.ShakeEditText;
@@ -168,7 +168,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
         if (checkForFillNameField()) {
             String name = etName.getText().toString();
 
-            if (InfoFromDB.getInstance().checkForAccountNameMatches(name)) {
+            if (MemoryRepository.getInstance().checkForAccountNameMatches(name)) {
                 ShakeEditText.highlightEditText(etName);
                 ToastUtils.showClosableToast(getActivity(), getString(R.string.account_name_exist), 1);
             } else {
@@ -182,7 +182,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
                         .type(type)
                         .currency(currency)
                         .build();
-                InfoFromDB.getInstance().getDataSource().insertNewAccount(account);
+                MemoryRepository.getInstance().getDataSource().insertNewAccount(account);
                 lastActions();
             }
         }
@@ -192,7 +192,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
         if (checkForFillNameField()) {
             String name = etName.getText().toString();
 
-            if (InfoFromDB.getInstance().checkForAccountNameMatches(name) && !name.equals(oldName)) {
+            if (MemoryRepository.getInstance().checkForAccountNameMatches(name) && !name.equals(oldName)) {
                 ShakeEditText.highlightEditText(etName);
                 ToastUtils.showClosableToast(getActivity(), getString(R.string.account_name_exist), 1);
             } else {
@@ -208,14 +208,14 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
                         .type(type)
                         .currency(currency)
                         .build();
-                InfoFromDB.getInstance().getDataSource().editAccount(account);
+                MemoryRepository.getInstance().getDataSource().editAccount(account);
                 lastActions();
             }
         }
     }
 
     private void lastActions() {
-        InfoFromDB.getInstance().updateAccountList();
+        MemoryRepository.getInstance().updateAccountList();
         pushBroadcast();
         popAll();
     }

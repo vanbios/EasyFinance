@@ -23,9 +23,9 @@ import com.androidcollider.easyfin.adapters.SpinAccountForTransHeadIconAdapter;
 import com.androidcollider.easyfin.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.events.UpdateFrgDebts;
 import com.androidcollider.easyfin.events.UpdateFrgHomeBalance;
-import com.androidcollider.easyfin.objects.Account;
-import com.androidcollider.easyfin.objects.Debt;
-import com.androidcollider.easyfin.objects.InfoFromDB;
+import com.androidcollider.easyfin.models.Account;
+import com.androidcollider.easyfin.models.Debt;
+import com.androidcollider.easyfin.repository.MemoryRepository;
 import com.androidcollider.easyfin.utils.DateFormatUtils;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.androidcollider.easyfin.utils.HideKeyboardUtils;
@@ -64,7 +64,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
         CardView cardView = (CardView) view.findViewById(R.id.cardAddDebtElements);
 
-        accountList = InfoFromDB.getInstance().getAccountList();
+        accountList = MemoryRepository.getInstance().getAccountList();
 
         if (accountList.isEmpty()) {
             cardView.setVisibility(View.GONE);
@@ -172,7 +172,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                         .date(date)
                         .accountAmount(accountAmount)
                         .build();
-                InfoFromDB.getInstance().getDataSource().insertNewDebt(debt);
+                MemoryRepository.getInstance().getDataSource().insertNewDebt(debt);
                 lastActions();
             }
         }
@@ -248,9 +248,9 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                         .build();
 
                 if (isAccountsTheSame) {
-                    InfoFromDB.getInstance().getDataSource().editDebt(debt);
+                    MemoryRepository.getInstance().getDataSource().editDebt(debt);
                 } else {
-                    InfoFromDB.getInstance().getDataSource().editDebtDifferentAccounts(debt, oldAccountAmount, oldAccountId);
+                    MemoryRepository.getInstance().getDataSource().editDebtDifferentAccounts(debt, oldAccountAmount, oldAccountId);
                 }
 
                 lastActions();
@@ -267,7 +267,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     }
 
     private void lastActions() {
-        InfoFromDB.getInstance().updateAccountList();
+        MemoryRepository.getInstance().updateAccountList();
         pushBroadcast();
         this.finish();
     }

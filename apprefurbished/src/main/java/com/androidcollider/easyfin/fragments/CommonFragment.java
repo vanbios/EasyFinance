@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
-import com.androidcollider.easyfin.AppController;
-import com.androidcollider.easyfin.MainActivity;
+import com.androidcollider.easyfin.common.app.App;
+import com.androidcollider.easyfin.common.MainActivity;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
@@ -19,7 +19,7 @@ public abstract class CommonFragment extends Fragment {
         setRetainInstance(true);
         setHasOptionsMenu(true);
 
-        Tracker mTracker = AppController.tracker();
+        Tracker mTracker = App.tracker();
         mTracker.setScreenName(getRealTag());
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }

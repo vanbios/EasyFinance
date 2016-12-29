@@ -7,14 +7,14 @@ import android.os.Bundle;
 import android.preference.Preference;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.androidcollider.easyfin.AppController;
+import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.database.DbHelper;
+import com.androidcollider.easyfin.repository.database.DbHelper;
 import com.androidcollider.easyfin.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.events.UpdateFrgDebts;
 import com.androidcollider.easyfin.events.UpdateFrgHome;
 import com.androidcollider.easyfin.events.UpdateFrgTransactions;
-import com.androidcollider.easyfin.objects.InfoFromDB;
+import com.androidcollider.easyfin.repository.MemoryRepository;
 import com.androidcollider.easyfin.utils.DBExportImportUtils;
 import com.androidcollider.easyfin.utils.ToastUtils;
 import com.google.android.gms.analytics.HitBuilders;
@@ -28,7 +28,7 @@ public class FrgPref extends PreferenceFragment {
 
     private static final int FILE_SELECT_CODE = 0;
     private static Uri uri;
-    private final Context context = AppController.getContext();
+    private final Context context = App.getContext();
     private Preference exportDBPref, importDBPref;
     private Tracker mTracker;
 
@@ -39,7 +39,7 @@ public class FrgPref extends PreferenceFragment {
 
         initializePrefs();
 
-        mTracker = AppController.tracker();
+        mTracker = App.tracker();
         mTracker.setScreenName(this.getClass().getName());
         mTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
@@ -121,7 +121,7 @@ public class FrgPref extends PreferenceFragment {
     private void importDB() {
         boolean importDB = false;
         try {
-            importDB = InfoFromDB.getInstance().getDataSource().importDatabase(uri);
+            importDB = MemoryRepository.getInstance().getDataSource().importDatabase(uri);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -139,8 +139,8 @@ public class FrgPref extends PreferenceFragment {
         EventBus.getDefault().post(new UpdateFrgAccounts());
         EventBus.getDefault().post(new UpdateFrgDebts());
 
-        InfoFromDB.getInstance().setRatesForExchange();
-        InfoFromDB.getInstance().updateAccountList();
+        MemoryRepository.getInstance().setRatesForExchange();
+        MemoryRepository.getInstance().updateAccountList();
     }
 
     @Override

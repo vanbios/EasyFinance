@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.objects.Account;
+import com.androidcollider.easyfin.models.Account;
 
 import java.util.ArrayList;
 

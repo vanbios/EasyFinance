@@ -2,13 +2,13 @@ package com.androidcollider.easyfin.managers;
 
 import android.util.Log;
 
-import com.androidcollider.easyfin.AppController;
+import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.modules.RatesApiModule;
-import com.androidcollider.easyfin.objects.Currency;
-import com.androidcollider.easyfin.objects.InfoFromDB;
-import com.androidcollider.easyfin.objects.Rates;
-import com.androidcollider.easyfin.objects.RatesNew;
+import com.androidcollider.easyfin.models.Currency;
+import com.androidcollider.easyfin.repository.MemoryRepository;
+import com.androidcollider.easyfin.models.Rates;
+import com.androidcollider.easyfin.models.RatesNew;
 
 import java.util.ArrayList;
 
@@ -34,7 +34,7 @@ public class RatesManager {
                             @Override
                             public void onNext(RatesNew ratesNew) {
                                 int[] idArray = new int[]{3, 7, 11, 15};
-                                String[] currencyArray = AppController.getContext().getResources().getStringArray(R.array.json_rates_array);
+                                String[] currencyArray = App.getContext().getResources().getStringArray(R.array.json_rates_array);
                                 ArrayList<Rates> ratesList = new ArrayList<>();
 
                                 for (int i = 0; i < idArray.length; i++) {
@@ -43,7 +43,7 @@ public class RatesManager {
                                     ratesList.add(generateNewRates(id, cur, ratesNew));
                                 }
                                 Log.d(TAG, "rates " + ratesList);
-                                InfoFromDB.getInstance().getDataSource().insertRates(ratesList);
+                                MemoryRepository.getInstance().getDataSource().insertRates(ratesList);
                             }
 
                             @Override

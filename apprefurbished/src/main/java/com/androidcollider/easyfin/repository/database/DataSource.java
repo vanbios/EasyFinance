@@ -1,4 +1,4 @@
-package com.androidcollider.easyfin.database;
+package com.androidcollider.easyfin.repository.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,14 +7,14 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
-import com.androidcollider.easyfin.AppController;
+import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.objects.Account;
-import com.androidcollider.easyfin.objects.DateConstants;
-import com.androidcollider.easyfin.objects.Debt;
-import com.androidcollider.easyfin.objects.InfoFromDB;
-import com.androidcollider.easyfin.objects.Rates;
-import com.androidcollider.easyfin.objects.Transaction;
+import com.androidcollider.easyfin.models.Account;
+import com.androidcollider.easyfin.models.DateConstants;
+import com.androidcollider.easyfin.models.Debt;
+import com.androidcollider.easyfin.repository.MemoryRepository;
+import com.androidcollider.easyfin.models.Rates;
+import com.androidcollider.easyfin.models.Transaction;
 import com.androidcollider.easyfin.utils.DBExportImportUtils;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.androidcollider.easyfin.utils.SharedPref;
@@ -38,7 +38,7 @@ public class DataSource {
     public DataSource(Context context) {
         this.context = context;
         dbHelper = new DbHelper(context);
-        sharedPref = new SharedPref(AppController.getContext());
+        sharedPref = new SharedPref(App.getContext());
     }
 
     //Open database to write
@@ -594,7 +594,7 @@ public class DataSource {
             }
         }
         closeLocal();
-        InfoFromDB.getInstance().setRatesForExchange();
+        MemoryRepository.getInstance().setRatesForExchange();
         sharedPref.setRatesInsertFirstTimeStatus(true);
         sharedPref.setRatesUpdateTime();
     }

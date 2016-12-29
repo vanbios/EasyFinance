@@ -1,4 +1,4 @@
-package com.androidcollider.easyfin.database;
+package com.androidcollider.easyfin.repository.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

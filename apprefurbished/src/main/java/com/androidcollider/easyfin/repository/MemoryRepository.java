@@ -1,10 +1,11 @@
-package com.androidcollider.easyfin.objects;
+package com.androidcollider.easyfin.repository;
 
 
-import com.androidcollider.easyfin.AppController;
-import com.androidcollider.easyfin.database.DataSource;
+import com.androidcollider.easyfin.common.app.App;
+import com.androidcollider.easyfin.repository.database.DataSource;
 import com.androidcollider.easyfin.events.UpdateFrgHomeNewRates;
 import com.androidcollider.easyfin.managers.RatesManager;
+import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.utils.InternetTester;
 import com.androidcollider.easyfin.utils.SharedPref;
 import com.androidcollider.easyfin.utils.UpdateRatesUtils;
@@ -17,25 +18,25 @@ import java.util.ArrayList;
 import lombok.Getter;
 
 
-public class InfoFromDB {
+public class MemoryRepository {
 
     @Getter
     private final DataSource dataSource;
-    private static volatile InfoFromDB instance;
+    private static volatile MemoryRepository instance;
     private ArrayList<Account> accountList;
     @Getter
     private double[] ratesForExchange;
-    private SharedPref sharedPref = new SharedPref(AppController.getContext());
+    private SharedPref sharedPref = new SharedPref(App.getContext());
 
 
-    private InfoFromDB() {
-        dataSource = new DataSource(AppController.getContext());
+    private MemoryRepository() {
+        dataSource = new DataSource(App.getContext());
         accountList = dataSource.getAllAccountsInfo();
         ratesForExchange = dataSource.getRates();
     }
 
     public void updateAccountList() {
-        accountList = InfoFromDB.getInstance().getDataSource().getAllAccountsInfo();
+        accountList = MemoryRepository.getInstance().getDataSource().getAllAccountsInfo();
     }
 
     public ArrayList<Account> getAccountList() {
@@ -63,7 +64,7 @@ public class InfoFromDB {
     }
 
     public void updateRatesForExchange() {
-        if (InternetTester.isConnectionEnabled(AppController.getContext())
+        if (InternetTester.isConnectionEnabled(App.getContext())
                 && (!sharedPref.getRatesInsertFirstTimeStatus()
                 || !UpdateRatesUtils.checkForTodayUpdate()
                 && UpdateRatesUtils.checkForAvailableNewRates())) {
@@ -74,18 +75,15 @@ public class InfoFromDB {
     public void setRatesForExchange() {
         System.arraycopy(dataSource.getRates(), 0, ratesForExchange, 0, ratesForExchange.length);
         EventBus.getDefault().post(new UpdateFrgHomeNewRates());
-        /*Intent intentRates = new Intent(FrgHome.BROADCAST_FRG_MAIN_ACTION);
-        intentRates.putExtra(FrgHome.PARAM_STATUS_FRG_MAIN, FrgHome.STATUS_NEW_RATES);
-        AppController.getContext().sendBroadcast(intentRates);*/
     }
 
-    public static InfoFromDB getInstance() {
-        InfoFromDB localInstance = instance;
+    public static MemoryRepository getInstance() {
+        MemoryRepository localInstance = instance;
         if (localInstance == null) {
-            synchronized (InfoFromDB.class) {
+            synchronized (MemoryRepository.class) {
                 localInstance = instance;
                 if (localInstance == null) {
-                    instance = localInstance = new InfoFromDB();
+                    instance = localInstance = new MemoryRepository();
                 }
             }
         }

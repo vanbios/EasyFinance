@@ -1,4 +1,4 @@
-package com.androidcollider.easyfin;
+package com.androidcollider.easyfin.common.app;
 
 import android.app.Application;
 import android.content.Context;
@@ -8,10 +8,14 @@ import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 
 import io.fabric.sdk.android.Fabric;
+import lombok.Getter;
 
-public class AppController extends Application {
+public class App extends Application {
 
-    private static AppController mInstance;
+    @Getter
+    private AppComponent component;
+
+    private static App mInstance;
 
     public static GoogleAnalytics analytics;
     private final static String TRACKER_ID = "UA-65734136-1";
@@ -26,6 +30,11 @@ public class AppController extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        component = DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
+                .build();
+
         Fabric.with(this, new Crashlytics());
 
         mInstance = this;
@@ -38,14 +47,7 @@ public class AppController extends Application {
         tracker.enableExceptionReporting(true);
     }
 
-
-    public static synchronized AppController getInstance() {
-        return mInstance;
-    }
-
-
     public static Context getContext() {
         return mInstance.getApplicationContext();
     }
-
 }

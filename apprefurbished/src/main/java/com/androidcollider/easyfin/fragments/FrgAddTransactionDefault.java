@@ -24,9 +24,9 @@ import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
 import com.androidcollider.easyfin.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.events.UpdateFrgHome;
 import com.androidcollider.easyfin.events.UpdateFrgTransactions;
-import com.androidcollider.easyfin.objects.Account;
-import com.androidcollider.easyfin.objects.InfoFromDB;
-import com.androidcollider.easyfin.objects.Transaction;
+import com.androidcollider.easyfin.models.Account;
+import com.androidcollider.easyfin.repository.MemoryRepository;
+import com.androidcollider.easyfin.models.Transaction;
 import com.androidcollider.easyfin.utils.DateFormatUtils;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.androidcollider.easyfin.utils.ToastUtils;
@@ -56,7 +56,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
         view = inflater.inflate(R.layout.frg_add_trans_def, container, false);
         setToolbar();
 
-        accountList = InfoFromDB.getInstance().getAccountList();
+        accountList = MemoryRepository.getInstance().getAccountList();
 
         ScrollView scrollView = (ScrollView) view.findViewById(R.id.scrollAddTransDef);
 
@@ -190,7 +190,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                         .idAccount(idAccount)
                         .accountAmount(accountAmount)
                         .build();
-                InfoFromDB.getInstance().getDataSource().insertNewTransaction(transaction);
+                MemoryRepository.getInstance().getDataSource().insertNewTransaction(transaction);
                 lastActions();
             }
         }
@@ -239,9 +239,9 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                         .build();
 
                 if (isAccountTheSame) {
-                    InfoFromDB.getInstance().getDataSource().editTransaction(transaction);
+                    MemoryRepository.getInstance().getDataSource().editTransaction(transaction);
                 } else {
-                    InfoFromDB.getInstance().getDataSource().editTransactionDifferentAccounts(transaction, oldAccountAmount, oldAccountId);
+                    MemoryRepository.getInstance().getDataSource().editTransactionDifferentAccounts(transaction, oldAccountAmount, oldAccountId);
                 }
                 lastActions();
             }
@@ -265,7 +265,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
     }
 
     private void lastActions() {
-        InfoFromDB.getInstance().updateAccountList();
+        MemoryRepository.getInstance().updateAccountList();
         pushBroadcast();
         finish();
     }
