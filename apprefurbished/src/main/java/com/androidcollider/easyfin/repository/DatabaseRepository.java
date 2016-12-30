@@ -14,13 +14,7 @@ import rx.Observable;
  * @author Ihor Bilous
  */
 
-public class MemoryRepository implements Repository {
-
-    private List<Account> accountList;
-    private List<Transaction> transactionList;
-    private List<Debt> debtList;
-    private double[] ratesArray;
-
+public class DatabaseRepository implements Repository {
 
     @Override
     public Observable<Boolean> addNewAccount(Account account) {
@@ -29,7 +23,7 @@ public class MemoryRepository implements Repository {
 
     @Override
     public Observable<List<Account>> getAllAccounts() {
-        return accountList == null ? null : Observable.just(accountList);
+        return null;
     }
 
     @Override
@@ -54,7 +48,7 @@ public class MemoryRepository implements Repository {
 
     @Override
     public Observable<List<Transaction>> getAllTransactions() {
-        return transactionList == null ? null : Observable.just(transactionList);
+        return null;
     }
 
     @Override
@@ -79,7 +73,7 @@ public class MemoryRepository implements Repository {
 
     @Override
     public Observable<List<Debt>> getAllDebts() {
-        return debtList == null ? null : Observable.just(debtList);
+        return null;
     }
 
     @Override
@@ -129,7 +123,7 @@ public class MemoryRepository implements Repository {
 
     @Override
     public Observable<double[]> getRates() {
-        return ratesArray == null ? null : Observable.just(ratesArray);
+        return null;
     }
 
     @Override

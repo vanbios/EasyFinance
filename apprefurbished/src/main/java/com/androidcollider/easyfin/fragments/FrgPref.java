@@ -14,7 +14,7 @@ import com.androidcollider.easyfin.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.events.UpdateFrgDebts;
 import com.androidcollider.easyfin.events.UpdateFrgHome;
 import com.androidcollider.easyfin.events.UpdateFrgTransactions;
-import com.androidcollider.easyfin.repository.MemoryRepository;
+import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 import com.androidcollider.easyfin.utils.DBExportImportUtils;
 import com.androidcollider.easyfin.utils.ToastUtils;
 import com.google.android.gms.analytics.HitBuilders;
@@ -121,7 +121,7 @@ public class FrgPref extends PreferenceFragment {
     private void importDB() {
         boolean importDB = false;
         try {
-            importDB = MemoryRepository.getInstance().getDataSource().importDatabase(uri);
+            importDB = InMemoryRepository.getInstance().getDataSource().importDatabase(uri);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -139,8 +139,8 @@ public class FrgPref extends PreferenceFragment {
         EventBus.getDefault().post(new UpdateFrgAccounts());
         EventBus.getDefault().post(new UpdateFrgDebts());
 
-        MemoryRepository.getInstance().setRatesForExchange();
-        MemoryRepository.getInstance().updateAccountList();
+        InMemoryRepository.getInstance().setRatesForExchange();
+        InMemoryRepository.getInstance().updateAccountList();
     }
 
     @Override

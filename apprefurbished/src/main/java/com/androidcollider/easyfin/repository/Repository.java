@@ -34,6 +34,9 @@ public interface Repository {
                                             int idAccount2,
                                             double accountAmount2);
 
+    Observable<Boolean> setAllAccounts(List<Account> accountList);
+
+
     // Transactions
 
     Observable<Boolean> addNewTransaction(Transaction transaction);
@@ -49,6 +52,9 @@ public interface Repository {
     Observable<Boolean> deleteTransaction(int idAccount,
                                           int idTransaction,
                                           double amount);
+
+    Observable<Boolean> setAllTransactions(List<Transaction> transactionList);
+
 
     // Debts
 
@@ -82,6 +88,8 @@ public interface Repository {
                                      double debtAmount,
                                      double debtAllAmount);
 
+    Observable<Boolean> setAllDebts(List<Debt> debtList);
+
 
     // Statistic
 
@@ -95,4 +103,6 @@ public interface Repository {
     Observable<Boolean> updateRates(List<Rates> ratesList);
 
     Observable<double[]> getRates();
+
+    Observable<Boolean> setRates(double[] rates);
 }

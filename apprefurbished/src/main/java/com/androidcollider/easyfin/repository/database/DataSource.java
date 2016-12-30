@@ -14,7 +14,7 @@ import com.androidcollider.easyfin.models.DateConstants;
 import com.androidcollider.easyfin.models.Debt;
 import com.androidcollider.easyfin.models.Rates;
 import com.androidcollider.easyfin.models.Transaction;
-import com.androidcollider.easyfin.repository.MemoryRepository;
+import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 import com.androidcollider.easyfin.utils.DBExportImportUtils;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.androidcollider.easyfin.utils.SharedPref;
@@ -583,7 +583,7 @@ public class DataSource {
             }
         }
         closeLocal();
-        MemoryRepository.getInstance().setRatesForExchange();
+        InMemoryRepository.getInstance().setRatesForExchange();
         sharedPref.setRatesInsertFirstTimeStatus(true);
         sharedPref.setRatesUpdateTime();
     }

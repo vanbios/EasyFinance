@@ -19,7 +19,7 @@ import com.androidcollider.easyfin.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.events.UpdateFrgDebts;
 import com.androidcollider.easyfin.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.models.Debt;
-import com.androidcollider.easyfin.repository.MemoryRepository;
+import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -43,7 +43,7 @@ public class FrgDebts extends CommonFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frg_debts, container, false);
-        debtList = MemoryRepository.getInstance().getDataSource().getAllDebtInfo();
+        debtList = InMemoryRepository.getInstance().getDataSource().getAllDebtInfo();
         initUI(view);
         EventBus.getDefault().register(this);
         return view;
@@ -186,19 +186,19 @@ public class FrgDebts extends CommonFragment {
         double amount = debt.getAmountCurrent();
         int type = debt.getType();
 
-        MemoryRepository.getInstance().getDataSource().deleteDebt(idAccount, idDebt, amount, type);
+        InMemoryRepository.getInstance().getDataSource().deleteDebt(idAccount, idDebt, amount, type);
 
         debtList.remove(pos);
         setVisibility();
         recyclerAdapter.notifyDataSetChanged();
-        MemoryRepository.getInstance().updateAccountList();
+        InMemoryRepository.getInstance().updateAccountList();
         pushBroadcast();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(UpdateFrgDebts event) {
         debtList.clear();
-        debtList.addAll(MemoryRepository.getInstance().getDataSource().getAllDebtInfo());
+        debtList.addAll(InMemoryRepository.getInstance().getDataSource().getAllDebtInfo());
         setVisibility();
         recyclerAdapter.notifyDataSetChanged();
     }

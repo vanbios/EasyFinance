@@ -25,7 +25,7 @@ import com.androidcollider.easyfin.events.UpdateFrgDebts;
 import com.androidcollider.easyfin.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.models.Debt;
-import com.androidcollider.easyfin.repository.MemoryRepository;
+import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 import com.androidcollider.easyfin.utils.DateFormatUtils;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.androidcollider.easyfin.utils.HideKeyboardUtils;
@@ -64,7 +64,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
         CardView cardView = (CardView) view.findViewById(R.id.cardAddDebtElements);
 
-        accountList = MemoryRepository.getInstance().getAccountList();
+        accountList = InMemoryRepository.getInstance().getAccountList();
 
         if (accountList.isEmpty()) {
             cardView.setVisibility(View.GONE);
@@ -172,7 +172,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                         .date(date)
                         .accountAmount(accountAmount)
                         .build();
-                MemoryRepository.getInstance().getDataSource().insertNewDebt(debt);
+                InMemoryRepository.getInstance().getDataSource().insertNewDebt(debt);
                 lastActions();
             }
         }
@@ -248,9 +248,9 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                         .build();
 
                 if (isAccountsTheSame) {
-                    MemoryRepository.getInstance().getDataSource().editDebt(debt);
+                    InMemoryRepository.getInstance().getDataSource().editDebt(debt);
                 } else {
-                    MemoryRepository.getInstance().getDataSource().editDebtDifferentAccounts(debt, oldAccountAmount, oldAccountId);
+                    InMemoryRepository.getInstance().getDataSource().editDebtDifferentAccounts(debt, oldAccountAmount, oldAccountId);
                 }
 
                 lastActions();
@@ -267,7 +267,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     }
 
     private void lastActions() {
-        MemoryRepository.getInstance().updateAccountList();
+        InMemoryRepository.getInstance().updateAccountList();
         pushBroadcast();
         this.finish();
     }

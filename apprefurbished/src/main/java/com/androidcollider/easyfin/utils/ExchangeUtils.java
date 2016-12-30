@@ -2,7 +2,7 @@ package com.androidcollider.easyfin.utils;
 
 import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.repository.MemoryRepository;
+import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 
 public class ExchangeUtils {
 
@@ -28,7 +28,7 @@ public class ExchangeUtils {
         rates[3] = 0.3475;
         rates[4] = 38.5;
 
-        double[] newRates = MemoryRepository.getInstance().getRatesForExchange();
+        double[] newRates = InMemoryRepository.getInstance().getRatesForExchange();
 
         for (int i = 1; i < rates.length; i++) {
             if (newRates[i - 1] > 0) rates[i] = newRates[i - 1];

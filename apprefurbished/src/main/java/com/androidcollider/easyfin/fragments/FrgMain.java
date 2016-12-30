@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.ViewPagerFragmentAdapter;
-import com.androidcollider.easyfin.repository.MemoryRepository;
+import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -40,7 +40,7 @@ public class FrgMain extends CommonFragment {
 
         initUI();
 
-        if (MemoryRepository.getInstance().getAccountsCount() == 0) showDialogNoAccount();
+        if (InMemoryRepository.getInstance().getAccountsCount() == 0) showDialogNoAccount();
 
         checkForAndroidMPermissions();
 

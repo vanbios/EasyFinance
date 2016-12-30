@@ -27,6 +27,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.BuildConfig;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.NavigationDrawerRecyclerAdapter;
+import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.fragments.CommonFragment;
 import com.androidcollider.easyfin.fragments.CommonFragmentAddEdit;
 import com.androidcollider.easyfin.fragments.FrgAddAccount;
@@ -35,7 +36,7 @@ import com.androidcollider.easyfin.fragments.FrgFAQ;
 import com.androidcollider.easyfin.fragments.FrgMain;
 import com.androidcollider.easyfin.fragments.FrgPref;
 import com.androidcollider.easyfin.fragments.PreferenceFragment;
-import com.androidcollider.easyfin.repository.MemoryRepository;
+import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 import com.androidcollider.easyfin.utils.ToastUtils;
 
 public class MainActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
@@ -54,12 +55,14 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nav_drawer_root_layout);
 
+        ((App) getApplication()).getComponent().inject(this);
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.addOnBackStackChangedListener(this);
 
         if (PreferenceManager.getDefaultSharedPreferences(this)
                 .getBoolean(getString(R.string.update_rates_automatically), true)) {
-            MemoryRepository.getInstance().updateRatesForExchange();
+            InMemoryRepository.getInstance().updateRatesForExchange();
         }
 
         initializeViews();
@@ -98,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
         };
 
-        drawerLayout.setDrawerListener(mDrawerToggle);
+        drawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
         final GestureDetector gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
@@ -280,5 +283,4 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         this.finish();
         startActivity(intent);
     }
-
 }

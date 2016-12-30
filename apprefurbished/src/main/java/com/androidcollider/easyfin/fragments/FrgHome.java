@@ -19,7 +19,7 @@ import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
 import com.androidcollider.easyfin.events.UpdateFrgHome;
 import com.androidcollider.easyfin.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.events.UpdateFrgHomeNewRates;
-import com.androidcollider.easyfin.repository.MemoryRepository;
+import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 import com.androidcollider.easyfin.utils.ChartDataUtils;
 import com.androidcollider.easyfin.utils.ChartLargeValueFormatter;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
@@ -66,10 +66,10 @@ public class FrgHome extends CommonFragmentWithEvents {
 
         initializeViewsAndRes();
 
-        balanceMap = MemoryRepository.getInstance().getDataSource().getAccountsSumGroupByTypeAndCurrency();
+        balanceMap = InMemoryRepository.getInstance().getDataSource().getAccountsSumGroupByTypeAndCurrency();
         setBalanceCurrencySpinner();
         setStatisticPeriodSpinner();
-        statisticMap = MemoryRepository.getInstance().getDataSource().getTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1);
+        statisticMap = InMemoryRepository.getInstance().getDataSource().getTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1);
 
         setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
         setBalance(spinBalanceCurrency.getSelectedItemPosition());
@@ -190,7 +190,7 @@ public class FrgHome extends CommonFragmentWithEvents {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 statisticMap.clear();
-                statisticMap = MemoryRepository.getInstance().getDataSource().getTransactionsStatistic(i + 1);
+                statisticMap = InMemoryRepository.getInstance().getDataSource().getTransactionsStatistic(i + 1);
                 setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
 
                 setStatisticSumTV();
@@ -252,10 +252,10 @@ public class FrgHome extends CommonFragmentWithEvents {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(UpdateFrgHome event) {
         balanceMap.clear();
-        balanceMap.putAll(MemoryRepository.getInstance().getDataSource().getAccountsSumGroupByTypeAndCurrency());
+        balanceMap.putAll(InMemoryRepository.getInstance().getDataSource().getAccountsSumGroupByTypeAndCurrency());
         setBalance(spinBalanceCurrency.getSelectedItemPosition());
         statisticMap.clear();
-        statisticMap.putAll(MemoryRepository.getInstance().getDataSource().getTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1));
+        statisticMap.putAll(InMemoryRepository.getInstance().getDataSource().getTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1));
         setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
         setStatisticSumTV();
         checkStatChartTypeForUpdate();
@@ -264,7 +264,7 @@ public class FrgHome extends CommonFragmentWithEvents {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(UpdateFrgHomeBalance event) {
         balanceMap.clear();
-        balanceMap.putAll(MemoryRepository.getInstance().getDataSource().getAccountsSumGroupByTypeAndCurrency());
+        balanceMap.putAll(InMemoryRepository.getInstance().getDataSource().getAccountsSumGroupByTypeAndCurrency());
         setBalance(spinBalanceCurrency.getSelectedItemPosition());
     }
 

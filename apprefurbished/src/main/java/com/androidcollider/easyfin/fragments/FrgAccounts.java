@@ -16,7 +16,7 @@ import com.androidcollider.easyfin.adapters.RecyclerAccountAdapter;
 import com.androidcollider.easyfin.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.models.Account;
-import com.androidcollider.easyfin.repository.MemoryRepository;
+import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -44,7 +44,7 @@ public class FrgAccounts extends CommonFragmentWithEvents {
     }
 
     private void setupRecyclerView() {
-        accountList = MemoryRepository.getInstance().getAccountList();
+        accountList = InMemoryRepository.getInstance().getAccountList();
         setVisibility();
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerAdapter = new RecyclerAccountAdapter(getActivity(), accountList);
@@ -74,7 +74,7 @@ public class FrgAccounts extends CommonFragmentWithEvents {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(UpdateFrgAccounts event) {
         accountList.clear();
-        accountList.addAll(MemoryRepository.getInstance().getAccountList());
+        accountList.addAll(InMemoryRepository.getInstance().getAccountList());
         setVisibility();
         recyclerAdapter.notifyDataSetChanged();
     }
@@ -125,12 +125,12 @@ public class FrgAccounts extends CommonFragmentWithEvents {
     }
 
     private void deleteAccount(int pos) {
-        MemoryRepository.getInstance().getDataSource().deleteAccount(accountList.get(pos).getId());
+        InMemoryRepository.getInstance().getDataSource().deleteAccount(accountList.get(pos).getId());
 
         accountList.remove(pos);
         setVisibility();
         recyclerAdapter.notifyDataSetChanged();
-        MemoryRepository.getInstance().updateAccountList();
+        InMemoryRepository.getInstance().updateAccountList();
         pushBroadcast();
     }
 

@@ -23,7 +23,7 @@ import com.androidcollider.easyfin.adapters.SpinAccountForTransAdapter;
 import com.androidcollider.easyfin.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.models.Account;
-import com.androidcollider.easyfin.repository.MemoryRepository;
+import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
 import com.androidcollider.easyfin.utils.ExchangeUtils;
@@ -52,7 +52,7 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
         view = inflater.inflate(R.layout.frg_add_trans_btw, container, false);
         setToolbar();
 
-        accountListFrom = MemoryRepository.getInstance().getAccountList();
+        accountListFrom = InMemoryRepository.getInstance().getAccountList();
 
         ScrollView scrollView = (ScrollView) view.findViewById(R.id.scrollAddTransBTW);
 
@@ -195,9 +195,9 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
         double accountAmountFrom = accAmountFrom - amount;
         double accountAmountTo = accAmountTo + amountTo;
 
-        MemoryRepository.getInstance().getDataSource().updateAccountsAmountAfterTransfer(idFrom,
+        InMemoryRepository.getInstance().getDataSource().updateAccountsAmountAfterTransfer(idFrom,
                 accountAmountFrom, idTo, accountAmountTo);
-        MemoryRepository.getInstance().updateAccountList();
+        InMemoryRepository.getInstance().updateAccountList();
         pushBroadcast();
         finish();
     }

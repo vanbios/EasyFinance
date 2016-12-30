@@ -16,7 +16,7 @@ import com.androidcollider.easyfin.adapters.RecyclerTransactionAdapter;
 import com.androidcollider.easyfin.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.events.UpdateFrgHome;
 import com.androidcollider.easyfin.events.UpdateFrgTransactions;
-import com.androidcollider.easyfin.repository.MemoryRepository;
+import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 import com.androidcollider.easyfin.models.Transaction;
 
 import org.greenrobot.eventbus.EventBus;
@@ -46,7 +46,7 @@ public class FrgTransactions extends CommonFragmentWithEvents {
     }
 
     private void setupRecyclerView() {
-        transactionList = MemoryRepository.getInstance().getDataSource().getAllTransactionsInfo();
+        transactionList = InMemoryRepository.getInstance().getDataSource().getAllTransactionsInfo();
         setVisibility();
         final LinearLayoutManager layoutManager = new LinearLayoutManager(recyclerView.getContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -126,12 +126,12 @@ public class FrgTransactions extends CommonFragmentWithEvents {
         int idTrans = transaction.getId();
         double amount = transaction.getAmount();
 
-        MemoryRepository.getInstance().getDataSource().deleteTransaction(idAccount, idTrans, amount);
+        InMemoryRepository.getInstance().getDataSource().deleteTransaction(idAccount, idTrans, amount);
 
         transactionList.remove(pos);
         setVisibility();
         recyclerAdapter.notifyDataSetChanged();
-        MemoryRepository.getInstance().updateAccountList();
+        InMemoryRepository.getInstance().updateAccountList();
         pushBroadcast();
     }
 
@@ -143,7 +143,7 @@ public class FrgTransactions extends CommonFragmentWithEvents {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(UpdateFrgTransactions event) {
         transactionList.clear();
-        transactionList.addAll(MemoryRepository.getInstance().getDataSource().getAllTransactionsInfo());
+        transactionList.addAll(InMemoryRepository.getInstance().getDataSource().getAllTransactionsInfo());
         setVisibility();
         recyclerAdapter.notifyDataSetChanged();
     }

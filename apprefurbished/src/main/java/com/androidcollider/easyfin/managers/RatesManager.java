@@ -6,7 +6,7 @@ import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.modules.RatesApiModule;
 import com.androidcollider.easyfin.models.Currency;
-import com.androidcollider.easyfin.repository.MemoryRepository;
+import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 import com.androidcollider.easyfin.models.Rates;
 import com.androidcollider.easyfin.models.RatesNew;
 
@@ -43,7 +43,7 @@ public class RatesManager {
                                     ratesList.add(generateNewRates(id, cur, ratesNew));
                                 }
                                 Log.d(TAG, "rates " + ratesList);
-                                MemoryRepository.getInstance().getDataSource().insertRates(ratesList);
+                                InMemoryRepository.getInstance().getDataSource().insertRates(ratesList);
                             }
 
                             @Override
