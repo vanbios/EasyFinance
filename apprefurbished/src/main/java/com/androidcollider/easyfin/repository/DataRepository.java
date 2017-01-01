@@ -39,7 +39,20 @@ public class DataRepository implements Repository {
 
     @Override
     public Observable<List<Account>> getAllAccounts() {
-        return memoryRepository.getAllAccounts();
+        Observable<List<Account>> memoryObservable = memoryRepository.getAllAccounts();
+        return memoryObservable != null ?
+                memoryObservable :
+                Observable.create((Observable.OnSubscribe<List<Account>>) subscriber ->
+                        databaseRepository.getAllAccounts()
+                                .subscribe(accounts -> {
+                                    memoryRepository.setAllAccounts(accounts)
+                                            .subscribe(aBoolean -> {
+                                                subscriber.onNext(accounts);
+                                                subscriber.onCompleted();
+                                            });
+                                }))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
@@ -84,7 +97,20 @@ public class DataRepository implements Repository {
 
     @Override
     public Observable<List<Transaction>> getAllTransactions() {
-        return memoryRepository.getAllTransactions();
+        Observable<List<Transaction>> memoryObservable = memoryRepository.getAllTransactions();
+        return memoryObservable != null ?
+                memoryObservable :
+                Observable.create((Observable.OnSubscribe<List<Transaction>>) subscriber ->
+                        databaseRepository.getAllTransactions()
+                                .subscribe(transactions -> {
+                                    memoryRepository.setAllTransactions(transactions)
+                                            .subscribe(aBoolean -> {
+                                                subscriber.onNext(transactions);
+                                                subscriber.onCompleted();
+                                            });
+                                }))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
@@ -129,7 +155,20 @@ public class DataRepository implements Repository {
 
     @Override
     public Observable<List<Debt>> getAllDebts() {
-        return memoryRepository.getAllDebts();
+        Observable<List<Debt>> memoryObservable = memoryRepository.getAllDebts();
+        return memoryObservable != null ?
+                memoryObservable :
+                Observable.create((Observable.OnSubscribe<List<Debt>>) subscriber ->
+                        databaseRepository.getAllDebts()
+                                .subscribe(debts -> {
+                                    memoryRepository.setAllDebts(debts)
+                                            .subscribe(aBoolean -> {
+                                                subscriber.onNext(debts);
+                                                subscriber.onCompleted();
+                                            });
+                                }))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
@@ -194,12 +233,18 @@ public class DataRepository implements Repository {
 
     @Override
     public Observable<Map<String, double[]>> getTransactionsStatistic(int position) {
-        return memoryRepository.getTransactionsStatistic(position);
+        Observable<Map<String, double[]>> memoryObservable = memoryRepository.getTransactionsStatistic(position);
+        return memoryObservable != null ?
+                memoryObservable :
+                databaseRepository.getTransactionsStatistic(position);
     }
 
     @Override
     public Observable<Map<String, double[]>> getAccountsAmountSumGroupByTypeAndCurrency() {
-        return memoryRepository.getAccountsAmountSumGroupByTypeAndCurrency();
+        Observable<Map<String, double[]>> memoryObservable = memoryRepository.getAccountsAmountSumGroupByTypeAndCurrency();
+        return memoryObservable != null ?
+                memoryObservable :
+                databaseRepository.getAccountsAmountSumGroupByTypeAndCurrency();
     }
 
     @Override
@@ -214,26 +259,39 @@ public class DataRepository implements Repository {
 
     @Override
     public Observable<double[]> getRates() {
-        return memoryRepository.getRates();
+        Observable<double[]> memoryObservable = memoryRepository.getRates();
+        return memoryObservable != null ?
+                memoryObservable :
+                Observable.create((Observable.OnSubscribe<double[]>) subscriber ->
+                        databaseRepository.getRates()
+                                .subscribe(rates -> {
+                                    memoryRepository.setRates(rates)
+                                            .subscribe(aBoolean -> {
+                                                subscriber.onNext(rates);
+                                                subscriber.onCompleted();
+                                            });
+                                }))
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
     public Observable<Boolean> setAllAccounts(List<Account> accountList) {
-        return null;
+        return memoryRepository.setAllAccounts(accountList);
     }
 
     @Override
     public Observable<Boolean> setAllTransactions(List<Transaction> transactionList) {
-        return null;
+        return memoryRepository.setAllTransactions(transactionList);
     }
 
     @Override
     public Observable<Boolean> setAllDebts(List<Debt> debtList) {
-        return null;
+        return memoryRepository.setAllDebts(debtList);
     }
 
     @Override
     public Observable<Boolean> setRates(double[] rates) {
-        return null;
+        return memoryRepository.setRates(rates);
     }
 }

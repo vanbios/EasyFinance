@@ -5,10 +5,12 @@ import com.androidcollider.easyfin.models.Debt;
 import com.androidcollider.easyfin.models.Rates;
 import com.androidcollider.easyfin.models.Transaction;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * @author Ihor Bilous
@@ -134,21 +136,49 @@ public class MemoryRepository implements Repository {
 
     @Override
     public Observable<Boolean> setAllAccounts(List<Account> accountList) {
-        return null;
+        return Observable.<Boolean>create(subscriber -> {
+            this.accountList = new ArrayList<>();
+            this.accountList.addAll(accountList);
+            subscriber.onNext(true);
+            subscriber.onCompleted();
+        })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
     public Observable<Boolean> setAllTransactions(List<Transaction> transactionList) {
-        return null;
+        return Observable.<Boolean>create(subscriber -> {
+            this.transactionList = new ArrayList<>();
+            this.transactionList.addAll(transactionList);
+            subscriber.onNext(true);
+            subscriber.onCompleted();
+        })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
     public Observable<Boolean> setAllDebts(List<Debt> debtList) {
-        return null;
+        return Observable.<Boolean>create(subscriber -> {
+            this.debtList = new ArrayList<>();
+            this.debtList.addAll(debtList);
+            subscriber.onNext(true);
+            subscriber.onCompleted();
+        })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
     public Observable<Boolean> setRates(double[] rates) {
-        return null;
+        return Observable.<Boolean>create(subscriber -> {
+            this.ratesArray = new double[4];
+            System.arraycopy(rates, 0, this.ratesArray, 0, rates.length);
+            subscriber.onNext(true);
+            subscriber.onCompleted();
+        })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }
