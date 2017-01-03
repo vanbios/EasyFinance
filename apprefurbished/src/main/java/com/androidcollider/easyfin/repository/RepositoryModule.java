@@ -1,5 +1,7 @@
 package com.androidcollider.easyfin.repository;
 
+import android.content.Context;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -22,8 +24,8 @@ public class RepositoryModule {
     @Provides
     @Singleton
     @Database
-    public Repository provideDatabaseRepository() {
-        return new DatabaseRepository();
+    public Repository provideDatabaseRepository(Context context) {
+        return new DatabaseRepository(context);
     }
 
     @Provides
