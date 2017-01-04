@@ -26,7 +26,13 @@ public class MemoryRepository implements Repository {
 
     @Override
     public Observable<Boolean> addNewAccount(Account account) {
-        return null;
+        return Observable.<Boolean>create(subscriber -> {
+            boolean b = accountList.add(account);
+            subscriber.onNext(b);
+            subscriber.onCompleted();
+        })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
@@ -36,7 +42,14 @@ public class MemoryRepository implements Repository {
 
     @Override
     public Observable<Boolean> updateAccount(Account account) {
-        return null;
+        return Observable.<Boolean>create(subscriber -> {
+            int pos = accountList.indexOf(account);
+            boolean b = pos >= 0 && accountList.set(pos, account) != null;
+            subscriber.onNext(b);
+            subscriber.onCompleted();
+        })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
@@ -51,7 +64,13 @@ public class MemoryRepository implements Repository {
 
     @Override
     public Observable<Boolean> addNewTransaction(Transaction transaction) {
-        return null;
+        return Observable.<Boolean>create(subscriber -> {
+            boolean b = transactionList.add(transaction);
+            subscriber.onNext(b);
+            subscriber.onCompleted();
+        })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
@@ -76,7 +95,13 @@ public class MemoryRepository implements Repository {
 
     @Override
     public Observable<Boolean> addNewDebt(Debt debt) {
-        return null;
+        return Observable.<Boolean>create(subscriber -> {
+            boolean b = debtList.add(debt);
+            subscriber.onNext(b);
+            subscriber.onCompleted();
+        })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override

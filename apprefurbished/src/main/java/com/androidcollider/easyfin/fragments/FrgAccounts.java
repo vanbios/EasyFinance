@@ -10,12 +10,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.androidcollider.easyfin.common.MainActivity;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.RecyclerAccountAdapter;
+import com.androidcollider.easyfin.common.MainActivity;
+import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.models.Account;
+import com.androidcollider.easyfin.repository.Repository;
 import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 
 import org.greenrobot.eventbus.EventBus;
@@ -23,6 +25,11 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import rx.Subscriber;
 
 public class FrgAccounts extends CommonFragmentWithEvents {
 
@@ -31,11 +38,15 @@ public class FrgAccounts extends CommonFragmentWithEvents {
     private RecyclerAccountAdapter recyclerAdapter;
     private ArrayList<Account> accountList = null;
 
+    @Inject
+    Repository repository;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frg_accounts, container, false);
+        ((App) getActivity().getApplication()).getComponent().inject(this);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerAccount);
         tvEmpty = (TextView) view.findViewById(R.id.tvEmptyAccounts);
         setupRecyclerView();
@@ -44,39 +55,75 @@ public class FrgAccounts extends CommonFragmentWithEvents {
     }
 
     private void setupRecyclerView() {
-        accountList = InMemoryRepository.getInstance().getAccountList();
-        setVisibility();
-        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        recyclerAdapter = new RecyclerAccountAdapter(getActivity(), accountList);
-        recyclerView.setAdapter(recyclerAdapter);
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        repository.getAllAccounts()
+                .subscribe(new Subscriber<List<Account>>() {
 
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
+                    @Override
+                    public void onCompleted() {
 
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                FrgMain parentFragment = (FrgMain) getParentFragment();
-                if (parentFragment != null) {
-                    if (dy > 0) {
-                        parentFragment.hideMenu();
-                    } else if (dy < 0) {
-                        parentFragment.showMenu();
                     }
-                }
-                super.onScrolled(recyclerView, dx, dy);
-            }
-        });
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<Account> accountList) {
+                        FrgAccounts.this.accountList = new ArrayList<>();
+                        FrgAccounts.this.accountList.addAll(accountList);
+                        setVisibility();
+                        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
+                        recyclerAdapter = new RecyclerAccountAdapter(getActivity(), FrgAccounts.this.accountList);
+                        recyclerView.setAdapter(recyclerAdapter);
+                        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+                            @Override
+                            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                                super.onScrollStateChanged(recyclerView, newState);
+                            }
+
+                            @Override
+                            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                                FrgMain parentFragment = (FrgMain) getParentFragment();
+                                if (parentFragment != null) {
+                                    if (dy > 0) {
+                                        parentFragment.hideMenu();
+                                    } else if (dy < 0) {
+                                        parentFragment.showMenu();
+                                    }
+                                }
+                                super.onScrolled(recyclerView, dx, dy);
+                            }
+                        });
+                    }
+                });
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(UpdateFrgAccounts event) {
-        accountList.clear();
-        accountList.addAll(InMemoryRepository.getInstance().getAccountList());
-        setVisibility();
-        recyclerAdapter.notifyDataSetChanged();
+        repository.getAllAccounts()
+                .subscribe(new Subscriber<List<Account>>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<Account> accountList) {
+                        FrgAccounts.this.accountList.clear();
+                        FrgAccounts.this.accountList.addAll(accountList);
+                        setVisibility();
+                        recyclerAdapter.notifyDataSetChanged();
+                    }
+                });
+
     }
 
     private void setVisibility() {

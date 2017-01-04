@@ -16,9 +16,11 @@ import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
+import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.models.Account;
+import com.androidcollider.easyfin.repository.Repository;
 import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.androidcollider.easyfin.utils.HideKeyboardUtils;
@@ -26,6 +28,10 @@ import com.androidcollider.easyfin.utils.ShakeEditText;
 import com.androidcollider.easyfin.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
+
+import javax.inject.Inject;
+
+import rx.Subscriber;
 
 public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDialog.OnCommitAmountListener {
 
@@ -37,11 +43,15 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
     private int idAccount, mode;
     private Account accFrIntent;
 
+    @Inject
+    Repository repository;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frg_add_account, container, false);
+        ((App) getActivity().getApplication()).getComponent().inject(this);
         initializeFields();
         setMode();
         setToolbar();
@@ -182,8 +192,24 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
                         .type(type)
                         .currency(currency)
                         .build();
-                InMemoryRepository.getInstance().getDataSource().insertNewAccount(account);
-                lastActions();
+                //InMemoryRepository.getInstance().getDataSource().insertNewAccount(account);
+                repository.addNewAccount(account)
+                        .subscribe(new Subscriber<Boolean>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onNext(Boolean aBoolean) {
+                                lastActions();
+                            }
+                        });
             }
         }
     }
@@ -208,8 +234,26 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
                         .type(type)
                         .currency(currency)
                         .build();
-                InMemoryRepository.getInstance().getDataSource().editAccount(account);
-                lastActions();
+
+                repository.updateAccount(account)
+                        .subscribe(new Subscriber<Boolean>() {
+
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onNext(Boolean aBoolean) {
+                                lastActions();
+                            }
+                        });
+                //InMemoryRepository.getInstance().getDataSource().editAccount(account);
             }
         }
     }
