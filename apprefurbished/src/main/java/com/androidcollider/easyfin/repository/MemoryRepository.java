@@ -25,10 +25,10 @@ public class MemoryRepository implements Repository {
 
 
     @Override
-    public Observable<Boolean> addNewAccount(Account account) {
-        return Observable.<Boolean>create(subscriber -> {
-            boolean b = accountList.add(account);
-            subscriber.onNext(b);
+    public Observable<Account> addNewAccount(Account account) {
+        return Observable.<Account>create(subscriber -> {
+            accountList.add(account);
+            subscriber.onNext(account);
             subscriber.onCompleted();
         })
                 .subscribeOn(AndroidSchedulers.mainThread())
@@ -41,11 +41,10 @@ public class MemoryRepository implements Repository {
     }
 
     @Override
-    public Observable<Boolean> updateAccount(Account account) {
-        return Observable.<Boolean>create(subscriber -> {
+    public Observable<Account> updateAccount(Account account) {
+        return Observable.<Account>create(subscriber -> {
             int pos = accountList.indexOf(account);
-            boolean b = pos >= 0 && accountList.set(pos, account) != null;
-            subscriber.onNext(b);
+            subscriber.onNext(pos >= 0 ? accountList.set(pos, account) : null);
             subscriber.onCompleted();
         })
                 .subscribeOn(AndroidSchedulers.mainThread())
@@ -63,10 +62,10 @@ public class MemoryRepository implements Repository {
     }
 
     @Override
-    public Observable<Boolean> addNewTransaction(Transaction transaction) {
-        return Observable.<Boolean>create(subscriber -> {
-            boolean b = transactionList.add(transaction);
-            subscriber.onNext(b);
+    public Observable<Transaction> addNewTransaction(Transaction transaction) {
+        return Observable.<Transaction>create(subscriber -> {
+            transactionList.add(transaction);
+            subscriber.onNext(transaction);
             subscriber.onCompleted();
         })
                 .subscribeOn(AndroidSchedulers.mainThread())
@@ -79,8 +78,14 @@ public class MemoryRepository implements Repository {
     }
 
     @Override
-    public Observable<Boolean> updateTransaction(Transaction transaction) {
-        return null;
+    public Observable<Transaction> updateTransaction(Transaction transaction) {
+        return Observable.<Transaction>create(subscriber -> {
+            int pos = transactionList.indexOf(transaction);
+            subscriber.onNext(pos >= 0 ? transactionList.set(pos, transaction) : null);
+            subscriber.onCompleted();
+        })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override
@@ -94,10 +99,10 @@ public class MemoryRepository implements Repository {
     }
 
     @Override
-    public Observable<Boolean> addNewDebt(Debt debt) {
-        return Observable.<Boolean>create(subscriber -> {
-            boolean b = debtList.add(debt);
-            subscriber.onNext(b);
+    public Observable<Debt> addNewDebt(Debt debt) {
+        return Observable.<Debt>create(subscriber -> {
+            debtList.add(debt);
+            subscriber.onNext(debt);
             subscriber.onCompleted();
         })
                 .subscribeOn(AndroidSchedulers.mainThread())
@@ -110,8 +115,14 @@ public class MemoryRepository implements Repository {
     }
 
     @Override
-    public Observable<Boolean> updateDebt(Debt debt) {
-        return null;
+    public Observable<Debt> updateDebt(Debt debt) {
+        return Observable.<Debt>create(subscriber -> {
+            int pos = debtList.indexOf(debt);
+            subscriber.onNext(pos >= 0 ? debtList.set(pos, debt) : null);
+            subscriber.onCompleted();
+        })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override

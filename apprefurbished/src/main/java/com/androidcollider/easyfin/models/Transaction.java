@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 @Getter
@@ -11,6 +12,7 @@ import lombok.ToString;
 @ToString
 public class Transaction implements Serializable {
 
+    @Setter
     private int id;
     private int idAccount;
     private int category;

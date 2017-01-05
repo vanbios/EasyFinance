@@ -194,7 +194,8 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
                         .build();
                 //InMemoryRepository.getInstance().getDataSource().insertNewAccount(account);
                 repository.addNewAccount(account)
-                        .subscribe(new Subscriber<Boolean>() {
+                        .subscribe(new Subscriber<Account>() {
+
                             @Override
                             public void onCompleted() {
 
@@ -206,7 +207,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
                             }
 
                             @Override
-                            public void onNext(Boolean aBoolean) {
+                            public void onNext(Account account1) {
                                 lastActions();
                             }
                         });
@@ -236,7 +237,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
                         .build();
 
                 repository.updateAccount(account)
-                        .subscribe(new Subscriber<Boolean>() {
+                        .subscribe(new Subscriber<Account>() {
 
                             @Override
                             public void onCompleted() {
@@ -249,7 +250,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
                             }
 
                             @Override
-                            public void onNext(Boolean aBoolean) {
+                            public void onNext(Account account1) {
                                 lastActions();
                             }
                         });

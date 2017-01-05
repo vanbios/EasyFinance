@@ -53,8 +53,8 @@ class DatabaseRepository implements Repository {
 
 
     @Override
-    public Observable<Boolean> addNewAccount(Account account) {
-        return Observable.<Boolean>create(subscriber -> {
+    public Observable<Account> addNewAccount(Account account) {
+        return Observable.<Account>create(subscriber -> {
             subscriber.onNext(insertNewAccount(account));
             subscriber.onCompleted();
         })
@@ -73,8 +73,8 @@ class DatabaseRepository implements Repository {
     }
 
     @Override
-    public Observable<Boolean> updateAccount(Account account) {
-        return Observable.<Boolean>create(subscriber -> {
+    public Observable<Account> updateAccount(Account account) {
+        return Observable.<Account>create(subscriber -> {
             subscriber.onNext(editAccount(account));
             subscriber.onCompleted();
         })
@@ -103,8 +103,8 @@ class DatabaseRepository implements Repository {
     }
 
     @Override
-    public Observable<Boolean> addNewTransaction(Transaction transaction) {
-        return Observable.<Boolean>create(subscriber -> {
+    public Observable<Transaction> addNewTransaction(Transaction transaction) {
+        return Observable.<Transaction>create(subscriber -> {
             subscriber.onNext(insertNewTransaction(transaction));
             subscriber.onCompleted();
         })
@@ -123,8 +123,8 @@ class DatabaseRepository implements Repository {
     }
 
     @Override
-    public Observable<Boolean> updateTransaction(Transaction transaction) {
-        return Observable.<Boolean>create(subscriber -> {
+    public Observable<Transaction> updateTransaction(Transaction transaction) {
+        return Observable.<Transaction>create(subscriber -> {
             subscriber.onNext(editTransaction(transaction));
             subscriber.onCompleted();
         })
@@ -153,8 +153,8 @@ class DatabaseRepository implements Repository {
     }
 
     @Override
-    public Observable<Boolean> addNewDebt(Debt debt) {
-        return Observable.<Boolean>create(subscriber -> {
+    public Observable<Debt> addNewDebt(Debt debt) {
+        return Observable.<Debt>create(subscriber -> {
             subscriber.onNext(insertNewDebt(debt));
             subscriber.onCompleted();
         })
@@ -173,8 +173,8 @@ class DatabaseRepository implements Repository {
     }
 
     @Override
-    public Observable<Boolean> updateDebt(Debt debt) {
-        return Observable.<Boolean>create(subscriber -> {
+    public Observable<Debt> updateDebt(Debt debt) {
+        return Observable.<Debt>create(subscriber -> {
             subscriber.onNext(editDebt(debt));
             subscriber.onCompleted();
         })
@@ -274,22 +274,22 @@ class DatabaseRepository implements Repository {
 
     @Override
     public Observable<Boolean> setAllAccounts(List<Account> accountList) {
-        return null;
+        throw new IllegalStateException("do not perform this action!");
     }
 
     @Override
     public Observable<Boolean> setAllTransactions(List<Transaction> transactionList) {
-        return null;
+        throw new IllegalStateException("do not perform this action!");
     }
 
     @Override
     public Observable<Boolean> setAllDebts(List<Debt> debtList) {
-        return null;
+        throw new IllegalStateException("do not perform this action!");
     }
 
     @Override
     public Observable<Boolean> setRates(double[] rates) {
-        return null;
+        throw new IllegalStateException("do not perform this action!");
     }
 
 
@@ -308,7 +308,7 @@ class DatabaseRepository implements Repository {
         db.close();
     }
 
-    private boolean insertNewAccount(Account account) {
+    private Account insertNewAccount(Account account) {
         ContentValues cv = new ContentValues();
 
         cv.put("name", account.getName());
@@ -317,12 +317,15 @@ class DatabaseRepository implements Repository {
         cv.put("currency", account.getCurrency());
 
         openLocalToWrite();
-        boolean res = insertAccountQuery(cv);
+        int id = (int) insertAccountQuery(cv);
         closeLocal();
-        return res;
+        if (id > 0) {
+            account.setId(id);
+        }
+        return account;
     }
 
-    private boolean insertNewTransaction(Transaction transaction) {
+    private Transaction insertNewTransaction(Transaction transaction) {
         ContentValues cv1 = new ContentValues();
         ContentValues cv2 = new ContentValues();
 
@@ -336,14 +339,17 @@ class DatabaseRepository implements Repository {
         cv2.put("amount", transaction.getAccountAmount());
 
         openLocalToWrite();
-        boolean res1 = insertTransactionQuery(cv1);
-        boolean res2 = updateAccountQuery(cv2, id_account);
+        int transId = (int) insertTransactionQuery(cv1);
+        updateAccountQuery(cv2, id_account);
         //db.update("Account", cv2, "id_account = " + id_account, null);
         closeLocal();
-        return res1 && res2;
+        if (transId > 0) {
+            transaction.setId(transId);
+        }
+        return transaction;
     }
 
-    private boolean insertNewDebt(Debt debt) {
+    private Debt insertNewDebt(Debt debt) {
         ContentValues cv1 = new ContentValues();
         ContentValues cv2 = new ContentValues();
 
@@ -359,11 +365,14 @@ class DatabaseRepository implements Repository {
         cv2.put("amount", debt.getAccountAmount());
 
         openLocalToWrite();
-        boolean res1 = insertDebtQuery(cv1);
-        boolean res2 = updateAccountQuery(cv2, id_account);
+        int debtId = (int) insertDebtQuery(cv1);
+        updateAccountQuery(cv2, id_account);
         //db.update("Account", cv2, "id_account = " + id_account, null);
         closeLocal();
-        return res1 && res2;
+        if (debtId > 0) {
+            debt.setId(debtId);
+        }
+        return debt;
     }
 
     private boolean updateAccountsAmountAfterTransfer(int id_account_1, double amount_1,
@@ -653,7 +662,7 @@ class DatabaseRepository implements Repository {
         return debtArrayList;
     }
 
-    private boolean editAccount(Account account) {
+    private Account editAccount(Account account) {
         ContentValues cv = new ContentValues();
 
         cv.put("name", account.getName());
@@ -664,10 +673,10 @@ class DatabaseRepository implements Repository {
         int id = account.getId();
 
         openLocalToWrite();
-        boolean res = updateAccountQuery(cv, id);
+        updateAccountQuery(cv, id);
         //db.update("Account", cv, "id_account = '" + id + "' ", null);
         closeLocal();
-        return res;
+        return account;
     }
 
     private boolean deleteAccountDB(int id) {
@@ -875,7 +884,7 @@ class DatabaseRepository implements Repository {
         return results;
     }
 
-    private boolean editTransaction(Transaction transaction) {
+    private Transaction editTransaction(Transaction transaction) {
         ContentValues cv1 = new ContentValues();
         ContentValues cv2 = new ContentValues();
 
@@ -890,12 +899,12 @@ class DatabaseRepository implements Repository {
         cv2.put("amount", transaction.getAccountAmount());
 
         openLocalToWrite();
-        boolean res1 = updateTransactionQuery(cv1, id_transaction);
+        updateTransactionQuery(cv1, id_transaction);
         //db.update("Transactions", cv1, "id_transaction = " + id_transaction, null);
-        boolean res2 = updateAccountQuery(cv2, id_account);
+        updateAccountQuery(cv2, id_account);
         //db.update("Account", cv2, "id_account = " + id_account, null);
         closeLocal();
-        return res1 && res2;
+        return transaction;
     }
 
     private boolean editTransactionDifferentAccounts(Transaction transaction, double oldAccountAmount, int oldAccountId) {
@@ -926,7 +935,7 @@ class DatabaseRepository implements Repository {
         return res1 && res2 && res3;
     }
 
-    private boolean editDebt(Debt debt) {
+    private Debt editDebt(Debt debt) {
         ContentValues cv1 = new ContentValues();
         ContentValues cv2 = new ContentValues();
 
@@ -943,12 +952,12 @@ class DatabaseRepository implements Repository {
         cv2.put("amount", debt.getAccountAmount());
 
         openLocalToWrite();
-        boolean res1 = updateDebtQuery(cv1, id_debt);
+        updateDebtQuery(cv1, id_debt);
         //db.update("Debt", cv1, "id_debt = " + id_debt, null);
-        boolean res2 = updateAccountQuery(cv2, id_account);
+        updateAccountQuery(cv2, id_account);
         //db.update("Account", cv2, "id_account = " + id_account, null);
         closeLocal();
-        return res1 && res2;
+        return debt;
     }
 
     private boolean editDebtDifferentAccounts(Debt debt, double oldAccountAmount, int oldAccountId) {
@@ -981,16 +990,16 @@ class DatabaseRepository implements Repository {
         return res1 && res2 && res3;
     }
 
-    private boolean insertAccountQuery(ContentValues cv) {
-        return db.insert("Account", null, cv) > 0;
+    private long insertAccountQuery(ContentValues cv) {
+        return db.insert("Account", null, cv);
     }
 
-    private boolean insertTransactionQuery(ContentValues cv) {
-        return db.insert("Transactions", null, cv) > 0;
+    private long insertTransactionQuery(ContentValues cv) {
+        return db.insert("Transactions", null, cv);
     }
 
-    private boolean insertDebtQuery(ContentValues cv) {
-        return db.insert("Debt", null, cv) > 0;
+    private long insertDebtQuery(ContentValues cv) {
+        return db.insert("Debt", null, cv);
     }
 
     private boolean updateAccountQuery(ContentValues cv, int id) {

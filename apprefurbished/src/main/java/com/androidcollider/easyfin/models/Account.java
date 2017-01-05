@@ -5,6 +5,7 @@ import java.io.Serializable;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 @Getter
@@ -12,6 +13,7 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode(exclude = {"name", "amount", "type", "currency"})
 public class Account implements Serializable {
+    @Setter
     private int id;
     private String name;
     private double amount;

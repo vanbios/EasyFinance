@@ -18,14 +18,11 @@ public interface Repository {
 
     // Accounts
 
-    Observable<Boolean> addNewAccount(Account account);
+    Observable<Account> addNewAccount(Account account);
 
     Observable<List<Account>> getAllAccounts();
 
-    Observable<Boolean> updateAccount(Account account);
-
-    /*Observable<Boolean> updateAccount(int id,
-                                      double amount);*/
+    Observable<Account> updateAccount(Account account);
 
     Observable<Boolean> deleteAccount(int id);
 
@@ -39,11 +36,11 @@ public interface Repository {
 
     // Transactions
 
-    Observable<Boolean> addNewTransaction(Transaction transaction);
+    Observable<Transaction> addNewTransaction(Transaction transaction);
 
     Observable<List<Transaction>> getAllTransactions();
 
-    Observable<Boolean> updateTransaction(Transaction transaction);
+    Observable<Transaction> updateTransaction(Transaction transaction);
 
     Observable<Boolean> updateTransactionDifferentAccounts(Transaction transaction,
                                                            double oldAccountAmount,
@@ -58,11 +55,11 @@ public interface Repository {
 
     // Debts
 
-    Observable<Boolean> addNewDebt(Debt debt);
+    Observable<Debt> addNewDebt(Debt debt);
 
     Observable<List<Debt>> getAllDebts();
 
-    Observable<Boolean> updateDebt(Debt debt);
+    Observable<Debt> updateDebt(Debt debt);
 
     Observable<Boolean> updateDebtDifferentAccounts(Debt debt,
                                                     double oldAccountAmount,
