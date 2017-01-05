@@ -8,11 +8,11 @@ import android.widget.TextView;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.models.Account;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class SpinAccountForTransAdapter extends SpinAccountAdapter {
 
-    public SpinAccountForTransAdapter(Context context, int headLayout, ArrayList<Account> accountL) {
+    public SpinAccountForTransAdapter(Context context, int headLayout, List<Account> accountL) {
         super(context, headLayout, accountL);
     }
 

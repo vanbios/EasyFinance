@@ -14,7 +14,7 @@ import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import lombok.Getter;
 
@@ -22,12 +22,12 @@ import lombok.Getter;
 abstract class SpinAccountAdapter extends ArrayAdapter<Account> {
 
     private final TypedArray typeIconsArray;
-    private final ArrayList<Account> accountList;
+    private final List<Account> accountList;
     private final String[] curArray, curLangArray;
     private LayoutInflater inflater;
 
 
-    SpinAccountAdapter(Context context, int headLayout, ArrayList<Account> accountL) {
+    SpinAccountAdapter(Context context, int headLayout, List<Account> accountL) {
         super(context, headLayout, accountL);
         accountList = accountL;
         typeIconsArray = context.getResources().obtainTypedArray(R.array.account_type_icons);

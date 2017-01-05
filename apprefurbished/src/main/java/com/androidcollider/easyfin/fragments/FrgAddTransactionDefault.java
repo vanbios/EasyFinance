@@ -21,12 +21,14 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinAccountForTransHeadIconAdapter;
 import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
+import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.events.UpdateFrgHome;
 import com.androidcollider.easyfin.events.UpdateFrgTransactions;
 import com.androidcollider.easyfin.models.Account;
-import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 import com.androidcollider.easyfin.models.Transaction;
+import com.androidcollider.easyfin.repository.Repository;
+import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 import com.androidcollider.easyfin.utils.DateFormatUtils;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.androidcollider.easyfin.utils.ToastUtils;
@@ -36,6 +38,10 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+
+import javax.inject.Inject;
+
+import rx.Subscriber;
 
 public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements FrgNumericDialog.OnCommitAmountListener {
 
@@ -49,11 +55,15 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
     private Transaction transFromIntent;
     private final String prefixExpense = "-", prefixIncome = "+";
 
+    @Inject
+    Repository repository;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frg_add_trans_def, container, false);
+        ((App) getActivity().getApplication()).getComponent().inject(this);
         setToolbar();
 
         accountList = InMemoryRepository.getInstance().getAccountList();
@@ -189,9 +199,29 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                         .category(category)
                         .idAccount(idAccount)
                         .accountAmount(accountAmount)
+                        .accountName(account.getName())
+                        .accountType(account.getType())
+                        .currency(account.getCurrency())
                         .build();
-                InMemoryRepository.getInstance().getDataSource().insertNewTransaction(transaction);
-                lastActions();
+                //InMemoryRepository.getInstance().getDataSource().insertNewTransaction(transaction);
+                repository.addNewTransaction(transaction)
+                        .subscribe(new Subscriber<Transaction>() {
+
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onNext(Transaction transaction) {
+                                lastActions();
+                            }
+                        });
             }
         }
     }
@@ -214,9 +244,11 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
 
             if (isAccountTheSame) accountAmount -= oldAmount;
             else {
-                for (int i = 0; i < accountList.size(); i++) {
-                    if (oldAccountId == accountList.get(i).getId())
-                        oldAccountAmount = accountList.get(i).getAmount() - oldAmount;
+                for (Account account1 : accountList) {
+                    if (oldAccountId == account1.getId()) {
+                        oldAccountAmount = account1.getAmount() - oldAmount;
+                        break;
+                    }
                 }
             }
 
@@ -236,14 +268,52 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                         .idAccount(idAccount)
                         .accountAmount(accountAmount)
                         .id(idTrans)
+                        .currency(account.getCurrency())
+                        .accountType(account.getType())
+                        .accountName(account.getName())
                         .build();
 
                 if (isAccountTheSame) {
-                    InMemoryRepository.getInstance().getDataSource().editTransaction(transaction);
+                    //InMemoryRepository.getInstance().getDataSource().editTransaction(transaction);
+                    repository.updateTransaction(transaction)
+                            .subscribe(new Subscriber<Transaction>() {
+
+                                @Override
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onNext(Transaction transaction) {
+                                    lastActions();
+                                }
+                            });
                 } else {
-                    InMemoryRepository.getInstance().getDataSource().editTransactionDifferentAccounts(transaction, oldAccountAmount, oldAccountId);
+                    //InMemoryRepository.getInstance().getDataSource().editTransactionDifferentAccounts(transaction, oldAccountAmount, oldAccountId);
+                    repository.updateTransactionDifferentAccounts(transaction, oldAccountAmount, oldAccountId)
+                            .subscribe(new Subscriber<Boolean>() {
+
+                                @Override
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onNext(Boolean aBoolean) {
+                                    lastActions();
+                                }
+                            });
                 }
-                lastActions();
             }
         }
     }
@@ -273,18 +343,20 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
     private void setDateTimeField() {
         tvDate.setOnClickListener(v -> datePickerDialog.show());
         Calendar newCalendar = Calendar.getInstance();
-        if (mode == 1)
+        if (mode == 1) {
             newCalendar.setTime(new Date(transFromIntent.getDate()));
+        }
         tvDate.setText(DateFormatUtils.dateToString(newCalendar.getTime(), DATEFORMAT));
 
         datePickerDialog = new DatePickerDialog(getActivity(), (view1, year, monthOfYear, dayOfMonth) -> {
             Calendar newDate = Calendar.getInstance();
             newDate.set(year, monthOfYear, dayOfMonth);
 
-            if (newDate.getTimeInMillis() > System.currentTimeMillis())
+            if (newDate.getTimeInMillis() > System.currentTimeMillis()) {
                 ToastUtils.showClosableToast(getActivity(), getString(R.string.transaction_date_future), 1);
-            else
+            } else {
                 tvDate.setText(DateFormatUtils.dateToString(newDate.getTime(), DATEFORMAT));
+            }
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
     }
 

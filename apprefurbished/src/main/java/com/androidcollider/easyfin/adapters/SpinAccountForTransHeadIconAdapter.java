@@ -9,11 +9,11 @@ import android.widget.TextView;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.models.Account;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class SpinAccountForTransHeadIconAdapter extends SpinAccountAdapter {
 
-    public SpinAccountForTransHeadIconAdapter(Context context, int headLayout, ArrayList<Account> accountsL) {
+    public SpinAccountForTransHeadIconAdapter(Context context, int headLayout, List<Account> accountsL) {
         super(context, headLayout, accountsL);
     }
 

@@ -18,7 +18,7 @@ import com.androidcollider.easyfin.models.Debt;
 import com.androidcollider.easyfin.utils.DateFormatUtils;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -29,11 +29,11 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
     @Setter
     private long position;
     private Context context;
-    private ArrayList<Debt> debtList;
+    private List<Debt> debtList;
     private final String[] curArray, curLangArray;
 
 
-    public RecyclerDebtAdapter(Context context, ArrayList<Debt> debtList) {
+    public RecyclerDebtAdapter(Context context, List<Debt> debtList) {
         this.context = context;
         this.debtList = debtList;
         curArray = context.getResources().getStringArray(R.array.account_currency_array);
@@ -147,5 +147,4 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
             menu.add(Menu.NONE, R.id.ctx_menu_delete_debt, 5, R.string.delete);
         }
     }
-
 }

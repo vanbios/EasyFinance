@@ -15,10 +15,12 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.RecyclerDebtAdapter;
+import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.events.UpdateFrgDebts;
 import com.androidcollider.easyfin.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.models.Debt;
+import com.androidcollider.easyfin.repository.Repository;
 import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -28,22 +30,31 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import rx.Subscriber;
 
 public class FrgDebts extends CommonFragment {
 
     private RecyclerView recyclerView;
     private TextView tvEmpty;
-    private ArrayList<Debt> debtList = null;
+    private List<Debt> debtList = null;
     private RecyclerDebtAdapter recyclerAdapter;
 
     private FloatingActionMenu fabMenu;
+
+    @Inject
+    Repository repository;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frg_debts, container, false);
-        debtList = InMemoryRepository.getInstance().getDataSource().getAllDebtInfo();
+        ((App) getActivity().getApplication()).getComponent().inject(this);
+        //debtList = InMemoryRepository.getInstance().getDataSource().getAllDebtInfo();
         initUI(view);
         EventBus.getDefault().register(this);
         return view;
@@ -51,38 +62,57 @@ public class FrgDebts extends CommonFragment {
 
     private void initUI(View view) {
         tvEmpty = (TextView) view.findViewById(R.id.tvEmptyDebt);
-        initRecyclerView(view);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerDebt);
+        initRecyclerView();
         registerForContextMenu(recyclerView);
         initFabs(view);
     }
 
-    private void initRecyclerView(View view) {
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerDebt);
-        setVisibility();
-        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        recyclerAdapter = new RecyclerDebtAdapter(getActivity(), debtList);
-        recyclerView.setAdapter(recyclerAdapter);
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+    private void initRecyclerView() {
+        repository.getAllDebts()
+                .subscribe(new Subscriber<List<Debt>>() {
 
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
+                    @Override
+                    public void onCompleted() {
 
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (dy > 0) {
-                    if (!fabMenu.isMenuHidden()) {
-                        fabMenu.hideMenu(true);
                     }
-                } else if (dy < 0) {
-                    if (fabMenu.isMenuHidden()) {
-                        fabMenu.showMenu(true);
+
+                    @Override
+                    public void onError(Throwable e) {
+
                     }
-                }
-                super.onScrolled(recyclerView, dx, dy);
-            }
-        });
+
+                    @Override
+                    public void onNext(List<Debt> debtList) {
+                        FrgDebts.this.debtList = new ArrayList<>();
+                        FrgDebts.this.debtList.addAll(debtList);
+                        setVisibility();
+                        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
+                        recyclerAdapter = new RecyclerDebtAdapter(getActivity(), debtList);
+                        recyclerView.setAdapter(recyclerAdapter);
+                        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+                            @Override
+                            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                                super.onScrollStateChanged(recyclerView, newState);
+                            }
+
+                            @Override
+                            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                                if (dy > 0) {
+                                    if (!fabMenu.isMenuHidden()) {
+                                        fabMenu.hideMenu(true);
+                                    }
+                                } else if (dy < 0) {
+                                    if (fabMenu.isMenuHidden()) {
+                                        fabMenu.showMenu(true);
+                                    }
+                                }
+                                super.onScrolled(recyclerView, dx, dy);
+                            }
+                        });
+                    }
+                });
     }
 
     private void initFabs(View view) {
@@ -197,10 +227,27 @@ public class FrgDebts extends CommonFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(UpdateFrgDebts event) {
-        debtList.clear();
-        debtList.addAll(InMemoryRepository.getInstance().getDataSource().getAllDebtInfo());
-        setVisibility();
-        recyclerAdapter.notifyDataSetChanged();
+        repository.getAllDebts()
+                .subscribe(new Subscriber<List<Debt>>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<Debt> debtList) {
+                        FrgDebts.this.debtList.clear();
+                        FrgDebts.this.debtList.addAll(debtList);
+                        setVisibility();
+                        recyclerAdapter.notifyDataSetChanged();
+                    }
+                });
     }
 
     private void pushBroadcast() {

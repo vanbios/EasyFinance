@@ -36,7 +36,7 @@ public class FrgAccounts extends CommonFragmentWithEvents {
     private RecyclerView recyclerView;
     private TextView tvEmpty;
     private RecyclerAccountAdapter recyclerAdapter;
-    private ArrayList<Account> accountList = null;
+    private List<Account> accountList = null;
 
     @Inject
     Repository repository;
@@ -123,7 +123,6 @@ public class FrgAccounts extends CommonFragmentWithEvents {
                         recyclerAdapter.notifyDataSetChanged();
                     }
                 });
-
     }
 
     private void setVisibility() {

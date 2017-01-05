@@ -1,5 +1,7 @@
 package com.androidcollider.easyfin.repository;
 
+import android.util.Log;
+
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.models.Debt;
 import com.androidcollider.easyfin.models.Rates;
@@ -64,7 +66,7 @@ public class MemoryRepository implements Repository {
     @Override
     public Observable<Transaction> addNewTransaction(Transaction transaction) {
         return Observable.<Transaction>create(subscriber -> {
-            transactionList.add(transaction);
+            transactionList.add(0, transaction);
             subscriber.onNext(transaction);
             subscriber.onCompleted();
         })

@@ -20,9 +20,11 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinAccountForTransAdapter;
+import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.models.Account;
+import com.androidcollider.easyfin.repository.Repository;
 import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
@@ -34,6 +36,11 @@ import com.androidcollider.easyfin.utils.ToastUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import rx.Subscriber;
 
 public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit implements FrgNumericDialog.OnCommitAmountListener {
 
@@ -43,13 +50,17 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
     private EditText etExchange;
     private TextView tvAmount;
     private RelativeLayout layoutExchange;
-    private ArrayList<Account> accountListFrom, accountListTo = null;
+    private List<Account> accountListFrom, accountListTo = null;
+
+    @Inject
+    Repository repository;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frg_add_trans_btw, container, false);
+        ((App) getActivity().getApplication()).getComponent().inject(this);
         setToolbar();
 
         accountListFrom = InMemoryRepository.getInstance().getAccountList();
@@ -195,11 +206,28 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
         double accountAmountFrom = accAmountFrom - amount;
         double accountAmountTo = accAmountTo + amountTo;
 
-        InMemoryRepository.getInstance().getDataSource().updateAccountsAmountAfterTransfer(idFrom,
-                accountAmountFrom, idTo, accountAmountTo);
-        InMemoryRepository.getInstance().updateAccountList();
-        pushBroadcast();
-        finish();
+        repository.transferBTWAccounts(idFrom, accountAmountFrom, idTo, accountAmountTo)
+                .subscribe(new Subscriber<Boolean>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        InMemoryRepository.getInstance().updateAccountList();
+                        pushBroadcast();
+                        finish();
+                    }
+                });
+        /*InMemoryRepository.getInstance().getDataSource().updateAccountsAmountAfterTransfer(idFrom,
+                accountAmountFrom, idTo, accountAmountTo);*/
     }
 
     private boolean checkEditTextForCorrect(EditText et, int strRes) {

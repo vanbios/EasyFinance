@@ -17,7 +17,7 @@ import com.androidcollider.easyfin.models.Transaction;
 import com.androidcollider.easyfin.utils.DateFormatUtils;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -28,7 +28,7 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
     @Setter
     private long position;
     private Context context;
-    private ArrayList<Transaction> transactionArrayList;
+    private List<Transaction> transactionArrayList;
     private final TypedArray catExpenseIconsArray, catIncomeIconsArray, typeIconsArray;
     private final String[] curArray, curLangArray;
     private final int CONTENT_TYPE = 1, BUTTON_TYPE = 2;
@@ -36,7 +36,7 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
     private static boolean showButton;
 
 
-    public RecyclerTransactionAdapter(Context context, ArrayList<Transaction> transactionArrayList) {
+    public RecyclerTransactionAdapter(Context context, List<Transaction> transactionArrayList) {
         this.context = context;
         this.transactionArrayList = transactionArrayList;
         catExpenseIconsArray = context.getResources().obtainTypedArray(R.array.transaction_category_expense_icons);

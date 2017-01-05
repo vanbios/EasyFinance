@@ -15,17 +15,17 @@ import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccountAdapter.ViewHolder> {
 
     private long pos;
-    private ArrayList<Account> accountsList;
+    private List<Account> accountsList;
     private final TypedArray typeIconsArray;
     private final String[] curArray, curLangArray;
 
 
-    public RecyclerAccountAdapter(Context context, ArrayList<Account> accountsList) {
+    public RecyclerAccountAdapter(Context context, List<Account> accountsList) {
         this.accountsList = accountsList;
         typeIconsArray = context.getResources().obtainTypedArray(R.array.account_type_icons);
         curArray = context.getResources().getStringArray(R.array.account_currency_array);

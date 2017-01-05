@@ -20,11 +20,13 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinAccountForTransHeadIconAdapter;
+import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.events.UpdateFrgDebts;
 import com.androidcollider.easyfin.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.models.Debt;
+import com.androidcollider.easyfin.repository.Repository;
 import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 import com.androidcollider.easyfin.utils.DateFormatUtils;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
@@ -38,6 +40,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.inject.Inject;
+
+import rx.Subscriber;
+
 public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialog.OnCommitAmountListener {
 
     private View view;
@@ -50,12 +56,15 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     private int mode, debtType;
     private Debt debtFrIntent;
 
+    @Inject
+    Repository repository;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.frg_add_debt, container, false);
+        ((App) getActivity().getApplication()).getComponent().inject(this);
         mode = getArguments().getInt("mode", 0);
         if (mode == 1) debtFrIntent = (Debt) getArguments().getSerializable("debt");
         else debtType = getArguments().getInt("type", 0);
@@ -172,8 +181,25 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                         .date(date)
                         .accountAmount(accountAmount)
                         .build();
-                InMemoryRepository.getInstance().getDataSource().insertNewDebt(debt);
-                lastActions();
+                //InMemoryRepository.getInstance().getDataSource().insertNewDebt(debt);
+                repository.addNewDebt(debt)
+                        .subscribe(new Subscriber<Debt>() {
+
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onNext(Debt debt) {
+                                lastActions();
+                            }
+                        });
             }
         }
     }
@@ -248,12 +274,46 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                         .build();
 
                 if (isAccountsTheSame) {
-                    InMemoryRepository.getInstance().getDataSource().editDebt(debt);
-                } else {
-                    InMemoryRepository.getInstance().getDataSource().editDebtDifferentAccounts(debt, oldAccountAmount, oldAccountId);
-                }
+                    //InMemoryRepository.getInstance().getDataSource().editDebt(debt);
+                    repository.updateDebt(debt)
+                            .subscribe(new Subscriber<Debt>() {
 
-                lastActions();
+                                @Override
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onNext(Debt debt) {
+                                    lastActions();
+                                }
+                            });
+                } else {
+                    //InMemoryRepository.getInstance().getDataSource().editDebtDifferentAccounts(debt, oldAccountAmount, oldAccountId);
+                    repository.updateDebtDifferentAccounts(debt, oldAccountAmount, oldAccountId)
+                            .subscribe(new Subscriber<Boolean>() {
+
+                                @Override
+                                public void onCompleted() {
+
+                                }
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onNext(Boolean aBoolean) {
+                                    lastActions();
+                                }
+                            });
+                }
             }
         }
     }

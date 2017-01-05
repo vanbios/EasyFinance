@@ -11,9 +11,7 @@ import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.models.DateConstants;
-import com.androidcollider.easyfin.models.Debt;
 import com.androidcollider.easyfin.models.Rates;
-import com.androidcollider.easyfin.models.Transaction;
 import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 import com.androidcollider.easyfin.utils.DBExportImportUtils;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
@@ -56,7 +54,7 @@ public class DataSource {
         db.close();
     }
 
-    public void insertNewAccount(Account account) {
+    /*public void insertNewAccount(Account account) {
         ContentValues cv = new ContentValues();
 
         cv.put("name", account.getName());
@@ -67,9 +65,9 @@ public class DataSource {
         openLocalToWrite();
         db.insert("Account", null, cv);
         closeLocal();
-    }
+    }*/
 
-    public void insertNewTransaction(Transaction transaction) {
+    /*public void insertNewTransaction(Transaction transaction) {
         ContentValues cv1 = new ContentValues();
         ContentValues cv2 = new ContentValues();
 
@@ -87,9 +85,9 @@ public class DataSource {
         updateAccount(cv2, id_account);
         //db.update("Account", cv2, "id_account = " + id_account, null);
         closeLocal();
-    }
+    }*/
 
-    public void insertNewDebt(Debt debt) {
+    /*public void insertNewDebt(Debt debt) {
         ContentValues cv1 = new ContentValues();
         ContentValues cv2 = new ContentValues();
 
@@ -109,9 +107,9 @@ public class DataSource {
         updateAccount(cv2, id_account);
         //db.update("Account", cv2, "id_account = " + id_account, null);
         closeLocal();
-    }
+    }*/
 
-    public void updateAccountsAmountAfterTransfer(int id_account_1, double amount_1,
+    /*public void updateAccountsAmountAfterTransfer(int id_account_1, double amount_1,
                                                   int id_account_2, double amount_2) {
         ContentValues cv1 = new ContentValues();
         ContentValues cv2 = new ContentValues();
@@ -123,11 +121,11 @@ public class DataSource {
 
         updateAccount(cv1, id_account_1);
         updateAccount(cv2, id_account_2);
-        /*db.update("Account", cv1, "id_account = " + id_account_1, null);
-        db.update("Account", cv2, "id_account = " + id_account_2, null);*/
+        *//*db.update("Account", cv1, "id_account = " + id_account_1, null);
+        db.update("Account", cv2, "id_account = " + id_account_2, null);*//*
 
         closeLocal();
-    }
+    }*/
 
     public HashMap<String, double[]> getTransactionsStatistic(int position) {
 
@@ -295,7 +293,7 @@ public class DataSource {
         return accountArrayList;
     }
 
-    public ArrayList<Transaction> getAllTransactionsInfo() {
+    /*public ArrayList<Transaction> getAllTransactionsInfo() {
         ArrayList<Transaction> transactionArrayList = new ArrayList<>();
 
         String selectQuery = "SELECT t.amount, date, category, name, type, a.currency, t.id_account, id_transaction "
@@ -347,9 +345,9 @@ public class DataSource {
         cursor.close();
         closeLocal();
         return transactionArrayList;
-    }
+    }*/
 
-    public ArrayList<Debt> getAllDebtInfo() {
+    /*public ArrayList<Debt> getAllDebtInfo() {
         ArrayList<Debt> debtArrayList = new ArrayList<>();
 
         String selectQuery = "SELECT d.name AS d_name, d.amount_current, d.amount_all, "
@@ -395,9 +393,9 @@ public class DataSource {
         cursor.close();
         closeLocal();
         return debtArrayList;
-    }
+    }*/
 
-    public void editAccount(Account account) {
+    /*public void editAccount(Account account) {
         ContentValues cv = new ContentValues();
 
         cv.put("name", account.getName());
@@ -411,7 +409,7 @@ public class DataSource {
         updateAccount(cv, id);
         //db.update("Account", cv, "id_account = '" + id + "' ", null);
         closeLocal();
-    }
+    }*/
 
     public void deleteAccount(int id) {
         if (checkAccountForTransactionOrDebtExist(id)) {
@@ -522,7 +520,7 @@ public class DataSource {
         closeLocal();
     }
 
-    public void payAllDebt(int idAccount, double accountAmount, int idDebt) {
+    /*public void payAllDebt(int idAccount, double accountAmount, int idDebt) {
         ContentValues cv = new ContentValues();
         cv.put("amount", accountAmount);
         openLocalToWrite();
@@ -561,7 +559,7 @@ public class DataSource {
         updateDebt(cv2, idDebt);
         //db.update("Debt", cv2, "id_debt = '" + idDebt + "' ", null);
         closeLocal();
-    }
+    }*/
 
     public void insertRates(ArrayList<Rates> ratesList) {
         ContentValues cv = new ContentValues();
@@ -612,7 +610,7 @@ public class DataSource {
         return results;
     }
 
-    public void editTransaction(Transaction transaction) {
+    /*public void editTransaction(Transaction transaction) {
         ContentValues cv1 = new ContentValues();
         ContentValues cv2 = new ContentValues();
 
@@ -656,8 +654,8 @@ public class DataSource {
         //db.update("Transactions", cv1, "id_transaction = " + id_transaction, null);
         updateAccount(cv2, id_account);
         updateAccount(cv3, oldAccountId);
-        /*db.update("Account", cv2, "id_account = " + id_account, null);
-        db.update("Account", cv3, "id_account = " + oldAccountId, null);*/
+        *//*db.update("Account", cv2, "id_account = " + id_account, null);
+        db.update("Account", cv3, "id_account = " + oldAccountId, null);*//*
         closeLocal();
     }
 
@@ -709,22 +707,22 @@ public class DataSource {
         //db.update("Debt", cv1, "id_debt = " + id_debt, null);
         updateAccount(cv2, id_account);
         updateAccount(cv3, oldAccountId);
-        /*db.update("Account", cv2, "id_account = " + id_account, null);
-        db.update("Account", cv3, "id_account = " + oldAccountId, null);*/
+        *//*db.update("Account", cv2, "id_account = " + id_account, null);
+        db.update("Account", cv3, "id_account = " + oldAccountId, null);*//*
         closeLocal();
-    }
+    }*/
 
     private void updateAccount(ContentValues cv, int id) {
         db.update("Account", cv, "id_account = " + id, null);
     }
 
-    private void updateTransaction(ContentValues cv, int id) {
+    /*private void updateTransaction(ContentValues cv, int id) {
         db.update("Transactions", cv, "id_transaction = " + id, null);
     }
 
     private void updateDebt(ContentValues cv, int id) {
         db.update("Debt", cv, "id_debt = " + id, null);
-    }
+    }*/
 
 
     public boolean importDatabase(Uri uri) throws IOException {

@@ -3,6 +3,7 @@ package com.androidcollider.easyfin.models;
 import java.io.Serializable;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -10,6 +11,7 @@ import lombok.ToString;
 @Getter
 @Builder
 @ToString
+@EqualsAndHashCode(exclude = {"idAccount", "category", "accountType", "date", "amount", "accountAmount", "currency", "accountName"})
 public class Transaction implements Serializable {
 
     @Setter

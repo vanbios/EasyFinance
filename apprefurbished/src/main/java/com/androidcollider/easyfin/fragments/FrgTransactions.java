@@ -10,33 +10,44 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.androidcollider.easyfin.common.MainActivity;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.RecyclerTransactionAdapter;
+import com.androidcollider.easyfin.common.MainActivity;
+import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.events.UpdateFrgHome;
 import com.androidcollider.easyfin.events.UpdateFrgTransactions;
-import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 import com.androidcollider.easyfin.models.Transaction;
+import com.androidcollider.easyfin.repository.Repository;
+import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
+import rx.Subscriber;
 
 public class FrgTransactions extends CommonFragmentWithEvents {
 
     private RecyclerView recyclerView;
     private TextView tvEmpty;
-    private ArrayList<Transaction> transactionList;
+    private List<Transaction> transactionList;
     private RecyclerTransactionAdapter recyclerAdapter;
+
+    @Inject
+    Repository repository;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frg_transactions, container, false);
+        ((App) getActivity().getApplication()).getComponent().inject(this);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerTransaction);
         tvEmpty = (TextView) view.findViewById(R.id.tvEmptyTransactions);
         setupRecyclerView();
@@ -46,32 +57,50 @@ public class FrgTransactions extends CommonFragmentWithEvents {
     }
 
     private void setupRecyclerView() {
-        transactionList = InMemoryRepository.getInstance().getDataSource().getAllTransactionsInfo();
-        setVisibility();
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(recyclerView.getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerAdapter = new RecyclerTransactionAdapter(getActivity(), transactionList);
-        recyclerView.setAdapter(recyclerAdapter);
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        repository.getAllTransactions()
+                .subscribe(new Subscriber<List<Transaction>>() {
 
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
+                    @Override
+                    public void onCompleted() {
 
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                FrgMain parentFragment = (FrgMain) getParentFragment();
-                if (parentFragment != null) {
-                    if (dy > 0) {
-                        parentFragment.hideMenu();
-                    } else if (dy < 0) {
-                        parentFragment.showMenu();
                     }
-                }
-                super.onScrolled(recyclerView, dx, dy);
-            }
-        });
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<Transaction> transactionList) {
+                        FrgTransactions.this.transactionList = new ArrayList<>();
+                        FrgTransactions.this.transactionList.addAll(transactionList);
+                        setVisibility();
+                        final LinearLayoutManager layoutManager = new LinearLayoutManager(recyclerView.getContext());
+                        recyclerView.setLayoutManager(layoutManager);
+                        recyclerAdapter = new RecyclerTransactionAdapter(getActivity(), FrgTransactions.this.transactionList);
+                        recyclerView.setAdapter(recyclerAdapter);
+                        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+                            @Override
+                            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                                super.onScrollStateChanged(recyclerView, newState);
+                            }
+
+                            @Override
+                            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                                FrgMain parentFragment = (FrgMain) getParentFragment();
+                                if (parentFragment != null) {
+                                    if (dy > 0) {
+                                        parentFragment.hideMenu();
+                                    } else if (dy < 0) {
+                                        parentFragment.showMenu();
+                                    }
+                                }
+                                super.onScrolled(recyclerView, dx, dy);
+                            }
+                        });
+                    }
+                });
     }
 
     private void setVisibility() {
@@ -142,9 +171,26 @@ public class FrgTransactions extends CommonFragmentWithEvents {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(UpdateFrgTransactions event) {
-        transactionList.clear();
-        transactionList.addAll(InMemoryRepository.getInstance().getDataSource().getAllTransactionsInfo());
-        setVisibility();
-        recyclerAdapter.notifyDataSetChanged();
+        repository.getAllTransactions()
+                .subscribe(new Subscriber<List<Transaction>>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<Transaction> transactionList) {
+                        FrgTransactions.this.transactionList.clear();
+                        FrgTransactions.this.transactionList.addAll(transactionList);
+                        setVisibility();
+                        recyclerAdapter.notifyDataSetChanged();
+                    }
+                });
     }
 }
