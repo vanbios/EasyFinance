@@ -155,13 +155,30 @@ public class FrgTransactions extends CommonFragmentWithEvents {
         int idTrans = transaction.getId();
         double amount = transaction.getAmount();
 
-        InMemoryRepository.getInstance().getDataSource().deleteTransaction(idAccount, idTrans, amount);
+        //InMemoryRepository.getInstance().getDataSource().deleteTransaction(idAccount, idTrans, amount);
 
-        transactionList.remove(pos);
-        setVisibility();
-        recyclerAdapter.notifyDataSetChanged();
-        InMemoryRepository.getInstance().updateAccountList();
-        pushBroadcast();
+        repository.deleteTransaction(idAccount, idTrans, amount)
+                .subscribe(new Subscriber<Boolean>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        transactionList.remove(pos);
+                        setVisibility();
+                        recyclerAdapter.notifyDataSetChanged();
+                        InMemoryRepository.getInstance().updateAccountList();
+                        pushBroadcast();
+                    }
+                });
     }
 
     private void pushBroadcast() {

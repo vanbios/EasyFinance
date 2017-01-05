@@ -17,8 +17,8 @@ public class RepositoryModule {
     @Provides
     @Singleton
     @Memory
-    public Repository provideMemoryRepository() {
-        return new MemoryRepository();
+    public Repository provideMemoryRepository(Context context) {
+        return new MemoryRepository(context);
     }
 
     @Provides

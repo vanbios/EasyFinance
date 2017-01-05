@@ -39,6 +39,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -73,29 +74,49 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
         CardView cardView = (CardView) view.findViewById(R.id.cardAddDebtElements);
 
-        accountList = InMemoryRepository.getInstance().getAccountList();
+        //accountList = InMemoryRepository.getInstance().getAccountList();
+        accountList = new ArrayList<>();
+        repository.getAllAccounts()
+                .subscribe(new Subscriber<List<Account>>() {
 
-        if (accountList.isEmpty()) {
-            cardView.setVisibility(View.GONE);
-            showDialogNoAccount();
-        } else {
-            cardView.setVisibility(View.VISIBLE);
-            initializeFields();
-            setDateTimeField();
-            setSpinner();
-            HideKeyboardUtils.setupUI(view.findViewById(R.id.layoutActAddDebtParent), getActivity());
+                    @Override
+                    public void onCompleted() {
 
-            if (mode == 1) setViewsToEdit();
+                    }
 
-            switch (debtType) {
-                case 0:
-                    tvAmount.setTextColor(ContextCompat.getColor(getContext(), R.color.custom_green));
-                    break;
-                case 1:
-                    tvAmount.setTextColor(ContextCompat.getColor(getContext(), R.color.custom_red));
-                    break;
-            }
-        }
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<Account> accountList) {
+                        FrgAddDebt.this.accountList.clear();
+                        FrgAddDebt.this.accountList.addAll(accountList);
+
+                        if (accountList.isEmpty()) {
+                            cardView.setVisibility(View.GONE);
+                            showDialogNoAccount();
+                        } else {
+                            cardView.setVisibility(View.VISIBLE);
+                            initializeFields();
+                            setDateTimeField();
+                            setSpinner();
+                            HideKeyboardUtils.setupUI(view.findViewById(R.id.layoutActAddDebtParent), getActivity());
+
+                            if (mode == 1) setViewsToEdit();
+
+                            switch (debtType) {
+                                case 0:
+                                    tvAmount.setTextColor(ContextCompat.getColor(getContext(), R.color.custom_green));
+                                    break;
+                                case 1:
+                                    tvAmount.setTextColor(ContextCompat.getColor(getContext(), R.color.custom_red));
+                                    break;
+                            }
+                        }
+                    }
+                });
 
         return view;
     }

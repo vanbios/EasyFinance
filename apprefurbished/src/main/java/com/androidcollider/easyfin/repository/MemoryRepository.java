@@ -1,16 +1,25 @@
 package com.androidcollider.easyfin.repository;
 
+import android.content.Context;
+import android.util.Log;
+
+import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.models.Account;
+import com.androidcollider.easyfin.models.DateConstants;
 import com.androidcollider.easyfin.models.Debt;
 import com.androidcollider.easyfin.models.Rates;
 import com.androidcollider.easyfin.models.Transaction;
+import com.androidcollider.easyfin.utils.DoubleFormatUtils;
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
 
 /**
  * @author Ihor Bilous
@@ -18,11 +27,18 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public class MemoryRepository implements Repository {
 
+    private Context context;
     private List<Account> accountList;
     private List<Transaction> transactionList;
     private List<Debt> debtList;
     private double[] ratesArray;
+    private String[] currencyArray;
 
+
+    public MemoryRepository(Context context) {
+        this.context = context;
+        currencyArray = context.getResources().getStringArray(R.array.account_currency_array);
+    }
 
     @Override
     public Observable<Account> addNewAccount(Account account) {
@@ -31,8 +47,8 @@ public class MemoryRepository implements Repository {
             subscriber.onNext(account);
             subscriber.onCompleted();
         })
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -47,18 +63,18 @@ public class MemoryRepository implements Repository {
             subscriber.onNext(pos >= 0 ? accountList.set(pos, account) : null);
             subscriber.onCompleted();
         })
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
     public Observable<Boolean> deleteAccount(int id) {
-        return null;
+        return Observable.just(true);
     }
 
     @Override
     public Observable<Boolean> transferBTWAccounts(int idAccount1, double accountAmount1, int idAccount2, double accountAmount2) {
-        return null;
+        return Observable.just(true);
     }
 
     @Override
@@ -68,8 +84,8 @@ public class MemoryRepository implements Repository {
             subscriber.onNext(transaction);
             subscriber.onCompleted();
         })
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -84,18 +100,18 @@ public class MemoryRepository implements Repository {
             subscriber.onNext(pos >= 0 ? transactionList.set(pos, transaction) : null);
             subscriber.onCompleted();
         })
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
     public Observable<Boolean> updateTransactionDifferentAccounts(Transaction transaction, double oldAccountAmount, int oldAccountId) {
-        return null;
+        return Observable.just(true);
     }
 
     @Override
     public Observable<Boolean> deleteTransaction(int idAccount, int idTransaction, double amount) {
-        return null;
+        return Observable.just(true);
     }
 
     @Override
@@ -105,8 +121,8 @@ public class MemoryRepository implements Repository {
             subscriber.onNext(debt);
             subscriber.onCompleted();
         })
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -121,43 +137,57 @@ public class MemoryRepository implements Repository {
             subscriber.onNext(pos >= 0 ? debtList.set(pos, debt) : null);
             subscriber.onCompleted();
         })
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
     public Observable<Boolean> updateDebtDifferentAccounts(Debt debt, double oldAccountAmount, int oldAccountId) {
-        return null;
+        return Observable.just(true);
     }
 
     @Override
     public Observable<Boolean> deleteDebt(int idAccount, int idDebt, double amount, int type) {
-        return null;
+        return Observable.just(true);
     }
 
     @Override
     public Observable<Boolean> payFullDebt(int idAccount, double accountAmount, int idDebt) {
-        return null;
+        return Observable.just(true);
     }
 
     @Override
     public Observable<Boolean> payPartOfDebt(int idAccount, double accountAmount, int idDebt, double debtAmount) {
-        return null;
+        return Observable.just(true);
     }
 
     @Override
     public Observable<Boolean> takeMoreDebt(int idAccount, double accountAmount, int idDebt, double debtAmount, double debtAllAmount) {
-        return null;
+        return Observable.just(true);
     }
 
     @Override
     public Observable<Map<String, double[]>> getTransactionsStatistic(int position) {
-        return null;
+        return transactionList == null ?
+                null :
+                Observable.<Map<String, double[]>>create(subscriber -> {
+                    subscriber.onNext(getTransactionsStatisticByPosition(position));
+                    subscriber.onCompleted();
+                })
+                /*.subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
     public Observable<Map<String, double[]>> getAccountsAmountSumGroupByTypeAndCurrency() {
-        return null;
+        return accountList == null || debtList == null ?
+                null :
+                Observable.<Map<String, double[]>>create(subscriber -> {
+                    subscriber.onNext(getAccountsSumGroupByTypeAndCurrency());
+                    subscriber.onCompleted();
+                })
+                /*.subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -169,8 +199,8 @@ public class MemoryRepository implements Repository {
             subscriber.onNext(true);
             subscriber.onCompleted();
         })
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -186,8 +216,8 @@ public class MemoryRepository implements Repository {
             subscriber.onNext(true);
             subscriber.onCompleted();
         })
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -198,8 +228,8 @@ public class MemoryRepository implements Repository {
             subscriber.onNext(true);
             subscriber.onCompleted();
         })
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -210,8 +240,8 @@ public class MemoryRepository implements Repository {
             subscriber.onNext(true);
             subscriber.onCompleted();
         })
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -222,7 +252,109 @@ public class MemoryRepository implements Repository {
             subscriber.onNext(true);
             subscriber.onCompleted();
         })
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())*/;
+    }
+
+
+    private Map<String, double[]> getAccountsSumGroupByTypeAndCurrency() {
+        Log.d("COLLIDER", "accounts stat memory!");
+        Map<String, double[]> results = new HashMap<>();
+
+        for (String currency : currencyArray) {
+            List<Account> accountListFilteredByCurrency =
+                    Stream.of(accountList)
+                            .filter(a -> a.getCurrency().equals(currency))
+                            .collect(Collectors.toList());
+            double[] result = new double[4];
+            double accountSum;
+            for (int i = 0; i < 3; i++) {
+                final int type = i;
+                accountSum = 0;
+                List<Account> accountListFilteredByType =
+                        Stream.of(accountListFilteredByCurrency)
+                                .filter(a -> a.getType() == type)
+                                .collect(Collectors.toList());
+
+                for (Account account : accountListFilteredByType) {
+                    accountSum += account.getAmount();
+                }
+                result[i] = accountSum;
+            }
+
+            List<Debt> debtListFilteredByCurrency =
+                    Stream.of(debtList)
+                            .filter(d -> d.getCurrency().equals(currency))
+                            .collect(Collectors.toList());
+
+            double debtSum = 0;
+            double debtVal;
+
+            for (Debt debt : debtListFilteredByCurrency) {
+                debtVal = debt.getAmountCurrent();
+                if (debt.getType() == 1) {
+                    debtVal *= -1;
+                }
+                debtSum += debtVal;
+            }
+
+            result[3] = debtSum;
+            results.put(currency, result);
+        }
+        return results;
+    }
+
+    private Map<String, double[]> getTransactionsStatisticByPosition(int position) {
+        Log.d("COLLIDER", "trans stat memory!");
+        long period = 0;
+        switch (position) {
+            case 1:
+                period = DateConstants.DAY;
+                break;
+            case 2:
+                period = DateConstants.WEEK;
+                break;
+            case 3:
+                period = DateConstants.MONTH;
+                break;
+            case 4:
+                period = DateConstants.YEAR;
+                break;
+        }
+
+        Map<String, double[]> result = new HashMap<>();
+
+        long currentTime = new Date().getTime();
+
+        double cost, income;
+
+        for (String currency : currencyArray) {
+            double[] arrStat = new double[2];
+
+            List<Transaction> transactionListFilteredByCurrency =
+                    Stream.of(transactionList)
+                            .filter(t -> t.getCurrency().equals(currency))
+                            .collect(Collectors.toList());
+
+            cost = 0;
+            income = 0;
+
+            for (Transaction transaction : transactionListFilteredByCurrency) {
+                long date = transaction.getDate();
+                double amount = transaction.getAmount();
+                if (currentTime > date && period >= (currentTime - date)) {
+                    if (DoubleFormatUtils.isDoubleNegative(amount)) {
+                        cost += amount;
+                    } else {
+                        income += amount;
+                    }
+                }
+            }
+
+            arrStat[0] = cost;
+            arrStat[1] = income;
+            result.put(currency, arrStat);
+        }
+        return result;
     }
 }

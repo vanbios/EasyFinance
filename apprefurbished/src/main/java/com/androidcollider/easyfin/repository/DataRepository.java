@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import rx.Observable;
+import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * @author Ihor Bilous
@@ -20,6 +20,10 @@ public class DataRepository implements Repository {
 
     private Repository memoryRepository;
     private Repository databaseRepository;
+
+    private Scheduler subscribeSc = AndroidSchedulers.mainThread();
+    private Scheduler observeSc = AndroidSchedulers.mainThread();
+
 
     public DataRepository(@Memory Repository memoryRepository,
                           @Database Repository databaseRepository) {
@@ -38,8 +42,8 @@ public class DataRepository implements Repository {
 
         return databaseRepository.addNewAccount(account)
                 .flatMap(account1 -> memoryRepository.addNewAccount(account1))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .subscribeOn(subscribeSc)
+                .observeOn(observeSc);
     }
 
     @Override
@@ -56,8 +60,8 @@ public class DataRepository implements Repository {
                                                 subscriber.onCompleted();
                                             });
                                 }))
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread());
+                        .subscribeOn(subscribeSc)
+                        .observeOn(observeSc);
     }
 
     @Override
@@ -71,8 +75,8 @@ public class DataRepository implements Repository {
 
         return databaseRepository.updateAccount(account)
                 .flatMap(account1 -> memoryRepository.updateAccount(account1))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .subscribeOn(subscribeSc)
+                .observeOn(observeSc);
     }
 
     @Override
@@ -81,8 +85,8 @@ public class DataRepository implements Repository {
                 databaseRepository.deleteAccount(id),
                 memoryRepository.deleteAccount(id),
                 (aBoolean, aBoolean2) -> aBoolean && aBoolean2)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .subscribeOn(subscribeSc)
+                .observeOn(observeSc);
     }
 
     @Override
@@ -91,8 +95,8 @@ public class DataRepository implements Repository {
                 databaseRepository.transferBTWAccounts(idAccount1, accountAmount1, idAccount2, accountAmount2),
                 memoryRepository.transferBTWAccounts(idAccount1, accountAmount1, idAccount2, accountAmount2),
                 (aBoolean, aBoolean2) -> aBoolean && aBoolean2)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .subscribeOn(subscribeSc)
+                .observeOn(observeSc);
     }
 
     @Override
@@ -106,8 +110,8 @@ public class DataRepository implements Repository {
 
         return databaseRepository.addNewTransaction(transaction)
                 .flatMap(transaction1 -> memoryRepository.addNewTransaction(transaction1))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .subscribeOn(subscribeSc)
+                .observeOn(observeSc);
     }
 
     @Override
@@ -124,8 +128,8 @@ public class DataRepository implements Repository {
                                                 subscriber.onCompleted();
                                             });
                                 }))
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread());
+                        .subscribeOn(subscribeSc)
+                        .observeOn(observeSc);
     }
 
     @Override
@@ -139,8 +143,8 @@ public class DataRepository implements Repository {
 
         return databaseRepository.updateTransaction(transaction)
                 .flatMap(transaction1 -> memoryRepository.updateTransaction(transaction1))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .subscribeOn(subscribeSc)
+                .observeOn(observeSc);
     }
 
     @Override
@@ -149,8 +153,8 @@ public class DataRepository implements Repository {
                 databaseRepository.updateTransactionDifferentAccounts(transaction, oldAccountAmount, oldAccountId),
                 memoryRepository.updateTransactionDifferentAccounts(transaction, oldAccountAmount, oldAccountId),
                 (aBoolean, aBoolean2) -> aBoolean && aBoolean2)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .subscribeOn(subscribeSc)
+                .observeOn(observeSc);
     }
 
     @Override
@@ -159,8 +163,8 @@ public class DataRepository implements Repository {
                 databaseRepository.deleteTransaction(idAccount, idTransaction, amount),
                 memoryRepository.deleteTransaction(idAccount, idTransaction, amount),
                 (aBoolean, aBoolean2) -> aBoolean && aBoolean2)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .subscribeOn(subscribeSc)
+                .observeOn(observeSc);
     }
 
     @Override
@@ -174,8 +178,8 @@ public class DataRepository implements Repository {
 
         return databaseRepository.addNewDebt(debt)
                 .flatMap(debt1 -> memoryRepository.addNewDebt(debt1))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .subscribeOn(subscribeSc)
+                .observeOn(observeSc);
     }
 
     @Override
@@ -192,8 +196,8 @@ public class DataRepository implements Repository {
                                                 subscriber.onCompleted();
                                             });
                                 }))
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread());
+                        .subscribeOn(subscribeSc)
+                        .observeOn(observeSc);
     }
 
     @Override
@@ -207,8 +211,8 @@ public class DataRepository implements Repository {
 
         return databaseRepository.updateDebt(debt)
                 .flatMap(debt1 -> memoryRepository.updateDebt(debt1))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .subscribeOn(subscribeSc)
+                .observeOn(observeSc);
     }
 
     @Override
@@ -217,8 +221,8 @@ public class DataRepository implements Repository {
                 databaseRepository.updateDebtDifferentAccounts(debt, oldAccountAmount, oldAccountId),
                 memoryRepository.updateDebtDifferentAccounts(debt, oldAccountAmount, oldAccountId),
                 (aBoolean, aBoolean2) -> aBoolean && aBoolean2)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .subscribeOn(subscribeSc)
+                .observeOn(observeSc);
     }
 
     @Override
@@ -227,8 +231,8 @@ public class DataRepository implements Repository {
                 databaseRepository.deleteDebt(idAccount, idDebt, amount, type),
                 memoryRepository.deleteDebt(idAccount, idDebt, amount, type),
                 (aBoolean, aBoolean2) -> aBoolean && aBoolean2)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .subscribeOn(subscribeSc)
+                .observeOn(observeSc);
     }
 
     @Override
@@ -237,8 +241,8 @@ public class DataRepository implements Repository {
                 databaseRepository.payFullDebt(idAccount, accountAmount, idDebt),
                 memoryRepository.payFullDebt(idAccount, accountAmount, idDebt),
                 (aBoolean, aBoolean2) -> aBoolean && aBoolean2)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .subscribeOn(subscribeSc)
+                .observeOn(observeSc);
     }
 
     @Override
@@ -247,8 +251,8 @@ public class DataRepository implements Repository {
                 databaseRepository.payPartOfDebt(idAccount, accountAmount, idDebt, debtAmount),
                 memoryRepository.payPartOfDebt(idAccount, accountAmount, idDebt, debtAmount),
                 (aBoolean, aBoolean2) -> aBoolean && aBoolean2)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .subscribeOn(subscribeSc)
+                .observeOn(observeSc);
     }
 
     @Override
@@ -257,8 +261,8 @@ public class DataRepository implements Repository {
                 databaseRepository.takeMoreDebt(idAccount, accountAmount, idDebt, debtAmount, debtAllAmount),
                 memoryRepository.takeMoreDebt(idAccount, accountAmount, idDebt, debtAmount, debtAllAmount),
                 (aBoolean, aBoolean2) -> aBoolean && aBoolean2)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .subscribeOn(subscribeSc)
+                .observeOn(observeSc);
     }
 
     @Override
@@ -283,8 +287,8 @@ public class DataRepository implements Repository {
                 databaseRepository.updateRates(ratesList),
                 memoryRepository.updateRates(ratesList),
                 (aBoolean, aBoolean2) -> aBoolean && aBoolean2)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .subscribeOn(subscribeSc)
+                .observeOn(observeSc);
     }
 
     @Override
@@ -301,8 +305,8 @@ public class DataRepository implements Repository {
                                                 subscriber.onCompleted();
                                             });
                                 }))
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread());
+                        .subscribeOn(subscribeSc)
+                        .observeOn(observeSc);
     }
 
     @Override

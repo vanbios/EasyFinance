@@ -120,18 +120,35 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     }
 
     private void fillAvailableAccountsList() {
-        List<Account> accountList = InMemoryRepository.getInstance().getAccountList();
-        accountsAvailableList = new ArrayList<>();
-        String currency = debt.getCurrency();
-        double amount = debt.getAmountCurrent();
-        int type = debt.getType();
+        //List<Account> accountList = InMemoryRepository.getInstance().getAccountList();
+        repository.getAllAccounts()
+                .subscribe(new Subscriber<List<Account>>() {
 
-        Stream.of(accountList)
-                .filter(account ->
-                        mode == 1 && type == 1 ?
-                                account.getCurrency().equals(currency) && account.getAmount() >= amount :
-                                account.getCurrency().equals(currency))
-                .forEach(accountsAvailableList::add);
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<Account> accountList) {
+                        accountsAvailableList = new ArrayList<>();
+                        String currency = debt.getCurrency();
+                        double amount = debt.getAmountCurrent();
+                        int type = debt.getType();
+
+                        Stream.of(accountList)
+                                .filter(account ->
+                                        mode == 1 && type == 1 ?
+                                                account.getCurrency().equals(currency) && account.getAmount() >= amount :
+                                                account.getCurrency().equals(currency))
+                                .forEach(accountsAvailableList::add);
+                    }
+                });
     }
 
     private void payAllDebt() {

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.util.Log;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.models.Account;
@@ -57,8 +58,8 @@ class DatabaseRepository implements Repository {
             subscriber.onNext(insertNewAccount(account));
             subscriber.onCompleted();
         })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -67,8 +68,8 @@ class DatabaseRepository implements Repository {
             subscriber.onNext(getAllAccountsInfo());
             subscriber.onCompleted();
         })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -77,8 +78,8 @@ class DatabaseRepository implements Repository {
             subscriber.onNext(editAccount(account));
             subscriber.onCompleted();
         })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -87,8 +88,8 @@ class DatabaseRepository implements Repository {
             subscriber.onNext(deleteAccountDB(id));
             subscriber.onCompleted();
         })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -97,8 +98,8 @@ class DatabaseRepository implements Repository {
             subscriber.onNext(updateAccountsAmountAfterTransfer(idAccount1, accountAmount1, idAccount2, accountAmount2));
             subscriber.onCompleted();
         })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -107,8 +108,8 @@ class DatabaseRepository implements Repository {
             subscriber.onNext(insertNewTransaction(transaction));
             subscriber.onCompleted();
         })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -117,8 +118,8 @@ class DatabaseRepository implements Repository {
             subscriber.onNext(getAllTransactionsInfo());
             subscriber.onCompleted();
         })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -127,8 +128,8 @@ class DatabaseRepository implements Repository {
             subscriber.onNext(editTransaction(transaction));
             subscriber.onCompleted();
         })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -137,8 +138,8 @@ class DatabaseRepository implements Repository {
             subscriber.onNext(editTransactionDifferentAccounts(transaction, oldAccountAmount, oldAccountId));
             subscriber.onCompleted();
         })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -147,8 +148,8 @@ class DatabaseRepository implements Repository {
             subscriber.onNext(deleteTransactionDB(idAccount, idTransaction, amount));
             subscriber.onCompleted();
         })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -157,8 +158,8 @@ class DatabaseRepository implements Repository {
             subscriber.onNext(insertNewDebt(debt));
             subscriber.onCompleted();
         })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -167,8 +168,8 @@ class DatabaseRepository implements Repository {
             subscriber.onNext(getAllDebtInfo());
             subscriber.onCompleted();
         })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -177,8 +178,8 @@ class DatabaseRepository implements Repository {
             subscriber.onNext(editDebt(debt));
             subscriber.onCompleted();
         })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -187,8 +188,8 @@ class DatabaseRepository implements Repository {
             subscriber.onNext(editDebtDifferentAccounts(debt, oldAccountAmount, oldAccountId));
             subscriber.onCompleted();
         })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -197,8 +198,8 @@ class DatabaseRepository implements Repository {
             subscriber.onNext(deleteDebtDB(idAccount, idDebt, amount, type));
             subscriber.onCompleted();
         })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -207,8 +208,8 @@ class DatabaseRepository implements Repository {
             subscriber.onNext(payAllDebt(idAccount, accountAmount, idDebt));
             subscriber.onCompleted();
         })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -217,8 +218,8 @@ class DatabaseRepository implements Repository {
             subscriber.onNext(payPartDebt(idAccount, accountAmount, idDebt, debtAmount));
             subscriber.onCompleted();
         })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -227,8 +228,8 @@ class DatabaseRepository implements Repository {
             subscriber.onNext(takeMoreDebtDB(idAccount, accountAmount, idDebt, debtAmount, debtAllAmount));
             subscriber.onCompleted();
         })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -237,8 +238,8 @@ class DatabaseRepository implements Repository {
             subscriber.onNext(getTransactionsStatisticDB(position));
             subscriber.onCompleted();
         })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -247,8 +248,8 @@ class DatabaseRepository implements Repository {
             subscriber.onNext(getAccountsSumGroupByTypeAndCurrency());
             subscriber.onCompleted();
         })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -257,8 +258,8 @@ class DatabaseRepository implements Repository {
             subscriber.onNext(insertRates(ratesList));
             subscriber.onCompleted();
         })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                /*.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())*/;
     }
 
     @Override
@@ -266,9 +267,9 @@ class DatabaseRepository implements Repository {
         return Observable.<double[]>create(subscriber -> {
             subscriber.onNext(getRatesDB());
             subscriber.onCompleted();
-        })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+        });
+                /*.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());*/
     }
 
     @Override
@@ -390,7 +391,7 @@ class DatabaseRepository implements Repository {
     }
 
     private Map<String, double[]> getTransactionsStatisticDB(int position) {
-
+        Log.d("COLLIDER", "trans stat db!");
         long period = 0;
 
         switch (position) {
@@ -461,6 +462,7 @@ class DatabaseRepository implements Repository {
     }
 
     private Map<String, double[]> getAccountsSumGroupByTypeAndCurrency() {
+        Log.d("COLLIDER", "accounts stat db!");
         String[] currencyArray = context.getResources().getStringArray(R.array.account_currency_array);
         Map<String, double[]> results = new HashMap<>();
         Cursor cursor;

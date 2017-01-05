@@ -66,30 +66,50 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
         ((App) getActivity().getApplication()).getComponent().inject(this);
         setToolbar();
 
-        accountListFrom = InMemoryRepository.getInstance().getAccountList();
+        //accountListFrom = InMemoryRepository.getInstance().getAccountList();
+        accountListFrom = new ArrayList<>();
+        repository.getAllAccounts()
+                .subscribe(new Subscriber<List<Account>>() {
 
-        ScrollView scrollView = (ScrollView) view.findViewById(R.id.scrollAddTransBTW);
+                    @Override
+                    public void onCompleted() {
 
-        if (accountListFrom.size() < 2) {
-            scrollView.setVisibility(View.GONE);
-            showDialogNoAccount();
-        } else {
-            scrollView.setVisibility(View.VISIBLE);
+                    }
 
-            tvAmount = (TextView) view.findViewById(R.id.tvAddTransBTWAmount);
-            tvAmount.setText("0,00");
-            tvAmount.setOnClickListener(v -> openNumericDialog());
+                    @Override
+                    public void onError(Throwable e) {
 
-            openNumericDialog();
+                    }
 
-            etExchange = (EditText) view.findViewById(R.id.editTextTransBTWExchange);
-            etExchange.addTextChangedListener(new EditTextAmountWatcher(etExchange));
+                    @Override
+                    public void onNext(List<Account> accountList) {
+                        accountListFrom.clear();
+                        accountListFrom.addAll(accountList);
 
-            layoutExchange = (RelativeLayout) view.findViewById(R.id.layoutAddTransBTWExchange);
+                        ScrollView scrollView = (ScrollView) view.findViewById(R.id.scrollAddTransBTW);
 
-            setSpinners();
-            HideKeyboardUtils.setupUI(view.findViewById(R.id.scrollAddTransBTW), getActivity());
-        }
+                        if (accountListFrom.size() < 2) {
+                            scrollView.setVisibility(View.GONE);
+                            showDialogNoAccount();
+                        } else {
+                            scrollView.setVisibility(View.VISIBLE);
+
+                            tvAmount = (TextView) view.findViewById(R.id.tvAddTransBTWAmount);
+                            tvAmount.setText("0,00");
+                            tvAmount.setOnClickListener(v -> openNumericDialog());
+
+                            openNumericDialog();
+
+                            etExchange = (EditText) view.findViewById(R.id.editTextTransBTWExchange);
+                            etExchange.addTextChangedListener(new EditTextAmountWatcher(etExchange));
+
+                            layoutExchange = (RelativeLayout) view.findViewById(R.id.layoutAddTransBTWExchange);
+
+                            setSpinners();
+                            HideKeyboardUtils.setupUI(view.findViewById(R.id.scrollAddTransBTW), getActivity());
+                        }
+                    }
+                });
 
         return view;
     }

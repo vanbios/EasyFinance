@@ -38,6 +38,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -66,69 +67,89 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
         ((App) getActivity().getApplication()).getComponent().inject(this);
         setToolbar();
 
-        accountList = InMemoryRepository.getInstance().getAccountList();
+        //accountList = InMemoryRepository.getInstance().getAccountList();
+        accountList = new ArrayList<>();
+        repository.getAllAccounts()
+                .subscribe(new Subscriber<List<Account>>() {
 
-        ScrollView scrollView = (ScrollView) view.findViewById(R.id.scrollAddTransDef);
+                    @Override
+                    public void onCompleted() {
 
-        if (accountList.isEmpty()) {
-            scrollView.setVisibility(View.GONE);
-            showDialogNoAccount();
-        } else {
-            scrollView.setVisibility(View.VISIBLE);
-            mode = getArguments().getInt("mode", 0);
-            tvAmount = (TextView) view.findViewById(R.id.tvAddTransDefAmount);
-            tvAmount.setOnClickListener(v -> openNumericDialog());
-
-            switch (mode) {
-                case 0: {
-                    transType = getArguments().getInt("type", 0);
-                    switch (transType) {
-                        case 0:
-                            tvAmount.setText(String.format("%1$s %2$s", prefixExpense, "0,00"));
-                            break;
-                        case 1:
-                            tvAmount.setText(String.format("%1$s %2$s", prefixIncome, "0,00"));
-                            break;
                     }
-                    openNumericDialog();
-                    break;
-                }
-                case 1: {
-                    transFromIntent = (Transaction) getArguments().getSerializable("transaction");
-                    final int PRECISE = 100;
-                    final String FORMAT = "###,##0.00";
 
-                    if (transFromIntent != null) {
-                        double amount = transFromIntent.getAmount();
-                        if (!DoubleFormatUtils.isDoubleNegative(amount)) {
-                            transType = 1;
-                            String amountS = DoubleFormatUtils.doubleToStringFormatterForEdit(amount, FORMAT, PRECISE);
-                            setTVTextSize(amountS);
-                            tvAmount.setText(String.format("%1$s %2$s", prefixIncome, amountS));
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<Account> accountList) {
+                        FrgAddTransactionDefault.this.accountList.clear();
+                        FrgAddTransactionDefault.this.accountList.addAll(accountList);
+
+                        ScrollView scrollView = (ScrollView) view.findViewById(R.id.scrollAddTransDef);
+
+                        if (accountList.isEmpty()) {
+                            scrollView.setVisibility(View.GONE);
+                            showDialogNoAccount();
                         } else {
-                            transType = 0;
-                            String amountS = DoubleFormatUtils.doubleToStringFormatterForEdit(Math.abs(amount), FORMAT, PRECISE);
-                            setTVTextSize(amountS);
-                            tvAmount.setText(String.format("%1$s %2$s", prefixExpense, amountS));
+                            scrollView.setVisibility(View.VISIBLE);
+                            mode = getArguments().getInt("mode", 0);
+                            tvAmount = (TextView) view.findViewById(R.id.tvAddTransDefAmount);
+                            tvAmount.setOnClickListener(v -> openNumericDialog());
+
+                            switch (mode) {
+                                case 0: {
+                                    transType = getArguments().getInt("type", 0);
+                                    switch (transType) {
+                                        case 0:
+                                            tvAmount.setText(String.format("%1$s %2$s", prefixExpense, "0,00"));
+                                            break;
+                                        case 1:
+                                            tvAmount.setText(String.format("%1$s %2$s", prefixIncome, "0,00"));
+                                            break;
+                                    }
+                                    openNumericDialog();
+                                    break;
+                                }
+                                case 1: {
+                                    transFromIntent = (Transaction) getArguments().getSerializable("transaction");
+                                    final int PRECISE = 100;
+                                    final String FORMAT = "###,##0.00";
+
+                                    if (transFromIntent != null) {
+                                        double amount = transFromIntent.getAmount();
+                                        if (!DoubleFormatUtils.isDoubleNegative(amount)) {
+                                            transType = 1;
+                                            String amountS = DoubleFormatUtils.doubleToStringFormatterForEdit(amount, FORMAT, PRECISE);
+                                            setTVTextSize(amountS);
+                                            tvAmount.setText(String.format("%1$s %2$s", prefixIncome, amountS));
+                                        } else {
+                                            transType = 0;
+                                            String amountS = DoubleFormatUtils.doubleToStringFormatterForEdit(Math.abs(amount), FORMAT, PRECISE);
+                                            setTVTextSize(amountS);
+                                            tvAmount.setText(String.format("%1$s %2$s", prefixExpense, amountS));
+                                        }
+                                    }
+                                    break;
+                                }
+                            }
+
+                            tvDate = (TextView) view.findViewById(R.id.tvTransactionDate);
+                            setDateTimeField();
+                            setSpinner();
+
+                            switch (transType) {
+                                case 0:
+                                    tvAmount.setTextColor(ContextCompat.getColor(getActivity(), R.color.custom_red));
+                                    break;
+                                case 1:
+                                    tvAmount.setTextColor(ContextCompat.getColor(getActivity(), R.color.custom_green));
+                                    break;
+                            }
                         }
                     }
-                    break;
-                }
-            }
-
-            tvDate = (TextView) view.findViewById(R.id.tvTransactionDate);
-            setDateTimeField();
-            setSpinner();
-
-            switch (transType) {
-                case 0:
-                    tvAmount.setTextColor(ContextCompat.getColor(getActivity(), R.color.custom_red));
-                    break;
-                case 1:
-                    tvAmount.setTextColor(ContextCompat.getColor(getActivity(), R.color.custom_green));
-                    break;
-            }
-        }
+                });
 
         return view;
     }

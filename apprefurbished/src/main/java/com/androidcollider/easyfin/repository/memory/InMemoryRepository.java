@@ -2,13 +2,9 @@ package com.androidcollider.easyfin.repository.memory;
 
 
 import com.androidcollider.easyfin.common.app.App;
-import com.androidcollider.easyfin.events.UpdateFrgHomeNewRates;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.repository.database.DataSource;
-import com.androidcollider.easyfin.utils.SharedPref;
 import com.annimon.stream.Stream;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -20,7 +16,6 @@ public class InMemoryRepository {
     @Getter
     private final DataSource dataSource;
     private static volatile InMemoryRepository instance;
-    @Getter
     private ArrayList<Account> accountList;
     /*@Getter
     private double[] ratesForExchange;*/
@@ -36,6 +31,10 @@ public class InMemoryRepository {
     public void updateAccountList() {
         accountList = InMemoryRepository.getInstance().getDataSource().getAllAccountsInfo();
     }
+
+    /*public ArrayList<Account> getAccountList() {
+        return accountList;
+    }*/
 
     private ArrayList<String> getAccountNames() {
         ArrayList<String> accountNames = new ArrayList<>();

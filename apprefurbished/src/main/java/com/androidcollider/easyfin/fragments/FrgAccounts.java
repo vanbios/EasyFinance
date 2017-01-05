@@ -171,13 +171,29 @@ public class FrgAccounts extends CommonFragmentWithEvents {
     }
 
     private void deleteAccount(int pos) {
-        InMemoryRepository.getInstance().getDataSource().deleteAccount(accountList.get(pos).getId());
+        //InMemoryRepository.getInstance().getDataSource().deleteAccount(accountList.get(pos).getId());
+        repository.deleteAccount(accountList.get(pos).getId())
+                .subscribe(new Subscriber<Boolean>() {
 
-        accountList.remove(pos);
-        setVisibility();
-        recyclerAdapter.notifyDataSetChanged();
-        InMemoryRepository.getInstance().updateAccountList();
-        pushBroadcast();
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        accountList.remove(pos);
+                        setVisibility();
+                        recyclerAdapter.notifyDataSetChanged();
+                        InMemoryRepository.getInstance().updateAccountList();
+                        pushBroadcast();
+                    }
+                });
     }
 
     private void pushBroadcast() {

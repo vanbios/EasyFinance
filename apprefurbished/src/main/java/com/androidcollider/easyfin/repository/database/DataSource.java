@@ -7,19 +7,14 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
-import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.models.Account;
-import com.androidcollider.easyfin.models.DateConstants;
 import com.androidcollider.easyfin.utils.DBExportImportUtils;
-import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 
 
 public class DataSource {
@@ -123,7 +118,7 @@ public class DataSource {
         closeLocal();
     }*/
 
-    public HashMap<String, double[]> getTransactionsStatistic(int position) {
+    /*public HashMap<String, double[]> getTransactionsStatistic(int position) {
 
         long period = 0;
 
@@ -249,7 +244,7 @@ public class DataSource {
         }
         closeLocal();
         return results;
-    }
+    }*/
 
     public ArrayList<Account> getAllAccountsInfo() {
         ArrayList<Account> accountArrayList = new ArrayList<>();
@@ -407,7 +402,7 @@ public class DataSource {
         closeLocal();
     }*/
 
-    public void deleteAccount(int id) {
+    /*public void deleteAccount(int id) {
         if (checkAccountForTransactionOrDebtExist(id)) {
             makeAccountInvisible(id);
         } else {
@@ -460,9 +455,9 @@ public class DataSource {
         cursor.close();
         closeLocal();
         return false;
-    }
+    }*/
 
-    public void deleteTransaction(int id_account, int id_trans, double amount) {
+    /*public void deleteTransaction(int id_account, int id_trans, double amount) {
         String selectQuery = "SELECT amount FROM Account "
                 + "WHERE id_account = '" + id_account + "' ";
 
@@ -486,9 +481,9 @@ public class DataSource {
         db.delete("Transactions", "id_transaction = '" + id_trans + "' ", null);
 
         closeLocal();
-    }
+    }*/
 
-    public void deleteDebt(int id_account, int id_debt, double amount, int type) {
+    /*public void deleteDebt(int id_account, int id_debt, double amount, int type) {
         String selectQuery = "SELECT amount FROM Account "
                 + "WHERE id_account = '" + id_account + "' ";
 
@@ -514,7 +509,7 @@ public class DataSource {
         //db.update("Account", cv, "id_account = " + id_account, null);
         db.delete("Debt", "id_debt = '" + id_debt + "' ", null);
         closeLocal();
-    }
+    }*/
 
     /*public void payAllDebt(int idAccount, double accountAmount, int idDebt) {
         ContentValues cv = new ContentValues();
@@ -708,9 +703,9 @@ public class DataSource {
         closeLocal();
     }*/
 
-    private void updateAccount(ContentValues cv, int id) {
+    /*private void updateAccount(ContentValues cv, int id) {
         db.update("Account", cv, "id_account = " + id, null);
-    }
+    }*/
 
     /*private void updateTransaction(ContentValues cv, int id) {
         db.update("Transactions", cv, "id_transaction = " + id, null);

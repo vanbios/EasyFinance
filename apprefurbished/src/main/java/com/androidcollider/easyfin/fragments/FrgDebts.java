@@ -216,13 +216,29 @@ public class FrgDebts extends CommonFragment {
         double amount = debt.getAmountCurrent();
         int type = debt.getType();
 
-        InMemoryRepository.getInstance().getDataSource().deleteDebt(idAccount, idDebt, amount, type);
+        //InMemoryRepository.getInstance().getDataSource().deleteDebt(idAccount, idDebt, amount, type);
+        repository.deleteDebt(idAccount, idDebt, amount, type)
+                .subscribe(new Subscriber<Boolean>() {
 
-        debtList.remove(pos);
-        setVisibility();
-        recyclerAdapter.notifyDataSetChanged();
-        InMemoryRepository.getInstance().updateAccountList();
-        pushBroadcast();
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        debtList.remove(pos);
+                        setVisibility();
+                        recyclerAdapter.notifyDataSetChanged();
+                        InMemoryRepository.getInstance().updateAccountList();
+                        pushBroadcast();
+                    }
+                });
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
