@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -36,8 +35,10 @@ import com.androidcollider.easyfin.fragments.FrgFAQ;
 import com.androidcollider.easyfin.fragments.FrgMain;
 import com.androidcollider.easyfin.fragments.FrgPref;
 import com.androidcollider.easyfin.fragments.PreferenceFragment;
-import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
+import com.androidcollider.easyfin.managers.rates.rates_loader.RatesLoaderManager;
 import com.androidcollider.easyfin.utils.ToastUtils;
+
+import javax.inject.Inject;
 
 public class MainActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
 
@@ -48,6 +49,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     private Toolbar toolbar;
     private final int TOOLBAR_DEFAULT = 1;
     ActionBarDrawerToggle mDrawerToggle;
+
+    @Inject
+    RatesLoaderManager ratesLoaderManager;
 
 
     @Override
@@ -60,10 +64,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.addOnBackStackChangedListener(this);
 
-        if (PreferenceManager.getDefaultSharedPreferences(this)
-                .getBoolean(getString(R.string.update_rates_automatically), true)) {
-            InMemoryRepository.getInstance().updateRatesForExchange();
-        }
+        ratesLoaderManager.updateRatesForExchange();
 
         initializeViews();
         setToolbar(getString(R.string.app_name), TOOLBAR_DEFAULT);

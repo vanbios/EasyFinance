@@ -16,7 +16,7 @@ public class ShakeEditText {
 
     private static Animation shake;
 
-    public static void shakeView(final View view) {
+    private static void shakeView(final View view) {
         if (shake == null) {
             shake = new RotateAnimation(-1f, +1f, RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
             shake.setRepeatCount(5);

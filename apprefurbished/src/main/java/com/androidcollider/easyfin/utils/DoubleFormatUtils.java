@@ -70,5 +70,4 @@ public class DoubleFormatUtils {
     public static boolean isDoubleNegative(double d) {
         return Double.compare(d, 0.0) < 0;
     }
-
 }

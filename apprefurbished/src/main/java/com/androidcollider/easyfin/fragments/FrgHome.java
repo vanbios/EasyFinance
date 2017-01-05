@@ -16,15 +16,16 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
+import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.events.UpdateFrgHome;
 import com.androidcollider.easyfin.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.events.UpdateFrgHomeNewRates;
+import com.androidcollider.easyfin.managers.rates.exchange.ExchangeManager;
+import com.androidcollider.easyfin.managers.rates.rates_info.RatesInfoManager;
 import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 import com.androidcollider.easyfin.utils.ChartDataUtils;
 import com.androidcollider.easyfin.utils.ChartLargeValueFormatter;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
-import com.androidcollider.easyfin.utils.ExchangeUtils;
-import com.androidcollider.easyfin.utils.MultiTapUtils;
 import com.androidcollider.easyfin.utils.SharedPref;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.PieChart;
@@ -38,6 +39,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.inject.Inject;
 
 public class FrgHome extends CommonFragmentWithEvents {
 
@@ -59,11 +62,17 @@ public class FrgHome extends CommonFragmentWithEvents {
     private SharedPref sharedPref;
     private boolean convert, showOnlyIntegers;
 
+    @Inject
+    ExchangeManager exchangeManager;
+
+    @Inject
+    RatesInfoManager ratesInfoManager;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frg_home, container, false);
-
+        ((App) getActivity().getApplication()).getComponent().inject(this);
         initializeViewsAndRes();
 
         balanceMap = InMemoryRepository.getInstance().getDataSource().getAccountsSumGroupByTypeAndCurrency();
@@ -132,7 +141,7 @@ public class FrgHome extends CommonFragmentWithEvents {
         TextView tvBalance = (TextView) view.findViewById(R.id.tvMainCurrentBalance);
         tvNoData = (TextView) view.findViewById(R.id.tvMainNoData);
 
-        MultiTapUtils.multiTapListener(tvBalance, getActivity());
+        ratesInfoManager.setupMultiTapListener(tvBalance, getActivity());
     }
 
     private void buildBalanceSettingsDialog() {
@@ -434,11 +443,11 @@ public class FrgHome extends CommonFragmentWithEvents {
 
         String convertTo = currencyArray[posCurrency];
 
-        double uahExchange = ExchangeUtils.getExchangeRate(uahCurName, convertTo);
-        double usdExchange = ExchangeUtils.getExchangeRate(usdCurName, convertTo);
-        double eurExchange = ExchangeUtils.getExchangeRate(eurCurName, convertTo);
-        double rubExchange = ExchangeUtils.getExchangeRate(rubCurName, convertTo);
-        double gbpExchange = ExchangeUtils.getExchangeRate(gbpCurName, convertTo);
+        double uahExchange = exchangeManager.getExchangeRate(uahCurName, convertTo);
+        double usdExchange = exchangeManager.getExchangeRate(usdCurName, convertTo);
+        double eurExchange = exchangeManager.getExchangeRate(eurCurName, convertTo);
+        double rubExchange = exchangeManager.getExchangeRate(rubCurName, convertTo);
+        double gbpExchange = exchangeManager.getExchangeRate(gbpCurName, convertTo);
 
         uahArr = convertArray(uahArr, uahExchange);
         usdArr = convertArray(usdArr, usdExchange);

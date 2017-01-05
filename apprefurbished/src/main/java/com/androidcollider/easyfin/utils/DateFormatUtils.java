@@ -26,5 +26,4 @@ public class DateFormatUtils {
     public static String longToDateString(long dateLong, String dateFormat){
         return new SimpleDateFormat(dateFormat, Locale.getDefault()).format(new Date(dateLong));
     }
-
 }

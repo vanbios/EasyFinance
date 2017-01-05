@@ -1,7 +1,5 @@
 package com.androidcollider.easyfin.repository;
 
-import android.util.Log;
-
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.models.Debt;
 import com.androidcollider.easyfin.models.Rates;
@@ -164,7 +162,15 @@ public class MemoryRepository implements Repository {
 
     @Override
     public Observable<Boolean> updateRates(List<Rates> ratesList) {
-        return null;
+        return Observable.<Boolean>create(subscriber -> {
+            for (int i = 0; i < ratesArray.length; i++) {
+                ratesArray[i] = ratesList.get(i).getAsk();
+            }
+            subscriber.onNext(true);
+            subscriber.onCompleted();
+        })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override

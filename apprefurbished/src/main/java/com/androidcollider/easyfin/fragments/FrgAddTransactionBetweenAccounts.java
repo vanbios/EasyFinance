@@ -23,12 +23,12 @@ import com.androidcollider.easyfin.adapters.SpinAccountForTransAdapter;
 import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.events.UpdateFrgHomeBalance;
+import com.androidcollider.easyfin.managers.rates.exchange.ExchangeManager;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.repository.Repository;
 import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
-import com.androidcollider.easyfin.utils.ExchangeUtils;
 import com.androidcollider.easyfin.utils.HideKeyboardUtils;
 import com.androidcollider.easyfin.utils.ShakeEditText;
 import com.androidcollider.easyfin.utils.ToastUtils;
@@ -54,6 +54,9 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
 
     @Inject
     Repository repository;
+
+    @Inject
+    ExchangeManager exchangeManager;
 
 
     @Override
@@ -148,7 +151,7 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
             Account accountTo = (Account) spinAccountTo.getSelectedItem();
             String currTo = accountTo.getCurrency();
 
-            double exchangeRate = ExchangeUtils.getExchangeRate(currFrom, currTo);
+            double exchangeRate = exchangeManager.getExchangeRate(currFrom, currTo);
 
             final int PRECISE = 100000;
             final String FORMAT = "#.#####";

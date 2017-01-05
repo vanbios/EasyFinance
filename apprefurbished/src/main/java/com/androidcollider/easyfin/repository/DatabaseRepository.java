@@ -14,7 +14,6 @@ import com.androidcollider.easyfin.models.Debt;
 import com.androidcollider.easyfin.models.Rates;
 import com.androidcollider.easyfin.models.Transaction;
 import com.androidcollider.easyfin.repository.database.DbHelper;
-import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 import com.androidcollider.easyfin.utils.DBExportImportUtils;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.androidcollider.easyfin.utils.SharedPref;
@@ -341,7 +340,6 @@ class DatabaseRepository implements Repository {
         openLocalToWrite();
         int transId = (int) insertTransactionQuery(cv1);
         updateAccountQuery(cv2, id_account);
-        //db.update("Account", cv2, "id_account = " + id_account, null);
         closeLocal();
         if (transId > 0) {
             transaction.setId(transId);
@@ -367,7 +365,6 @@ class DatabaseRepository implements Repository {
         openLocalToWrite();
         int debtId = (int) insertDebtQuery(cv1);
         updateAccountQuery(cv2, id_account);
-        //db.update("Account", cv2, "id_account = " + id_account, null);
         closeLocal();
         if (debtId > 0) {
             debt.setId(debtId);
@@ -387,8 +384,6 @@ class DatabaseRepository implements Repository {
 
         boolean res1 = updateAccountQuery(cv1, id_account_1);
         boolean res2 = updateAccountQuery(cv2, id_account_2);
-        /*db.update("Account", cv1, "id_account = " + id_account_1, null);
-        db.update("Account", cv2, "id_account = " + id_account_2, null);*/
 
         closeLocal();
         return res1 && res2;
@@ -584,9 +579,9 @@ class DatabaseRepository implements Repository {
             int cursorCount = cursor.getCount();
             int limit = 0;
 
-            if (cursorCount > 120) {
+            /*if (cursorCount > 120) {
                 limit = cursorCount - 120;
-            }
+            }*/
 
             for (int i = cursorCount - 1; i >= limit; i--) {
                 cursor.moveToPosition(i);
@@ -674,7 +669,6 @@ class DatabaseRepository implements Repository {
 
         openLocalToWrite();
         updateAccountQuery(cv, id);
-        //db.update("Account", cv, "id_account = '" + id + "' ", null);
         closeLocal();
         return account;
     }
@@ -698,7 +692,6 @@ class DatabaseRepository implements Repository {
 
         openLocalToWrite();
         boolean res = updateAccountQuery(cv, id);
-        //db.update("Account", cv, "id_account = '" + id + "' ", null);
         closeLocal();
         return res;
     }
@@ -827,16 +820,13 @@ class DatabaseRepository implements Repository {
 
         openLocalToWrite();
         boolean res1 = updateAccountQuery(cv1, idAccount);
-        //db.update("Account", cv1, "id_account = " + idAccount, null);
         boolean res2 = updateDebtQuery(cv2, idDebt);
-        //db.update("Debt", cv2, "id_debt = '" + idDebt + "' ", null);
         closeLocal();
         return res1 && res2;
     }
 
     private boolean insertRates(List<Rates> ratesList) {
         ContentValues cv = new ContentValues();
-
         openLocalToWrite();
         int id;
         for (Rates rates : ratesList) {
@@ -854,7 +844,7 @@ class DatabaseRepository implements Repository {
             }
         }
         closeLocal();
-        InMemoryRepository.getInstance().setRatesForExchange();
+        //InMemoryRepository.getInstance().setRatesForExchange();
         sharedPref.setRatesInsertFirstTimeStatus(true);
         sharedPref.setRatesUpdateTime();
         return true;
@@ -900,9 +890,7 @@ class DatabaseRepository implements Repository {
 
         openLocalToWrite();
         updateTransactionQuery(cv1, id_transaction);
-        //db.update("Transactions", cv1, "id_transaction = " + id_transaction, null);
         updateAccountQuery(cv2, id_account);
-        //db.update("Account", cv2, "id_account = " + id_account, null);
         closeLocal();
         return transaction;
     }
@@ -926,11 +914,8 @@ class DatabaseRepository implements Repository {
 
         openLocalToWrite();
         boolean res1 = updateTransactionQuery(cv1, id_transaction);
-        //db.update("Transactions", cv1, "id_transaction = " + id_transaction, null);
         boolean res2 = updateAccountQuery(cv2, id_account);
         boolean res3 = updateAccountQuery(cv3, oldAccountId);
-        /*db.update("Account", cv2, "id_account = " + id_account, null);
-        db.update("Account", cv3, "id_account = " + oldAccountId, null);*/
         closeLocal();
         return res1 && res2 && res3;
     }
@@ -953,9 +938,7 @@ class DatabaseRepository implements Repository {
 
         openLocalToWrite();
         updateDebtQuery(cv1, id_debt);
-        //db.update("Debt", cv1, "id_debt = " + id_debt, null);
         updateAccountQuery(cv2, id_account);
-        //db.update("Account", cv2, "id_account = " + id_account, null);
         closeLocal();
         return debt;
     }
@@ -981,11 +964,8 @@ class DatabaseRepository implements Repository {
 
         openLocalToWrite();
         boolean res1 = updateDebtQuery(cv1, id_debt);
-        //db.update("Debt", cv1, "id_debt = " + id_debt, null);
         boolean res2 = updateAccountQuery(cv2, id_account);
         boolean res3 = updateAccountQuery(cv3, oldAccountId);
-        /*db.update("Account", cv2, "id_account = " + id_account, null);
-        db.update("Account", cv3, "id_account = " + oldAccountId, null);*/
         closeLocal();
         return res1 && res2 && res3;
     }

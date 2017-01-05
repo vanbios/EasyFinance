@@ -1,4 +1,4 @@
-package com.androidcollider.easyfin.managers;
+package com.androidcollider.easyfin.managers.api;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
@@ -16,7 +16,7 @@ public class ApiManager {
     private Retrofit mRetrofit;
 
 
-    public ApiManager() {
+    ApiManager() {
         Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())

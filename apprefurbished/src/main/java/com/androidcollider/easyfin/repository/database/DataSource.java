@@ -8,14 +8,10 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.models.DateConstants;
-import com.androidcollider.easyfin.models.Rates;
-import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 import com.androidcollider.easyfin.utils.DBExportImportUtils;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
-import com.androidcollider.easyfin.utils.SharedPref;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,12 +27,12 @@ public class DataSource {
     private DbHelper dbHelper;
     private SQLiteDatabase db;
     private Context context;
-    private SharedPref sharedPref;
+    //private SharedPref sharedPref;
 
     public DataSource(Context context) {
         this.context = context;
         dbHelper = new DbHelper(context);
-        sharedPref = new SharedPref(App.getContext());
+        //sharedPref = new SharedPref(App.getContext());
     }
 
     //Open database to write
@@ -561,7 +557,7 @@ public class DataSource {
         closeLocal();
     }*/
 
-    public void insertRates(ArrayList<Rates> ratesList) {
+    /*public void insertRates(ArrayList<Rates> ratesList) {
         ContentValues cv = new ContentValues();
 
         openLocalToWrite();
@@ -581,12 +577,12 @@ public class DataSource {
             }
         }
         closeLocal();
-        InMemoryRepository.getInstance().setRatesForExchange();
+        //InMemoryRepository.getInstance().setRatesForExchange();
         sharedPref.setRatesInsertFirstTimeStatus(true);
         sharedPref.setRatesUpdateTime();
-    }
+    }*/
 
-    public double[] getRates() {
+    /*public double[] getRates() {
         String[] rateNamesArray = context.getResources().getStringArray(R.array.json_rates_array);
         String rateType = "bank";
         double[] results = new double[4];
@@ -608,7 +604,7 @@ public class DataSource {
         }
         closeLocal();
         return results;
-    }
+    }*/
 
     /*public void editTransaction(Transaction transaction) {
         ContentValues cv1 = new ContentValues();

@@ -81,5 +81,4 @@ public class SharedPref {
     public int getHomeChartTypePos() {
         return sharedPref.getInt("homeChartTypePos", 0);
     }
-
 }

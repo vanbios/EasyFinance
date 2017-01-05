@@ -93,7 +93,7 @@ public class ChartDataUtils {
         return data;
     }
 
-    public static ArrayList<String> getXAxisValues() {
+    private static ArrayList<String> getXAxisValues() {
         ArrayList<String> xAxis = new ArrayList<>();
         xAxis.add("");
         return xAxis;
@@ -131,5 +131,4 @@ public class ChartDataUtils {
 
         return data;
     }
-
 }
