@@ -19,12 +19,17 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.ViewPagerFragmentAdapter;
-import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
+import com.androidcollider.easyfin.common.app.App;
+import com.androidcollider.easyfin.managers.accounts_info.AccountsInfoManager;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
+
+import rx.Subscriber;
 
 public class FrgMain extends CommonFragment {
 
@@ -32,18 +37,16 @@ public class FrgMain extends CommonFragment {
     private ViewPager pager;
     private FloatingActionMenu fabMenu;
 
+    @Inject
+    AccountsInfoManager accountsInfoManager;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.frg_main, container, false);
-
+        ((App) getActivity().getApplication()).getComponent().inject(this);
         initUI();
-
-        if (InMemoryRepository.getInstance().getAccountsCount() == 0) showDialogNoAccount();
-
-        checkForAndroidMPermissions();
-
         return view;
     }
 
@@ -113,6 +116,26 @@ public class FrgMain extends CommonFragment {
         super.onViewCreated(view, savedInstanceState);
         fabMenu.hideMenu(false);
         new Handler().postDelayed(() -> fabMenu.showMenu(true), 1000);
+
+        checkForAndroidMPermissions();
+        accountsInfoManager.getAccountsCountObservable()
+                .subscribe(new Subscriber<Integer>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Integer count) {
+                        if (count == 0) showDialogNoAccount();
+                    }
+                });
     }
 
     /*private void showSnackBar() {

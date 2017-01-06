@@ -21,7 +21,6 @@ import com.androidcollider.easyfin.events.UpdateFrgDebts;
 import com.androidcollider.easyfin.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.models.Debt;
 import com.androidcollider.easyfin.repository.Repository;
-import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -235,7 +234,7 @@ public class FrgDebts extends CommonFragment {
                         debtList.remove(pos);
                         setVisibility();
                         recyclerAdapter.notifyDataSetChanged();
-                        InMemoryRepository.getInstance().updateAccountList();
+                        //InMemoryRepository.getInstance().updateAccountList();
                         pushBroadcast();
                     }
                 });

@@ -18,7 +18,6 @@ import com.androidcollider.easyfin.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.repository.Repository;
-import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -190,7 +189,7 @@ public class FrgAccounts extends CommonFragmentWithEvents {
                         accountList.remove(pos);
                         setVisibility();
                         recyclerAdapter.notifyDataSetChanged();
-                        InMemoryRepository.getInstance().updateAccountList();
+                        //InMemoryRepository.getInstance().updateAccountList();
                         pushBroadcast();
                     }
                 });

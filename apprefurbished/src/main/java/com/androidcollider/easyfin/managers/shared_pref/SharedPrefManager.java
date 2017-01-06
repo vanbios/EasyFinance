@@ -1,16 +1,19 @@
-package com.androidcollider.easyfin.utils;
+package com.androidcollider.easyfin.managers.shared_pref;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
+/**
+ * @author Ihor Bilous
+ */
 
-
-public class SharedPref {
+public class SharedPrefManager {
 
     private SharedPreferences sharedPref;
     private final static String APP_PREFERENCES = "FinUPref";
 
-    public SharedPref(Context context) {
+
+    SharedPrefManager(Context context) {
         this.sharedPref = context.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
     }
 

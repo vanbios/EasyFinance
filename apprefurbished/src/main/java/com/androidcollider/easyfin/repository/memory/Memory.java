@@ -1,4 +1,4 @@
-package com.androidcollider.easyfin.repository;
+package com.androidcollider.easyfin.repository.memory;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;

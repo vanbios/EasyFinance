@@ -28,7 +28,6 @@ import com.androidcollider.easyfin.events.UpdateFrgTransactions;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.models.Transaction;
 import com.androidcollider.easyfin.repository.Repository;
-import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 import com.androidcollider.easyfin.utils.DateFormatUtils;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.androidcollider.easyfin.utils.ToastUtils;
@@ -356,7 +355,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
     }
 
     private void lastActions() {
-        InMemoryRepository.getInstance().updateAccountList();
+        //InMemoryRepository.getInstance().updateAccountList();
         pushBroadcast();
         finish();
     }

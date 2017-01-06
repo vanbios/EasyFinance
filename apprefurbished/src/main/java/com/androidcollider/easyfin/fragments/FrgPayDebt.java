@@ -24,7 +24,6 @@ import com.androidcollider.easyfin.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.models.Debt;
 import com.androidcollider.easyfin.repository.Repository;
-import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.androidcollider.easyfin.utils.HideKeyboardUtils;
 import com.androidcollider.easyfin.utils.ToastUtils;
@@ -328,7 +327,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     }
 
     private void lastActions() {
-        InMemoryRepository.getInstance().updateAccountList();
+        //InMemoryRepository.getInstance().updateAccountList();
         pushBroadcast();
         this.finish();
     }

@@ -23,11 +23,11 @@ import com.androidcollider.easyfin.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.events.UpdateFrgHomeNewRates;
 import com.androidcollider.easyfin.managers.rates.exchange.ExchangeManager;
 import com.androidcollider.easyfin.managers.rates.rates_info.RatesInfoManager;
+import com.androidcollider.easyfin.managers.shared_pref.SharedPrefManager;
 import com.androidcollider.easyfin.repository.Repository;
 import com.androidcollider.easyfin.utils.ChartDataUtils;
 import com.androidcollider.easyfin.utils.ChartLargeValueFormatter;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
-import com.androidcollider.easyfin.utils.SharedPref;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -64,7 +64,6 @@ public class FrgHome extends CommonFragmentWithEvents {
     private MaterialDialog balanceSettingsDialog;
     private CheckBox chkBoxConvert, chkBoxShowOnlyIntegers;
 
-    private SharedPref sharedPref;
     private boolean convert, showOnlyIntegers,
             spinPeriodNotInitSelectedItemCall,
             spinBalanceCurrencyNotInitSelectedItemCall,
@@ -78,6 +77,9 @@ public class FrgHome extends CommonFragmentWithEvents {
 
     @Inject
     Repository repository;
+
+    @Inject
+    SharedPrefManager sharedPrefManager;
 
 
     @Override
@@ -150,16 +152,14 @@ public class FrgHome extends CommonFragmentWithEvents {
             chkBoxShowOnlyIntegers = (CheckBox) balanceSettings.findViewById(R.id.checkBoxMainBalanceSettingsShowCents);
         }
 
-        sharedPref = new SharedPref(getActivity());
-
-        convert = sharedPref.getMainBalanceSettingsConvertCheck();
-        showOnlyIntegers = sharedPref.getMainBalanceSettingsShowOnlyIntegersCheck();
+        convert = sharedPrefManager.getMainBalanceSettingsConvertCheck();
+        showOnlyIntegers = sharedPrefManager.getMainBalanceSettingsShowOnlyIntegersCheck();
 
         chkBoxConvert.setChecked(convert);
         chkBoxShowOnlyIntegers.setChecked(showOnlyIntegers);
 
         chkBoxConvert.setOnCheckedChangeListener((compoundButton, b) -> {
-            sharedPref.setMainBalanceSettingsConvertCheck(b);
+            sharedPrefManager.setMainBalanceSettingsConvertCheck(b);
             convert = b;
             setBalance(spinBalanceCurrency.getSelectedItemPosition());
 
@@ -169,7 +169,7 @@ public class FrgHome extends CommonFragmentWithEvents {
         });
 
         chkBoxShowOnlyIntegers.setOnCheckedChangeListener((compoundButton, b) -> {
-            sharedPref.setMainBalanceSettingsShowOnlyIntegersCheck(b);
+            sharedPrefManager.setMainBalanceSettingsShowOnlyIntegersCheck(b);
             showOnlyIntegers = b;
             setBalance(spinBalanceCurrency.getSelectedItemPosition());
             checkStatChartTypeForUpdate();
@@ -215,7 +215,7 @@ public class FrgHome extends CommonFragmentWithEvents {
                     setTransactionStatisticArray(i);
                     setStatisticSumTV();
                     checkStatChartTypeForUpdate();
-                    sharedPref.setHomeBalanceCurrencyPos(i);
+                    sharedPrefManager.setHomeBalanceCurrencyPos(i);
                 } else {
                     spinBalanceCurrencyNotInitSelectedItemCall = true;
                 }
@@ -226,7 +226,7 @@ public class FrgHome extends CommonFragmentWithEvents {
             }
         });
 
-        spinBalanceCurrency.setSelection(sharedPref.getHomeBalanceCurrencyPos());
+        spinBalanceCurrency.setSelection(sharedPrefManager.getHomeBalanceCurrencyPos());
     }
 
     private void setStatisticPeriodSpinner() {
@@ -266,7 +266,7 @@ public class FrgHome extends CommonFragmentWithEvents {
 
                                     setStatisticSumTV();
                                     checkStatChartTypeForUpdate();
-                                    sharedPref.setHomePeriodPos(i);
+                                    sharedPrefManager.setHomePeriodPos(i);
                                 }
                             });
                 } else {
@@ -280,7 +280,7 @@ public class FrgHome extends CommonFragmentWithEvents {
             }
         });
 
-        spinPeriod.setSelection(sharedPref.getHomePeriodPos());
+        spinPeriod.setSelection(sharedPrefManager.getHomePeriodPos());
     }
 
     private void setChartTypeSpinner() {
@@ -314,7 +314,7 @@ public class FrgHome extends CommonFragmentWithEvents {
                         chartStatistic.setVisibility(View.VISIBLE);
                         setStatisticBarChart();
                     }
-                    sharedPref.setHomeChartTypePos(i);
+                    sharedPrefManager.setHomeChartTypePos(i);
                 } else {
                     spinChartTypeNotInitSelectedItemCall = true;
                 }
@@ -326,7 +326,7 @@ public class FrgHome extends CommonFragmentWithEvents {
             }
         });
 
-        spinChartType.setSelection(sharedPref.getHomeChartTypePos());
+        spinChartType.setSelection(sharedPrefManager.getHomeChartTypePos());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

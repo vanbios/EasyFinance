@@ -9,11 +9,11 @@ import com.androidcollider.easyfin.api.RatesApi;
 import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.events.UpdateFrgHomeNewRates;
 import com.androidcollider.easyfin.managers.connection.ConnectionManager;
+import com.androidcollider.easyfin.managers.shared_pref.SharedPrefManager;
 import com.androidcollider.easyfin.models.Currency;
 import com.androidcollider.easyfin.models.Rates;
 import com.androidcollider.easyfin.models.RatesNew;
 import com.androidcollider.easyfin.repository.Repository;
-import com.androidcollider.easyfin.utils.SharedPref;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -36,25 +36,26 @@ public class RatesLoaderManager {
 
     private static final String TAG = RatesLoaderManager.class.getSimpleName();
 
-    private SharedPref sharedPref;
     private Context context;
     private RatesApi ratesApi;
     private Repository repository;
     private ConnectionManager connectionManager;
+    private SharedPrefManager sharedPrefManager;
 
-    RatesLoaderManager(Context context, RatesApi ratesApi, Repository repository, ConnectionManager connectionManager) {
+    RatesLoaderManager(Context context, RatesApi ratesApi, Repository repository,
+                       ConnectionManager connectionManager, SharedPrefManager sharedPrefManager) {
         this.context = context;
         this.ratesApi = ratesApi;
         this.repository = repository;
         this.connectionManager = connectionManager;
-        sharedPref = new SharedPref(context);
+        this.sharedPrefManager = sharedPrefManager;
     }
 
     public void updateRatesForExchange() {
         if (PreferenceManager.getDefaultSharedPreferences(context)
                 .getBoolean(context.getString(R.string.update_rates_automatically), true)
                 && connectionManager.isConnectionEnabled()
-                && (!sharedPref.getRatesInsertFirstTimeStatus()
+                && (!sharedPrefManager.getRatesInsertFirstTimeStatus()
                 || !checkForTodayUpdate()
                 && checkForAvailableNewRates())) {
             getRates();
@@ -88,14 +89,13 @@ public class RatesLoaderManager {
     }
 
     private boolean checkForTodayUpdate() {
-        SharedPref sharedPref = new SharedPref(App.getContext());
         Calendar currentCalendar = Calendar.getInstance();
         Calendar oldCalendar = Calendar.getInstance();
-        oldCalendar.setTimeInMillis(sharedPref.getRatesUpdateTime());
+        oldCalendar.setTimeInMillis(sharedPrefManager.getRatesUpdateTime());
         return currentCalendar.get(Calendar.DAY_OF_YEAR) == oldCalendar.get(Calendar.DAY_OF_YEAR);
     }
 
-    public void getRates() {
+    private void getRates() {
         ratesApi.getRates()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

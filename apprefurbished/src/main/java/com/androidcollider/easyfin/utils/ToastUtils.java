@@ -21,5 +21,4 @@ public class ToastUtils {
         staticToast = Toast.makeText(context, text, duration);
         staticToast.show();
     }
-
 }

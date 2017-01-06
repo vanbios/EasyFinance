@@ -26,7 +26,6 @@ import com.androidcollider.easyfin.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.managers.rates.exchange.ExchangeManager;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.repository.Repository;
-import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
 import com.androidcollider.easyfin.utils.HideKeyboardUtils;
@@ -244,7 +243,7 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
 
                     @Override
                     public void onNext(Boolean aBoolean) {
-                        InMemoryRepository.getInstance().updateAccountList();
+                        //InMemoryRepository.getInstance().updateAccountList();
                         pushBroadcast();
                         finish();
                     }

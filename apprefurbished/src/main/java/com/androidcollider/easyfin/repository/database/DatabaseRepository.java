@@ -1,28 +1,22 @@
-package com.androidcollider.easyfin.repository;
+package com.androidcollider.easyfin.repository.database;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.util.Log;
 
 import com.androidcollider.easyfin.R;
+import com.androidcollider.easyfin.managers.shared_pref.SharedPrefManager;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.models.DateConstants;
 import com.androidcollider.easyfin.models.Debt;
 import com.androidcollider.easyfin.models.Rates;
 import com.androidcollider.easyfin.models.Transaction;
-import com.androidcollider.easyfin.repository.database.DbHelper;
-import com.androidcollider.easyfin.utils.DBExportImportUtils;
+import com.androidcollider.easyfin.repository.Repository;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
-import com.androidcollider.easyfin.utils.SharedPref;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -30,246 +24,200 @@ import java.util.List;
 import java.util.Map;
 
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * @author Ihor Bilous
  */
 
-class DatabaseRepository implements Repository {
+public class DatabaseRepository implements Repository {
 
     private DbHelper dbHelper;
     private SQLiteDatabase db;
     private Context context;
-    private SharedPref sharedPref;
+    private SharedPrefManager sharedPrefManager;
 
 
-    DatabaseRepository(Context context) {
+    public DatabaseRepository(Context context, DbHelper dbHelper, SharedPrefManager sharedPrefManager) {
         this.context = context;
-        dbHelper = new DbHelper(context);
-        sharedPref = new SharedPref(context);
+        this.dbHelper = dbHelper;
+        this.sharedPrefManager = sharedPrefManager;
     }
 
 
     @Override
     public Observable<Account> addNewAccount(Account account) {
-        return Observable.<Account>create(subscriber -> {
+        return Observable.create(subscriber -> {
             subscriber.onNext(insertNewAccount(account));
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
     public Observable<List<Account>> getAllAccounts() {
-        return Observable.<List<Account>>create(subscriber -> {
+        return Observable.create(subscriber -> {
             subscriber.onNext(getAllAccountsInfo());
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
     public Observable<Account> updateAccount(Account account) {
-        return Observable.<Account>create(subscriber -> {
+        return Observable.create(subscriber -> {
             subscriber.onNext(editAccount(account));
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
     public Observable<Boolean> deleteAccount(int id) {
-        return Observable.<Boolean>create(subscriber -> {
+        return Observable.create(subscriber -> {
             subscriber.onNext(deleteAccountDB(id));
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
     public Observable<Boolean> transferBTWAccounts(int idAccount1, double accountAmount1, int idAccount2, double accountAmount2) {
-        return Observable.<Boolean>create(subscriber -> {
+        return Observable.create(subscriber -> {
             subscriber.onNext(updateAccountsAmountAfterTransfer(idAccount1, accountAmount1, idAccount2, accountAmount2));
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
     public Observable<Transaction> addNewTransaction(Transaction transaction) {
-        return Observable.<Transaction>create(subscriber -> {
+        return Observable.create(subscriber -> {
             subscriber.onNext(insertNewTransaction(transaction));
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
     public Observable<List<Transaction>> getAllTransactions() {
-        return Observable.<List<Transaction>>create(subscriber -> {
+        return Observable.create(subscriber -> {
             subscriber.onNext(getAllTransactionsInfo());
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
     public Observable<Transaction> updateTransaction(Transaction transaction) {
-        return Observable.<Transaction>create(subscriber -> {
+        return Observable.create(subscriber -> {
             subscriber.onNext(editTransaction(transaction));
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
     public Observable<Boolean> updateTransactionDifferentAccounts(Transaction transaction, double oldAccountAmount, int oldAccountId) {
-        return Observable.<Boolean>create(subscriber -> {
+        return Observable.create(subscriber -> {
             subscriber.onNext(editTransactionDifferentAccounts(transaction, oldAccountAmount, oldAccountId));
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
     public Observable<Boolean> deleteTransaction(int idAccount, int idTransaction, double amount) {
-        return Observable.<Boolean>create(subscriber -> {
+        return Observable.create(subscriber -> {
             subscriber.onNext(deleteTransactionDB(idAccount, idTransaction, amount));
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
     public Observable<Debt> addNewDebt(Debt debt) {
-        return Observable.<Debt>create(subscriber -> {
+        return Observable.create(subscriber -> {
             subscriber.onNext(insertNewDebt(debt));
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
     public Observable<List<Debt>> getAllDebts() {
-        return Observable.<List<Debt>>create(subscriber -> {
+        return Observable.create(subscriber -> {
             subscriber.onNext(getAllDebtInfo());
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
     public Observable<Debt> updateDebt(Debt debt) {
-        return Observable.<Debt>create(subscriber -> {
+        return Observable.create(subscriber -> {
             subscriber.onNext(editDebt(debt));
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
     public Observable<Boolean> updateDebtDifferentAccounts(Debt debt, double oldAccountAmount, int oldAccountId) {
-        return Observable.<Boolean>create(subscriber -> {
+        return Observable.create(subscriber -> {
             subscriber.onNext(editDebtDifferentAccounts(debt, oldAccountAmount, oldAccountId));
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
     public Observable<Boolean> deleteDebt(int idAccount, int idDebt, double amount, int type) {
-        return Observable.<Boolean>create(subscriber -> {
+        return Observable.create(subscriber -> {
             subscriber.onNext(deleteDebtDB(idAccount, idDebt, amount, type));
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
     public Observable<Boolean> payFullDebt(int idAccount, double accountAmount, int idDebt) {
-        return Observable.<Boolean>create(subscriber -> {
+        return Observable.create(subscriber -> {
             subscriber.onNext(payAllDebt(idAccount, accountAmount, idDebt));
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
     public Observable<Boolean> payPartOfDebt(int idAccount, double accountAmount, int idDebt, double debtAmount) {
-        return Observable.<Boolean>create(subscriber -> {
+        return Observable.create(subscriber -> {
             subscriber.onNext(payPartDebt(idAccount, accountAmount, idDebt, debtAmount));
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
     public Observable<Boolean> takeMoreDebt(int idAccount, double accountAmount, int idDebt, double debtAmount, double debtAllAmount) {
-        return Observable.<Boolean>create(subscriber -> {
+        return Observable.create(subscriber -> {
             subscriber.onNext(takeMoreDebtDB(idAccount, accountAmount, idDebt, debtAmount, debtAllAmount));
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
     public Observable<Map<String, double[]>> getTransactionsStatistic(int position) {
-        return Observable.<Map<String, double[]>>create(subscriber -> {
+        return Observable.create(subscriber -> {
             subscriber.onNext(getTransactionsStatisticDB(position));
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
     public Observable<Map<String, double[]>> getAccountsAmountSumGroupByTypeAndCurrency() {
-        return Observable.<Map<String, double[]>>create(subscriber -> {
+        return Observable.create(subscriber -> {
             subscriber.onNext(getAccountsSumGroupByTypeAndCurrency());
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
     public Observable<Boolean> updateRates(List<Rates> ratesList) {
-        return Observable.<Boolean>create(subscriber -> {
+        return Observable.create(subscriber -> {
             subscriber.onNext(insertRates(ratesList));
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
     public Observable<double[]> getRates() {
-        return Observable.<double[]>create(subscriber -> {
+        return Observable.create(subscriber -> {
             subscriber.onNext(getRatesDB());
             subscriber.onCompleted();
         });
-                /*.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());*/
     }
 
     @Override
@@ -847,8 +795,8 @@ class DatabaseRepository implements Repository {
         }
         closeLocal();
         //InMemoryRepository.getInstance().setRatesForExchange();
-        sharedPref.setRatesInsertFirstTimeStatus(true);
-        sharedPref.setRatesUpdateTime();
+        sharedPrefManager.setRatesInsertFirstTimeStatus(true);
+        sharedPrefManager.setRatesUpdateTime();
         return true;
     }
 
@@ -1006,24 +954,5 @@ class DatabaseRepository implements Repository {
 
     private boolean deleteDebtQuery(int idDebt) {
         return db.delete("Debt", "id_debt = " + idDebt, null) > 0;
-    }
-
-
-    public boolean importDatabase(Uri uri) throws IOException {
-        // Close the SQLiteOpenHelper so it will commit the created empty database to internal storage.
-        dbHelper.close();
-
-        File oldDb = context.getDatabasePath(DbHelper.DATABASE_NAME);
-
-        InputStream newDbStream = context.getContentResolver().openInputStream(uri);
-
-        if (newDbStream != null) {
-            DBExportImportUtils.copyFromStream(newDbStream, new FileOutputStream(oldDb));
-            // Access the copied database so SQLiteHelper will cache it and mark it as created.
-            openLocalToWrite();
-            closeLocal();
-            return true;
-        }
-        return false;
     }
 }

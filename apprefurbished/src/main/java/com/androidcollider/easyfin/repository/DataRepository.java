@@ -4,6 +4,8 @@ import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.models.Debt;
 import com.androidcollider.easyfin.models.Rates;
 import com.androidcollider.easyfin.models.Transaction;
+import com.androidcollider.easyfin.repository.database.Database;
+import com.androidcollider.easyfin.repository.memory.Memory;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +18,7 @@ import rx.android.schedulers.AndroidSchedulers;
  * @author Ihor Bilous
  */
 
-public class DataRepository implements Repository {
+class DataRepository implements Repository {
 
     private Repository memoryRepository;
     private Repository databaseRepository;
@@ -25,21 +27,14 @@ public class DataRepository implements Repository {
     private Scheduler observeSc = AndroidSchedulers.mainThread();
 
 
-    public DataRepository(@Memory Repository memoryRepository,
-                          @Database Repository databaseRepository) {
+    DataRepository(@Memory Repository memoryRepository,
+                   @Database Repository databaseRepository) {
         this.memoryRepository = memoryRepository;
         this.databaseRepository = databaseRepository;
     }
 
     @Override
     public Observable<Account> addNewAccount(Account account) {
-        /*return Observable.combineLatest(
-                databaseRepository.addNewAccount(account),
-                memoryRepository.addNewAccount(account),
-                (aBoolean, aBoolean2) -> aBoolean && aBoolean2)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());*/
-
         return databaseRepository.addNewAccount(account)
                 .flatMap(account1 -> memoryRepository.addNewAccount(account1))
                 .subscribeOn(subscribeSc)
@@ -66,13 +61,6 @@ public class DataRepository implements Repository {
 
     @Override
     public Observable<Account> updateAccount(Account account) {
-        /*return Observable.combineLatest(
-                databaseRepository.updateAccount(account),
-                memoryRepository.updateAccount(account),
-                (aBoolean, aBoolean2) -> aBoolean && aBoolean2)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());*/
-
         return databaseRepository.updateAccount(account)
                 .flatMap(account1 -> memoryRepository.updateAccount(account1))
                 .subscribeOn(subscribeSc)
@@ -101,13 +89,6 @@ public class DataRepository implements Repository {
 
     @Override
     public Observable<Transaction> addNewTransaction(Transaction transaction) {
-        /*return Observable.combineLatest(
-                databaseRepository.addNewTransaction(transaction),
-                memoryRepository.addNewTransaction(transaction),
-                (aBoolean, aBoolean2) -> aBoolean && aBoolean2)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());*/
-
         return databaseRepository.addNewTransaction(transaction)
                 .flatMap(transaction1 -> memoryRepository.addNewTransaction(transaction1))
                 .subscribeOn(subscribeSc)
@@ -134,13 +115,6 @@ public class DataRepository implements Repository {
 
     @Override
     public Observable<Transaction> updateTransaction(Transaction transaction) {
-        /*return Observable.combineLatest(
-                databaseRepository.updateTransaction(transaction),
-                memoryRepository.updateTransaction(transaction),
-                (aBoolean, aBoolean2) -> aBoolean && aBoolean2)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());*/
-
         return databaseRepository.updateTransaction(transaction)
                 .flatMap(transaction1 -> memoryRepository.updateTransaction(transaction1))
                 .subscribeOn(subscribeSc)
@@ -169,13 +143,6 @@ public class DataRepository implements Repository {
 
     @Override
     public Observable<Debt> addNewDebt(Debt debt) {
-        /*return Observable.combineLatest(
-                databaseRepository.addNewDebt(debt),
-                memoryRepository.addNewDebt(debt),
-                (aBoolean, aBoolean2) -> aBoolean && aBoolean2)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());*/
-
         return databaseRepository.addNewDebt(debt)
                 .flatMap(debt1 -> memoryRepository.addNewDebt(debt1))
                 .subscribeOn(subscribeSc)
@@ -202,13 +169,6 @@ public class DataRepository implements Repository {
 
     @Override
     public Observable<Debt> updateDebt(Debt debt) {
-        /*return Observable.combineLatest(
-                databaseRepository.updateDebt(debt),
-                memoryRepository.updateDebt(debt),
-                (aBoolean, aBoolean2) -> aBoolean && aBoolean2)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());*/
-
         return databaseRepository.updateDebt(debt)
                 .flatMap(debt1 -> memoryRepository.updateDebt(debt1))
                 .subscribeOn(subscribeSc)

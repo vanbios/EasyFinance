@@ -19,7 +19,6 @@ import com.androidcollider.easyfin.events.UpdateFrgHome;
 import com.androidcollider.easyfin.events.UpdateFrgTransactions;
 import com.androidcollider.easyfin.models.Transaction;
 import com.androidcollider.easyfin.repository.Repository;
-import com.androidcollider.easyfin.repository.memory.InMemoryRepository;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -175,7 +174,7 @@ public class FrgTransactions extends CommonFragmentWithEvents {
                         transactionList.remove(pos);
                         setVisibility();
                         recyclerAdapter.notifyDataSetChanged();
-                        InMemoryRepository.getInstance().updateAccountList();
+                        //InMemoryRepository.getInstance().updateAccountList();
                         pushBroadcast();
                     }
                 });

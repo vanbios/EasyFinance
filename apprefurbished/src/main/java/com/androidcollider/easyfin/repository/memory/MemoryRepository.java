@@ -1,4 +1,4 @@
-package com.androidcollider.easyfin.repository;
+package com.androidcollider.easyfin.repository.memory;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,6 +9,7 @@ import com.androidcollider.easyfin.models.DateConstants;
 import com.androidcollider.easyfin.models.Debt;
 import com.androidcollider.easyfin.models.Rates;
 import com.androidcollider.easyfin.models.Transaction;
+import com.androidcollider.easyfin.repository.Repository;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -46,9 +47,7 @@ public class MemoryRepository implements Repository {
             accountList.add(account);
             subscriber.onNext(account);
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
@@ -62,9 +61,7 @@ public class MemoryRepository implements Repository {
             int pos = accountList.indexOf(account);
             subscriber.onNext(pos >= 0 ? accountList.set(pos, account) : null);
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
@@ -83,9 +80,7 @@ public class MemoryRepository implements Repository {
             transactionList.add(0, transaction);
             subscriber.onNext(transaction);
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
@@ -99,9 +94,7 @@ public class MemoryRepository implements Repository {
             int pos = transactionList.indexOf(transaction);
             subscriber.onNext(pos >= 0 ? transactionList.set(pos, transaction) : null);
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
@@ -120,9 +113,7 @@ public class MemoryRepository implements Repository {
             debtList.add(debt);
             subscriber.onNext(debt);
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
@@ -136,9 +127,7 @@ public class MemoryRepository implements Repository {
             int pos = debtList.indexOf(debt);
             subscriber.onNext(pos >= 0 ? debtList.set(pos, debt) : null);
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
@@ -173,9 +162,7 @@ public class MemoryRepository implements Repository {
                 Observable.<Map<String, double[]>>create(subscriber -> {
                     subscriber.onNext(getTransactionsStatisticByPosition(position));
                     subscriber.onCompleted();
-                })
-                /*.subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+                });
     }
 
     @Override
@@ -185,9 +172,7 @@ public class MemoryRepository implements Repository {
                 Observable.<Map<String, double[]>>create(subscriber -> {
                     subscriber.onNext(getAccountsSumGroupByTypeAndCurrency());
                     subscriber.onCompleted();
-                })
-                /*.subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+                });
     }
 
     @Override
@@ -198,9 +183,7 @@ public class MemoryRepository implements Repository {
             }
             subscriber.onNext(true);
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
@@ -215,9 +198,7 @@ public class MemoryRepository implements Repository {
             this.accountList.addAll(accountList);
             subscriber.onNext(true);
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
@@ -227,9 +208,7 @@ public class MemoryRepository implements Repository {
             this.transactionList.addAll(transactionList);
             subscriber.onNext(true);
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
@@ -239,9 +218,7 @@ public class MemoryRepository implements Repository {
             this.debtList.addAll(debtList);
             subscriber.onNext(true);
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
     @Override
@@ -251,9 +228,7 @@ public class MemoryRepository implements Repository {
             System.arraycopy(rates, 0, this.ratesArray, 0, rates.length);
             subscriber.onNext(true);
             subscriber.onCompleted();
-        })
-                /*.subscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())*/;
+        });
     }
 
 

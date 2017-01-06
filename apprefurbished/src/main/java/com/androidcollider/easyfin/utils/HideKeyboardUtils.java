@@ -1,7 +1,6 @@
 package com.androidcollider.easyfin.utils;
 
 import android.app.Activity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
