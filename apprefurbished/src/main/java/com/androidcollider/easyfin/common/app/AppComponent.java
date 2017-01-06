@@ -12,11 +12,10 @@ import com.androidcollider.easyfin.fragments.FrgMain;
 import com.androidcollider.easyfin.fragments.FrgPayDebt;
 import com.androidcollider.easyfin.fragments.FrgPref;
 import com.androidcollider.easyfin.fragments.FrgTransactions;
-import com.androidcollider.easyfin.managers.accounts_info.AccountsInfoManager;
 import com.androidcollider.easyfin.managers.accounts_info.AccountsInfoModule;
 import com.androidcollider.easyfin.managers.api.ApiModule;
 import com.androidcollider.easyfin.managers.connection.ConnectionModule;
-import com.androidcollider.easyfin.managers.import_db.ImportDbModule;
+import com.androidcollider.easyfin.managers.import_export_db.ImportExportDbModule;
 import com.androidcollider.easyfin.managers.rates.exchange.ExchangeModule;
 import com.androidcollider.easyfin.managers.rates.rates_info.RatesInfoModule;
 import com.androidcollider.easyfin.managers.rates.rates_loader.RatesLoaderModule;
@@ -41,7 +40,7 @@ import dagger.Component;
         RatesLoaderModule.class,
         ConnectionModule.class,
         AccountsInfoModule.class,
-        ImportDbModule.class,
+        ImportExportDbModule.class,
         SharedPrefModule.class
 })
 public interface AppComponent {

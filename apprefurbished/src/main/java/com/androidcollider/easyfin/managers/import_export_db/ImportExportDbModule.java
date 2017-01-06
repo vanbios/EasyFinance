@@ -1,4 +1,4 @@
-package com.androidcollider.easyfin.managers.import_db;
+package com.androidcollider.easyfin.managers.import_export_db;
 
 import android.content.Context;
 
@@ -14,11 +14,11 @@ import dagger.Provides;
  */
 
 @Module
-public class ImportDbModule {
+public class ImportExportDbModule {
 
     @Provides
     @Singleton
-    public ImportDbManager provideImportDbManager(Context context, DbHelper dbHelper) {
-        return new ImportDbManager(context, dbHelper);
+    public ImportExportDbManager provideImportDbManager(Context context, DbHelper dbHelper) {
+        return new ImportExportDbManager(context, dbHelper);
     }
 }

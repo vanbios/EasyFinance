@@ -7,15 +7,14 @@ import android.os.Bundle;
 import android.preference.Preference;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.managers.import_db.ImportDbManager;
-import com.androidcollider.easyfin.repository.database.DbHelper;
+import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgDebts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHome;
 import com.androidcollider.easyfin.common.events.UpdateFrgTransactions;
-import com.androidcollider.easyfin.utils.DBExportImportUtils;
+import com.androidcollider.easyfin.managers.import_export_db.ImportExportDbManager;
+import com.androidcollider.easyfin.repository.database.DbHelper;
 import com.androidcollider.easyfin.utils.ToastUtils;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -35,7 +34,7 @@ public class FrgPref extends PreferenceFragment {
     private Tracker mTracker;
 
     @Inject
-    ImportDbManager importDbManager;
+    ImportExportDbManager importExportDbManager;
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -54,7 +53,7 @@ public class FrgPref extends PreferenceFragment {
         exportDBPref = findPreference("export_db");
         exportDBPref.setOnPreferenceClickListener(preference -> {
             exportDBPref.setEnabled(false);
-            DBExportImportUtils.backupDB();
+            importExportDbManager.backupDatabase();
 
             mTracker.send(new HitBuilders.EventBuilder("click", "export")
                     .setLabel("export_db")
@@ -128,7 +127,7 @@ public class FrgPref extends PreferenceFragment {
         boolean importDB = false;
         try {
             //importDB = InMemoryRepository.getInstance().getDataSource().importDatabase(uri);
-            importDB = importDbManager.importDatabase(uri);
+            importDB = importExportDbManager.importDatabase(uri);
         } catch (IOException e) {
             e.printStackTrace();
         }
