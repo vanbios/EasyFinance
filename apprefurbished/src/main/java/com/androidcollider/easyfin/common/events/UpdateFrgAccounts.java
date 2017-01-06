@@ -1,4 +1,4 @@
-package com.androidcollider.easyfin.events;
+package com.androidcollider.easyfin.common.events;
 
 /**
  * @author Ihor Bilous

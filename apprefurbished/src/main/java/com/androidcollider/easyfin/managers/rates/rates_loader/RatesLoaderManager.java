@@ -5,9 +5,9 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.api.RatesApi;
+import com.androidcollider.easyfin.common.api.RatesApi;
 import com.androidcollider.easyfin.common.app.App;
-import com.androidcollider.easyfin.events.UpdateFrgHomeNewRates;
+import com.androidcollider.easyfin.common.events.UpdateFrgHomeNewRates;
 import com.androidcollider.easyfin.managers.connection.ConnectionManager;
 import com.androidcollider.easyfin.managers.shared_pref.SharedPrefManager;
 import com.androidcollider.easyfin.models.Currency;

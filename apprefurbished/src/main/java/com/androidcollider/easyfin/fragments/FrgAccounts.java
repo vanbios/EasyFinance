@@ -14,8 +14,8 @@ import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.RecyclerAccountAdapter;
 import com.androidcollider.easyfin.common.MainActivity;
 import com.androidcollider.easyfin.common.app.App;
-import com.androidcollider.easyfin.events.UpdateFrgAccounts;
-import com.androidcollider.easyfin.events.UpdateFrgHomeBalance;
+import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
+import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.repository.Repository;
 

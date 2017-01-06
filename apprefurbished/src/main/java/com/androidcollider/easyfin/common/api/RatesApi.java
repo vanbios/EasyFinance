@@ -1,4 +1,4 @@
-package com.androidcollider.easyfin.api;
+package com.androidcollider.easyfin.common.api;
 
 import com.androidcollider.easyfin.models.RatesNew;
 
