@@ -25,12 +25,12 @@ import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHome;
 import com.androidcollider.easyfin.common.events.UpdateFrgTransactions;
+import com.androidcollider.easyfin.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.models.Transaction;
 import com.androidcollider.easyfin.repository.Repository;
 import com.androidcollider.easyfin.utils.DateFormatUtils;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
-import com.androidcollider.easyfin.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -57,6 +57,9 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
 
     @Inject
     Repository repository;
+
+    @Inject
+    ToastManager toastManager;
 
 
     @Override
@@ -340,7 +343,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
 
     private boolean checkSumField(String sum) {
         if (!sum.matches(".*\\d.*") || Double.parseDouble(sum) == 0) {
-            ToastUtils.showClosableToast(getActivity(), getString(R.string.empty_amount_field), 1);
+            toastManager.showClosableToast(getActivity(), getString(R.string.empty_amount_field), ToastManager.SHORT);
             return false;
         }
         return true;
@@ -348,7 +351,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
 
     private boolean checkIsEnoughCosts(boolean isExpense, double amount, double accountAmount) {
         if (isExpense && Math.abs(amount) > accountAmount) {
-            ToastUtils.showClosableToast(getActivity(), getString(R.string.not_enough_costs), 1);
+            toastManager.showClosableToast(getActivity(), getString(R.string.not_enough_costs), ToastManager.SHORT);
             return false;
         }
         return true;
@@ -373,7 +376,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
             newDate.set(year, monthOfYear, dayOfMonth);
 
             if (newDate.getTimeInMillis() > System.currentTimeMillis()) {
-                ToastUtils.showClosableToast(getActivity(), getString(R.string.transaction_date_future), 1);
+                toastManager.showClosableToast(getActivity(), getString(R.string.transaction_date_future), ToastManager.SHORT);
             } else {
                 tvDate.setText(DateFormatUtils.dateToString(newDate.getTime(), DATEFORMAT));
             }

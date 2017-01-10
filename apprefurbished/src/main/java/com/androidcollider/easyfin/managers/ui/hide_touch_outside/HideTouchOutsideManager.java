@@ -1,4 +1,4 @@
-package com.androidcollider.easyfin.utils;
+package com.androidcollider.easyfin.managers.ui.hide_touch_outside;
 
 import android.app.Activity;
 import android.view.View;
@@ -6,10 +6,13 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+/**
+ * @author Ihor Bilous
+ */
 
-public class HideKeyboardUtils {
+public class HideTouchOutsideManager {
 
-    public static void setupUI(View view, final Activity activity) {
+    public void hideKeyboardByTouchOutsideEditText(View view, final Activity activity) {
         //Set up touch listener for non-text box views to hide keyboard.
         if (!(view instanceof EditText)) {
             view.setOnTouchListener((v, event) -> {
@@ -24,9 +27,8 @@ public class HideKeyboardUtils {
         if (view instanceof ViewGroup) {
             for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
                 View innerView = ((ViewGroup) view).getChildAt(i);
-                setupUI(innerView, activity);
+                hideKeyboardByTouchOutsideEditText(innerView, activity);
             }
         }
     }
-
 }

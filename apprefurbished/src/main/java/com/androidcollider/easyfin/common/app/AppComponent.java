@@ -20,6 +20,9 @@ import com.androidcollider.easyfin.managers.rates.exchange.ExchangeModule;
 import com.androidcollider.easyfin.managers.rates.rates_info.RatesInfoModule;
 import com.androidcollider.easyfin.managers.rates.rates_loader.RatesLoaderModule;
 import com.androidcollider.easyfin.managers.shared_pref.SharedPrefModule;
+import com.androidcollider.easyfin.managers.ui.hide_touch_outside.HideTouchOutsideModule;
+import com.androidcollider.easyfin.managers.ui.shake_edit_text.ShakeEditTextModule;
+import com.androidcollider.easyfin.managers.ui.toast.ToastModule;
 import com.androidcollider.easyfin.repository.RepositoryModule;
 
 import javax.inject.Singleton;
@@ -41,7 +44,10 @@ import dagger.Component;
         ConnectionModule.class,
         AccountsInfoModule.class,
         ImportExportDbModule.class,
-        SharedPrefModule.class
+        SharedPrefModule.class,
+        ShakeEditTextModule.class,
+        ToastModule.class,
+        HideTouchOutsideModule.class
 })
 public interface AppComponent {
 

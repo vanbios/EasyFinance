@@ -14,8 +14,8 @@ import com.androidcollider.easyfin.common.events.UpdateFrgDebts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHome;
 import com.androidcollider.easyfin.common.events.UpdateFrgTransactions;
 import com.androidcollider.easyfin.managers.import_export_db.ImportExportDbManager;
+import com.androidcollider.easyfin.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.repository.database.DbHelper;
-import com.androidcollider.easyfin.utils.ToastUtils;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
@@ -35,6 +35,9 @@ public class FrgPref extends PreferenceFragment {
 
     @Inject
     ImportExportDbManager importExportDbManager;
+
+    @Inject
+    ToastManager toastManager;
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -97,7 +100,7 @@ public class FrgPref extends PreferenceFragment {
                     Intent.createChooser(intent, "Select a File to Upload"),
                     FILE_SELECT_CODE);
         } catch (android.content.ActivityNotFoundException ex) {
-            ToastUtils.showClosableToast(context, getString(R.string.import_no_file_explorer), 2);
+            toastManager.showClosableToast(context, getString(R.string.import_no_file_explorer), ToastManager.LONG);
         }
     }
 
@@ -109,7 +112,7 @@ public class FrgPref extends PreferenceFragment {
                     // Get the Uri of the selected file
                     uri = data.getData();
                     if (!uri.toString().contains(DbHelper.DATABASE_NAME)) {
-                        ToastUtils.showClosableToast(context, getString(R.string.import_wrong_file_type), 2);
+                        toastManager.showClosableToast(context, getString(R.string.import_wrong_file_type), ToastManager.LONG);
                     } else {
                         try {
                             showDialogImportDB();
@@ -136,7 +139,8 @@ public class FrgPref extends PreferenceFragment {
             importDBPref.setEnabled(false);
             pushBroadcast();
         }
-        ToastUtils.showClosableToast(context, importDB ? getString(R.string.import_complete) : getString(R.string.import_error), 2);
+        toastManager.showClosableToast(context,
+                importDB ? getString(R.string.import_complete) : getString(R.string.import_error), ToastManager.LONG);
     }
 
     private void pushBroadcast() {

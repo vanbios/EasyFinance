@@ -8,8 +8,8 @@ import android.os.Environment;
 import android.util.Log;
 
 import com.androidcollider.easyfin.R;
+import com.androidcollider.easyfin.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.repository.database.DbHelper;
-import com.androidcollider.easyfin.utils.ToastUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,11 +27,13 @@ public class ImportExportDbManager {
     private DbHelper dbHelper;
     private Context context;
     private SQLiteDatabase db;
+    private ToastManager toastManager;
 
 
-    ImportExportDbManager(Context context, DbHelper dbHelper) {
+    ImportExportDbManager(Context context, DbHelper dbHelper, ToastManager toastManager) {
         this.context = context;
         this.dbHelper = dbHelper;
+        this.toastManager = toastManager;
     }
 
     public boolean importDatabase(Uri uri) throws IOException {
@@ -98,8 +100,8 @@ public class ImportExportDbManager {
             output.close();
             fis.close();
 
-            ToastUtils.showClosableToast(context,
-                    context.getResources().getString(R.string.db_backup_to) + " " + outFilePath, 2);
+            toastManager.showClosableToast(context,
+                    context.getResources().getString(R.string.db_backup_to) + " " + outFilePath, ToastManager.LONG);
         } catch (IOException e) {
             e.printStackTrace();
         }

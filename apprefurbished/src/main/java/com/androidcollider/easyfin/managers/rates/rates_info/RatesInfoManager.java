@@ -4,8 +4,8 @@ import android.content.Context;
 import android.view.View;
 
 import com.androidcollider.easyfin.R;
+import com.androidcollider.easyfin.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.repository.Repository;
-import com.androidcollider.easyfin.utils.ToastUtils;
 
 import rx.Subscriber;
 
@@ -22,11 +22,13 @@ public class RatesInfoManager {
     private String info;
     private Context context;
     private Repository repository;
+    private ToastManager toastManager;
 
 
-    RatesInfoManager(Context context, Repository repository) {
+    RatesInfoManager(Context context, Repository repository, ToastManager toastManager) {
         this.context = context;
         this.repository = repository;
+        this.toastManager = toastManager;
         prepareInfo();
     }
 
@@ -38,7 +40,7 @@ public class RatesInfoManager {
             if (currentTime - lastPressTime < DOUBLE_PRESS_INTERVAL) {
                 count++;
                 if (count == 7) {
-                    ToastUtils.showClosableToast(context, info, 1);
+                    toastManager.showClosableToast(context, info, ToastManager.LONG);
                 }
             } else count = 0;
 

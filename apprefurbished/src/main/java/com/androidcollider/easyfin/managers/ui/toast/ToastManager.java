@@ -1,20 +1,25 @@
-package com.androidcollider.easyfin.utils;
+package com.androidcollider.easyfin.managers.ui.toast;
 
 import android.content.Context;
 import android.widget.Toast;
 
-public class ToastUtils {
+/**
+ * @author Ihor Bilous
+ */
 
+public class ToastManager {
+
+    public static final int SHORT = 1, LONG = 2;
     private static Toast staticToast;
 
-    public static void showClosableToast(Context context, String text, int duration) {
+    public void showClosableToast(Context context, String text, int duration) {
         if (staticToast != null) staticToast.cancel();
         staticToast = new Toast(context);
         switch (duration) {
-            case 1:
+            case SHORT:
                 duration = Toast.LENGTH_SHORT;
                 break;
-            case 2:
+            case LONG:
                 duration = Toast.LENGTH_LONG;
                 break;
         }

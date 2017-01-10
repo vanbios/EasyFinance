@@ -24,13 +24,13 @@ import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.managers.rates.exchange.ExchangeManager;
+import com.androidcollider.easyfin.managers.ui.hide_touch_outside.HideTouchOutsideManager;
+import com.androidcollider.easyfin.managers.ui.shake_edit_text.ShakeEditTextManager;
+import com.androidcollider.easyfin.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.repository.Repository;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
-import com.androidcollider.easyfin.utils.HideKeyboardUtils;
-import com.androidcollider.easyfin.utils.ShakeEditText;
-import com.androidcollider.easyfin.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -56,6 +56,15 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
 
     @Inject
     ExchangeManager exchangeManager;
+
+    @Inject
+    ShakeEditTextManager shakeEditTextManager;
+
+    @Inject
+    ToastManager toastManager;
+
+    @Inject
+    HideTouchOutsideManager hideTouchOutsideManager;
 
 
     @Override
@@ -105,7 +114,7 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
                             layoutExchange = (RelativeLayout) view.findViewById(R.id.layoutAddTransBTWExchange);
 
                             setSpinners();
-                            HideKeyboardUtils.setupUI(view.findViewById(R.id.scrollAddTransBTW), getActivity());
+                            hideTouchOutsideManager.hideKeyboardByTouchOutsideEditText(view.findViewById(R.id.scrollAddTransBTW), getActivity());
                         }
                     }
                 });
@@ -201,7 +210,7 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
         double accountAmountFrom = accountFrom.getAmount();
 
         if (amount > accountAmountFrom)
-            ToastUtils.showClosableToast(getActivity(), getString(R.string.not_enough_costs), 1);
+            toastManager.showClosableToast(getActivity(), getString(R.string.not_enough_costs), ToastManager.SHORT);
         else {
             int accountIdFrom = accountFrom.getId();
 
@@ -255,8 +264,8 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
     private boolean checkEditTextForCorrect(EditText et, int strRes) {
         String s = DoubleFormatUtils.prepareStringToParse(et.getText().toString());
         if (!s.matches(".*\\d.*") || Double.parseDouble(s) == 0) {
-            ShakeEditText.highlightEditText(et);
-            ToastUtils.showClosableToast(getActivity(), getString(strRes), 1);
+            shakeEditTextManager.highlightEditText(et);
+            toastManager.showClosableToast(getActivity(), getString(strRes), ToastManager.SHORT);
             return false;
         }
         return true;

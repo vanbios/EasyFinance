@@ -36,7 +36,7 @@ import com.androidcollider.easyfin.fragments.FrgMain;
 import com.androidcollider.easyfin.fragments.FrgPref;
 import com.androidcollider.easyfin.fragments.PreferenceFragment;
 import com.androidcollider.easyfin.managers.rates.rates_loader.RatesLoaderManager;
-import com.androidcollider.easyfin.utils.ToastUtils;
+import com.androidcollider.easyfin.managers.ui.toast.ToastManager;
 
 import javax.inject.Inject;
 
@@ -52,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     @Inject
     RatesLoaderManager ratesLoaderManager;
+
+    @Inject
+    ToastManager toastManager;
 
 
     @Override
@@ -265,7 +268,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         if (fragment instanceof FrgMain) {
             if (backPressExitTime + 2000 > System.currentTimeMillis()) this.finish();
             else {
-                ToastUtils.showClosableToast(this, getString(R.string.press_again_to_exit), 1);
+                toastManager.showClosableToast(this, getString(R.string.press_again_to_exit), ToastManager.SHORT);
                 backPressExitTime = System.currentTimeMillis();
             }
         } else if (fragment instanceof FrgAddAccount) popFragments();

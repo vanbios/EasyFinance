@@ -20,12 +20,12 @@ import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.managers.accounts_info.AccountsInfoManager;
+import com.androidcollider.easyfin.managers.ui.hide_touch_outside.HideTouchOutsideManager;
+import com.androidcollider.easyfin.managers.ui.shake_edit_text.ShakeEditTextManager;
+import com.androidcollider.easyfin.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.repository.Repository;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
-import com.androidcollider.easyfin.utils.HideKeyboardUtils;
-import com.androidcollider.easyfin.utils.ShakeEditText;
-import com.androidcollider.easyfin.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -49,6 +49,15 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
     @Inject
     AccountsInfoManager accountsInfoManager;
 
+    @Inject
+    ShakeEditTextManager shakeEditTextManager;
+
+    @Inject
+    ToastManager toastManager;
+
+    @Inject
+    HideTouchOutsideManager hideTouchOutsideManager;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,7 +67,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
         initializeFields();
         setMode();
         setToolbar();
-        HideKeyboardUtils.setupUI(view.findViewById(R.id.layoutActAccountParent), getActivity());
+        hideTouchOutsideManager.hideKeyboardByTouchOutsideEditText(view.findViewById(R.id.layoutActAccountParent), getActivity());
         return view;
     }
 
@@ -185,8 +194,8 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
                 //InMemoryRepository.getInstance().checkForAccountNameMatches(name)
                     accountsInfoManager.checkForAccountNameMatches(name)
                     ) {
-                ShakeEditText.highlightEditText(etName);
-                ToastUtils.showClosableToast(getActivity(), getString(R.string.account_name_exist), 1);
+                shakeEditTextManager.highlightEditText(etName);
+                toastManager.showClosableToast(getActivity(), getString(R.string.account_name_exist), ToastManager.SHORT);
             } else {
                 double amount = Double.parseDouble(DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString()));
                 String currency = spinCurrency.getSelectedItem().toString();
@@ -229,8 +238,8 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
                 //InMemoryRepository.getInstance().checkForAccountNameMatches(name)
                     accountsInfoManager.checkForAccountNameMatches(name)
                             && !name.equals(oldName)) {
-                ShakeEditText.highlightEditText(etName);
-                ToastUtils.showClosableToast(getActivity(), getString(R.string.account_name_exist), 1);
+                shakeEditTextManager.highlightEditText(etName);
+                toastManager.showClosableToast(getActivity(), getString(R.string.account_name_exist), ToastManager.SHORT);
             } else {
                 String sum = DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString());
                 double amount = Double.parseDouble(sum);
@@ -277,8 +286,8 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
     private boolean checkForFillNameField() {
         String st = etName.getText().toString().replaceAll("\\s+", "");
         if (st.isEmpty()) {
-            ShakeEditText.highlightEditText(etName);
-            ToastUtils.showClosableToast(getActivity(), getString(R.string.empty_name_field), 1);
+            shakeEditTextManager.highlightEditText(etName);
+            toastManager.showClosableToast(getActivity(), getString(R.string.empty_name_field), ToastManager.SHORT);
             return false;
         }
         return true;

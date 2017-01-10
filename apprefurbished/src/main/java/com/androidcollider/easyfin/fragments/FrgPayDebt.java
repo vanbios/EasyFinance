@@ -21,12 +21,12 @@ import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgDebts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
+import com.androidcollider.easyfin.managers.ui.hide_touch_outside.HideTouchOutsideManager;
+import com.androidcollider.easyfin.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.models.Debt;
 import com.androidcollider.easyfin.repository.Repository;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
-import com.androidcollider.easyfin.utils.HideKeyboardUtils;
-import com.androidcollider.easyfin.utils.ToastUtils;
 import com.annimon.stream.Stream;
 
 import org.greenrobot.eventbus.EventBus;
@@ -50,6 +50,12 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     @Inject
     Repository repository;
 
+    @Inject
+    ToastManager toastManager;
+
+    @Inject
+    HideTouchOutsideManager hideTouchOutsideManager;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,7 +77,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
             cardView.setVisibility(View.VISIBLE);
             initializeView();
             setViews();
-            HideKeyboardUtils.setupUI(view.findViewById(R.id.layoutActPayDebtParent), getActivity());
+            hideTouchOutsideManager.hideKeyboardByTouchOutsideEditText(view.findViewById(R.id.layoutActPayDebtParent), getActivity());
         }
 
         return view;
@@ -195,7 +201,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
             double amountAllDebt = debt.getAmountCurrent();
 
             if (amountDebt > amountAllDebt)
-                ToastUtils.showClosableToast(getActivity(), getString(R.string.debt_sum_more_then_amount), 1);
+                toastManager.showClosableToast(getActivity(), getString(R.string.debt_sum_more_then_amount), ToastManager.SHORT);
             else {
                 int type = debt.getType();
                 Account account = (Account) spinAccount.getSelectedItem();
@@ -203,7 +209,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                 double amountAccount = account.getAmount();
 
                 if (type == 1 && amountDebt > amountAccount) {
-                    ToastUtils.showClosableToast(getActivity(), getString(R.string.not_enough_costs), 1);
+                    toastManager.showClosableToast(getActivity(), getString(R.string.not_enough_costs), ToastManager.SHORT);
                 } else {
                     int idDebt = debt.getId();
                     int idAccount = account.getId();
@@ -275,7 +281,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
             double amountAccount = account.getAmount();
 
             if (type == 0 && amountDebt > amountAccount) {
-                ToastUtils.showClosableToast(getActivity(), getString(R.string.not_enough_costs), 1);
+                toastManager.showClosableToast(getActivity(), getString(R.string.not_enough_costs), ToastManager.SHORT);
             } else {
                 int idDebt = debt.getId();
                 int idAccount = account.getId();
@@ -320,7 +326,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
     private boolean checkForFillSumField(String s) {
         if (!s.matches(".*\\d.*") || Double.parseDouble(s) == 0) {
-            ToastUtils.showClosableToast(getActivity(), getString(R.string.empty_amount_field), 1);
+            toastManager.showClosableToast(getActivity(), getString(R.string.empty_amount_field), ToastManager.SHORT);
             return false;
         }
         return true;

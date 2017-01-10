@@ -24,14 +24,14 @@ import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgDebts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
+import com.androidcollider.easyfin.managers.ui.hide_touch_outside.HideTouchOutsideManager;
+import com.androidcollider.easyfin.managers.ui.shake_edit_text.ShakeEditTextManager;
+import com.androidcollider.easyfin.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.models.Debt;
 import com.androidcollider.easyfin.repository.Repository;
 import com.androidcollider.easyfin.utils.DateFormatUtils;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
-import com.androidcollider.easyfin.utils.HideKeyboardUtils;
-import com.androidcollider.easyfin.utils.ShakeEditText;
-import com.androidcollider.easyfin.utils.ToastUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -58,6 +58,15 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
     @Inject
     Repository repository;
+
+    @Inject
+    ShakeEditTextManager shakeEditTextManager;
+
+    @Inject
+    ToastManager toastManager;
+
+    @Inject
+    HideTouchOutsideManager hideTouchOutsideManager;
 
 
     @Override
@@ -101,7 +110,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                             initializeFields();
                             setDateTimeField();
                             setSpinner();
-                            HideKeyboardUtils.setupUI(view.findViewById(R.id.layoutActAddDebtParent), getActivity());
+                            hideTouchOutsideManager.hideKeyboardByTouchOutsideEditText(view.findViewById(R.id.layoutActAddDebtParent), getActivity());
 
                             if (mode == 1) setViewsToEdit();
 
@@ -340,7 +349,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
     private boolean checkIsEnoughCosts(int type, double amount, double accountAmount) {
         if (type == 0 && Math.abs(amount) > accountAmount) {
-            ToastUtils.showClosableToast(getActivity(), getString(R.string.not_enough_costs), 1);
+            toastManager.showClosableToast(getActivity(), getString(R.string.not_enough_costs), ToastManager.SHORT);
             return false;
         }
         return true;
@@ -361,8 +370,8 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     private boolean checkForFillNameField() {
         String st = etName.getText().toString().replaceAll("\\s+", "");
         if (st.isEmpty()) {
-            ShakeEditText.highlightEditText(etName);
-            ToastUtils.showClosableToast(getActivity(), getString(R.string.empty_name_field), 1);
+            shakeEditTextManager.highlightEditText(etName);
+            toastManager.showClosableToast(getActivity(), getString(R.string.empty_name_field), ToastManager.SHORT);
             return false;
         }
         return true;
@@ -380,7 +389,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
             Calendar newDate = Calendar.getInstance();
             newDate.set(year, monthOfYear, dayOfMonth);
             if (newDate.getTimeInMillis() < initTime) {
-                ToastUtils.showClosableToast(getActivity(), getString(R.string.debt_deadline_past), 1);
+                toastManager.showClosableToast(getActivity(), getString(R.string.debt_deadline_past), ToastManager.SHORT);
             } else {
                 tvDate.setText(DateFormatUtils.dateToString(newDate.getTime(), DATEFORMAT));
             }
