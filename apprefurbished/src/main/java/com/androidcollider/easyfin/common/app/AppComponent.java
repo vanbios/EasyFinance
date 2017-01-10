@@ -14,7 +14,10 @@ import com.androidcollider.easyfin.fragments.FrgPref;
 import com.androidcollider.easyfin.fragments.FrgTransactions;
 import com.androidcollider.easyfin.managers.accounts_info.AccountsInfoModule;
 import com.androidcollider.easyfin.managers.api.ApiModule;
+import com.androidcollider.easyfin.managers.chart.ChartDataModule;
 import com.androidcollider.easyfin.managers.connection.ConnectionModule;
+import com.androidcollider.easyfin.managers.format.DoubleFormatManager;
+import com.androidcollider.easyfin.managers.format.DoubleFormatModule;
 import com.androidcollider.easyfin.managers.import_export_db.ImportExportDbModule;
 import com.androidcollider.easyfin.managers.rates.exchange.ExchangeModule;
 import com.androidcollider.easyfin.managers.rates.rates_info.RatesInfoModule;
@@ -47,7 +50,9 @@ import dagger.Component;
         SharedPrefModule.class,
         ShakeEditTextModule.class,
         ToastModule.class,
-        HideTouchOutsideModule.class
+        HideTouchOutsideModule.class,
+        DoubleFormatModule.class,
+        ChartDataModule.class
 })
 public interface AppComponent {
 

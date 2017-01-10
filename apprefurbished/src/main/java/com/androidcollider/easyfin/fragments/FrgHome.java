@@ -21,11 +21,11 @@ import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgHome;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeNewRates;
+import com.androidcollider.easyfin.managers.chart.ChartDataManager;
 import com.androidcollider.easyfin.managers.rates.exchange.ExchangeManager;
 import com.androidcollider.easyfin.managers.rates.rates_info.RatesInfoManager;
 import com.androidcollider.easyfin.managers.shared_pref.SharedPrefManager;
 import com.androidcollider.easyfin.repository.Repository;
-import com.androidcollider.easyfin.utils.ChartDataUtils;
 import com.androidcollider.easyfin.utils.ChartLargeValueFormatter;
 import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
@@ -65,7 +65,10 @@ public class FrgHome extends CommonFragmentWithEvents {
     private CheckBox chkBoxConvert, chkBoxShowOnlyIntegers;
 
     private boolean convert, showOnlyIntegers,
-            spinPeriodNotInitSelectedItemCall,
+
+    // we can prevent init spinner issue with subscribing
+    // to listeners in onRestoreInstanceState
+    spinPeriodNotInitSelectedItemCall,
             spinBalanceCurrencyNotInitSelectedItemCall,
             spinChartTypeNotInitSelectedItemCall;
 
@@ -80,6 +83,9 @@ public class FrgHome extends CommonFragmentWithEvents {
 
     @Inject
     SharedPrefManager sharedPrefManager;
+
+    @Inject
+    ChartDataManager chartDataManager;
 
 
     @Override
@@ -414,7 +420,7 @@ public class FrgHome extends CommonFragmentWithEvents {
     }
 
     private void setBalanceBarChart(double[] balance) {
-        BarData data = ChartDataUtils.getDataSetMainBalanceHorizontalBarChart(balance, getActivity());
+        BarData data = chartDataManager.getDataSetMainBalanceHorizontalBarChart(balance, getActivity());
         chartBalance.setData(data);
 
         data.setValueFormatter(new ChartLargeValueFormatter(!showOnlyIntegers));
@@ -450,7 +456,7 @@ public class FrgHome extends CommonFragmentWithEvents {
     }
 
     private void setStatisticBarChart() {
-        BarData data = ChartDataUtils.getDataSetMainStatisticHorizontalBarChart(statistic, getActivity());
+        BarData data = chartDataManager.getDataSetMainStatisticHorizontalBarChart(statistic, getActivity());
         chartStatistic.setData(data);
 
         data.setValueFormatter(new ChartLargeValueFormatter(!showOnlyIntegers));
@@ -498,7 +504,7 @@ public class FrgHome extends CommonFragmentWithEvents {
 
         chartStatisticPie.getLegend().setEnabled(false);
 
-        PieData data = ChartDataUtils.getDataSetMainStatisticPieChart(statistic, getActivity());
+        PieData data = chartDataManager.getDataSetMainStatisticPieChart(statistic, getActivity());
 
         data.setValueFormatter(new ChartLargeValueFormatter(!showOnlyIntegers));
 
