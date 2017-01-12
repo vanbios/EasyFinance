@@ -7,14 +7,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
+import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.models.Account;
 
 import java.util.List;
 
 public class SpinAccountForTransHeadIconAdapter extends SpinAccountAdapter {
 
-    public SpinAccountForTransHeadIconAdapter(Context context, int headLayout, List<Account> accountsL) {
-        super(context, headLayout, accountsL);
+    public SpinAccountForTransHeadIconAdapter(Context context, int headLayout, List<Account> accountsL, NumberFormatManager numberFormatManager) {
+        super(context, headLayout, accountsL, numberFormatManager);
     }
 
     public View getCustomHeadView(int position, ViewGroup parent) {
@@ -25,5 +26,4 @@ public class SpinAccountForTransHeadIconAdapter extends SpinAccountAdapter {
         headIcon.setImageResource(getTypeIconsArray().getResourceId(getAccountList().get(position).getType(), 0));
         return headSpinner;
     }
-
 }

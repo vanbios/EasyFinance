@@ -19,6 +19,8 @@ import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgDebts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
+import com.androidcollider.easyfin.managers.format.date.DateFormatManager;
+import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.models.Debt;
 import com.androidcollider.easyfin.repository.Repository;
 import com.github.clans.fab.FloatingActionButton;
@@ -46,6 +48,12 @@ public class FrgDebts extends CommonFragment {
 
     @Inject
     Repository repository;
+
+    @Inject
+    DateFormatManager dateFormatManager;
+
+    @Inject
+    NumberFormatManager numberFormatManager;
 
 
     @Override
@@ -87,7 +95,7 @@ public class FrgDebts extends CommonFragment {
                         FrgDebts.this.debtList.addAll(debtList);
                         setVisibility();
                         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-                        recyclerAdapter = new RecyclerDebtAdapter(getActivity(), debtList);
+                        recyclerAdapter = new RecyclerDebtAdapter(getActivity(), debtList, dateFormatManager, numberFormatManager);
                         recyclerView.setAdapter(recyclerAdapter);
                         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 

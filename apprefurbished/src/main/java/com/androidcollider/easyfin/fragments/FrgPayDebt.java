@@ -21,12 +21,12 @@ import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgDebts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
+import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.managers.ui.hide_touch_outside.HideTouchOutsideManager;
 import com.androidcollider.easyfin.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.models.Debt;
 import com.androidcollider.easyfin.repository.Repository;
-import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.annimon.stream.Stream;
 
 import org.greenrobot.eventbus.EventBus;
@@ -55,6 +55,9 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
     @Inject
     HideTouchOutsideManager hideTouchOutsideManager;
+
+    @Inject
+    NumberFormatManager numberFormatManager;
 
 
     @Override
@@ -98,7 +101,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
             final int PRECISE = 100;
             final String FORMAT = "###,##0.00";
 
-            String amount = DoubleFormatUtils.doubleToStringFormatterForEdit(debt.getAmountCurrent(), FORMAT, PRECISE);
+            String amount = numberFormatManager.doubleToStringFormatterForEdit(debt.getAmountCurrent(), FORMAT, PRECISE);
             setTVTextSize(amount);
             tvAmount.setText(amount);
         } else {
@@ -110,7 +113,8 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         spinAccount.setAdapter(new SpinAccountForTransHeadIconAdapter(
                 getActivity(),
                 R.layout.spin_head_icon_text,
-                accountsAvailableList));
+                accountsAvailableList,
+                numberFormatManager));
 
         int idAccount = debt.getIdAccount();
         int pos = 0;
@@ -195,7 +199,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     }
 
     private void payPartDebt() {
-        String sum = DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString());
+        String sum = numberFormatManager.prepareStringToParse(tvAmount.getText().toString());
         if (checkForFillSumField(sum)) {
             double amountDebt = Double.parseDouble(sum);
             double amountAllDebt = debt.getAmountCurrent();
@@ -268,7 +272,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     }
 
     private void takeMoreDebt() {
-        String sum = DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString());
+        String sum = numberFormatManager.prepareStringToParse(tvAmount.getText().toString());
         if (checkForFillSumField(sum)) {
             double amountDebt = Double.parseDouble(sum);
             double amountDebtCurrent = debt.getAmountCurrent();

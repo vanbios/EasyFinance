@@ -21,13 +21,13 @@ import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgHome;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeNewRates;
-import com.androidcollider.easyfin.managers.chart.ChartDataManager;
+import com.androidcollider.easyfin.managers.chart.data.ChartDataManager;
+import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.managers.rates.exchange.ExchangeManager;
 import com.androidcollider.easyfin.managers.rates.rates_info.RatesInfoManager;
 import com.androidcollider.easyfin.managers.shared_pref.SharedPrefManager;
 import com.androidcollider.easyfin.repository.Repository;
 import com.androidcollider.easyfin.utils.ChartLargeValueFormatter;
-import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -86,6 +86,9 @@ public class FrgHome extends CommonFragmentWithEvents {
 
     @Inject
     ChartDataManager chartDataManager;
+
+    @Inject
+    NumberFormatManager numberFormatManager;
 
 
     @Override
@@ -516,7 +519,7 @@ public class FrgHome extends CommonFragmentWithEvents {
     private void setStatisticSumTV() {
         double statSum = statistic[0] + statistic[1];
         tvStatisticSum.setText(String.format("%1$s %2$s",
-                DoubleFormatUtils.doubleToStringFormatter(statSum, FORMAT, PRECISE), getCurrencyLang()));
+                numberFormatManager.doubleToStringFormatter(statSum, FORMAT, PRECISE), getCurrencyLang()));
     }
 
     private void setBalanceTV(double[] balance) {
@@ -525,7 +528,7 @@ public class FrgHome extends CommonFragmentWithEvents {
             sum += d;
         }
         tvBalanceSum.setText(String.format("%1$s %2$s",
-                DoubleFormatUtils.doubleToStringFormatter(sum, FORMAT, PRECISE), getCurrencyLang()));
+                numberFormatManager.doubleToStringFormatter(sum, FORMAT, PRECISE), getCurrencyLang()));
     }
 
     private void setBalance(int posCurrency) {

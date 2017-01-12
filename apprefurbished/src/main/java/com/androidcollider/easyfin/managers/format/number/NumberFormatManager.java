@@ -1,11 +1,15 @@
-package com.androidcollider.easyfin.utils;
+package com.androidcollider.easyfin.managers.format.number;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
-public class DoubleFormatUtils {
+/**
+ * @author Ihor Bilous
+ */
 
-    public static String doubleToStringFormatter(double number, String format, int precise) {
+public class NumberFormatManager {
+
+    public String doubleToStringFormatter(double number, String format, int precise) {
         DecimalFormatSymbols dfs = new DecimalFormatSymbols();
         dfs.setDecimalSeparator(',');
         dfs.setGroupingSeparator(' ');
@@ -25,7 +29,7 @@ public class DoubleFormatUtils {
         return s;
     }
 
-    public static String doubleToStringFormatterForEdit(double number, String format, int precise) {
+    public String doubleToStringFormatterForEdit(double number, String format, int precise) {
         DecimalFormatSymbols dfs = new DecimalFormatSymbols();
         dfs.setDecimalSeparator(',');
         dfs.setGroupingSeparator(' ');
@@ -38,7 +42,7 @@ public class DoubleFormatUtils {
         return dfRate.format(result);
     }
 
-    public static String prepareStringToParse(String s) {
+    public String prepareStringToParse(String s) {
         if (s.contains("+"))
             s = s.replace("+", "");
         else if (s.contains("-"))
@@ -52,7 +56,7 @@ public class DoubleFormatUtils {
         return s;
     }
 
-    public static String prepareStringToSeparate(String s) {
+    public String prepareStringToSeparate(String s) {
         if (s.contains("+"))
             s = s.replace("+", "");
         else if (s.contains("-"))
@@ -67,7 +71,7 @@ public class DoubleFormatUtils {
     }
 
 
-    public static boolean isDoubleNegative(double d) {
+    public boolean isDoubleNegative(double d) {
         return Double.compare(d, 0.0) < 0;
     }
 }

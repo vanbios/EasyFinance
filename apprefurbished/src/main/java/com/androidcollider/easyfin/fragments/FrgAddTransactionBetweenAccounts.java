@@ -23,13 +23,13 @@ import com.androidcollider.easyfin.adapters.SpinAccountForTransAdapter;
 import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
+import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.managers.rates.exchange.ExchangeManager;
 import com.androidcollider.easyfin.managers.ui.hide_touch_outside.HideTouchOutsideManager;
 import com.androidcollider.easyfin.managers.ui.shake_edit_text.ShakeEditTextManager;
 import com.androidcollider.easyfin.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.repository.Repository;
-import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.androidcollider.easyfin.utils.EditTextAmountWatcher;
 
 import org.greenrobot.eventbus.EventBus;
@@ -65,6 +65,9 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
 
     @Inject
     HideTouchOutsideManager hideTouchOutsideManager;
+
+    @Inject
+    NumberFormatManager numberFormatManager;
 
 
     @Override
@@ -129,13 +132,13 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
         accountListTo = new ArrayList<>();
 
         spinAccountFrom.setAdapter(new SpinAccountForTransAdapter(getActivity(),
-                R.layout.spin_head_text, accountListFrom));
+                R.layout.spin_head_text, accountListFrom, numberFormatManager));
 
         accountListTo.addAll(accountListFrom);
         accountListTo.remove(spinAccountFrom.getSelectedItemPosition());
 
         adapterAccountTo = new SpinAccountForTransAdapter(getActivity(),
-                R.layout.spin_head_text, accountListTo);
+                R.layout.spin_head_text, accountListTo, numberFormatManager);
 
         spinAccountTo.setAdapter(adapterAccountTo);
 
@@ -184,7 +187,7 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
             final int PRECISE = 100000;
             final String FORMAT = "#.#####";
 
-            etExchange.setText(DoubleFormatUtils.doubleToStringFormatter(exchangeRate, FORMAT, PRECISE));
+            etExchange.setText(numberFormatManager.doubleToStringFormatter(exchangeRate, FORMAT, PRECISE));
 
             etExchange.setSelection(etExchange.getText().length());
         } else {
@@ -204,7 +207,7 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
     }
 
     public void addTransactionBTW() {
-        double amount = Double.parseDouble(DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString()));
+        double amount = Double.parseDouble(numberFormatManager.prepareStringToParse(tvAmount.getText().toString()));
 
         Account accountFrom = (Account) spinAccountFrom.getSelectedItem();
         double accountAmountFrom = accountFrom.getAmount();
@@ -221,7 +224,7 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
 
             if (layoutExchange.getVisibility() == View.VISIBLE) {
                 if (checkEditTextForCorrect(etExchange, R.string.empty_exchange_field)) {
-                    double exchange = Double.parseDouble(DoubleFormatUtils.prepareStringToParse(etExchange.getText().toString()));
+                    double exchange = Double.parseDouble(numberFormatManager.prepareStringToParse(etExchange.getText().toString()));
                     double amountTo = amount / exchange;
                     lastActions(amount, amountTo, accountIdFrom, accountIdTo, accountAmountFrom, accountAmountTo);
                 }
@@ -262,7 +265,7 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
     }
 
     private boolean checkEditTextForCorrect(EditText et, int strRes) {
-        String s = DoubleFormatUtils.prepareStringToParse(et.getText().toString());
+        String s = numberFormatManager.prepareStringToParse(et.getText().toString());
         if (!s.matches(".*\\d.*") || Double.parseDouble(s) == 0) {
             shakeEditTextManager.highlightEditText(et);
             toastManager.showClosableToast(getActivity(), getString(strRes), ToastManager.SHORT);

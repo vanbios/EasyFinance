@@ -13,9 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
+import com.androidcollider.easyfin.managers.format.date.DateFormatManager;
+import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.models.Transaction;
-import com.androidcollider.easyfin.utils.DateFormatUtils;
-import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 
 import java.util.List;
 
@@ -35,8 +35,12 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
     private static int itemCount, maxCount = 30;
     private static boolean showButton;
 
+    private DateFormatManager dateFormatManager;
+    private NumberFormatManager numberFormatManager;
 
-    public RecyclerTransactionAdapter(Context context, List<Transaction> transactionArrayList) {
+
+    public RecyclerTransactionAdapter(Context context, List<Transaction> transactionArrayList,
+                                      DateFormatManager dateFormatManager, NumberFormatManager numberFormatManager) {
         this.context = context;
         this.transactionArrayList = transactionArrayList;
         catExpenseIconsArray = context.getResources().obtainTypedArray(R.array.transaction_category_expense_icons);
@@ -44,6 +48,8 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
         curArray = context.getResources().getStringArray(R.array.account_currency_array);
         curLangArray = context.getResources().getStringArray(R.array.account_currency_array_language);
         typeIconsArray = context.getResources().obtainTypedArray(R.array.account_type_icons);
+        this.dateFormatManager = dateFormatManager;
+        this.numberFormatManager = numberFormatManager;
     }
 
     @Override
@@ -93,9 +99,9 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
             Transaction transaction = getTransaction(position);
 
             holderItem.tvTransAccountName.setText(transaction.getAccountName());
-            holderItem.tvTransDate.setText(DateFormatUtils.longToDateString(transaction.getDate(), DATEFORMAT));
+            holderItem.tvTransDate.setText(dateFormatManager.longToDateString(transaction.getDate(), DATEFORMAT));
 
-            String amount = DoubleFormatUtils.doubleToStringFormatter(transaction.getAmount(), FORMAT, PRECISE);
+            String amount = numberFormatManager.doubleToStringFormatter(transaction.getAmount(), FORMAT, PRECISE);
             String cur = transaction.getCurrency();
             String curLang = null;
 
@@ -172,5 +178,4 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
             tvShowMore = (TextView) view.findViewById(R.id.tvItemShowMore);
         }
     }
-
 }

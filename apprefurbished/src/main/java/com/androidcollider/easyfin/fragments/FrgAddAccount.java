@@ -20,12 +20,12 @@ import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.managers.accounts_info.AccountsInfoManager;
+import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.managers.ui.hide_touch_outside.HideTouchOutsideManager;
 import com.androidcollider.easyfin.managers.ui.shake_edit_text.ShakeEditTextManager;
 import com.androidcollider.easyfin.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.repository.Repository;
-import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -57,6 +57,9 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
 
     @Inject
     HideTouchOutsideManager hideTouchOutsideManager;
+
+    @Inject
+    NumberFormatManager numberFormatManager;
 
 
     @Override
@@ -179,7 +182,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
         final int PRECISE = 100;
         final String FORMAT = "###,##0.00";
 
-        String amount = DoubleFormatUtils.doubleToStringFormatterForEdit(accFrIntent.getAmount(), FORMAT, PRECISE);
+        String amount = numberFormatManager.doubleToStringFormatterForEdit(accFrIntent.getAmount(), FORMAT, PRECISE);
         setTVTextSize(amount);
         tvAmount.setText(amount);
 
@@ -197,7 +200,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
                 shakeEditTextManager.highlightEditText(etName);
                 toastManager.showClosableToast(getActivity(), getString(R.string.account_name_exist), ToastManager.SHORT);
             } else {
-                double amount = Double.parseDouble(DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString()));
+                double amount = Double.parseDouble(numberFormatManager.prepareStringToParse(tvAmount.getText().toString()));
                 String currency = spinCurrency.getSelectedItem().toString();
                 int type = spinType.getSelectedItemPosition();
 
@@ -241,7 +244,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
                 shakeEditTextManager.highlightEditText(etName);
                 toastManager.showClosableToast(getActivity(), getString(R.string.account_name_exist), ToastManager.SHORT);
             } else {
-                String sum = DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString());
+                String sum = numberFormatManager.prepareStringToParse(tvAmount.getText().toString());
                 double amount = Double.parseDouble(sum);
                 String currency = spinCurrency.getSelectedItem().toString();
                 int type = spinType.getSelectedItemPosition();

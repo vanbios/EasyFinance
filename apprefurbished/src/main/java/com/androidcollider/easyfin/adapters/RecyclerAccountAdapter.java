@@ -12,8 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
+import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.models.Account;
-import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 
 import java.util.List;
 
@@ -23,13 +23,15 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
     private List<Account> accountsList;
     private final TypedArray typeIconsArray;
     private final String[] curArray, curLangArray;
+    private NumberFormatManager numberFormatManager;
 
 
-    public RecyclerAccountAdapter(Context context, List<Account> accountsList) {
+    public RecyclerAccountAdapter(Context context, List<Account> accountsList, NumberFormatManager numberFormatManager) {
         this.accountsList = accountsList;
         typeIconsArray = context.getResources().obtainTypedArray(R.array.account_type_icons);
         curArray = context.getResources().getStringArray(R.array.account_currency_array);
         curLangArray = context.getResources().getStringArray(R.array.account_currency_array_language);
+        this.numberFormatManager = numberFormatManager;
     }
 
     @Override
@@ -49,8 +51,7 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_frg_account, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_frg_account, parent, false));
     }
 
     @Override
@@ -71,7 +72,7 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
 
         holder.tvAccountName.setText(account.getName());
         holder.tvAccountAmount.setText(String.format("%1$s %2$s",
-                DoubleFormatUtils.doubleToStringFormatter(account.getAmount(), FORMAT, PRECISE), curLang));
+                numberFormatManager.doubleToStringFormatter(account.getAmount(), FORMAT, PRECISE), curLang));
 
         holder.ivAccountType.setImageDrawable(typeIconsArray.getDrawable(account.getType()));
 
@@ -112,5 +113,4 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
             menu.add(Menu.NONE, R.id.ctx_menu_delete_account, 2, R.string.delete);
         }
     }
-
 }

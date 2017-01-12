@@ -52,5 +52,4 @@ public class ChartLargeValueFormatter implements ValueFormatter {
     public String getFormattedValue(float value) {
         return format(value, showCents);
     }
-
 }

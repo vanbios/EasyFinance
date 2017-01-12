@@ -11,8 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
+import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.models.Account;
-import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 
 import java.util.List;
 
@@ -26,14 +26,17 @@ abstract class SpinAccountAdapter extends ArrayAdapter<Account> {
     private final String[] curArray, curLangArray;
     private LayoutInflater inflater;
 
+    private NumberFormatManager numberFormatManager;
 
-    SpinAccountAdapter(Context context, int headLayout, List<Account> accountL) {
+
+    SpinAccountAdapter(Context context, int headLayout, List<Account> accountL, NumberFormatManager numberFormatManager) {
         super(context, headLayout, accountL);
         accountList = accountL;
         typeIconsArray = context.getResources().obtainTypedArray(R.array.account_type_icons);
         curArray = context.getResources().getStringArray(R.array.account_currency_array);
         curLangArray = context.getResources().getStringArray(R.array.account_currency_array_language);
         inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.numberFormatManager = numberFormatManager;
     }
 
     @Override
@@ -58,7 +61,7 @@ abstract class SpinAccountAdapter extends ArrayAdapter<Account> {
         final int PRECISE = 100;
         final String FORMAT = "0.00";
 
-        String amount = DoubleFormatUtils.doubleToStringFormatter(accountList.get(position).getAmount(), FORMAT, PRECISE);
+        String amount = numberFormatManager.doubleToStringFormatter(accountList.get(position).getAmount(), FORMAT, PRECISE);
         String cur = accountList.get(position).getCurrency();
         String curLang = null;
 

@@ -1,10 +1,10 @@
-package com.androidcollider.easyfin.managers.chart;
+package com.androidcollider.easyfin.managers.chart.data;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.managers.format.DoubleFormatManager;
+import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -22,10 +22,10 @@ import java.util.List;
 
 public class ChartDataManager {
 
-    private DoubleFormatManager doubleFormatManager;
+    private NumberFormatManager numberFormatManager;
 
-    public ChartDataManager(DoubleFormatManager doubleFormatManager) {
-        this.doubleFormatManager = doubleFormatManager;
+    ChartDataManager(NumberFormatManager numberFormatManager) {
+        this.numberFormatManager = numberFormatManager;
     }
 
 
@@ -54,7 +54,7 @@ public class ChartDataManager {
         BarDataSet barDataSet4 = new BarDataSet(valueSet4, context.getResources().getString(R.string.debts));
 
         barDataSet4.setColor(
-                doubleFormatManager.isDoubleNegative(values[3]) ?
+                numberFormatManager.isDoubleNegative(values[3]) ?
                         ContextCompat.getColor(context, R.color.custom_red) :
                         ContextCompat.getColor(context, R.color.custom_green)
         );

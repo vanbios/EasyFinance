@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.androidcollider.easyfin.R;
+import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.managers.shared_pref.SharedPrefManager;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.models.DateConstants;
@@ -15,7 +16,6 @@ import com.androidcollider.easyfin.models.Debt;
 import com.androidcollider.easyfin.models.Rates;
 import com.androidcollider.easyfin.models.Transaction;
 import com.androidcollider.easyfin.repository.Repository;
-import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,12 +35,15 @@ public class DatabaseRepository implements Repository {
     private SQLiteDatabase db;
     private Context context;
     private SharedPrefManager sharedPrefManager;
+    private NumberFormatManager numberFormatManager;
 
 
-    public DatabaseRepository(Context context, DbHelper dbHelper, SharedPrefManager sharedPrefManager) {
+    public DatabaseRepository(Context context, DbHelper dbHelper,
+                              SharedPrefManager sharedPrefManager, NumberFormatManager numberFormatManager) {
         this.context = context;
         this.dbHelper = dbHelper;
         this.sharedPrefManager = sharedPrefManager;
+        this.numberFormatManager = numberFormatManager;
     }
 
 
@@ -389,7 +392,7 @@ public class DatabaseRepository implements Repository {
                     long date = cursor.getLong(dateColIndex);
                     double amount = cursor.getDouble(amountColIndex);
                     if (currentTime > date && period >= (currentTime - date)) {
-                        if (DoubleFormatUtils.isDoubleNegative(amount)) {
+                        if (numberFormatManager.isDoubleNegative(amount)) {
                             cost += amount;
                         } else {
                             income += amount;

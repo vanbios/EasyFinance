@@ -16,16 +16,24 @@ import android.widget.TextView;
 
 import com.acollider.numberkeyboardview.CalculatorView;
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.utils.DoubleFormatUtils;
+import com.androidcollider.easyfin.common.app.App;
+import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
+
+import javax.inject.Inject;
 
 public class FrgNumericDialog extends DialogFragment {
 
     private OnCommitAmountListener callback;
     final private boolean isApiHoneycombAndHigher = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
 
+    @Inject
+    NumberFormatManager numberFormatManager;
+
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frg_numeric_dialog, container, false);
+        ((App) getActivity().getApplication()).getComponent().inject(this);
 
         try {
             callback = (OnCommitAmountListener) getTargetFragment();
@@ -41,7 +49,7 @@ public class FrgNumericDialog extends DialogFragment {
         try {
             String inputValue = getArguments().getString("value");
             if (inputValue != null) {
-                String str = DoubleFormatUtils.prepareStringToSeparate(inputValue);
+                String str = numberFormatManager.prepareStringToSeparate(inputValue);
                 String integers;
                 String hundreds = "";
 

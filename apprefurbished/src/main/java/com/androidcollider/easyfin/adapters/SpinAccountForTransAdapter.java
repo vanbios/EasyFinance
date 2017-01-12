@@ -6,14 +6,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
+import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.models.Account;
 
 import java.util.List;
 
 public class SpinAccountForTransAdapter extends SpinAccountAdapter {
 
-    public SpinAccountForTransAdapter(Context context, int headLayout, List<Account> accountL) {
-        super(context, headLayout, accountL);
+    public SpinAccountForTransAdapter(Context context, int headLayout, List<Account> accountL, NumberFormatManager numberFormatManager) {
+        super(context, headLayout, accountL, numberFormatManager);
     }
 
     public View getCustomHeadView(int position, ViewGroup parent) {
@@ -22,5 +23,4 @@ public class SpinAccountForTransAdapter extends SpinAccountAdapter {
         headText.setText(getAccountList().get(position).getName());
         return headSpinner;
     }
-
 }

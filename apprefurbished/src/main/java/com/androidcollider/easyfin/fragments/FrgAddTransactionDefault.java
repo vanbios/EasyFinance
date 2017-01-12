@@ -25,12 +25,12 @@ import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHome;
 import com.androidcollider.easyfin.common.events.UpdateFrgTransactions;
+import com.androidcollider.easyfin.managers.format.date.DateFormatManager;
+import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.models.Transaction;
 import com.androidcollider.easyfin.repository.Repository;
-import com.androidcollider.easyfin.utils.DateFormatUtils;
-import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -60,6 +60,12 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
 
     @Inject
     ToastManager toastManager;
+
+    @Inject
+    DateFormatManager dateFormatManager;
+
+    @Inject
+    NumberFormatManager numberFormatManager;
 
 
     @Override
@@ -121,14 +127,14 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
 
                                     if (transFromIntent != null) {
                                         double amount = transFromIntent.getAmount();
-                                        if (!DoubleFormatUtils.isDoubleNegative(amount)) {
+                                        if (!numberFormatManager.isDoubleNegative(amount)) {
                                             transType = 1;
-                                            String amountS = DoubleFormatUtils.doubleToStringFormatterForEdit(amount, FORMAT, PRECISE);
+                                            String amountS = numberFormatManager.doubleToStringFormatterForEdit(amount, FORMAT, PRECISE);
                                             setTVTextSize(amountS);
                                             tvAmount.setText(String.format("%1$s %2$s", prefixIncome, amountS));
                                         } else {
                                             transType = 0;
-                                            String amountS = DoubleFormatUtils.doubleToStringFormatterForEdit(Math.abs(amount), FORMAT, PRECISE);
+                                            String amountS = numberFormatManager.doubleToStringFormatterForEdit(Math.abs(amount), FORMAT, PRECISE);
                                             setTVTextSize(amountS);
                                             tvAmount.setText(String.format("%1$s %2$s", prefixExpense, amountS));
                                         }
@@ -183,7 +189,10 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
         spinCategory.setSelection(categoryArray.length - 1);
 
         spinAccount.setAdapter(new SpinAccountForTransHeadIconAdapter(
-                getActivity(), R.layout.spin_head_icon_text, accountList));
+                getActivity(),
+                R.layout.spin_head_icon_text,
+                accountList,
+                numberFormatManager));
 
         if (mode == 1) {
             String accountName = transFromIntent.getAccountName();
@@ -199,7 +208,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
     }
 
     public void addTransaction() {
-        String sum = DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString());
+        String sum = numberFormatManager.prepareStringToParse(tvAmount.getText().toString());
         if (checkSumField(sum)) {
             double amount = Double.parseDouble(sum);
             boolean isExpense = transType == 0;
@@ -213,7 +222,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                 accountAmount += amount;
 
                 int category = spinCategory.getSelectedItemPosition();
-                Long date = DateFormatUtils.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
+                Long date = dateFormatManager.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
                 int idAccount = account.getId();
 
                 Transaction transaction = Transaction.builder()
@@ -250,7 +259,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
     }
 
     private void editTransaction() {
-        String sum = DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString());
+        String sum = numberFormatManager.prepareStringToParse(tvAmount.getText().toString());
         if (checkSumField(sum)) {
             double amount = Double.parseDouble(sum);
             boolean isExpense = transType == 0;
@@ -279,7 +288,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                 accountAmount += amount;
 
                 int category = spinCategory.getSelectedItemPosition();
-                Long date = DateFormatUtils.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
+                Long date = dateFormatManager.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
                 int idAccount = account.getId();
 
                 int idTrans = transFromIntent.getId();
@@ -369,7 +378,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
         if (mode == 1) {
             newCalendar.setTime(new Date(transFromIntent.getDate()));
         }
-        tvDate.setText(DateFormatUtils.dateToString(newCalendar.getTime(), DATEFORMAT));
+        tvDate.setText(dateFormatManager.dateToString(newCalendar.getTime(), DATEFORMAT));
 
         datePickerDialog = new DatePickerDialog(getActivity(), (view1, year, monthOfYear, dayOfMonth) -> {
             Calendar newDate = Calendar.getInstance();
@@ -378,7 +387,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
             if (newDate.getTimeInMillis() > System.currentTimeMillis()) {
                 toastManager.showClosableToast(getActivity(), getString(R.string.transaction_date_future), ToastManager.SHORT);
             } else {
-                tvDate.setText(DateFormatUtils.dateToString(newDate.getTime(), DATEFORMAT));
+                tvDate.setText(dateFormatManager.dateToString(newDate.getTime(), DATEFORMAT));
             }
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
     }

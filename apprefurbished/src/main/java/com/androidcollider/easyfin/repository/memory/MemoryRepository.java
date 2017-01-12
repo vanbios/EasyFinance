@@ -4,13 +4,13 @@ import android.content.Context;
 import android.util.Log;
 
 import com.androidcollider.easyfin.R;
+import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.models.DateConstants;
 import com.androidcollider.easyfin.models.Debt;
 import com.androidcollider.easyfin.models.Rates;
 import com.androidcollider.easyfin.models.Transaction;
 import com.androidcollider.easyfin.repository.Repository;
-import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
@@ -29,6 +29,7 @@ import rx.Observable;
 public class MemoryRepository implements Repository {
 
     private Context context;
+    private NumberFormatManager numberFormatManager;
     private List<Account> accountList;
     private List<Transaction> transactionList;
     private List<Debt> debtList;
@@ -36,8 +37,9 @@ public class MemoryRepository implements Repository {
     private String[] currencyArray;
 
 
-    public MemoryRepository(Context context) {
+    public MemoryRepository(Context context, NumberFormatManager numberFormatManager) {
         this.context = context;
+        this.numberFormatManager = numberFormatManager;
         currencyArray = context.getResources().getStringArray(R.array.account_currency_array);
     }
 
@@ -318,7 +320,7 @@ public class MemoryRepository implements Repository {
                 long date = transaction.getDate();
                 double amount = transaction.getAmount();
                 if (currentTime > date && period >= (currentTime - date)) {
-                    if (DoubleFormatUtils.isDoubleNegative(amount)) {
+                    if (numberFormatManager.isDoubleNegative(amount)) {
                         cost += amount;
                     } else {
                         income += amount;

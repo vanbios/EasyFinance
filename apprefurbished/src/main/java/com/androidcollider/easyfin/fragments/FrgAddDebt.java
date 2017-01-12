@@ -24,14 +24,14 @@ import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgDebts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
+import com.androidcollider.easyfin.managers.format.date.DateFormatManager;
+import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.managers.ui.hide_touch_outside.HideTouchOutsideManager;
 import com.androidcollider.easyfin.managers.ui.shake_edit_text.ShakeEditTextManager;
 import com.androidcollider.easyfin.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.models.Debt;
 import com.androidcollider.easyfin.repository.Repository;
-import com.androidcollider.easyfin.utils.DateFormatUtils;
-import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -67,6 +67,12 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
     @Inject
     HideTouchOutsideManager hideTouchOutsideManager;
+
+    @Inject
+    DateFormatManager dateFormatManager;
+
+    @Inject
+    NumberFormatManager numberFormatManager;
 
 
     @Override
@@ -150,7 +156,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         final int PRECISE = 100;
         final String FORMAT = "###,##0.00";
 
-        String amount = DoubleFormatUtils.doubleToStringFormatterForEdit(debtFrIntent.getAmountCurrent(), FORMAT, PRECISE);
+        String amount = numberFormatManager.doubleToStringFormatterForEdit(debtFrIntent.getAmountCurrent(), FORMAT, PRECISE);
         setTVTextSize(amount);
         tvAmount.setText(amount);
 
@@ -162,7 +168,8 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         spinAccount.setAdapter(new SpinAccountForTransHeadIconAdapter(
                 getActivity(),
                 R.layout.spin_head_icon_text,
-                accountList
+                accountList,
+                numberFormatManager
         ));
 
         if (mode == 1) {
@@ -186,12 +193,12 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
             int type = debtType;
 
-            double amount = Double.parseDouble(DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString()));
+            double amount = Double.parseDouble(numberFormatManager.prepareStringToParse(tvAmount.getText().toString()));
 
             if (checkIsEnoughCosts(type, amount, accountAmount)) {
                 String name = etName.getText().toString();
                 int accountId = account.getId();
-                Long date = DateFormatUtils.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
+                Long date = dateFormatManager.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
 
                 switch (type) {
                     case 0:
@@ -238,7 +245,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
             Account account = (Account) spinAccount.getSelectedItem();
             double accountAmount = account.getAmount();
             int type = debtType;
-            double amount = Double.parseDouble(DoubleFormatUtils.prepareStringToParse(tvAmount.getText().toString()));
+            double amount = Double.parseDouble(numberFormatManager.prepareStringToParse(tvAmount.getText().toString()));
 
             int accountId = account.getId();
             int oldAccountId = debtFrIntent.getIdAccount();
@@ -278,7 +285,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
             if (checkIsEnoughCosts(type, amount, accountAmount)) {
                 String name = etName.getText().toString();
-                Long date = DateFormatUtils.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
+                Long date = dateFormatManager.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
 
                 switch (type) {
                     case 0:
@@ -383,7 +390,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         final long initTime = newCalendar.getTimeInMillis();
         if (mode == 1)
             newCalendar.setTime(new Date(debtFrIntent.getDate()));
-        tvDate.setText(DateFormatUtils.dateToString(newCalendar.getTime(), DATEFORMAT));
+        tvDate.setText(dateFormatManager.dateToString(newCalendar.getTime(), DATEFORMAT));
 
         datePickerDialog = new DatePickerDialog(getActivity(), (view1, year, monthOfYear, dayOfMonth) -> {
             Calendar newDate = Calendar.getInstance();
@@ -391,7 +398,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
             if (newDate.getTimeInMillis() < initTime) {
                 toastManager.showClosableToast(getActivity(), getString(R.string.debt_deadline_past), ToastManager.SHORT);
             } else {
-                tvDate.setText(DateFormatUtils.dateToString(newDate.getTime(), DATEFORMAT));
+                tvDate.setText(dateFormatManager.dateToString(newDate.getTime(), DATEFORMAT));
             }
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
     }

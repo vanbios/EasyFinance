@@ -14,9 +14,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
+import com.androidcollider.easyfin.managers.format.date.DateFormatManager;
+import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.models.Debt;
-import com.androidcollider.easyfin.utils.DateFormatUtils;
-import com.androidcollider.easyfin.utils.DoubleFormatUtils;
 
 import java.util.List;
 
@@ -32,12 +32,18 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
     private List<Debt> debtList;
     private final String[] curArray, curLangArray;
 
+    private DateFormatManager dateFormatManager;
+    private NumberFormatManager numberFormatManager;
 
-    public RecyclerDebtAdapter(Context context, List<Debt> debtList) {
+
+    public RecyclerDebtAdapter(Context context, List<Debt> debtList,
+                               DateFormatManager dateFormatManager, NumberFormatManager numberFormatManager) {
         this.context = context;
         this.debtList = debtList;
         curArray = context.getResources().getStringArray(R.array.account_currency_array);
         curLangArray = context.getResources().getStringArray(R.array.account_currency_array_language);
+        this.dateFormatManager = dateFormatManager;
+        this.numberFormatManager = numberFormatManager;
     }
 
     @Override
@@ -84,9 +90,9 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
         double amountAll = debt.getAmountAll();
 
         holder.tvAmount.setText(String.format("%1$s %2$s",
-                DoubleFormatUtils.doubleToStringFormatter(amountCurrent, FORMAT, PRECISE), curLang));
+                numberFormatManager.doubleToStringFormatter(amountCurrent, FORMAT, PRECISE), curLang));
         holder.tvAccountName.setText(debt.getAccountName());
-        holder.tvDate.setText(DateFormatUtils.longToDateString(debt.getDate(), DATEFORMAT));
+        holder.tvDate.setText(dateFormatManager.longToDateString(debt.getDate(), DATEFORMAT));
 
         int progress = (int) (amountCurrent / amountAll * 100);
         holder.prgBar.setProgress(progress);

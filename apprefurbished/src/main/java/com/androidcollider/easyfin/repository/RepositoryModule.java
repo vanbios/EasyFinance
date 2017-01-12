@@ -2,6 +2,7 @@ package com.androidcollider.easyfin.repository;
 
 import android.content.Context;
 
+import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.managers.shared_pref.SharedPrefManager;
 import com.androidcollider.easyfin.repository.database.Database;
 import com.androidcollider.easyfin.repository.database.DatabaseRepository;
@@ -24,15 +25,16 @@ public class RepositoryModule {
     @Provides
     @Singleton
     @Memory
-    public Repository provideMemoryRepository(Context context) {
-        return new MemoryRepository(context);
+    public Repository provideMemoryRepository(Context context, NumberFormatManager numberFormatManager) {
+        return new MemoryRepository(context, numberFormatManager);
     }
 
     @Provides
     @Singleton
     @Database
-    public Repository provideDatabaseRepository(Context context, DbHelper dbHelper, SharedPrefManager sharedPrefManager) {
-        return new DatabaseRepository(context, dbHelper, sharedPrefManager);
+    public Repository provideDatabaseRepository(Context context, DbHelper dbHelper,
+                                                SharedPrefManager sharedPrefManager, NumberFormatManager numberFormatManager) {
+        return new DatabaseRepository(context, dbHelper, sharedPrefManager, numberFormatManager);
     }
 
     @Provides
