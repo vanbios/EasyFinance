@@ -1,15 +1,9 @@
 package com.androidcollider.easyfin.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -81,44 +75,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
         etName = (EditText) view.findViewById(R.id.editTextAccountName);
 
         tvAmount = (TextView) view.findViewById(R.id.tvAddAccountAmount);
-        tvAmount.setOnClickListener(v -> openNumericDialog());
-    }
-
-    private void setToolbar() {
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-
-        if (actionBar != null) {
-            ViewGroup actionBarLayout = (ViewGroup) getActivity().getLayoutInflater().inflate(
-                    R.layout.save_close_buttons_toolbar, null);
-
-            ActionBar.LayoutParams layoutParams = new ActionBar.LayoutParams(
-                    ActionBar.LayoutParams.MATCH_PARENT,
-                    ActionBar.LayoutParams.MATCH_PARENT);
-
-            actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setDisplayHomeAsUpEnabled(false);
-            actionBar.setDisplayShowCustomEnabled(true);
-            actionBar.setCustomView(actionBarLayout, layoutParams);
-
-            Toolbar parent = (Toolbar) actionBarLayout.getParent();
-            parent.setContentInsetsAbsolute(0, 0);
-
-            Button btnSave = (Button) actionBarLayout.findViewById(R.id.btnToolbarSave);
-            Button btnClose = (Button) actionBarLayout.findViewById(R.id.btnToolbarClose);
-
-            btnSave.setOnClickListener(v -> {
-                switch (mode) {
-                    case 0:
-                        addAccount();
-                        break;
-                    case 1:
-                        editAccount();
-                        break;
-                }
-            });
-
-            btnClose.setOnClickListener(v -> finish());
-        }
+        tvAmount.setOnClickListener(v -> openNumericDialog(tvAmount.getText().toString()));
     }
 
     private void setMode() {
@@ -126,7 +83,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
         switch (mode) {
             case 0:
                 tvAmount.setText("0,00");
-                openNumericDialog();
+                openNumericDialog(tvAmount.getText().toString());
                 break;
             case 1:
                 accFrIntent = (Account) getArguments().getSerializable("account");
@@ -183,7 +140,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
         final String FORMAT = "###,##0.00";
 
         String amount = numberFormatManager.doubleToStringFormatterForEdit(accFrIntent.getAmount(), FORMAT, PRECISE);
-        setTVTextSize(amount);
+        setTVTextSize(tvAmount, amount, 10, 15);
         tvAmount.setText(amount);
 
         idAccount = accFrIntent.getId();
@@ -301,29 +258,21 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
         EventBus.getDefault().post(new UpdateFrgAccounts());
     }
 
-    private void openNumericDialog() {
-        Bundle args = new Bundle();
-        args.putString("value", tvAmount.getText().toString());
-
-        DialogFragment numericDialog = new FrgNumericDialog();
-        numericDialog.setTargetFragment(this, 1);
-        numericDialog.setArguments(args);
-        numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog1");
-    }
-
     @Override
     public void onCommitAmountSubmit(String amount) {
-        setTVTextSize(amount);
+        setTVTextSize(tvAmount, amount, 10, 15);
         tvAmount.setText(amount);
     }
 
-    private void setTVTextSize(String s) {
-        int length = s.length();
-        if (length > 10 && length <= 15)
-            tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-        else if (length > 15)
-            tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
-        else
-            tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36);
+    @Override
+    void handleSaveAction() {
+        switch (mode) {
+            case 0:
+                addAccount();
+                break;
+            case 1:
+                editAccount();
+                break;
+        }
     }
 }

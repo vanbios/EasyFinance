@@ -3,21 +3,14 @@ package com.androidcollider.easyfin.fragments;
 import android.app.DatePickerDialog;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinAccountForTransHeadIconAdapter;
 import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
@@ -53,7 +46,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
     private ArrayList<Account> accountList = null;
     private int mode, transType;
     private Transaction transFromIntent;
-    private final String prefixExpense = "-", prefixIncome = "+";
+    //private final String prefixExpense = "-", prefixIncome = "+";
 
     @Inject
     Repository repository;
@@ -99,25 +92,18 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
 
                         if (accountList.isEmpty()) {
                             scrollView.setVisibility(View.GONE);
-                            showDialogNoAccount();
+                            showDialogNoAccount(getString(R.string.dialog_text_transaction_no_account), false);
                         } else {
                             scrollView.setVisibility(View.VISIBLE);
                             mode = getArguments().getInt("mode", 0);
                             tvAmount = (TextView) view.findViewById(R.id.tvAddTransDefAmount);
-                            tvAmount.setOnClickListener(v -> openNumericDialog());
+                            tvAmount.setOnClickListener(v -> openNumericDialog(tvAmount.getText().toString()));
 
                             switch (mode) {
                                 case 0: {
                                     transType = getArguments().getInt("type", 0);
-                                    switch (transType) {
-                                        case 0:
-                                            tvAmount.setText(String.format("%1$s %2$s", prefixExpense, "0,00"));
-                                            break;
-                                        case 1:
-                                            tvAmount.setText(String.format("%1$s %2$s", prefixIncome, "0,00"));
-                                            break;
-                                    }
-                                    openNumericDialog();
+                                    setAmountValue("0,00");
+                                    openNumericDialog(tvAmount.getText().toString());
                                     break;
                                 }
                                 case 1: {
@@ -127,17 +113,10 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
 
                                     if (transFromIntent != null) {
                                         double amount = transFromIntent.getAmount();
-                                        if (!numberFormatManager.isDoubleNegative(amount)) {
-                                            transType = 1;
-                                            String amountS = numberFormatManager.doubleToStringFormatterForEdit(amount, FORMAT, PRECISE);
-                                            setTVTextSize(amountS);
-                                            tvAmount.setText(String.format("%1$s %2$s", prefixIncome, amountS));
-                                        } else {
-                                            transType = 0;
-                                            String amountS = numberFormatManager.doubleToStringFormatterForEdit(Math.abs(amount), FORMAT, PRECISE);
-                                            setTVTextSize(amountS);
-                                            tvAmount.setText(String.format("%1$s %2$s", prefixExpense, amountS));
-                                        }
+                                        transType = numberFormatManager.isDoubleNegative(amount) ? 0 : 1;
+                                        String amountS = numberFormatManager.doubleToStringFormatterForEdit(
+                                                transType == 1 ? amount : Math.abs(amount), FORMAT, PRECISE);
+                                        setAmountValue(amountS);
                                     }
                                     break;
                                 }
@@ -147,14 +126,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                             setDateTimeField();
                             setSpinner();
 
-                            switch (transType) {
-                                case 0:
-                                    tvAmount.setTextColor(ContextCompat.getColor(getActivity(), R.color.custom_red));
-                                    break;
-                                case 1:
-                                    tvAmount.setTextColor(ContextCompat.getColor(getActivity(), R.color.custom_green));
-                                    break;
-                            }
+                            tvAmount.setTextColor(ContextCompat.getColor(getActivity(), transType == 1 ? R.color.custom_green : R.color.custom_red));
                         }
                     }
                 });
@@ -398,93 +370,25 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
         EventBus.getDefault().post(new UpdateFrgAccounts());
     }
 
-    private void setToolbar() {
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if (actionBar != null) {
-            ViewGroup actionBarLayout = (ViewGroup) getActivity().getLayoutInflater().inflate(
-                    R.layout.save_close_buttons_toolbar, null);
-
-            ActionBar.LayoutParams layoutParams = new ActionBar.LayoutParams(
-                    ActionBar.LayoutParams.MATCH_PARENT,
-                    ActionBar.LayoutParams.MATCH_PARENT);
-
-            actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setDisplayHomeAsUpEnabled(false);
-            actionBar.setDisplayShowCustomEnabled(true);
-            actionBar.setCustomView(actionBarLayout, layoutParams);
-
-            Toolbar parent = (Toolbar) actionBarLayout.getParent();
-            parent.setContentInsetsAbsolute(0, 0);
-
-            Button btnSave = (Button) actionBarLayout.findViewById(R.id.btnToolbarSave);
-            Button btnClose = (Button) actionBarLayout.findViewById(R.id.btnToolbarClose);
-
-            btnSave.setOnClickListener(v -> {
-                switch (mode) {
-                    case 0:
-                        addTransaction();
-                        break;
-                    case 1:
-                        editTransaction();
-                        break;
-                }
-            });
-
-            btnClose.setOnClickListener(v -> finish());
-        }
-    }
-
-    private void showDialogNoAccount() {
-        new MaterialDialog.Builder(getActivity())
-                .title(getString(R.string.no_account))
-                .content(getString(R.string.dialog_text_transaction_no_account))
-                .positiveText(getString(R.string.new_account))
-                .negativeText(getString(R.string.close))
-                .onPositive((dialog, which) -> goToAddAccount())
-                .onNegative((dialog, which) -> finish())
-                .cancelable(false)
-                .show();
-    }
-
-    private void goToAddAccount() {
-        FrgAddAccount frgAddAccount = new FrgAddAccount();
-        Bundle arguments = new Bundle();
-        arguments.putInt("mode", 0);
-        frgAddAccount.setArguments(arguments);
-
-        addFragment(frgAddAccount);
-    }
-
-    private void openNumericDialog() {
-        Bundle args = new Bundle();
-        args.putString("value", tvAmount.getText().toString());
-
-        DialogFragment numericDialog = new FrgNumericDialog();
-        numericDialog.setTargetFragment(this, 2);
-        numericDialog.setArguments(args);
-        numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog2");
+    @Override
+    public void onCommitAmountSubmit(String amount) {
+        setAmountValue(amount);
     }
 
     @Override
-    public void onCommitAmountSubmit(String amount) {
-        setTVTextSize(amount);
-        switch (transType) {
+    void handleSaveAction() {
+        switch (mode) {
             case 0:
-                tvAmount.setText(String.format("%1$s %2$s", prefixExpense, amount));
+                addTransaction();
                 break;
             case 1:
-                tvAmount.setText(String.format("%1$s %2$s", prefixIncome, amount));
+                editTransaction();
                 break;
         }
     }
 
-    private void setTVTextSize(String s) {
-        int length = s.length();
-        if (length > 9 && length <= 14)
-            tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-        else if (length > 14)
-            tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
-        else
-            tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36);
+    private void setAmountValue(String amount) {
+        setTVTextSize(tvAmount, amount, 9, 14);
+        tvAmount.setText(String.format("%1$s %2$s", transType == 1 ? "+" : "-", amount));
     }
 }

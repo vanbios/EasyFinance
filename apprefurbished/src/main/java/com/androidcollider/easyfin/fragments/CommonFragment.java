@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
-import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.MainActivity;
+import com.androidcollider.easyfin.common.app.App;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
@@ -42,6 +42,7 @@ public abstract class CommonFragment extends Fragment {
 
     protected void finish() {
         tryExecuteTransaction(() -> getFragmentManager().popBackStack());
+        //getFragmentManager().popBackStack();
     }
 
     protected void popAll() {

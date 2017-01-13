@@ -36,7 +36,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:id="@+id/tvPayDebtAmount"
-                    android:text="5 138,16"
                     android:gravity="center_horizontal"
                     android:textColor="@color/custom_text_gray_dark"
                     android:textSize="36sp"

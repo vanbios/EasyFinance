@@ -1,20 +1,13 @@
 package com.androidcollider.easyfin.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.SpinAccountForTransHeadIconAdapter;
 import com.androidcollider.easyfin.common.app.App;
@@ -75,7 +68,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
         if (accountsAvailableList.isEmpty()) {
             cardView.setVisibility(View.GONE);
-            showDialogNoAccount();
+            showDialogNoAccount(getString(R.string.debt_no_available_accounts_warning), true);
         } else {
             cardView.setVisibility(View.VISIBLE);
             initializeView();
@@ -89,7 +82,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     private void initializeView() {
         tvDebtName = (TextView) view.findViewById(R.id.tvPayDebtName);
         tvAmount = (TextView) view.findViewById(R.id.tvPayDebtAmount);
-        tvAmount.setOnClickListener(v -> openNumericDialog());
+        tvAmount.setOnClickListener(v -> openNumericDialog(tvAmount.getText().toString()));
         spinAccount = (Spinner) view.findViewById(R.id.spinPayDebtAccount);
     }
 
@@ -102,11 +95,11 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
             final String FORMAT = "###,##0.00";
 
             String amount = numberFormatManager.doubleToStringFormatterForEdit(debt.getAmountCurrent(), FORMAT, PRECISE);
-            setTVTextSize(amount);
+            setTVTextSize(tvAmount, amount, 10, 15);
             tvAmount.setText(amount);
         } else {
             tvAmount.setText("0,00");
-            openNumericDialog();
+            openNumericDialog(tvAmount.getText().toString());
         }
         if (mode == 1) tvAmount.setClickable(false);
 
@@ -348,90 +341,24 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         EventBus.getDefault().post(new UpdateFrgDebts());
     }
 
-    private void showDialogNoAccount() {
-        new MaterialDialog.Builder(getActivity())
-                .title(getString(R.string.no_account))
-                .content(getString(R.string.debt_no_available_accounts_warning))
-                .positiveText(getString(R.string.new_account))
-                .negativeText(getString(R.string.close))
-                .onPositive((dialog, which) -> goToAddAccount())
-                .onNegative((dialog, which) -> finish())
-                .cancelable(false)
-                .show();
-    }
-
-    private void goToAddAccount() {
-        finish();
-        FrgAddAccount frgAddAccount = new FrgAddAccount();
-        Bundle arguments = new Bundle();
-        arguments.putInt("mode", 0);
-        frgAddAccount.setArguments(arguments);
-
-        addFragment(frgAddAccount);
-    }
-
-    private void setToolbar() {
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if (actionBar != null) {
-            ViewGroup actionBarLayout = (ViewGroup) getActivity().getLayoutInflater().inflate(
-                    R.layout.save_close_buttons_toolbar, null);
-
-            ActionBar.LayoutParams layoutParams = new ActionBar.LayoutParams(
-                    ActionBar.LayoutParams.MATCH_PARENT,
-                    ActionBar.LayoutParams.MATCH_PARENT);
-
-            actionBar.setDisplayShowTitleEnabled(false);
-            actionBar.setDisplayHomeAsUpEnabled(false);
-            actionBar.setDisplayShowCustomEnabled(true);
-            actionBar.setCustomView(actionBarLayout, layoutParams);
-
-            Toolbar parent = (Toolbar) actionBarLayout.getParent();
-            parent.setContentInsetsAbsolute(0, 0);
-
-            Button btnSave = (Button) actionBarLayout.findViewById(R.id.btnToolbarSave);
-            Button btnClose = (Button) actionBarLayout.findViewById(R.id.btnToolbarClose);
-
-            btnSave.setOnClickListener(v -> {
-                switch (mode) {
-                    case 1:
-                        payAllDebt();
-                        break;
-                    case 2:
-                        payPartDebt();
-                        break;
-                    case 3:
-                        takeMoreDebt();
-                        break;
-                }
-            });
-
-            btnClose.setOnClickListener(v -> finish());
-        }
-    }
-
-    private void openNumericDialog() {
-        Bundle args = new Bundle();
-        args.putString("value", tvAmount.getText().toString());
-
-        DialogFragment numericDialog = new FrgNumericDialog();
-        numericDialog.setTargetFragment(this, 5);
-        numericDialog.setArguments(args);
-        numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog5");
-    }
-
     @Override
     public void onCommitAmountSubmit(String amount) {
-        setTVTextSize(amount);
+        setTVTextSize(tvAmount, amount, 10, 15);
         tvAmount.setText(amount);
     }
 
-    private void setTVTextSize(String s) {
-        int length = s.length();
-        if (length > 10 && length <= 15)
-            tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
-        else if (length > 15)
-            tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
-        else
-            tvAmount.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36);
+    @Override
+    void handleSaveAction() {
+        switch (mode) {
+            case 1:
+                payAllDebt();
+                break;
+            case 2:
+                payPartDebt();
+                break;
+            case 3:
+                takeMoreDebt();
+                break;
+        }
     }
 }
