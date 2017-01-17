@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,16 +34,31 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import rx.Subscriber;
+
+/**
+ * @author Ihor Bilous
+ */
 
 public class FrgDebts extends CommonFragment {
 
-    private RecyclerView recyclerView;
-    private TextView tvEmpty;
-    private List<Debt> debtList = null;
-    private RecyclerDebtAdapter recyclerAdapter;
+    @BindView(R.id.recyclerDebt)
+    RecyclerView recyclerView;
+    @BindView(R.id.tvEmptyDebt)
+    TextView tvEmpty;
+    @BindView(R.id.btnFloatDebts)
+    FloatingActionMenu fabMenu;
+    @BindView(R.id.btnFloatAddDebtTake)
+    FloatingActionButton faButtonTake;
+    @BindView(R.id.btnFloatAddDebtGive)
+    FloatingActionButton faButtonGive;
+    @BindView(R.id.debts_content)
+    RelativeLayout mainContent;
 
-    private FloatingActionMenu fabMenu;
+    private List<Debt> debtList;
+    private RecyclerDebtAdapter recyclerAdapter;
 
     @Inject
     Repository repository;
@@ -57,22 +71,20 @@ public class FrgDebts extends CommonFragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frg_debts, container, false);
-        ((App) getActivity().getApplication()).getComponent().inject(this);
-        //debtList = InMemoryRepository.getInstance().getDataSource().getAllDebtInfo();
-        initUI(view);
-        EventBus.getDefault().register(this);
-        return view;
+    public int getContentView() {
+        return R.layout.frg_debts;
     }
 
-    private void initUI(View view) {
-        tvEmpty = (TextView) view.findViewById(R.id.tvEmptyDebt);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerDebt);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ((App) getActivity().getApplication()).getComponent().inject(this);
+    }
+
+    private void initUI() {
         initRecyclerView();
-        registerForContextMenu(recyclerView);
-        initFabs(view);
+        //registerForContextMenu(recyclerView);
+        addNonFabTouchListener(mainContent);
     }
 
     private void initRecyclerView() {
@@ -122,22 +134,6 @@ public class FrgDebts extends CommonFragment {
                 });
     }
 
-    private void initFabs(View view) {
-        fabMenu = (FloatingActionMenu) view.findViewById(R.id.btnFloatDebts);
-        FloatingActionButton faButtonTake = (FloatingActionButton) view.findViewById(R.id.btnFloatAddDebtTake);
-        FloatingActionButton faButtonGive = (FloatingActionButton) view.findViewById(R.id.btnFloatAddDebtGive);
-        faButtonTake.setOnClickListener(view1 -> {
-            goToAddDebt(1);
-            collapseFloatingMenu(false);
-        });
-        faButtonGive.setOnClickListener(view2 -> {
-            goToAddDebt(0);
-            collapseFloatingMenu(false);
-        });
-
-        addNonFabTouchListener(view.findViewById(R.id.debts_content));
-    }
-
     private void setVisibility() {
         recyclerView.setVisibility(debtList.isEmpty() ? View.GONE : View.VISIBLE);
         tvEmpty.setVisibility(debtList.isEmpty() ? View.VISIBLE : View.GONE);
@@ -146,9 +142,11 @@ public class FrgDebts extends CommonFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        initUI();
+        EventBus.getDefault().register(this);
         fabMenu.hideMenu(false);
         new Handler().postDelayed(() -> fabMenu.showMenu(true), 300);
-
     }
 
     @Override
@@ -279,24 +277,20 @@ public class FrgDebts extends CommonFragment {
     }
 
     private void goToPayDebt(int pos, int mode) {
-        Debt debt = debtList.get(pos);
-
         FrgPayDebt frgPayDebt = new FrgPayDebt();
         Bundle arguments = new Bundle();
         arguments.putInt("mode", mode);
-        arguments.putSerializable("debt", debt);
+        arguments.putSerializable("debt", debtList.get(pos));
         frgPayDebt.setArguments(arguments);
 
         addFragment(frgPayDebt);
     }
 
     public void goToEditDebt(int pos, int mode) {
-        Debt debt = debtList.get(pos);
-
         FrgAddDebt frgAddDebt = new FrgAddDebt();
         Bundle arguments = new Bundle();
         arguments.putInt("mode", mode);
-        arguments.putSerializable("debt", debt);
+        arguments.putSerializable("debt", debtList.get(pos));
         frgAddDebt.setArguments(arguments);
 
         addFragment(frgAddDebt);
@@ -305,6 +299,20 @@ public class FrgDebts extends CommonFragment {
     private void collapseFloatingMenu(boolean withAnim) {
         if (fabMenu.isOpened()) {
             fabMenu.close(withAnim);
+        }
+    }
+
+    @OnClick({R.id.btnFloatAddDebtTake, R.id.btnFloatAddDebtGive})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnFloatAddDebtTake:
+                goToAddDebt(1);
+                collapseFloatingMenu(false);
+                break;
+            case R.id.btnFloatAddDebtGive:
+                goToAddDebt(0);
+                collapseFloatingMenu(false);
+                break;
         }
     }
 

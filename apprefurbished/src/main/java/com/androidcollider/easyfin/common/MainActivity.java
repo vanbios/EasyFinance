@@ -40,15 +40,26 @@ import com.androidcollider.easyfin.managers.ui.toast.ToastManager;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+/**
+ * @author Ihor Bilous
+ */
+
 public class MainActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
 
-    private DrawerLayout drawerLayout;
-    private RecyclerView recyclerNavDrawer;
+    @BindView(R.id.navDrawerLayout)
+    DrawerLayout drawerLayout;
+    @BindView(R.id.recyclerViewNavDrawer)
+    RecyclerView recyclerNavDrawer;
+    @BindView(R.id.toolbarMain)
+    Toolbar toolbar;
+
     private MaterialDialog appAboutDialog;
+
     private static long backPressExitTime;
-    private Toolbar toolbar;
     private final int TOOLBAR_DEFAULT = 1;
-    ActionBarDrawerToggle mDrawerToggle;
 
     @Inject
     RatesLoaderManager ratesLoaderManager;
@@ -61,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nav_drawer_root_layout);
+        ButterKnife.bind(this);
 
         ((App) getApplication()).getComponent().inject(this);
 
@@ -77,12 +89,8 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     }
 
     private void initializeViews() {
-        toolbar = (Toolbar) findViewById(R.id.toolbarMain);
         setSupportActionBar(toolbar);
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.navDrawerLayout);
-
-        recyclerNavDrawer = (RecyclerView) findViewById(R.id.recyclerViewNavDrawer);
         if (recyclerNavDrawer != null) recyclerNavDrawer.setHasFixedSize(true);
 
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -91,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
         recyclerNavDrawer.setAdapter(new NavigationDrawerRecyclerAdapter(this));
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name) {
+        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name) {
 
             @Override
             public void onDrawerOpened(View drawerView) {

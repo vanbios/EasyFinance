@@ -1,9 +1,8 @@
 package com.androidcollider.easyfin.fragments;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.annotation.Nullable;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -32,17 +31,31 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import rx.Subscriber;
+
+/**
+ * @author Ihor Bilous
+ */
 
 public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit implements FrgNumericDialog.OnCommitAmountListener {
 
-    private Spinner spinAccountFrom, spinAccountTo;
+    @BindView(R.id.spinAddTransBTWAccountFrom)
+    Spinner spinAccountFrom;
+    @BindView(R.id.spinAddTransBTWAccountTo)
+    Spinner spinAccountTo;
+    @BindView(R.id.editTextTransBTWExchange)
+    EditText etExchange;
+    @BindView(R.id.tvAddTransBTWAmount)
+    TextView tvAmount;
+    @BindView(R.id.layoutAddTransBTWExchange)
+    RelativeLayout layoutExchange;
+    @BindView(R.id.scrollAddTransBTW)
+    ScrollView scrollView;
+
     private SpinAccountForTransAdapter adapterAccountTo;
-    private View view;
-    private EditText etExchange;
-    private TextView tvAmount;
-    private RelativeLayout layoutExchange;
-    private List<Account> accountListFrom, accountListTo = null;
+    private List<Account> accountListFrom, accountListTo;
 
     @Inject
     Repository repository;
@@ -64,10 +77,20 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.frg_add_trans_btw, container, false);
+    public int getContentView() {
+        return R.layout.frg_add_trans_btw;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         ((App) getActivity().getApplication()).getComponent().inject(this);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         setToolbar();
 
         //accountListFrom = InMemoryRepository.getInstance().getAccountList();
@@ -90,38 +113,22 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
                         accountListFrom.clear();
                         accountListFrom.addAll(accountList);
 
-                        ScrollView scrollView = (ScrollView) view.findViewById(R.id.scrollAddTransBTW);
-
                         if (accountListFrom.size() < 2) {
                             scrollView.setVisibility(View.GONE);
                             showDialogNoAccount(getString(R.string.dialog_text_transfer_no_accounts), false);
                         } else {
                             scrollView.setVisibility(View.VISIBLE);
-
-                            tvAmount = (TextView) view.findViewById(R.id.tvAddTransBTWAmount);
                             tvAmount.setText("0,00");
-                            tvAmount.setOnClickListener(v -> openNumericDialog(tvAmount.getText().toString()));
-
                             openNumericDialog(tvAmount.getText().toString());
-
-                            etExchange = (EditText) view.findViewById(R.id.editTextTransBTWExchange);
                             etExchange.addTextChangedListener(new EditTextAmountWatcher(etExchange));
-
-                            layoutExchange = (RelativeLayout) view.findViewById(R.id.layoutAddTransBTWExchange);
-
                             setSpinners();
-                            hideTouchOutsideManager.hideKeyboardByTouchOutsideEditText(view.findViewById(R.id.scrollAddTransBTW), getActivity());
+                            hideTouchOutsideManager.hideKeyboardByTouchOutsideEditText(scrollView, getActivity());
                         }
                     }
                 });
-
-        return view;
     }
 
     private void setSpinners() {
-        spinAccountFrom = (Spinner) view.findViewById(R.id.spinAddTransBTWAccountFrom);
-        spinAccountTo = (Spinner) view.findViewById(R.id.spinAddTransBTWAccountTo);
-
         accountListTo = new ArrayList<>();
 
         spinAccountFrom.setAdapter(new SpinAccountForTransAdapter(getActivity(),
@@ -189,9 +196,8 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
     }
 
     private boolean checkForMultiCurrency() {
-        Account accountFrom = (Account) spinAccountFrom.getSelectedItem();
-        Account accountTo = (Account) spinAccountTo.getSelectedItem();
-        return !accountFrom.getCurrency().equals(accountTo.getCurrency());
+        return !((Account) spinAccountFrom.getSelectedItem()).getCurrency()
+                .equals(((Account) spinAccountTo.getSelectedItem()).getCurrency());
     }
 
     private void pushBroadcast() {
@@ -265,6 +271,15 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
             return false;
         }
         return true;
+    }
+
+    @OnClick({R.id.tvAddTransBTWAmount})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tvAddTransBTWAmount:
+                openNumericDialog(tvAmount.getText().toString());
+                break;
+        }
     }
 
     @Override

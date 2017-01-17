@@ -4,6 +4,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+/**
+ * @author Ihor Bilous
+ */
 
 public class DbHelper extends SQLiteOpenHelper {
 
@@ -23,7 +26,6 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(SqlQueries.create_rates_table);
     }
 
-    // Method for update database
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }

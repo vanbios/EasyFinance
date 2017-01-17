@@ -21,6 +21,10 @@ import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 
 import javax.inject.Inject;
 
+/**
+ * @author Ihor Bilous
+ */
+
 public class FrgNumericDialog extends DialogFragment {
 
     private OnCommitAmountListener callback;

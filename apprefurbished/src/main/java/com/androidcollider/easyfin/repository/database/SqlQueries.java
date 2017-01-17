@@ -1,5 +1,8 @@
 package com.androidcollider.easyfin.repository.database;
 
+/**
+ * @author Ihor Bilous
+ */
 
 class SqlQueries {
 

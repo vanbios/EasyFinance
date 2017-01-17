@@ -25,6 +25,10 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 
+/**
+ * @author Ihor Bilous
+ */
+
 public class FrgPref extends PreferenceFragment {
 
     private static final int FILE_SELECT_CODE = 0;

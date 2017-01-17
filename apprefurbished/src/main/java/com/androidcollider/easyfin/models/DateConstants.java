@@ -1,5 +1,8 @@
 package com.androidcollider.easyfin.models;
 
+/**
+ * @author Ihor Bilous
+ */
 
 public class DateConstants {
     public static final long

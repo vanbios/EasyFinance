@@ -13,6 +13,10 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
 
+/**
+ * @author Ihor Bilous
+ */
+
 public abstract class CommonFragmentAddEdit extends CommonFragment {
 
     @Override

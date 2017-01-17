@@ -46,6 +46,9 @@ import javax.inject.Inject;
 import rx.Observable;
 import rx.Subscriber;
 
+/**
+ * @author Ihor Bilous
+ */
 
 public class FrgHome extends CommonFragmentWithEvents {
 
@@ -90,6 +93,11 @@ public class FrgHome extends CommonFragmentWithEvents {
     @Inject
     NumberFormatManager numberFormatManager;
 
+
+    @Override
+    public int getContentView() {
+        return R.layout.frg_home;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

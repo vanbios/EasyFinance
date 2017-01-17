@@ -3,10 +3,9 @@ package com.androidcollider.easyfin.fragments;
 import android.app.DatePickerDialog;
 import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -34,19 +33,33 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import rx.Subscriber;
+
+/**
+ * @author Ihor Bilous
+ */
 
 public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements FrgNumericDialog.OnCommitAmountListener {
 
-    private TextView tvDate, tvAmount;
+    @BindView(R.id.tvTransactionDate)
+    TextView tvDate;
+    @BindView(R.id.tvAddTransDefAmount)
+    TextView tvAmount;
+    @BindView(R.id.spinAddTransCategory)
+    Spinner spinCategory;
+    @BindView(R.id.spinAddTransDefAccount)
+    Spinner spinAccount;
+    @BindView(R.id.scrollAddTransDef)
+    ScrollView scrollView;
+    //private View view;
+
     private DatePickerDialog datePickerDialog;
-    private Spinner spinCategory, spinAccount;
     private final String DATEFORMAT = "dd MMMM yyyy";
-    private View view;
-    private ArrayList<Account> accountList = null;
+    private List<Account> accountList;
     private int mode, transType;
     private Transaction transFromIntent;
-    //private final String prefixExpense = "-", prefixIncome = "+";
 
     @Inject
     Repository repository;
@@ -62,10 +75,20 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.frg_add_trans_def, container, false);
+    public int getContentView() {
+        return R.layout.frg_add_trans_def;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         ((App) getActivity().getApplication()).getComponent().inject(this);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         setToolbar();
 
         //accountList = InMemoryRepository.getInstance().getAccountList();
@@ -88,7 +111,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                         FrgAddTransactionDefault.this.accountList.clear();
                         FrgAddTransactionDefault.this.accountList.addAll(accountList);
 
-                        ScrollView scrollView = (ScrollView) view.findViewById(R.id.scrollAddTransDef);
+                        //ScrollView scrollView = (ScrollView) view.findViewById(R.id.scrollAddTransDef);
 
                         if (accountList.isEmpty()) {
                             scrollView.setVisibility(View.GONE);
@@ -96,8 +119,8 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                         } else {
                             scrollView.setVisibility(View.VISIBLE);
                             mode = getArguments().getInt("mode", 0);
-                            tvAmount = (TextView) view.findViewById(R.id.tvAddTransDefAmount);
-                            tvAmount.setOnClickListener(v -> openNumericDialog(tvAmount.getText().toString()));
+                            //tvAmount = (TextView) view.findViewById(R.id.tvAddTransDefAmount);
+                            //tvAmount.setOnClickListener(v -> openNumericDialog(tvAmount.getText().toString()));
 
                             switch (mode) {
                                 case 0: {
@@ -122,7 +145,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                                 }
                             }
 
-                            tvDate = (TextView) view.findViewById(R.id.tvTransactionDate);
+                            //tvDate = (TextView) view.findViewById(R.id.tvTransactionDate);
                             setDateTimeField();
                             setSpinner();
 
@@ -130,13 +153,18 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                         }
                     }
                 });
-
-        return view;
     }
 
+    /*@Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.frg_add_trans_def, container, false);
+        return view;
+    }*/
+
     private void setSpinner() {
-        spinCategory = (Spinner) view.findViewById(R.id.spinAddTransCategory);
-        spinAccount = (Spinner) view.findViewById(R.id.spinAddTransDefAccount);
+        /*spinCategory = (Spinner) view.findViewById(R.id.spinAddTransCategory);
+        spinAccount = (Spinner) view.findViewById(R.id.spinAddTransDefAccount);*/
 
         String[] categoryArray = getResources().getStringArray(
                 transType == 1 ?
@@ -345,7 +373,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
     }
 
     private void setDateTimeField() {
-        tvDate.setOnClickListener(v -> datePickerDialog.show());
+        //tvDate.setOnClickListener(v -> datePickerDialog.show());
         Calendar newCalendar = Calendar.getInstance();
         if (mode == 1) {
             newCalendar.setTime(new Date(transFromIntent.getDate()));
@@ -368,6 +396,18 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
         EventBus.getDefault().post(new UpdateFrgHome());
         EventBus.getDefault().post(new UpdateFrgTransactions());
         EventBus.getDefault().post(new UpdateFrgAccounts());
+    }
+
+    @OnClick({R.id.tvTransactionDate, R.id.tvAddTransDefAmount})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tvTransactionDate:
+                datePickerDialog.show();
+                break;
+            case R.id.tvAddTransDefAmount:
+                openNumericDialog(tvAmount.getText().toString());
+                break;
+        }
     }
 
     @Override

@@ -11,6 +11,12 @@ import com.androidcollider.easyfin.models.Account;
 
 import java.util.List;
 
+import static butterknife.ButterKnife.findById;
+
+/**
+ * @author Ihor Bilous
+ */
+
 public class SpinAccountForTransAdapter extends SpinAccountAdapter {
 
     public SpinAccountForTransAdapter(Context context, int headLayout, List<Account> accountL, NumberFormatManager numberFormatManager) {
@@ -19,7 +25,7 @@ public class SpinAccountForTransAdapter extends SpinAccountAdapter {
 
     public View getCustomHeadView(int position, ViewGroup parent) {
         View headSpinner = getInflater().inflate(R.layout.spin_head_text, parent, false);
-        TextView headText = (TextView) headSpinner.findViewById(R.id.tvSpinHeadText);
+        TextView headText = findById(headSpinner, R.id.tvSpinHeadText);
         headText.setText(getAccountList().get(position).getName());
         return headSpinner;
     }

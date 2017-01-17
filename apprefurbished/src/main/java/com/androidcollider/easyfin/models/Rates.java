@@ -4,6 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 
+/**
+ * @author Ihor Bilous
+ */
+
 @Getter
 @AllArgsConstructor
 @ToString

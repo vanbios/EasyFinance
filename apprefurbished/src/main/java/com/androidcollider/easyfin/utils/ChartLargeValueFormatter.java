@@ -4,6 +4,10 @@ import com.github.mikephil.charting.utils.ValueFormatter;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
+/**
+ * @author Ihor Bilous
+ */
+
 public class ChartLargeValueFormatter implements ValueFormatter {
 
     private boolean showCents;

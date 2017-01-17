@@ -10,7 +10,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
@@ -29,25 +28,44 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import rx.Subscriber;
+
+/**
+ * @author Ihor Bilous
+ */
 
 public class FrgMain extends CommonFragment {
 
-    private View view;
-    private ViewPager pager;
-    private FloatingActionMenu fabMenu;
+    @BindView(R.id.pagerMain)
+    ViewPager pager;
+    @BindView(R.id.tabsMain)
+    TabLayout tabLayout;
+    @BindView(R.id.btnFloatMain)
+    FloatingActionMenu fabMenu;
+    @BindView(R.id.btnFloatAddTransExpense)
+    FloatingActionButton faButtonExpense;
+    @BindView(R.id.btnFloatAddTransIncome)
+    FloatingActionButton faButtonIncome;
+    @BindView(R.id.btnFloatAddTransBTW)
+    FloatingActionButton faButtonBTW;
+    @BindView(R.id.main_content)
+    RelativeLayout mainContent;
 
     @Inject
     AccountsInfoManager accountsInfoManager;
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.frg_main, container, false);
+    public int getContentView() {
+        return R.layout.frg_main;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         ((App) getActivity().getApplication()).getComponent().inject(this);
-        initUI();
-        return view;
     }
 
     private void initUI() {
@@ -56,7 +74,6 @@ public class FrgMain extends CommonFragment {
     }
 
     private void initViewPager() {
-        pager = (ViewPager) view.findViewById(R.id.pagerMain);
         ViewPagerFragmentAdapter adapterPager = new ViewPagerFragmentAdapter(getChildFragmentManager());
         adapterPager.addFragment(new FrgHome(), getResources().getString(R.string.tab_home).toUpperCase());
         adapterPager.addFragment(new FrgTransactions(), getResources().getString(R.string.tab_transactions).toUpperCase());
@@ -82,38 +99,20 @@ public class FrgMain extends CommonFragment {
             }
         });
 
-        ((TabLayout) view.findViewById(R.id.tabsMain)).setupWithViewPager(pager);
+        tabLayout.setupWithViewPager(pager);
     }
 
     private void initFabs() {
-        fabMenu = (FloatingActionMenu) view.findViewById(R.id.btnFloatMain);
         fabMenu.setOnMenuButtonClickListener(v -> checkPageNum());
-
-        FloatingActionButton faButtonExpense = (FloatingActionButton) view.findViewById(R.id.btnFloatAddTransExpense);
-        FloatingActionButton faButtonIncome = (FloatingActionButton) view.findViewById(R.id.btnFloatAddTransIncome);
-        FloatingActionButton faButtonBTW = (FloatingActionButton) view.findViewById(R.id.btnFloatAddTransBTW);
-
-        faButtonExpense.setOnClickListener(v -> {
-            goToAddTransaction(0);
-            collapseFloatingMenu(false);
-        });
-
-        faButtonIncome.setOnClickListener(v -> {
-            goToAddTransaction(1);
-            collapseFloatingMenu(false);
-        });
-
-        faButtonBTW.setOnClickListener(v -> {
-            goToAddTransBTW();
-            collapseFloatingMenu(false);
-        });
-
-        addNonFabTouchListener(view.findViewById(R.id.main_content));
+        addNonFabTouchListener(mainContent);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        initUI();
+
         fabMenu.hideMenu(false);
         new Handler().postDelayed(() -> fabMenu.showMenu(true), 1000);
 
@@ -236,6 +235,24 @@ public class FrgMain extends CommonFragment {
     public void showMenu() {
         if (fabMenu.isMenuHidden()) {
             fabMenu.showMenu(true);
+        }
+    }
+
+    @OnClick({R.id.btnFloatAddTransExpense, R.id.btnFloatAddTransIncome, R.id.btnFloatAddTransBTW})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnFloatAddTransExpense:
+                goToAddTransaction(0);
+                collapseFloatingMenu(false);
+                break;
+            case R.id.btnFloatAddTransIncome:
+                goToAddTransaction(1);
+                collapseFloatingMenu(false);
+                break;
+            case R.id.btnFloatAddTransBTW:
+                goToAddTransBTW();
+                collapseFloatingMenu(false);
+                break;
         }
     }
 

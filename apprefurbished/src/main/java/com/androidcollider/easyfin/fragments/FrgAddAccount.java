@@ -1,10 +1,10 @@
 package com.androidcollider.easyfin.fragments;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
+import android.support.annotation.Nullable;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -25,14 +25,27 @@ import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import rx.Subscriber;
+
+/**
+ * @author Ihor Bilous
+ */
 
 public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDialog.OnCommitAmountListener {
 
-    private View view;
-    private Spinner spinType, spinCurrency;
-    private EditText etName;
-    private TextView tvAmount;
+    @BindView(R.id.spinAddAccountType)
+    Spinner spinType;
+    @BindView(R.id.spinAddAccountCurrency)
+    Spinner spinCurrency;
+    @BindView(R.id.editTextAccountName)
+    EditText etName;
+    @BindView(R.id.tvAddAccountAmount)
+    TextView tvAmount;
+    @BindView(R.id.layoutActAccountParent)
+    RelativeLayout mainContent;
+
     private String oldName;
     private int idAccount, mode;
     private Account accFrIntent;
@@ -57,25 +70,22 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.frg_add_account, container, false);
-        ((App) getActivity().getApplication()).getComponent().inject(this);
-        initializeFields();
-        setMode();
-        setToolbar();
-        hideTouchOutsideManager.hideKeyboardByTouchOutsideEditText(view.findViewById(R.id.layoutActAccountParent), getActivity());
-        return view;
+    public int getContentView() {
+        return R.layout.frg_add_account;
     }
 
-    private void initializeFields() {
-        spinType = (Spinner) view.findViewById(R.id.spinAddAccountType);
-        spinCurrency = (Spinner) view.findViewById(R.id.spinAddAccountCurrency);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ((App) getActivity().getApplication()).getComponent().inject(this);
+    }
 
-        etName = (EditText) view.findViewById(R.id.editTextAccountName);
-
-        tvAmount = (TextView) view.findViewById(R.id.tvAddAccountAmount);
-        tvAmount.setOnClickListener(v -> openNumericDialog(tvAmount.getText().toString()));
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setMode();
+        setToolbar();
+        hideTouchOutsideManager.hideKeyboardByTouchOutsideEditText(mainContent, getActivity());
     }
 
     private void setMode() {
@@ -256,6 +266,15 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
     private void pushBroadcast() {
         EventBus.getDefault().post(new UpdateFrgHomeBalance());
         EventBus.getDefault().post(new UpdateFrgAccounts());
+    }
+
+    @OnClick({R.id.tvAddAccountAmount})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tvAddAccountAmount:
+                openNumericDialog(tvAmount.getText().toString());
+                break;
+        }
     }
 
     @Override

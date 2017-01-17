@@ -1,48 +1,48 @@
 package com.androidcollider.easyfin.fragments;
 
-import android.os.Bundle;
 import android.support.v7.widget.CardView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
 
-public class FrgFAQ extends CommonFragment implements View.OnClickListener {
+import butterknife.BindView;
+import butterknife.OnClick;
 
-    private TextView tvAppBody, tvAccountsBody, tvTransactionsBody, tvDebtsBody, tvHomeBody;
-    private View view;
+/**
+ * @author Ihor Bilous
+ */
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.frg_faq, container, false);
-        initializeViews();
-        return view;
-    }
+public class FrgFAQ extends CommonFragment {
 
-    private void initializeViews() {
-        CardView cardApp = (CardView) view.findViewById(R.id.cardFAQApp);
-        CardView cardAccounts = (CardView) view.findViewById(R.id.cardFAQAccounts);
-        CardView cardTransactions = (CardView) view.findViewById(R.id.cardFAQTransactions);
-        CardView cardDebts = (CardView) view.findViewById(R.id.cardFAQDebts);
-        CardView cardHome = (CardView) view.findViewById(R.id.cardFAQHome);
+    @BindView(R.id.tvFAQAppBody)
+    TextView tvAppBody;
+    @BindView(R.id.tvFAQAccountsBody)
+    TextView tvAccountsBody;
+    @BindView(R.id.tvFAQTransactionsBody)
+    TextView tvTransactionsBody;
+    @BindView(R.id.tvFAQDebtsBody)
+    TextView tvDebtsBody;
+    @BindView(R.id.tvFAQHomeBody)
+    TextView tvHomeBody;
+    @BindView(R.id.cardFAQApp)
+    CardView cardApp;
+    @BindView(R.id.cardFAQAccounts)
+    CardView cardAccounts;
+    @BindView(R.id.cardFAQTransactions)
+    CardView cardTransactions;
+    @BindView(R.id.cardFAQDebts)
+    CardView cardDebts;
+    @BindView(R.id.cardFAQHome)
+    CardView cardHome;
 
-        cardApp.setOnClickListener(this);
-        cardAccounts.setOnClickListener(this);
-        cardTransactions.setOnClickListener(this);
-        cardDebts.setOnClickListener(this);
-        cardHome.setOnClickListener(this);
-
-        tvAppBody = (TextView) view.findViewById(R.id.tvFAQAppBody);
-        tvAccountsBody = (TextView) view.findViewById(R.id.tvFAQAccountsBody);
-        tvTransactionsBody = (TextView) view.findViewById(R.id.tvFAQTransactionsBody);
-        tvDebtsBody = (TextView) view.findViewById(R.id.tvFAQDebtsBody);
-        tvHomeBody = (TextView) view.findViewById(R.id.tvFAQHomeBody);
-    }
 
     @Override
+    public int getContentView() {
+        return R.layout.frg_faq;
+    }
+
+    @OnClick({R.id.cardFAQApp, R.id.cardFAQAccounts, R.id.cardFAQTransactions, R.id.cardFAQDebts, R.id.cardFAQHome})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.cardFAQApp:
@@ -71,5 +71,4 @@ public class FrgFAQ extends CommonFragment implements View.OnClickListener {
     public String getTitle() {
         return getString(R.string.app_faq);
     }
-
 }

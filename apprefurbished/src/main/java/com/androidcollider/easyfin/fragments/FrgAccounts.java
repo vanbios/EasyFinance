@@ -1,12 +1,11 @@
 package com.androidcollider.easyfin.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -29,14 +28,21 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import rx.Subscriber;
+
+/**
+ * @author Ihor Bilous
+ */
 
 public class FrgAccounts extends CommonFragmentWithEvents {
 
-    private RecyclerView recyclerView;
-    private TextView tvEmpty;
+    @BindView(R.id.recyclerAccount)
+    RecyclerView recyclerView;
+    @BindView(R.id.tvEmptyAccounts)
+    TextView tvEmpty;
     private RecyclerAccountAdapter recyclerAdapter;
-    private List<Account> accountList = null;
+    private List<Account> accountList;
 
     @Inject
     Repository repository;
@@ -46,15 +52,20 @@ public class FrgAccounts extends CommonFragmentWithEvents {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frg_accounts, container, false);
+    public int getContentView() {
+        return R.layout.frg_accounts;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         ((App) getActivity().getApplication()).getComponent().inject(this);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerAccount);
-        tvEmpty = (TextView) view.findViewById(R.id.tvEmptyAccounts);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         setupRecyclerView();
-        super.onCreateView(inflater, container, savedInstanceState);
-        return view;
     }
 
     private void setupRecyclerView() {
@@ -164,11 +175,10 @@ public class FrgAccounts extends CommonFragmentWithEvents {
     }
 
     private void goToEditAccount(int pos) {
-        Account account = accountList.get(pos);
         FrgAddAccount frgAddAccount = new FrgAddAccount();
         Bundle arguments = new Bundle();
         arguments.putInt("mode", 1);
-        arguments.putSerializable("account", account);
+        arguments.putSerializable("account", accountList.get(pos));
         frgAddAccount.setArguments(arguments);
         ((MainActivity) getActivity()).addFragment(frgAddAccount);
     }

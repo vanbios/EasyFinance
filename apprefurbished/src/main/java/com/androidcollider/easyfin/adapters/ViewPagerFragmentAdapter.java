@@ -5,11 +5,16 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * @author Ihor Bilous
+ */
 
 public class ViewPagerFragmentAdapter extends FragmentStatePagerAdapter {
 
-    private final ArrayList<Fragment> mFragments = new ArrayList<>();
-    private final ArrayList<String> mFragmentTitles = new ArrayList<>();
+    private final List<Fragment> mFragments = new ArrayList<>();
+    private final List<String> mFragmentTitles = new ArrayList<>();
 
     public ViewPagerFragmentAdapter(FragmentManager fm) {
         super(fm);
@@ -34,5 +39,4 @@ public class ViewPagerFragmentAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         return mFragmentTitles.get(position);
     }
-
 }

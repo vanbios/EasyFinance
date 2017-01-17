@@ -11,6 +11,12 @@ import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
 
+import static butterknife.ButterKnife.findById;
+
+/**
+ * @author Ihor Bilous
+ */
+
 public class NavigationDrawerRecyclerAdapter extends RecyclerView.Adapter<NavigationDrawerRecyclerAdapter.ViewHolder> {
 
     private final String navTitles[];
@@ -79,13 +85,12 @@ public class NavigationDrawerRecyclerAdapter extends RecyclerView.Adapter<Naviga
         ViewHolder(View itemView, int viewType) {
             super(itemView);
             if (viewType == TYPE_ITEM) {
-                tvNavItem = (TextView) itemView.findViewById(R.id.tvItemNavRow);
-                ivNavItem = (ImageView) itemView.findViewById(R.id.ivItemNavRow);
+                tvNavItem = findById(itemView, R.id.tvItemNavRow);
+                ivNavItem = findById(itemView, R.id.ivItemNavRow);
                 holderId = TYPE_ITEM;
             } else {
                 holderId = viewType == TYPE_HEADER ? TYPE_HEADER : TYPE_DIVIDER;
             }
         }
     }
-
 }

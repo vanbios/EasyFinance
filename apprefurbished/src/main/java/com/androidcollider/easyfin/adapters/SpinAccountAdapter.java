@@ -18,6 +18,12 @@ import java.util.List;
 
 import lombok.Getter;
 
+import static butterknife.ButterKnife.findById;
+
+/**
+ * @author Ihor Bilous
+ */
+
 @Getter
 abstract class SpinAccountAdapter extends ArrayAdapter<Account> {
 
@@ -52,11 +58,11 @@ abstract class SpinAccountAdapter extends ArrayAdapter<Account> {
 
     private View getCustomDropView(int position, ViewGroup parent) {
         View dropSpinner = inflater.inflate(R.layout.spin_account_for_trans_dropdown, parent, false);
-        TextView name = (TextView) dropSpinner.findViewById(R.id.tvSpinDropdownAccountName);
+        TextView name = findById(dropSpinner, R.id.tvSpinDropdownAccountName);
         name.setText(accountList.get(position).getName());
-        ImageView icon = (ImageView) dropSpinner.findViewById(R.id.ivSpinDropdownAccountType);
+        ImageView icon = findById(dropSpinner, R.id.ivSpinDropdownAccountType);
         icon.setImageResource(typeIconsArray.getResourceId(accountList.get(position).getType(), 0));
-        TextView amountText = (TextView) dropSpinner.findViewById(R.id.tvSpinDropdownAccountAmount);
+        TextView amountText = findById(dropSpinner, R.id.tvSpinDropdownAccountAmount);
 
         final int PRECISE = 100;
         final String FORMAT = "0.00";

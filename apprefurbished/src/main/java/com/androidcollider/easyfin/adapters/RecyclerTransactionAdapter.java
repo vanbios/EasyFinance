@@ -22,6 +22,12 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
+import static butterknife.ButterKnife.findById;
+
+/**
+ * @author Ihor Bilous
+ */
+
 public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTransactionAdapter.MainViewHolder> {
 
     @Getter
@@ -74,7 +80,6 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
         return transactionArrayList.get(position);
     }
 
-
     @Override
     public MainViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
@@ -85,7 +90,6 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
         }
         return null;
     }
-
 
     @Override
     public void onBindViewHolder(final MainViewHolder holder, final int position) {
@@ -154,11 +158,11 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
         ViewHolderItem(View view) {
             super(view);
             mView = view;
-            tvTransAmount = (TextView) view.findViewById(R.id.tvItemTransactionAmount);
-            tvTransAccountName = (TextView) view.findViewById(R.id.tvItemTransactionAccountName);
-            tvTransDate = (TextView) view.findViewById(R.id.tvItemTransactionDate);
-            ivTransCategory = (ImageView) view.findViewById(R.id.ivItemTransactionCategory);
-            ivTransAccountType = (ImageView) view.findViewById(R.id.ivItemTransactionAccountType);
+            tvTransAmount = findById(view, R.id.tvItemTransactionAmount);
+            tvTransAccountName = findById(view, R.id.tvItemTransactionAccountName);
+            tvTransDate = findById(view, R.id.tvItemTransactionDate);
+            ivTransCategory = findById(view, R.id.ivItemTransactionCategory);
+            ivTransAccountType = findById(view, R.id.ivItemTransactionAccountType);
             view.setOnCreateContextMenuListener(this);
         }
 

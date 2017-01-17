@@ -20,6 +20,10 @@ import android.widget.ListView;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
+/**
+ * @author Ihor Bilous
+ */
+
 public abstract class PreferenceFragment extends Fragment {
 
     private static final int FIRST_REQUEST_CODE = 100;

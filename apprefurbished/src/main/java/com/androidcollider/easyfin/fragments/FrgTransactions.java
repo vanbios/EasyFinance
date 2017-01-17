@@ -1,12 +1,11 @@
 package com.androidcollider.easyfin.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -31,12 +30,20 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import rx.Subscriber;
+
+/**
+ * @author Ihor Bilous
+ */
 
 public class FrgTransactions extends CommonFragmentWithEvents {
 
-    private RecyclerView recyclerView;
-    private TextView tvEmpty;
+    @BindView(R.id.recyclerTransaction)
+    RecyclerView recyclerView;
+    @BindView(R.id.tvEmptyTransactions)
+    TextView tvEmpty;
+
     private List<Transaction> transactionList;
     private RecyclerTransactionAdapter recyclerAdapter;
 
@@ -51,16 +58,21 @@ public class FrgTransactions extends CommonFragmentWithEvents {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frg_transactions, container, false);
+    public int getContentView() {
+        return R.layout.frg_transactions;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         ((App) getActivity().getApplication()).getComponent().inject(this);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerTransaction);
-        tvEmpty = (TextView) view.findViewById(R.id.tvEmptyTransactions);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         setupRecyclerView();
-        registerForContextMenu(recyclerView);
-        super.onCreateView(inflater, container, savedInstanceState);
-        return view;
+        //registerForContextMenu(recyclerView);
     }
 
     private void setupRecyclerView() {
@@ -147,12 +159,10 @@ public class FrgTransactions extends CommonFragmentWithEvents {
     }
 
     private void goToEditTransaction(int pos) {
-        Transaction transaction = transactionList.get(pos);
-
         FrgAddTransactionDefault frgAddTransDef = new FrgAddTransactionDefault();
         Bundle arguments = new Bundle();
         arguments.putInt("mode", 1);
-        arguments.putSerializable("transaction", transaction);
+        arguments.putSerializable("transaction", transactionList.get(pos));
         frgAddTransDef.setArguments(arguments);
         ((MainActivity) getActivity()).addFragment(frgAddTransDef);
     }

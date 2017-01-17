@@ -1,10 +1,9 @@
 package com.androidcollider.easyfin.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -29,13 +28,25 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import rx.Subscriber;
+
+/**
+ * @author Ihor Bilous
+ */
 
 public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialog.OnCommitAmountListener {
 
-    private View view;
-    private TextView tvDebtName, tvAmount;
-    private Spinner spinAccount;
+    @BindView(R.id.tvPayDebtName)
+    TextView tvDebtName;
+    @BindView(R.id.tvPayDebtAmount)
+    TextView tvAmount;
+    @BindView(R.id.spinPayDebtAccount)
+    Spinner spinAccount;
+    @BindView(R.id.cardPayDebtElements)
+    CardView cardView;
+
     private Debt debt;
     private List<Account> accountsAvailableList;
     private int mode;
@@ -54,38 +65,35 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.frg_pay_debt, container, false);
+    public int getContentView() {
+        return R.layout.frg_pay_debt;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         ((App) getActivity().getApplication()).getComponent().inject(this);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         mode = getArguments().getInt("mode", 0);
         debt = (Debt) getArguments().getSerializable("debt");
 
         setToolbar();
         fillAvailableAccountsList();
 
-        CardView cardView = (CardView) view.findViewById(R.id.cardPayDebtElements);
-
         if (accountsAvailableList.isEmpty()) {
             cardView.setVisibility(View.GONE);
             showDialogNoAccount(getString(R.string.debt_no_available_accounts_warning), true);
         } else {
             cardView.setVisibility(View.VISIBLE);
-            initializeView();
             setViews();
             hideTouchOutsideManager.hideKeyboardByTouchOutsideEditText(view.findViewById(R.id.layoutActPayDebtParent), getActivity());
         }
-
-        return view;
     }
-
-    private void initializeView() {
-        tvDebtName = (TextView) view.findViewById(R.id.tvPayDebtName);
-        tvAmount = (TextView) view.findViewById(R.id.tvPayDebtAmount);
-        tvAmount.setOnClickListener(v -> openNumericDialog(tvAmount.getText().toString()));
-        spinAccount = (Spinner) view.findViewById(R.id.spinPayDebtAccount);
-    }
-
 
     private void setViews() {
         tvDebtName.setText(debt.getName());
@@ -339,6 +347,15 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         EventBus.getDefault().post(new UpdateFrgHomeBalance());
         EventBus.getDefault().post(new UpdateFrgAccounts());
         EventBus.getDefault().post(new UpdateFrgDebts());
+    }
+
+    @OnClick({R.id.tvPayDebtAmount})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tvPayDebtAmount:
+                openNumericDialog(tvAmount.getText().toString());
+                break;
+        }
     }
 
     @Override

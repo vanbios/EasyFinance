@@ -23,6 +23,12 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 
+import static butterknife.ButterKnife.findById;
+
+/**
+ * @author Ihor Bilous
+ */
+
 public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapter.ViewHolder> {
 
     @Getter
@@ -60,12 +66,10 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
         return debtList.get(position);
     }
 
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_frg_debt, parent, false));
     }
-
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
@@ -98,22 +102,26 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
         holder.prgBar.setProgress(progress);
         holder.tvProgress.setText(String.format("%s%%", progress));
 
-        Drawable prgDraw = holder.prgBar.getProgressDrawable();
+        int color = ContextCompat.getColor(context,
+                debt.getType() == 1 ? R.color.custom_red : R.color.custom_green);
+        holder.tvAmount.setTextColor(color);
+        holder.prgBar.getProgressDrawable().setColorFilter(new LightingColorFilter(0xFF000000, color));
+        holder.tvProgress.setTextColor(color);
 
-        switch (debt.getType()) {
+        /*switch (debt.getType()) {
             case 0:
                 int green = ContextCompat.getColor(context, R.color.custom_green);
                 holder.tvAmount.setTextColor(green);
-                prgDraw.setColorFilter(new LightingColorFilter(0xFF000000, green));
+                holder.prgBar.getProgressDrawable().setColorFilter(new LightingColorFilter(0xFF000000, green));
                 holder.tvProgress.setTextColor(green);
                 break;
             case 1:
                 int red = ContextCompat.getColor(context, R.color.custom_red);
                 holder.tvAmount.setTextColor(red);
-                prgDraw.setColorFilter(new LightingColorFilter(0xFF000000, red));
+                holder.prgBar.getProgressDrawable().setColorFilter(new LightingColorFilter(0xFF000000, red));
                 holder.tvProgress.setTextColor(red);
                 break;
-        }
+        }*/
 
         holder.mView.setOnLongClickListener(view -> {
             setPosition(position);
@@ -123,24 +131,24 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
 
 
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
-        final View mView;
-        final TextView tvDebtName;
-        final TextView tvAmount;
-        final TextView tvAccountName;
-        final TextView tvDate;
-        final ProgressBar prgBar;
-        final TextView tvProgress;
+        private final View mView;
+        private final TextView tvDebtName;
+        private final TextView tvAmount;
+        private final TextView tvAccountName;
+        private final TextView tvDate;
+        private final ProgressBar prgBar;
+        private final TextView tvProgress;
 
 
         ViewHolder(View view) {
             super(view);
             mView = view;
-            tvDebtName = (TextView) view.findViewById(R.id.tvItemDebtName);
-            tvAmount = (TextView) view.findViewById(R.id.tvItemDebtAmount);
-            tvAccountName = (TextView) view.findViewById(R.id.tvItemDebtAccountName);
-            tvDate = (TextView) view.findViewById(R.id.tvItemDebtDate);
-            prgBar = (ProgressBar) view.findViewById(R.id.progressBarItemDebt);
-            tvProgress = (TextView) view.findViewById(R.id.tvItemDebtProgress);
+            tvDebtName = findById(view, R.id.tvItemDebtName);
+            tvAmount = findById(view, R.id.tvItemDebtAmount);
+            tvAccountName = findById(view, R.id.tvItemDebtAccountName);
+            tvDate = findById(view, R.id.tvItemDebtDate);
+            prgBar = findById(view, R.id.progressBarItemDebt);
+            tvProgress = findById(view, R.id.tvItemDebtProgress);
             view.setOnCreateContextMenuListener(this);
         }
 

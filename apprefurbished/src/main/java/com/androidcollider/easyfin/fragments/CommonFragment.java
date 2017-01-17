@@ -1,7 +1,6 @@
 package com.androidcollider.easyfin.fragments;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import com.androidcollider.easyfin.common.MainActivity;
@@ -11,7 +10,11 @@ import com.google.android.gms.analytics.Tracker;
 
 import java.util.LinkedList;
 
-public abstract class CommonFragment extends Fragment {
+/**
+ * @author Ihor Bilous
+ */
+
+public abstract class CommonFragment extends AbstractBaseFragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -10,6 +10,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import static butterknife.ButterKnife.findById;
+
+/**
+ * @author Ihor Bilous
+ */
+
 public class SpinIconTextHeadAdapter extends ArrayAdapter<String> {
 
     private final TypedArray iconsArray;
@@ -46,20 +52,19 @@ public class SpinIconTextHeadAdapter extends ArrayAdapter<String> {
 
     private View getCustomDropView(int position, ViewGroup parent) {
         View dropSpinner = inflater.inflate(dropLayout, parent, false);
-        TextView text = (TextView) dropSpinner.findViewById(dropTvId);
+        TextView text = findById(dropSpinner, dropTvId);
         text.setText(textArray[position]);
-        ImageView icon = (ImageView) dropSpinner.findViewById(dropIvId);
+        ImageView icon = findById(dropSpinner, dropIvId);
         icon.setImageResource(iconsArray.getResourceId(position, 0));
         return dropSpinner;
     }
 
     private View getCustomHeadView(int position, ViewGroup parent) {
         View headSpinner = inflater.inflate(headLayout, parent, false);
-        TextView headText = (TextView) headSpinner.findViewById(headTvId);
+        TextView headText = findById(headSpinner, headTvId);
         headText.setText(textArray[position]);
-        ImageView icon = (ImageView) headSpinner.findViewById(headIvId);
+        ImageView icon = findById(headSpinner, headIvId);
         icon.setImageResource(iconsArray.getResourceId(position, 0));
         return headSpinner;
     }
-
 }

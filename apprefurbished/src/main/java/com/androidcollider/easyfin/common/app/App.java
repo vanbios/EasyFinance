@@ -10,6 +10,10 @@ import com.google.android.gms.analytics.Tracker;
 import io.fabric.sdk.android.Fabric;
 import lombok.Getter;
 
+/**
+ * @author Ihor Bilous
+ */
+
 public class App extends Application {
 
     @Getter

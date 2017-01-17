@@ -17,9 +17,20 @@ import com.androidcollider.easyfin.models.Account;
 
 import java.util.List;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import static butterknife.ButterKnife.findById;
+
+/**
+ * @author Ihor Bilous
+ */
+
 public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccountAdapter.ViewHolder> {
 
-    private long pos;
+    @Getter
+    @Setter
+    private long position;
     private List<Account> accountsList;
     private final TypedArray typeIconsArray;
     private final String[] curArray, curLangArray;
@@ -82,28 +93,20 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
         });
     }
 
-    public long getPosition() {
-        return pos;
-    }
-
-    public void setPosition(long pos) {
-        this.pos = pos;
-    }
-
 
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
-        final View mView;
-        final ImageView ivAccountType;
-        final TextView tvAccountName;
-        final TextView tvAccountAmount;
+        private final View mView;
+        private final ImageView ivAccountType;
+        private final TextView tvAccountName;
+        private final TextView tvAccountAmount;
 
 
         ViewHolder(View view) {
             super(view);
             mView = view;
-            ivAccountType = (ImageView) view.findViewById(R.id.ivItemFragmentAccountType);
-            tvAccountName = (TextView) view.findViewById(R.id.tvItemFragmentAccountName);
-            tvAccountAmount = (TextView) view.findViewById(R.id.tvItemFragmentAccountAmount);
+            ivAccountType = findById(view, R.id.ivItemFragmentAccountType);
+            tvAccountName = findById(view, R.id.tvItemFragmentAccountName);
+            tvAccountAmount = findById(view, R.id.tvItemFragmentAccountAmount);
             view.setOnCreateContextMenuListener(this);
         }
 

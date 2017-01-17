@@ -8,6 +8,10 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * @author Ihor Bilous
+ */
+
 @Getter
 @Builder
 @ToString
