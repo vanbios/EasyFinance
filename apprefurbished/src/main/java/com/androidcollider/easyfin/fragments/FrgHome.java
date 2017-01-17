@@ -2,11 +2,10 @@ package com.androidcollider.easyfin.fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -28,6 +27,7 @@ import com.androidcollider.easyfin.managers.rates.rates_info.RatesInfoManager;
 import com.androidcollider.easyfin.managers.shared_pref.SharedPrefManager;
 import com.androidcollider.easyfin.repository.Repository;
 import com.androidcollider.easyfin.utils.ChartLargeValueFormatter;
+import com.annimon.stream.Stream;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -43,8 +43,12 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import rx.Observable;
 import rx.Subscriber;
+
+import static butterknife.ButterKnife.findById;
 
 /**
  * @author Ihor Bilous
@@ -54,18 +58,37 @@ public class FrgHome extends CommonFragmentWithEvents {
 
     private String[] currencyArray, currencyLangArray;
     private double[] statistic = new double[2];
-    private HashMap<String, double[]> balanceMap, statisticMap = null;
+    private HashMap<String, double[]> balanceMap, statisticMap;
 
     private final int PRECISE = 100;
     private final String FORMAT = "###,##0.00";
 
-    private View view;
-    private Spinner spinPeriod, spinBalanceCurrency, spinChartType;
-    private TextView tvStatisticSum, tvBalanceSum, tvNoData;
-    private HorizontalBarChart chartStatistic, chartBalance;
-    private PieChart chartStatisticPie;
+    @BindView(R.id.spinMainPeriod)
+    Spinner spinPeriod;
+    @BindView(R.id.spinMainCurrency)
+    Spinner spinBalanceCurrency;
+    @BindView(R.id.spinMainChart)
+    Spinner spinChartType;
+    @BindView(R.id.tvMainStatisticSum)
+    TextView tvStatisticSum;
+    @BindView(R.id.tvMainSumValue)
+    TextView tvBalanceSum;
+    @BindView(R.id.tvMainNoData)
+    TextView tvNoData;
+    @BindView(R.id.tvMainCurrentBalance)
+    TextView tvBalance;
+    @BindView(R.id.ivMainBalanceSettings)
+    ImageView ivBalanceSettings;
+    @BindView(R.id.chartHBarMainStatistic)
+    HorizontalBarChart chartStatistic;
+    @BindView(R.id.chartMainBalance)
+    HorizontalBarChart chartBalance;
+    @BindView(R.id.chartPieMainStatistic)
+    PieChart chartStatisticPie;
+    CheckBox chkBoxConvert;
+    CheckBox chkBoxShowOnlyIntegers;
+
     private MaterialDialog balanceSettingsDialog;
-    private CheckBox chkBoxConvert, chkBoxShowOnlyIntegers;
 
     private boolean convert, showOnlyIntegers,
 
@@ -100,9 +123,15 @@ public class FrgHome extends CommonFragmentWithEvents {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.frg_home, container, false);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         ((App) getActivity().getApplication()).getComponent().inject(this);
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         initializeViewsAndRes();
 
         setBalanceCurrencySpinner();
@@ -144,29 +173,16 @@ public class FrgHome extends CommonFragmentWithEvents {
 
         //balanceMap = InMemoryRepository.getInstance().getDataSource().getAccountsSumGroupByTypeAndCurrency();
         //statisticMap = InMemoryRepository.getInstance().getDataSource().getTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1);
-
-        super.onCreateView(inflater, container, savedInstanceState);
-        return view;
     }
 
     private void initializeViewsAndRes() {
-        tvStatisticSum = (TextView) view.findViewById(R.id.tvMainStatisticSum);
-        tvBalanceSum = (TextView) view.findViewById(R.id.tvMainSumValue);
-
-        chartBalance = (HorizontalBarChart) view.findViewById(R.id.chartMainBalance);
-        chartStatistic = (HorizontalBarChart) view.findViewById(R.id.chartHBarMainStatistic);
-        chartStatisticPie = (PieChart) view.findViewById(R.id.chartPieMainStatistic);
-
-        ImageView ivBalanceSettings = (ImageView) view.findViewById(R.id.ivMainBalanceSettings);
-        ivBalanceSettings.setOnClickListener(view1 -> balanceSettingsDialog.show());
-
         buildBalanceSettingsDialog();
 
         View balanceSettings = balanceSettingsDialog.getCustomView();
 
         if (balanceSettings != null) {
-            chkBoxConvert = (CheckBox) balanceSettings.findViewById(R.id.checkBoxMainBalanceSettingsConvert);
-            chkBoxShowOnlyIntegers = (CheckBox) balanceSettings.findViewById(R.id.checkBoxMainBalanceSettingsShowCents);
+            chkBoxConvert = findById(balanceSettings, R.id.checkBoxMainBalanceSettingsConvert);
+            chkBoxShowOnlyIntegers = findById(balanceSettings, R.id.checkBoxMainBalanceSettingsShowCents);
         }
 
         convert = sharedPrefManager.getMainBalanceSettingsConvertCheck();
@@ -196,9 +212,6 @@ public class FrgHome extends CommonFragmentWithEvents {
         currencyArray = getResources().getStringArray(R.array.account_currency_array);
         currencyLangArray = getResources().getStringArray(R.array.account_currency_array_language);
 
-        TextView tvBalance = (TextView) view.findViewById(R.id.tvMainCurrentBalance);
-        tvNoData = (TextView) view.findViewById(R.id.tvMainNoData);
-
         ratesInfoManager.setupMultiTapListener(tvBalance, getActivity());
     }
 
@@ -211,8 +224,6 @@ public class FrgHome extends CommonFragmentWithEvents {
     }
 
     private void setBalanceCurrencySpinner() {
-        spinBalanceCurrency = (Spinner) view.findViewById(R.id.spinMainCurrency);
-
         spinBalanceCurrency.setAdapter(new SpinIconTextHeadAdapter(
                 getActivity(),
                 R.layout.spin_head_icon_text_main,
@@ -247,8 +258,6 @@ public class FrgHome extends CommonFragmentWithEvents {
     }
 
     private void setStatisticPeriodSpinner() {
-        spinPeriod = (Spinner) view.findViewById(R.id.spinMainPeriod);
-
         ArrayAdapter<?> adapterStatPeriod = ArrayAdapter.createFromResource(
                 getActivity(),
                 R.array.main_statistic_period_array,
@@ -301,7 +310,6 @@ public class FrgHome extends CommonFragmentWithEvents {
     }
 
     private void setChartTypeSpinner() {
-        spinChartType = (Spinner) view.findViewById(R.id.spinMainChart);
         spinChartType.setAdapter(new SpinIconTextHeadAdapter(
                 getActivity(),
                 R.layout.spin_head_icon_text_main_chart,
@@ -525,16 +533,14 @@ public class FrgHome extends CommonFragmentWithEvents {
     }
 
     private void setStatisticSumTV() {
-        double statSum = statistic[0] + statistic[1];
         tvStatisticSum.setText(String.format("%1$s %2$s",
-                numberFormatManager.doubleToStringFormatter(statSum, FORMAT, PRECISE), getCurrencyLang()));
+                numberFormatManager.doubleToStringFormatter(
+                        statistic[0] + statistic[1], FORMAT, PRECISE), getCurrencyLang()));
     }
 
     private void setBalanceTV(double[] balance) {
         double sum = 0;
-        for (double d : balance) {
-            sum += d;
-        }
+        for (double d : balance) sum += d;
         tvBalanceSum.setText(String.format("%1$s %2$s",
                 numberFormatManager.doubleToStringFormatter(sum, FORMAT, PRECISE), getCurrencyLang()));
     }
@@ -547,70 +553,36 @@ public class FrgHome extends CommonFragmentWithEvents {
 
     private double[] getCurrentBalance(int posCurrency) {
         if (convert) return convertAllCurrencyToOne(posCurrency, balanceMap, 4);
-        for (Object o : balanceMap.entrySet()) {
-            Map.Entry pair = (Map.Entry) o;
-            if (currencyArray[posCurrency].equals(pair.getKey())) return (double[]) pair.getValue();
+        for (Map.Entry<String, double[]> pair : balanceMap.entrySet()) {
+            if (currencyArray[posCurrency].equals(pair.getKey())) return pair.getValue();
         }
         return new double[]{0, 0, 0, 0};
     }
 
     private double[] convertAllCurrencyToOne(int posCurrency, HashMap<String, double[]> map, int arrSize) {
-        double[] uahArr = new double[arrSize];
-        double[] usdArr = new double[arrSize];
-        double[] eurArr = new double[arrSize];
-        double[] rubArr = new double[arrSize];
-        double[] gbpArr = new double[arrSize];
+        double[][] arr = new double[currencyArray.length][arrSize];
 
-        final String uahCurName = currencyArray[0];
-        final String usdCurName = currencyArray[1];
-        final String eurCurName = currencyArray[2];
-        final String rubCurName = currencyArray[3];
-        final String gbpCurName = currencyArray[4];
-
-        for (Object o : map.entrySet()) {
-            Map.Entry pair = (Map.Entry) o;
-            String key = (String) pair.getKey();
-            double[] value = (double[]) pair.getValue();
-
-            if (uahCurName.equals(key))
-                System.arraycopy(value, 0, uahArr, 0, uahArr.length);
-            else if (usdCurName.equals(key))
-                System.arraycopy(value, 0, usdArr, 0, usdArr.length);
-            else if (eurCurName.equals(key))
-                System.arraycopy(value, 0, eurArr, 0, eurArr.length);
-            else if (rubCurName.equals(key))
-                System.arraycopy(value, 0, rubArr, 0, rubArr.length);
-            else if (gbpCurName.equals(key))
-                System.arraycopy(value, 0, gbpArr, 0, gbpArr.length);
+        for (int i = 0; i < arr.length; i++) {
+            double[] value = map.get(currencyArray[i]);
+            if (value != null) {
+                System.arraycopy(value, 0, arr[i], 0, arr[i].length);
+                arr[i] = convertArray(arr[i], exchangeManager.getExchangeRate(currencyArray[i], currencyArray[posCurrency]));
+            }
         }
-
-        String convertTo = currencyArray[posCurrency];
-
-        double uahExchange = exchangeManager.getExchangeRate(uahCurName, convertTo);
-        double usdExchange = exchangeManager.getExchangeRate(usdCurName, convertTo);
-        double eurExchange = exchangeManager.getExchangeRate(eurCurName, convertTo);
-        double rubExchange = exchangeManager.getExchangeRate(rubCurName, convertTo);
-        double gbpExchange = exchangeManager.getExchangeRate(gbpCurName, convertTo);
-
-        uahArr = convertArray(uahArr, uahExchange);
-        usdArr = convertArray(usdArr, usdExchange);
-        eurArr = convertArray(eurArr, eurExchange);
-        rubArr = convertArray(rubArr, rubExchange);
-        gbpArr = convertArray(gbpArr, gbpExchange);
 
         double[] result = new double[arrSize];
 
         for (int i = 0; i < result.length; i++) {
-            result[i] = uahArr[i] + usdArr[i] + eurArr[i] + rubArr[i] + gbpArr[i];
+            for (double[] a : arr) {
+                result[i] += a[i];
+            }
         }
 
         return result;
     }
 
     private double[] convertArray(double[] arr, double exc) {
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] /= exc;
-        }
+        for (int i = 0; i < arr.length; i++) arr[i] /= exc;
         return arr;
     }
 
@@ -618,13 +590,9 @@ public class FrgHome extends CommonFragmentWithEvents {
         if (convert) {
             System.arraycopy(convertAllCurrencyToOne(posCurrency, statisticMap, 2), 0, statistic, 0, statistic.length);
         } else {
-            for (Object o : statisticMap.entrySet()) {
-                Map.Entry pair = (Map.Entry) o;
-                if (currencyArray[posCurrency].equals(pair.getKey())) {
-                    double[] st = (double[]) pair.getValue();
-                    System.arraycopy(st, 0, statistic, 0, statistic.length);
-                }
-            }
+            Stream.of(statisticMap.entrySet())
+                    .filter(p -> currencyArray[posCurrency].equals(p.getKey()))
+                    .forEach(p -> System.arraycopy(p.getValue(), 0, statistic, 0, statistic.length));
         }
     }
 
@@ -646,6 +614,15 @@ public class FrgHome extends CommonFragmentWithEvents {
                     chartStatisticPie.setVisibility(View.VISIBLE);
                     setStatisticPieChart();
                 }
+                break;
+        }
+    }
+
+    @OnClick({R.id.ivMainBalanceSettings})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.ivMainBalanceSettings:
+                balanceSettingsDialog.show();
                 break;
         }
     }

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -21,23 +22,42 @@ import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 /**
  * @author Ihor Bilous
  */
 
 public class FrgNumericDialog extends DialogFragment {
 
+    @BindView(R.id.containerFrgNumericDialog)
+    FrameLayout frameLayout;
+    @BindView(R.id.btnFrgNumericDialogCommit)
+    TextView tvCommit;
+    @BindView(R.id.btnFrgNumericDialogCancel)
+    TextView tvCancel;
+
+    private CalculatorView calculatorView;
+
     private OnCommitAmountListener callback;
-    final private boolean isApiHoneycombAndHigher = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
+    private final boolean isApiHoneycombAndHigher = android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
 
     @Inject
     NumberFormatManager numberFormatManager;
 
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ((App) getActivity().getApplication()).getComponent().inject(this);
+    }
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frg_numeric_dialog, container, false);
-        ((App) getActivity().getApplication()).getComponent().inject(this);
+        ButterKnife.bind(this, view);
 
         try {
             callback = (OnCommitAmountListener) getTargetFragment();
@@ -45,7 +65,7 @@ public class FrgNumericDialog extends DialogFragment {
             throw new ClassCastException("Calling Fragment must implement OnCommitAmountListener");
         }
 
-        final CalculatorView calculatorView = new CalculatorView(getActivity());
+        calculatorView = new CalculatorView(getActivity());
         calculatorView.setShowSpaces(true);
         calculatorView.setShowSelectors(true);
         calculatorView.build();
@@ -74,20 +94,22 @@ public class FrgNumericDialog extends DialogFragment {
             e.printStackTrace();
         }
 
-        FrameLayout frameLayout = (FrameLayout) view.findViewById(R.id.containerFrgNumericDialog);
         frameLayout.addView(calculatorView);
 
-        TextView tvCommit = (TextView) view.findViewById(R.id.btnFrgNumericDialogCommit);
-        TextView tvCancel = (TextView) view.findViewById(R.id.btnFrgNumericDialogCancel);
-
-        tvCommit.setOnClickListener(v -> {
-            callback.onCommitAmountSubmit(calculatorView.getCalculatorValue());
-            dismiss();
-        });
-
-        tvCancel.setOnClickListener(v -> dismiss());
-
         return view;
+    }
+
+    @OnClick({R.id.btnFrgNumericDialogCommit, R.id.btnFrgNumericDialogCancel})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnFrgNumericDialogCommit:
+                callback.onCommitAmountSubmit(calculatorView.getCalculatorValue());
+                dismiss();
+                break;
+            case R.id.btnFrgNumericDialogCancel:
+                dismiss();
+                break;
+        }
     }
 
     @Override
@@ -101,7 +123,9 @@ public class FrgNumericDialog extends DialogFragment {
         int height = (metrics.heightPixels * 4) / 5;
         int width = (metrics.widthPixels * 7) / 8;
 
-        getDialog().getWindow().setLayout(width, height);
+        if (getDialog() != null && getDialog().getWindow() != null) {
+            getDialog().getWindow().setLayout(width, height);
+        }
     }
 
     @Override
