@@ -93,7 +93,7 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
 
     @Override
     public void onBindViewHolder(final MainViewHolder holder, final int position) {
-        if (holder instanceof ViewHolderItem) {
+        if (getItemViewType(position) == CONTENT_TYPE) {
             ViewHolderItem holderItem = (ViewHolderItem) holder;
 
             final int PRECISE = 100;
@@ -106,11 +106,10 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
             holderItem.tvTransDate.setText(dateFormatManager.longToDateString(transaction.getDate(), DATEFORMAT));
 
             String amount = numberFormatManager.doubleToStringFormatter(transaction.getAmount(), FORMAT, PRECISE);
-            String cur = transaction.getCurrency();
             String curLang = null;
 
             for (int i = 0; i < curArray.length; i++) {
-                if (cur.equals(curArray[i])) {
+                if (transaction.getCurrency().equals(curArray[i])) {
                     curLang = curLangArray[i];
                     break;
                 }
@@ -131,7 +130,8 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
                 setPosition(position);
                 return false;
             });
-        } else if (holder instanceof ViewHolderButton) {
+
+        } else if (getItemViewType(position) == BUTTON_TYPE) {
             ViewHolderButton holderButton = (ViewHolderButton) holder;
             holderButton.tvShowMore.setOnClickListener(v -> {
                 maxCount += 30;

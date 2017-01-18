@@ -129,10 +129,9 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
         if (mode == 1) {
             spinType.setSelection(accFrIntent.getType());
             String[] currencyArray = getResources().getStringArray(R.array.account_currency_array);
-            String currencyVal = accFrIntent.getCurrency();
 
             for (int i = 0; i < currencyArray.length; i++) {
-                if (currencyArray[i].equals(currencyVal)) {
+                if (currencyArray[i].equals(accFrIntent.getCurrency())) {
                     spinCurrency.setSelection(i);
                 }
             }
@@ -167,15 +166,11 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
                 shakeEditTextManager.highlightEditText(etName);
                 toastManager.showClosableToast(getActivity(), getString(R.string.account_name_exist), ToastManager.SHORT);
             } else {
-                double amount = Double.parseDouble(numberFormatManager.prepareStringToParse(tvAmount.getText().toString()));
-                String currency = spinCurrency.getSelectedItem().toString();
-                int type = spinType.getSelectedItemPosition();
-
                 Account account = Account.builder()
                         .name(name)
-                        .amount(amount)
-                        .type(type)
-                        .currency(currency)
+                        .amount(Double.parseDouble(numberFormatManager.prepareStringToParse(tvAmount.getText().toString())))
+                        .type(spinType.getSelectedItemPosition())
+                        .currency(spinCurrency.getSelectedItem().toString())
                         .build();
                 //InMemoryRepository.getInstance().getDataSource().insertNewAccount(account);
                 repository.addNewAccount(account)
@@ -211,17 +206,12 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
                 shakeEditTextManager.highlightEditText(etName);
                 toastManager.showClosableToast(getActivity(), getString(R.string.account_name_exist), ToastManager.SHORT);
             } else {
-                String sum = numberFormatManager.prepareStringToParse(tvAmount.getText().toString());
-                double amount = Double.parseDouble(sum);
-                String currency = spinCurrency.getSelectedItem().toString();
-                int type = spinType.getSelectedItemPosition();
-
                 Account account = Account.builder()
                         .id(idAccount)
                         .name(name)
-                        .amount(amount)
-                        .type(type)
-                        .currency(currency)
+                        .amount(Double.parseDouble(numberFormatManager.prepareStringToParse(tvAmount.getText().toString())))
+                        .type(spinType.getSelectedItemPosition())
+                        .currency(spinCurrency.getSelectedItem().toString())
                         .build();
 
                 repository.updateAccount(account)
@@ -254,8 +244,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
     }
 
     private boolean checkForFillNameField() {
-        String st = etName.getText().toString().replaceAll("\\s+", "");
-        if (st.isEmpty()) {
+        if (etName.getText().toString().replaceAll("\\s+", "").isEmpty()) {
             shakeEditTextManager.highlightEditText(etName);
             toastManager.showClosableToast(getActivity(), getString(R.string.empty_name_field), ToastManager.SHORT);
             return false;

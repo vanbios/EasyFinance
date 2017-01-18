@@ -71,11 +71,10 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
         final int PRECISE = 100;
         final String FORMAT = "###,##0.00";
 
-        String cur = account.getCurrency();
         String curLang = null;
 
         for (int i = 0; i < curArray.length; i++) {
-            if (cur.equals(curArray[i])) {
+            if (account.getCurrency().equals(curArray[i])) {
                 curLang = curLangArray[i];
                 break;
             }

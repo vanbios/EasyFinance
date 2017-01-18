@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -46,6 +47,8 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     Spinner spinAccount;
     @BindView(R.id.cardPayDebtElements)
     CardView cardView;
+    @BindView(R.id.layoutActPayDebtParent)
+    RelativeLayout mainContent;
 
     private Debt debt;
     private List<Account> accountsAvailableList;
@@ -91,7 +94,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         } else {
             cardView.setVisibility(View.VISIBLE);
             setViews();
-            hideTouchOutsideManager.hideKeyboardByTouchOutsideEditText(view.findViewById(R.id.layoutActPayDebtParent), getActivity());
+            hideTouchOutsideManager.hideKeyboardByTouchOutsideEditText(mainContent, getActivity());
         }
     }
 
@@ -162,13 +165,11 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     }
 
     private void payAllDebt() {
-        int idDebt = debt.getId();
         double amountDebt = debt.getAmountCurrent();
         int type = debt.getType();
 
         Account account = (Account) spinAccount.getSelectedItem();
 
-        int idAccount = account.getId();
         double amountAccount = account.getAmount();
 
         if (type == 1) {
@@ -179,7 +180,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
         //InMemoryRepository.getInstance().getDataSource().payAllDebt(idAccount, amountAccount, idDebt);
 
-        repository.payFullDebt(idAccount, amountAccount, idDebt)
+        repository.payFullDebt(account.getId(), amountAccount, debt.getId())
                 .subscribe(new Subscriber<Boolean>() {
 
                     @Override
@@ -288,8 +289,6 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
             if (type == 0 && amountDebt > amountAccount) {
                 toastManager.showClosableToast(getActivity(), getString(R.string.not_enough_costs), ToastManager.SHORT);
             } else {
-                int idDebt = debt.getId();
-                int idAccount = account.getId();
 
                 switch (type) {
                     case 0:
@@ -306,8 +305,8 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                 /*InMemoryRepository.getInstance().getDataSource().takeMoreDebt(idAccount, amountAccount,
                         idDebt, newDebtCurrentAmount, newDebtAllAmount);*/
 
-                repository.takeMoreDebt(idAccount, amountAccount,
-                        idDebt, newDebtCurrentAmount, newDebtAllAmount)
+                repository.takeMoreDebt(account.getId(), amountAccount,
+                        debt.getId(), newDebtCurrentAmount, newDebtAllAmount)
                         .subscribe(new Subscriber<Boolean>() {
 
                             @Override

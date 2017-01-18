@@ -172,10 +172,9 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         ));
 
         if (mode == 1) {
-            int idAccount = debtFrIntent.getIdAccount();
             int pos = 0;
             for (int i = 0; i < accountList.size(); i++) {
-                if (idAccount == accountList.get(i).getId()) {
+                if (debtFrIntent.getIdAccount() == accountList.get(i).getId()) {
                     pos = i;
                     break;
                 }
@@ -189,17 +188,10 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         if (checkForFillNameField()) {
             Account account = (Account) spinAccount.getSelectedItem();
             double accountAmount = account.getAmount();
-
-            int type = debtType;
-
             double amount = Double.parseDouble(numberFormatManager.prepareStringToParse(tvAmount.getText().toString()));
 
-            if (checkIsEnoughCosts(type, amount, accountAmount)) {
-                String name = etName.getText().toString();
-                int accountId = account.getId();
-                Long date = dateFormatManager.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
-
-                switch (type) {
+            if (checkIsEnoughCosts(debtType, amount, accountAmount)) {
+                switch (debtType) {
                     case 0:
                         accountAmount -= amount;
                         break;
@@ -209,14 +201,18 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                 }
 
                 Debt debt = Debt.builder()
-                        .name(name)
+                        .name(etName.getText().toString())
                         .amountCurrent(amount)
-                        .type(type)
-                        .idAccount(accountId)
-                        .date(date)
+                        .type(debtType)
+                        .idAccount(account.getId())
+                        .date(dateFormatManager.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime())
                         .accountAmount(accountAmount)
+                        .currency(account.getCurrency())
+                        .accountName(account.getName())
+                        .amountAll(amount)
                         .build();
                 //InMemoryRepository.getInstance().getDataSource().insertNewDebt(debt);
+
                 repository.addNewDebt(debt)
                         .subscribe(new Subscriber<Debt>() {
 
@@ -283,9 +279,6 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
             }
 
             if (checkIsEnoughCosts(type, amount, accountAmount)) {
-                String name = etName.getText().toString();
-                Long date = dateFormatManager.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
-
                 switch (type) {
                     case 0:
                         accountAmount -= amount;
@@ -295,17 +288,18 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                         break;
                 }
 
-                int idDebt = debtFrIntent.getId();
-
                 //Debt debt = new Debt(name, amount, type, accountId, date, accountAmount, idDebt);
                 Debt debt = Debt.builder()
-                        .name(name)
+                        .name(etName.getText().toString())
                         .amountCurrent(amount)
                         .type(type)
                         .idAccount(accountId)
-                        .date(date)
+                        .date(dateFormatManager.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime())
                         .accountAmount(accountAmount)
-                        .id(idDebt)
+                        .id(debtFrIntent.getId())
+                        .currency(account.getCurrency())
+                        .accountName(account.getName())
+                        .amountAll(amount)
                         .build();
 
                 if (isAccountsTheSame) {
@@ -374,8 +368,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     }
 
     private boolean checkForFillNameField() {
-        String st = etName.getText().toString().replaceAll("\\s+", "");
-        if (st.isEmpty()) {
+        if (etName.getText().toString().replaceAll("\\s+", "").isEmpty()) {
             shakeEditTextManager.highlightEditText(etName);
             toastManager.showClosableToast(getActivity(), getString(R.string.empty_name_field), ToastManager.SHORT);
             return false;

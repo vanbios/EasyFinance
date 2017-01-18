@@ -2,7 +2,6 @@ package com.androidcollider.easyfin.adapters;
 
 import android.content.Context;
 import android.graphics.LightingColorFilter;
-import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
@@ -18,6 +17,7 @@ import com.androidcollider.easyfin.managers.format.date.DateFormatManager;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.models.Debt;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
@@ -42,14 +42,24 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
     private NumberFormatManager numberFormatManager;
 
 
-    public RecyclerDebtAdapter(Context context, List<Debt> debtList,
-                               DateFormatManager dateFormatManager, NumberFormatManager numberFormatManager) {
+    public RecyclerDebtAdapter(Context context, DateFormatManager dateFormatManager, NumberFormatManager numberFormatManager) {
         this.context = context;
-        this.debtList = debtList;
-        curArray = context.getResources().getStringArray(R.array.account_currency_array);
-        curLangArray = context.getResources().getStringArray(R.array.account_currency_array_language);
+        this.debtList = new ArrayList<>();
+        this.curArray = context.getResources().getStringArray(R.array.account_currency_array);
+        this.curLangArray = context.getResources().getStringArray(R.array.account_currency_array_language);
         this.dateFormatManager = dateFormatManager;
         this.numberFormatManager = numberFormatManager;
+    }
+
+    public void addItems(List<Debt> items) {
+        debtList.clear();
+        debtList.addAll(items);
+        notifyDataSetChanged();
+    }
+
+    public void deleteItem(int position) {
+        debtList.remove(position);
+        notifyItemRemoved(position);
     }
 
     @Override
@@ -80,11 +90,10 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
 
         holder.tvDebtName.setText(debt.getName());
 
-        String cur = debt.getCurrency();
         String curLang = null;
 
         for (int i = 0; i < curArray.length; i++) {
-            if (cur.equals(curArray[i])) {
+            if (debt.getCurrency().equals(curArray[i])) {
                 curLang = curLangArray[i];
                 break;
             }
@@ -107,21 +116,6 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
         holder.tvAmount.setTextColor(color);
         holder.prgBar.getProgressDrawable().setColorFilter(new LightingColorFilter(0xFF000000, color));
         holder.tvProgress.setTextColor(color);
-
-        /*switch (debt.getType()) {
-            case 0:
-                int green = ContextCompat.getColor(context, R.color.custom_green);
-                holder.tvAmount.setTextColor(green);
-                holder.prgBar.getProgressDrawable().setColorFilter(new LightingColorFilter(0xFF000000, green));
-                holder.tvProgress.setTextColor(green);
-                break;
-            case 1:
-                int red = ContextCompat.getColor(context, R.color.custom_red);
-                holder.tvAmount.setTextColor(red);
-                holder.prgBar.getProgressDrawable().setColorFilter(new LightingColorFilter(0xFF000000, red));
-                holder.tvProgress.setTextColor(red);
-                break;
-        }*/
 
         holder.mView.setOnLongClickListener(view -> {
             setPosition(position);

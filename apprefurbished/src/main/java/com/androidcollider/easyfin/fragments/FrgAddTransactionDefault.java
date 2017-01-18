@@ -53,7 +53,6 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
     Spinner spinAccount;
     @BindView(R.id.scrollAddTransDef)
     ScrollView scrollView;
-    //private View view;
 
     private DatePickerDialog datePickerDialog;
     private final String DATEFORMAT = "dd MMMM yyyy";
@@ -137,15 +136,13 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                                     if (transFromIntent != null) {
                                         double amount = transFromIntent.getAmount();
                                         transType = numberFormatManager.isDoubleNegative(amount) ? 0 : 1;
-                                        String amountS = numberFormatManager.doubleToStringFormatterForEdit(
-                                                transType == 1 ? amount : Math.abs(amount), FORMAT, PRECISE);
-                                        setAmountValue(amountS);
+                                        setAmountValue(numberFormatManager.doubleToStringFormatterForEdit(
+                                                transType == 1 ? amount : Math.abs(amount), FORMAT, PRECISE));
                                     }
                                     break;
                                 }
                             }
 
-                            //tvDate = (TextView) view.findViewById(R.id.tvTransactionDate);
                             setDateTimeField();
                             setSpinner();
 
@@ -155,17 +152,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                 });
     }
 
-    /*@Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.frg_add_trans_def, container, false);
-        return view;
-    }*/
-
     private void setSpinner() {
-        /*spinCategory = (Spinner) view.findViewById(R.id.spinAddTransCategory);
-        spinAccount = (Spinner) view.findViewById(R.id.spinAddTransDefAccount);*/
-
         String[] categoryArray = getResources().getStringArray(
                 transType == 1 ?
                         R.array.transaction_category_income_array :
@@ -221,15 +208,11 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
             if (checkIsEnoughCosts(isExpense, amount, accountAmount)) {
                 accountAmount += amount;
 
-                int category = spinCategory.getSelectedItemPosition();
-                Long date = dateFormatManager.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
-                int idAccount = account.getId();
-
                 Transaction transaction = Transaction.builder()
-                        .date(date)
+                        .date(dateFormatManager.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime())
                         .amount(amount)
-                        .category(category)
-                        .idAccount(idAccount)
+                        .category(spinCategory.getSelectedItemPosition())
+                        .idAccount(account.getId())
                         .accountAmount(accountAmount)
                         .accountName(account.getName())
                         .accountType(account.getType())
@@ -287,19 +270,13 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
             if (checkIsEnoughCosts(isExpense, amount, accountAmount)) {
                 accountAmount += amount;
 
-                int category = spinCategory.getSelectedItemPosition();
-                Long date = dateFormatManager.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime();
-                int idAccount = account.getId();
-
-                int idTrans = transFromIntent.getId();
-
                 Transaction transaction = Transaction.builder()
-                        .date(date)
+                        .date(dateFormatManager.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime())
                         .amount(amount)
-                        .category(category)
-                        .idAccount(idAccount)
+                        .category(spinCategory.getSelectedItemPosition())
+                        .idAccount(account.getId())
                         .accountAmount(accountAmount)
-                        .id(idTrans)
+                        .id(transFromIntent.getId())
                         .currency(account.getCurrency())
                         .accountType(account.getType())
                         .accountName(account.getName())
@@ -373,7 +350,6 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
     }
 
     private void setDateTimeField() {
-        //tvDate.setOnClickListener(v -> datePickerDialog.show());
         Calendar newCalendar = Calendar.getInstance();
         if (mode == 1) {
             newCalendar.setTime(new Date(transFromIntent.getDate()));

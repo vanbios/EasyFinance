@@ -83,11 +83,10 @@ public class FrgDebts extends CommonFragment {
 
     private void initUI() {
         initRecyclerView();
-        //registerForContextMenu(recyclerView);
         addNonFabTouchListener(mainContent);
     }
 
-    private void initRecyclerView() {
+    private void loadData() {
         repository.getAllDebts()
                 .subscribe(new Subscriber<List<Debt>>() {
 
@@ -103,35 +102,39 @@ public class FrgDebts extends CommonFragment {
 
                     @Override
                     public void onNext(List<Debt> debtList) {
-                        FrgDebts.this.debtList = new ArrayList<>();
+                        FrgDebts.this.debtList.clear();
                         FrgDebts.this.debtList.addAll(debtList);
+                        recyclerAdapter.addItems(FrgDebts.this.debtList);
                         setVisibility();
-                        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-                        recyclerAdapter = new RecyclerDebtAdapter(getActivity(), debtList, dateFormatManager, numberFormatManager);
-                        recyclerView.setAdapter(recyclerAdapter);
-                        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
-                            @Override
-                            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                                super.onScrollStateChanged(recyclerView, newState);
-                            }
-
-                            @Override
-                            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                                if (dy > 0) {
-                                    if (!fabMenu.isMenuHidden()) {
-                                        fabMenu.hideMenu(true);
-                                    }
-                                } else if (dy < 0) {
-                                    if (fabMenu.isMenuHidden()) {
-                                        fabMenu.showMenu(true);
-                                    }
-                                }
-                                super.onScrolled(recyclerView, dx, dy);
-                            }
-                        });
                     }
                 });
+    }
+
+    private void initRecyclerView() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
+        recyclerAdapter = new RecyclerDebtAdapter(getActivity(), dateFormatManager, numberFormatManager);
+        recyclerView.setAdapter(recyclerAdapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
+                    if (!fabMenu.isMenuHidden()) {
+                        fabMenu.hideMenu(true);
+                    }
+                } else if (dy < 0) {
+                    if (fabMenu.isMenuHidden()) {
+                        fabMenu.showMenu(true);
+                    }
+                }
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
     }
 
     private void setVisibility() {
@@ -143,7 +146,9 @@ public class FrgDebts extends CommonFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        debtList = new ArrayList<>();
         initUI();
+        loadData();
         EventBus.getDefault().register(this);
         fabMenu.hideMenu(false);
         new Handler().postDelayed(() -> fabMenu.showMenu(true), 300);
@@ -216,13 +221,9 @@ public class FrgDebts extends CommonFragment {
 
     private void deleteDebt(int pos) {
         Debt debt = debtList.get(pos);
-        int idAccount = debt.getIdAccount();
-        int idDebt = debt.getId();
-        double amount = debt.getAmountCurrent();
-        int type = debt.getType();
 
         //InMemoryRepository.getInstance().getDataSource().deleteDebt(idAccount, idDebt, amount, type);
-        repository.deleteDebt(idAccount, idDebt, amount, type)
+        repository.deleteDebt(debt.getIdAccount(), debt.getId(), debt.getAmountCurrent(), debt.getType())
                 .subscribe(new Subscriber<Boolean>() {
 
                     @Override
@@ -238,8 +239,8 @@ public class FrgDebts extends CommonFragment {
                     @Override
                     public void onNext(Boolean aBoolean) {
                         debtList.remove(pos);
+                        recyclerAdapter.deleteItem(pos);
                         setVisibility();
-                        recyclerAdapter.notifyDataSetChanged();
                         //InMemoryRepository.getInstance().updateAccountList();
                         pushBroadcast();
                     }
@@ -248,27 +249,7 @@ public class FrgDebts extends CommonFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(UpdateFrgDebts event) {
-        repository.getAllDebts()
-                .subscribe(new Subscriber<List<Debt>>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<Debt> debtList) {
-                        FrgDebts.this.debtList.clear();
-                        FrgDebts.this.debtList.addAll(debtList);
-                        setVisibility();
-                        recyclerAdapter.notifyDataSetChanged();
-                    }
-                });
+        loadData();
     }
 
     private void pushBroadcast() {
