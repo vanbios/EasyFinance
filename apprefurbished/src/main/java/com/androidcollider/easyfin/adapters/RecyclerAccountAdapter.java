@@ -15,6 +15,7 @@ import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.models.Account;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
@@ -31,23 +32,34 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
     @Getter
     @Setter
     private long position;
-    private List<Account> accountsList;
+    private List<Account> accountList;
     private final TypedArray typeIconsArray;
     private final String[] curArray, curLangArray;
     private NumberFormatManager numberFormatManager;
 
 
-    public RecyclerAccountAdapter(Context context, List<Account> accountsList, NumberFormatManager numberFormatManager) {
-        this.accountsList = accountsList;
+    public RecyclerAccountAdapter(Context context, NumberFormatManager numberFormatManager) {
+        this.accountList = new ArrayList<>();
         typeIconsArray = context.getResources().obtainTypedArray(R.array.account_type_icons);
         curArray = context.getResources().getStringArray(R.array.account_currency_array);
         curLangArray = context.getResources().getStringArray(R.array.account_currency_array_language);
         this.numberFormatManager = numberFormatManager;
     }
 
+    public void addItems(List<Account> items) {
+        accountList.clear();
+        accountList.addAll(items);
+        notifyDataSetChanged();
+    }
+
+    public void deleteItem(int position) {
+        accountList.remove(position);
+        notifyItemRemoved(position);
+    }
+
     @Override
     public int getItemCount() {
-        return accountsList.size();
+        return accountList.size();
     }
 
     @Override
@@ -56,7 +68,7 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
     }
 
     private Account getAccount(int position) {
-        return accountsList.get(position);
+        return accountList.get(position);
     }
 
 

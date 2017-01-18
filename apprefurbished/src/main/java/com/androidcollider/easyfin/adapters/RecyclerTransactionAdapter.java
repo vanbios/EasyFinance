@@ -17,6 +17,7 @@ import com.androidcollider.easyfin.managers.format.date.DateFormatManager;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.models.Transaction;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Getter;
@@ -34,7 +35,7 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
     @Setter
     private long position;
     private Context context;
-    private List<Transaction> transactionArrayList;
+    private List<Transaction> transactionList;
     private final TypedArray catExpenseIconsArray, catIncomeIconsArray, typeIconsArray;
     private final String[] curArray, curLangArray;
     private final int CONTENT_TYPE = 1, BUTTON_TYPE = 2;
@@ -45,10 +46,9 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
     private NumberFormatManager numberFormatManager;
 
 
-    public RecyclerTransactionAdapter(Context context, List<Transaction> transactionArrayList,
-                                      DateFormatManager dateFormatManager, NumberFormatManager numberFormatManager) {
+    public RecyclerTransactionAdapter(Context context, DateFormatManager dateFormatManager, NumberFormatManager numberFormatManager) {
         this.context = context;
-        this.transactionArrayList = transactionArrayList;
+        this.transactionList = new ArrayList<>();
         catExpenseIconsArray = context.getResources().obtainTypedArray(R.array.transaction_category_expense_icons);
         catIncomeIconsArray = context.getResources().obtainTypedArray(R.array.transaction_category_income_icons);
         curArray = context.getResources().getStringArray(R.array.account_currency_array);
@@ -58,6 +58,17 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
         this.numberFormatManager = numberFormatManager;
     }
 
+    public void addItems(List<Transaction> items) {
+        transactionList.clear();
+        transactionList.addAll(items);
+        notifyDataSetChanged();
+    }
+
+    public void deleteItem(int position) {
+        transactionList.remove(position);
+        notifyItemRemoved(position);
+    }
+
     @Override
     public int getItemViewType(int position) {
         return showButton && position == itemCount ? BUTTON_TYPE : CONTENT_TYPE;
@@ -65,7 +76,7 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
 
     @Override
     public int getItemCount() {
-        int arraySize = transactionArrayList.size();
+        int arraySize = transactionList.size();
         showButton = arraySize > maxCount;
         itemCount = showButton ? maxCount : arraySize;
         return showButton ? itemCount + 1 : itemCount;
@@ -77,7 +88,7 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
     }
 
     private Transaction getTransaction(int position) {
-        return transactionArrayList.get(position);
+        return transactionList.get(position);
     }
 
     @Override

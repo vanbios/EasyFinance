@@ -71,11 +71,38 @@ public class FrgTransactions extends CommonFragmentWithEvents {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        transactionList = new ArrayList<>();
         setupRecyclerView();
-        //registerForContextMenu(recyclerView);
+        loadData();
     }
 
     private void setupRecyclerView() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
+        recyclerAdapter = new RecyclerTransactionAdapter(getActivity(), dateFormatManager, numberFormatManager);
+        recyclerView.setAdapter(recyclerAdapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                FrgMain parentFragment = (FrgMain) getParentFragment();
+                if (parentFragment != null) {
+                    if (dy > 0) {
+                        parentFragment.hideMenu();
+                    } else if (dy < 0) {
+                        parentFragment.showMenu();
+                    }
+                }
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
+    }
+
+    private void loadData() {
         repository.getAllTransactions()
                 .subscribe(new Subscriber<List<Transaction>>() {
 
@@ -91,34 +118,10 @@ public class FrgTransactions extends CommonFragmentWithEvents {
 
                     @Override
                     public void onNext(List<Transaction> transactionList) {
-                        FrgTransactions.this.transactionList = new ArrayList<>();
+                        FrgTransactions.this.transactionList.clear();
                         FrgTransactions.this.transactionList.addAll(transactionList);
+                        recyclerAdapter.addItems(FrgTransactions.this.transactionList);
                         setVisibility();
-                        final LinearLayoutManager layoutManager = new LinearLayoutManager(recyclerView.getContext());
-                        recyclerView.setLayoutManager(layoutManager);
-                        recyclerAdapter = new RecyclerTransactionAdapter(getActivity(), FrgTransactions.this.transactionList,
-                                dateFormatManager, numberFormatManager);
-                        recyclerView.setAdapter(recyclerAdapter);
-                        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
-                            @Override
-                            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                                super.onScrollStateChanged(recyclerView, newState);
-                            }
-
-                            @Override
-                            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                                FrgMain parentFragment = (FrgMain) getParentFragment();
-                                if (parentFragment != null) {
-                                    if (dy > 0) {
-                                        parentFragment.hideMenu();
-                                    } else if (dy < 0) {
-                                        parentFragment.showMenu();
-                                    }
-                                }
-                                super.onScrolled(recyclerView, dx, dy);
-                            }
-                        });
                     }
                 });
     }
@@ -187,8 +190,8 @@ public class FrgTransactions extends CommonFragmentWithEvents {
                     @Override
                     public void onNext(Boolean aBoolean) {
                         transactionList.remove(pos);
+                        recyclerAdapter.deleteItem(pos);
                         setVisibility();
-                        recyclerAdapter.notifyDataSetChanged();
                         //InMemoryRepository.getInstance().updateAccountList();
                         pushBroadcast();
                     }
@@ -202,26 +205,6 @@ public class FrgTransactions extends CommonFragmentWithEvents {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(UpdateFrgTransactions event) {
-        repository.getAllTransactions()
-                .subscribe(new Subscriber<List<Transaction>>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<Transaction> transactionList) {
-                        FrgTransactions.this.transactionList.clear();
-                        FrgTransactions.this.transactionList.addAll(transactionList);
-                        setVisibility();
-                        recyclerAdapter.notifyDataSetChanged();
-                    }
-                });
+        loadData();
     }
 }

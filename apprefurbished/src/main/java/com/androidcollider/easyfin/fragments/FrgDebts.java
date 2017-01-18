@@ -81,8 +81,20 @@ public class FrgDebts extends CommonFragment {
         ((App) getActivity().getApplication()).getComponent().inject(this);
     }
 
-    private void initUI() {
-        initRecyclerView();
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        debtList = new ArrayList<>();
+        setupUI();
+        loadData();
+        EventBus.getDefault().register(this);
+        fabMenu.hideMenu(false);
+        new Handler().postDelayed(() -> fabMenu.showMenu(true), 300);
+    }
+
+    private void setupUI() {
+        setupRecyclerView();
         addNonFabTouchListener(mainContent);
     }
 
@@ -110,7 +122,7 @@ public class FrgDebts extends CommonFragment {
                 });
     }
 
-    private void initRecyclerView() {
+    private void setupRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerAdapter = new RecyclerDebtAdapter(getActivity(), dateFormatManager, numberFormatManager);
         recyclerView.setAdapter(recyclerAdapter);
@@ -140,18 +152,6 @@ public class FrgDebts extends CommonFragment {
     private void setVisibility() {
         recyclerView.setVisibility(debtList.isEmpty() ? View.GONE : View.VISIBLE);
         tvEmpty.setVisibility(debtList.isEmpty() ? View.VISIBLE : View.GONE);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        debtList = new ArrayList<>();
-        initUI();
-        loadData();
-        EventBus.getDefault().register(this);
-        fabMenu.hideMenu(false);
-        new Handler().postDelayed(() -> fabMenu.showMenu(true), 300);
     }
 
     @Override

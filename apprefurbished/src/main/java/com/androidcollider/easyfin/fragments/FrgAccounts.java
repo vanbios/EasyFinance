@@ -65,57 +65,38 @@ public class FrgAccounts extends CommonFragmentWithEvents {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        accountList = new ArrayList<>();
         setupRecyclerView();
+        loadData();
     }
 
     private void setupRecyclerView() {
-        repository.getAllAccounts()
-                .subscribe(new Subscriber<List<Account>>() {
+        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
+        recyclerAdapter = new RecyclerAccountAdapter(getActivity(), numberFormatManager);
+        recyclerView.setAdapter(recyclerAdapter);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
-                    @Override
-                    public void onCompleted() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
 
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                FrgMain parentFragment = (FrgMain) getParentFragment();
+                if (parentFragment != null) {
+                    if (dy > 0) {
+                        parentFragment.hideMenu();
+                    } else if (dy < 0) {
+                        parentFragment.showMenu();
                     }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<Account> accountList) {
-                        FrgAccounts.this.accountList = new ArrayList<>();
-                        FrgAccounts.this.accountList.addAll(accountList);
-                        setVisibility();
-                        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-                        recyclerAdapter = new RecyclerAccountAdapter(getActivity(), FrgAccounts.this.accountList, numberFormatManager);
-                        recyclerView.setAdapter(recyclerAdapter);
-                        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-
-                            @Override
-                            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                                super.onScrollStateChanged(recyclerView, newState);
-                            }
-
-                            @Override
-                            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                                FrgMain parentFragment = (FrgMain) getParentFragment();
-                                if (parentFragment != null) {
-                                    if (dy > 0) {
-                                        parentFragment.hideMenu();
-                                    } else if (dy < 0) {
-                                        parentFragment.showMenu();
-                                    }
-                                }
-                                super.onScrolled(recyclerView, dx, dy);
-                            }
-                        });
-                    }
-                });
+                }
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(UpdateFrgAccounts event) {
+    private void loadData() {
         repository.getAllAccounts()
                 .subscribe(new Subscriber<List<Account>>() {
 
@@ -133,10 +114,15 @@ public class FrgAccounts extends CommonFragmentWithEvents {
                     public void onNext(List<Account> accountList) {
                         FrgAccounts.this.accountList.clear();
                         FrgAccounts.this.accountList.addAll(accountList);
+                        recyclerAdapter.addItems(FrgAccounts.this.accountList);
                         setVisibility();
-                        recyclerAdapter.notifyDataSetChanged();
                     }
                 });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(UpdateFrgAccounts event) {
+        loadData();
     }
 
     private void setVisibility() {
@@ -201,8 +187,8 @@ public class FrgAccounts extends CommonFragmentWithEvents {
                     @Override
                     public void onNext(Boolean aBoolean) {
                         accountList.remove(pos);
+                        recyclerAdapter.deleteItem(pos);
                         setVisibility();
-                        recyclerAdapter.notifyDataSetChanged();
                         //InMemoryRepository.getInstance().updateAccountList();
                         pushBroadcast();
                     }
