@@ -221,8 +221,6 @@ public class FrgDebts extends CommonFragment {
 
     private void deleteDebt(int pos) {
         Debt debt = debtList.get(pos);
-
-        //InMemoryRepository.getInstance().getDataSource().deleteDebt(idAccount, idDebt, amount, type);
         repository.deleteDebt(debt.getIdAccount(), debt.getId(), debt.getAmountCurrent(), debt.getType())
                 .subscribe(new Subscriber<Boolean>() {
 
@@ -241,7 +239,6 @@ public class FrgDebts extends CommonFragment {
                         debtList.remove(pos);
                         recyclerAdapter.deleteItem(pos);
                         setVisibility();
-                        //InMemoryRepository.getInstance().updateAccountList();
                         pushBroadcast();
                     }
                 });

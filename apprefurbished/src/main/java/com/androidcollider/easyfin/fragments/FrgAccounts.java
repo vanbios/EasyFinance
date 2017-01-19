@@ -170,7 +170,6 @@ public class FrgAccounts extends CommonFragmentWithEvents {
     }
 
     private void deleteAccount(int pos) {
-        //InMemoryRepository.getInstance().getDataSource().deleteAccount(accountList.get(pos).getId());
         repository.deleteAccount(accountList.get(pos).getId())
                 .subscribe(new Subscriber<Boolean>() {
 
@@ -189,7 +188,6 @@ public class FrgAccounts extends CommonFragmentWithEvents {
                         accountList.remove(pos);
                         recyclerAdapter.deleteItem(pos);
                         setVisibility();
-                        //InMemoryRepository.getInstance().updateAccountList();
                         pushBroadcast();
                     }
                 });

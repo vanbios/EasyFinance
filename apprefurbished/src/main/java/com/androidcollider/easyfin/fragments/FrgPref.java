@@ -133,7 +133,6 @@ public class FrgPref extends PreferenceFragment {
     private void importDB() {
         boolean importDB = false;
         try {
-            //importDB = InMemoryRepository.getInstance().getDataSource().importDatabase(uri);
             importDB = importExportDbManager.importDatabase(uri);
         } catch (IOException e) {
             e.printStackTrace();

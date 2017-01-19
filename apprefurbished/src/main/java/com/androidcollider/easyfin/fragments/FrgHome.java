@@ -170,9 +170,6 @@ public class FrgHome extends CommonFragmentWithEvents {
                         setChartTypeSpinner();
                     }
                 });
-
-        //balanceMap = InMemoryRepository.getInstance().getDataSource().getAccountsSumGroupByTypeAndCurrency();
-        //statisticMap = InMemoryRepository.getInstance().getDataSource().getTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1);
     }
 
     private void initializeViewsAndRes() {
@@ -287,7 +284,6 @@ public class FrgHome extends CommonFragmentWithEvents {
                                 public void onNext(Map<String, double[]> map) {
                                     statisticMap.clear();
                                     statisticMap.putAll(map);
-                                    //statisticMap = InMemoryRepository.getInstance().getDataSource().getTransactionsStatistic(i + 1);
                                     setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
 
                                     setStatisticSumTV();
@@ -373,7 +369,6 @@ public class FrgHome extends CommonFragmentWithEvents {
                     public void onNext(Map<String, double[]> map) {
                         balanceMap.clear();
                         balanceMap.putAll(map);
-                        //balanceMap.putAll(InMemoryRepository.getInstance().getDataSource().getAccountsSumGroupByTypeAndCurrency());
                         setBalance(spinBalanceCurrency.getSelectedItemPosition());
                     }
                 });
@@ -395,7 +390,6 @@ public class FrgHome extends CommonFragmentWithEvents {
                     public void onNext(Map<String, double[]> map) {
                         statisticMap.clear();
                         statisticMap.putAll(map);
-                        //statisticMap.putAll(InMemoryRepository.getInstance().getDataSource().getTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1));
                         setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
                         setStatisticSumTV();
                         checkStatChartTypeForUpdate();
@@ -422,7 +416,6 @@ public class FrgHome extends CommonFragmentWithEvents {
                     public void onNext(Map<String, double[]> map) {
                         balanceMap.clear();
                         balanceMap.putAll(map);
-                        //balanceMap.putAll(InMemoryRepository.getInstance().getDataSource().getAccountsSumGroupByTypeAndCurrency());
                         setBalance(spinBalanceCurrency.getSelectedItemPosition());
                     }
                 });

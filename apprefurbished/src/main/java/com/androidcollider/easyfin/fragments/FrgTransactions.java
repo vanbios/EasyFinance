@@ -172,7 +172,6 @@ public class FrgTransactions extends CommonFragmentWithEvents {
 
     private void deleteTransaction(int pos) {
         Transaction transaction = transactionList.get(pos);
-        //InMemoryRepository.getInstance().getDataSource().deleteTransaction(idAccount, idTrans, amount);
 
         repository.deleteTransaction(transaction.getIdAccount(), transaction.getId(), transaction.getAmount())
                 .subscribe(new Subscriber<Boolean>() {
@@ -192,7 +191,6 @@ public class FrgTransactions extends CommonFragmentWithEvents {
                         transactionList.remove(pos);
                         recyclerAdapter.deleteItem(pos);
                         setVisibility();
-                        //InMemoryRepository.getInstance().updateAccountList();
                         pushBroadcast();
                     }
                 });

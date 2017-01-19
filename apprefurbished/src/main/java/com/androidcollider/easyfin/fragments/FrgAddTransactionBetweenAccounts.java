@@ -93,7 +93,6 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
 
         setToolbar();
 
-        //accountListFrom = InMemoryRepository.getInstance().getAccountList();
         accountListFrom = new ArrayList<>();
         repository.getAllAccounts()
                 .subscribe(new Subscriber<List<Account>>() {
@@ -249,13 +248,10 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
 
                     @Override
                     public void onNext(Boolean aBoolean) {
-                        //InMemoryRepository.getInstance().updateAccountList();
                         pushBroadcast();
                         finish();
                     }
                 });
-        /*InMemoryRepository.getInstance().getDataSource().updateAccountsAmountAfterTransfer(idFrom,
-                accountAmountFrom, idTo, accountAmountTo);*/
     }
 
     private boolean checkEditTextForCorrect(EditText et, int strRes) {

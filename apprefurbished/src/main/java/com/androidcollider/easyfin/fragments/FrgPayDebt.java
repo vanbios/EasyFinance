@@ -133,7 +133,6 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     }
 
     private void fillAvailableAccountsList() {
-        //List<Account> accountList = InMemoryRepository.getInstance().getAccountList();
         repository.getAllAccounts()
                 .subscribe(new Subscriber<List<Account>>() {
 
@@ -177,8 +176,6 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         } else {
             amountAccount += amountDebt;
         }
-
-        //InMemoryRepository.getInstance().getDataSource().payAllDebt(idAccount, amountAccount, idDebt);
 
         repository.payFullDebt(account.getId(), amountAccount, debt.getId())
                 .subscribe(new Subscriber<Boolean>() {
@@ -227,7 +224,6 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                     }
 
                     if (amountDebt == amountAllDebt) {
-                        //InMemoryRepository.getInstance().getDataSource().payAllDebt(idAccount, amountAccount, idDebt);
                         repository.payFullDebt(idAccount, amountAccount, idDebt)
                                 .subscribe(new Subscriber<Boolean>() {
 
@@ -247,7 +243,6 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                                     }
                                 });
                     } else {
-                        //InMemoryRepository.getInstance().getDataSource().payPartDebt(idAccount, amountAccount, idDebt, newDebtAmount);
                         double newDebtAmount = amountAllDebt - amountDebt;
                         repository.payPartOfDebt(idAccount, amountAccount, idDebt, newDebtAmount)
                                 .subscribe(new Subscriber<Boolean>() {
@@ -302,9 +297,6 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                 double newDebtCurrentAmount = amountDebtCurrent + amountDebt;
                 double newDebtAllAmount = amountDebtAll + amountDebt;
 
-                /*InMemoryRepository.getInstance().getDataSource().takeMoreDebt(idAccount, amountAccount,
-                        idDebt, newDebtCurrentAmount, newDebtAllAmount);*/
-
                 repository.takeMoreDebt(account.getId(), amountAccount,
                         debt.getId(), newDebtCurrentAmount, newDebtAllAmount)
                         .subscribe(new Subscriber<Boolean>() {
@@ -337,7 +329,6 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     }
 
     private void lastActions() {
-        //InMemoryRepository.getInstance().updateAccountList();
         pushBroadcast();
         this.finish();
     }

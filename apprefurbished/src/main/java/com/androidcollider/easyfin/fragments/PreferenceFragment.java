@@ -139,10 +139,6 @@ public abstract class PreferenceFragment extends Fragment {
         }
     }
 
-    /*public PreferenceManager getPreferenceManager() {
-        return mPreferenceManager;
-    }*/
-
     public void setPreferenceScreen(PreferenceScreen screen) {
         try {
             Method m = PreferenceManager.class.getDeclaredMethod("setPreferences", PreferenceScreen.class);
@@ -167,17 +163,6 @@ public abstract class PreferenceFragment extends Fragment {
             return null;
         }
     }
-
-    /*public void addPreferencesFromIntent(Intent intent) {
-        requirePreferenceManager();
-        try {
-            Method m = PreferenceManager.class.getDeclaredMethod("inflateFromIntent", Intent.class, PreferenceScreen.class);
-            m.setAccessible(true);
-            PreferenceScreen screen = (PreferenceScreen) m.invoke(mPreferenceManager, intent, getPreferenceScreen());
-            setPreferenceScreen(screen);
-        } catch (Exception ignored) {
-        }
-    }*/
 
     public void addPreferencesFromResource(int resId) {
         requirePreferenceManager();

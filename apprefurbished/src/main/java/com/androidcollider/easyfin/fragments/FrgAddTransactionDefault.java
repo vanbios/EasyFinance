@@ -90,7 +90,6 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
 
         setToolbar();
 
-        //accountList = InMemoryRepository.getInstance().getAccountList();
         accountList = new ArrayList<>();
         repository.getAllAccounts()
                 .subscribe(new Subscriber<List<Account>>() {
@@ -110,46 +109,46 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                         FrgAddTransactionDefault.this.accountList.clear();
                         FrgAddTransactionDefault.this.accountList.addAll(accountList);
 
-                        //ScrollView scrollView = (ScrollView) view.findViewById(R.id.scrollAddTransDef);
-
-                        if (accountList.isEmpty()) {
-                            scrollView.setVisibility(View.GONE);
-                            showDialogNoAccount(getString(R.string.dialog_text_transaction_no_account), false);
-                        } else {
-                            scrollView.setVisibility(View.VISIBLE);
-                            mode = getArguments().getInt("mode", 0);
-                            //tvAmount = (TextView) view.findViewById(R.id.tvAddTransDefAmount);
-                            //tvAmount.setOnClickListener(v -> openNumericDialog(tvAmount.getText().toString()));
-
-                            switch (mode) {
-                                case 0: {
-                                    transType = getArguments().getInt("type", 0);
-                                    setAmountValue("0,00");
-                                    openNumericDialog(tvAmount.getText().toString());
-                                    break;
-                                }
-                                case 1: {
-                                    transFromIntent = (Transaction) getArguments().getSerializable("transaction");
-                                    final int PRECISE = 100;
-                                    final String FORMAT = "###,##0.00";
-
-                                    if (transFromIntent != null) {
-                                        double amount = transFromIntent.getAmount();
-                                        transType = numberFormatManager.isDoubleNegative(amount) ? 0 : 1;
-                                        setAmountValue(numberFormatManager.doubleToStringFormatterForEdit(
-                                                transType == 1 ? amount : Math.abs(amount), FORMAT, PRECISE));
-                                    }
-                                    break;
-                                }
-                            }
-
-                            setDateTimeField();
-                            setSpinner();
-
-                            tvAmount.setTextColor(ContextCompat.getColor(getActivity(), transType == 1 ? R.color.custom_green : R.color.custom_red));
-                        }
+                        setupUI();
                     }
                 });
+    }
+
+    private void setupUI() {
+        if (accountList.isEmpty()) {
+            scrollView.setVisibility(View.GONE);
+            showDialogNoAccount(getString(R.string.dialog_text_transaction_no_account), false);
+        } else {
+            scrollView.setVisibility(View.VISIBLE);
+            mode = getArguments().getInt("mode", 0);
+
+            switch (mode) {
+                case 0: {
+                    transType = getArguments().getInt("type", 0);
+                    setAmountValue("0,00");
+                    openNumericDialog(tvAmount.getText().toString());
+                    break;
+                }
+                case 1: {
+                    transFromIntent = (Transaction) getArguments().getSerializable("transaction");
+                    final int PRECISE = 100;
+                    final String FORMAT = "###,##0.00";
+
+                    if (transFromIntent != null) {
+                        double amount = transFromIntent.getAmount();
+                        transType = numberFormatManager.isDoubleNegative(amount) ? 0 : 1;
+                        setAmountValue(numberFormatManager.doubleToStringFormatterForEdit(
+                                transType == 1 ? amount : Math.abs(amount), FORMAT, PRECISE));
+                    }
+                    break;
+                }
+            }
+
+            setDateTimeField();
+            setSpinner();
+
+            tvAmount.setTextColor(ContextCompat.getColor(getActivity(), transType == 1 ? R.color.custom_green : R.color.custom_red));
+        }
     }
 
     private void setSpinner() {
@@ -218,7 +217,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                         .accountType(account.getType())
                         .currency(account.getCurrency())
                         .build();
-                //InMemoryRepository.getInstance().getDataSource().insertNewTransaction(transaction);
+
                 repository.addNewTransaction(transaction)
                         .subscribe(new Subscriber<Transaction>() {
 
@@ -283,7 +282,6 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                         .build();
 
                 if (isAccountTheSame) {
-                    //InMemoryRepository.getInstance().getDataSource().editTransaction(transaction);
                     repository.updateTransaction(transaction)
                             .subscribe(new Subscriber<Transaction>() {
 
@@ -303,7 +301,6 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                                 }
                             });
                 } else {
-                    //InMemoryRepository.getInstance().getDataSource().editTransactionDifferentAccounts(transaction, oldAccountAmount, oldAccountId);
                     repository.updateTransactionDifferentAccounts(transaction, oldAccountAmount, oldAccountId)
                             .subscribe(new Subscriber<Boolean>() {
 
@@ -344,7 +341,6 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
     }
 
     private void lastActions() {
-        //InMemoryRepository.getInstance().updateAccountList();
         pushBroadcast();
         finish();
     }

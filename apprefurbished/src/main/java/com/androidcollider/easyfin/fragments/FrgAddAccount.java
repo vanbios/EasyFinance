@@ -158,11 +158,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
     private void addAccount() {
         if (checkForFillNameField()) {
             String name = etName.getText().toString();
-
-            if (
-                //InMemoryRepository.getInstance().checkForAccountNameMatches(name)
-                    accountsInfoManager.checkForAccountNameMatches(name)
-                    ) {
+            if (accountsInfoManager.checkForAccountNameMatches(name)) {
                 shakeEditTextManager.highlightEditText(etName);
                 toastManager.showClosableToast(getActivity(), getString(R.string.account_name_exist), ToastManager.SHORT);
             } else {
@@ -172,7 +168,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
                         .type(spinType.getSelectedItemPosition())
                         .currency(spinCurrency.getSelectedItem().toString())
                         .build();
-                //InMemoryRepository.getInstance().getDataSource().insertNewAccount(account);
+
                 repository.addNewAccount(account)
                         .subscribe(new Subscriber<Account>() {
 
@@ -198,11 +194,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
     private void editAccount() {
         if (checkForFillNameField()) {
             String name = etName.getText().toString();
-
-            if (
-                //InMemoryRepository.getInstance().checkForAccountNameMatches(name)
-                    accountsInfoManager.checkForAccountNameMatches(name)
-                            && !name.equals(oldName)) {
+            if (accountsInfoManager.checkForAccountNameMatches(name) && !name.equals(oldName)) {
                 shakeEditTextManager.highlightEditText(etName);
                 toastManager.showClosableToast(getActivity(), getString(R.string.account_name_exist), ToastManager.SHORT);
             } else {
@@ -232,13 +224,11 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
                                 lastActions();
                             }
                         });
-                //InMemoryRepository.getInstance().getDataSource().editAccount(account);
             }
         }
     }
 
     private void lastActions() {
-        //InMemoryRepository.getInstance().updateAccountList();
         pushBroadcast();
         popAll();
     }

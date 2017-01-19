@@ -104,7 +104,6 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
         setToolbar();
 
-        //accountList = InMemoryRepository.getInstance().getAccountList();
         accountList = new ArrayList<>();
         repository.getAllAccounts()
                 .subscribe(new Subscriber<List<Account>>() {
@@ -211,7 +210,6 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                         .accountName(account.getName())
                         .amountAll(amount)
                         .build();
-                //InMemoryRepository.getInstance().getDataSource().insertNewDebt(debt);
 
                 repository.addNewDebt(debt)
                         .subscribe(new Subscriber<Debt>() {
@@ -288,7 +286,6 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                         break;
                 }
 
-                //Debt debt = new Debt(name, amount, type, accountId, date, accountAmount, idDebt);
                 Debt debt = Debt.builder()
                         .name(etName.getText().toString())
                         .amountCurrent(amount)
@@ -303,7 +300,6 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                         .build();
 
                 if (isAccountsTheSame) {
-                    //InMemoryRepository.getInstance().getDataSource().editDebt(debt);
                     repository.updateDebt(debt)
                             .subscribe(new Subscriber<Debt>() {
 
@@ -323,7 +319,6 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                                 }
                             });
                 } else {
-                    //InMemoryRepository.getInstance().getDataSource().editDebtDifferentAccounts(debt, oldAccountAmount, oldAccountId);
                     repository.updateDebtDifferentAccounts(debt, oldAccountAmount, oldAccountId)
                             .subscribe(new Subscriber<Boolean>() {
 
@@ -356,7 +351,6 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     }
 
     private void lastActions() {
-        //InMemoryRepository.getInstance().updateAccountList();
         pushBroadcast();
         this.finish();
     }
