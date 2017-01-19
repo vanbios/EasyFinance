@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
+import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.models.Account;
 
 import java.util.List;
@@ -20,8 +21,12 @@ import static butterknife.ButterKnife.findById;
 
 public class SpinAccountForTransHeadIconAdapter extends SpinAccountAdapter {
 
-    public SpinAccountForTransHeadIconAdapter(Context context, int headLayout, List<Account> accountsL, NumberFormatManager numberFormatManager) {
-        super(context, headLayout, accountsL, numberFormatManager);
+    public SpinAccountForTransHeadIconAdapter(Context context,
+                                              int headLayout,
+                                              List<Account> accountsL,
+                                              NumberFormatManager numberFormatManager,
+                                              ResourcesManager resourcesManager) {
+        super(context, headLayout, accountsL, numberFormatManager, resourcesManager);
     }
 
     public View getCustomHeadView(int position, ViewGroup parent) {

@@ -5,6 +5,7 @@ import android.content.Context;
 import com.androidcollider.easyfin.common.api.RatesApi;
 import com.androidcollider.easyfin.managers.api.ApiManager;
 import com.androidcollider.easyfin.managers.connection.ConnectionManager;
+import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.managers.shared_pref.SharedPrefManager;
 import com.androidcollider.easyfin.repository.Repository;
 
@@ -21,8 +22,8 @@ public class RatesLoaderModule {
     @Provides
     public RatesLoaderManager provideRatesLoaderManager(Context context, RatesApi ratesApi,
                                                         Repository repository, ConnectionManager connectionManager,
-                                                        SharedPrefManager sharedPrefManager) {
-        return new RatesLoaderManager(context, ratesApi, repository, connectionManager, sharedPrefManager);
+                                                        SharedPrefManager sharedPrefManager, ResourcesManager resourcesManager) {
+        return new RatesLoaderManager(context, ratesApi, repository, connectionManager, sharedPrefManager, resourcesManager);
     }
 
     @Provides

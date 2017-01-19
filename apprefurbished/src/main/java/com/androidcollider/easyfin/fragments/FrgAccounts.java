@@ -16,6 +16,7 @@ import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
+import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.repository.Repository;
 
@@ -50,6 +51,9 @@ public class FrgAccounts extends CommonFragmentWithEvents {
     @Inject
     NumberFormatManager numberFormatManager;
 
+    @Inject
+    ResourcesManager resourcesManager;
+
 
     @Override
     public int getContentView() {
@@ -72,7 +76,7 @@ public class FrgAccounts extends CommonFragmentWithEvents {
 
     private void setupRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        recyclerAdapter = new RecyclerAccountAdapter(getActivity(), numberFormatManager);
+        recyclerAdapter = new RecyclerAccountAdapter(numberFormatManager, resourcesManager);
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 

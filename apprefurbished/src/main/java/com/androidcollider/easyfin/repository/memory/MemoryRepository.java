@@ -1,9 +1,7 @@
 package com.androidcollider.easyfin.repository.memory;
 
-import android.content.Context;
-
-import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
+import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.models.DateConstants;
 import com.androidcollider.easyfin.models.Debt;
@@ -26,7 +24,6 @@ import rx.Observable;
 
 public class MemoryRepository implements Repository {
 
-    private Context context;
     private NumberFormatManager numberFormatManager;
     private List<Account> accountList;
     private List<Transaction> transactionList;
@@ -35,10 +32,9 @@ public class MemoryRepository implements Repository {
     private String[] currencyArray;
 
 
-    public MemoryRepository(Context context, NumberFormatManager numberFormatManager) {
-        this.context = context;
+    public MemoryRepository(NumberFormatManager numberFormatManager, ResourcesManager resourcesManager) {
         this.numberFormatManager = numberFormatManager;
-        currencyArray = context.getResources().getStringArray(R.array.account_currency_array);
+        currencyArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY);
     }
 
     @Override

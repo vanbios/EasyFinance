@@ -15,6 +15,7 @@ import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.managers.accounts_info.AccountsInfoManager;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
+import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.managers.ui.hide_touch_outside.HideTouchOutsideManager;
 import com.androidcollider.easyfin.managers.ui.shake_edit_text.ShakeEditTextManager;
 import com.androidcollider.easyfin.managers.ui.toast.ToastManager;
@@ -68,6 +69,9 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
     @Inject
     NumberFormatManager numberFormatManager;
 
+    @Inject
+    ResourcesManager resourcesManager;
+
 
     @Override
     public int getContentView() {
@@ -112,8 +116,9 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
                 R.layout.spin_drop_icon_text,
                 R.id.tvSpinDropIconText,
                 R.id.ivSpinDropIconText,
-                getResources().getStringArray(R.array.account_type_array),
-                getResources().obtainTypedArray(R.array.account_type_icons)));
+                resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_TYPE),
+                resourcesManager.getIconArray(ResourcesManager.ICON_ACCOUNT_TYPE)
+        ));
 
         spinCurrency.setAdapter(new SpinIconTextHeadAdapter(
                 getActivity(),
@@ -123,12 +128,13 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
                 R.layout.spin_drop_icon_text,
                 R.id.tvSpinDropIconText,
                 R.id.ivSpinDropIconText,
-                getResources().getStringArray(R.array.account_currency_array),
-                getResources().obtainTypedArray(R.array.flag_icons)));
+                resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY),
+                resourcesManager.getIconArray(ResourcesManager.ICON_FLAGS)
+        ));
 
         if (mode == 1) {
             spinType.setSelection(accFrIntent.getType());
-            String[] currencyArray = getResources().getStringArray(R.array.account_currency_array);
+            String[] currencyArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY);
 
             for (int i = 0; i < currencyArray.length; i++) {
                 if (currencyArray[i].equals(accFrIntent.getCurrency())) {

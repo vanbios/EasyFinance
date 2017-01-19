@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
+import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.models.Account;
 
 import java.util.List;
@@ -35,12 +36,16 @@ abstract class SpinAccountAdapter extends ArrayAdapter<Account> {
     private NumberFormatManager numberFormatManager;
 
 
-    SpinAccountAdapter(Context context, int headLayout, List<Account> accountL, NumberFormatManager numberFormatManager) {
+    SpinAccountAdapter(Context context,
+                       int headLayout,
+                       List<Account> accountL,
+                       NumberFormatManager numberFormatManager,
+                       ResourcesManager resourcesManager) {
         super(context, headLayout, accountL);
         accountList = accountL;
-        typeIconsArray = context.getResources().obtainTypedArray(R.array.account_type_icons);
-        curArray = context.getResources().getStringArray(R.array.account_currency_array);
-        curLangArray = context.getResources().getStringArray(R.array.account_currency_array_language);
+        typeIconsArray = resourcesManager.getIconArray(ResourcesManager.ICON_ACCOUNT_TYPE);
+        curArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY);
+        curLangArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY_LANG);
         inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.numberFormatManager = numberFormatManager;
     }

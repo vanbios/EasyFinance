@@ -18,6 +18,7 @@ import com.androidcollider.easyfin.common.events.UpdateFrgHome;
 import com.androidcollider.easyfin.common.events.UpdateFrgTransactions;
 import com.androidcollider.easyfin.managers.format.date.DateFormatManager;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
+import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.models.Transaction;
 import com.androidcollider.easyfin.repository.Repository;
 
@@ -56,6 +57,9 @@ public class FrgTransactions extends CommonFragmentWithEvents {
     @Inject
     NumberFormatManager numberFormatManager;
 
+    @Inject
+    ResourcesManager resourcesManager;
+
 
     @Override
     public int getContentView() {
@@ -78,7 +82,7 @@ public class FrgTransactions extends CommonFragmentWithEvents {
 
     private void setupRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        recyclerAdapter = new RecyclerTransactionAdapter(getActivity(), dateFormatManager, numberFormatManager);
+        recyclerAdapter = new RecyclerTransactionAdapter(getActivity(), dateFormatManager, numberFormatManager, resourcesManager);
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 

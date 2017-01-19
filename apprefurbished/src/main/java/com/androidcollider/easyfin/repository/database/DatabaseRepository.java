@@ -1,13 +1,12 @@
 package com.androidcollider.easyfin.repository.database;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
+import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.managers.shared_pref.SharedPrefManager;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.models.DateConstants;
@@ -32,17 +31,19 @@ public class DatabaseRepository implements Repository {
 
     private DbHelper dbHelper;
     private SQLiteDatabase db;
-    private Context context;
     private SharedPrefManager sharedPrefManager;
     private NumberFormatManager numberFormatManager;
+    private ResourcesManager resourcesManager;
 
 
-    public DatabaseRepository(Context context, DbHelper dbHelper,
-                              SharedPrefManager sharedPrefManager, NumberFormatManager numberFormatManager) {
-        this.context = context;
+    public DatabaseRepository(DbHelper dbHelper,
+                              SharedPrefManager sharedPrefManager,
+                              NumberFormatManager numberFormatManager,
+                              ResourcesManager resourcesManager) {
         this.dbHelper = dbHelper;
         this.sharedPrefManager = sharedPrefManager;
         this.numberFormatManager = numberFormatManager;
+        this.resourcesManager = resourcesManager;
     }
 
 
@@ -358,7 +359,7 @@ public class DatabaseRepository implements Repository {
                 break;
         }
 
-        String[] currencyArray = context.getResources().getStringArray(R.array.account_currency_array);
+        String[] currencyArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY);
 
         Map<String, double[]> result = new HashMap<>();
 
@@ -411,7 +412,7 @@ public class DatabaseRepository implements Repository {
     }
 
     private Map<String, double[]> getAccountsSumGroupByTypeAndCurrency() {
-        String[] currencyArray = context.getResources().getStringArray(R.array.account_currency_array);
+        String[] currencyArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY);
         Map<String, double[]> results = new HashMap<>();
         Cursor cursor;
         String selectQuery;
@@ -795,7 +796,7 @@ public class DatabaseRepository implements Repository {
     }
 
     private double[] getRatesDB() {
-        String[] rateNamesArray = context.getResources().getStringArray(R.array.json_rates_array);
+        String[] rateNamesArray = resourcesManager.getStringArray(ResourcesManager.STRING_JSON_RATES);
         String rateType = "bank";
         double[] results = new double[4];
         Cursor cursor;

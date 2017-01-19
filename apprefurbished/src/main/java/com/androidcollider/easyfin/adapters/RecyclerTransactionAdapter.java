@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.managers.format.date.DateFormatManager;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
+import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.models.Transaction;
 
 import java.util.ArrayList;
@@ -46,14 +47,17 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
     private NumberFormatManager numberFormatManager;
 
 
-    public RecyclerTransactionAdapter(Context context, DateFormatManager dateFormatManager, NumberFormatManager numberFormatManager) {
+    public RecyclerTransactionAdapter(Context context,
+                                      DateFormatManager dateFormatManager,
+                                      NumberFormatManager numberFormatManager,
+                                      ResourcesManager resourcesManager) {
         this.context = context;
         this.transactionList = new ArrayList<>();
-        catExpenseIconsArray = context.getResources().obtainTypedArray(R.array.transaction_category_expense_icons);
-        catIncomeIconsArray = context.getResources().obtainTypedArray(R.array.transaction_category_income_icons);
-        curArray = context.getResources().getStringArray(R.array.account_currency_array);
-        curLangArray = context.getResources().getStringArray(R.array.account_currency_array_language);
-        typeIconsArray = context.getResources().obtainTypedArray(R.array.account_type_icons);
+        catExpenseIconsArray = resourcesManager.getIconArray(ResourcesManager.ICON_TRANSACTION_CATEGORY_EXPENSE);
+        catIncomeIconsArray = resourcesManager.getIconArray(ResourcesManager.ICON_TRANSACTION_CATEGORY_INCOME);
+        curArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY);
+        curLangArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY_LANG);
+        typeIconsArray = resourcesManager.getIconArray(ResourcesManager.ICON_ACCOUNT_TYPE);
         this.dateFormatManager = dateFormatManager;
         this.numberFormatManager = numberFormatManager;
     }

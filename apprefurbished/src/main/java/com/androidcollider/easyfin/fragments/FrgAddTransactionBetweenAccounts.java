@@ -17,6 +17,7 @@ import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.managers.rates.exchange.ExchangeManager;
+import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.managers.ui.hide_touch_outside.HideTouchOutsideManager;
 import com.androidcollider.easyfin.managers.ui.shake_edit_text.ShakeEditTextManager;
 import com.androidcollider.easyfin.managers.ui.toast.ToastManager;
@@ -75,6 +76,9 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
     @Inject
     NumberFormatManager numberFormatManager;
 
+    @Inject
+    ResourcesManager resourcesManager;
+
 
     @Override
     public int getContentView() {
@@ -130,14 +134,24 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
     private void setSpinners() {
         accountListTo = new ArrayList<>();
 
-        spinAccountFrom.setAdapter(new SpinAccountForTransAdapter(getActivity(),
-                R.layout.spin_head_text, accountListFrom, numberFormatManager));
+        spinAccountFrom.setAdapter(new SpinAccountForTransAdapter(
+                getActivity(),
+                R.layout.spin_head_text,
+                accountListFrom,
+                numberFormatManager,
+                resourcesManager
+        ));
 
         accountListTo.addAll(accountListFrom);
         accountListTo.remove(spinAccountFrom.getSelectedItemPosition());
 
-        adapterAccountTo = new SpinAccountForTransAdapter(getActivity(),
-                R.layout.spin_head_text, accountListTo, numberFormatManager);
+        adapterAccountTo = new SpinAccountForTransAdapter(
+                getActivity(),
+                R.layout.spin_head_text,
+                accountListTo,
+                numberFormatManager,
+                resourcesManager
+        );
 
         spinAccountTo.setAdapter(adapterAccountTo);
 

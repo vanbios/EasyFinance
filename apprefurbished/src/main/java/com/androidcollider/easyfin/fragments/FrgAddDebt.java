@@ -19,6 +19,7 @@ import com.androidcollider.easyfin.common.events.UpdateFrgDebts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.managers.format.date.DateFormatManager;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
+import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.managers.ui.hide_touch_outside.HideTouchOutsideManager;
 import com.androidcollider.easyfin.managers.ui.shake_edit_text.ShakeEditTextManager;
 import com.androidcollider.easyfin.managers.ui.toast.ToastManager;
@@ -81,6 +82,9 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
     @Inject
     NumberFormatManager numberFormatManager;
+
+    @Inject
+    ResourcesManager resourcesManager;
 
 
     @Override
@@ -167,7 +171,8 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                 getActivity(),
                 R.layout.spin_head_icon_text,
                 accountList,
-                numberFormatManager
+                numberFormatManager,
+                resourcesManager
         ));
 
         if (mode == 1) {

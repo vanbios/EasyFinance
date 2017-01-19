@@ -24,6 +24,7 @@ import com.androidcollider.easyfin.managers.chart.data.ChartDataManager;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.managers.rates.exchange.ExchangeManager;
 import com.androidcollider.easyfin.managers.rates.rates_info.RatesInfoManager;
+import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.managers.shared_pref.SharedPrefManager;
 import com.androidcollider.easyfin.repository.Repository;
 import com.androidcollider.easyfin.utils.ChartLargeValueFormatter;
@@ -116,6 +117,9 @@ public class FrgHome extends CommonFragmentWithEvents {
     @Inject
     NumberFormatManager numberFormatManager;
 
+    @Inject
+    ResourcesManager resourcesManager;
+
 
     @Override
     public int getContentView() {
@@ -206,8 +210,8 @@ public class FrgHome extends CommonFragmentWithEvents {
         });
 
 
-        currencyArray = getResources().getStringArray(R.array.account_currency_array);
-        currencyLangArray = getResources().getStringArray(R.array.account_currency_array_language);
+        currencyArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY);
+        currencyLangArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY_LANG);
 
         ratesInfoManager.setupMultiTapListener(tvBalance, getActivity());
     }
@@ -229,8 +233,8 @@ public class FrgHome extends CommonFragmentWithEvents {
                 R.layout.spin_drop_icon_text,
                 R.id.tvSpinDropIconText,
                 R.id.ivSpinDropIconText,
-                getResources().getStringArray(R.array.account_currency_array),
-                getResources().obtainTypedArray(R.array.flag_icons)));
+                resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY),
+                resourcesManager.getIconArray(ResourcesManager.ICON_FLAGS)));
 
         spinBalanceCurrency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -257,8 +261,9 @@ public class FrgHome extends CommonFragmentWithEvents {
     private void setStatisticPeriodSpinner() {
         ArrayAdapter<?> adapterStatPeriod = ArrayAdapter.createFromResource(
                 getActivity(),
-                R.array.main_statistic_period_array,
-                R.layout.spin_head_text_medium);
+                ResourcesManager.STRING_MAIN_STATISTIC_PERIOD,
+                R.layout.spin_head_text_medium
+        );
 
         adapterStatPeriod.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinPeriod.setAdapter(adapterStatPeriod);
@@ -314,8 +319,8 @@ public class FrgHome extends CommonFragmentWithEvents {
                 R.layout.spin_drop_icon_text,
                 R.id.tvSpinDropIconText,
                 R.id.ivSpinDropIconText,
-                getResources().getStringArray(R.array.chart_type_array),
-                getResources().obtainTypedArray(R.array.charts_main_icons)));
+                resourcesManager.getStringArray(ResourcesManager.STRING_CHART_TYPE),
+                resourcesManager.getIconArray(ResourcesManager.ICON_CHART_TYPE)));
 
         spinChartType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

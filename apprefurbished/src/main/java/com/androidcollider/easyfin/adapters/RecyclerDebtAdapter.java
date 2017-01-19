@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.managers.format.date.DateFormatManager;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
+import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.models.Debt;
 
 import java.util.ArrayList;
@@ -42,11 +43,14 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
     private NumberFormatManager numberFormatManager;
 
 
-    public RecyclerDebtAdapter(Context context, DateFormatManager dateFormatManager, NumberFormatManager numberFormatManager) {
+    public RecyclerDebtAdapter(Context context,
+                               DateFormatManager dateFormatManager,
+                               NumberFormatManager numberFormatManager,
+                               ResourcesManager resourcesManager) {
         this.context = context;
         this.debtList = new ArrayList<>();
-        this.curArray = context.getResources().getStringArray(R.array.account_currency_array);
-        this.curLangArray = context.getResources().getStringArray(R.array.account_currency_array_language);
+        this.curArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY);
+        this.curLangArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY_LANG);
         this.dateFormatManager = dateFormatManager;
         this.numberFormatManager = numberFormatManager;
     }

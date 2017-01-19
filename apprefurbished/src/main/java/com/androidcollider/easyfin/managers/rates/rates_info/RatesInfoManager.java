@@ -3,7 +3,7 @@ package com.androidcollider.easyfin.managers.rates.rates_info;
 import android.content.Context;
 import android.view.View;
 
-import com.androidcollider.easyfin.R;
+import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.repository.Repository;
 
@@ -23,12 +23,14 @@ public class RatesInfoManager {
     private Context context;
     private Repository repository;
     private ToastManager toastManager;
+    private ResourcesManager resourcesManager;
 
 
-    RatesInfoManager(Context context, Repository repository, ToastManager toastManager) {
+    RatesInfoManager(Context context, Repository repository, ToastManager toastManager, ResourcesManager resourcesManager) {
         this.context = context;
         this.repository = repository;
         this.toastManager = toastManager;
+        this.resourcesManager = resourcesManager;
         prepareInfo();
     }
 
@@ -65,7 +67,7 @@ public class RatesInfoManager {
 
                     @Override
                     public void onNext(double[] rates) {
-                        String[] currency = context.getResources().getStringArray(R.array.account_currency_array);
+                        String[] currency = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY);
 
                         StringBuilder sb = new StringBuilder();
 

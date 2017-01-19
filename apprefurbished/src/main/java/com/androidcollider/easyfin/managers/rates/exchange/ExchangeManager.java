@@ -1,7 +1,6 @@
 package com.androidcollider.easyfin.managers.rates.exchange;
 
-import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.common.app.App;
+import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.repository.Repository;
 
 import lombok.Getter;
@@ -14,11 +13,13 @@ import rx.Subscriber;
 public class ExchangeManager {
 
     private Repository repository;
+    private ResourcesManager resourcesManager;
     @Getter
     private double[] rates = {1, 27.708, 29.225, 0.463, 34.1};
 
-    ExchangeManager(Repository repository) {
+    ExchangeManager(Repository repository, ResourcesManager resourcesManager) {
         this.repository = repository;
+        this.resourcesManager = resourcesManager;
         updateRates();
     }
 
@@ -46,7 +47,7 @@ public class ExchangeManager {
     }
 
     public double getExchangeRate(String currFrom, String currTo) {
-        String[] currencyArray = App.getContext().getResources().getStringArray(R.array.account_currency_array);
+        String[] currencyArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY);
 
         int posFrom = 0;
         int posTo = 0;

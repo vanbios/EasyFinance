@@ -6,9 +6,9 @@ import android.util.Log;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.api.RatesApi;
-import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeNewRates;
 import com.androidcollider.easyfin.managers.connection.ConnectionManager;
+import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.managers.shared_pref.SharedPrefManager;
 import com.androidcollider.easyfin.models.Currency;
 import com.androidcollider.easyfin.models.Rates;
@@ -41,14 +41,17 @@ public class RatesLoaderManager {
     private Repository repository;
     private ConnectionManager connectionManager;
     private SharedPrefManager sharedPrefManager;
+    private ResourcesManager resourcesManager;
 
     RatesLoaderManager(Context context, RatesApi ratesApi, Repository repository,
-                       ConnectionManager connectionManager, SharedPrefManager sharedPrefManager) {
+                       ConnectionManager connectionManager, SharedPrefManager sharedPrefManager,
+                       ResourcesManager resourcesManager) {
         this.context = context;
         this.ratesApi = ratesApi;
         this.repository = repository;
         this.connectionManager = connectionManager;
         this.sharedPrefManager = sharedPrefManager;
+        this.resourcesManager = resourcesManager;
     }
 
     public void updateRatesForExchange() {
@@ -104,7 +107,7 @@ public class RatesLoaderManager {
                             @Override
                             public void onNext(RatesNew ratesNew) {
                                 int[] idArray = new int[]{3, 7, 11, 15};
-                                String[] currencyArray = App.getContext().getResources().getStringArray(R.array.json_rates_array);
+                                String[] currencyArray = resourcesManager.getStringArray(ResourcesManager.STRING_JSON_RATES);
                                 ArrayList<Rates> ratesList = new ArrayList<>();
 
                                 for (int i = 0; i < idArray.length; i++) {
@@ -113,7 +116,7 @@ public class RatesLoaderManager {
                                     ratesList.add(generateNewRates(id, cur, ratesNew));
                                 }
                                 Log.d(TAG, "rates " + ratesList);
-                                //InMemoryRepository.getInstance().getDataSource().insertRates(ratesList);
+
                                 repository.updateRates(ratesList)
                                         .subscribe(new Subscriber<Boolean>() {
 

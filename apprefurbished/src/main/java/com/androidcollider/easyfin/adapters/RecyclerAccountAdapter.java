@@ -1,6 +1,5 @@
 package com.androidcollider.easyfin.adapters;
 
-import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
@@ -13,6 +12,7 @@ import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
+import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.models.Account;
 
 import java.util.ArrayList;
@@ -35,14 +35,15 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
     private List<Account> accountList;
     private final TypedArray typeIconsArray;
     private final String[] curArray, curLangArray;
+
     private NumberFormatManager numberFormatManager;
 
 
-    public RecyclerAccountAdapter(Context context, NumberFormatManager numberFormatManager) {
+    public RecyclerAccountAdapter(NumberFormatManager numberFormatManager, ResourcesManager resourcesManager) {
         this.accountList = new ArrayList<>();
-        typeIconsArray = context.getResources().obtainTypedArray(R.array.account_type_icons);
-        curArray = context.getResources().getStringArray(R.array.account_currency_array);
-        curLangArray = context.getResources().getStringArray(R.array.account_currency_array_language);
+        typeIconsArray = resourcesManager.getIconArray(ResourcesManager.ICON_ACCOUNT_TYPE);
+        curArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY);
+        curLangArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY_LANG);
         this.numberFormatManager = numberFormatManager;
     }
 

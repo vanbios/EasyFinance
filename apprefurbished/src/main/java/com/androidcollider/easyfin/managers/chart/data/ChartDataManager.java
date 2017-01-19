@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
+import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -23,9 +24,11 @@ import java.util.List;
 public class ChartDataManager {
 
     private NumberFormatManager numberFormatManager;
+    private ResourcesManager resourcesManager;
 
-    ChartDataManager(NumberFormatManager numberFormatManager) {
+    ChartDataManager(NumberFormatManager numberFormatManager, ResourcesManager resourcesManager) {
         this.numberFormatManager = numberFormatManager;
+        this.resourcesManager = resourcesManager;
     }
 
 
@@ -35,7 +38,7 @@ public class ChartDataManager {
         float deposit = (float) values[2];
         float debt = (float) Math.abs(values[3]);
 
-        String[] accountType = context.getResources().getStringArray(R.array.account_type_array);
+        String[] accountType = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_TYPE);
 
         List<BarEntry> valueSet1 = Collections.singletonList(new BarEntry(cash, 0));
         List<BarEntry> valueSet2 = Collections.singletonList(new BarEntry(card, 0));

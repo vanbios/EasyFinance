@@ -36,12 +36,15 @@ import com.androidcollider.easyfin.fragments.FrgMain;
 import com.androidcollider.easyfin.fragments.FrgPref;
 import com.androidcollider.easyfin.fragments.PreferenceFragment;
 import com.androidcollider.easyfin.managers.rates.rates_loader.RatesLoaderManager;
+import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.managers.ui.toast.ToastManager;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import static butterknife.ButterKnife.findById;
 
 /**
  * @author Ihor Bilous
@@ -66,6 +69,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     @Inject
     ToastManager toastManager;
+
+    @Inject
+    ResourcesManager resourcesManager;
 
 
     @Override
@@ -93,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
         if (recyclerNavDrawer != null) recyclerNavDrawer.setHasFixedSize(true);
         recyclerNavDrawer.setLayoutManager(new LinearLayoutManager(this));
-        recyclerNavDrawer.setAdapter(new NavigationDrawerRecyclerAdapter(this));
+        recyclerNavDrawer.setAdapter(new NavigationDrawerRecyclerAdapter(resourcesManager));
 
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name);
         drawerLayout.addDrawerListener(mDrawerToggle);
@@ -198,7 +204,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
         View appAboutLayout = appAboutDialog.getCustomView();
         if (appAboutLayout != null) {
-            TextView tvVersion = (TextView) appAboutLayout.findViewById(R.id.tvAboutAppVersion);
+            TextView tvVersion = findById(appAboutLayout, R.id.tvAboutAppVersion);
             tvVersion.setText(String.format("%1$s %2$s", getString(R.string.about_app_version), BuildConfig.VERSION_NAME));
         }
     }

@@ -1,6 +1,5 @@
 package com.androidcollider.easyfin.adapters;
 
-import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
+import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 
 import static butterknife.ButterKnife.findById;
 
@@ -24,9 +24,9 @@ public class NavigationDrawerRecyclerAdapter extends RecyclerView.Adapter<Naviga
     private final static int TYPE_HEADER = 0, TYPE_ITEM = 1, TYPE_DIVIDER = 2;
 
 
-    public NavigationDrawerRecyclerAdapter(Context context) {
-        navTitles = context.getResources().getStringArray(R.array.navigation_drawer_string_array);
-        navIcons = context.getResources().obtainTypedArray(R.array.navigation_drawer_icons_array);
+    public NavigationDrawerRecyclerAdapter(ResourcesManager resourcesManager) {
+        navTitles = resourcesManager.getStringArray(ResourcesManager.STRING_NAVIGATION_DRAWER_MENU);
+        navIcons = resourcesManager.getIconArray(ResourcesManager.ICON_NAVIGATION_DRAWER_MENU);
     }
 
     @Override

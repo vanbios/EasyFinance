@@ -23,6 +23,7 @@ import com.androidcollider.easyfin.managers.import_export_db.ImportExportDbModul
 import com.androidcollider.easyfin.managers.rates.exchange.ExchangeModule;
 import com.androidcollider.easyfin.managers.rates.rates_info.RatesInfoModule;
 import com.androidcollider.easyfin.managers.rates.rates_loader.RatesLoaderModule;
+import com.androidcollider.easyfin.managers.resources.ResourcesModule;
 import com.androidcollider.easyfin.managers.shared_pref.SharedPrefModule;
 import com.androidcollider.easyfin.managers.ui.hide_touch_outside.HideTouchOutsideModule;
 import com.androidcollider.easyfin.managers.ui.shake_edit_text.ShakeEditTextModule;
@@ -54,7 +55,8 @@ import dagger.Component;
         HideTouchOutsideModule.class,
         NumberFormatModule.class,
         DateFormatModule.class,
-        ChartDataModule.class
+        ChartDataModule.class,
+        ResourcesModule.class
 })
 public interface AppComponent {
 

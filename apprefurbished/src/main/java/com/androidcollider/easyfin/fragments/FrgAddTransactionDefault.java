@@ -19,6 +19,7 @@ import com.androidcollider.easyfin.common.events.UpdateFrgHome;
 import com.androidcollider.easyfin.common.events.UpdateFrgTransactions;
 import com.androidcollider.easyfin.managers.format.date.DateFormatManager;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
+import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.models.Transaction;
@@ -71,6 +72,9 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
 
     @Inject
     NumberFormatManager numberFormatManager;
+
+    @Inject
+    ResourcesManager resourcesManager;
 
 
     @Override
@@ -152,14 +156,16 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
     }
 
     private void setSpinner() {
-        String[] categoryArray = getResources().getStringArray(
+        String[] categoryArray = resourcesManager.getStringArray(
                 transType == 1 ?
-                        R.array.transaction_category_income_array :
-                        R.array.transaction_category_expense_array);
-        TypedArray categoryIcons = getResources().obtainTypedArray(
+                        ResourcesManager.STRING_TRANSACTION_CATEGORY_INCOME :
+                        ResourcesManager.STRING_TRANSACTION_CATEGORY_EXPENSE
+        );
+        TypedArray categoryIcons = resourcesManager.getIconArray(
                 transType == 1 ?
-                        R.array.transaction_category_income_icons :
-                        R.array.transaction_category_expense_icons);
+                        ResourcesManager.ICON_TRANSACTION_CATEGORY_INCOME :
+                        ResourcesManager.ICON_TRANSACTION_CATEGORY_EXPENSE)
+                ;
 
         spinCategory.setAdapter(new SpinIconTextHeadAdapter(
                 getActivity(),
@@ -178,7 +184,9 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                 getActivity(),
                 R.layout.spin_head_icon_text,
                 accountList,
-                numberFormatManager));
+                numberFormatManager,
+                resourcesManager
+        ));
 
         if (mode == 1) {
             String accountName = transFromIntent.getAccountName();

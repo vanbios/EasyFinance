@@ -1,6 +1,7 @@
 package com.androidcollider.easyfin.managers.chart.data;
 
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
+import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 
 import dagger.Module;
 import dagger.Provides;
@@ -13,7 +14,7 @@ import dagger.Provides;
 public class ChartDataModule {
 
     @Provides
-    public ChartDataManager provideChartDataManager(NumberFormatManager numberFormatManager) {
-        return new ChartDataManager(numberFormatManager);
+    public ChartDataManager provideChartDataManager(NumberFormatManager numberFormatManager, ResourcesManager resourcesManager) {
+        return new ChartDataManager(numberFormatManager, resourcesManager);
     }
 }
