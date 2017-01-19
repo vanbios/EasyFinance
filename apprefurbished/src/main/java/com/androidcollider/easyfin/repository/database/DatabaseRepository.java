@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
@@ -342,7 +341,6 @@ public class DatabaseRepository implements Repository {
     }
 
     private Map<String, double[]> getTransactionsStatisticDB(int position) {
-        Log.d("COLLIDER", "trans stat db!");
         long period = 0;
 
         switch (position) {
@@ -413,7 +411,6 @@ public class DatabaseRepository implements Repository {
     }
 
     private Map<String, double[]> getAccountsSumGroupByTypeAndCurrency() {
-        Log.d("COLLIDER", "accounts stat db!");
         String[] currencyArray = context.getResources().getStringArray(R.array.account_currency_array);
         Map<String, double[]> results = new HashMap<>();
         Cursor cursor;
@@ -700,9 +697,7 @@ public class DatabaseRepository implements Repository {
         cv.put("amount", accountAmount);
 
         boolean res1 = updateAccountQuery(cv, id_account);
-        //db.update("Account", cv, "id_account = " + id_account, null);
         boolean res2 = deleteTransactionQuery(id_trans);
-
         closeLocal();
         return res1 && res2;
     }
@@ -730,7 +725,6 @@ public class DatabaseRepository implements Repository {
         ContentValues cv = new ContentValues();
         cv.put("amount", accountAmount);
         boolean res1 = updateAccountQuery(cv, id_account);
-        //db.update("Account", cv, "id_account = " + id_account, null);
         boolean res2 = deleteDebtQuery(id_debt);
         closeLocal();
         return res1 && res2;
@@ -741,7 +735,6 @@ public class DatabaseRepository implements Repository {
         cv.put("amount", accountAmount);
         openLocalToWrite();
         boolean res1 = updateAccountQuery(cv, idAccount);
-        //db.update("Account", cv, "id_account = " + idAccount, null);
         boolean res2 = deleteDebtQuery(idDebt);
         closeLocal();
         return res1 && res2;
@@ -756,9 +749,7 @@ public class DatabaseRepository implements Repository {
 
         openLocalToWrite();
         boolean res1 = updateAccountQuery(cv1, idAccount);
-        //db.update("Account", cv1, "id_account = " + idAccount, null);
         boolean res2 = updateDebtQuery(cv2, idDebt);
-        //db.update("Debt", cv2, "id_debt = '" + idDebt + "' ", null);
         closeLocal();
         return res1 && res2;
     }

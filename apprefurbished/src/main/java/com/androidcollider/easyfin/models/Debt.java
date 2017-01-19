@@ -25,7 +25,9 @@ public class Debt implements Serializable {
     private String name;
     private String accountName;
     private String currency;
+    @Setter
     private double amountCurrent;
+    @Setter
     private double amountAll;
     private double accountAmount;
     private long date;

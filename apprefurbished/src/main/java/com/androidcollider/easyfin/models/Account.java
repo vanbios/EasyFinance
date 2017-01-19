@@ -20,6 +20,7 @@ public class Account implements Serializable {
     @Setter
     private int id;
     private String name;
+    @Setter
     private double amount;
     private int type;
     private String currency;

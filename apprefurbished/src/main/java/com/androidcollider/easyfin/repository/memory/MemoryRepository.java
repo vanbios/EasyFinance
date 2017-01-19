@@ -1,7 +1,6 @@
 package com.androidcollider.easyfin.repository.memory;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
@@ -15,7 +14,6 @@ import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -45,7 +43,7 @@ public class MemoryRepository implements Repository {
 
     @Override
     public Observable<Account> addNewAccount(Account account) {
-        return Observable.<Account>create(subscriber -> {
+        return Observable.create(subscriber -> {
             accountList.add(account);
             subscriber.onNext(account);
             subscriber.onCompleted();
@@ -59,7 +57,7 @@ public class MemoryRepository implements Repository {
 
     @Override
     public Observable<Account> updateAccount(Account account) {
-        return Observable.<Account>create(subscriber -> {
+        return Observable.create(subscriber -> {
             int pos = accountList.indexOf(account);
             subscriber.onNext(pos >= 0 ? accountList.set(pos, account) : null);
             subscriber.onCompleted();
@@ -68,18 +66,41 @@ public class MemoryRepository implements Repository {
 
     @Override
     public Observable<Boolean> deleteAccount(int id) {
-        return Observable.just(true);
+        return Observable.create(subscriber -> {
+            int pos = getAccountPosById(id);
+            boolean b = pos != -1;
+            if (b) accountList.remove(pos);
+            subscriber.onNext(b);
+            subscriber.onCompleted();
+        });
     }
 
     @Override
     public Observable<Boolean> transferBTWAccounts(int idAccount1, double accountAmount1, int idAccount2, double accountAmount2) {
-        return Observable.just(true);
+        return Observable.create(subscriber -> {
+            int pos = getAccountPosById(idAccount1);
+            boolean b1 = pos != -1;
+            if (b1) {
+                accountList.get(pos).setAmount(accountAmount1);
+            }
+            pos = getAccountPosById(idAccount2);
+            boolean b2 = pos != -1;
+            if (b2) {
+                accountList.get(pos).setAmount(accountAmount2);
+            }
+            subscriber.onNext(b1 && b2);
+            subscriber.onCompleted();
+        });
     }
 
     @Override
     public Observable<Transaction> addNewTransaction(Transaction transaction) {
-        return Observable.<Transaction>create(subscriber -> {
+        return Observable.create(subscriber -> {
             transactionList.add(0, transaction);
+            int pos = getAccountPosById(transaction.getIdAccount());
+            if (pos != -1) {
+                accountList.get(pos).setAmount(transaction.getAccountAmount());
+            }
             subscriber.onNext(transaction);
             subscriber.onCompleted();
         });
@@ -92,8 +113,12 @@ public class MemoryRepository implements Repository {
 
     @Override
     public Observable<Transaction> updateTransaction(Transaction transaction) {
-        return Observable.<Transaction>create(subscriber -> {
-            int pos = transactionList.indexOf(transaction);
+        return Observable.create(subscriber -> {
+            int pos = getAccountPosById(transaction.getIdAccount());
+            if (pos != -1) {
+                accountList.get(pos).setAmount(transaction.getAccountAmount());
+            }
+            pos = transactionList.indexOf(transaction);
             subscriber.onNext(pos >= 0 ? transactionList.set(pos, transaction) : null);
             subscriber.onCompleted();
         });
@@ -101,18 +126,50 @@ public class MemoryRepository implements Repository {
 
     @Override
     public Observable<Boolean> updateTransactionDifferentAccounts(Transaction transaction, double oldAccountAmount, int oldAccountId) {
-        return Observable.just(true);
+        return Observable.create(subscriber -> {
+            int pos = getAccountPosById(transaction.getIdAccount());
+            boolean b1 = pos != -1;
+            if (b1) {
+                accountList.get(pos).setAmount(transaction.getAccountAmount());
+            }
+            pos = getAccountPosById(oldAccountId);
+            boolean b2 = pos != -1;
+            if (b2) {
+                accountList.get(pos).setAmount(oldAccountAmount);
+            }
+            pos = transactionList.indexOf(transaction);
+            boolean b3 = pos != -1 && transactionList.set(pos, transaction) != null;
+            subscriber.onNext(b1 && b2 && b3);
+            subscriber.onCompleted();
+        });
     }
 
     @Override
     public Observable<Boolean> deleteTransaction(int idAccount, int idTransaction, double amount) {
-        return Observable.just(true);
+        return Observable.create(subscriber -> {
+            int pos = getTransactionPosById(idTransaction);
+            boolean b = pos != -1;
+            if (b) {
+                transactionList.remove(pos);
+                pos = getAccountPosById(idAccount);
+                b = pos != -1;
+                if (b) {
+                    accountList.get(pos).setAmount(accountList.get(pos).getAmount() - amount);
+                }
+            }
+            subscriber.onNext(b);
+            subscriber.onCompleted();
+        });
     }
 
     @Override
     public Observable<Debt> addNewDebt(Debt debt) {
-        return Observable.<Debt>create(subscriber -> {
+        return Observable.create(subscriber -> {
             debtList.add(debt);
+            int pos = getAccountPosById(debt.getIdAccount());
+            if (pos != -1) {
+                accountList.get(pos).setAmount(debt.getAccountAmount());
+            }
             subscriber.onNext(debt);
             subscriber.onCompleted();
         });
@@ -125,8 +182,12 @@ public class MemoryRepository implements Repository {
 
     @Override
     public Observable<Debt> updateDebt(Debt debt) {
-        return Observable.<Debt>create(subscriber -> {
-            int pos = debtList.indexOf(debt);
+        return Observable.create(subscriber -> {
+            int pos = getAccountPosById(debt.getIdAccount());
+            if (pos != -1) {
+                accountList.get(pos).setAmount(debt.getAccountAmount());
+            }
+            pos = debtList.indexOf(debt);
             subscriber.onNext(pos >= 0 ? debtList.set(pos, debt) : null);
             subscriber.onCompleted();
         });
@@ -134,34 +195,105 @@ public class MemoryRepository implements Repository {
 
     @Override
     public Observable<Boolean> updateDebtDifferentAccounts(Debt debt, double oldAccountAmount, int oldAccountId) {
-        return Observable.just(true);
+        return Observable.create(subscriber -> {
+            int pos = getAccountPosById(debt.getIdAccount());
+            boolean b1 = pos != -1;
+            if (b1) {
+                accountList.get(pos).setAmount(debt.getAccountAmount());
+            }
+            pos = getAccountPosById(oldAccountId);
+            boolean b2 = pos != -1;
+            if (b2) {
+                accountList.get(pos).setAmount(oldAccountAmount);
+            }
+            pos = debtList.indexOf(debt);
+            boolean b3 = pos != -1 && debtList.set(pos, debt) != null;
+            subscriber.onNext(b1 && b2 && b3);
+            subscriber.onCompleted();
+        });
     }
 
     @Override
     public Observable<Boolean> deleteDebt(int idAccount, int idDebt, double amount, int type) {
-        return Observable.just(true);
+        return Observable.create(subscriber -> {
+            int pos = getDebtPosById(idDebt);
+            boolean b = pos != -1;
+            if (b) {
+                debtList.remove(pos);
+                pos = getAccountPosById(idAccount);
+                b = pos != -1;
+                if (b) {
+                    accountList.get(pos).setAmount(type == 1 ?
+                            accountList.get(pos).getAmount() - amount :
+                            accountList.get(pos).getAmount() + amount
+                    );
+                }
+            }
+            subscriber.onNext(b);
+            subscriber.onCompleted();
+        });
     }
 
     @Override
     public Observable<Boolean> payFullDebt(int idAccount, double accountAmount, int idDebt) {
-        return Observable.just(true);
+        return Observable.create(subscriber -> {
+            int pos = getDebtPosById(idDebt);
+            boolean b = pos != -1;
+            if (b) {
+                debtList.remove(pos);
+                pos = getAccountPosById(idAccount);
+                b = pos != -1;
+                if (b) {
+                    accountList.get(pos).setAmount(accountAmount);
+                }
+            }
+            subscriber.onNext(b);
+            subscriber.onCompleted();
+        });
     }
 
     @Override
     public Observable<Boolean> payPartOfDebt(int idAccount, double accountAmount, int idDebt, double debtAmount) {
-        return Observable.just(true);
+        return Observable.create(subscriber -> {
+            int pos = getDebtPosById(idDebt);
+            boolean b = pos != -1;
+            if (b) {
+                debtList.get(pos).setAmountCurrent(debtAmount);
+                pos = getAccountPosById(idAccount);
+                b = pos != -1;
+                if (b) {
+                    accountList.get(pos).setAmount(accountAmount);
+                }
+            }
+            subscriber.onNext(b);
+            subscriber.onCompleted();
+        });
     }
 
     @Override
     public Observable<Boolean> takeMoreDebt(int idAccount, double accountAmount, int idDebt, double debtAmount, double debtAllAmount) {
-        return Observable.just(true);
+        return Observable.create(subscriber -> {
+            int pos = getDebtPosById(idDebt);
+            boolean b = pos != -1;
+            if (b) {
+                debtList.get(pos).setAmountCurrent(debtAmount);
+                debtList.get(pos).setAmountAll(debtAllAmount);
+                pos = getAccountPosById(idAccount);
+                b = pos != -1;
+                if (b) {
+                    accountList.get(pos).setAmount(accountAmount);
+                }
+            }
+            subscriber.onNext(b);
+            subscriber.onCompleted();
+        });
     }
 
     @Override
     public Observable<Map<String, double[]>> getTransactionsStatistic(int position) {
         return transactionList == null ?
                 null :
-                Observable.<Map<String, double[]>>create(subscriber -> {
+                Observable.create(subscriber -> {
                     subscriber.onNext(getTransactionsStatisticByPosition(position));
                     subscriber.onCompleted();
                 });
@@ -171,7 +303,7 @@ public class MemoryRepository implements Repository {
     public Observable<Map<String, double[]>> getAccountsAmountSumGroupByTypeAndCurrency() {
         return accountList == null || debtList == null ?
                 null :
-                Observable.<Map<String, double[]>>create(subscriber -> {
+                Observable.create(subscriber -> {
                     subscriber.onNext(getAccountsSumGroupByTypeAndCurrency());
                     subscriber.onCompleted();
                 });
@@ -179,7 +311,7 @@ public class MemoryRepository implements Repository {
 
     @Override
     public Observable<Boolean> updateRates(List<Rates> ratesList) {
-        return Observable.<Boolean>create(subscriber -> {
+        return Observable.create(subscriber -> {
             for (int i = 0; i < ratesArray.length; i++) {
                 ratesArray[i] = ratesList.get(i).getAsk();
             }
@@ -195,7 +327,7 @@ public class MemoryRepository implements Repository {
 
     @Override
     public Observable<Boolean> setAllAccounts(List<Account> accountList) {
-        return Observable.<Boolean>create(subscriber -> {
+        return Observable.create(subscriber -> {
             this.accountList = new ArrayList<>();
             this.accountList.addAll(accountList);
             subscriber.onNext(true);
@@ -205,7 +337,7 @@ public class MemoryRepository implements Repository {
 
     @Override
     public Observable<Boolean> setAllTransactions(List<Transaction> transactionList) {
-        return Observable.<Boolean>create(subscriber -> {
+        return Observable.create(subscriber -> {
             this.transactionList = new ArrayList<>();
             this.transactionList.addAll(transactionList);
             subscriber.onNext(true);
@@ -215,7 +347,7 @@ public class MemoryRepository implements Repository {
 
     @Override
     public Observable<Boolean> setAllDebts(List<Debt> debtList) {
-        return Observable.<Boolean>create(subscriber -> {
+        return Observable.create(subscriber -> {
             this.debtList = new ArrayList<>();
             this.debtList.addAll(debtList);
             subscriber.onNext(true);
@@ -225,7 +357,7 @@ public class MemoryRepository implements Repository {
 
     @Override
     public Observable<Boolean> setRates(double[] rates) {
-        return Observable.<Boolean>create(subscriber -> {
+        return Observable.create(subscriber -> {
             this.ratesArray = new double[4];
             System.arraycopy(rates, 0, this.ratesArray, 0, rates.length);
             subscriber.onNext(true);
@@ -235,7 +367,6 @@ public class MemoryRepository implements Repository {
 
 
     private Map<String, double[]> getAccountsSumGroupByTypeAndCurrency() {
-        Log.d("COLLIDER", "accounts stat memory!");
         Map<String, double[]> results = new HashMap<>();
 
         for (String currency : currencyArray) {
@@ -282,7 +413,6 @@ public class MemoryRepository implements Repository {
     }
 
     private Map<String, double[]> getTransactionsStatisticByPosition(int position) {
-        Log.d("COLLIDER", "trans stat memory!");
         long period = 0;
         switch (position) {
             case 1:
@@ -300,14 +430,10 @@ public class MemoryRepository implements Repository {
         }
 
         Map<String, double[]> result = new HashMap<>();
-
-        long currentTime = new Date().getTime();
-
+        long currentTime = System.currentTimeMillis();
         double cost, income;
 
         for (String currency : currencyArray) {
-            double[] arrStat = new double[2];
-
             List<Transaction> transactionListFilteredByCurrency =
                     Stream.of(transactionList)
                             .filter(t -> t.getCurrency().equals(currency))
@@ -328,10 +454,29 @@ public class MemoryRepository implements Repository {
                 }
             }
 
-            arrStat[0] = cost;
-            arrStat[1] = income;
-            result.put(currency, arrStat);
+            result.put(currency, new double[]{cost, income});
         }
         return result;
+    }
+
+    private int getAccountPosById(int id) {
+        for (int i = 0; i < accountList.size(); i++) {
+            if (accountList.get(i).getId() == id) return i;
+        }
+        return -1;
+    }
+
+    private int getTransactionPosById(int id) {
+        for (int i = 0; i < transactionList.size(); i++) {
+            if (transactionList.get(i).getId() == id) return i;
+        }
+        return -1;
+    }
+
+    private int getDebtPosById(int id) {
+        for (int i = 0; i < debtList.size(); i++) {
+            if (debtList.get(i).getId() == id) return i;
+        }
+        return -1;
     }
 }
