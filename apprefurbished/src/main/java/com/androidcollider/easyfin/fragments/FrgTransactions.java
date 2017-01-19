@@ -16,6 +16,7 @@ import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHome;
 import com.androidcollider.easyfin.common.events.UpdateFrgTransactions;
+import com.androidcollider.easyfin.fragments.common.CommonFragmentWithEvents;
 import com.androidcollider.easyfin.managers.format.date.DateFormatManager;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.managers.resources.ResourcesManager;

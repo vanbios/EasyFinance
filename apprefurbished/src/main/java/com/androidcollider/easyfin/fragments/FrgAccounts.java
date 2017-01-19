@@ -15,6 +15,7 @@ import com.androidcollider.easyfin.common.MainActivity;
 import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
+import com.androidcollider.easyfin.fragments.common.CommonFragmentWithEvents;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.models.Account;

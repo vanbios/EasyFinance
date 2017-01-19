@@ -1,5 +1,6 @@
 package com.androidcollider.easyfin.repository;
 
+import com.androidcollider.easyfin.managers.import_export_db.ImportExportDbManager;
 import com.androidcollider.easyfin.models.Account;
 import com.androidcollider.easyfin.models.Debt;
 import com.androidcollider.easyfin.models.Rates;
@@ -23,14 +24,18 @@ class DataRepository implements Repository {
     private Repository memoryRepository;
     private Repository databaseRepository;
 
+    private ImportExportDbManager importExportDbManager;
+
     private Scheduler subscribeSc = AndroidSchedulers.mainThread();
     private Scheduler observeSc = AndroidSchedulers.mainThread();
 
 
     DataRepository(@Memory Repository memoryRepository,
-                   @Database Repository databaseRepository) {
+                   @Database Repository databaseRepository,
+                   ImportExportDbManager importExportDbManager) {
         this.memoryRepository = memoryRepository;
         this.databaseRepository = databaseRepository;
+        this.importExportDbManager = importExportDbManager;
     }
 
     @Override
@@ -44,7 +49,7 @@ class DataRepository implements Repository {
     @Override
     public Observable<List<Account>> getAllAccounts() {
         Observable<List<Account>> memoryObservable = memoryRepository.getAllAccounts();
-        return memoryObservable != null ?
+        return memoryObservable != null && !isDataExpired() ?
                 memoryObservable :
                 Observable.create((Observable.OnSubscribe<List<Account>>) subscriber ->
                         databaseRepository.getAllAccounts()
@@ -98,7 +103,7 @@ class DataRepository implements Repository {
     @Override
     public Observable<List<Transaction>> getAllTransactions() {
         Observable<List<Transaction>> memoryObservable = memoryRepository.getAllTransactions();
-        return memoryObservable != null ?
+        return memoryObservable != null && !isDataExpired() ?
                 memoryObservable :
                 Observable.create((Observable.OnSubscribe<List<Transaction>>) subscriber ->
                         databaseRepository.getAllTransactions()
@@ -152,7 +157,7 @@ class DataRepository implements Repository {
     @Override
     public Observable<List<Debt>> getAllDebts() {
         Observable<List<Debt>> memoryObservable = memoryRepository.getAllDebts();
-        return memoryObservable != null ?
+        return memoryObservable != null && !isDataExpired() ?
                 memoryObservable :
                 Observable.create((Observable.OnSubscribe<List<Debt>>) subscriber ->
                         databaseRepository.getAllDebts()
@@ -228,7 +233,7 @@ class DataRepository implements Repository {
     @Override
     public Observable<Map<String, double[]>> getTransactionsStatistic(int position) {
         Observable<Map<String, double[]>> memoryObservable = memoryRepository.getTransactionsStatistic(position);
-        return memoryObservable != null ?
+        return memoryObservable != null && !isDataExpired() ?
                 memoryObservable :
                 databaseRepository.getTransactionsStatistic(position);
     }
@@ -236,7 +241,7 @@ class DataRepository implements Repository {
     @Override
     public Observable<Map<String, double[]>> getAccountsAmountSumGroupByTypeAndCurrency() {
         Observable<Map<String, double[]>> memoryObservable = memoryRepository.getAccountsAmountSumGroupByTypeAndCurrency();
-        return memoryObservable != null ?
+        return memoryObservable != null && !isDataExpired() ?
                 memoryObservable :
                 databaseRepository.getAccountsAmountSumGroupByTypeAndCurrency();
     }
@@ -254,7 +259,7 @@ class DataRepository implements Repository {
     @Override
     public Observable<double[]> getRates() {
         Observable<double[]> memoryObservable = memoryRepository.getRates();
-        return memoryObservable != null ?
+        return memoryObservable != null && !isDataExpired() ?
                 memoryObservable :
                 Observable.create((Observable.OnSubscribe<double[]>) subscriber ->
                         databaseRepository.getRates()
@@ -287,5 +292,10 @@ class DataRepository implements Repository {
     @Override
     public Observable<Boolean> setRates(double[] rates) {
         return memoryRepository.setRates(rates);
+    }
+
+
+    private boolean isDataExpired() {
+        return importExportDbManager.isDBExpired();
     }
 }

@@ -32,7 +32,8 @@ public class MemoryRepository implements Repository {
     private String[] currencyArray;
 
 
-    public MemoryRepository(NumberFormatManager numberFormatManager, ResourcesManager resourcesManager) {
+    public MemoryRepository(NumberFormatManager numberFormatManager,
+                            ResourcesManager resourcesManager) {
         this.numberFormatManager = numberFormatManager;
         currencyArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY);
     }

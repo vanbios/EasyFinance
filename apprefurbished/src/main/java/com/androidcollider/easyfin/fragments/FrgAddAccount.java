@@ -13,6 +13,7 @@ import com.androidcollider.easyfin.adapters.SpinIconTextHeadAdapter;
 import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
+import com.androidcollider.easyfin.fragments.common.CommonFragmentAddEdit;
 import com.androidcollider.easyfin.managers.accounts_info.AccountsInfoManager;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.managers.resources.ResourcesManager;
@@ -270,7 +271,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
     }
 
     @Override
-    void handleSaveAction() {
+    protected void handleSaveAction() {
         switch (mode) {
             case 0:
                 addAccount();

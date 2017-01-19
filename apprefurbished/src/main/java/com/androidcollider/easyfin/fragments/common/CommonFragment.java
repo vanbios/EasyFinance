@@ -1,4 +1,4 @@
-package com.androidcollider.easyfin.fragments;
+package com.androidcollider.easyfin.fragments.common;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;

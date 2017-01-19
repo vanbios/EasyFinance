@@ -19,6 +19,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.adapters.ViewPagerFragmentAdapter;
 import com.androidcollider.easyfin.common.app.App;
+import com.androidcollider.easyfin.fragments.common.CommonFragment;
 import com.androidcollider.easyfin.managers.accounts_info.AccountsInfoManager;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;

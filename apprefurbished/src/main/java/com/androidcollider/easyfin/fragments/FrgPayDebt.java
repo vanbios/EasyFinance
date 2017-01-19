@@ -14,6 +14,7 @@ import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgDebts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
+import com.androidcollider.easyfin.fragments.common.CommonFragmentAddEdit;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.managers.ui.hide_touch_outside.HideTouchOutsideManager;
@@ -361,7 +362,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     }
 
     @Override
-    void handleSaveAction() {
+    protected void handleSaveAction() {
         switch (mode) {
             case 1:
                 payAllDebt();

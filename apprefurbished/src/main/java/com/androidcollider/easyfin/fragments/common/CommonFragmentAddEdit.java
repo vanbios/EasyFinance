@@ -1,4 +1,4 @@
-package com.androidcollider.easyfin.fragments;
+package com.androidcollider.easyfin.fragments.common;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
+import com.androidcollider.easyfin.fragments.FrgAddAccount;
+import com.androidcollider.easyfin.fragments.FrgNumericDialog;
 
 /**
  * @author Ihor Bilous
@@ -24,7 +26,7 @@ public abstract class CommonFragmentAddEdit extends CommonFragment {
         return getString(R.string.app_name);
     }
 
-    void setToolbar() {
+    protected void setToolbar() {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (actionBar != null) {
             ViewGroup actionBarLayout = (ViewGroup) getActivity().getLayoutInflater().inflate(
@@ -51,7 +53,7 @@ public abstract class CommonFragmentAddEdit extends CommonFragment {
         }
     }
 
-    void setTVTextSize(TextView textView, String s, int min, int max) {
+    protected void setTVTextSize(TextView textView, String s, int min, int max) {
         int length = s.length();
         if (length > min && length <= max)
             textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30);
@@ -61,7 +63,7 @@ public abstract class CommonFragmentAddEdit extends CommonFragment {
             textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36);
     }
 
-    void openNumericDialog(String initialValue) {
+    protected void openNumericDialog(String initialValue) {
         Bundle args = new Bundle();
         args.putString("value", initialValue);
 
@@ -71,7 +73,7 @@ public abstract class CommonFragmentAddEdit extends CommonFragment {
         numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog");
     }
 
-    void showDialogNoAccount(String message, boolean withFinish) {
+    protected void showDialogNoAccount(String message, boolean withFinish) {
         new MaterialDialog.Builder(getActivity())
                 .title(getString(R.string.no_account))
                 .content(message)
@@ -94,5 +96,5 @@ public abstract class CommonFragmentAddEdit extends CommonFragment {
         addFragment(frgAddAccount);
     }
 
-    abstract void handleSaveAction();
+    protected abstract void handleSaveAction();
 }

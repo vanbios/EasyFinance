@@ -15,6 +15,7 @@ import com.androidcollider.easyfin.adapters.SpinAccountForTransAdapter;
 import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
+import com.androidcollider.easyfin.fragments.common.CommonFragmentAddEdit;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.managers.rates.exchange.ExchangeManager;
 import com.androidcollider.easyfin.managers.resources.ResourcesManager;
@@ -294,7 +295,7 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
     }
 
     @Override
-    void handleSaveAction() {
+    public void handleSaveAction() {
         addTransactionBTW();
     }
 }

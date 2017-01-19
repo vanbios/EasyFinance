@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
+import com.androidcollider.easyfin.fragments.common.CommonFragment;
 
 import butterknife.BindView;
 import butterknife.OnClick;

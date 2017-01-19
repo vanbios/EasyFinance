@@ -3,6 +3,7 @@ package com.androidcollider.easyfin.repository;
 import android.content.Context;
 
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
+import com.androidcollider.easyfin.managers.import_export_db.ImportExportDbManager;
 import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.managers.shared_pref.SharedPrefManager;
 import com.androidcollider.easyfin.repository.database.Database;
@@ -26,15 +27,17 @@ public class RepositoryModule {
     @Provides
     @Singleton
     @Memory
-    public Repository provideMemoryRepository(Context context, NumberFormatManager numberFormatManager, ResourcesManager resourcesManager) {
+    public Repository provideMemoryRepository(NumberFormatManager numberFormatManager,
+                                              ResourcesManager resourcesManager) {
         return new MemoryRepository(numberFormatManager, resourcesManager);
     }
 
     @Provides
     @Singleton
     @Database
-    public Repository provideDatabaseRepository(Context context, DbHelper dbHelper,
-                                                SharedPrefManager sharedPrefManager, NumberFormatManager numberFormatManager,
+    public Repository provideDatabaseRepository(DbHelper dbHelper,
+                                                SharedPrefManager sharedPrefManager,
+                                                NumberFormatManager numberFormatManager,
                                                 ResourcesManager resourcesManager) {
         return new DatabaseRepository(dbHelper, sharedPrefManager, numberFormatManager, resourcesManager);
     }
@@ -42,8 +45,9 @@ public class RepositoryModule {
     @Provides
     @Singleton
     public Repository provideDataRepository(@Memory Repository memoryRepository,
-                                            @Database Repository databaseRepository) {
-        return new DataRepository(memoryRepository, databaseRepository);
+                                            @Database Repository databaseRepository,
+                                            ImportExportDbManager importExportDbManager) {
+        return new DataRepository(memoryRepository, databaseRepository, importExportDbManager);
     }
 
     @Provides

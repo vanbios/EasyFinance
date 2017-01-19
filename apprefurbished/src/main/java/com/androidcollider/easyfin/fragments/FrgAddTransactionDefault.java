@@ -17,6 +17,7 @@ import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHome;
 import com.androidcollider.easyfin.common.events.UpdateFrgTransactions;
+import com.androidcollider.easyfin.fragments.common.CommonFragmentAddEdit;
 import com.androidcollider.easyfin.managers.format.date.DateFormatManager;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.managers.resources.ResourcesManager;
@@ -396,7 +397,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
     }
 
     @Override
-    void handleSaveAction() {
+    protected void handleSaveAction() {
         switch (mode) {
             case 0:
                 addTransaction();

@@ -18,6 +18,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import lombok.Getter;
+import lombok.Setter;
+
 /**
  * @author Ihor Bilous
  */
@@ -28,6 +31,9 @@ public class ImportExportDbManager {
     private Context context;
     private SQLiteDatabase db;
     private ToastManager toastManager;
+    @Getter
+    @Setter
+    private boolean isDBExpired;
 
 
     ImportExportDbManager(Context context, DbHelper dbHelper, ToastManager toastManager) {
@@ -49,6 +55,7 @@ public class ImportExportDbManager {
             // Access the copied database so SQLiteHelper will cache it and mark it as created.
             openLocalToWrite();
             closeLocal();
+            setDBExpired(true);
             return true;
         }
         return false;

@@ -1,4 +1,4 @@
-package com.androidcollider.easyfin.fragments;
+package com.androidcollider.easyfin.fragments.common;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

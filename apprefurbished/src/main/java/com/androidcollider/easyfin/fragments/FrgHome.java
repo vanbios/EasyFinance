@@ -20,6 +20,7 @@ import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgHome;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeNewRates;
+import com.androidcollider.easyfin.fragments.common.CommonFragmentWithEvents;
 import com.androidcollider.easyfin.managers.chart.data.ChartDataManager;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.managers.rates.exchange.ExchangeManager;
