@@ -92,27 +92,10 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         setSupportActionBar(toolbar);
 
         if (recyclerNavDrawer != null) recyclerNavDrawer.setHasFixedSize(true);
-
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerNavDrawer.setLayoutManager(layoutManager);
-
+        recyclerNavDrawer.setLayoutManager(new LinearLayoutManager(this));
         recyclerNavDrawer.setAdapter(new NavigationDrawerRecyclerAdapter(this));
 
-        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name) {
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-            }
-
-        };
-
+        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name);
         drawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
@@ -121,7 +104,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
             public boolean onSingleTapUp(MotionEvent e) {
                 return true;
             }
-
         });
 
         recyclerNavDrawer.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
@@ -258,8 +240,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     public void hideKeyboard() {
         InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
         View view = this.getCurrentFocus();
-        if (view != null)
+        if (view != null) {
             inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
     private void popFragments() {
@@ -274,8 +257,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     public void onBackPressed() {
         Fragment fragment = getTopFragment();
         if (fragment instanceof FrgMain) {
-            if (backPressExitTime + 2000 > System.currentTimeMillis()) this.finish();
-            else {
+            if (backPressExitTime + 2000 > System.currentTimeMillis()) {
+                this.finish();
+            } else {
                 toastManager.showClosableToast(this, getString(R.string.press_again_to_exit), ToastManager.SHORT);
                 backPressExitTime = System.currentTimeMillis();
             }
