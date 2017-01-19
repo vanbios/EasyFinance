@@ -61,9 +61,6 @@ public class FrgHome extends CommonFragmentWithEvents {
     private double[] statistic = new double[2];
     private HashMap<String, double[]> balanceMap, statisticMap;
 
-    private final int PRECISE = 100;
-    private final String FORMAT = "###,##0.00";
-
     @BindView(R.id.spinMainPeriod)
     Spinner spinPeriod;
     @BindView(R.id.spinMainCurrency)
@@ -533,14 +530,21 @@ public class FrgHome extends CommonFragmentWithEvents {
     private void setStatisticSumTV() {
         tvStatisticSum.setText(String.format("%1$s %2$s",
                 numberFormatManager.doubleToStringFormatter(
-                        statistic[0] + statistic[1], FORMAT, PRECISE), getCurrencyLang()));
+                        statistic[0] + statistic[1],
+                        NumberFormatManager.FORMAT_1,
+                        NumberFormatManager.PRECISE_1),
+                getCurrencyLang()));
     }
 
     private void setBalanceTV(double[] balance) {
         double sum = 0;
         for (double d : balance) sum += d;
         tvBalanceSum.setText(String.format("%1$s %2$s",
-                numberFormatManager.doubleToStringFormatter(sum, FORMAT, PRECISE), getCurrencyLang()));
+                numberFormatManager.doubleToStringFormatter(
+                        sum,
+                        NumberFormatManager.FORMAT_1,
+                        NumberFormatManager.PRECISE_1),
+                getCurrencyLang()));
     }
 
     private void setBalance(int posCurrency) {

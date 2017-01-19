@@ -11,6 +11,9 @@ import java.util.Locale;
 
 public class DateFormatManager {
 
+    public static final String DAY_MONTH_YEAR_DOTS = "dd.MM.yyyy";
+    public static final String DAY_MONTH_YEAR_SPACED = "dd MMMM yyyy";
+
     public String dateToString(Date date, String dateFormat) {
         return new SimpleDateFormat(dateFormat, Locale.getDefault()).format(date);
     }

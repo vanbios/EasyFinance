@@ -105,11 +105,11 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     private void setViews() {
         tvDebtName.setText(debt.getName());
         if (mode == 1 || mode == 2) {
-
-            final int PRECISE = 100;
-            final String FORMAT = "###,##0.00";
-
-            String amount = numberFormatManager.doubleToStringFormatterForEdit(debt.getAmountCurrent(), FORMAT, PRECISE);
+            String amount = numberFormatManager.doubleToStringFormatterForEdit(
+                    debt.getAmountCurrent(),
+                    NumberFormatManager.FORMAT_1,
+                    NumberFormatManager.PRECISE_1
+            );
             setTVTextSize(tvAmount, amount, 10, 15);
             tvAmount.setText(amount);
         } else {

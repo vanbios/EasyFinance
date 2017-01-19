@@ -190,13 +190,13 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
         if (mode) {
             layoutExchange.setVisibility(View.VISIBLE);
 
-            final int PRECISE = 100000;
-            final String FORMAT = "#.#####";
-
             etExchange.setText(numberFormatManager.doubleToStringFormatter(
                     exchangeManager.getExchangeRate(
                             ((Account) spinAccountFrom.getSelectedItem()).getCurrency(),
-                            ((Account) spinAccountTo.getSelectedItem()).getCurrency()), FORMAT, PRECISE));
+                            ((Account) spinAccountTo.getSelectedItem()).getCurrency()),
+                    NumberFormatManager.FORMAT_3,
+                    NumberFormatManager.PRECISE_2
+            ));
             etExchange.setSelection(etExchange.getText().length());
         } else {
             layoutExchange.setVisibility(View.GONE);

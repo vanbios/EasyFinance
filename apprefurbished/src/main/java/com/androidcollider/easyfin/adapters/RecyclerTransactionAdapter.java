@@ -113,14 +113,17 @@ public class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTra
 
             final int PRECISE = 100;
             final String FORMAT = "###,##0.00";
-            final String DATEFORMAT = "dd.MM.yyyy";
 
             Transaction transaction = getTransaction(position);
 
             holderItem.tvTransAccountName.setText(transaction.getAccountName());
-            holderItem.tvTransDate.setText(dateFormatManager.longToDateString(transaction.getDate(), DATEFORMAT));
+            holderItem.tvTransDate.setText(dateFormatManager.longToDateString(transaction.getDate(), DateFormatManager.DAY_MONTH_YEAR_DOTS));
 
-            String amount = numberFormatManager.doubleToStringFormatter(transaction.getAmount(), FORMAT, PRECISE);
+            String amount = numberFormatManager.doubleToStringFormatter(
+                    transaction.getAmount(),
+                    NumberFormatManager.FORMAT_1,
+                    NumberFormatManager.PRECISE_1
+            );
             String curLang = null;
 
             for (int i = 0; i < curArray.length; i++) {

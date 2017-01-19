@@ -88,10 +88,6 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         Debt debt = getDebt(position);
-        final int PRECISE = 100;
-        final String FORMAT = "###,##0.00";
-        final String DATEFORMAT = "dd.MM.yyyy";
-
         holder.tvDebtName.setText(debt.getName());
 
         String curLang = null;
@@ -106,10 +102,16 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
         double amountCurrent = debt.getAmountCurrent();
         double amountAll = debt.getAmountAll();
 
-        holder.tvAmount.setText(String.format("%1$s %2$s",
-                numberFormatManager.doubleToStringFormatter(amountCurrent, FORMAT, PRECISE), curLang));
+        holder.tvAmount.setText(
+                String.format("%1$s %2$s",
+                        numberFormatManager.doubleToStringFormatter(
+                                amountCurrent,
+                                NumberFormatManager.FORMAT_1,
+                                NumberFormatManager.PRECISE_1
+                        ),
+                        curLang));
         holder.tvAccountName.setText(debt.getAccountName());
-        holder.tvDate.setText(dateFormatManager.longToDateString(debt.getDate(), DATEFORMAT));
+        holder.tvDate.setText(dateFormatManager.longToDateString(debt.getDate(), DateFormatManager.DAY_MONTH_YEAR_DOTS));
 
         int progress = (int) (amountCurrent / amountAll * 100);
         holder.prgBar.setProgress(progress);

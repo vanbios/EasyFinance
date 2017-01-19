@@ -151,10 +151,11 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
         etName.setText(oldName);
         etName.setSelection(etName.getText().length());
 
-        final int PRECISE = 100;
-        final String FORMAT = "###,##0.00";
-
-        String amount = numberFormatManager.doubleToStringFormatterForEdit(accFrIntent.getAmount(), FORMAT, PRECISE);
+        String amount = numberFormatManager.doubleToStringFormatterForEdit(
+                accFrIntent.getAmount(),
+                NumberFormatManager.FORMAT_1,
+                NumberFormatManager.PRECISE_1
+        );
         setTVTextSize(tvAmount, amount, 10, 15);
         tvAmount.setText(amount);
 

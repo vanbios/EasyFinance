@@ -60,7 +60,6 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     RelativeLayout mainContent;
 
     private DatePickerDialog datePickerDialog;
-    private final String DATEFORMAT = "dd MMMM yyyy";
     private List<Account> accountList;
     private int mode, debtType;
     private Debt debtFrIntent;
@@ -156,10 +155,11 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         etName.setText(debtFrIntent.getName());
         etName.setSelection(etName.getText().length());
 
-        final int PRECISE = 100;
-        final String FORMAT = "###,##0.00";
-
-        String amount = numberFormatManager.doubleToStringFormatterForEdit(debtFrIntent.getAmountCurrent(), FORMAT, PRECISE);
+        String amount = numberFormatManager.doubleToStringFormatterForEdit(
+                debtFrIntent.getAmountCurrent(),
+                NumberFormatManager.FORMAT_1,
+                NumberFormatManager.PRECISE_1
+        );
         setTVTextSize(tvAmount, amount, 10, 15);
         tvAmount.setText(amount);
 
@@ -209,7 +209,8 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                         .amountCurrent(amount)
                         .type(debtType)
                         .idAccount(account.getId())
-                        .date(dateFormatManager.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime())
+                        .date(dateFormatManager.stringToDate(
+                                tvDate.getText().toString(), DateFormatManager.DAY_MONTH_YEAR_SPACED).getTime())
                         .accountAmount(accountAmount)
                         .currency(account.getCurrency())
                         .accountName(account.getName())
@@ -296,7 +297,8 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
                         .amountCurrent(amount)
                         .type(type)
                         .idAccount(accountId)
-                        .date(dateFormatManager.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime())
+                        .date(dateFormatManager.stringToDate(
+                                tvDate.getText().toString(), DateFormatManager.DAY_MONTH_YEAR_SPACED).getTime())
                         .accountAmount(accountAmount)
                         .id(debtFrIntent.getId())
                         .currency(account.getCurrency())
@@ -380,7 +382,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
         final long initTime = newCalendar.getTimeInMillis();
         if (mode == 1)
             newCalendar.setTime(new Date(debtFrIntent.getDate()));
-        tvDate.setText(dateFormatManager.dateToString(newCalendar.getTime(), DATEFORMAT));
+        tvDate.setText(dateFormatManager.dateToString(newCalendar.getTime(), DateFormatManager.DAY_MONTH_YEAR_SPACED));
 
         datePickerDialog = new DatePickerDialog(getActivity(), (view1, year, monthOfYear, dayOfMonth) -> {
             Calendar newDate = Calendar.getInstance();
@@ -388,7 +390,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
             if (newDate.getTimeInMillis() < initTime) {
                 toastManager.showClosableToast(getActivity(), getString(R.string.debt_deadline_past), ToastManager.SHORT);
             } else {
-                tvDate.setText(dateFormatManager.dateToString(newDate.getTime(), DATEFORMAT));
+                tvDate.setText(dateFormatManager.dateToString(newDate.getTime(), DateFormatManager.DAY_MONTH_YEAR_SPACED));
             }
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
     }

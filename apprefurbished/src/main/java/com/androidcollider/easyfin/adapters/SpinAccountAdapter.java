@@ -69,10 +69,11 @@ abstract class SpinAccountAdapter extends ArrayAdapter<Account> {
         icon.setImageResource(typeIconsArray.getResourceId(accountList.get(position).getType(), 0));
         TextView amountText = findById(dropSpinner, R.id.tvSpinDropdownAccountAmount);
 
-        final int PRECISE = 100;
-        final String FORMAT = "0.00";
-
-        String amount = numberFormatManager.doubleToStringFormatter(accountList.get(position).getAmount(), FORMAT, PRECISE);
+        String amount = numberFormatManager.doubleToStringFormatter(
+                accountList.get(position).getAmount(),
+                NumberFormatManager.FORMAT_2,
+                NumberFormatManager.PRECISE_1
+        );
         String cur = accountList.get(position).getCurrency();
         String curLang = null;
 

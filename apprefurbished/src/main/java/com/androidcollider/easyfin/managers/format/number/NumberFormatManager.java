@@ -9,6 +9,13 @@ import java.text.DecimalFormatSymbols;
 
 public class NumberFormatManager {
 
+    public static final int PRECISE_1 = 100;
+    public static final int PRECISE_2 = 100_000;
+    public static final String FORMAT_1 = "###,##0.00";
+    public static final String FORMAT_2 = "0.00";
+    public static final String FORMAT_3 = "#.#####";
+
+
     public String doubleToStringFormatter(double number, String format, int precise) {
         DecimalFormatSymbols dfs = new DecimalFormatSymbols();
         dfs.setDecimalSeparator(',');

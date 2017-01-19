@@ -81,9 +81,6 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         Account account = getAccount(position);
-        final int PRECISE = 100;
-        final String FORMAT = "###,##0.00";
-
         String curLang = null;
 
         for (int i = 0; i < curArray.length; i++) {
@@ -94,8 +91,14 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
         }
 
         holder.tvAccountName.setText(account.getName());
-        holder.tvAccountAmount.setText(String.format("%1$s %2$s",
-                numberFormatManager.doubleToStringFormatter(account.getAmount(), FORMAT, PRECISE), curLang));
+        holder.tvAccountAmount.setText(
+                String.format("%1$s %2$s",
+                        numberFormatManager.doubleToStringFormatter(
+                                account.getAmount(),
+                                NumberFormatManager.FORMAT_1,
+                                NumberFormatManager.PRECISE_1
+                        ),
+                        curLang));
 
         holder.ivAccountType.setImageDrawable(typeIconsArray.getDrawable(account.getType()));
 

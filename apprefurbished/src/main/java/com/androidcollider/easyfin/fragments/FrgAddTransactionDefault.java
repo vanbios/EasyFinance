@@ -56,7 +56,6 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
     ScrollView scrollView;
 
     private DatePickerDialog datePickerDialog;
-    private final String DATEFORMAT = "dd MMMM yyyy";
     private List<Account> accountList;
     private int mode, transType;
     private Transaction transFromIntent;
@@ -135,14 +134,14 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                 }
                 case 1: {
                     transFromIntent = (Transaction) getArguments().getSerializable("transaction");
-                    final int PRECISE = 100;
-                    final String FORMAT = "###,##0.00";
-
                     if (transFromIntent != null) {
                         double amount = transFromIntent.getAmount();
                         transType = numberFormatManager.isDoubleNegative(amount) ? 0 : 1;
                         setAmountValue(numberFormatManager.doubleToStringFormatterForEdit(
-                                transType == 1 ? amount : Math.abs(amount), FORMAT, PRECISE));
+                                transType == 1 ? amount : Math.abs(amount),
+                                NumberFormatManager.FORMAT_1,
+                                NumberFormatManager.PRECISE_1
+                        ));
                     }
                     break;
                 }
@@ -164,8 +163,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
         TypedArray categoryIcons = resourcesManager.getIconArray(
                 transType == 1 ?
                         ResourcesManager.ICON_TRANSACTION_CATEGORY_INCOME :
-                        ResourcesManager.ICON_TRANSACTION_CATEGORY_EXPENSE)
-                ;
+                        ResourcesManager.ICON_TRANSACTION_CATEGORY_EXPENSE);
 
         spinCategory.setAdapter(new SpinIconTextHeadAdapter(
                 getActivity(),
@@ -216,7 +214,8 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                 accountAmount += amount;
 
                 Transaction transaction = Transaction.builder()
-                        .date(dateFormatManager.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime())
+                        .date(dateFormatManager.stringToDate(
+                                tvDate.getText().toString(), DateFormatManager.DAY_MONTH_YEAR_SPACED).getTime())
                         .amount(amount)
                         .category(spinCategory.getSelectedItemPosition())
                         .idAccount(account.getId())
@@ -278,7 +277,8 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
                 accountAmount += amount;
 
                 Transaction transaction = Transaction.builder()
-                        .date(dateFormatManager.stringToDate(tvDate.getText().toString(), DATEFORMAT).getTime())
+                        .date(dateFormatManager.stringToDate(
+                                tvDate.getText().toString(), DateFormatManager.DAY_MONTH_YEAR_SPACED).getTime())
                         .amount(amount)
                         .category(spinCategory.getSelectedItemPosition())
                         .idAccount(account.getId())
@@ -358,7 +358,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
         if (mode == 1) {
             newCalendar.setTime(new Date(transFromIntent.getDate()));
         }
-        tvDate.setText(dateFormatManager.dateToString(newCalendar.getTime(), DATEFORMAT));
+        tvDate.setText(dateFormatManager.dateToString(newCalendar.getTime(), DateFormatManager.DAY_MONTH_YEAR_SPACED));
 
         datePickerDialog = new DatePickerDialog(getActivity(), (view1, year, monthOfYear, dayOfMonth) -> {
             Calendar newDate = Calendar.getInstance();
@@ -367,7 +367,7 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
             if (newDate.getTimeInMillis() > System.currentTimeMillis()) {
                 toastManager.showClosableToast(getActivity(), getString(R.string.transaction_date_future), ToastManager.SHORT);
             } else {
-                tvDate.setText(dateFormatManager.dateToString(newDate.getTime(), DATEFORMAT));
+                tvDate.setText(dateFormatManager.dateToString(newDate.getTime(), DateFormatManager.DAY_MONTH_YEAR_SPACED));
             }
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
     }
