@@ -1,9 +1,8 @@
 package com.androidcollider.easyfin.fragments;
 
-import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,6 +21,7 @@ import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeNewRates;
 import com.androidcollider.easyfin.fragments.common.CommonFragmentWithEvents;
 import com.androidcollider.easyfin.managers.chart.data.ChartDataManager;
+import com.androidcollider.easyfin.managers.chart.setup.ChartSetupManager;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.managers.rates.exchange.ExchangeManager;
 import com.androidcollider.easyfin.managers.rates.rates_info.RatesInfoManager;
@@ -32,8 +32,6 @@ import com.androidcollider.easyfin.utils.ChartLargeValueFormatter;
 import com.annimon.stream.Stream;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.PieData;
 
@@ -60,7 +58,7 @@ public class FrgHome extends CommonFragmentWithEvents {
 
     private String[] currencyArray, currencyLangArray;
     private double[] statistic = new double[2];
-    private HashMap<String, double[]> balanceMap, statisticMap;
+    private Map<String, double[]> balanceMap, statisticMap;
 
     @BindView(R.id.spinMainPeriod)
     Spinner spinPeriod;
@@ -118,6 +116,9 @@ public class FrgHome extends CommonFragmentWithEvents {
     @Inject
     ResourcesManager resourcesManager;
 
+    @Inject
+    ChartSetupManager chartSetupManager;
+
 
     @Override
     public int getContentView() {
@@ -165,11 +166,15 @@ public class FrgHome extends CommonFragmentWithEvents {
                         statisticMap.clear();
                         statisticMap.putAll(pair.second);
 
-                        setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
-                        setBalance(spinBalanceCurrency.getSelectedItemPosition());
-                        setStatisticBarChartData();
-                        setStatisticSumTV();
-                        setChartTypeSpinner();
+                        new Handler().postDelayed(() -> {
+                                    setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
+                                    setBalance(spinBalanceCurrency.getSelectedItemPosition());
+                                    setStatisticBarChartData();
+                                    setStatisticSumTV();
+                                    setChartTypeSpinner();
+                                },
+                                150
+                        );
                     }
                 });
     }
@@ -437,81 +442,9 @@ public class FrgHome extends CommonFragmentWithEvents {
     }
 
     private void setupCharts() {
-        setupBalanceBarChart();
-        setupStatisticBarChart();
-        setupStatisticPieChart();
-    }
-
-    private void setupBalanceBarChart() {
-        chartBalance.setDescription("");
-        chartBalance.getLegend().setEnabled(false);
-        YAxis leftAxis = chartBalance.getAxisLeft();
-        YAxis rightAxis = chartBalance.getAxisRight();
-        rightAxis.setEnabled(false);
-        leftAxis.setSpaceTop(35f);
-        leftAxis.setLabelCount(3, false);
-        leftAxis.setValueFormatter(new ChartLargeValueFormatter(false));
-
-        XAxis xAxis = chartBalance.getXAxis();
-        xAxis.setDrawAxisLine(false);
-        xAxis.setDrawLabels(false);
-        xAxis.setDrawGridLines(false);
-
-        leftAxis.setAxisLineColor(ContextCompat.getColor(getActivity(), R.color.custom_light_gray));
-        leftAxis.setGridColor(ContextCompat.getColor(getActivity(), R.color.custom_light_gray));
-        leftAxis.setTextColor(ContextCompat.getColor(getActivity(), R.color.custom_text_gray_dark));
-
-        chartBalance.getXAxis().setTextColor(ContextCompat.getColor(getActivity(), R.color.custom_text_gray_dark));
-
-        chartBalance.setDrawGridBackground(false);
-        chartBalance.setBackgroundColor(Color.TRANSPARENT);
-        chartBalance.setDrawBorders(true);
-        chartBalance.setBorderColor(Color.TRANSPARENT);
-
-        chartBalance.setTouchEnabled(false);
-    }
-
-    private void setupStatisticBarChart() {
-        chartStatistic.setDescription("");
-        chartStatistic.getLegend().setEnabled(false);
-        YAxis leftAxis = chartStatistic.getAxisLeft();
-        YAxis rightAxis = chartStatistic.getAxisRight();
-        rightAxis.setEnabled(false);
-        leftAxis.setSpaceTop(35f);
-        leftAxis.setLabelCount(3, false);
-        leftAxis.setValueFormatter(new ChartLargeValueFormatter(false));
-
-        XAxis xAxis = chartStatistic.getXAxis();
-        xAxis.setDrawAxisLine(false);
-        xAxis.setDrawLabels(false);
-        xAxis.setDrawGridLines(false);
-
-        leftAxis.setAxisLineColor(ContextCompat.getColor(getActivity(), R.color.custom_light_gray));
-        leftAxis.setGridColor(ContextCompat.getColor(getActivity(), R.color.custom_light_gray));
-        leftAxis.setTextColor(ContextCompat.getColor(getActivity(), R.color.custom_text_gray_dark));
-
-        chartStatistic.getXAxis().setTextColor(ContextCompat.getColor(getActivity(), R.color.custom_text_gray_dark));
-
-        chartStatistic.setDrawGridBackground(false);
-        chartStatistic.setBackgroundColor(Color.TRANSPARENT);
-        chartStatistic.setDrawBorders(false);
-
-        chartStatistic.setTouchEnabled(false);
-    }
-
-    private void setupStatisticPieChart() {
-        chartStatisticPie.setDescription("");
-
-        chartStatisticPie.setDrawHoleEnabled(true);
-        chartStatisticPie.setHoleColorTransparent(true);
-        chartStatisticPie.setHoleRadius(45);
-        chartStatisticPie.setTransparentCircleRadius(48);
-
-        chartStatisticPie.setRotationAngle(0);
-        chartStatisticPie.setRotationEnabled(true);
-
-        chartStatisticPie.getLegend().setEnabled(false);
-        chartStatisticPie.highlightValues(null);
+        chartSetupManager.setupMainBarChart(chartBalance);
+        chartSetupManager.setupMainBarChart(chartStatistic);
+        chartSetupManager.setupMainPieChart(chartStatisticPie);
     }
 
     private void setBalanceBarChartData(double[] balance) {
@@ -575,7 +508,7 @@ public class FrgHome extends CommonFragmentWithEvents {
         return new double[]{0, 0, 0, 0};
     }
 
-    private double[] convertAllCurrencyToOne(int posCurrency, HashMap<String, double[]> map, int arrSize) {
+    private double[] convertAllCurrencyToOne(int posCurrency, Map<String, double[]> map, int arrSize) {
         double[][] arr = new double[currencyArray.length][arrSize];
 
         for (int i = 0; i < arr.length; i++) {

@@ -16,6 +16,7 @@ import com.androidcollider.easyfin.fragments.FrgTransactions;
 import com.androidcollider.easyfin.managers.accounts_info.AccountsInfoModule;
 import com.androidcollider.easyfin.managers.api.ApiModule;
 import com.androidcollider.easyfin.managers.chart.data.ChartDataModule;
+import com.androidcollider.easyfin.managers.chart.setup.ChartSetupModule;
 import com.androidcollider.easyfin.managers.connection.ConnectionModule;
 import com.androidcollider.easyfin.managers.format.date.DateFormatModule;
 import com.androidcollider.easyfin.managers.format.number.NumberFormatModule;
@@ -56,7 +57,8 @@ import dagger.Component;
         NumberFormatModule.class,
         DateFormatModule.class,
         ChartDataModule.class,
-        ResourcesModule.class
+        ResourcesModule.class,
+        ChartSetupModule.class
 })
 public interface AppComponent {
 
