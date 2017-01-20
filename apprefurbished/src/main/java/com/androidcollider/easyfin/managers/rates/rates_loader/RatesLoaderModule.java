@@ -20,14 +20,14 @@ import dagger.Provides;
 public class RatesLoaderModule {
 
     @Provides
-    public RatesLoaderManager provideRatesLoaderManager(Context context, RatesApi ratesApi,
-                                                        Repository repository, ConnectionManager connectionManager,
-                                                        SharedPrefManager sharedPrefManager, ResourcesManager resourcesManager) {
+    RatesLoaderManager provideRatesLoaderManager(Context context, RatesApi ratesApi,
+                                                 Repository repository, ConnectionManager connectionManager,
+                                                 SharedPrefManager sharedPrefManager, ResourcesManager resourcesManager) {
         return new RatesLoaderManager(context, ratesApi, repository, connectionManager, sharedPrefManager, resourcesManager);
     }
 
     @Provides
-    public RatesApi getRatesApi(ApiManager apiManager) {
+    RatesApi getRatesApi(ApiManager apiManager) {
         return apiManager.getRetrofit().create(RatesApi.class);
     }
 }

@@ -11,7 +11,7 @@ import dagger.Provides;
 public class ShakeEditTextModule {
 
     @Provides
-    public ShakeEditTextManager provideShakeEditTextManager() {
+    ShakeEditTextManager provideShakeEditTextManager() {
         return new ShakeEditTextManager();
     }
 }

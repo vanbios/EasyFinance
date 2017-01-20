@@ -7,6 +7,7 @@ import com.androidcollider.easyfin.models.Rates;
 import com.androidcollider.easyfin.models.Transaction;
 import com.androidcollider.easyfin.repository.database.Database;
 import com.androidcollider.easyfin.repository.memory.Memory;
+import com.androidcollider.easyfin.utils.BackgroundExecutor;
 
 import java.util.List;
 import java.util.Map;
@@ -14,6 +15,7 @@ import java.util.Map;
 import rx.Observable;
 import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * @author Ihor Bilous
@@ -26,7 +28,10 @@ class DataRepository implements Repository {
 
     private ImportExportDbManager importExportDbManager;
 
-    private Scheduler subscribeSc = AndroidSchedulers.mainThread();
+    private Scheduler subscribeSc =
+            Schedulers.from(BackgroundExecutor.getSafeBackgroundExecutor())
+            //AndroidSchedulers.mainThread()
+            ;
     private Scheduler observeSc = AndroidSchedulers.mainThread();
 
 

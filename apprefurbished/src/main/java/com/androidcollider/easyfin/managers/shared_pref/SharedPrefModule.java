@@ -16,7 +16,7 @@ public class SharedPrefModule {
 
     @Provides
     @Singleton
-    public SharedPrefManager provideSharedPrefManager(Context context) {
+    SharedPrefManager provideSharedPrefManager(Context context) {
         return new SharedPrefManager(context);
     }
 }

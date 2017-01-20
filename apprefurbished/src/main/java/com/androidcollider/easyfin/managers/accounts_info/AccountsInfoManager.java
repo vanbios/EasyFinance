@@ -38,9 +38,7 @@ public class AccountsInfoManager {
     public boolean checkForAccountNameMatches(String name) {
         List<String> accountNames = getAccountNames();
         for (String account : accountNames) {
-            if (account.equals(name)) {
-                return true;
-            }
+            if (account.equals(name)) return true;
         }
         return false;
     }

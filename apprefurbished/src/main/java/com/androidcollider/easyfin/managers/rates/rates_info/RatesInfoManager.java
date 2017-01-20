@@ -20,14 +20,12 @@ public class RatesInfoManager {
     private int count = 0;
 
     private String info;
-    private Context context;
     private Repository repository;
     private ToastManager toastManager;
     private ResourcesManager resourcesManager;
 
 
-    RatesInfoManager(Context context, Repository repository, ToastManager toastManager, ResourcesManager resourcesManager) {
-        this.context = context;
+    RatesInfoManager(Repository repository, ToastManager toastManager, ResourcesManager resourcesManager) {
         this.repository = repository;
         this.toastManager = toastManager;
         this.resourcesManager = resourcesManager;

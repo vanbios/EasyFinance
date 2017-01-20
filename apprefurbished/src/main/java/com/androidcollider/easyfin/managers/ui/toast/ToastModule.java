@@ -14,7 +14,7 @@ public class ToastModule {
 
     @Provides
     @Singleton
-    public ToastManager provideToastManager() {
+    ToastManager provideToastManager() {
         return new ToastManager();
     }
 }

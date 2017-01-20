@@ -13,7 +13,7 @@ import dagger.Provides;
 public class AccountsInfoModule {
 
     @Provides
-    public AccountsInfoManager provideAccountsInfoManager(Repository repository) {
+    AccountsInfoManager provideAccountsInfoManager(Repository repository) {
         return new AccountsInfoManager(repository);
     }
 }

@@ -11,7 +11,7 @@ import dagger.Provides;
 public class DateFormatModule {
 
     @Provides
-    public DateFormatManager provideDateProvideManager() {
+    DateFormatManager provideDateProvideManager() {
         return new DateFormatManager();
     }
 }

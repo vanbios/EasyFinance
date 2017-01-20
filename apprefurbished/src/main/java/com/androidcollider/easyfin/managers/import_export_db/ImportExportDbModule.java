@@ -19,7 +19,7 @@ public class ImportExportDbModule {
 
     @Provides
     @Singleton
-    public ImportExportDbManager provideImportDbManager(Context context, DbHelper dbHelper, ToastManager toastManager) {
+    ImportExportDbManager provideImportDbManager(Context context, DbHelper dbHelper, ToastManager toastManager) {
         return new ImportExportDbManager(context, dbHelper, toastManager);
     }
 }

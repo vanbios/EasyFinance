@@ -14,7 +14,7 @@ import dagger.Provides;
 public class ExchangeModule {
 
     @Provides
-    public ExchangeManager provideExchangeManager(Repository repository, ResourcesManager resourcesManager) {
+    ExchangeManager provideExchangeManager(Repository repository, ResourcesManager resourcesManager) {
         return new ExchangeManager(repository, resourcesManager);
     }
 }

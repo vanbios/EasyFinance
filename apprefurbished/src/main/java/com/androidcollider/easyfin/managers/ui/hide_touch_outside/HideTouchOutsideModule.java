@@ -11,7 +11,7 @@ import dagger.Provides;
 public class HideTouchOutsideModule {
 
     @Provides
-    public HideTouchOutsideManager provideHideTouchOutsideManager() {
+    HideTouchOutsideManager provideHideTouchOutsideManager() {
         return new HideTouchOutsideManager();
     }
 }

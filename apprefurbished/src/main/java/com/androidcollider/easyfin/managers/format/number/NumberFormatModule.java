@@ -11,7 +11,7 @@ import dagger.Provides;
 public class NumberFormatModule {
 
     @Provides
-    public NumberFormatManager provideDoubleFormatManager() {
+    NumberFormatManager provideDoubleFormatManager() {
         return new NumberFormatManager();
     }
 }

@@ -11,7 +11,7 @@ import dagger.Provides;
 public class ApiModule {
 
     @Provides
-    public ApiManager provideApiManager() {
+    ApiManager provideApiManager() {
         return new ApiManager();
     }
 }

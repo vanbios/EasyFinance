@@ -14,7 +14,7 @@ import dagger.Provides;
 public class ChartDataModule {
 
     @Provides
-    public ChartDataManager provideChartDataManager(NumberFormatManager numberFormatManager, ResourcesManager resourcesManager) {
+    ChartDataManager provideChartDataManager(NumberFormatManager numberFormatManager, ResourcesManager resourcesManager) {
         return new ChartDataManager(numberFormatManager, resourcesManager);
     }
 }

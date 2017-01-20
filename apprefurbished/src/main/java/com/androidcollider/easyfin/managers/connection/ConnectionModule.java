@@ -13,7 +13,7 @@ import dagger.Provides;
 public class ConnectionModule {
 
     @Provides
-    public ConnectionManager provideConnectionManager(Context context) {
+    ConnectionManager provideConnectionManager(Context context) {
         return new ConnectionManager(context);
     }
 }

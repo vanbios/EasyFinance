@@ -167,7 +167,7 @@ public class FrgHome extends CommonFragmentWithEvents {
 
                         setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
                         setBalance(spinBalanceCurrency.getSelectedItemPosition());
-                        setStatisticBarChart();
+                        setStatisticBarChartData();
                         setStatisticSumTV();
                         setChartTypeSpinner();
                     }
@@ -175,6 +175,8 @@ public class FrgHome extends CommonFragmentWithEvents {
     }
 
     private void initializeViewsAndRes() {
+        setupCharts();
+
         buildBalanceSettingsDialog();
 
         View balanceSettings = balanceSettingsDialog.getCustomView();
@@ -330,13 +332,13 @@ public class FrgHome extends CommonFragmentWithEvents {
                             tvNoData.setVisibility(View.VISIBLE);
                         else {
                             chartStatisticPie.setVisibility(View.VISIBLE);
-                            setStatisticPieChart();
+                            setStatisticPieChartData();
                         }
                     } else {
                         tvNoData.setVisibility(View.GONE);
                         chartStatisticPie.setVisibility(View.GONE);
                         chartStatistic.setVisibility(View.VISIBLE);
-                        setStatisticBarChart();
+                        setStatisticBarChartData();
                     }
                     sharedPrefManager.setHomeChartTypePos(i);
                 } else {
@@ -434,12 +436,13 @@ public class FrgHome extends CommonFragmentWithEvents {
         }
     }
 
-    private void setBalanceBarChart(double[] balance) {
-        BarData data = chartDataManager.getDataSetMainBalanceHorizontalBarChart(balance, getActivity());
-        chartBalance.setData(data);
+    private void setupCharts() {
+        setupBalanceBarChart();
+        setupStatisticBarChart();
+        setupStatisticPieChart();
+    }
 
-        data.setValueFormatter(new ChartLargeValueFormatter(!showOnlyIntegers));
-
+    private void setupBalanceBarChart() {
         chartBalance.setDescription("");
         chartBalance.getLegend().setEnabled(false);
         YAxis leftAxis = chartBalance.getAxisLeft();
@@ -465,17 +468,10 @@ public class FrgHome extends CommonFragmentWithEvents {
         chartBalance.setDrawBorders(true);
         chartBalance.setBorderColor(Color.TRANSPARENT);
 
-        chartBalance.animateXY(2000, 2000);
         chartBalance.setTouchEnabled(false);
-        chartBalance.invalidate();
     }
 
-    private void setStatisticBarChart() {
-        BarData data = chartDataManager.getDataSetMainStatisticHorizontalBarChart(statistic, getActivity());
-        chartStatistic.setData(data);
-
-        data.setValueFormatter(new ChartLargeValueFormatter(!showOnlyIntegers));
-
+    private void setupStatisticBarChart() {
         chartStatistic.setDescription("");
         chartStatistic.getLegend().setEnabled(false);
         YAxis leftAxis = chartStatistic.getAxisLeft();
@@ -500,14 +496,11 @@ public class FrgHome extends CommonFragmentWithEvents {
         chartStatistic.setBackgroundColor(Color.TRANSPARENT);
         chartStatistic.setDrawBorders(false);
 
-        chartStatistic.animateXY(2000, 2000);
         chartStatistic.setTouchEnabled(false);
-        chartStatistic.invalidate();
     }
 
-    private void setStatisticPieChart() {
+    private void setupStatisticPieChart() {
         chartStatisticPie.setDescription("");
-        chartStatisticPie.animateXY(2000, 2000);
 
         chartStatisticPie.setDrawHoleEnabled(true);
         chartStatisticPie.setHoleColorTransparent(true);
@@ -518,13 +511,33 @@ public class FrgHome extends CommonFragmentWithEvents {
         chartStatisticPie.setRotationEnabled(true);
 
         chartStatisticPie.getLegend().setEnabled(false);
+        chartStatisticPie.highlightValues(null);
+    }
 
+    private void setBalanceBarChartData(double[] balance) {
+        BarData data = chartDataManager.getDataSetMainBalanceHorizontalBarChart(balance, getActivity());
+        data.setValueFormatter(new ChartLargeValueFormatter(!showOnlyIntegers));
+        chartBalance.setData(data);
+
+        chartBalance.animateXY(2000, 2000);
+        chartBalance.invalidate();
+    }
+
+    private void setStatisticBarChartData() {
+        BarData data = chartDataManager.getDataSetMainStatisticHorizontalBarChart(statistic, getActivity());
+        data.setValueFormatter(new ChartLargeValueFormatter(!showOnlyIntegers));
+
+        chartStatistic.setData(data);
+        chartStatistic.animateXY(2000, 2000);
+        chartStatistic.invalidate();
+    }
+
+    private void setStatisticPieChartData() {
         PieData data = chartDataManager.getDataSetMainStatisticPieChart(statistic, getActivity());
-
         data.setValueFormatter(new ChartLargeValueFormatter(!showOnlyIntegers));
 
         chartStatisticPie.setData(data);
-        chartStatisticPie.highlightValues(null);
+        chartStatisticPie.animateXY(2000, 2000);
         chartStatisticPie.invalidate();
     }
 
@@ -551,7 +564,7 @@ public class FrgHome extends CommonFragmentWithEvents {
     private void setBalance(int posCurrency) {
         double[] balance = getCurrentBalance(posCurrency);
         setBalanceTV(balance);
-        setBalanceBarChart(balance);
+        setBalanceBarChartData(balance);
     }
 
     private double[] getCurrentBalance(int posCurrency) {
@@ -606,7 +619,7 @@ public class FrgHome extends CommonFragmentWithEvents {
     private void checkStatChartTypeForUpdate() {
         switch (spinChartType.getSelectedItemPosition()) {
             case 0:
-                setStatisticBarChart();
+                setStatisticBarChartData();
                 break;
             case 1:
                 if (statistic[0] == 0 && statistic[1] == 0) {
@@ -615,7 +628,7 @@ public class FrgHome extends CommonFragmentWithEvents {
                 } else {
                     tvNoData.setVisibility(View.GONE);
                     chartStatisticPie.setVisibility(View.VISIBLE);
-                    setStatisticPieChart();
+                    setStatisticPieChartData();
                 }
                 break;
         }
