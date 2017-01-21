@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.managers.resources.ResourcesManager;
@@ -28,6 +29,8 @@ import rx.Observable;
  */
 
 public class DatabaseRepository implements Repository {
+
+    private static final String TAG = DatabaseRepository.class.getSimpleName();
 
     private DbHelper dbHelper;
     private SQLiteDatabase db;
@@ -342,6 +345,7 @@ public class DatabaseRepository implements Repository {
     }
 
     private Map<String, double[]> getTransactionsStatisticDB(int position) {
+        Log.d(TAG, "getTransactionsStatisticDB");
         long period = 0;
 
         switch (position) {
@@ -412,6 +416,7 @@ public class DatabaseRepository implements Repository {
     }
 
     private Map<String, double[]> getAccountsSumGroupByTypeAndCurrency() {
+        Log.d(TAG, "getAccountsSumGroupByTypeAndCurrency");
         String[] currencyArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY);
         Map<String, double[]> results = new HashMap<>();
         Cursor cursor;
@@ -469,6 +474,7 @@ public class DatabaseRepository implements Repository {
     }
 
     private List<Account> getAllAccountsInfo() {
+        Log.d(TAG, "getAllAccountsInfo");
         List<Account> accountArrayList = new ArrayList<>();
         String selectQuery = "SELECT * FROM Account WHERE visibility = 1";
 
@@ -507,6 +513,7 @@ public class DatabaseRepository implements Repository {
     }
 
     private List<Transaction> getAllTransactionsInfo() {
+        Log.d(TAG, "getAllTransactionsInfo");
         List<Transaction> transactionArrayList = new ArrayList<>();
 
         String selectQuery = "SELECT t.amount, date, category, name, type, a.currency, t.id_account, id_transaction "
@@ -561,6 +568,7 @@ public class DatabaseRepository implements Repository {
     }
 
     private List<Debt> getAllDebtInfo() {
+        Log.d(TAG, "getAllDebtInfo");
         List<Debt> debtArrayList = new ArrayList<>();
 
         String selectQuery = "SELECT d.name AS d_name, d.amount_current, d.amount_all, "
@@ -796,6 +804,7 @@ public class DatabaseRepository implements Repository {
     }
 
     private double[] getRatesDB() {
+        Log.d(TAG, "getRatesDB");
         String[] rateNamesArray = resourcesManager.getStringArray(ResourcesManager.STRING_JSON_RATES);
         String rateType = "bank";
         double[] results = new double[4];

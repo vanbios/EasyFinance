@@ -1,7 +1,10 @@
 package com.androidcollider.easyfin.repository;
 
+import android.util.Log;
+
 import com.androidcollider.easyfin.managers.import_export_db.ImportExportDbManager;
 import com.androidcollider.easyfin.models.Account;
+import com.androidcollider.easyfin.models.Data;
 import com.androidcollider.easyfin.models.Debt;
 import com.androidcollider.easyfin.models.Rates;
 import com.androidcollider.easyfin.models.Transaction;
@@ -22,6 +25,8 @@ import rx.schedulers.Schedulers;
  */
 
 class DataRepository implements Repository {
+
+    private static final String TAG = DataRepository.class.getSimpleName();
 
     private Repository memoryRepository;
     private Repository databaseRepository;
@@ -54,9 +59,10 @@ class DataRepository implements Repository {
     @Override
     public Observable<List<Account>> getAllAccounts() {
         Observable<List<Account>> memoryObservable = memoryRepository.getAllAccounts();
+        Log.d(TAG, "getAllAccounts " + String.valueOf(memoryObservable != null));
         return memoryObservable != null && !isDataExpired() ?
                 memoryObservable :
-                Observable.create((Observable.OnSubscribe<List<Account>>) subscriber ->
+                /*Observable.create((Observable.OnSubscribe<List<Account>>) subscriber ->
                         databaseRepository.getAllAccounts()
                                 .subscribe(accounts -> {
                                     memoryRepository.setAllAccounts(accounts)
@@ -64,7 +70,14 @@ class DataRepository implements Repository {
                                                 subscriber.onNext(accounts);
                                                 subscriber.onCompleted();
                                             });
-                                }))
+                                }))*/
+                loadAllDataFromDB()
+                        .flatMap(aBoolean -> {
+                            if (aBoolean) importExportDbManager.setDBExpired(false);
+                            return aBoolean ?
+                                    memoryRepository.getAllAccounts() :
+                                    databaseRepository.getAllAccounts();
+                        })
                         .subscribeOn(subscribeSc)
                         .observeOn(observeSc);
     }
@@ -108,9 +121,10 @@ class DataRepository implements Repository {
     @Override
     public Observable<List<Transaction>> getAllTransactions() {
         Observable<List<Transaction>> memoryObservable = memoryRepository.getAllTransactions();
+        Log.d(TAG, "getAllTransactions " + String.valueOf(memoryObservable != null));
         return memoryObservable != null && !isDataExpired() ?
                 memoryObservable :
-                Observable.create((Observable.OnSubscribe<List<Transaction>>) subscriber ->
+                /*Observable.create((Observable.OnSubscribe<List<Transaction>>) subscriber ->
                         databaseRepository.getAllTransactions()
                                 .subscribe(transactions -> {
                                     memoryRepository.setAllTransactions(transactions)
@@ -118,7 +132,14 @@ class DataRepository implements Repository {
                                                 subscriber.onNext(transactions);
                                                 subscriber.onCompleted();
                                             });
-                                }))
+                                }))*/
+                loadAllDataFromDB()
+                        .flatMap(aBoolean -> {
+                            if (aBoolean) importExportDbManager.setDBExpired(false);
+                            return aBoolean ?
+                                    memoryRepository.getAllTransactions() :
+                                    databaseRepository.getAllTransactions();
+                        })
                         .subscribeOn(subscribeSc)
                         .observeOn(observeSc);
     }
@@ -162,9 +183,10 @@ class DataRepository implements Repository {
     @Override
     public Observable<List<Debt>> getAllDebts() {
         Observable<List<Debt>> memoryObservable = memoryRepository.getAllDebts();
+        Log.d(TAG, "getAllDebts " + String.valueOf(memoryObservable != null));
         return memoryObservable != null && !isDataExpired() ?
                 memoryObservable :
-                Observable.create((Observable.OnSubscribe<List<Debt>>) subscriber ->
+                /*Observable.create((Observable.OnSubscribe<List<Debt>>) subscriber ->
                         databaseRepository.getAllDebts()
                                 .subscribe(debts -> {
                                     memoryRepository.setAllDebts(debts)
@@ -172,7 +194,14 @@ class DataRepository implements Repository {
                                                 subscriber.onNext(debts);
                                                 subscriber.onCompleted();
                                             });
-                                }))
+                                }))*/
+                loadAllDataFromDB()
+                        .flatMap(aBoolean -> {
+                            if (aBoolean) importExportDbManager.setDBExpired(false);
+                            return aBoolean ?
+                                    memoryRepository.getAllDebts() :
+                                    databaseRepository.getAllDebts();
+                        })
                         .subscribeOn(subscribeSc)
                         .observeOn(observeSc);
     }
@@ -238,17 +267,31 @@ class DataRepository implements Repository {
     @Override
     public Observable<Map<String, double[]>> getTransactionsStatistic(int position) {
         Observable<Map<String, double[]>> memoryObservable = memoryRepository.getTransactionsStatistic(position);
+        Log.d(TAG, "getTransactionsStatistic " + String.valueOf(memoryObservable != null));
         return memoryObservable != null && !isDataExpired() ?
                 memoryObservable :
-                databaseRepository.getTransactionsStatistic(position);
+                loadAllDataFromDB()
+                        .flatMap(aBoolean -> {
+                            if (aBoolean) importExportDbManager.setDBExpired(false);
+                            return aBoolean ?
+                                    databaseRepository.getTransactionsStatistic(position) :
+                                    databaseRepository.getTransactionsStatistic(position);
+                        });
     }
 
     @Override
     public Observable<Map<String, double[]>> getAccountsAmountSumGroupByTypeAndCurrency() {
         Observable<Map<String, double[]>> memoryObservable = memoryRepository.getAccountsAmountSumGroupByTypeAndCurrency();
+        Log.d(TAG, "getAccountsAmountSumGroupByTypeAndCurrency " + String.valueOf(memoryObservable != null));
         return memoryObservable != null && !isDataExpired() ?
                 memoryObservable :
-                databaseRepository.getAccountsAmountSumGroupByTypeAndCurrency();
+                loadAllDataFromDB()
+                        .flatMap(aBoolean -> {
+                            if (aBoolean) importExportDbManager.setDBExpired(false);
+                            return aBoolean ?
+                                    memoryRepository.getAccountsAmountSumGroupByTypeAndCurrency() :
+                                    databaseRepository.getAccountsAmountSumGroupByTypeAndCurrency();
+                        });
     }
 
     @Override
@@ -264,6 +307,7 @@ class DataRepository implements Repository {
     @Override
     public Observable<double[]> getRates() {
         Observable<double[]> memoryObservable = memoryRepository.getRates();
+        Log.d(TAG, "getRates " + String.valueOf(memoryObservable != null));
         return memoryObservable != null && !isDataExpired() ?
                 memoryObservable :
                 Observable.create((Observable.OnSubscribe<double[]>) subscriber ->
@@ -302,5 +346,26 @@ class DataRepository implements Repository {
 
     private boolean isDataExpired() {
         return importExportDbManager.isDBExpired();
+    }
+
+    private Observable<Boolean> loadAllDataFromDB() {
+        return Observable.combineLatest(
+                databaseRepository.getAllAccounts(),
+                databaseRepository.getAllTransactions(),
+                databaseRepository.getAllDebts(),
+                databaseRepository.getRates(),
+                Data::new
+        )
+                .flatMap(data ->
+                        Observable.combineLatest(
+                                memoryRepository.setAllAccounts(data.getAccountList()),
+                                memoryRepository.setAllTransactions(data.getTransactionList()),
+                                memoryRepository.setAllDebts(data.getDebtList()),
+                                memoryRepository.setRates(data.getRatesArray()),
+                                (aBoolean, aBoolean2, aBoolean3, aBoolean4) ->
+                                        aBoolean && aBoolean2 && aBoolean3 && aBoolean4
+                        ))
+                .subscribeOn(subscribeSc)
+                .observeOn(observeSc);
     }
 }

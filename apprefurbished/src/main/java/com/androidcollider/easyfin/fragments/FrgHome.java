@@ -1,7 +1,6 @@
 package com.androidcollider.easyfin.fragments;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
 import android.view.View;
@@ -166,15 +165,15 @@ public class FrgHome extends CommonFragmentWithEvents {
                         statisticMap.clear();
                         statisticMap.putAll(pair.second);
 
-                        new Handler().postDelayed(() -> {
-                                    setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
-                                    setBalance(spinBalanceCurrency.getSelectedItemPosition());
-                                    setStatisticBarChartData();
-                                    setStatisticSumTV();
-                                    setChartTypeSpinner();
-                                },
+                        //new Handler().postDelayed(() -> {
+                        setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
+                        setBalance(spinBalanceCurrency.getSelectedItemPosition());
+                        setStatisticBarChartData();
+                        setStatisticSumTV();
+                        setChartTypeSpinner();
+                                /*},
                                 150
-                        );
+                        );*/
                     }
                 });
     }

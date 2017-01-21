@@ -1,5 +1,7 @@
 package com.androidcollider.easyfin.repository.memory;
 
+import android.util.Log;
+
 import com.androidcollider.easyfin.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.models.Account;
@@ -23,6 +25,8 @@ import rx.Observable;
  */
 
 public class MemoryRepository implements Repository {
+
+    private static final String TAG = MemoryRepository.class.getSimpleName();
 
     private NumberFormatManager numberFormatManager;
     private List<Account> accountList;
@@ -49,6 +53,7 @@ public class MemoryRepository implements Repository {
 
     @Override
     public Observable<List<Account>> getAllAccounts() {
+        Log.d(TAG, "getAllAccounts");
         return accountList == null ? null : Observable.just(accountList);
     }
 
@@ -105,6 +110,7 @@ public class MemoryRepository implements Repository {
 
     @Override
     public Observable<List<Transaction>> getAllTransactions() {
+        Log.d(TAG, "getAllTransactions");
         return transactionList == null ? null : Observable.just(transactionList);
     }
 
@@ -174,6 +180,7 @@ public class MemoryRepository implements Repository {
 
     @Override
     public Observable<List<Debt>> getAllDebts() {
+        Log.d(TAG, "getAllDebts");
         return debtList == null ? null : Observable.just(debtList);
     }
 
@@ -319,6 +326,7 @@ public class MemoryRepository implements Repository {
 
     @Override
     public Observable<double[]> getRates() {
+        Log.d(TAG, "getRates");
         return ratesArray == null ? null : Observable.just(ratesArray);
     }
 
@@ -364,6 +372,7 @@ public class MemoryRepository implements Repository {
 
 
     private Map<String, double[]> getAccountsSumGroupByTypeAndCurrency() {
+        Log.d(TAG, "getAccountsSumGroupByTypeAndCurrency");
         Map<String, double[]> results = new HashMap<>();
 
         for (String currency : currencyArray) {
@@ -410,6 +419,7 @@ public class MemoryRepository implements Repository {
     }
 
     private Map<String, double[]> getTransactionsStatisticByPosition(int position) {
+        Log.d(TAG, "getTransactionsStatisticByPosition");
         long period = 0;
         switch (position) {
             case 1:
