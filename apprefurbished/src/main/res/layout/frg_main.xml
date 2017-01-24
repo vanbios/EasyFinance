@@ -46,31 +46,31 @@
         android:layout_height="match_parent"
         android:layout_gravity="right|bottom">-->
 
-        <com.github.clans.fab.FloatingActionMenu
-            android:id="@+id/btnFloatMain"
-            style="@style/MenuFabStyle"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true">
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/btnFloatMain"
+        style="@style/MenuFabStyle"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true">
 
-            <!--android:layout_gravity="right|bottom"
-            app:layout_behavior="com.androidcollider.easyfin.utils.FloatingActionMenuBehavior"-->
+        <!--android:layout_gravity="right|bottom"
+        app:layout_behavior="com.androidcollider.easyfin.utils.FloatingActionMenuBehavior"-->
 
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/btnFloatAddTransBTW"
-                style="@style/FabSmallBlue"
-                android:src="@drawable/ic_trans_btw_white_pad_20_48dp" />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/btnFloatAddTransBTW"
+            style="@style/FabSmallBlue"
+            android:src="@drawable/ic_trans_btw_white_pad_20_48dp" />
 
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/btnFloatAddTransIncome"
-                style="@style/FabSmallGreen"
-                android:src="@drawable/ic_plus_white_48dp" />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/btnFloatAddTransIncome"
+            style="@style/FabSmallGreen"
+            android:src="@drawable/ic_plus_white_48dp" />
 
-            <com.github.clans.fab.FloatingActionButton
-                android:id="@+id/btnFloatAddTransExpense"
-                style="@style/FabSmallRed"
-                android:src="@drawable/ic_minus_white_48dp" />
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/btnFloatAddTransExpense"
+            style="@style/FabSmallRed"
+            android:src="@drawable/ic_minus_white_48dp" />
 
-        </com.github.clans.fab.FloatingActionMenu>
+    </com.github.clans.fab.FloatingActionMenu>
 
     <!--</android.support.design.widget.CoordinatorLayout>-->
 </RelativeLayout>

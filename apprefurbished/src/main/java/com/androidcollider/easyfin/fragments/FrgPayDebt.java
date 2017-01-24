@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.view.View;
-import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -50,7 +50,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     @BindView(R.id.cardPayDebtElements)
     CardView cardView;
     @BindView(R.id.layoutActPayDebtParent)
-    RelativeLayout mainContent;
+    ScrollView mainContent;
 
     private Debt debt;
     private List<Account> accountsAvailableList;

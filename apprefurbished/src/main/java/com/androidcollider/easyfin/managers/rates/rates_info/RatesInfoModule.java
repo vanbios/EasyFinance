@@ -4,6 +4,8 @@ import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.repository.Repository;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -15,6 +17,7 @@ import dagger.Provides;
 public class RatesInfoModule {
 
     @Provides
+    @Singleton
     RatesInfoManager provideRatesInfoManager(Repository repository,
                                              ToastManager toastManager,
                                              ResourcesManager resourcesManager) {

@@ -7,7 +7,7 @@
         android:id="@+id/containerFrgNumericDialog"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/cvNumericDialogDivider"></FrameLayout>
+        android:layout_above="@+id/cvNumericDialogDivider" />
 
     <View
         android:id="@+id/cvNumericDialogDivider"

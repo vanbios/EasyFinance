@@ -7,7 +7,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -58,7 +58,7 @@ public class FrgAddDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     @BindView(R.id.cardAddDebtElements)
     CardView cardView;
     @BindView(R.id.layoutActAddDebtParent)
-    RelativeLayout mainContent;
+    ScrollView mainContent;
 
     private DatePickerDialog datePickerDialog;
     private List<Account> accountList;

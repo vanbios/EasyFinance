@@ -1,6 +1,6 @@
 package com.androidcollider.easyfin.common.api;
 
-import com.androidcollider.easyfin.models.RatesNew;
+import com.androidcollider.easyfin.models.RatesRemote;
 
 import retrofit2.http.GET;
 import rx.Observable;
@@ -12,5 +12,5 @@ import rx.Observable;
 public interface RatesApi {
 
     @GET("/summary/f362f94f90fe9d841a98280b9098297ce4d574fa/")
-    Observable<RatesNew> getRates();
+    Observable<RatesRemote> getRates();
 }

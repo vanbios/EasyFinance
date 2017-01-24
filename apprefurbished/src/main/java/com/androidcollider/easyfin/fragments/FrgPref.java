@@ -152,6 +152,7 @@ public class FrgPref extends PreferenceFragment {
         EventBus.getDefault().post(new UpdateFrgTransactions());
         EventBus.getDefault().post(new UpdateFrgAccounts());
         EventBus.getDefault().post(new UpdateFrgDebts());
+        //EventBus.getDefault().post(new UpdateFrgHomeNewRates());
 
         //InMemoryRepository.getInstance().setRatesForExchange();
         //InMemoryRepository.getInstance().updateAccountList();

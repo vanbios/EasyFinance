@@ -12,7 +12,7 @@ import lombok.ToString;
 
 @Getter
 @ToString
-public class RatesNew {
+public class RatesRemote {
 
     @SerializedName("usd")
     @Expose

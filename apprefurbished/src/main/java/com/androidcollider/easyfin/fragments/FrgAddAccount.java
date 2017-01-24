@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -46,7 +46,7 @@ public class FrgAddAccount extends CommonFragmentAddEdit implements FrgNumericDi
     @BindView(R.id.tvAddAccountAmount)
     TextView tvAmount;
     @BindView(R.id.layoutActAccountParent)
-    RelativeLayout mainContent;
+    ScrollView mainContent;
 
     private String oldName;
     private int idAccount, mode;

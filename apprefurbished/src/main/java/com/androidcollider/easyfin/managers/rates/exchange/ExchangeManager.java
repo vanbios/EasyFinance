@@ -23,7 +23,7 @@ public class ExchangeManager {
         updateRates();
     }
 
-    private void updateRates() {
+    public void updateRates() {
         repository.getRates()
                 .subscribe(new Subscriber<double[]>() {
 

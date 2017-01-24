@@ -142,10 +142,7 @@ public class FrgHome extends CommonFragmentWithEvents {
         balanceMap = new HashMap<>();
         statisticMap = new HashMap<>();
 
-        Observable.combineLatest(
-                repository.getAccountsAmountSumGroupByTypeAndCurrency(),
-                repository.getTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1),
-                Pair::new)
+        getBalanceAndStatisticObservable()
                 .subscribe(new Subscriber<Pair<Map<String, double[]>, Map<String, double[]>>>() {
 
                     @Override
@@ -165,15 +162,11 @@ public class FrgHome extends CommonFragmentWithEvents {
                         statisticMap.clear();
                         statisticMap.putAll(pair.second);
 
-                        //new Handler().postDelayed(() -> {
                         setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
                         setBalance(spinBalanceCurrency.getSelectedItemPosition());
                         setStatisticBarChartData();
                         setStatisticSumTV();
                         setChartTypeSpinner();
-                                /*},
-                                150
-                        );*/
                     }
                 });
     }
@@ -359,10 +352,17 @@ public class FrgHome extends CommonFragmentWithEvents {
         spinChartType.setSelection(sharedPrefManager.getHomeChartTypePos());
     }
 
+    private Observable<Pair<Map<String, double[]>, Map<String, double[]>>> getBalanceAndStatisticObservable() {
+        return Observable.combineLatest(
+                repository.getAccountsAmountSumGroupByTypeAndCurrency(),
+                repository.getTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1),
+                Pair::new);
+    }
+
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(UpdateFrgHome event) {
-        repository.getAccountsAmountSumGroupByTypeAndCurrency()
-                .subscribe(new Subscriber<Map<String, double[]>>() {
+        getBalanceAndStatisticObservable()
+                .subscribe(new Subscriber<Pair<Map<String, double[]>, Map<String, double[]>>>() {
 
                     @Override
                     public void onCompleted() {
@@ -375,30 +375,16 @@ public class FrgHome extends CommonFragmentWithEvents {
                     }
 
                     @Override
-                    public void onNext(Map<String, double[]> map) {
+                    public void onNext(Pair<Map<String, double[]>, Map<String, double[]>> pair) {
+                        exchangeManager.updateRates();
+                        ratesInfoManager.prepareInfo();
+
                         balanceMap.clear();
-                        balanceMap.putAll(map);
+                        balanceMap.putAll(pair.first);
                         setBalance(spinBalanceCurrency.getSelectedItemPosition());
-                    }
-                });
 
-        repository.getTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1)
-                .subscribe(new Subscriber<Map<String, double[]>>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(Map<String, double[]> map) {
                         statisticMap.clear();
-                        statisticMap.putAll(map);
+                        statisticMap.putAll(pair.second);
                         setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
                         setStatisticSumTV();
                         checkStatChartTypeForUpdate();
@@ -423,6 +409,9 @@ public class FrgHome extends CommonFragmentWithEvents {
 
                     @Override
                     public void onNext(Map<String, double[]> map) {
+                        exchangeManager.updateRates();
+                        ratesInfoManager.prepareInfo();
+
                         balanceMap.clear();
                         balanceMap.putAll(map);
                         setBalance(spinBalanceCurrency.getSelectedItemPosition());
@@ -432,6 +421,9 @@ public class FrgHome extends CommonFragmentWithEvents {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(UpdateFrgHomeNewRates event) {
+        exchangeManager.updateRates();
+        ratesInfoManager.prepareInfo();
+
         if (convert) {
             setBalance(spinBalanceCurrency.getSelectedItemPosition());
             setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());

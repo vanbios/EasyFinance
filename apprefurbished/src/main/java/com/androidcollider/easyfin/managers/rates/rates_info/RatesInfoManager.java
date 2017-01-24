@@ -49,7 +49,7 @@ public class RatesInfoManager {
         });
     }
 
-    private void prepareInfo() {
+    public void prepareInfo() {
         repository.getRates()
                 .subscribe(new Subscriber<double[]>() {
 

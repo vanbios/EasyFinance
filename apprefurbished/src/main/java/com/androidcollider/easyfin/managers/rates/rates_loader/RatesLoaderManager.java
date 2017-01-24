@@ -12,7 +12,7 @@ import com.androidcollider.easyfin.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.managers.shared_pref.SharedPrefManager;
 import com.androidcollider.easyfin.models.Currency;
 import com.androidcollider.easyfin.models.Rates;
-import com.androidcollider.easyfin.models.RatesNew;
+import com.androidcollider.easyfin.models.RatesRemote;
 import com.androidcollider.easyfin.repository.Repository;
 
 import org.greenrobot.eventbus.EventBus;
@@ -103,9 +103,9 @@ public class RatesLoaderManager {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        new Subscriber<RatesNew>() {
+                        new Subscriber<RatesRemote>() {
                             @Override
-                            public void onNext(RatesNew ratesNew) {
+                            public void onNext(RatesRemote ratesRemote) {
                                 int[] idArray = new int[]{3, 7, 11, 15};
                                 String[] currencyArray = resourcesManager.getStringArray(ResourcesManager.STRING_JSON_RATES);
                                 ArrayList<Rates> ratesList = new ArrayList<>();
@@ -113,7 +113,7 @@ public class RatesLoaderManager {
                                 for (int i = 0; i < idArray.length; i++) {
                                     int id = idArray[i];
                                     String cur = currencyArray[i];
-                                    ratesList.add(generateNewRates(id, cur, ratesNew));
+                                    ratesList.add(generateNewRates(id, cur, ratesRemote));
                                 }
                                 Log.d(TAG, "rates " + ratesList);
 
@@ -149,22 +149,22 @@ public class RatesLoaderManager {
                 );
     }
 
-    private Rates generateNewRates(int id, String cur, RatesNew ratesNew) {
+    private Rates generateNewRates(int id, String cur, RatesRemote ratesRemote) {
         long date = System.currentTimeMillis();
         Currency currency;
         double bid = 1, ask = 1;
         switch (id) {
             case 3:
-                currency = ratesNew.getUsd();
+                currency = ratesRemote.getUsd();
                 break;
             case 7:
-                currency = ratesNew.getEur();
+                currency = ratesRemote.getEur();
                 break;
             case 11:
-                currency = ratesNew.getRub();
+                currency = ratesRemote.getRub();
                 break;
             case 15:
-                currency = ratesNew.getGbp();
+                currency = ratesRemote.getGbp();
                 break;
             default:
                 throw new IllegalArgumentException("id should be 3, 7, 11 or 15!");
