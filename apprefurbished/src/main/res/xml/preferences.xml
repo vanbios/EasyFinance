@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:key="export_db"
+        android:summary="@string/export_db_summary"
+        android:title="@string/export_db">
+    </Preference>
+
+    <Preference
+        android:key="import_db"
+        android:summary="@string/import_db_summary"
+        android:title="@string/import_db"/>
+
+    <CheckBoxPreference
+        android:key="@string/update_rates_automatically"
+        android:title="@string/update_rates_automatically"
+        android:defaultValue="true"/>
+</PreferenceScreen>

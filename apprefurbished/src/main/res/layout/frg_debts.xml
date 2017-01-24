@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/debts_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerDebt"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/common_padding_medium"
+        android:layout_marginLeft="@dimen/common_padding_small"
+        android:layout_marginRight="@dimen/common_padding_small"
+        android:layout_marginTop="@dimen/common_padding_medium" />
+
+    <TextView
+        android:id="@+id/tvEmptyDebt"
+        style="@style/BodyFontSecondary"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/debt_empty_list"
+        android:visibility="gone" />
+
+    <com.github.clans.fab.FloatingActionMenu
+        android:id="@+id/btnFloatDebts"
+        style="@style/MenuFabStyle"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true">
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/btnFloatAddDebtGive"
+            style="@style/FabSmallGreen"
+            android:src="@drawable/ic_debt_give_white_pad_10_48dp" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/btnFloatAddDebtTake"
+            style="@style/FabSmallRed"
+            android:src="@drawable/ic_debt_take_white_pad_10_48dp" />
+
+    </com.github.clans.fab.FloatingActionMenu>
+</RelativeLayout>

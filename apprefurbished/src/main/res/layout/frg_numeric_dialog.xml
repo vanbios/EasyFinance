@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/containerFrgNumericDialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/cvNumericDialogDivider" />
+
+    <View
+        android:id="@+id/cvNumericDialogDivider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/layoutFrgNumericDialogButtons"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="@dimen/common_padding_medium"
+        android:background="#d3d3d3" />
+
+    <LinearLayout
+        android:id="@+id/layoutFrgNumericDialogButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/common_padding_small"
+        android:paddingLeft="@dimen/common_padding_small"
+        android:paddingRight="@dimen/common_padding_small"
+        android:paddingTop="@dimen/common_padding_small">
+
+        <TextView
+            android:id="@+id/btnFrgNumericDialogCancel"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/text_view_selector"
+            android:clickable="true"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/cancel"
+            android:textAllCaps="true"
+            android:textColor="@color/custom_cyan_dark"
+            android:textSize="@dimen/text_size_subhead" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#d3d3d3" />
+
+        <TextView
+            android:id="@+id/btnFrgNumericDialogCommit"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:background="@drawable/text_view_selector"
+            android:clickable="true"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="@string/done"
+            android:textAllCaps="true"
+            android:textColor="@color/custom_cyan_dark"
+            android:textSize="@dimen/text_size_subhead" />
+
+    </LinearLayout>
+</RelativeLayout>

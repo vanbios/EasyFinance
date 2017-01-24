@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    // app info
+    <string name="app_name">FinU</string>
+    <string name="settings">Налаштування</string>
+    <string name="app_faq">Довідка</string>
+    <string name="app_about">Про програму</string>
+
+
+
+    // actions
+
+    <string name="new_account">Новий рахунок</string>
+    <string name="pay_all_debt">Сплатити весь борг</string>
+    <string name="pay_part_debt">Сплатити частину боргу</string>
+    <string name="take_more_debt">Додати суму до боргу</string>
+
+    <string name="save">Зберегти</string>
+    <string name="edit">Редагувати</string>
+    <string name="delete">Видалити</string>
+    <string name="close">Закрити</string>
+    <string name="cancel">Скасувати</string>
+    <string name="got_it">Зрозуміло</string>
+    <string name="done">Готово</string>
+    <string name="ok">OK</string>
+    <string name="later">Не зараз</string>
+    <string name="confirm">Підтверджую</string>
+
+
+    <string name="export_db">Резервне копіювання даних</string>
+    <string name="import_db">Імпорт даних</string>
+    <string name="export_db_summary">Натиcність для резервного копіювання даних</string>
+    <string name="import_db_summary">Натисніть для імпорту даних</string>
+
+    <string name="import_complete">Імпорт успішно завершено!</string>
+    <string name="import_error">Щось пішло не так. Спробуйте пізніше</string>
+    <string name="import_wrong_file_type">Невірний тип файлу. Спробуйте інший</string>
+    <string name="import_no_file_explorer">У Вас немає жодного файлового менеджера!</string>
+    <string name="import_dialog_warning">Ви впевнені? Ваші дані будуть перезаписані!</string>
+
+
+    <string name="view_more">Показати ще</string>
+
+    <string name="update_rates_automatically">Оновлювати курси автоматично</string>
+
+
+
+    // tabs
+    <string name="tab_transactions">Транзакції</string>
+    <string name="tab_accounts">Рахунки</string>
+    <string name="tab_home">Головна</string>
+
+
+
+    // text fields main
+    <string name="balance">Баланс</string>
+    <string name="cash">Готівка</string>
+    <string name="cards">Картки</string>
+    <string name="deposits">Депозити</string>
+    <string name="debts">Борги</string>
+    <string name="sum">Разом</string>
+    <string name="report">Звіт</string>
+    <string name="period">Період</string>
+    <string name="income">Дохід</string>
+    <string name="cost">Витрати</string>
+
+
+
+    // add accounts, debts,  transactions activities text fields
+    <string name="name">Назва</string>
+    <string name="account_type">Тип рахунку</string>
+
+    <string name="currency">Валюта</string>
+    <string name="date">Дата</string>
+    <string name="category">Категорія</string>
+    <string name="account">Рахунок</string>
+
+    <string name="account_from">З рахунку</string>
+    <string name="account_to">На рахунок</string>
+    <string name="exchange">Курс</string>
+
+    <string name="deadline">Дедлайн</string>
+
+
+
+
+    // warnings and alarms (dialogs, toasts etc.)
+
+    <string name="dialog_text_main_no_accounts">Для початку роботи додайте Ваші рахунки</string>
+
+    <string name="empty_amount_field">Введіть суму</string>
+    <string name="empty_name_field">Введіть назву</string>
+    <string name="empty_exchange_field">Введіть курс</string>
+
+    <string name="no_account">Відсутні рахунки!</string>
+
+    <string name="account_name_exist">Рахунок з такою назвою вже існує. Спробуйте іншу</string>
+    <string name="snack_account_list">Для редагування зробіть довге натискання на рахунок</string>
+
+    <string name="dialog_text_delete_account">Увага! Рахунок буде видалено</string>
+    <string name="dialog_title_delete">Видалення</string>
+
+    <string name="account_empty_list">Тут відображатимуться Ваші рахунки</string>
+    <string name="transaction_empty_list">Тут відображатимуться Ваші транзакції</string>
+    <string name="debt_empty_list">Тут відображатимуться Ваші борги</string>
+
+    <string name="not_enough_costs">Недостатньо коштів на рахунку</string>
+
+    <string name="dialog_text_transaction_no_account">Для здійснення транзакцій потрібен хоча б 1 рахунок</string>
+    <string name="dialog_text_transfer_no_accounts">Для переказу потрібні мінімум 2 рахунки</string>
+
+    <string name="transaction_delete_warning">Видалення транзакції змінить стан рахунку</string>
+
+    <string name="dialog_text_debt_no_account">Для роботи з боргами потрібен хоча б 1 рахунок</string>
+
+    <string name="debt_delete_warning">Видалення боргу змінить стан рахунку</string>
+    <string name="debt_no_available_accounts_warning">Немає доступних рахунків для даної дії</string>
+    <string name="debt_sum_more_then_amount">Введена сума перевищує суму боргу</string>
+
+    <string name="transaction_date_future">Дата транзакції не може бути майбутньою</string>
+    <string name="debt_deadline_past">Дедлайн боргу не може бути в минулому</string>
+
+    <string name="press_again_to_exit">Натисніть ще раз, щоб вийти</string>
+
+    <string name="db_backup_to">Резервна копія даних збережена до</string>
+
+    <string name="no_data_yet">Немає даних</string>
+
+
+
+    //etc.
+    <string name="main_balance_menu_exchange">Конвертувати всі кошти у вибрану валюту</string>
+    <string name="main_balance_menu_show_only_integers">Відображати тільки цілі значення на графіках</string>
+
+
+
+    //FAQ
+    <string name="faq_about_app">
+        Мультивалютний додаток для ведення приватної бухгалтерії.
+    </string>
+    <string name="faq_about_accounts">
+        Для початку роботи з FinU потрібно додати рахунки.
+        При створенні вказується сума, назва, тип (готівка, картка, депозит), і валюта.
+        Всі створені рахунки відображаються у відповідній вкладці.
+        Для редагування/видалення потрібно викликати контекстне меню
+        (зробити довге натискання на потрібний рахунок в списку).
+    </string>
+    <string name="faq_about_transactions">
+        Списання/додавання коштів.
+        Для роботи з Транзакціями потрібен мінімум 1 рахунок.
+        Червона кнопка - витрати, зелена - дохід.
+        При створенні вказується сума, рахунок (з якого витрачено чи на який додано кошти), категорія і дата транзакції.
+        Якщо є 2 і більше рахунків, доступна функція переказу між рахунками (синя кнопка).
+        Вказується сума, рахунок, з якого знімаються кошти, і рахунок, на який вони додаються.
+        Якщо кошти на рахунках в різних валютах, додатково з`являється поле курсу,
+        за яким здійснюється транзакція (при необхідності вказане значення можна змінити).
+        Доходи і витрати відображаються у вкладці Транзакції.
+        Для редагування/видалення потрібно викликати контекстне меню
+        (зробити довге натискання на потрібну транзакцію в списку).
+    </string>
+    <string name="faq_about_debts">
+        Дати/взяти в борг.
+        Дати в борг (зелена кнопка) – сума буде списана з рахунку.
+        Взяти в борг (червона кнопка) – сума буде додана до рахунку.
+        При створенні вказується сума, назва (наприклад, ім`я боржника чи короткий опис),
+        рахунок (з якого будуть списані чи на який будуть нараховані кошти),
+        та дейдлайн (дата, коли борг має бути сплачено).
+        Борги відображаються списком, як Рахунки та Транзакції.
+        Шкала внизу кожного боргу показує його поточний стан (скільки відсотків боргу ще не сплачено).
+        При виклику контекстного меню (довге натискання на потрібний борг в списку) з`являться такі пункти:
+        сплатити весь борг (поточна сума буде додана (якщо давали в борг) чи списана (якщо брали в борг) з вибраного рахунку,
+        після чого борг буде видалено), сплатити частину боргу, додати суму до боргу, редагувати, видалити.
+    </string>
+    <string name="faq_about_home">
+        Основна інформація по рахункам, боргам (Баланс) та транзакціям (Звіт).
+        Баланс. Графік відображає суму коштів, груповану по типам (готівка, картки, депозити та борги)
+        та валюті, що вибирається з випадаючого списку.
+        Якщо натиснути на іконку праворуч над графіком, з`являться налаштування.
+        При вибраному пункті `Конвертувати всі кошти у вибрану валюту` на графіку буде відображатись
+        сума рахунків у всіх валютах, групована по типу.
+        Звіт. Відображає суму доходів і витрат за вибраний період
+        (день, тиждень, місяць, рік), яка прив`язується до вибраної в балансі валюти.
+        Також можна змінити тип графіку.
+    </string>
+
+
+    //about
+    <string name="general_info">Загальна інформація</string>
+    <string name="about_app_version">версія</string>
+    <string name="about_app_developer">Android Collider © 2015–2017</string>
+
+    <string name="about_app_rates_source">Джерело курсів валют:</string>
+    <string name="about_app_rates_source_link"><a href="www.minfin.com.ua/currency/">http://www.minfin.com.ua/currency/</a></string>
+
+    <string name="about_app_mail_to_dev"><a href="mailto:android.collider@gmail.com">android.collider@gmail.com</a></string>
+
+
+
+
+
+    //string arrays
+
+    <string-array name="transaction_category_expense_array">
+        <item>Їжа</item>
+        <item>Проїзд</item>
+        <item>Одяг</item>
+        <item>Розваги</item>
+        <item>Подарунки</item>
+        <item>Здоров`я</item>
+        <item>Освіта</item>
+        <item>Електроніка</item>
+        <item>Інше</item>
+    </string-array>
+
+
+    <string-array name="transaction_category_income_array">
+        <item>Зарплата</item>
+        <item>Підробіток</item>
+        <item>Відсотки</item>
+        <item>Інше</item>
+    </string-array>
+
+
+    <string-array name="account_type_array">
+        <item>Готівка</item>
+        <item>Картки</item>
+        <item>Депозити</item>
+    </string-array>
+
+
+    <string-array name="account_currency_array">
+        <item>UAH</item>
+        <item>USD</item>
+        <item>EUR</item>
+        <item>RUB</item>
+        <item>GBP</item>
+    </string-array>
+
+
+    <string-array name="account_currency_array_language">
+        <item>грн</item>
+        <item>$</item>
+        <item>€</item>
+        <item>руб</item>
+        <item>£</item>
+    </string-array>
+
+
+    <string-array name="main_statistic_period_array">
+        <item>День</item>
+        <item>Тиждень</item>
+        <item>Місяць</item>
+        <item>Рік</item>
+    </string-array>
+
+
+    <string-array name="chart_type_array">
+        <item>Гістограма</item>
+        <item>Кругова</item>
+    </string-array>
+
+
+    <string-array name="json_rates_array">
+        <item>usd</item>
+        <item>eur</item>
+        <item>rub</item>
+        <item>gbp</item>
+    </string-array>
+
+
+    <string-array name="navigation_drawer_string_array">
+        <item>@string/tab_home</item>
+        <item>@string/tab_transactions</item>
+        <item>@string/tab_accounts</item>
+        <item>@string/debts</item>
+        <item>@string/settings</item>
+        <item>@string/app_faq</item>
+        <item>@string/app_about</item>
+    </string-array>
+
+
+</resources>

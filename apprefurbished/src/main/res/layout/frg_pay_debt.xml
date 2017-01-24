@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutActPayDebtParent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_marginTop="@dimen/common_padding_large"
+    android:paddingLeft="@dimen/common_padding_medium"
+    android:paddingRight="@dimen/common_padding_medium"
+    android:scrollbars="none">
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/cardPayDebtElements"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardElevation="@dimen/elevation_medium"
+        card_view:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="30dp"
+            android:paddingLeft="@dimen/common_padding_xlarge"
+            android:paddingRight="@dimen/common_padding_xlarge"
+            android:paddingTop="@dimen/common_padding_xlarge">
+
+            <TextView
+                android:id="@+id/tvPayDebtAmount"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:singleLine="true"
+                android:textColor="@color/custom_text_gray_dark"
+                android:textSize="36sp" />
+
+            <TextView
+                android:id="@+id/tvPayDebtNameHeader"
+                style="@style/BodyFontSecondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvPayDebtAmount"
+                android:layout_marginTop="32dp"
+                android:text="@string/name"
+                android:textAllCaps="true" />
+
+            <View
+                android:id="@+id/cvAddAccountDividerName"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/tvPayDebtNameHeader"
+                android:layout_marginTop="5dp"
+                android:background="@color/custom_light_gray" />
+
+            <RelativeLayout
+                android:id="@+id/layoutPayDebtName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cvAddAccountDividerName"
+                android:layout_marginTop="16dp"
+                android:baselineAligned="false"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/common_padding_small"
+                android:paddingRight="@dimen/common_padding_small">
+
+                <ImageView
+                    android:id="@+id/ivPayDebtName"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginRight="12dp"
+                    android:contentDescription="@string/empty_amount_field"
+                    android:src="@drawable/ic_clipboard_text_blue_gray_48dp" />
+
+                <TextView
+                    android:id="@+id/tvPayDebtName"
+                    style="@style/TitleFont"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/ivPayDebtName"
+                    android:singleLine="true" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tvPayDebtAccount"
+                style="@style/BodyFontSecondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/layoutPayDebtName"
+                android:layout_marginTop="24dp"
+                android:text="@string/account"
+                android:textAllCaps="true" />
+
+            <View
+                android:id="@+id/cvPayDebtDividerTop"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/tvPayDebtAccount"
+                android:layout_marginTop="5dp"
+                android:background="@color/custom_light_gray" />
+
+            <LinearLayout
+                android:id="@+id/layoutPayDebtAccount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/cvPayDebtDividerTop"
+                android:baselineAligned="false"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/spinPayDebtAccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:prompt="@string/account"
+                    android:spinnerMode="dialog" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/layoutPayDebtAccount"
+                android:background="@color/custom_light_gray" />
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</ScrollView>

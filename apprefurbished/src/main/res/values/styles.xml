@@ -1,0 +1,161 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="colorPrimary">@color/custom_blue_gray</item>
+        <item name="colorPrimaryDark">@color/custom_blue_gray_dark</item>
+        <item name="colorAccent">@color/custom_cyan_dark</item>
+
+    </style>
+
+
+    <style name="ThemeOverlay.CustomToolbar" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:colorBackground">@color/custom_blue_gray</item>
+        <item name="android:textColor">@color/custom_text_light</item>
+    </style>
+
+
+    <style name="TitleFont" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">@dimen/text_size_title</item>
+        <item name="android:textColor">@color/custom_text_gray_dark</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:typeface">sans</item>
+    </style>
+
+
+    <style name="TitleFontSecondary" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">@dimen/text_size_title</item>
+        <item name="android:textColor">@color/custom_text_secondary</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:typeface">sans</item>
+    </style>
+
+
+    <style name="BodyFontSecondary" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">@dimen/text_size_body</item>
+        <item name="android:textColor">@color/custom_text_secondary</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:typeface">sans</item>
+    </style>
+
+
+    <style name="CaptionFontSecondary" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">@dimen/text_size_caption</item>
+        <item name="android:textColor">@color/custom_text_secondary</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:typeface">sans</item>
+    </style>
+
+
+    <style name="SpinnerFont" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">@dimen/text_size_spinner</item>
+        <item name="android:textColor">@color/custom_text_gray_dark</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:typeface">sans</item>
+    </style>
+
+
+    <style name="SubheadFontSecondary" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">@dimen/text_size_subhead</item>
+        <item name="android:textColor">@color/custom_text_secondary</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:typeface">sans</item>
+    </style>
+
+
+    <style name="SubheadFont" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">@dimen/text_size_subhead</item>
+        <item name="android:textColor">@color/custom_text_gray_dark</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:typeface">sans</item>
+    </style>
+
+
+    <style name="TitleBigFont" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">@dimen/text_size_big</item>
+        <item name="android:textColor">@color/custom_text_gray_dark</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:typeface">sans</item>
+    </style>
+
+    <style name="TabsFont" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:typeface">sans</item>
+    </style>
+
+
+    <style name="floating_action_button_big">
+        <item name="android:layout_marginLeft">0dp</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginRight">@dimen/common_padding_large</item>
+        <item name="android:layout_marginBottom">@dimen/common_padding_large</item>
+    </style>
+
+    <style name="floating_action_button_small_expense">
+        <item name="android:layout_marginLeft">0dp</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_marginBottom">72dp</item>
+    </style>
+
+    <style name="floating_action_button_small_income">
+        <item name="android:layout_marginLeft">0dp</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_marginBottom">128dp</item>
+    </style>
+
+    <style name="floating_action_button_small_transfer">
+        <item name="android:layout_marginLeft">0dp</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginRight">15dp</item>
+        <item name="android:layout_marginBottom">184dp</item>
+    </style>
+
+
+
+
+    <style name="MenuFabStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/common_padding_large</item>
+        <item name="menu_fab_size">normal</item>
+        <item name="menu_fab_show_animation">@anim/jump_from_down</item>
+        <item name="menu_fab_hide_animation">@anim/jump_to_down</item>
+        <item name="menu_shadowColor">#444</item>
+        <item name="menu_colorNormal">@color/custom_cyan_dark</item>
+        <item name="menu_colorPressed">@color/custom_cyan_dark_press</item>
+        <item name="menu_colorRipple">@color/custom_cyan_dark_ripple</item>
+        <item name="menu_animationDelayPerItem">0</item>
+        <item name="menu_labels_ellipsize">end</item>
+        <item name="menu_icon">@drawable/ic_plus_white_48dp</item>
+    </style>
+
+
+    <style name="FabSmall">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="fab_size">mini</item>
+    </style>
+
+    <style name="FabSmallGreen" parent="FabSmall">
+        <item name="fab_colorNormal">@color/custom_green</item>
+        <item name="fab_colorPressed">@color/custom_green_press</item>
+        <item name="fab_colorRipple">@color/custom_green_ripple</item>
+    </style>
+
+    <style name="FabSmallRed" parent="FabSmall">
+        <item name="fab_colorNormal">@color/custom_red</item>
+        <item name="fab_colorPressed">@color/custom_red_press</item>
+        <item name="fab_colorRipple">@color/custom_red_ripple</item>
+    </style>
+
+    <style name="FabSmallBlue" parent="FabSmall">
+        <item name="fab_colorNormal">@color/custom_indigo</item>
+        <item name="fab_colorPressed">@color/custom_indigo_press</item>
+        <item name="fab_colorRipple">@color/custom_indigo_ripple</item>
+    </style>
+
+</resources>

@@ -1,1 +1,1 @@
-include ':numberkeyboardview', ':app'
+include ':numberkeyboardview', ':app', 'apprefurbished', ':floatingactionbutton'

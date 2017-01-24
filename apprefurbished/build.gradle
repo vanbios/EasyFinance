@@ -1,0 +1,121 @@
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.21.6'
+    }
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'me.tatarka:gradle-retrolambda:3.2.5'
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+apply plugin: 'io.fabric'
+apply plugin: 'me.tatarka.retrolambda'
+
+repositories {
+    maven { url 'https://maven.fabric.io/public' }
+}
+
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "23.0.3"
+
+    defaultConfig {
+        applicationId "com.androidcollider.easyfin"
+        minSdkVersion 14
+        targetSdkVersion 25
+        versionCode 6
+        versionName "1.2.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+
+ext {
+    supportLibraryVersion = '25.1.0'
+    retrofitVersion = '2.1.0'
+    gmsVersion = '10.0.1'
+    daggerVersion = '2.7'
+    gsonVersion = '2.8.0'
+    butterknifeVersion = '8.4.0'
+    lombokVersion = '1.16.12'
+    eventbusVersion = '3.0.0'
+    streamapiVersion = '1.1.4'
+    rxjavaVersion = '1.2.3'
+    rxandroidVersion = '1.2.1'
+    rxmathVersion = '1.0.0'
+    mpchartVersion = '2.1.3'
+    jsr250Version = '1.0'
+    crashlyticsVersion = '2.6.5'
+    materialdialogVersion = '0.8.5.8'
+    fabVersion = '1.6.4'
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile "com.android.support:appcompat-v7:$supportLibraryVersion"
+    compile "com.android.support:design:$supportLibraryVersion"
+    compile "com.android.support:cardview-v7:$supportLibraryVersion"
+    compile "com.google.android.gms:play-services-analytics:$gmsVersion"
+    compile("com.github.afollestad.material-dialogs:core:$materialdialogVersion@aar") {
+        transitive = true
+    }
+    compile "com.github.PhilJay:MPAndroidChart:$mpchartVersion"
+    compile project(':numberkeyboardview')
+    compile project(':floatingactionbutton')
+    compile("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar") {
+        transitive = true;
+    }
+
+    //dagger 2
+    apt "com.google.dagger:dagger-compiler:$daggerVersion"
+    compile "com.google.dagger:dagger:$daggerVersion"
+    provided "javax.annotation:jsr250-api:$jsr250Version"
+
+    //field and method binding
+    compile "com.jakewharton:butterknife:$butterknifeVersion"
+    apt "com.jakewharton:butterknife-compiler:$butterknifeVersion"
+
+    //retrofit 2
+    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    compile "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion"
+
+    compile "com.google.code.gson:gson:$gsonVersion"
+
+    //events
+    compile "org.greenrobot:eventbus:$eventbusVersion"
+
+    // stream api
+    compile "com.annimon:stream:$streamapiVersion"
+
+    // rx
+    compile "io.reactivex:rxandroid:$rxandroidVersion"
+    compile "io.reactivex:rxjava:$rxjavaVersion"
+    compile "io.reactivex:rxjava-math:$rxmathVersion"
+
+    provided "org.projectlombok:lombok:$lombokVersion"
+    apt "org.projectlombok:lombok:$lombokVersion"
+}
