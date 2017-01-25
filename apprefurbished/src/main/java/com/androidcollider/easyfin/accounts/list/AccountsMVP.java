@@ -1,5 +1,7 @@
 package com.androidcollider.easyfin.accounts.list;
 
+import android.support.annotation.Nullable;
+
 import com.androidcollider.easyfin.common.models.Account;
 
 import java.util.List;
@@ -32,7 +34,7 @@ interface AccountsMVP {
 
     interface Presenter {
 
-        void setView(AccountsMVP.View view);
+        void setView(@Nullable AccountsMVP.View view);
 
         void loadData();
 

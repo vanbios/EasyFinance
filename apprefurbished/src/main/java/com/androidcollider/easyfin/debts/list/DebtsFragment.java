@@ -17,14 +17,10 @@ import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgDebts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
+import com.androidcollider.easyfin.common.models.Debt;
+import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment;
 import com.androidcollider.easyfin.debts.add_edit.FrgAddDebt;
 import com.androidcollider.easyfin.debts.pay.FrgPayDebt;
-import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment;
-import com.androidcollider.easyfin.common.managers.format.date.DateFormatManager;
-import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
-import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
-import com.androidcollider.easyfin.common.models.Debt;
-import com.androidcollider.easyfin.common.repository.Repository;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -32,20 +28,18 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rx.Subscriber;
 
 /**
  * @author Ihor Bilous
  */
 
-public class FrgDebts extends CommonFragment {
+public class DebtsFragment extends CommonFragment implements DebtsMVP.View {
 
     @BindView(R.id.recyclerDebt)
     RecyclerView recyclerView;
@@ -60,20 +54,15 @@ public class FrgDebts extends CommonFragment {
     @BindView(R.id.debts_content)
     RelativeLayout mainContent;
 
-    private List<Debt> debtList;
+    public static final int PAY_ALL = 1, PAY_PART = 2, TAKE_MORE = 3, ADD = 0, EDIT = 1;
+    static final int ACTION_EDIT = 1, ACTION_PAY = 2;
+    public static final int TYPE_GIVE = 0, TYPE_TAKE = 1;
+    public static final String DEBT = "debt", TYPE = "type", MODE = "mode";
+
     private RecyclerDebtAdapter recyclerAdapter;
 
     @Inject
-    Repository repository;
-
-    @Inject
-    DateFormatManager dateFormatManager;
-
-    @Inject
-    NumberFormatManager numberFormatManager;
-
-    @Inject
-    ResourcesManager resourcesManager;
+    DebtsMVP.Presenter presenter;
 
 
     @Override
@@ -90,10 +79,9 @@ public class FrgDebts extends CommonFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        debtList = new ArrayList<>();
         setupUI();
-        loadData();
+        presenter.setView(this);
+        presenter.loadData();
         EventBus.getDefault().register(this);
         fabMenu.hideMenu(false);
         new Handler().postDelayed(() -> fabMenu.showMenu(true), 300);
@@ -104,33 +92,9 @@ public class FrgDebts extends CommonFragment {
         addNonFabTouchListener(mainContent);
     }
 
-    private void loadData() {
-        repository.getAllDebts()
-                .subscribe(new Subscriber<List<Debt>>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<Debt> debtList) {
-                        FrgDebts.this.debtList.clear();
-                        FrgDebts.this.debtList.addAll(debtList);
-                        recyclerAdapter.addItems(FrgDebts.this.debtList);
-                        setVisibility();
-                    }
-                });
-    }
-
     private void setupRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        recyclerAdapter = new RecyclerDebtAdapter(getActivity(), dateFormatManager, numberFormatManager, resourcesManager);
+        recyclerAdapter = new RecyclerDebtAdapter();
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
@@ -156,8 +120,8 @@ public class FrgDebts extends CommonFragment {
     }
 
     private void setVisibility() {
-        recyclerView.setVisibility(debtList.isEmpty() ? View.GONE : View.VISIBLE);
-        tvEmpty.setVisibility(debtList.isEmpty() ? View.VISIBLE : View.GONE);
+        recyclerView.setVisibility(recyclerAdapter.getItemCount() == 0 ? View.GONE : View.VISIBLE);
+        tvEmpty.setVisibility(recyclerAdapter.getItemCount() == 0 ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -170,16 +134,6 @@ public class FrgDebts extends CommonFragment {
         return false;
     }
 
-    private void goToAddDebt(int type) {
-        FrgAddDebt frgAddDebt = new FrgAddDebt();
-        Bundle arguments = new Bundle();
-        arguments.putInt("mode", 0);
-        arguments.putInt("type", type);
-        frgAddDebt.setArguments(arguments);
-
-        addFragment(frgAddDebt);
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -189,23 +143,23 @@ public class FrgDebts extends CommonFragment {
     public boolean onContextItemSelected(MenuItem item) {
         int pos;
         try {
-            pos = (int) recyclerAdapter.getPosition();
+            pos = recyclerAdapter.getPosition();
         } catch (Exception e) {
             return super.onContextItemSelected(item);
         }
 
         switch (item.getItemId()) {
             case R.id.ctx_menu_pay_all_debt:
-                goToPayDebt(pos, 1);
+                presenter.getDebtById(recyclerAdapter.getDebtIdByPos(pos), PAY_ALL, ACTION_PAY);
                 break;
             case R.id.ctx_menu_pay_part_debt:
-                goToPayDebt(pos, 2);
+                presenter.getDebtById(recyclerAdapter.getDebtIdByPos(pos), PAY_PART, ACTION_PAY);
                 break;
             case R.id.ctx_menu_take_more_debt:
-                goToPayDebt(pos, 3);
+                presenter.getDebtById(recyclerAdapter.getDebtIdByPos(pos), TAKE_MORE, ACTION_PAY);
                 break;
             case R.id.ctx_menu_edit_debt:
-                goToEditDebt(pos, 1);
+                presenter.getDebtById(recyclerAdapter.getDebtIdByPos(pos), EDIT, ACTION_EDIT);
                 break;
             case R.id.ctx_menu_delete_debt:
                 showDialogDeleteDebt(pos);
@@ -220,39 +174,14 @@ public class FrgDebts extends CommonFragment {
                 .content(getString(R.string.debt_delete_warning))
                 .positiveText(getString(R.string.delete))
                 .negativeText(getString(R.string.cancel))
-                .onPositive((dialog, which) -> deleteDebt(pos))
+                .onPositive((dialog, which) -> presenter.deleteDebtById(recyclerAdapter.getDebtIdByPos(pos)))
                 .cancelable(false)
                 .show();
     }
 
-    private void deleteDebt(int pos) {
-        Debt debt = debtList.get(pos);
-        repository.deleteDebt(debt.getIdAccount(), debt.getId(), debt.getAmountCurrent(), debt.getType())
-                .subscribe(new Subscriber<Boolean>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(Boolean aBoolean) {
-                        debtList.remove(pos);
-                        recyclerAdapter.deleteItem(pos);
-                        setVisibility();
-                        pushBroadcast();
-                    }
-                });
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(UpdateFrgDebts event) {
-        loadData();
+        presenter.loadData();
     }
 
     private void pushBroadcast() {
@@ -260,21 +189,11 @@ public class FrgDebts extends CommonFragment {
         EventBus.getDefault().post(new UpdateFrgAccounts());
     }
 
-    private void goToPayDebt(int pos, int mode) {
-        FrgPayDebt frgPayDebt = new FrgPayDebt();
-        Bundle arguments = new Bundle();
-        arguments.putInt("mode", mode);
-        arguments.putSerializable("debt", debtList.get(pos));
-        frgPayDebt.setArguments(arguments);
-
-        addFragment(frgPayDebt);
-    }
-
-    public void goToEditDebt(int pos, int mode) {
+    private void goToAddDebt(int type) {
         FrgAddDebt frgAddDebt = new FrgAddDebt();
         Bundle arguments = new Bundle();
-        arguments.putInt("mode", mode);
-        arguments.putSerializable("debt", debtList.get(pos));
+        arguments.putInt(MODE, ADD);
+        arguments.putInt(TYPE, type);
         frgAddDebt.setArguments(arguments);
 
         addFragment(frgAddDebt);
@@ -290,11 +209,11 @@ public class FrgDebts extends CommonFragment {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnFloatAddDebtTake:
-                goToAddDebt(1);
+                goToAddDebt(TYPE_TAKE);
                 collapseFloatingMenu(false);
                 break;
             case R.id.btnFloatAddDebtGive:
-                goToAddDebt(0);
+                goToAddDebt(TYPE_GIVE);
                 collapseFloatingMenu(false);
                 break;
         }
@@ -321,5 +240,40 @@ public class FrgDebts extends CommonFragment {
     @Override
     public String getTitle() {
         return getString(R.string.debts);
+    }
+
+    @Override
+    public void setDebtList(List<DebtViewModel> debtList) {
+        recyclerAdapter.setItems(debtList);
+        setVisibility();
+    }
+
+    @Override
+    public void goToEditDebt(Debt debt, int mode) {
+        FrgAddDebt frgAddDebt = new FrgAddDebt();
+        Bundle arguments = new Bundle();
+        arguments.putInt(MODE, mode);
+        arguments.putSerializable(DEBT, debt);
+        frgAddDebt.setArguments(arguments);
+
+        addFragment(frgAddDebt);
+    }
+
+    @Override
+    public void goToPayDebt(Debt debt, int mode) {
+        FrgPayDebt frgPayDebt = new FrgPayDebt();
+        Bundle arguments = new Bundle();
+        arguments.putInt(MODE, mode);
+        arguments.putSerializable(DEBT, debt);
+        frgPayDebt.setArguments(arguments);
+
+        addFragment(frgPayDebt);
+    }
+
+    @Override
+    public void deleteDebt() {
+        recyclerAdapter.deleteItem(recyclerAdapter.getPosition());
+        setVisibility();
+        pushBroadcast();
     }
 }

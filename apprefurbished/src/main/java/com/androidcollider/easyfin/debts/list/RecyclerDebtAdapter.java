@@ -1,8 +1,6 @@
 package com.androidcollider.easyfin.debts.list;
 
-import android.content.Context;
 import android.graphics.LightingColorFilter;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -13,10 +11,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.common.managers.format.date.DateFormatManager;
-import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
-import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
-import com.androidcollider.easyfin.common.models.Debt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,38 +24,25 @@ import static butterknife.ButterKnife.findById;
  * @author Ihor Bilous
  */
 
-public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapter.ViewHolder> {
+class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapter.ViewHolder> {
 
     @Getter
     @Setter
-    private long position;
-    private Context context;
-    private List<Debt> debtList;
-    private final String[] curArray, curLangArray;
-
-    private DateFormatManager dateFormatManager;
-    private NumberFormatManager numberFormatManager;
+    private int position;
+    private List<DebtViewModel> debtList;
 
 
-    public RecyclerDebtAdapter(Context context,
-                               DateFormatManager dateFormatManager,
-                               NumberFormatManager numberFormatManager,
-                               ResourcesManager resourcesManager) {
-        this.context = context;
+    RecyclerDebtAdapter() {
         this.debtList = new ArrayList<>();
-        this.curArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY);
-        this.curLangArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY_LANG);
-        this.dateFormatManager = dateFormatManager;
-        this.numberFormatManager = numberFormatManager;
     }
 
-    public void addItems(List<Debt> items) {
+    void setItems(List<DebtViewModel> items) {
         debtList.clear();
         debtList.addAll(items);
         notifyDataSetChanged();
     }
 
-    public void deleteItem(int position) {
+    void deleteItem(int position) {
         debtList.remove(position);
         notifyItemRemoved(position);
     }
@@ -76,8 +57,12 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
         return position;
     }
 
-    private Debt getDebt(int position) {
+    private DebtViewModel getDebt(int position) {
         return debtList.get(position);
+    }
+
+    int getDebtIdByPos(int position) {
+        return getDebt(position).getId();
     }
 
     @Override
@@ -87,38 +72,15 @@ public class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapte
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        Debt debt = getDebt(position);
+        DebtViewModel debt = getDebt(position);
         holder.tvDebtName.setText(debt.getName());
-
-        String curLang = null;
-
-        for (int i = 0; i < curArray.length; i++) {
-            if (debt.getCurrency().equals(curArray[i])) {
-                curLang = curLangArray[i];
-                break;
-            }
-        }
-
-        double amountCurrent = debt.getAmountCurrent();
-        double amountAll = debt.getAmountAll();
-
-        holder.tvAmount.setText(
-                String.format("%1$s %2$s",
-                        numberFormatManager.doubleToStringFormatter(
-                                amountCurrent,
-                                NumberFormatManager.FORMAT_1,
-                                NumberFormatManager.PRECISE_1
-                        ),
-                        curLang));
+        holder.tvAmount.setText(debt.getAmount());
         holder.tvAccountName.setText(debt.getAccountName());
-        holder.tvDate.setText(dateFormatManager.longToDateString(debt.getDate(), DateFormatManager.DAY_MONTH_YEAR_DOTS));
+        holder.tvDate.setText(debt.getDate());
+        holder.prgBar.setProgress(debt.getProgress());
+        holder.tvProgress.setText(debt.getProgressPercents());
 
-        int progress = (int) (amountCurrent / amountAll * 100);
-        holder.prgBar.setProgress(progress);
-        holder.tvProgress.setText(String.format("%s%%", progress));
-
-        int color = ContextCompat.getColor(context,
-                debt.getType() == 1 ? R.color.custom_red : R.color.custom_green);
+        int color = debt.getColorRes();
         holder.tvAmount.setTextColor(color);
         holder.prgBar.getProgressDrawable().setColorFilter(new LightingColorFilter(0xFF000000, color));
         holder.tvProgress.setTextColor(color);

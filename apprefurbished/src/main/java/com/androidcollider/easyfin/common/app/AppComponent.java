@@ -25,7 +25,8 @@ import com.androidcollider.easyfin.common.ui.fragments.FrgMain;
 import com.androidcollider.easyfin.common.ui.fragments.FrgNumericDialog;
 import com.androidcollider.easyfin.common.ui.fragments.FrgPref;
 import com.androidcollider.easyfin.debts.add_edit.FrgAddDebt;
-import com.androidcollider.easyfin.debts.list.FrgDebts;
+import com.androidcollider.easyfin.debts.list.DebtsFragment;
+import com.androidcollider.easyfin.debts.list.DebtsModule;
 import com.androidcollider.easyfin.debts.pay.FrgPayDebt;
 import com.androidcollider.easyfin.home.FrgHome;
 import com.androidcollider.easyfin.transactions.add_edit.btw_accounts.FrgAddTransactionBetweenAccounts;
@@ -62,7 +63,8 @@ import dagger.Component;
         ResourcesModule.class,
         ChartSetupModule.class,
         AccountsModule.class,
-        TransactionsModule.class
+        TransactionsModule.class,
+        DebtsModule.class
 })
 public interface AppComponent {
 
@@ -76,7 +78,7 @@ public interface AppComponent {
 
     void inject(TransactionsFragment transactionsFragment);
 
-    void inject(FrgDebts frgDebts);
+    void inject(DebtsFragment debtsFragment);
 
     void inject(FrgAddAccount frgAddAccount);
 

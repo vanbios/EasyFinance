@@ -30,7 +30,7 @@ import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit;
 import com.androidcollider.easyfin.accounts.add_edit.FrgAddAccount;
-import com.androidcollider.easyfin.debts.list.FrgDebts;
+import com.androidcollider.easyfin.debts.list.DebtsFragment;
 import com.androidcollider.easyfin.common.ui.fragments.FrgFAQ;
 import com.androidcollider.easyfin.common.ui.fragments.FrgMain;
 import com.androidcollider.easyfin.common.ui.fragments.FrgPref;
@@ -133,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                                 openSelectedFrgMainPage(2);
                                 break;
                             case 4:
-                                addFragment(new FrgDebts());
+                                addFragment(new DebtsFragment());
                                 break;
                             case 6:
                                 addFragment(new FrgPref());

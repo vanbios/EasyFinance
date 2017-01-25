@@ -9,14 +9,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.common.ui.adapters.SpinAccountForTransHeadIconAdapter;
-import com.androidcollider.easyfin.common.ui.MainActivity;
 import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgDebts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
-import com.androidcollider.easyfin.common.ui.fragments.FrgNumericDialog;
-import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit;
 import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.managers.ui.hide_touch_outside.HideTouchOutsideManager;
@@ -24,6 +20,11 @@ import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.common.models.Account;
 import com.androidcollider.easyfin.common.models.Debt;
 import com.androidcollider.easyfin.common.repository.Repository;
+import com.androidcollider.easyfin.common.ui.MainActivity;
+import com.androidcollider.easyfin.common.ui.adapters.SpinAccountForTransHeadIconAdapter;
+import com.androidcollider.easyfin.common.ui.fragments.FrgNumericDialog;
+import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit;
+import com.androidcollider.easyfin.debts.list.DebtsFragment;
 import com.annimon.stream.Stream;
 
 import org.greenrobot.eventbus.EventBus;
@@ -89,8 +90,8 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mode = getArguments().getInt("mode", 0);
-        debt = (Debt) getArguments().getSerializable("debt");
+        mode = getArguments().getInt(DebtsFragment.MODE, 0);
+        debt = (Debt) getArguments().getSerializable(DebtsFragment.DEBT);
 
         setToolbar();
         fillAvailableAccountsList();
@@ -107,7 +108,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
     private void setViews() {
         tvDebtName.setText(debt.getName());
-        if (mode == 1 || mode == 2) {
+        if (mode == DebtsFragment.PAY_ALL || mode == DebtsFragment.PAY_PART) {
             String amount = numberFormatManager.doubleToStringFormatterForEdit(
                     debt.getAmountCurrent(),
                     NumberFormatManager.FORMAT_1,
@@ -119,7 +120,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
             tvAmount.setText("0,00");
             openNumericDialog(tvAmount.getText().toString());
         }
-        if (mode == 1) tvAmount.setClickable(false);
+        if (mode == DebtsFragment.PAY_ALL) tvAmount.setClickable(false);
 
         spinAccount.setAdapter(new SpinAccountForTransHeadIconAdapter(
                 getActivity(),
@@ -164,7 +165,7 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
 
                         Stream.of(accountList)
                                 .filter(account ->
-                                        mode == 1 && type == 1 ?
+                                        mode == DebtsFragment.PAY_ALL && type == 1 ?
                                                 account.getCurrency().equals(currency) && account.getAmount() >= amount :
                                                 account.getCurrency().equals(currency))
                                 .forEach(accountsAvailableList::add);
@@ -378,13 +379,13 @@ public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialo
     @Override
     protected void handleSaveAction() {
         switch (mode) {
-            case 1:
+            case DebtsFragment.PAY_ALL:
                 payAllDebt();
                 break;
-            case 2:
+            case DebtsFragment.PAY_PART:
                 payPartDebt();
                 break;
-            case 3:
+            case DebtsFragment.TAKE_MORE:
                 takeMoreDebt();
                 break;
         }
