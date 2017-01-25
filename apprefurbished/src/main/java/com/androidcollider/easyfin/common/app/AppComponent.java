@@ -1,19 +1,8 @@
 package com.androidcollider.easyfin.common.app;
 
+import com.androidcollider.easyfin.accounts.add_edit.FrgAddAccount;
 import com.androidcollider.easyfin.accounts.list.AccountsFragment;
 import com.androidcollider.easyfin.accounts.list.AccountsModule;
-import com.androidcollider.easyfin.common.ui.MainActivity;
-import com.androidcollider.easyfin.accounts.add_edit.FrgAddAccount;
-import com.androidcollider.easyfin.debts.add_edit.FrgAddDebt;
-import com.androidcollider.easyfin.transactions.add_edit.btw_accounts.FrgAddTransactionBetweenAccounts;
-import com.androidcollider.easyfin.transactions.add_edit.income_expense.FrgAddTransactionDefault;
-import com.androidcollider.easyfin.debts.list.FrgDebts;
-import com.androidcollider.easyfin.home.FrgHome;
-import com.androidcollider.easyfin.common.ui.fragments.FrgMain;
-import com.androidcollider.easyfin.common.ui.fragments.FrgNumericDialog;
-import com.androidcollider.easyfin.debts.pay.FrgPayDebt;
-import com.androidcollider.easyfin.common.ui.fragments.FrgPref;
-import com.androidcollider.easyfin.transactions.list.FrgTransactions;
 import com.androidcollider.easyfin.common.managers.accounts_info.AccountsInfoModule;
 import com.androidcollider.easyfin.common.managers.api.ApiModule;
 import com.androidcollider.easyfin.common.managers.chart.data.ChartDataModule;
@@ -31,6 +20,18 @@ import com.androidcollider.easyfin.common.managers.ui.hide_touch_outside.HideTou
 import com.androidcollider.easyfin.common.managers.ui.shake_edit_text.ShakeEditTextModule;
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastModule;
 import com.androidcollider.easyfin.common.repository.RepositoryModule;
+import com.androidcollider.easyfin.common.ui.MainActivity;
+import com.androidcollider.easyfin.common.ui.fragments.FrgMain;
+import com.androidcollider.easyfin.common.ui.fragments.FrgNumericDialog;
+import com.androidcollider.easyfin.common.ui.fragments.FrgPref;
+import com.androidcollider.easyfin.debts.add_edit.FrgAddDebt;
+import com.androidcollider.easyfin.debts.list.FrgDebts;
+import com.androidcollider.easyfin.debts.pay.FrgPayDebt;
+import com.androidcollider.easyfin.home.FrgHome;
+import com.androidcollider.easyfin.transactions.add_edit.btw_accounts.FrgAddTransactionBetweenAccounts;
+import com.androidcollider.easyfin.transactions.add_edit.income_expense.FrgAddTransactionDefault;
+import com.androidcollider.easyfin.transactions.list.TransactionsFragment;
+import com.androidcollider.easyfin.transactions.list.TransactionsModule;
 
 import javax.inject.Singleton;
 
@@ -60,7 +61,8 @@ import dagger.Component;
         ChartDataModule.class,
         ResourcesModule.class,
         ChartSetupModule.class,
-        AccountsModule.class
+        AccountsModule.class,
+        TransactionsModule.class
 })
 public interface AppComponent {
 
@@ -72,7 +74,7 @@ public interface AppComponent {
 
     void inject(AccountsFragment accountsFragment);
 
-    void inject(FrgTransactions frgTransactions);
+    void inject(TransactionsFragment transactionsFragment);
 
     void inject(FrgDebts frgDebts);
 

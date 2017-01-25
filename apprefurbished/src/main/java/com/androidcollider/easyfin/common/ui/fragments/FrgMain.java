@@ -27,7 +27,7 @@ import com.androidcollider.easyfin.home.FrgHome;
 import com.androidcollider.easyfin.common.managers.accounts_info.AccountsInfoManager;
 import com.androidcollider.easyfin.transactions.add_edit.btw_accounts.FrgAddTransactionBetweenAccounts;
 import com.androidcollider.easyfin.transactions.add_edit.income_expense.FrgAddTransactionDefault;
-import com.androidcollider.easyfin.transactions.list.FrgTransactions;
+import com.androidcollider.easyfin.transactions.list.TransactionsFragment;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -84,7 +84,7 @@ public class FrgMain extends CommonFragment {
     private void initViewPager() {
         ViewPagerFragmentAdapter adapterPager = new ViewPagerFragmentAdapter(getChildFragmentManager());
         adapterPager.addFragment(new FrgHome(), getResources().getString(R.string.tab_home).toUpperCase());
-        adapterPager.addFragment(new FrgTransactions(), getResources().getString(R.string.tab_transactions).toUpperCase());
+        adapterPager.addFragment(new TransactionsFragment(), getResources().getString(R.string.tab_transactions).toUpperCase());
         adapterPager.addFragment(new AccountsFragment(), getResources().getString(R.string.tab_accounts).toUpperCase());
 
         pager.setAdapter(adapterPager);

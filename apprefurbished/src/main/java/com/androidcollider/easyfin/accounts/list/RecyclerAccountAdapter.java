@@ -39,7 +39,7 @@ class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccountAdapter
         typeIconsArray = resourcesManager.getIconArray(ResourcesManager.ICON_ACCOUNT_TYPE);
     }
 
-    void addItems(List<AccountViewModel> items) {
+    void setItems(List<AccountViewModel> items) {
         accountList.clear();
         accountList.addAll(items);
         notifyDataSetChanged();

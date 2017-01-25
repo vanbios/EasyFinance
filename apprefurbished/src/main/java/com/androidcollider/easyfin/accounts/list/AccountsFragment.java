@@ -140,7 +140,7 @@ public class AccountsFragment extends CommonFragmentWithEvents implements Accoun
 
     @Override
     public void setAccountList(List<AccountViewModel> accountList) {
-        recyclerAdapter.addItems(accountList);
+        recyclerAdapter.setItems(accountList);
         setVisibility();
     }
 
