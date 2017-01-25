@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.accounts.add_edit.FrgAddAccount;
+import com.androidcollider.easyfin.accounts.add_edit.AddAccountFragment;
 import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
@@ -41,6 +41,8 @@ public class AccountsFragment extends CommonFragmentWithEvents implements Accoun
     @BindView(R.id.tvEmptyAccounts)
     TextView tvEmpty;
     private RecyclerAccountAdapter recyclerAdapter;
+
+    public static final String ACCOUNT = "account", MODE = "mode";
 
     @Inject
     ResourcesManager resourcesManager;
@@ -146,14 +148,14 @@ public class AccountsFragment extends CommonFragmentWithEvents implements Accoun
 
     @Override
     public void goToEditAccount(Account account) {
-        FrgAddAccount frgAddAccount = new FrgAddAccount();
+        AddAccountFragment addAccountFragment = new AddAccountFragment();
         Bundle arguments = new Bundle();
-        arguments.putInt("mode", 1);
-        arguments.putSerializable("account", account);
-        frgAddAccount.setArguments(arguments);
+        arguments.putInt(MODE, 1);
+        arguments.putSerializable(ACCOUNT, account);
+        addAccountFragment.setArguments(arguments);
         MainActivity activity = (MainActivity) getActivity();
         if (activity != null) {
-            activity.addFragment(frgAddAccount);
+            activity.addFragment(addAccountFragment);
         }
     }
 

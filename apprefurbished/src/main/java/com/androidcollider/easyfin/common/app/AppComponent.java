@@ -1,6 +1,7 @@
 package com.androidcollider.easyfin.common.app;
 
-import com.androidcollider.easyfin.accounts.add_edit.FrgAddAccount;
+import com.androidcollider.easyfin.accounts.add_edit.AddAccountFragment;
+import com.androidcollider.easyfin.accounts.add_edit.AddAccountModule;
 import com.androidcollider.easyfin.accounts.list.AccountsFragment;
 import com.androidcollider.easyfin.accounts.list.AccountsModule;
 import com.androidcollider.easyfin.common.managers.accounts_info.AccountsInfoModule;
@@ -64,7 +65,8 @@ import dagger.Component;
         ChartSetupModule.class,
         AccountsModule.class,
         TransactionsModule.class,
-        DebtsModule.class
+        DebtsModule.class,
+        AddAccountModule.class
 })
 public interface AppComponent {
 
@@ -80,7 +82,7 @@ public interface AppComponent {
 
     void inject(DebtsFragment debtsFragment);
 
-    void inject(FrgAddAccount frgAddAccount);
+    void inject(AddAccountFragment addAccountFragment);
 
     void inject(FrgAddTransactionDefault frgAddTransactionDefault);
 

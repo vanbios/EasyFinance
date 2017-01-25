@@ -25,11 +25,11 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.BuildConfig;
 import com.androidcollider.easyfin.R;
+import com.androidcollider.easyfin.accounts.add_edit.AddAccountFragment;
 import com.androidcollider.easyfin.common.ui.adapters.NavigationDrawerRecyclerAdapter;
 import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit;
-import com.androidcollider.easyfin.accounts.add_edit.FrgAddAccount;
 import com.androidcollider.easyfin.debts.list.DebtsFragment;
 import com.androidcollider.easyfin.common.ui.fragments.FrgFAQ;
 import com.androidcollider.easyfin.common.ui.fragments.FrgMain;
@@ -269,7 +269,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                 toastManager.showClosableToast(this, getString(R.string.press_again_to_exit), ToastManager.SHORT);
                 backPressExitTime = System.currentTimeMillis();
             }
-        } else if (fragment instanceof FrgAddAccount) popFragments();
+        } else if (fragment instanceof AddAccountFragment) popFragments();
         else if (fragment instanceof CommonFragmentAddEdit) popFragment();
         else popFragments();
     }

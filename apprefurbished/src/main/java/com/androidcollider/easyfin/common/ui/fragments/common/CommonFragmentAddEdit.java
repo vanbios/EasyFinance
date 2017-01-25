@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.accounts.add_edit.FrgAddAccount;
+import com.androidcollider.easyfin.accounts.add_edit.AddAccountFragment;
 import com.androidcollider.easyfin.common.ui.fragments.FrgNumericDialog;
 
 /**
@@ -88,12 +88,12 @@ public abstract class CommonFragmentAddEdit extends CommonFragment {
     private void goToAddAccount(boolean withFinish) {
         if (withFinish) finish();
 
-        FrgAddAccount frgAddAccount = new FrgAddAccount();
+        AddAccountFragment addAccountFragment = new AddAccountFragment();
         Bundle arguments = new Bundle();
         arguments.putInt("mode", 0);
-        frgAddAccount.setArguments(arguments);
+        addAccountFragment.setArguments(arguments);
 
-        addFragment(frgAddAccount);
+        addFragment(addAccountFragment);
     }
 
     protected abstract void handleSaveAction();

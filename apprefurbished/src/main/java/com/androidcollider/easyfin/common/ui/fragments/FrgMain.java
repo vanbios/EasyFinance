@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.accounts.add_edit.FrgAddAccount;
+import com.androidcollider.easyfin.accounts.add_edit.AddAccountFragment;
 import com.androidcollider.easyfin.accounts.list.AccountsFragment;
 import com.androidcollider.easyfin.common.ui.adapters.ViewPagerFragmentAdapter;
 import com.androidcollider.easyfin.common.ui.MainActivity;
@@ -186,11 +186,11 @@ public class FrgMain extends CommonFragment {
     }
 
     private void goToAddAccount() {
-        FrgAddAccount frgAddAccount = new FrgAddAccount();
+        AddAccountFragment addAccountFragment = new AddAccountFragment();
         Bundle arguments = new Bundle();
         arguments.putInt("mode", 0);
-        frgAddAccount.setArguments(arguments);
-        addFragment(frgAddAccount);
+        addAccountFragment.setArguments(arguments);
+        addFragment(addAccountFragment);
     }
 
     private void showDialogNoAccount() {
