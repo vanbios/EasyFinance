@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.accounts.add_edit.FrgAddAccount;
-import com.androidcollider.easyfin.accounts.list.FrgAccounts;
+import com.androidcollider.easyfin.accounts.list.AccountsFragment;
 import com.androidcollider.easyfin.common.ui.adapters.ViewPagerFragmentAdapter;
 import com.androidcollider.easyfin.common.ui.MainActivity;
 import com.androidcollider.easyfin.common.app.App;
@@ -85,7 +85,7 @@ public class FrgMain extends CommonFragment {
         ViewPagerFragmentAdapter adapterPager = new ViewPagerFragmentAdapter(getChildFragmentManager());
         adapterPager.addFragment(new FrgHome(), getResources().getString(R.string.tab_home).toUpperCase());
         adapterPager.addFragment(new FrgTransactions(), getResources().getString(R.string.tab_transactions).toUpperCase());
-        adapterPager.addFragment(new FrgAccounts(), getResources().getString(R.string.tab_accounts).toUpperCase());
+        adapterPager.addFragment(new AccountsFragment(), getResources().getString(R.string.tab_accounts).toUpperCase());
 
         pager.setAdapter(adapterPager);
         pager.setOffscreenPageLimit(3);

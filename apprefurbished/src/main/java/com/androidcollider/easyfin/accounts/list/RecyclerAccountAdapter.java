@@ -11,9 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
-import com.androidcollider.easyfin.common.models.Account;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,33 +25,27 @@ import static butterknife.ButterKnife.findById;
  * @author Ihor Bilous
  */
 
-public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccountAdapter.ViewHolder> {
+class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccountAdapter.ViewHolder> {
 
     @Getter
     @Setter
-    private long position;
-    private List<Account> accountList;
+    private int position;
+    private List<AccountViewModel> accountList;
     private final TypedArray typeIconsArray;
-    private final String[] curArray, curLangArray;
-
-    private NumberFormatManager numberFormatManager;
 
 
-    public RecyclerAccountAdapter(NumberFormatManager numberFormatManager, ResourcesManager resourcesManager) {
+    RecyclerAccountAdapter(ResourcesManager resourcesManager) {
         this.accountList = new ArrayList<>();
         typeIconsArray = resourcesManager.getIconArray(ResourcesManager.ICON_ACCOUNT_TYPE);
-        curArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY);
-        curLangArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY_LANG);
-        this.numberFormatManager = numberFormatManager;
     }
 
-    public void addItems(List<Account> items) {
+    void addItems(List<AccountViewModel> items) {
         accountList.clear();
         accountList.addAll(items);
         notifyDataSetChanged();
     }
 
-    public void deleteItem(int position) {
+    void deleteItem(int position) {
         accountList.remove(position);
         notifyItemRemoved(position);
     }
@@ -68,8 +60,12 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
         return position;
     }
 
-    private Account getAccount(int position) {
+    private AccountViewModel getAccount(int position) {
         return accountList.get(position);
+    }
+
+    int getAccountIdByPos(int position) {
+        return getAccount(position).getId();
     }
 
 
@@ -80,26 +76,10 @@ public class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccount
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        Account account = getAccount(position);
-        String curLang = null;
-
-        for (int i = 0; i < curArray.length; i++) {
-            if (account.getCurrency().equals(curArray[i])) {
-                curLang = curLangArray[i];
-                break;
-            }
-        }
+        AccountViewModel account = getAccount(position);
 
         holder.tvAccountName.setText(account.getName());
-        holder.tvAccountAmount.setText(
-                String.format("%1$s %2$s",
-                        numberFormatManager.doubleToStringFormatter(
-                                account.getAmount(),
-                                NumberFormatManager.FORMAT_1,
-                                NumberFormatManager.PRECISE_1
-                        ),
-                        curLang));
-
+        holder.tvAccountAmount.setText(account.getAmount());
         holder.ivAccountType.setImageDrawable(typeIconsArray.getDrawable(account.getType()));
 
         holder.mView.setOnLongClickListener(view -> {
