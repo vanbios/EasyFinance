@@ -24,7 +24,6 @@ import com.androidcollider.easyfin.common.managers.ui.shake_edit_text.ShakeEditT
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastModule;
 import com.androidcollider.easyfin.common.repository.RepositoryModule;
 import com.androidcollider.easyfin.common.ui.MainActivity;
-import com.androidcollider.easyfin.common.ui.fragments.FrgMain;
 import com.androidcollider.easyfin.common.ui.fragments.FrgNumericDialog;
 import com.androidcollider.easyfin.common.ui.fragments.FrgPref;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit;
@@ -33,6 +32,8 @@ import com.androidcollider.easyfin.debts.list.DebtsFragment;
 import com.androidcollider.easyfin.debts.list.DebtsModule;
 import com.androidcollider.easyfin.debts.pay.FrgPayDebt;
 import com.androidcollider.easyfin.home.FrgHome;
+import com.androidcollider.easyfin.main.MainFragment;
+import com.androidcollider.easyfin.main.MainModule;
 import com.androidcollider.easyfin.transactions.add_edit.btw_accounts.FrgAddTransactionBetweenAccounts;
 import com.androidcollider.easyfin.transactions.add_edit.income_expense.FrgAddTransactionDefault;
 import com.androidcollider.easyfin.transactions.list.TransactionsFragment;
@@ -68,6 +69,7 @@ import dagger.Component;
         ChartSetupModule.class,
         DialogModule.class,
         PermissionModule.class,
+        MainModule.class,
         AccountsModule.class,
         TransactionsModule.class,
         DebtsModule.class,
@@ -77,7 +79,7 @@ public interface AppComponent {
 
     void inject(MainActivity mainActivity);
 
-    void inject(FrgMain frgMain);
+    void inject(MainFragment mainFragment);
 
     void inject(FrgHome frgHome);
 

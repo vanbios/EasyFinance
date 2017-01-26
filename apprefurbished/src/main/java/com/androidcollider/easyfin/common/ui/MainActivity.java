@@ -32,7 +32,7 @@ import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager;
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.common.ui.adapters.NavigationDrawerRecyclerAdapter;
 import com.androidcollider.easyfin.common.ui.fragments.FrgFAQ;
-import com.androidcollider.easyfin.common.ui.fragments.FrgMain;
+import com.androidcollider.easyfin.main.MainFragment;
 import com.androidcollider.easyfin.common.ui.fragments.FrgPref;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit;
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         initializeViews();
         setToolbar(getString(R.string.app_name), TOOLBAR_DEFAULT);
 
-        addFragment(new FrgMain());
+        addFragment(new MainFragment());
 
         permissionManager.setActivity(this);
         permissionManager.requestRequiredPermissions();
@@ -183,9 +183,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     private void openSelectedFrgMainPage(int page) {
         popFragments();
         Fragment f = getTopFragment();
-        if (f instanceof FrgMain) {
-            FrgMain frgMain = (FrgMain) f;
-            frgMain.openSelectedPage(page);
+        if (f instanceof MainFragment) {
+            MainFragment mainFragment = (MainFragment) f;
+            mainFragment.openSelectedPage(page);
         }
     }
 
@@ -252,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     @Override
     public void onBackPressed() {
         Fragment fragment = getTopFragment();
-        if (fragment instanceof FrgMain) {
+        if (fragment instanceof MainFragment) {
             if (backPressExitTime + 2000 > System.currentTimeMillis()) {
                 this.finish();
             } else {

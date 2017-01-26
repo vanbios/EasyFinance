@@ -1,4 +1,4 @@
-package com.androidcollider.easyfin.common.ui.fragments;
+package com.androidcollider.easyfin.main;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,7 +15,6 @@ import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.accounts.add_edit.AddAccountFragment;
 import com.androidcollider.easyfin.accounts.list.AccountsFragment;
 import com.androidcollider.easyfin.common.app.App;
-import com.androidcollider.easyfin.common.managers.accounts_info.AccountsInfoManager;
 import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager;
 import com.androidcollider.easyfin.common.ui.MainActivity;
 import com.androidcollider.easyfin.common.ui.adapters.ViewPagerFragmentAdapter;
@@ -31,13 +30,12 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rx.Subscriber;
 
 /**
  * @author Ihor Bilous
  */
 
-public class FrgMain extends CommonFragment {
+public class MainFragment extends CommonFragment implements MainMVP.View {
 
     @BindView(R.id.pagerMain)
     ViewPager pager;
@@ -55,10 +53,10 @@ public class FrgMain extends CommonFragment {
     RelativeLayout mainContent;
 
     @Inject
-    AccountsInfoManager accountsInfoManager;
+    DialogManager dialogManager;
 
     @Inject
-    DialogManager dialogManager;
+    MainMVP.Presenter presenter;
 
 
     @Override
@@ -72,12 +70,12 @@ public class FrgMain extends CommonFragment {
         ((App) getActivity().getApplication()).getComponent().inject(this);
     }
 
-    private void initUI() {
-        initViewPager();
-        initFabs();
+    private void setupUI() {
+        setupViewPager();
+        setupFabs();
     }
 
-    private void initViewPager() {
+    private void setupViewPager() {
         ViewPagerFragmentAdapter adapterPager = new ViewPagerFragmentAdapter(getChildFragmentManager());
         adapterPager.addFragment(new FrgHome(), getResources().getString(R.string.tab_home).toUpperCase());
         adapterPager.addFragment(new TransactionsFragment(), getResources().getString(R.string.tab_transactions).toUpperCase());
@@ -106,7 +104,7 @@ public class FrgMain extends CommonFragment {
         tabLayout.setupWithViewPager(pager);
     }
 
-    private void initFabs() {
+    private void setupFabs() {
         fabMenu.setOnMenuButtonClickListener(v -> checkPageNum());
         addNonFabTouchListener(mainContent);
     }
@@ -115,29 +113,13 @@ public class FrgMain extends CommonFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        initUI();
+        setupUI();
 
         fabMenu.hideMenu(false);
         new Handler().postDelayed(() -> fabMenu.showMenu(true), 1000);
 
-        accountsInfoManager.getAccountsCountObservable()
-                .subscribe(new Subscriber<Integer>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(Integer count) {
-                        if (count == 0) showDialogNoAccount();
-                    }
-                });
+        presenter.setView(this);
+        presenter.checkIsAccountsExists();
     }
 
     /*private void showSnackBar() {
@@ -256,6 +238,11 @@ public class FrgMain extends CommonFragment {
                 collapseFloatingMenu(false);
                 break;
         }
+    }
+
+    @Override
+    public void informNoAccounts() {
+        showDialogNoAccount();
     }
 
     @Override

@@ -17,7 +17,7 @@ import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager;
 import com.androidcollider.easyfin.common.models.Transaction;
 import com.androidcollider.easyfin.common.ui.MainActivity;
-import com.androidcollider.easyfin.common.ui.fragments.FrgMain;
+import com.androidcollider.easyfin.main.MainFragment;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentWithEvents;
 import com.androidcollider.easyfin.transactions.add_edit.income_expense.FrgAddTransactionDefault;
 
@@ -86,7 +86,7 @@ public class TransactionsFragment extends CommonFragmentWithEvents implements Tr
 
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                FrgMain parentFragment = (FrgMain) getParentFragment();
+                MainFragment parentFragment = (MainFragment) getParentFragment();
                 if (parentFragment != null) {
                     if (dy > 0) {
                         parentFragment.hideMenu();
