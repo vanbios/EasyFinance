@@ -11,13 +11,14 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgDebts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
+import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager;
 import com.androidcollider.easyfin.common.models.Debt;
+import com.androidcollider.easyfin.common.ui.MainActivity;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment;
 import com.androidcollider.easyfin.debts.add_edit.FrgAddDebt;
 import com.androidcollider.easyfin.debts.pay.FrgPayDebt;
@@ -60,6 +61,9 @@ public class DebtsFragment extends CommonFragment implements DebtsMVP.View {
     public static final String DEBT = "debt", TYPE = "type", MODE = "mode";
 
     private RecyclerDebtAdapter recyclerAdapter;
+
+    @Inject
+    DialogManager dialogManager;
 
     @Inject
     DebtsMVP.Presenter presenter;
@@ -169,14 +173,14 @@ public class DebtsFragment extends CommonFragment implements DebtsMVP.View {
     }
 
     private void showDialogDeleteDebt(final int pos) {
-        new MaterialDialog.Builder(getActivity())
-                .title(getString(R.string.dialog_title_delete))
-                .content(getString(R.string.debt_delete_warning))
-                .positiveText(getString(R.string.delete))
-                .negativeText(getString(R.string.cancel))
-                .onPositive((dialog, which) -> presenter.deleteDebtById(recyclerAdapter.getDebtIdByPos(pos)))
-                .cancelable(false)
-                .show();
+        MainActivity activity = (MainActivity) getActivity();
+        if (activity != null) {
+            dialogManager.showDeleteDialog(
+                    activity,
+                    getString(R.string.debt_delete_warning),
+                    (dialog, which) -> presenter.deleteDebtById(recyclerAdapter.getDebtIdByPos(pos))
+            );
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

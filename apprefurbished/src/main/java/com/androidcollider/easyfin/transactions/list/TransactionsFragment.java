@@ -8,13 +8,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHome;
 import com.androidcollider.easyfin.common.events.UpdateFrgTransactions;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
+import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager;
 import com.androidcollider.easyfin.common.models.Transaction;
 import com.androidcollider.easyfin.common.ui.MainActivity;
 import com.androidcollider.easyfin.common.ui.fragments.FrgMain;
@@ -46,6 +46,9 @@ public class TransactionsFragment extends CommonFragmentWithEvents implements Tr
 
     @Inject
     ResourcesManager resourcesManager;
+
+    @Inject
+    DialogManager dialogManager;
 
     @Inject
     TransactionsMVP.Presenter presenter;
@@ -123,14 +126,11 @@ public class TransactionsFragment extends CommonFragmentWithEvents implements Tr
     private void showDialogDeleteTransaction(final int pos) {
         MainActivity activity = (MainActivity) getActivity();
         if (activity != null) {
-            new MaterialDialog.Builder(activity)
-                    .title(getString(R.string.dialog_title_delete))
-                    .content(getString(R.string.transaction_delete_warning))
-                    .positiveText(getString(R.string.delete))
-                    .negativeText(getString(R.string.cancel))
-                    .onPositive((dialog, which) -> presenter.deleteTransactionById(recyclerAdapter.getTransactionIdByPos(pos)))
-                    .cancelable(false)
-                    .show();
+            dialogManager.showDeleteDialog(
+                    activity,
+                    getString(R.string.transaction_delete_warning),
+                    (dialog, which) -> presenter.deleteTransactionById(recyclerAdapter.getTransactionIdByPos(pos))
+            );
         }
     }
 

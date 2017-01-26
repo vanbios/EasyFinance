@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,31 +21,28 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.androidcollider.easyfin.BuildConfig;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.accounts.add_edit.AddAccountFragment;
-import com.androidcollider.easyfin.common.ui.adapters.NavigationDrawerRecyclerAdapter;
 import com.androidcollider.easyfin.common.app.App;
-import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment;
-import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit;
-import com.androidcollider.easyfin.debts.list.DebtsFragment;
+import com.androidcollider.easyfin.common.managers.permission.PermissionManager;
+import com.androidcollider.easyfin.common.managers.rates.rates_loader.RatesLoaderManager;
+import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
+import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager;
+import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager;
+import com.androidcollider.easyfin.common.ui.adapters.NavigationDrawerRecyclerAdapter;
 import com.androidcollider.easyfin.common.ui.fragments.FrgFAQ;
 import com.androidcollider.easyfin.common.ui.fragments.FrgMain;
 import com.androidcollider.easyfin.common.ui.fragments.FrgPref;
+import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment;
+import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit;
 import com.androidcollider.easyfin.common.ui.fragments.common.PreferenceFragment;
-import com.androidcollider.easyfin.common.managers.rates.rates_loader.RatesLoaderManager;
-import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
-import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager;
+import com.androidcollider.easyfin.debts.list.DebtsFragment;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static butterknife.ButterKnife.findById;
 
 /**
  * @author Ihor Bilous
@@ -59,8 +57,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     @BindView(R.id.toolbarMain)
     Toolbar toolbar;
 
-    private MaterialDialog appAboutDialog;
-
     private static long backPressExitTime;
     private final int TOOLBAR_DEFAULT = 1;
 
@@ -71,7 +67,13 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     ToastManager toastManager;
 
     @Inject
+    DialogManager dialogManager;
+
+    @Inject
     ResourcesManager resourcesManager;
+
+    @Inject
+    PermissionManager permissionManager;
 
 
     @Override
@@ -89,9 +91,11 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
         initializeViews();
         setToolbar(getString(R.string.app_name), TOOLBAR_DEFAULT);
-        buildAppAboutDialog();
 
         addFragment(new FrgMain());
+
+        permissionManager.setActivity(this);
+        permissionManager.requestRequiredPermissions();
     }
 
     private void initializeViews() {
@@ -142,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                                 addFragment(new FrgFAQ());
                                 break;
                             case 8:
-                                appAboutDialog.show();
+                                dialogManager.showAppAboutDialog(MainActivity.this);
                                 break;
                         }
                     }
@@ -193,20 +197,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void buildAppAboutDialog() {
-        appAboutDialog = new MaterialDialog.Builder(this)
-                .title(R.string.app_about)
-                .customView(R.layout.app_about, true)
-                .positiveText(R.string.ok)
-                .build();
-
-        View appAboutLayout = appAboutDialog.getCustomView();
-        if (appAboutLayout != null) {
-            TextView tvVersion = findById(appAboutLayout, R.id.tvAboutAppVersion);
-            tvVersion.setText(String.format("%1$s %2$s", getString(R.string.about_app_version), BuildConfig.VERSION_NAME));
-        }
     }
 
 
@@ -284,5 +274,10 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         Intent intent = getIntent();
         this.finish();
         startActivity(intent);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        permissionManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

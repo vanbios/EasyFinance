@@ -13,13 +13,10 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.common.ui.adapters.SpinIconTextHeadAdapter;
-import com.androidcollider.easyfin.common.ui.MainActivity;
 import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgHome;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeNewRates;
-import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentWithEvents;
 import com.androidcollider.easyfin.common.managers.chart.data.ChartDataManager;
 import com.androidcollider.easyfin.common.managers.chart.setup.ChartSetupManager;
 import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
@@ -27,7 +24,11 @@ import com.androidcollider.easyfin.common.managers.rates.exchange.ExchangeManage
 import com.androidcollider.easyfin.common.managers.rates.rates_info.RatesInfoManager;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.managers.shared_pref.SharedPrefManager;
+import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager;
 import com.androidcollider.easyfin.common.repository.Repository;
+import com.androidcollider.easyfin.common.ui.MainActivity;
+import com.androidcollider.easyfin.common.ui.adapters.SpinIconTextHeadAdapter;
+import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentWithEvents;
 import com.androidcollider.easyfin.common.utils.ChartLargeValueFormatter;
 import com.annimon.stream.Stream;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
@@ -118,6 +119,9 @@ public class FrgHome extends CommonFragmentWithEvents {
 
     @Inject
     ChartSetupManager chartSetupManager;
+
+    @Inject
+    DialogManager dialogManager;
 
 
     @Override
@@ -215,11 +219,10 @@ public class FrgHome extends CommonFragmentWithEvents {
     }
 
     private void buildBalanceSettingsDialog() {
-        balanceSettingsDialog = new MaterialDialog.Builder(getActivity())
-                .title(R.string.settings)
-                .customView(R.layout.item_main_balance_menu, true)
-                .positiveText(R.string.done)
-                .build();
+        MainActivity activity = (MainActivity) getActivity();
+        if (activity != null) {
+            balanceSettingsDialog = dialogManager.buildBalanceSettingsDialog(activity);
+        }
     }
 
     private void setBalanceCurrencySpinner() {

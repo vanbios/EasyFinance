@@ -8,13 +8,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.accounts.add_edit.AddAccountFragment;
 import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
+import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager;
 import com.androidcollider.easyfin.common.models.Account;
 import com.androidcollider.easyfin.common.ui.MainActivity;
 import com.androidcollider.easyfin.common.ui.fragments.FrgMain;
@@ -46,6 +46,9 @@ public class AccountsFragment extends CommonFragmentWithEvents implements Accoun
 
     @Inject
     ResourcesManager resourcesManager;
+
+    @Inject
+    DialogManager dialogManager;
 
     @Inject
     AccountsMVP.Presenter presenter;
@@ -126,14 +129,14 @@ public class AccountsFragment extends CommonFragmentWithEvents implements Accoun
     }
 
     private void showDialogDeleteAccount(final int pos) {
-        new MaterialDialog.Builder(getActivity())
-                .title(getString(R.string.dialog_title_delete))
-                .content(getString(R.string.dialog_text_delete_account))
-                .positiveText(getString(R.string.delete))
-                .negativeText(getString(R.string.cancel))
-                .onPositive((dialog, which) -> presenter.deleteAccountById(recyclerAdapter.getAccountIdByPos(pos)))
-                .cancelable(false)
-                .show();
+        MainActivity activity = (MainActivity) getActivity();
+        if (activity != null) {
+            dialogManager.showDeleteDialog(
+                    activity,
+                    getString(R.string.dialog_text_delete_account),
+                    (dialog, which) -> presenter.deleteAccountById(recyclerAdapter.getAccountIdByPos(pos))
+            );
+        }
     }
 
     private void pushBroadcast() {

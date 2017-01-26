@@ -11,12 +11,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.common.ui.adapters.SpinAccountForTransAdapter;
 import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
-import com.androidcollider.easyfin.common.ui.fragments.FrgNumericDialog;
-import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit;
 import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.common.managers.rates.exchange.ExchangeManager;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
@@ -25,6 +22,9 @@ import com.androidcollider.easyfin.common.managers.ui.shake_edit_text.ShakeEditT
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.common.models.Account;
 import com.androidcollider.easyfin.common.repository.Repository;
+import com.androidcollider.easyfin.common.ui.adapters.SpinAccountForTransAdapter;
+import com.androidcollider.easyfin.common.ui.fragments.FrgNumericDialog;
+import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit;
 import com.androidcollider.easyfin.common.utils.EditTextAmountWatcher;
 
 import org.greenrobot.eventbus.EventBus;
@@ -221,9 +221,9 @@ public class FrgAddTransactionBetweenAccounts extends CommonFragmentAddEdit impl
         Account accountFrom = (Account) spinAccountFrom.getSelectedItem();
         double accountAmountFrom = accountFrom.getAmount();
 
-        if (amount > accountAmountFrom)
+        if (amount > accountAmountFrom) {
             toastManager.showClosableToast(getActivity(), getString(R.string.not_enough_costs), ToastManager.SHORT);
-        else {
+        } else {
             int accountIdFrom = accountFrom.getId();
 
             Account accountTo = (Account) spinAccountTo.getSelectedItem();

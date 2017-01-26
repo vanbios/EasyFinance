@@ -6,18 +6,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.common.ui.MainActivity;
 import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgDebts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHome;
 import com.androidcollider.easyfin.common.events.UpdateFrgTransactions;
-import com.androidcollider.easyfin.common.ui.fragments.common.PreferenceFragment;
 import com.androidcollider.easyfin.common.managers.import_export_db.ImportExportDbManager;
+import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager;
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.common.repository.database.DbHelper;
+import com.androidcollider.easyfin.common.ui.MainActivity;
+import com.androidcollider.easyfin.common.ui.fragments.common.PreferenceFragment;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
@@ -43,6 +43,9 @@ public class FrgPref extends PreferenceFragment {
 
     @Inject
     ToastManager toastManager;
+
+    @Inject
+    DialogManager dialogManager;
 
     @Inject
     Context context;
@@ -86,19 +89,15 @@ public class FrgPref extends PreferenceFragment {
     private void showDialogImportDB() {
         MainActivity activity = (MainActivity) getActivity();
         if (activity != null) {
-            new MaterialDialog.Builder(activity)
-                    .title(getString(R.string.import_db))
-                    .content(getString(R.string.import_dialog_warning))
-                    .positiveText(getString(R.string.confirm))
-                    .negativeText(getString(R.string.cancel))
-                    .onPositive((dialog, which) -> {
+            dialogManager.showImportDBDialog(
+                    activity,
+                    (dialog, which) -> {
                         importDB();
                         mTracker.send(new HitBuilders.EventBuilder("click", "import")
                                 .setLabel("import_confirm")
                                 .build());
-                    })
-                    .cancelable(false)
-                    .show();
+                    }
+            );
         }
     }
 

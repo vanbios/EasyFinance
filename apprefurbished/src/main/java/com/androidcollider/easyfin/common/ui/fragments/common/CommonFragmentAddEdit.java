@@ -10,16 +10,29 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.accounts.add_edit.AddAccountFragment;
+import com.androidcollider.easyfin.common.app.App;
+import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager;
+import com.androidcollider.easyfin.common.ui.MainActivity;
 import com.androidcollider.easyfin.common.ui.fragments.FrgNumericDialog;
+
+import javax.inject.Inject;
 
 /**
  * @author Ihor Bilous
  */
 
 public abstract class CommonFragmentAddEdit extends CommonFragment {
+
+    @Inject
+    DialogManager dialogManager;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ((App) getActivity().getApplication()).getComponent().inject(this);
+    }
 
     @Override
     public String getTitle() {
@@ -74,15 +87,15 @@ public abstract class CommonFragmentAddEdit extends CommonFragment {
     }
 
     protected void showDialogNoAccount(String message, boolean withFinish) {
-        new MaterialDialog.Builder(getActivity())
-                .title(getString(R.string.no_account))
-                .content(message)
-                .positiveText(getString(R.string.new_account))
-                .negativeText(getString(R.string.close))
-                .onPositive((dialog, which) -> goToAddAccount(withFinish))
-                .onNegative((dialog, which) -> finish())
-                .cancelable(false)
-                .show();
+        MainActivity activity = (MainActivity) getActivity();
+        if (activity != null) {
+            dialogManager.showNoAccountsDialog(
+                    activity,
+                    message,
+                    (dialog, which) -> goToAddAccount(withFinish),
+                    (dialog, which) -> finish()
+            );
+        }
     }
 
     private void goToAddAccount(boolean withFinish) {

@@ -1,38 +1,31 @@
 package com.androidcollider.easyfin.common.ui.fragments;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.accounts.add_edit.AddAccountFragment;
 import com.androidcollider.easyfin.accounts.list.AccountsFragment;
-import com.androidcollider.easyfin.common.ui.adapters.ViewPagerFragmentAdapter;
-import com.androidcollider.easyfin.common.ui.MainActivity;
 import com.androidcollider.easyfin.common.app.App;
+import com.androidcollider.easyfin.common.managers.accounts_info.AccountsInfoManager;
+import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager;
+import com.androidcollider.easyfin.common.ui.MainActivity;
+import com.androidcollider.easyfin.common.ui.adapters.ViewPagerFragmentAdapter;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment;
 import com.androidcollider.easyfin.home.FrgHome;
-import com.androidcollider.easyfin.common.managers.accounts_info.AccountsInfoManager;
 import com.androidcollider.easyfin.transactions.add_edit.btw_accounts.FrgAddTransactionBetweenAccounts;
 import com.androidcollider.easyfin.transactions.add_edit.income_expense.FrgAddTransactionDefault;
 import com.androidcollider.easyfin.transactions.list.TransactionsFragment;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -63,6 +56,9 @@ public class FrgMain extends CommonFragment {
 
     @Inject
     AccountsInfoManager accountsInfoManager;
+
+    @Inject
+    DialogManager dialogManager;
 
 
     @Override
@@ -124,7 +120,6 @@ public class FrgMain extends CommonFragment {
         fabMenu.hideMenu(false);
         new Handler().postDelayed(() -> fabMenu.showMenu(true), 1000);
 
-        checkForAndroidMPermissions();
         accountsInfoManager.getAccountsCountObservable()
                 .subscribe(new Subscriber<Integer>() {
 
@@ -196,14 +191,10 @@ public class FrgMain extends CommonFragment {
     private void showDialogNoAccount() {
         MainActivity activity = (MainActivity) getActivity();
         if (activity != null) {
-            new MaterialDialog.Builder(activity)
-                    .title(getString(R.string.no_account))
-                    .content(getString(R.string.dialog_text_main_no_accounts))
-                    .positiveText(getString(R.string.new_account))
-                    .negativeText(getString(R.string.later))
-                    .onPositive((dialog, which) -> goToAddAccount())
-                    .cancelable(false)
-                    .show();
+            dialogManager.showNoAccountDialog(
+                    activity,
+                    (dialog, which) -> goToAddAccount()
+            );
         }
     }
 
@@ -264,41 +255,6 @@ public class FrgMain extends CommonFragment {
                 goToAddTransBTW();
                 collapseFloatingMenu(false);
                 break;
-        }
-    }
-
-    private void checkForAndroidMPermissions() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            MainActivity activity = (MainActivity) getActivity();
-            if (activity != null) {
-                int hasStoragePermission = activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                List<String> permissions = new ArrayList<>();
-                if (hasStoragePermission != PackageManager.PERMISSION_GRANTED)
-                    permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                if (!permissions.isEmpty())
-                    requestPermissions(permissions.toArray(new String[permissions.size()]),
-                            REQUEST_CODE_SOME_FEATURES_PERMISSIONS);
-            }
-        }
-    }
-
-    private static final int REQUEST_CODE_SOME_FEATURES_PERMISSIONS = 123;
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode) {
-            case REQUEST_CODE_SOME_FEATURES_PERMISSIONS: {
-                for (int i = 0; i < permissions.length; i++) {
-                    if (grantResults[i] == PackageManager.PERMISSION_GRANTED)
-                        Log.d("Permissions", "Permission Granted: " + permissions[i]);
-                    else if (grantResults[i] == PackageManager.PERMISSION_DENIED)
-                        Log.d("Permissions", "Permission Denied: " + permissions[i]);
-                }
-            }
-            break;
-            default: {
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-            }
         }
     }
 
