@@ -4,47 +4,43 @@ import android.app.DatePickerDialog;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.common.ui.adapters.SpinAccountForTransHeadIconAdapter;
-import com.androidcollider.easyfin.common.ui.adapters.SpinIconTextHeadAdapter;
 import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHome;
 import com.androidcollider.easyfin.common.events.UpdateFrgTransactions;
-import com.androidcollider.easyfin.common.ui.fragments.FrgNumericDialog;
-import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit;
 import com.androidcollider.easyfin.common.managers.format.date.DateFormatManager;
 import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.common.models.Account;
-import com.androidcollider.easyfin.common.models.Transaction;
-import com.androidcollider.easyfin.common.repository.Repository;
+import com.androidcollider.easyfin.common.ui.adapters.SpinAccountForTransHeadIconAdapter;
+import com.androidcollider.easyfin.common.ui.adapters.SpinIconTextHeadAdapter;
+import com.androidcollider.easyfin.common.ui.fragments.FrgNumericDialog;
+import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rx.Subscriber;
 
 /**
  * @author Ihor Bilous
  */
 
-public class AddTransactionIncomeExpenseFragment extends CommonFragmentAddEdit implements FrgNumericDialog.OnCommitAmountListener {
+public class AddTransactionIncomeExpenseFragment extends CommonFragmentAddEdit
+        implements FrgNumericDialog.OnCommitAmountListener, AddTransactionIncomeExpenseMVP.View {
 
     @BindView(R.id.tvTransactionDate)
     TextView tvDate;
@@ -59,11 +55,6 @@ public class AddTransactionIncomeExpenseFragment extends CommonFragmentAddEdit i
 
     private DatePickerDialog datePickerDialog;
     private List<Account> accountList;
-    private int mode, transType;
-    private Transaction transFromIntent;
-
-    @Inject
-    Repository repository;
 
     @Inject
     ToastManager toastManager;
@@ -76,6 +67,9 @@ public class AddTransactionIncomeExpenseFragment extends CommonFragmentAddEdit i
 
     @Inject
     ResourcesManager resourcesManager;
+
+    @Inject
+    AddTransactionIncomeExpenseMVP.Presenter presenter;
 
 
     @Override
@@ -96,77 +90,107 @@ public class AddTransactionIncomeExpenseFragment extends CommonFragmentAddEdit i
         setToolbar();
 
         accountList = new ArrayList<>();
-        repository.getAllAccounts()
-                .subscribe(new Subscriber<List<Account>>() {
 
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<Account> accountList) {
-                        AddTransactionIncomeExpenseFragment.this.accountList.clear();
-                        AddTransactionIncomeExpenseFragment.this.accountList.addAll(accountList);
-
-                        setupUI();
-                    }
-                });
+        presenter.setView(this);
+        presenter.setArguments(getArguments());
+        presenter.loadAccounts();
     }
 
-    private void setupUI() {
-        if (accountList.isEmpty()) {
-            scrollView.setVisibility(View.GONE);
-            showDialogNoAccount(getString(R.string.dialog_text_transaction_no_account), false);
-        } else {
-            scrollView.setVisibility(View.VISIBLE);
-            mode = getArguments().getInt("mode", 0);
+    private void pushBroadcast() {
+        EventBus.getDefault().post(new UpdateFrgHome());
+        EventBus.getDefault().post(new UpdateFrgTransactions());
+        EventBus.getDefault().post(new UpdateFrgAccounts());
+    }
 
-            switch (mode) {
-                case 0: {
-                    transType = getArguments().getInt("type", 0);
-                    setAmountValue("0,00");
-                    openNumericDialog(tvAmount.getText().toString());
-                    break;
-                }
-                case 1: {
-                    transFromIntent = (Transaction) getArguments().getSerializable("transaction");
-                    if (transFromIntent != null) {
-                        double amount = transFromIntent.getAmount();
-                        transType = numberFormatManager.isDoubleNegative(amount) ? 0 : 1;
-                        setAmountValue(numberFormatManager.doubleToStringFormatterForEdit(
-                                transType == 1 ? amount : Math.abs(amount),
-                                NumberFormatManager.FORMAT_1,
-                                NumberFormatManager.PRECISE_1
-                        ));
-                    }
-                    break;
-                }
-            }
-
-            setDateTimeField();
-            setSpinner();
-
-            tvAmount.setTextColor(ContextCompat.getColor(getActivity(), transType == 1 ? R.color.custom_green : R.color.custom_red));
+    @OnClick({R.id.tvTransactionDate, R.id.tvAddTransDefAmount})
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tvTransactionDate:
+                datePickerDialog.show();
+                break;
+            case R.id.tvAddTransDefAmount:
+                openNumericDialog();
+                break;
         }
     }
 
-    private void setSpinner() {
-        String[] categoryArray = resourcesManager.getStringArray(
-                transType == 1 ?
-                        ResourcesManager.STRING_TRANSACTION_CATEGORY_INCOME :
-                        ResourcesManager.STRING_TRANSACTION_CATEGORY_EXPENSE
-        );
-        TypedArray categoryIcons = resourcesManager.getIconArray(
-                transType == 1 ?
-                        ResourcesManager.ICON_TRANSACTION_CATEGORY_INCOME :
-                        ResourcesManager.ICON_TRANSACTION_CATEGORY_EXPENSE);
+    @Override
+    public void onCommitAmountSubmit(String amount) {
+        showAmount(amount, presenter.getTransactionType());
+    }
 
+    @Override
+    protected void handleSaveAction() {
+        presenter.save();
+    }
+
+    @Override
+    public void showAmount(String amount, int transType) {
+        setTVTextSize(tvAmount, amount, 9, 14);
+        tvAmount.setText(String.format("%1$s %2$s", transType == 1 ? "+" : "-", amount));
+    }
+
+    @Override
+    public void showMessage(String message) {
+        toastManager.showClosableToast(getActivity(), message, ToastManager.SHORT);
+    }
+
+    @Override
+    public void openNumericDialog() {
+        openNumericDialog(tvAmount.getText().toString());
+    }
+
+    @Override
+    public void notifyNotEnoughAccounts() {
+        scrollView.setVisibility(View.GONE);
+        showDialogNoAccount(getString(R.string.dialog_text_transaction_no_account), false);
+    }
+
+    @Override
+    public void setAmountTextColor(int color) {
+        tvAmount.setTextColor(color);
+    }
+
+    @Override
+    public void setAccounts(List<Account> accountList) {
+        this.accountList.clear();
+        this.accountList.addAll(accountList);
+        scrollView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void performLastActionsAfterSaveAndClose() {
+        pushBroadcast();
+        finish();
+    }
+
+    @Override
+    public String getAmount() {
+        return tvAmount.getText().toString();
+    }
+
+    @Override
+    public Account getAccount() {
+        return (Account) spinAccount.getSelectedItem();
+    }
+
+    @Override
+    public String getDate() {
+        return tvDate.getText().toString();
+    }
+
+    @Override
+    public int getCategory() {
+        return spinCategory.getSelectedItemPosition();
+    }
+
+    @Override
+    public List<Account> getAccounts() {
+        return accountList;
+    }
+
+    @Override
+    public void setupSpinners(String[] categoryArray, TypedArray categoryIcons) {
         spinCategory.setAdapter(new SpinIconTextHeadAdapter(
                 getActivity(),
                 R.layout.spin_head_icon_text,
@@ -187,230 +211,31 @@ public class AddTransactionIncomeExpenseFragment extends CommonFragmentAddEdit i
                 numberFormatManager,
                 resourcesManager
         ));
-
-        if (mode == 1) {
-            String accountName = transFromIntent.getAccountName();
-            for (int i = 0; i < accountList.size(); i++) {
-                if (accountList.get(i).getName().equals(accountName)) {
-                    spinAccount.setSelection(i);
-                    break;
-                }
-            }
-
-            spinCategory.setSelection(transFromIntent.getCategory());
-        }
     }
 
-    public void addTransaction() {
-        String sum = numberFormatManager.prepareStringToParse(tvAmount.getText().toString());
-        if (checkSumField(sum)) {
-            double amount = Double.parseDouble(sum);
-            boolean isExpense = transType == 0;
-            if (isExpense) amount *= -1;
-
-            Account account = (Account) spinAccount.getSelectedItem();
-
-            double accountAmount = account.getAmount();
-
-            if (checkIsEnoughCosts(isExpense, amount, accountAmount)) {
-                accountAmount += amount;
-
-                Transaction transaction = Transaction.builder()
-                        .date(dateFormatManager.stringToDate(
-                                tvDate.getText().toString(), DateFormatManager.DAY_MONTH_YEAR_SPACED).getTime())
-                        .amount(amount)
-                        .category(spinCategory.getSelectedItemPosition())
-                        .idAccount(account.getId())
-                        .accountAmount(accountAmount)
-                        .accountName(account.getName())
-                        .accountType(account.getType())
-                        .currency(account.getCurrency())
-                        .build();
-
-                repository.addNewTransaction(transaction)
-                        .subscribe(new Subscriber<Transaction>() {
-
-                            @Override
-                            public void onCompleted() {
-
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onNext(Transaction transaction) {
-                                lastActions();
-                            }
-                        });
-            }
-        }
+    @Override
+    public void showCategory(int category) {
+        spinCategory.setSelection(category);
     }
 
-    private void editTransaction() {
-        String sum = numberFormatManager.prepareStringToParse(tvAmount.getText().toString());
-        if (checkSumField(sum)) {
-            double amount = Double.parseDouble(sum);
-            boolean isExpense = transType == 0;
-            if (isExpense) amount *= -1;
-
-            Account account = (Account) spinAccount.getSelectedItem();
-            double accountAmount = account.getAmount();
-            int accountId = account.getId();
-
-            int oldAccountId = transFromIntent.getIdAccount();
-            boolean isAccountTheSame = accountId == oldAccountId;
-            double oldAmount = transFromIntent.getAmount();
-            double oldAccountAmount = 0;
-
-            if (isAccountTheSame) accountAmount -= oldAmount;
-            else {
-                for (Account account1 : accountList) {
-                    if (oldAccountId == account1.getId()) {
-                        oldAccountAmount = account1.getAmount() - oldAmount;
-                        break;
-                    }
-                }
-            }
-
-            if (checkIsEnoughCosts(isExpense, amount, accountAmount)) {
-                accountAmount += amount;
-
-                Transaction transaction = Transaction.builder()
-                        .date(dateFormatManager.stringToDate(
-                                tvDate.getText().toString(), DateFormatManager.DAY_MONTH_YEAR_SPACED).getTime())
-                        .amount(amount)
-                        .category(spinCategory.getSelectedItemPosition())
-                        .idAccount(account.getId())
-                        .accountAmount(accountAmount)
-                        .id(transFromIntent.getId())
-                        .currency(account.getCurrency())
-                        .accountType(account.getType())
-                        .accountName(account.getName())
-                        .build();
-
-                if (isAccountTheSame) {
-                    repository.updateTransaction(transaction)
-                            .subscribe(new Subscriber<Transaction>() {
-
-                                @Override
-                                public void onCompleted() {
-
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-
-                                }
-
-                                @Override
-                                public void onNext(Transaction transaction) {
-                                    lastActions();
-                                }
-                            });
-                } else {
-                    repository.updateTransactionDifferentAccounts(transaction, oldAccountAmount, oldAccountId)
-                            .subscribe(new Subscriber<Boolean>() {
-
-                                @Override
-                                public void onCompleted() {
-
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-
-                                }
-
-                                @Override
-                                public void onNext(Boolean aBoolean) {
-                                    lastActions();
-                                }
-                            });
-                }
-            }
-        }
+    @Override
+    public void showAccount(int position) {
+        spinAccount.setSelection(position);
     }
 
-    private boolean checkSumField(String sum) {
-        if (!sum.matches(".*\\d.*") || Double.parseDouble(sum) == 0) {
-            toastManager.showClosableToast(getActivity(), getString(R.string.empty_amount_field), ToastManager.SHORT);
-            return false;
-        }
-        return true;
-    }
-
-    private boolean checkIsEnoughCosts(boolean isExpense, double amount, double accountAmount) {
-        if (isExpense && Math.abs(amount) > accountAmount) {
-            toastManager.showClosableToast(getActivity(), getString(R.string.not_enough_costs), ToastManager.SHORT);
-            return false;
-        }
-        return true;
-    }
-
-    private void lastActions() {
-        pushBroadcast();
-        finish();
-    }
-
-    private void setDateTimeField() {
-        Calendar newCalendar = Calendar.getInstance();
-        if (mode == 1) {
-            newCalendar.setTime(new Date(transFromIntent.getDate()));
-        }
-        tvDate.setText(dateFormatManager.dateToString(newCalendar.getTime(), DateFormatManager.DAY_MONTH_YEAR_SPACED));
+    @Override
+    public void setupDateTimeField(Calendar calendar) {
+        tvDate.setText(dateFormatManager.dateToString(calendar.getTime(), DateFormatManager.DAY_MONTH_YEAR_SPACED));
 
         datePickerDialog = new DatePickerDialog(getActivity(), (view1, year, monthOfYear, dayOfMonth) -> {
             Calendar newDate = Calendar.getInstance();
             newDate.set(year, monthOfYear, dayOfMonth);
 
             if (newDate.getTimeInMillis() > System.currentTimeMillis()) {
-                toastManager.showClosableToast(getActivity(), getString(R.string.transaction_date_future), ToastManager.SHORT);
+                showMessage(getString(R.string.transaction_date_future));
             } else {
                 tvDate.setText(dateFormatManager.dateToString(newDate.getTime(), DateFormatManager.DAY_MONTH_YEAR_SPACED));
             }
-        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
-    }
-
-    private void pushBroadcast() {
-        EventBus.getDefault().post(new UpdateFrgHome());
-        EventBus.getDefault().post(new UpdateFrgTransactions());
-        EventBus.getDefault().post(new UpdateFrgAccounts());
-    }
-
-    @OnClick({R.id.tvTransactionDate, R.id.tvAddTransDefAmount})
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tvTransactionDate:
-                datePickerDialog.show();
-                break;
-            case R.id.tvAddTransDefAmount:
-                openNumericDialog(tvAmount.getText().toString());
-                break;
-        }
-    }
-
-    @Override
-    public void onCommitAmountSubmit(String amount) {
-        setAmountValue(amount);
-    }
-
-    @Override
-    protected void handleSaveAction() {
-        switch (mode) {
-            case 0:
-                addTransaction();
-                break;
-            case 1:
-                editTransaction();
-                break;
-        }
-    }
-
-    private void setAmountValue(String amount) {
-        setTVTextSize(tvAmount, amount, 9, 14);
-        tvAmount.setText(String.format("%1$s %2$s", transType == 1 ? "+" : "-", amount));
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
     }
 }

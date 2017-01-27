@@ -37,6 +37,7 @@ import com.androidcollider.easyfin.main.MainModule;
 import com.androidcollider.easyfin.transactions.add_edit.btw_accounts.AddTransactionBetweenAccountsFragment;
 import com.androidcollider.easyfin.transactions.add_edit.btw_accounts.AddTransactionBetweenAccountsModule;
 import com.androidcollider.easyfin.transactions.add_edit.income_expense.AddTransactionIncomeExpenseFragment;
+import com.androidcollider.easyfin.transactions.add_edit.income_expense.AddTransactionIncomeExpenseModule;
 import com.androidcollider.easyfin.transactions.list.TransactionsFragment;
 import com.androidcollider.easyfin.transactions.list.TransactionsModule;
 
@@ -75,7 +76,8 @@ import dagger.Component;
         TransactionsModule.class,
         DebtsModule.class,
         AddAccountModule.class,
-        AddTransactionBetweenAccountsModule.class
+        AddTransactionBetweenAccountsModule.class,
+        AddTransactionIncomeExpenseModule.class
 })
 public interface AppComponent {
 
