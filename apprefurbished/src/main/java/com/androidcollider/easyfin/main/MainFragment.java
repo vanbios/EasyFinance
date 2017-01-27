@@ -20,8 +20,8 @@ import com.androidcollider.easyfin.common.ui.MainActivity;
 import com.androidcollider.easyfin.common.ui.adapters.ViewPagerFragmentAdapter;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment;
 import com.androidcollider.easyfin.home.FrgHome;
-import com.androidcollider.easyfin.transactions.add_edit.btw_accounts.FrgAddTransactionBetweenAccounts;
-import com.androidcollider.easyfin.transactions.add_edit.income_expense.FrgAddTransactionDefault;
+import com.androidcollider.easyfin.transactions.add_edit.btw_accounts.AddTransactionBetweenAccountsFragment;
+import com.androidcollider.easyfin.transactions.add_edit.income_expense.AddTransactionIncomeExpenseFragment;
 import com.androidcollider.easyfin.transactions.list.TransactionsFragment;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
@@ -150,7 +150,7 @@ public class MainFragment extends CommonFragment implements MainMVP.View {
     }
 
     private void goToAddTransaction(int type) {
-        FrgAddTransactionDefault frgAddTransDef = new FrgAddTransactionDefault();
+        AddTransactionIncomeExpenseFragment frgAddTransDef = new AddTransactionIncomeExpenseFragment();
         Bundle arguments = new Bundle();
         arguments.putInt("mode", 0);
         arguments.putInt("type", type);
@@ -159,7 +159,7 @@ public class MainFragment extends CommonFragment implements MainMVP.View {
     }
 
     private void goToAddTransBTW() {
-        addFragment(new FrgAddTransactionBetweenAccounts());
+        addFragment(new AddTransactionBetweenAccountsFragment());
     }
 
     private void goToAddAccount() {

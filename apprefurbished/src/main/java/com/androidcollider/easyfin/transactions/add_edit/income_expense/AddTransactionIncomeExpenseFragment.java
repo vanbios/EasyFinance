@@ -44,7 +44,7 @@ import rx.Subscriber;
  * @author Ihor Bilous
  */
 
-public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements FrgNumericDialog.OnCommitAmountListener {
+public class AddTransactionIncomeExpenseFragment extends CommonFragmentAddEdit implements FrgNumericDialog.OnCommitAmountListener {
 
     @BindView(R.id.tvTransactionDate)
     TextView tvDate;
@@ -111,8 +111,8 @@ public class FrgAddTransactionDefault extends CommonFragmentAddEdit implements F
 
                     @Override
                     public void onNext(List<Account> accountList) {
-                        FrgAddTransactionDefault.this.accountList.clear();
-                        FrgAddTransactionDefault.this.accountList.addAll(accountList);
+                        AddTransactionIncomeExpenseFragment.this.accountList.clear();
+                        AddTransactionIncomeExpenseFragment.this.accountList.addAll(accountList);
 
                         setupUI();
                     }

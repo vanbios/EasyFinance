@@ -1,5 +1,7 @@
 package com.androidcollider.easyfin.main;
 
+import android.support.annotation.Nullable;
+
 import rx.Observable;
 
 /**
@@ -20,7 +22,7 @@ interface MainMVP {
 
     interface Presenter {
 
-        void setView(MainMVP.View view);
+        void setView(@Nullable MainMVP.View view);
 
         void checkIsAccountsExists();
     }

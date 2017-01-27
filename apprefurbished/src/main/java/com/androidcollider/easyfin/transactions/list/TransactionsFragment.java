@@ -19,7 +19,7 @@ import com.androidcollider.easyfin.common.models.Transaction;
 import com.androidcollider.easyfin.common.ui.MainActivity;
 import com.androidcollider.easyfin.main.MainFragment;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentWithEvents;
-import com.androidcollider.easyfin.transactions.add_edit.income_expense.FrgAddTransactionDefault;
+import com.androidcollider.easyfin.transactions.add_edit.income_expense.AddTransactionIncomeExpenseFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -155,7 +155,7 @@ public class TransactionsFragment extends CommonFragmentWithEvents implements Tr
     public void goToEditTransaction(Transaction transaction) {
         MainActivity activity = (MainActivity) getActivity();
         if (activity != null) {
-            FrgAddTransactionDefault frgAddTransDef = new FrgAddTransactionDefault();
+            AddTransactionIncomeExpenseFragment frgAddTransDef = new AddTransactionIncomeExpenseFragment();
             Bundle arguments = new Bundle();
             arguments.putInt("mode", 1);
             arguments.putSerializable("transaction", transaction);
