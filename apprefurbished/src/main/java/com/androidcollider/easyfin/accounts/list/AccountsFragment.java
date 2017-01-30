@@ -43,6 +43,7 @@ public class AccountsFragment extends CommonFragmentWithEvents implements Accoun
     private RecyclerAccountAdapter recyclerAdapter;
 
     public static final String ACCOUNT = "account", MODE = "mode";
+    public static final int ADD = 0, EDIT = 1;
 
     @Inject
     ResourcesManager resourcesManager;
@@ -110,13 +111,7 @@ public class AccountsFragment extends CommonFragmentWithEvents implements Accoun
     }
 
     public boolean onContextItemSelected(MenuItem item) {
-        int id;
-        try {
-            id = recyclerAdapter.getCurrentId();
-        } catch (Exception e) {
-            return super.onContextItemSelected(item);
-        }
-
+        int id = recyclerAdapter.getCurrentId();
         switch (item.getItemId()) {
             case R.id.ctx_menu_edit_account:
                 presenter.getAccountById(id);
@@ -153,7 +148,7 @@ public class AccountsFragment extends CommonFragmentWithEvents implements Accoun
     public void goToEditAccount(Account account) {
         AddAccountFragment addAccountFragment = new AddAccountFragment();
         Bundle arguments = new Bundle();
-        arguments.putInt(MODE, 1);
+        arguments.putInt(MODE, EDIT);
         arguments.putSerializable(ACCOUNT, account);
         addAccountFragment.setArguments(arguments);
         MainActivity activity = (MainActivity) getActivity();

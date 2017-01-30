@@ -152,8 +152,8 @@ public class MainFragment extends CommonFragment implements MainMVP.View {
     private void goToAddTransaction(int type) {
         AddTransactionIncomeExpenseFragment frgAddTransDef = new AddTransactionIncomeExpenseFragment();
         Bundle arguments = new Bundle();
-        arguments.putInt("mode", 0);
-        arguments.putInt("type", type);
+        arguments.putInt(TransactionsFragment.MODE, TransactionsFragment.MODE_ADD);
+        arguments.putInt(TransactionsFragment.TYPE, type);
         frgAddTransDef.setArguments(arguments);
         addFragment(frgAddTransDef);
     }
@@ -165,7 +165,7 @@ public class MainFragment extends CommonFragment implements MainMVP.View {
     private void goToAddAccount() {
         AddAccountFragment addAccountFragment = new AddAccountFragment();
         Bundle arguments = new Bundle();
-        arguments.putInt("mode", 0);
+        arguments.putInt(AccountsFragment.MODE, AccountsFragment.ADD);
         addAccountFragment.setArguments(arguments);
         addFragment(addAccountFragment);
     }
@@ -226,11 +226,11 @@ public class MainFragment extends CommonFragment implements MainMVP.View {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnFloatAddTransExpense:
-                goToAddTransaction(0);
+                goToAddTransaction(TransactionsFragment.TYPE_EXPENSE);
                 collapseFloatingMenu(false);
                 break;
             case R.id.btnFloatAddTransIncome:
-                goToAddTransaction(1);
+                goToAddTransaction(TransactionsFragment.TYPE_INCOME);
                 collapseFloatingMenu(false);
                 break;
             case R.id.btnFloatAddTransBTW:

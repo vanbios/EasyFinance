@@ -39,13 +39,13 @@ class AddAccountPresenter implements AddAccountMVP.Presenter {
     public void setArguments(Bundle args) {
         mode = args.getInt(AccountsFragment.MODE, 0);
         switch (mode) {
-            case 0:
+            case AccountsFragment.ADD:
                 if (view != null) {
                     view.showAmount("0,00");
                     view.openNumericDialog();
                 }
                 break;
-            case 1:
+            case AccountsFragment.EDIT:
                 model.setAccountForUpdate((Account) args.getSerializable(AccountsFragment.ACCOUNT));
                 if (view != null) {
                     view.showName(model.getAccountForUpdateName());
@@ -114,7 +114,7 @@ class AddAccountPresenter implements AddAccountMVP.Presenter {
     }
 
     private Observable<Account> getSaveAccountObservable(String name, String amount, int type, String currency) {
-        return mode == 1 ?
+        return mode == AccountsFragment.EDIT ?
                 model.updateAccount(
                         name,
                         amount,

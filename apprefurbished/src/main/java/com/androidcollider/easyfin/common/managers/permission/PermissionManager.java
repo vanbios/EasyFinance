@@ -76,26 +76,34 @@ public class PermissionManager {
     private boolean checkWriteExternalStoragePermissionGranted() {
         checkActivityIsNotNull();
         return !checkIsPermissionsNeeded() ||
-                ContextCompat.checkSelfPermission(activity,
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        == PackageManager.PERMISSION_GRANTED;
+                checkPermission(
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
     private boolean checkNetworkStatePermissionGranted() {
         checkActivityIsNotNull();
         return !checkIsPermissionsNeeded() ||
-                ContextCompat.checkSelfPermission(activity,
-                        Manifest.permission.ACCESS_NETWORK_STATE)
-                        == PackageManager.PERMISSION_GRANTED;
+                checkPermission(
+                        Manifest.permission.ACCESS_NETWORK_STATE);
     }
 
     private boolean checkReadExternalStoragePermissionGranted() {
         checkActivityIsNotNull();
         return !checkIsPermissionsNeeded() ||
                 !checkIsReadStoragePermissionNeeded() ||
-                ContextCompat.checkSelfPermission(activity,
-                        Manifest.permission.READ_EXTERNAL_STORAGE)
-                        == PackageManager.PERMISSION_GRANTED;
+                checkPermission(
+                        Manifest.permission.READ_EXTERNAL_STORAGE);
+    }
+
+    private boolean checkPermission(String permission) {
+        try {
+            return ContextCompat.checkSelfPermission(activity,
+                    permission)
+                    == PackageManager.PERMISSION_GRANTED;
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private void checkActivityIsNotNull() {

@@ -3,7 +3,6 @@ package com.androidcollider.easyfin.debts.pay;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.androidcollider.easyfin.common.models.Account;
 import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 
 import java.util.List;

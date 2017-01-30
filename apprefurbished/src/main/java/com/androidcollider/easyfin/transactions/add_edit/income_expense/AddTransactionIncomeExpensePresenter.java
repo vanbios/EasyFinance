@@ -10,11 +10,13 @@ import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.models.Transaction;
 import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
+import com.androidcollider.easyfin.transactions.list.TransactionsFragment;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import rx.Observable;
 import rx.Subscriber;
 
 /**
@@ -48,18 +50,18 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
 
     @Override
     public void setArguments(Bundle args) {
-        mode = args.getInt("mode", 0);
+        mode = args.getInt(TransactionsFragment.MODE, 0);
 
         switch (mode) {
-            case 0: {
-                transType = args.getInt("type", 0);
+            case TransactionsFragment.MODE_ADD: {
+                transType = args.getInt(TransactionsFragment.TYPE, 0);
                 break;
             }
-            case 1: {
-                transFromIntent = (Transaction) args.getSerializable("transaction");
+            case TransactionsFragment.MODE_EDIT: {
+                transFromIntent = (Transaction) args.getSerializable(TransactionsFragment.TRANSACTION);
                 if (transFromIntent != null) {
                     double amount = transFromIntent.getAmount();
-                    transType = model.isDoubleNegative(amount) ? 0 : 1;
+                    transType = model.isDoubleNegative(amount) ? TransactionsFragment.TYPE_EXPENSE : TransactionsFragment.TYPE_INCOME;
                 }
                 break;
             }
@@ -83,68 +85,7 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
 
                     @Override
                     public void onNext(List<SpinAccountViewModel> accountList) {
-                        if (view != null) {
-                            if (accountList.isEmpty()) {
-                                view.notifyNotEnoughAccounts();
-                            } else {
-                                view.setAccounts(accountList);
-
-                                switch (mode) {
-                                    case 0: {
-                                        if (view != null) {
-                                            view.showAmount("0,00", transType);
-                                            view.openNumericDialog();
-                                        }
-                                        break;
-                                    }
-                                    case 1: {
-                                        if (transFromIntent != null) {
-                                            double amount = transFromIntent.getAmount();
-                                            transType = model.isDoubleNegative(amount) ? 0 : 1;
-                                            if (view != null) {
-                                                view.showAmount(model.getTransactionForEditAmount(transType, amount), transType);
-                                            }
-                                        }
-                                        break;
-                                    }
-                                }
-
-                                if (view != null) {
-                                    view.setAmountTextColor(ContextCompat.getColor(context, transType == 1 ? R.color.custom_green : R.color.custom_red));
-                                }
-
-                                String[] categoryArray = resourcesManager.getStringArray(
-                                        transType == 1 ?
-                                                ResourcesManager.STRING_TRANSACTION_CATEGORY_INCOME :
-                                                ResourcesManager.STRING_TRANSACTION_CATEGORY_EXPENSE
-                                );
-                                TypedArray categoryIcons = resourcesManager.getIconArray(
-                                        transType == 1 ?
-                                                ResourcesManager.ICON_TRANSACTION_CATEGORY_INCOME :
-                                                ResourcesManager.ICON_TRANSACTION_CATEGORY_EXPENSE);
-
-                                view.setupSpinners(categoryArray, categoryIcons);
-
-                                if (mode == 1) {
-                                    String accountName = transFromIntent.getAccountName();
-
-                                    for (int i = 0; i < accountList.size(); i++) {
-                                        if (accountList.get(i).getName().equals(accountName)) {
-                                            view.showAccount(i);
-                                            break;
-                                        }
-                                    }
-
-                                    view.showCategory(transFromIntent.getCategory());
-                                }
-
-                                Calendar calendar = Calendar.getInstance();
-                                if (mode == 1) {
-                                    calendar.setTime(new Date(transFromIntent.getDate()));
-                                }
-                                view.setupDateTimeField(calendar);
-                            }
-                        }
+                        setupView(accountList);
                     }
                 });
     }
@@ -152,10 +93,10 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
     @Override
     public void save() {
         switch (mode) {
-            case 0:
+            case TransactionsFragment.MODE_ADD:
                 addTransaction();
                 break;
-            case 1:
+            case TransactionsFragment.MODE_EDIT:
                 editTransaction();
                 break;
         }
@@ -171,7 +112,7 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
             String sum = model.prepareStringToParse(view.getAmount());
             if (checkSumField(sum)) {
                 double amount = Double.parseDouble(sum);
-                boolean isExpense = transType == 0;
+                boolean isExpense = transType == TransactionsFragment.TYPE_EXPENSE;
                 if (isExpense) amount *= -1;
 
                 SpinAccountViewModel account = view.getAccount();
@@ -192,26 +133,9 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
                             .currency(account.getCurrency())
                             .build();
 
-                    model.addNewTransaction(transaction)
-                            .subscribe(new Subscriber<Transaction>() {
-
-                                @Override
-                                public void onCompleted() {
-
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-
-                                }
-
-                                @Override
-                                public void onNext(Transaction transaction) {
-                                    if (transaction != null && view != null) {
-                                        view.performLastActionsAfterSaveAndClose();
-                                    }
-                                }
-                            });
+                    handleActionWithTransaction(
+                            model.addNewTransaction(transaction)
+                    );
                 }
             }
         }
@@ -222,7 +146,7 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
             String sum = model.prepareStringToParse(view.getAmount());
             if (checkSumField(sum)) {
                 double amount = Double.parseDouble(sum);
-                boolean isExpense = transType == 0;
+                boolean isExpense = transType == TransactionsFragment.TYPE_EXPENSE;
                 if (isExpense) amount *= -1;
 
                 SpinAccountViewModel account = view.getAccount();
@@ -260,47 +184,17 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
                             .build();
 
                     if (isAccountTheSame) {
-                        model.updateTransaction(transaction)
-                                .subscribe(new Subscriber<Transaction>() {
-
-                                    @Override
-                                    public void onCompleted() {
-
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable e) {
-
-                                    }
-
-                                    @Override
-                                    public void onNext(Transaction transaction) {
-                                        if (transaction != null && view != null) {
-                                            view.performLastActionsAfterSaveAndClose();
-                                        }
-                                    }
-                                });
+                        handleActionWithTransaction(
+                                model.updateTransaction(transaction)
+                        );
                     } else {
-                        model.updateTransactionDifferentAccounts(transaction, oldAccountAmount, oldAccountId)
-                                .subscribe(new Subscriber<Boolean>() {
-
-                                    @Override
-                                    public void onCompleted() {
-
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable e) {
-
-                                    }
-
-                                    @Override
-                                    public void onNext(Boolean aBoolean) {
-                                        if (aBoolean && view != null) {
-                                            view.performLastActionsAfterSaveAndClose();
-                                        }
-                                    }
-                                });
+                        handleActionWithTransaction(
+                                model.updateTransactionDifferentAccounts(
+                                        transaction,
+                                        oldAccountAmount,
+                                        oldAccountId
+                                )
+                        );
                     }
                 }
             }
@@ -325,5 +219,94 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
             return false;
         }
         return true;
+    }
+
+    private void handleActionWithTransaction(Observable<?> observable) {
+        observable.subscribe(new Subscriber<Object>() {
+
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Object o) {
+                if (view != null) {
+                    view.performLastActionsAfterSaveAndClose();
+                }
+            }
+        });
+    }
+
+    private void setupView(List<SpinAccountViewModel> accountList) {
+        if (view != null) {
+            if (accountList.isEmpty()) {
+                view.notifyNotEnoughAccounts();
+            } else {
+                view.setAccounts(accountList);
+
+                switch (mode) {
+                    case TransactionsFragment.MODE_ADD: {
+                        if (view != null) {
+                            view.showAmount("0,00", transType);
+                            view.openNumericDialog();
+                        }
+                        break;
+                    }
+                    case TransactionsFragment.MODE_EDIT: {
+                        if (transFromIntent != null) {
+                            double amount = transFromIntent.getAmount();
+                            transType = model.isDoubleNegative(amount) ? TransactionsFragment.TYPE_EXPENSE : TransactionsFragment.TYPE_INCOME;
+                            if (view != null) {
+                                view.showAmount(model.getTransactionForEditAmount(transType, amount), transType);
+                            }
+                        }
+                        break;
+                    }
+                }
+
+                if (view != null) {
+                    view.setAmountTextColor(ContextCompat.getColor(context,
+                            transType == TransactionsFragment.TYPE_INCOME ? R.color.custom_green : R.color.custom_red));
+                }
+
+                String[] categoryArray = resourcesManager.getStringArray(
+                        transType == TransactionsFragment.TYPE_INCOME ?
+                                ResourcesManager.STRING_TRANSACTION_CATEGORY_INCOME :
+                                ResourcesManager.STRING_TRANSACTION_CATEGORY_EXPENSE
+                );
+                TypedArray categoryIcons = resourcesManager.getIconArray(
+                        transType == TransactionsFragment.TYPE_INCOME ?
+                                ResourcesManager.ICON_TRANSACTION_CATEGORY_INCOME :
+                                ResourcesManager.ICON_TRANSACTION_CATEGORY_EXPENSE
+                );
+
+                view.setupSpinners(categoryArray, categoryIcons);
+
+                if (mode == TransactionsFragment.MODE_ADD) {
+                    String accountName = transFromIntent.getAccountName();
+
+                    for (int i = 0; i < accountList.size(); i++) {
+                        if (accountList.get(i).getName().equals(accountName)) {
+                            view.showAccount(i);
+                            break;
+                        }
+                    }
+
+                    view.showCategory(transFromIntent.getCategory());
+                }
+
+                Calendar calendar = Calendar.getInstance();
+                if (mode == TransactionsFragment.MODE_ADD) {
+                    calendar.setTime(new Date(transFromIntent.getDate()));
+                }
+                view.setupDateTimeField(calendar);
+            }
+        }
     }
 }

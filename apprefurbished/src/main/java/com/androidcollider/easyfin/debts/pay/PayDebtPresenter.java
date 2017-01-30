@@ -13,6 +13,7 @@ import com.annimon.stream.Stream;
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.Observable;
 import rx.Subscriber;
 
 /**
@@ -63,46 +64,7 @@ class PayDebtPresenter implements PayDebtMVP.Presenter {
 
                     @Override
                     public void onNext(List<SpinAccountViewModel> accountList) {
-                        if (view != null) {
-                            List<SpinAccountViewModel> accountsAvailableList = new ArrayList<>();
-                            String currency = debt.getCurrency();
-                            double amount = debt.getAmountCurrent();
-                            int type = debt.getType();
-
-                            Stream.of(accountList)
-                                    .filter(account ->
-                                            mode == DebtsFragment.PAY_ALL && type == 1 ?
-                                                    account.getCurrency().equals(currency) && account.getAmount() >= amount :
-                                                    account.getCurrency().equals(currency))
-                                    .forEach(accountsAvailableList::add);
-
-                            if (accountsAvailableList.isEmpty()) {
-                                view.notifyNotEnoughAccounts();
-                            } else {
-                                view.setAccounts(accountsAvailableList);
-                                view.showName(debt.getName());
-                                if (mode == DebtsFragment.PAY_ALL || mode == DebtsFragment.PAY_PART) {
-                                    view.showAmount(model.formatAmount(debt.getAmountCurrent()));
-                                } else {
-                                    view.showAmount("0,00");
-                                    view.openNumericDialog();
-                                }
-                                if (mode == DebtsFragment.PAY_ALL) view.disableAmountField();
-
-                                view.setupSpinner();
-
-                                int idAccount = debt.getIdAccount();
-                                int pos = 0;
-                                for (int i = 0; i < accountsAvailableList.size(); i++) {
-                                    if (idAccount == accountsAvailableList.get(i).getId()) {
-                                        pos = i;
-                                        break;
-                                    }
-                                }
-
-                                view.showAccount(pos);
-                            }
-                        }
+                        setupView(accountList);
                     }
                 });
     }
@@ -131,32 +93,19 @@ class PayDebtPresenter implements PayDebtMVP.Presenter {
 
             double amountAccount = account.getAmount();
 
-            if (type == 1) {
+            if (type == DebtsFragment.TYPE_TAKE) {
                 amountAccount -= amountDebt;
             } else {
                 amountAccount += amountDebt;
             }
 
-            model.payFullDebt(account.getId(), amountAccount, debt.getId())
-                    .subscribe(new Subscriber<Boolean>() {
-
-                        @Override
-                        public void onCompleted() {
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onNext(Boolean aBoolean) {
-                            if (aBoolean && view != null) {
-                                view.performLastActionsAfterSaveAndClose();
-                            }
-                        }
-                    });
+            handleActionWithDebt(
+                    model.payFullDebt(
+                            account.getId(),
+                            amountAccount,
+                            debt.getId()
+                    )
+            );
         }
     }
 
@@ -175,61 +124,36 @@ class PayDebtPresenter implements PayDebtMVP.Presenter {
 
                     double amountAccount = account.getAmount();
 
-                    if (type == 1 && amountDebt > amountAccount) {
+                    if (type == DebtsFragment.TYPE_TAKE && amountDebt > amountAccount) {
                         view.showMessage(context.getString(R.string.not_enough_costs));
                     } else {
                         int idDebt = debt.getId();
                         int idAccount = account.getId();
 
-                        if (type == 1) {
+                        if (type == DebtsFragment.TYPE_TAKE) {
                             amountAccount -= amountDebt;
                         } else {
                             amountAccount += amountDebt;
                         }
 
                         if (amountDebt == amountAllDebt) {
-                            model.payFullDebt(idAccount, amountAccount, idDebt)
-                                    .subscribe(new Subscriber<Boolean>() {
-
-                                        @Override
-                                        public void onCompleted() {
-
-                                        }
-
-                                        @Override
-                                        public void onError(Throwable e) {
-
-                                        }
-
-                                        @Override
-                                        public void onNext(Boolean aBoolean) {
-                                            if (aBoolean && view != null) {
-                                                view.performLastActionsAfterSaveAndClose();
-                                            }
-                                        }
-                                    });
+                            handleActionWithDebt(
+                                    model.payFullDebt(
+                                            idAccount,
+                                            amountAccount,
+                                            idDebt
+                                    )
+                            );
                         } else {
                             double newDebtAmount = amountAllDebt - amountDebt;
-                            model.payPartOfDebt(idAccount, amountAccount, idDebt, newDebtAmount)
-                                    .subscribe(new Subscriber<Boolean>() {
-
-                                        @Override
-                                        public void onCompleted() {
-
-                                        }
-
-                                        @Override
-                                        public void onError(Throwable e) {
-
-                                        }
-
-                                        @Override
-                                        public void onNext(Boolean aBoolean) {
-                                            if (aBoolean && view != null) {
-                                                view.performLastActionsAfterSaveAndClose();
-                                            }
-                                        }
-                                    });
+                            handleActionWithDebt(
+                                    model.payPartOfDebt(
+                                            idAccount,
+                                            amountAccount,
+                                            idDebt,
+                                            newDebtAmount
+                                    )
+                            );
                         }
                     }
                 }
@@ -251,15 +175,15 @@ class PayDebtPresenter implements PayDebtMVP.Presenter {
 
                 double amountAccount = account.getAmount();
 
-                if (type == 0 && amountDebt > amountAccount) {
+                if (type == DebtsFragment.TYPE_GIVE && amountDebt > amountAccount) {
                     view.showMessage(context.getString(R.string.not_enough_costs));
                 } else {
 
                     switch (type) {
-                        case 0:
+                        case DebtsFragment.TYPE_GIVE:
                             amountAccount -= amountDebt;
                             break;
-                        case 1:
+                        case DebtsFragment.TYPE_TAKE:
                             amountAccount += amountDebt;
                             break;
                     }
@@ -267,27 +191,14 @@ class PayDebtPresenter implements PayDebtMVP.Presenter {
                     double newDebtCurrentAmount = amountDebtCurrent + amountDebt;
                     double newDebtAllAmount = amountDebtAll + amountDebt;
 
-                    model.takeMoreDebt(account.getId(), amountAccount,
-                            debt.getId(), newDebtCurrentAmount, newDebtAllAmount)
-                            .subscribe(new Subscriber<Boolean>() {
-
-                                @Override
-                                public void onCompleted() {
-
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-
-                                }
-
-                                @Override
-                                public void onNext(Boolean aBoolean) {
-                                    if (aBoolean && view != null) {
-                                        view.performLastActionsAfterSaveAndClose();
-                                    }
-                                }
-                            });
+                    handleActionWithDebt(
+                            model.takeMoreDebt(account.getId(),
+                                    amountAccount,
+                                    debt.getId(),
+                                    newDebtCurrentAmount,
+                                    newDebtAllAmount
+                            )
+                    );
                 }
             }
         }
@@ -301,5 +212,76 @@ class PayDebtPresenter implements PayDebtMVP.Presenter {
             return false;
         }
         return true;
+    }
+
+    private void handleActionWithDebt(Observable<Boolean> observable) {
+        observable.subscribe(new Subscriber<Boolean>() {
+
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+                if (aBoolean && view != null) {
+                    view.performLastActionsAfterSaveAndClose();
+                }
+            }
+        });
+    }
+
+    private void setupView(List<SpinAccountViewModel> accountList) {
+        if (view != null) {
+            List<SpinAccountViewModel> accountsAvailableList = getAccountAvailableList(accountList);
+
+            if (accountsAvailableList.isEmpty()) {
+                view.notifyNotEnoughAccounts();
+            } else {
+                view.setAccounts(accountsAvailableList);
+                view.showName(debt.getName());
+                if (mode == DebtsFragment.PAY_ALL || mode == DebtsFragment.PAY_PART) {
+                    view.showAmount(model.formatAmount(debt.getAmountCurrent()));
+                } else {
+                    view.showAmount("0,00");
+                    view.openNumericDialog();
+                }
+                if (mode == DebtsFragment.PAY_ALL) view.disableAmountField();
+
+                view.setupSpinner();
+
+                int idAccount = debt.getIdAccount();
+                int pos = 0;
+                for (int i = 0; i < accountsAvailableList.size(); i++) {
+                    if (idAccount == accountsAvailableList.get(i).getId()) {
+                        pos = i;
+                        break;
+                    }
+                }
+
+                view.showAccount(pos);
+            }
+        }
+    }
+
+    private List<SpinAccountViewModel> getAccountAvailableList(List<SpinAccountViewModel> accountList) {
+        List<SpinAccountViewModel> accountsAvailableList = new ArrayList<>();
+        String currency = debt.getCurrency();
+        double amount = debt.getAmountCurrent();
+        int type = debt.getType();
+
+        Stream.of(accountList)
+                .filter(account ->
+                        mode == DebtsFragment.PAY_ALL && type == DebtsFragment.TYPE_TAKE ?
+                                account.getCurrency().equals(currency) && account.getAmount() >= amount :
+                                account.getCurrency().equals(currency))
+                .forEach(accountsAvailableList::add);
+
+        return accountsAvailableList;
     }
 }

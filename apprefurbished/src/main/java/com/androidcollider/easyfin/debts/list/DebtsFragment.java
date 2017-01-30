@@ -145,13 +145,7 @@ public class DebtsFragment extends CommonFragment implements DebtsMVP.View {
     }
 
     public boolean onContextItemSelected(MenuItem item) {
-        int id;
-        try {
-            id = recyclerAdapter.getCurrentId();
-        } catch (Exception e) {
-            return super.onContextItemSelected(item);
-        }
-
+        int id = recyclerAdapter.getCurrentId();
         switch (item.getItemId()) {
             case R.id.ctx_menu_pay_all_debt:
                 presenter.getDebtById(id, PAY_ALL, ACTION_PAY);

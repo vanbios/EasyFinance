@@ -44,6 +44,9 @@ public class TransactionsFragment extends CommonFragmentWithEvents implements Tr
 
     private RecyclerTransactionAdapter recyclerAdapter;
 
+    public static final String TRANSACTION = "transaction", MODE = "mode", TYPE = "type";
+    public static final int MODE_ADD = 0, MODE_EDIT = 1, TYPE_EXPENSE = 0, TYPE_INCOME = 1;
+
     @Inject
     ResourcesManager resourcesManager;
 
@@ -105,13 +108,7 @@ public class TransactionsFragment extends CommonFragmentWithEvents implements Tr
     }
 
     public boolean onContextItemSelected(MenuItem item) {
-        int id;
-        try {
-            id = recyclerAdapter.getCurrentId();
-        } catch (Exception e) {
-            return super.onContextItemSelected(item);
-        }
-
+        int id = recyclerAdapter.getCurrentId();
         switch (item.getItemId()) {
             case R.id.ctx_menu_edit_transaction:
                 presenter.getTransactionById(id);
@@ -157,8 +154,8 @@ public class TransactionsFragment extends CommonFragmentWithEvents implements Tr
         if (activity != null) {
             AddTransactionIncomeExpenseFragment frgAddTransDef = new AddTransactionIncomeExpenseFragment();
             Bundle arguments = new Bundle();
-            arguments.putInt("mode", 1);
-            arguments.putSerializable("transaction", transaction);
+            arguments.putInt(MODE, MODE_EDIT);
+            arguments.putSerializable(TRANSACTION, transaction);
             frgAddTransDef.setArguments(arguments);
             activity.addFragment(frgAddTransDef);
         }
