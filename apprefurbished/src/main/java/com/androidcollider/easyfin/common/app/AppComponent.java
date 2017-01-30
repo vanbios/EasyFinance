@@ -32,6 +32,7 @@ import com.androidcollider.easyfin.debts.add_edit.AddDebtModule;
 import com.androidcollider.easyfin.debts.list.DebtsFragment;
 import com.androidcollider.easyfin.debts.list.DebtsModule;
 import com.androidcollider.easyfin.debts.pay.PayDebtFragment;
+import com.androidcollider.easyfin.debts.pay.PayDebtModule;
 import com.androidcollider.easyfin.home.HomeFragment;
 import com.androidcollider.easyfin.main.MainFragment;
 import com.androidcollider.easyfin.main.MainModule;
@@ -79,7 +80,8 @@ import dagger.Component;
         AddAccountModule.class,
         AddTransactionBetweenAccountsModule.class,
         AddTransactionIncomeExpenseModule.class,
-        AddDebtModule.class
+        AddDebtModule.class,
+        PayDebtModule.class
 })
 public interface AppComponent {
 

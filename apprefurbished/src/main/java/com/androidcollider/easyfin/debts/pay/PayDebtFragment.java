@@ -18,14 +18,10 @@ import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.managers.ui.hide_touch_outside.HideTouchOutsideManager;
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.common.models.Account;
-import com.androidcollider.easyfin.common.models.Debt;
-import com.androidcollider.easyfin.common.repository.Repository;
 import com.androidcollider.easyfin.common.ui.MainActivity;
 import com.androidcollider.easyfin.common.ui.adapters.SpinAccountForTransHeadIconAdapter;
 import com.androidcollider.easyfin.common.ui.fragments.FrgNumericDialog;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit;
-import com.androidcollider.easyfin.debts.list.DebtsFragment;
-import com.annimon.stream.Stream;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -36,13 +32,13 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rx.Subscriber;
 
 /**
  * @author Ihor Bilous
  */
 
-public class PayDebtFragment extends CommonFragmentAddEdit implements FrgNumericDialog.OnCommitAmountListener {
+public class PayDebtFragment extends CommonFragmentAddEdit
+        implements FrgNumericDialog.OnCommitAmountListener, PayDebtMVP.View {
 
     @BindView(R.id.tvPayDebtName)
     TextView tvDebtName;
@@ -55,12 +51,7 @@ public class PayDebtFragment extends CommonFragmentAddEdit implements FrgNumeric
     @BindView(R.id.layoutActPayDebtParent)
     ScrollView mainContent;
 
-    private Debt debt;
     private List<Account> accountsAvailableList;
-    private int mode;
-
-    @Inject
-    Repository repository;
 
     @Inject
     ToastManager toastManager;
@@ -73,6 +64,9 @@ public class PayDebtFragment extends CommonFragmentAddEdit implements FrgNumeric
 
     @Inject
     ResourcesManager resourcesManager;
+
+    @Inject
+    PayDebtMVP.Presenter presenter;
 
 
     @Override
@@ -90,269 +84,15 @@ public class PayDebtFragment extends CommonFragmentAddEdit implements FrgNumeric
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mode = getArguments().getInt(DebtsFragment.MODE, 0);
-        debt = (Debt) getArguments().getSerializable(DebtsFragment.DEBT);
-
         setToolbar();
-        fillAvailableAccountsList();
 
-        if (accountsAvailableList.isEmpty()) {
-            cardView.setVisibility(View.GONE);
-            showDialogNoAccount(getString(R.string.debt_no_available_accounts_warning), true);
-        } else {
-            cardView.setVisibility(View.VISIBLE);
-            setViews();
-            hideTouchOutsideManager.hideKeyboardByTouchOutsideEditText(mainContent, getActivity());
-        }
-    }
+        hideTouchOutsideManager.hideKeyboardByTouchOutsideEditText(mainContent, getActivity());
 
-    private void setViews() {
-        tvDebtName.setText(debt.getName());
-        if (mode == DebtsFragment.PAY_ALL || mode == DebtsFragment.PAY_PART) {
-            String amount = numberFormatManager.doubleToStringFormatterForEdit(
-                    debt.getAmountCurrent(),
-                    NumberFormatManager.FORMAT_1,
-                    NumberFormatManager.PRECISE_1
-            );
-            setTVTextSize(tvAmount, amount, 10, 15);
-            tvAmount.setText(amount);
-        } else {
-            tvAmount.setText("0,00");
-            openNumericDialog(tvAmount.getText().toString());
-        }
-        if (mode == DebtsFragment.PAY_ALL) tvAmount.setClickable(false);
+        accountsAvailableList = new ArrayList<>();
 
-        spinAccount.setAdapter(new SpinAccountForTransHeadIconAdapter(
-                getActivity(),
-                R.layout.spin_head_icon_text,
-                accountsAvailableList,
-                numberFormatManager,
-                resourcesManager
-        ));
-
-        int idAccount = debt.getIdAccount();
-        int pos = 0;
-        for (int i = 0; i < accountsAvailableList.size(); i++) {
-            if (idAccount == accountsAvailableList.get(i).getId()) {
-                pos = i;
-                break;
-            }
-        }
-
-        spinAccount.setSelection(pos);
-    }
-
-    private void fillAvailableAccountsList() {
-        repository.getAllAccounts()
-                .subscribe(new Subscriber<List<Account>>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<Account> accountList) {
-                        accountsAvailableList = new ArrayList<>();
-                        String currency = debt.getCurrency();
-                        double amount = debt.getAmountCurrent();
-                        int type = debt.getType();
-
-                        Stream.of(accountList)
-                                .filter(account ->
-                                        mode == DebtsFragment.PAY_ALL && type == 1 ?
-                                                account.getCurrency().equals(currency) && account.getAmount() >= amount :
-                                                account.getCurrency().equals(currency))
-                                .forEach(accountsAvailableList::add);
-                    }
-                });
-    }
-
-    private void payAllDebt() {
-        double amountDebt = debt.getAmountCurrent();
-        int type = debt.getType();
-
-        Account account = (Account) spinAccount.getSelectedItem();
-
-        double amountAccount = account.getAmount();
-
-        if (type == 1) {
-            amountAccount -= amountDebt;
-        } else {
-            amountAccount += amountDebt;
-        }
-
-        repository.payFullDebt(account.getId(), amountAccount, debt.getId())
-                .subscribe(new Subscriber<Boolean>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(Boolean aBoolean) {
-                        lastActions();
-                    }
-                });
-    }
-
-    private void payPartDebt() {
-        String sum = numberFormatManager.prepareStringToParse(tvAmount.getText().toString());
-        if (checkForFillSumField(sum)) {
-            double amountDebt = Double.parseDouble(sum);
-            double amountAllDebt = debt.getAmountCurrent();
-
-            MainActivity activity = (MainActivity) getActivity();
-
-            if (amountDebt > amountAllDebt) {
-                if (activity != null) {
-                    toastManager.showClosableToast(activity, getString(R.string.debt_sum_more_then_amount), ToastManager.SHORT);
-                }
-            } else {
-                int type = debt.getType();
-                Account account = (Account) spinAccount.getSelectedItem();
-
-                double amountAccount = account.getAmount();
-
-                if (type == 1 && amountDebt > amountAccount) {
-                    if (activity != null) {
-                        toastManager.showClosableToast(activity, getString(R.string.not_enough_costs), ToastManager.SHORT);
-                    }
-                } else {
-                    int idDebt = debt.getId();
-                    int idAccount = account.getId();
-
-                    if (type == 1) {
-                        amountAccount -= amountDebt;
-                    } else {
-                        amountAccount += amountDebt;
-                    }
-
-                    if (amountDebt == amountAllDebt) {
-                        repository.payFullDebt(idAccount, amountAccount, idDebt)
-                                .subscribe(new Subscriber<Boolean>() {
-
-                                    @Override
-                                    public void onCompleted() {
-
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable e) {
-
-                                    }
-
-                                    @Override
-                                    public void onNext(Boolean aBoolean) {
-                                        lastActions();
-                                    }
-                                });
-                    } else {
-                        double newDebtAmount = amountAllDebt - amountDebt;
-                        repository.payPartOfDebt(idAccount, amountAccount, idDebt, newDebtAmount)
-                                .subscribe(new Subscriber<Boolean>() {
-
-                                    @Override
-                                    public void onCompleted() {
-
-                                    }
-
-                                    @Override
-                                    public void onError(Throwable e) {
-
-                                    }
-
-                                    @Override
-                                    public void onNext(Boolean aBoolean) {
-                                        lastActions();
-                                    }
-                                });
-                    }
-                }
-            }
-        }
-    }
-
-    private void takeMoreDebt() {
-        String sum = numberFormatManager.prepareStringToParse(tvAmount.getText().toString());
-        if (checkForFillSumField(sum)) {
-            double amountDebt = Double.parseDouble(sum);
-            double amountDebtCurrent = debt.getAmountCurrent();
-            double amountDebtAll = debt.getAmountAll();
-
-            int type = debt.getType();
-
-            Account account = (Account) spinAccount.getSelectedItem();
-
-            double amountAccount = account.getAmount();
-
-            if (type == 0 && amountDebt > amountAccount) {
-                MainActivity activity = (MainActivity) getActivity();
-                if (activity != null) {
-                    toastManager.showClosableToast(activity, getString(R.string.not_enough_costs), ToastManager.SHORT);
-                }
-            } else {
-
-                switch (type) {
-                    case 0:
-                        amountAccount -= amountDebt;
-                        break;
-                    case 1:
-                        amountAccount += amountDebt;
-                        break;
-                }
-
-                double newDebtCurrentAmount = amountDebtCurrent + amountDebt;
-                double newDebtAllAmount = amountDebtAll + amountDebt;
-
-                repository.takeMoreDebt(account.getId(), amountAccount,
-                        debt.getId(), newDebtCurrentAmount, newDebtAllAmount)
-                        .subscribe(new Subscriber<Boolean>() {
-
-                            @Override
-                            public void onCompleted() {
-
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onNext(Boolean aBoolean) {
-                                lastActions();
-                            }
-                        });
-            }
-        }
-    }
-
-    private boolean checkForFillSumField(String s) {
-        if (!s.matches(".*\\d.*") || Double.parseDouble(s) == 0) {
-            MainActivity activity = (MainActivity) getActivity();
-            if (activity != null) {
-                toastManager.showClosableToast(activity, getString(R.string.empty_amount_field), ToastManager.SHORT);
-            }
-            return false;
-        }
-        return true;
-    }
-
-    private void lastActions() {
-        pushBroadcast();
-        this.finish();
+        presenter.setView(this);
+        presenter.setArguments(getArguments());
+        presenter.loadAccounts();
     }
 
     private void pushBroadcast() {
@@ -365,29 +105,97 @@ public class PayDebtFragment extends CommonFragmentAddEdit implements FrgNumeric
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tvPayDebtAmount:
-                openNumericDialog(tvAmount.getText().toString());
+                openNumericDialog();
                 break;
         }
     }
 
     @Override
     public void onCommitAmountSubmit(String amount) {
+        showAmount(amount);
+    }
+
+    @Override
+    protected void handleSaveAction() {
+        presenter.save();
+    }
+
+    @Override
+    public void showAmount(String amount) {
         setTVTextSize(tvAmount, amount, 10, 15);
         tvAmount.setText(amount);
     }
 
     @Override
-    protected void handleSaveAction() {
-        switch (mode) {
-            case DebtsFragment.PAY_ALL:
-                payAllDebt();
-                break;
-            case DebtsFragment.PAY_PART:
-                payPartDebt();
-                break;
-            case DebtsFragment.TAKE_MORE:
-                takeMoreDebt();
-                break;
+    public void showName(String name) {
+        tvDebtName.setText(name);
+    }
+
+    @Override
+    public void setupSpinner() {
+        spinAccount.setAdapter(new SpinAccountForTransHeadIconAdapter(
+                getActivity(),
+                R.layout.spin_head_icon_text,
+                accountsAvailableList,
+                numberFormatManager,
+                resourcesManager
+        ));
+    }
+
+    @Override
+    public void showAccount(int position) {
+        spinAccount.setSelection(position);
+    }
+
+    @Override
+    public void showMessage(String message) {
+        MainActivity activity = (MainActivity) getActivity();
+        if (activity != null) {
+            toastManager.showClosableToast(activity, message, ToastManager.SHORT);
         }
+    }
+
+    @Override
+    public void openNumericDialog() {
+        openNumericDialog(tvAmount.getText().toString());
+    }
+
+    @Override
+    public void notifyNotEnoughAccounts() {
+        cardView.setVisibility(View.GONE);
+        showDialogNoAccount(getString(R.string.debt_no_available_accounts_warning), true);
+    }
+
+    @Override
+    public void disableAmountField() {
+        tvAmount.setClickable(false);
+    }
+
+    @Override
+    public void setAccounts(List<Account> accountList) {
+        accountsAvailableList.clear();
+        accountsAvailableList.addAll(accountList);
+        cardView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void performLastActionsAfterSaveAndClose() {
+        pushBroadcast();
+        this.finish();
+    }
+
+    @Override
+    public String getAmount() {
+        return tvAmount.getText().toString();
+    }
+
+    @Override
+    public Account getAccount() {
+        return (Account) spinAccount.getSelectedItem();
+    }
+
+    @Override
+    public List<Account> getAccounts() {
+        return accountsAvailableList;
     }
 }
