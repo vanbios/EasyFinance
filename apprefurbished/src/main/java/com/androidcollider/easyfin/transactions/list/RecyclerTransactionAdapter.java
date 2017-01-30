@@ -16,6 +16,7 @@ import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,9 +28,9 @@ import static butterknife.ButterKnife.findById;
 
 class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTransactionAdapter.MainViewHolder> {
 
-    @Getter
-    @Setter
-    private int position;
+    @Getter(AccessLevel.PACKAGE)
+    @Setter(AccessLevel.PRIVATE)
+    private int currentId;
     private List<TransactionViewModel> transactionList;
     private final TypedArray catExpenseIconsArray, catIncomeIconsArray, typeIconsArray;
     private final int CONTENT_TYPE = 1, BUTTON_TYPE = 2;
@@ -77,8 +78,11 @@ class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTransactio
         return transactionList.get(position);
     }
 
-    int getTransactionIdByPos(int position) {
-        return getTransaction(position).getId();
+    int getPositionById(int id) {
+        for (int i = 0; i < transactionList.size(); i++) {
+            if (transactionList.get(i).getId() == id) return i;
+        }
+        return 0;
     }
 
     @Override
@@ -112,7 +116,7 @@ class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTransactio
 
             holderItem.ivTransAccountType.setImageDrawable(typeIconsArray.getDrawable(transaction.getAccountType()));
             holderItem.mView.setOnLongClickListener(view -> {
-                setPosition(position);
+                setCurrentId(transaction.getId());
                 return false;
             });
 

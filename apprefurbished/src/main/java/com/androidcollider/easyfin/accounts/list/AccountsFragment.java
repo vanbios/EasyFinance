@@ -17,8 +17,8 @@ import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager;
 import com.androidcollider.easyfin.common.models.Account;
 import com.androidcollider.easyfin.common.ui.MainActivity;
-import com.androidcollider.easyfin.main.MainFragment;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentWithEvents;
+import com.androidcollider.easyfin.main.MainFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -110,31 +110,31 @@ public class AccountsFragment extends CommonFragmentWithEvents implements Accoun
     }
 
     public boolean onContextItemSelected(MenuItem item) {
-        int pos;
+        int id;
         try {
-            pos = recyclerAdapter.getPosition();
+            id = recyclerAdapter.getCurrentId();
         } catch (Exception e) {
             return super.onContextItemSelected(item);
         }
 
         switch (item.getItemId()) {
             case R.id.ctx_menu_edit_account:
-                presenter.getAccountById(recyclerAdapter.getAccountIdByPos(pos));
+                presenter.getAccountById(id);
                 break;
             case R.id.ctx_menu_delete_account:
-                showDialogDeleteAccount(pos);
+                showDialogDeleteAccount(id);
                 break;
         }
         return super.onContextItemSelected(item);
     }
 
-    private void showDialogDeleteAccount(final int pos) {
+    private void showDialogDeleteAccount(final int id) {
         MainActivity activity = (MainActivity) getActivity();
         if (activity != null) {
             dialogManager.showDeleteDialog(
                     activity,
                     getString(R.string.dialog_text_delete_account),
-                    (dialog, which) -> presenter.deleteAccountById(recyclerAdapter.getAccountIdByPos(pos))
+                    (dialog, which) -> presenter.deleteAccountById(id)
             );
         }
     }
@@ -164,7 +164,7 @@ public class AccountsFragment extends CommonFragmentWithEvents implements Accoun
 
     @Override
     public void deleteAccount() {
-        recyclerAdapter.deleteItem(recyclerAdapter.getPosition());
+        recyclerAdapter.deleteItem(recyclerAdapter.getPositionById(recyclerAdapter.getCurrentId()));
         setVisibility();
         pushBroadcast();
     }

@@ -145,40 +145,40 @@ public class DebtsFragment extends CommonFragment implements DebtsMVP.View {
     }
 
     public boolean onContextItemSelected(MenuItem item) {
-        int pos;
+        int id;
         try {
-            pos = recyclerAdapter.getPosition();
+            id = recyclerAdapter.getCurrentId();
         } catch (Exception e) {
             return super.onContextItemSelected(item);
         }
 
         switch (item.getItemId()) {
             case R.id.ctx_menu_pay_all_debt:
-                presenter.getDebtById(recyclerAdapter.getDebtIdByPos(pos), PAY_ALL, ACTION_PAY);
+                presenter.getDebtById(id, PAY_ALL, ACTION_PAY);
                 break;
             case R.id.ctx_menu_pay_part_debt:
-                presenter.getDebtById(recyclerAdapter.getDebtIdByPos(pos), PAY_PART, ACTION_PAY);
+                presenter.getDebtById(id, PAY_PART, ACTION_PAY);
                 break;
             case R.id.ctx_menu_take_more_debt:
-                presenter.getDebtById(recyclerAdapter.getDebtIdByPos(pos), TAKE_MORE, ACTION_PAY);
+                presenter.getDebtById(id, TAKE_MORE, ACTION_PAY);
                 break;
             case R.id.ctx_menu_edit_debt:
-                presenter.getDebtById(recyclerAdapter.getDebtIdByPos(pos), EDIT, ACTION_EDIT);
+                presenter.getDebtById(id, EDIT, ACTION_EDIT);
                 break;
             case R.id.ctx_menu_delete_debt:
-                showDialogDeleteDebt(pos);
+                showDialogDeleteDebt(id);
                 break;
         }
         return super.onContextItemSelected(item);
     }
 
-    private void showDialogDeleteDebt(final int pos) {
+    private void showDialogDeleteDebt(final int id) {
         MainActivity activity = (MainActivity) getActivity();
         if (activity != null) {
             dialogManager.showDeleteDialog(
                     activity,
                     getString(R.string.debt_delete_warning),
-                    (dialog, which) -> presenter.deleteDebtById(recyclerAdapter.getDebtIdByPos(pos))
+                    (dialog, which) -> presenter.deleteDebtById(id)
             );
         }
     }
@@ -232,7 +232,7 @@ public class DebtsFragment extends CommonFragment implements DebtsMVP.View {
                 return false;
             });
         }
-        //If a layout container, iterate over children and seed recursion.
+
         if (view instanceof ViewGroup) {
             for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
                 View innerView = ((ViewGroup) view).getChildAt(i);
@@ -276,7 +276,7 @@ public class DebtsFragment extends CommonFragment implements DebtsMVP.View {
 
     @Override
     public void deleteDebt() {
-        recyclerAdapter.deleteItem(recyclerAdapter.getPosition());
+        recyclerAdapter.deleteItem(recyclerAdapter.getPositionById(recyclerAdapter.getCurrentId()));
         setVisibility();
         pushBroadcast();
     }

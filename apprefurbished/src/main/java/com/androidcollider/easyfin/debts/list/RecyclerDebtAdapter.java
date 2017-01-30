@@ -15,6 +15,7 @@ import com.androidcollider.easyfin.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -26,9 +27,9 @@ import static butterknife.ButterKnife.findById;
 
 class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapter.ViewHolder> {
 
-    @Getter
-    @Setter
-    private int position;
+    @Getter(AccessLevel.PACKAGE)
+    @Setter(AccessLevel.PRIVATE)
+    private int currentId;
     private List<DebtViewModel> debtList;
 
 
@@ -61,8 +62,11 @@ class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapter.ViewH
         return debtList.get(position);
     }
 
-    int getDebtIdByPos(int position) {
-        return getDebt(position).getId();
+    int getPositionById(int id) {
+        for (int i = 0; i < debtList.size(); i++) {
+            if (debtList.get(i).getId() == id) return i;
+        }
+        return 0;
     }
 
     @Override
@@ -86,7 +90,7 @@ class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapter.ViewH
         holder.tvProgress.setTextColor(color);
 
         holder.mView.setOnLongClickListener(view -> {
-            setPosition(position);
+            setCurrentId(debt.getId());
             return false;
         });
     }

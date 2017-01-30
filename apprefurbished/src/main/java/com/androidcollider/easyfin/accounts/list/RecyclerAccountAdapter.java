@@ -16,6 +16,7 @@ import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,9 +28,9 @@ import static butterknife.ButterKnife.findById;
 
 class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccountAdapter.ViewHolder> {
 
-    @Getter
-    @Setter
-    private int position;
+    @Getter(AccessLevel.PACKAGE)
+    @Setter(AccessLevel.PRIVATE)
+    private int currentId;
     private List<AccountViewModel> accountList;
     private final TypedArray typeIconsArray;
 
@@ -64,10 +65,12 @@ class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccountAdapter
         return accountList.get(position);
     }
 
-    int getAccountIdByPos(int position) {
-        return getAccount(position).getId();
+    int getPositionById(int id) {
+        for (int i = 0; i < accountList.size(); i++) {
+            if (accountList.get(i).getId() == id) return i;
+        }
+        return 0;
     }
-
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -83,7 +86,7 @@ class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccountAdapter
         holder.ivAccountType.setImageDrawable(typeIconsArray.getDrawable(account.getType()));
 
         holder.mView.setOnLongClickListener(view -> {
-            setPosition(position);
+            setCurrentId(account.getId());
             return false;
         });
     }

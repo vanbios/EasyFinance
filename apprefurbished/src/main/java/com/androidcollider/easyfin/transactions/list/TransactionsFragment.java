@@ -17,8 +17,8 @@ import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager;
 import com.androidcollider.easyfin.common.models.Transaction;
 import com.androidcollider.easyfin.common.ui.MainActivity;
-import com.androidcollider.easyfin.main.MainFragment;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentWithEvents;
+import com.androidcollider.easyfin.main.MainFragment;
 import com.androidcollider.easyfin.transactions.add_edit.income_expense.AddTransactionIncomeExpenseFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -105,31 +105,31 @@ public class TransactionsFragment extends CommonFragmentWithEvents implements Tr
     }
 
     public boolean onContextItemSelected(MenuItem item) {
-        int pos;
+        int id;
         try {
-            pos = recyclerAdapter.getPosition();
+            id = recyclerAdapter.getCurrentId();
         } catch (Exception e) {
             return super.onContextItemSelected(item);
         }
 
         switch (item.getItemId()) {
             case R.id.ctx_menu_edit_transaction:
-                presenter.getTransactionById(recyclerAdapter.getTransactionIdByPos(pos));
+                presenter.getTransactionById(id);
                 break;
             case R.id.ctx_menu_delete_transaction:
-                showDialogDeleteTransaction(pos);
+                showDialogDeleteTransaction(id);
                 break;
         }
         return super.onContextItemSelected(item);
     }
 
-    private void showDialogDeleteTransaction(final int pos) {
+    private void showDialogDeleteTransaction(final int id) {
         MainActivity activity = (MainActivity) getActivity();
         if (activity != null) {
             dialogManager.showDeleteDialog(
                     activity,
                     getString(R.string.transaction_delete_warning),
-                    (dialog, which) -> presenter.deleteTransactionById(recyclerAdapter.getTransactionIdByPos(pos))
+                    (dialog, which) -> presenter.deleteTransactionById(id)
             );
         }
     }
@@ -166,7 +166,7 @@ public class TransactionsFragment extends CommonFragmentWithEvents implements Tr
 
     @Override
     public void deleteTransaction() {
-        recyclerAdapter.deleteItem(recyclerAdapter.getPosition());
+        recyclerAdapter.deleteItem(recyclerAdapter.getPositionById(recyclerAdapter.getCurrentId()));
         setVisibility();
         pushBroadcast();
     }
