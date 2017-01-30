@@ -42,7 +42,7 @@ import rx.Subscriber;
  * @author Ihor Bilous
  */
 
-public class FrgPayDebt extends CommonFragmentAddEdit implements FrgNumericDialog.OnCommitAmountListener {
+public class PayDebtFragment extends CommonFragmentAddEdit implements FrgNumericDialog.OnCommitAmountListener {
 
     @BindView(R.id.tvPayDebtName)
     TextView tvDebtName;

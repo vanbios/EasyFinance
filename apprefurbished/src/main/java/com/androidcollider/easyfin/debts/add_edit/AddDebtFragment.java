@@ -1,10 +1,11 @@
-package com.androidcollider.easyfin.transactions.add_edit.income_expense;
+package com.androidcollider.easyfin.debts.add_edit;
 
 import android.app.DatePickerDialog;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -12,16 +13,17 @@ import android.widget.TextView;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
-import com.androidcollider.easyfin.common.events.UpdateFrgHome;
-import com.androidcollider.easyfin.common.events.UpdateFrgTransactions;
+import com.androidcollider.easyfin.common.events.UpdateFrgDebts;
+import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.common.managers.format.date.DateFormatManager;
 import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
+import com.androidcollider.easyfin.common.managers.ui.hide_touch_outside.HideTouchOutsideManager;
+import com.androidcollider.easyfin.common.managers.ui.shake_edit_text.ShakeEditTextManager;
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.common.models.Account;
 import com.androidcollider.easyfin.common.ui.MainActivity;
 import com.androidcollider.easyfin.common.ui.adapters.SpinAccountForTransHeadIconAdapter;
-import com.androidcollider.easyfin.common.ui.adapters.SpinIconTextHeadAdapter;
 import com.androidcollider.easyfin.common.ui.fragments.FrgNumericDialog;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit;
 
@@ -40,25 +42,33 @@ import butterknife.OnClick;
  * @author Ihor Bilous
  */
 
-public class AddTransactionIncomeExpenseFragment extends CommonFragmentAddEdit
-        implements FrgNumericDialog.OnCommitAmountListener, AddTransactionIncomeExpenseMVP.View {
+public class AddDebtFragment extends CommonFragmentAddEdit
+        implements FrgNumericDialog.OnCommitAmountListener, AddDebtMVP.View {
 
-    @BindView(R.id.tvTransactionDate)
+    @BindView(R.id.tvAddDebtDate)
     TextView tvDate;
-    @BindView(R.id.tvAddTransDefAmount)
+    @BindView(R.id.tvAddDebtAmount)
     TextView tvAmount;
-    @BindView(R.id.spinAddTransCategory)
-    Spinner spinCategory;
-    @BindView(R.id.spinAddTransDefAccount)
+    @BindView(R.id.editTextDebtName)
+    EditText etName;
+    @BindView(R.id.spinAddDebtAccount)
     Spinner spinAccount;
-    @BindView(R.id.scrollAddTransDef)
-    ScrollView scrollView;
+    @BindView(R.id.cardAddDebtElements)
+    CardView cardView;
+    @BindView(R.id.layoutActAddDebtParent)
+    ScrollView mainContent;
 
     private DatePickerDialog datePickerDialog;
     private List<Account> accountList;
 
     @Inject
+    ShakeEditTextManager shakeEditTextManager;
+
+    @Inject
     ToastManager toastManager;
+
+    @Inject
+    HideTouchOutsideManager hideTouchOutsideManager;
 
     @Inject
     DateFormatManager dateFormatManager;
@@ -70,12 +80,12 @@ public class AddTransactionIncomeExpenseFragment extends CommonFragmentAddEdit
     ResourcesManager resourcesManager;
 
     @Inject
-    AddTransactionIncomeExpenseMVP.Presenter presenter;
+    AddDebtMVP.Presenter presenter;
 
 
     @Override
     public int getContentView() {
-        return R.layout.frg_add_trans_def;
+        return R.layout.frg_add_debt;
     }
 
     @Override
@@ -90,6 +100,8 @@ public class AddTransactionIncomeExpenseFragment extends CommonFragmentAddEdit
 
         setToolbar();
 
+        hideTouchOutsideManager.hideKeyboardByTouchOutsideEditText(mainContent, getActivity());
+
         accountList = new ArrayList<>();
 
         presenter.setView(this);
@@ -98,26 +110,26 @@ public class AddTransactionIncomeExpenseFragment extends CommonFragmentAddEdit
     }
 
     private void pushBroadcast() {
-        EventBus.getDefault().post(new UpdateFrgHome());
-        EventBus.getDefault().post(new UpdateFrgTransactions());
+        EventBus.getDefault().post(new UpdateFrgHomeBalance());
         EventBus.getDefault().post(new UpdateFrgAccounts());
+        EventBus.getDefault().post(new UpdateFrgDebts());
     }
 
-    @OnClick({R.id.tvTransactionDate, R.id.tvAddTransDefAmount})
+    @OnClick({R.id.tvAddDebtAmount, R.id.tvAddDebtDate})
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tvTransactionDate:
-                datePickerDialog.show();
-                break;
-            case R.id.tvAddTransDefAmount:
+            case R.id.tvAddDebtAmount:
                 openNumericDialog();
+                break;
+            case R.id.tvAddDebtDate:
+                datePickerDialog.show();
                 break;
         }
     }
 
     @Override
     public void onCommitAmountSubmit(String amount) {
-        showAmount(amount, presenter.getTransactionType());
+        showAmount(amount);
     }
 
     @Override
@@ -125,10 +137,38 @@ public class AddTransactionIncomeExpenseFragment extends CommonFragmentAddEdit
         presenter.save();
     }
 
+
     @Override
-    public void showAmount(String amount, int transType) {
-        setTVTextSize(tvAmount, amount, 9, 14);
-        tvAmount.setText(String.format("%1$s %2$s", transType == 1 ? "+" : "-", amount));
+    public void showAmount(String amount) {
+        setTVTextSize(tvAmount, amount, 10, 15);
+        tvAmount.setText(amount);
+    }
+
+    @Override
+    public void showName(String name) {
+        etName.setText(name);
+        etName.setSelection(etName.getText().length());
+    }
+
+    @Override
+    public void setupSpinner() {
+        spinAccount.setAdapter(new SpinAccountForTransHeadIconAdapter(
+                getActivity(),
+                R.layout.spin_head_icon_text,
+                accountList,
+                numberFormatManager,
+                resourcesManager
+        ));
+    }
+
+    @Override
+    public void highlightNameField() {
+        shakeEditTextManager.highlightEditText(etName);
+    }
+
+    @Override
+    public void showAccount(int position) {
+        spinAccount.setSelection(position);
     }
 
     @Override
@@ -140,14 +180,29 @@ public class AddTransactionIncomeExpenseFragment extends CommonFragmentAddEdit
     }
 
     @Override
+    public void setupDateTimeField(Calendar calendar, long initTime) {
+        tvDate.setText(dateFormatManager.dateToString(calendar.getTime(), DateFormatManager.DAY_MONTH_YEAR_SPACED));
+
+        datePickerDialog = new DatePickerDialog(getActivity(), (view1, year, monthOfYear, dayOfMonth) -> {
+            Calendar newDate = Calendar.getInstance();
+            newDate.set(year, monthOfYear, dayOfMonth);
+            if (newDate.getTimeInMillis() < initTime) {
+                showMessage(getString(R.string.debt_deadline_past));
+            } else {
+                tvDate.setText(dateFormatManager.dateToString(newDate.getTime(), DateFormatManager.DAY_MONTH_YEAR_SPACED));
+            }
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+    }
+
+    @Override
     public void openNumericDialog() {
         openNumericDialog(tvAmount.getText().toString());
     }
 
     @Override
     public void notifyNotEnoughAccounts() {
-        scrollView.setVisibility(View.GONE);
-        showDialogNoAccount(getString(R.string.dialog_text_transaction_no_account), false);
+        cardView.setVisibility(View.GONE);
+        showDialogNoAccount(getString(R.string.dialog_text_debt_no_account), true);
     }
 
     @Override
@@ -157,15 +212,15 @@ public class AddTransactionIncomeExpenseFragment extends CommonFragmentAddEdit
 
     @Override
     public void setAccounts(List<Account> accountList) {
+        cardView.setVisibility(View.VISIBLE);
         this.accountList.clear();
         this.accountList.addAll(accountList);
-        scrollView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void performLastActionsAfterSaveAndClose() {
         pushBroadcast();
-        finish();
+        this.finish();
     }
 
     @Override
@@ -184,62 +239,12 @@ public class AddTransactionIncomeExpenseFragment extends CommonFragmentAddEdit
     }
 
     @Override
-    public int getCategory() {
-        return spinCategory.getSelectedItemPosition();
+    public String getName() {
+        return etName.getText().toString();
     }
 
     @Override
     public List<Account> getAccounts() {
         return accountList;
-    }
-
-    @Override
-    public void setupSpinners(String[] categoryArray, TypedArray categoryIcons) {
-        spinCategory.setAdapter(new SpinIconTextHeadAdapter(
-                getActivity(),
-                R.layout.spin_head_icon_text,
-                R.id.tvSpinHeadIconText,
-                R.id.ivSpinHeadIconText,
-                R.layout.spin_drop_icon_text,
-                R.id.tvSpinDropIconText,
-                R.id.ivSpinDropIconText,
-                categoryArray,
-                categoryIcons));
-
-        spinCategory.setSelection(categoryArray.length - 1);
-
-        spinAccount.setAdapter(new SpinAccountForTransHeadIconAdapter(
-                getActivity(),
-                R.layout.spin_head_icon_text,
-                accountList,
-                numberFormatManager,
-                resourcesManager
-        ));
-    }
-
-    @Override
-    public void showCategory(int category) {
-        spinCategory.setSelection(category);
-    }
-
-    @Override
-    public void showAccount(int position) {
-        spinAccount.setSelection(position);
-    }
-
-    @Override
-    public void setupDateTimeField(Calendar calendar) {
-        tvDate.setText(dateFormatManager.dateToString(calendar.getTime(), DateFormatManager.DAY_MONTH_YEAR_SPACED));
-
-        datePickerDialog = new DatePickerDialog(getActivity(), (view1, year, monthOfYear, dayOfMonth) -> {
-            Calendar newDate = Calendar.getInstance();
-            newDate.set(year, monthOfYear, dayOfMonth);
-
-            if (newDate.getTimeInMillis() > System.currentTimeMillis()) {
-                showMessage(getString(R.string.transaction_date_future));
-            } else {
-                tvDate.setText(dateFormatManager.dateToString(newDate.getTime(), DateFormatManager.DAY_MONTH_YEAR_SPACED));
-            }
-        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
     }
 }

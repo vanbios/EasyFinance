@@ -20,8 +20,8 @@ import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager;
 import com.androidcollider.easyfin.common.models.Debt;
 import com.androidcollider.easyfin.common.ui.MainActivity;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment;
-import com.androidcollider.easyfin.debts.add_edit.FrgAddDebt;
-import com.androidcollider.easyfin.debts.pay.FrgPayDebt;
+import com.androidcollider.easyfin.debts.add_edit.AddDebtFragment;
+import com.androidcollider.easyfin.debts.pay.PayDebtFragment;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -194,13 +194,13 @@ public class DebtsFragment extends CommonFragment implements DebtsMVP.View {
     }
 
     private void goToAddDebt(int type) {
-        FrgAddDebt frgAddDebt = new FrgAddDebt();
+        AddDebtFragment addDebtFragment = new AddDebtFragment();
         Bundle arguments = new Bundle();
         arguments.putInt(MODE, ADD);
         arguments.putInt(TYPE, type);
-        frgAddDebt.setArguments(arguments);
+        addDebtFragment.setArguments(arguments);
 
-        addFragment(frgAddDebt);
+        addFragment(addDebtFragment);
     }
 
     private void collapseFloatingMenu(boolean withAnim) {
@@ -254,24 +254,24 @@ public class DebtsFragment extends CommonFragment implements DebtsMVP.View {
 
     @Override
     public void goToEditDebt(Debt debt, int mode) {
-        FrgAddDebt frgAddDebt = new FrgAddDebt();
+        AddDebtFragment addDebtFragment = new AddDebtFragment();
         Bundle arguments = new Bundle();
         arguments.putInt(MODE, mode);
         arguments.putSerializable(DEBT, debt);
-        frgAddDebt.setArguments(arguments);
+        addDebtFragment.setArguments(arguments);
 
-        addFragment(frgAddDebt);
+        addFragment(addDebtFragment);
     }
 
     @Override
     public void goToPayDebt(Debt debt, int mode) {
-        FrgPayDebt frgPayDebt = new FrgPayDebt();
+        PayDebtFragment payDebtFragment = new PayDebtFragment();
         Bundle arguments = new Bundle();
         arguments.putInt(MODE, mode);
         arguments.putSerializable(DEBT, debt);
-        frgPayDebt.setArguments(arguments);
+        payDebtFragment.setArguments(arguments);
 
-        addFragment(frgPayDebt);
+        addFragment(payDebtFragment);
     }
 
     @Override

@@ -55,7 +55,7 @@ import static butterknife.ButterKnife.findById;
  * @author Ihor Bilous
  */
 
-public class FrgHome extends CommonFragmentWithEvents {
+public class HomeFragment extends CommonFragmentWithEvents {
 
     private String[] currencyArray, currencyLangArray;
     private double[] statistic = new double[2];

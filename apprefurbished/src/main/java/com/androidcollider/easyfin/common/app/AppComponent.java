@@ -27,11 +27,12 @@ import com.androidcollider.easyfin.common.ui.MainActivity;
 import com.androidcollider.easyfin.common.ui.fragments.FrgNumericDialog;
 import com.androidcollider.easyfin.common.ui.fragments.FrgPref;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit;
-import com.androidcollider.easyfin.debts.add_edit.FrgAddDebt;
+import com.androidcollider.easyfin.debts.add_edit.AddDebtFragment;
+import com.androidcollider.easyfin.debts.add_edit.AddDebtModule;
 import com.androidcollider.easyfin.debts.list.DebtsFragment;
 import com.androidcollider.easyfin.debts.list.DebtsModule;
-import com.androidcollider.easyfin.debts.pay.FrgPayDebt;
-import com.androidcollider.easyfin.home.FrgHome;
+import com.androidcollider.easyfin.debts.pay.PayDebtFragment;
+import com.androidcollider.easyfin.home.HomeFragment;
 import com.androidcollider.easyfin.main.MainFragment;
 import com.androidcollider.easyfin.main.MainModule;
 import com.androidcollider.easyfin.transactions.add_edit.btw_accounts.AddTransactionBetweenAccountsFragment;
@@ -77,7 +78,8 @@ import dagger.Component;
         DebtsModule.class,
         AddAccountModule.class,
         AddTransactionBetweenAccountsModule.class,
-        AddTransactionIncomeExpenseModule.class
+        AddTransactionIncomeExpenseModule.class,
+        AddDebtModule.class
 })
 public interface AppComponent {
 
@@ -85,7 +87,7 @@ public interface AppComponent {
 
     void inject(MainFragment mainFragment);
 
-    void inject(FrgHome frgHome);
+    void inject(HomeFragment homeFragment);
 
     void inject(AccountsFragment accountsFragment);
 
@@ -99,9 +101,9 @@ public interface AppComponent {
 
     void inject(AddTransactionBetweenAccountsFragment addTransactionBetweenAccountsFragment);
 
-    void inject(FrgAddDebt frgAddDebt);
+    void inject(AddDebtFragment addDebtFragment);
 
-    void inject(FrgPayDebt frgPayDebt);
+    void inject(PayDebtFragment payDebtFragment);
 
     void inject(FrgPref frgPref);
 

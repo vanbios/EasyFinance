@@ -19,7 +19,7 @@ import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager;
 import com.androidcollider.easyfin.common.ui.MainActivity;
 import com.androidcollider.easyfin.common.ui.adapters.ViewPagerFragmentAdapter;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment;
-import com.androidcollider.easyfin.home.FrgHome;
+import com.androidcollider.easyfin.home.HomeFragment;
 import com.androidcollider.easyfin.transactions.add_edit.btw_accounts.AddTransactionBetweenAccountsFragment;
 import com.androidcollider.easyfin.transactions.add_edit.income_expense.AddTransactionIncomeExpenseFragment;
 import com.androidcollider.easyfin.transactions.list.TransactionsFragment;
@@ -77,7 +77,7 @@ public class MainFragment extends CommonFragment implements MainMVP.View {
 
     private void setupViewPager() {
         ViewPagerFragmentAdapter adapterPager = new ViewPagerFragmentAdapter(getChildFragmentManager());
-        adapterPager.addFragment(new FrgHome(), getResources().getString(R.string.tab_home).toUpperCase());
+        adapterPager.addFragment(new HomeFragment(), getResources().getString(R.string.tab_home).toUpperCase());
         adapterPager.addFragment(new TransactionsFragment(), getResources().getString(R.string.tab_transactions).toUpperCase());
         adapterPager.addFragment(new AccountsFragment(), getResources().getString(R.string.tab_accounts).toUpperCase());
 
