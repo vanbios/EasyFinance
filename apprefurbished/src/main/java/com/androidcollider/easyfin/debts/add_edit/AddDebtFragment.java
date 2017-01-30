@@ -16,16 +16,15 @@ import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgDebts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.common.managers.format.date.DateFormatManager;
-import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.managers.ui.hide_touch_outside.HideTouchOutsideManager;
 import com.androidcollider.easyfin.common.managers.ui.shake_edit_text.ShakeEditTextManager;
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager;
-import com.androidcollider.easyfin.common.models.Account;
 import com.androidcollider.easyfin.common.ui.MainActivity;
 import com.androidcollider.easyfin.common.ui.adapters.SpinAccountForTransHeadIconAdapter;
 import com.androidcollider.easyfin.common.ui.fragments.FrgNumericDialog;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit;
+import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -59,7 +58,7 @@ public class AddDebtFragment extends CommonFragmentAddEdit
     ScrollView mainContent;
 
     private DatePickerDialog datePickerDialog;
-    private List<Account> accountList;
+    private List<SpinAccountViewModel> accountList;
 
     @Inject
     ShakeEditTextManager shakeEditTextManager;
@@ -72,9 +71,6 @@ public class AddDebtFragment extends CommonFragmentAddEdit
 
     @Inject
     DateFormatManager dateFormatManager;
-
-    @Inject
-    NumberFormatManager numberFormatManager;
 
     @Inject
     ResourcesManager resourcesManager;
@@ -156,7 +152,6 @@ public class AddDebtFragment extends CommonFragmentAddEdit
                 getActivity(),
                 R.layout.spin_head_icon_text,
                 accountList,
-                numberFormatManager,
                 resourcesManager
         ));
     }
@@ -211,7 +206,7 @@ public class AddDebtFragment extends CommonFragmentAddEdit
     }
 
     @Override
-    public void setAccounts(List<Account> accountList) {
+    public void setAccounts(List<SpinAccountViewModel> accountList) {
         cardView.setVisibility(View.VISIBLE);
         this.accountList.clear();
         this.accountList.addAll(accountList);
@@ -229,8 +224,8 @@ public class AddDebtFragment extends CommonFragmentAddEdit
     }
 
     @Override
-    public Account getAccount() {
-        return (Account) spinAccount.getSelectedItem();
+    public SpinAccountViewModel getAccount() {
+        return (SpinAccountViewModel) spinAccount.getSelectedItem();
     }
 
     @Override
@@ -244,7 +239,7 @@ public class AddDebtFragment extends CommonFragmentAddEdit
     }
 
     @Override
-    public List<Account> getAccounts() {
+    public List<SpinAccountViewModel> getAccounts() {
         return accountList;
     }
 }

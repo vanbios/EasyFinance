@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.androidcollider.easyfin.common.models.Account;
+import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 
-import java.util.Calendar;
 import java.util.List;
 
 import rx.Observable;
@@ -18,7 +18,7 @@ interface PayDebtMVP {
 
     interface Model {
 
-        Observable<List<Account>> getAllAccounts();
+        Observable<List<SpinAccountViewModel>> getAllAccounts();
 
         Observable<Boolean> payFullDebt(int idAccount,
                                         double accountAmount,
@@ -58,15 +58,15 @@ interface PayDebtMVP {
 
         void disableAmountField();
 
-        void setAccounts(List<Account> accountList);
+        void setAccounts(List<SpinAccountViewModel> accountList);
 
         void performLastActionsAfterSaveAndClose();
 
         String getAmount();
 
-        Account getAccount();
+        SpinAccountViewModel getAccount();
 
-        List<Account> getAccounts();
+        List<SpinAccountViewModel> getAccounts();
     }
 
     interface Presenter {

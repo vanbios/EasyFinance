@@ -14,16 +14,15 @@ import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
-import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.managers.ui.hide_touch_outside.HideTouchOutsideManager;
 import com.androidcollider.easyfin.common.managers.ui.shake_edit_text.ShakeEditTextManager;
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager;
-import com.androidcollider.easyfin.common.models.Account;
 import com.androidcollider.easyfin.common.ui.adapters.SpinAccountForTransAdapter;
 import com.androidcollider.easyfin.common.ui.fragments.FrgNumericDialog;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit;
 import com.androidcollider.easyfin.common.utils.EditTextAmountWatcher;
+import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -56,7 +55,7 @@ public class AddTransactionBetweenAccountsFragment extends CommonFragmentAddEdit
     ScrollView scrollView;
 
     private SpinAccountForTransAdapter adapterAccountTo;
-    private List<Account> accountListFrom, accountListTo;
+    private List<SpinAccountViewModel> accountListFrom, accountListTo;
 
     @Inject
     ShakeEditTextManager shakeEditTextManager;
@@ -66,9 +65,6 @@ public class AddTransactionBetweenAccountsFragment extends CommonFragmentAddEdit
 
     @Inject
     HideTouchOutsideManager hideTouchOutsideManager;
-
-    @Inject
-    NumberFormatManager numberFormatManager;
 
     @Inject
     ResourcesManager resourcesManager;
@@ -106,7 +102,6 @@ public class AddTransactionBetweenAccountsFragment extends CommonFragmentAddEdit
                 getActivity(),
                 R.layout.spin_head_text,
                 accountListFrom,
-                numberFormatManager,
                 resourcesManager
         ));
 
@@ -117,7 +112,6 @@ public class AddTransactionBetweenAccountsFragment extends CommonFragmentAddEdit
                 getActivity(),
                 R.layout.spin_head_text,
                 accountListTo,
-                numberFormatManager,
                 resourcesManager
         );
 
@@ -229,13 +223,13 @@ public class AddTransactionBetweenAccountsFragment extends CommonFragmentAddEdit
     }
 
     @Override
-    public Account getAccountFrom() {
-        return (Account) spinAccountFrom.getSelectedItem();
+    public SpinAccountViewModel getAccountFrom() {
+        return (SpinAccountViewModel) spinAccountFrom.getSelectedItem();
     }
 
     @Override
-    public Account getAccountTo() {
-        return (Account) spinAccountTo.getSelectedItem();
+    public SpinAccountViewModel getAccountTo() {
+        return (SpinAccountViewModel) spinAccountTo.getSelectedItem();
     }
 
     @Override
@@ -250,7 +244,7 @@ public class AddTransactionBetweenAccountsFragment extends CommonFragmentAddEdit
     }
 
     @Override
-    public void setAccounts(List<Account> accountList) {
+    public void setAccounts(List<SpinAccountViewModel> accountList) {
         accountListFrom.clear();
         accountListFrom.addAll(accountList);
 

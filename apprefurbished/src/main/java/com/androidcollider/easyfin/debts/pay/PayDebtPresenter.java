@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.common.models.Account;
 import com.androidcollider.easyfin.common.models.Debt;
+import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 import com.androidcollider.easyfin.debts.list.DebtsFragment;
 import com.annimon.stream.Stream;
 
@@ -49,7 +49,7 @@ class PayDebtPresenter implements PayDebtMVP.Presenter {
     @Override
     public void loadAccounts() {
         model.getAllAccounts()
-                .subscribe(new Subscriber<List<Account>>() {
+                .subscribe(new Subscriber<List<SpinAccountViewModel>>() {
 
                     @Override
                     public void onCompleted() {
@@ -62,9 +62,9 @@ class PayDebtPresenter implements PayDebtMVP.Presenter {
                     }
 
                     @Override
-                    public void onNext(List<Account> accountList) {
+                    public void onNext(List<SpinAccountViewModel> accountList) {
                         if (view != null) {
-                            List<Account> accountsAvailableList = new ArrayList<>();
+                            List<SpinAccountViewModel> accountsAvailableList = new ArrayList<>();
                             String currency = debt.getCurrency();
                             double amount = debt.getAmountCurrent();
                             int type = debt.getType();
@@ -127,7 +127,7 @@ class PayDebtPresenter implements PayDebtMVP.Presenter {
             double amountDebt = debt.getAmountCurrent();
             int type = debt.getType();
 
-            Account account = view.getAccount();
+            SpinAccountViewModel account = view.getAccount();
 
             double amountAccount = account.getAmount();
 
@@ -171,7 +171,7 @@ class PayDebtPresenter implements PayDebtMVP.Presenter {
                     view.showMessage(context.getString(R.string.debt_sum_more_then_amount));
                 } else {
                     int type = debt.getType();
-                    Account account = view.getAccount();
+                    SpinAccountViewModel account = view.getAccount();
 
                     double amountAccount = account.getAmount();
 
@@ -247,7 +247,7 @@ class PayDebtPresenter implements PayDebtMVP.Presenter {
 
                 int type = debt.getType();
 
-                Account account = view.getAccount();
+                SpinAccountViewModel account = view.getAccount();
 
                 double amountAccount = account.getAmount();
 

@@ -6,8 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.common.models.Account;
 import com.androidcollider.easyfin.common.models.Debt;
+import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 import com.androidcollider.easyfin.debts.list.DebtsFragment;
 
 import java.util.Calendar;
@@ -55,7 +55,7 @@ class AddDebtPresenter implements AddDebtMVP.Presenter {
     @Override
     public void loadAccounts() {
         model.getAllAccounts()
-                .subscribe(new Subscriber<List<Account>>() {
+                .subscribe(new Subscriber<List<SpinAccountViewModel>>() {
 
                     @Override
                     public void onCompleted() {
@@ -68,7 +68,7 @@ class AddDebtPresenter implements AddDebtMVP.Presenter {
                     }
 
                     @Override
-                    public void onNext(List<Account> accountList) {
+                    public void onNext(List<SpinAccountViewModel> accountList) {
                         if (view != null) {
                             if (accountList.isEmpty()) {
                                 view.notifyNotEnoughAccounts();
@@ -130,7 +130,7 @@ class AddDebtPresenter implements AddDebtMVP.Presenter {
     private void addDebt() {
         if (view != null) {
             if (validateName(view.getName())) {
-                Account account = view.getAccount();
+                SpinAccountViewModel account = view.getAccount();
                 double accountAmount = account.getAmount();
                 double amount = Double.parseDouble(model.prepareStringToParse(view.getAmount()));
 
@@ -184,7 +184,7 @@ class AddDebtPresenter implements AddDebtMVP.Presenter {
     private void editDebt() {
         if (view != null) {
             if (validateName(view.getName())) {
-                Account account = view.getAccount();
+                SpinAccountViewModel account = view.getAccount();
                 double accountAmount = account.getAmount();
                 int type = debtType;
                 double amount = Double.parseDouble(model.prepareStringToParse(view.getAmount()));
@@ -208,7 +208,7 @@ class AddDebtPresenter implements AddDebtMVP.Presenter {
                             break;
                     }
                 } else {
-                    List<Account> accountList = view.getAccounts();
+                    List<SpinAccountViewModel> accountList = view.getAccounts();
                     for (int i = 0; i < accountList.size(); i++) {
                         if (oldAccountId == accountList.get(i).getId()) {
                             oldAccountAmount = accountList.get(i).getAmount();

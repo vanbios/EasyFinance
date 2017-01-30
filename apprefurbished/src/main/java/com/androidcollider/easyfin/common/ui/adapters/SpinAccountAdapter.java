@@ -11,9 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
-import com.androidcollider.easyfin.common.models.Account;
+import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 
 import java.util.List;
 
@@ -26,20 +25,17 @@ import static butterknife.ButterKnife.findById;
  */
 
 @Getter
-abstract class SpinAccountAdapter extends ArrayAdapter<Account> {
+abstract class SpinAccountAdapter extends ArrayAdapter<SpinAccountViewModel> {
 
     private final TypedArray typeIconsArray;
-    private final List<Account> accountList;
+    private final List<SpinAccountViewModel> accountList;
     private final String[] curArray, curLangArray;
     private LayoutInflater inflater;
-
-    private NumberFormatManager numberFormatManager;
 
 
     SpinAccountAdapter(Context context,
                        int headLayout,
-                       List<Account> accountL,
-                       NumberFormatManager numberFormatManager,
+                       List<SpinAccountViewModel> accountL,
                        ResourcesManager resourcesManager) {
         super(context, headLayout, accountL);
         accountList = accountL;
@@ -47,7 +43,6 @@ abstract class SpinAccountAdapter extends ArrayAdapter<Account> {
         curArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY);
         curLangArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY_LANG);
         inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.numberFormatManager = numberFormatManager;
     }
 
     @Override
@@ -63,35 +58,22 @@ abstract class SpinAccountAdapter extends ArrayAdapter<Account> {
 
     private View getCustomDropView(int position, ViewGroup parent) {
         View dropSpinner = inflater.inflate(R.layout.spin_account_for_trans_dropdown, parent, false);
-        TextView name = findById(dropSpinner, R.id.tvSpinDropdownAccountName);
-        name.setText(accountList.get(position).getName());
-        ImageView icon = findById(dropSpinner, R.id.ivSpinDropdownAccountType);
-        icon.setImageResource(typeIconsArray.getResourceId(accountList.get(position).getType(), 0));
-        TextView amountText = findById(dropSpinner, R.id.tvSpinDropdownAccountAmount);
-
-        String amount = numberFormatManager.doubleToStringFormatter(
-                accountList.get(position).getAmount(),
-                NumberFormatManager.FORMAT_2,
-                NumberFormatManager.PRECISE_1
-        );
-        String cur = accountList.get(position).getCurrency();
-        String curLang = null;
-
-        for (int i = 0; i < curArray.length; i++) {
-            if (cur.equals(curArray[i])) {
-                curLang = curLangArray[i];
-                break;
-            }
+        SpinAccountViewModel account = getItem(position);
+        if (account != null) {
+            TextView name = findById(dropSpinner, R.id.tvSpinDropdownAccountName);
+            name.setText(account.getName());
+            ImageView icon = findById(dropSpinner, R.id.ivSpinDropdownAccountType);
+            icon.setImageResource(typeIconsArray.getResourceId(account.getType(), 0));
+            TextView amountText = findById(dropSpinner, R.id.tvSpinDropdownAccountAmount);
+            amountText.setText(account.getAmountString());
         }
-
-        amountText.setText(String.format("%1$s %2$s", amount, curLang));
 
         return dropSpinner;
     }
 
     public abstract View getCustomHeadView(int position, ViewGroup parent);
 
-    public Account getItem(int position) {
+    public SpinAccountViewModel getItem(int position) {
         return accountList.get(position);
     }
 }

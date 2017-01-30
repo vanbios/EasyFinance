@@ -20,8 +20,9 @@ public class AddTransactionIncomeExpenseModule {
     @Provides
     AddTransactionIncomeExpenseMVP.Model provideAddTransactionIncomeExpenseMVPModel(Repository repository,
                                                                                     NumberFormatManager numberFormatManager,
-                                                                                    DateFormatManager dateFormatManager) {
-        return new AddTransactionIncomeExpenseModel(repository, numberFormatManager, dateFormatManager);
+                                                                                    DateFormatManager dateFormatManager,
+                                                                                    ResourcesManager resourcesManager) {
+        return new AddTransactionIncomeExpenseModel(repository, numberFormatManager, dateFormatManager, resourcesManager);
     }
 
     @Provides

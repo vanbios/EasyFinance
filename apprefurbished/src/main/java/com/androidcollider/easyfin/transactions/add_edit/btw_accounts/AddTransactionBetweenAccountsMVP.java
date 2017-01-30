@@ -2,7 +2,7 @@ package com.androidcollider.easyfin.transactions.add_edit.btw_accounts;
 
 import android.support.annotation.Nullable;
 
-import com.androidcollider.easyfin.common.models.Account;
+import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 
 import java.util.List;
 
@@ -16,7 +16,7 @@ interface AddTransactionBetweenAccountsMVP {
 
     interface Model {
 
-        Observable<List<Account>> getAllAccounts();
+        Observable<List<SpinAccountViewModel>> getAllAccounts();
 
         Observable<Boolean> transferBTWAccounts(int idFrom, double accountAmountFrom, int idTo, double accountAmountTo);
 
@@ -41,7 +41,7 @@ interface AddTransactionBetweenAccountsMVP {
 
         void notifyNotEnoughAccounts();
 
-        void setAccounts(List<Account> accountList);
+        void setAccounts(List<SpinAccountViewModel> accountList);
 
         void performLastActionsAfterSaveAndClose();
 
@@ -49,9 +49,9 @@ interface AddTransactionBetweenAccountsMVP {
 
         String getExchangeRate();
 
-        Account getAccountFrom();
+        SpinAccountViewModel getAccountFrom();
 
-        Account getAccountTo();
+        SpinAccountViewModel getAccountTo();
 
         boolean isMultiCurrencyTransaction();
     }

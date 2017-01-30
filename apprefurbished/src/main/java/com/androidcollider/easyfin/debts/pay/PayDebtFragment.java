@@ -13,15 +13,14 @@ import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgDebts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
-import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.managers.ui.hide_touch_outside.HideTouchOutsideManager;
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager;
-import com.androidcollider.easyfin.common.models.Account;
 import com.androidcollider.easyfin.common.ui.MainActivity;
 import com.androidcollider.easyfin.common.ui.adapters.SpinAccountForTransHeadIconAdapter;
 import com.androidcollider.easyfin.common.ui.fragments.FrgNumericDialog;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit;
+import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -51,16 +50,13 @@ public class PayDebtFragment extends CommonFragmentAddEdit
     @BindView(R.id.layoutActPayDebtParent)
     ScrollView mainContent;
 
-    private List<Account> accountsAvailableList;
+    private List<SpinAccountViewModel> accountsAvailableList;
 
     @Inject
     ToastManager toastManager;
 
     @Inject
     HideTouchOutsideManager hideTouchOutsideManager;
-
-    @Inject
-    NumberFormatManager numberFormatManager;
 
     @Inject
     ResourcesManager resourcesManager;
@@ -137,7 +133,6 @@ public class PayDebtFragment extends CommonFragmentAddEdit
                 getActivity(),
                 R.layout.spin_head_icon_text,
                 accountsAvailableList,
-                numberFormatManager,
                 resourcesManager
         ));
     }
@@ -172,7 +167,7 @@ public class PayDebtFragment extends CommonFragmentAddEdit
     }
 
     @Override
-    public void setAccounts(List<Account> accountList) {
+    public void setAccounts(List<SpinAccountViewModel> accountList) {
         accountsAvailableList.clear();
         accountsAvailableList.addAll(accountList);
         cardView.setVisibility(View.VISIBLE);
@@ -190,12 +185,12 @@ public class PayDebtFragment extends CommonFragmentAddEdit
     }
 
     @Override
-    public Account getAccount() {
-        return (Account) spinAccount.getSelectedItem();
+    public SpinAccountViewModel getAccount() {
+        return (SpinAccountViewModel) spinAccount.getSelectedItem();
     }
 
     @Override
-    public List<Account> getAccounts() {
+    public List<SpinAccountViewModel> getAccounts() {
         return accountsAvailableList;
     }
 }

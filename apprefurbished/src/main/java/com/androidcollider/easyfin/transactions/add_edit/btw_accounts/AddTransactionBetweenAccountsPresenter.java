@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.common.models.Account;
+import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 
 import java.util.List;
 
@@ -38,7 +38,7 @@ class AddTransactionBetweenAccountsPresenter implements AddTransactionBetweenAcc
         if (view != null) {
             double amount = Double.parseDouble(model.prepareStringToParse(view.getAmount()));
 
-            Account accountFrom = view.getAccountFrom();
+            SpinAccountViewModel accountFrom = view.getAccountFrom();
             double accountAmountFrom = accountFrom.getAmount();
 
             if (amount > accountAmountFrom) {
@@ -46,7 +46,7 @@ class AddTransactionBetweenAccountsPresenter implements AddTransactionBetweenAcc
             } else {
                 int accountIdFrom = accountFrom.getId();
 
-                Account accountTo = view.getAccountTo();
+                SpinAccountViewModel accountTo = view.getAccountTo();
 
                 int accountIdTo = accountTo.getId();
                 double accountAmountTo = accountTo.getAmount();
@@ -67,7 +67,7 @@ class AddTransactionBetweenAccountsPresenter implements AddTransactionBetweenAcc
     @Override
     public void loadAccounts() {
         model.getAllAccounts()
-                .subscribe(new Subscriber<List<Account>>() {
+                .subscribe(new Subscriber<List<SpinAccountViewModel>>() {
 
                     @Override
                     public void onCompleted() {
@@ -80,7 +80,7 @@ class AddTransactionBetweenAccountsPresenter implements AddTransactionBetweenAcc
                     }
 
                     @Override
-                    public void onNext(List<Account> accountList) {
+                    public void onNext(List<SpinAccountViewModel> accountList) {
                         if (view != null) {
                             if (accountList.size() < 2) {
                                 view.notifyNotEnoughAccounts();

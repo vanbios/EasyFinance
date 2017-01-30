@@ -3,6 +3,7 @@ package com.androidcollider.easyfin.debts.pay;
 import android.content.Context;
 
 import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
+import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.repository.Repository;
 
 import dagger.Module;
@@ -17,8 +18,9 @@ public class PayDebtModule {
 
     @Provides
     PayDebtMVP.Model providePayDebtMVPModel(Repository repository,
-                                            NumberFormatManager numberFormatManager) {
-        return new PayDebtModel(repository, numberFormatManager);
+                                            NumberFormatManager numberFormatManager,
+                                            ResourcesManager resourcesManager) {
+        return new PayDebtModel(repository, numberFormatManager, resourcesManager);
     }
 
     @Provides

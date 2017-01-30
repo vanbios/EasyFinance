@@ -8,8 +8,8 @@ import android.support.v4.content.ContextCompat;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
-import com.androidcollider.easyfin.common.models.Account;
 import com.androidcollider.easyfin.common.models.Transaction;
+import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -69,7 +69,7 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
     @Override
     public void loadAccounts() {
         model.getAllAccounts()
-                .subscribe(new Subscriber<List<Account>>() {
+                .subscribe(new Subscriber<List<SpinAccountViewModel>>() {
 
                     @Override
                     public void onCompleted() {
@@ -82,7 +82,7 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
                     }
 
                     @Override
-                    public void onNext(List<Account> accountList) {
+                    public void onNext(List<SpinAccountViewModel> accountList) {
                         if (view != null) {
                             if (accountList.isEmpty()) {
                                 view.notifyNotEnoughAccounts();
@@ -174,7 +174,7 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
                 boolean isExpense = transType == 0;
                 if (isExpense) amount *= -1;
 
-                Account account = view.getAccount();
+                SpinAccountViewModel account = view.getAccount();
 
                 double accountAmount = account.getAmount();
 
@@ -225,7 +225,7 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
                 boolean isExpense = transType == 0;
                 if (isExpense) amount *= -1;
 
-                Account account = view.getAccount();
+                SpinAccountViewModel account = view.getAccount();
                 double accountAmount = account.getAmount();
                 int accountId = account.getId();
 
@@ -236,7 +236,7 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
 
                 if (isAccountTheSame) accountAmount -= oldAmount;
                 else {
-                    for (Account account1 : view.getAccounts()) {
+                    for (SpinAccountViewModel account1 : view.getAccounts()) {
                         if (oldAccountId == account1.getId()) {
                             oldAccountAmount = account1.getAmount() - oldAmount;
                             break;

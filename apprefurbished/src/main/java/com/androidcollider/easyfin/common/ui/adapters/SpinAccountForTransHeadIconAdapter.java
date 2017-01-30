@@ -7,9 +7,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
-import com.androidcollider.easyfin.common.models.Account;
+import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 
 import java.util.List;
 
@@ -23,18 +22,20 @@ public class SpinAccountForTransHeadIconAdapter extends SpinAccountAdapter {
 
     public SpinAccountForTransHeadIconAdapter(Context context,
                                               int headLayout,
-                                              List<Account> accountsL,
-                                              NumberFormatManager numberFormatManager,
+                                              List<SpinAccountViewModel> accountsL,
                                               ResourcesManager resourcesManager) {
-        super(context, headLayout, accountsL, numberFormatManager, resourcesManager);
+        super(context, headLayout, accountsL, resourcesManager);
     }
 
     public View getCustomHeadView(int position, ViewGroup parent) {
         View headSpinner = getInflater().inflate(R.layout.spin_head_icon_text, parent, false);
-        TextView headText = findById(headSpinner, R.id.tvSpinHeadIconText);
-        headText.setText(getAccountList().get(position).getName());
-        ImageView headIcon = findById(headSpinner, R.id.ivSpinHeadIconText);
-        headIcon.setImageResource(getTypeIconsArray().getResourceId(getAccountList().get(position).getType(), 0));
+        SpinAccountViewModel account = getItem(position);
+        if (account != null) {
+            TextView headText = findById(headSpinner, R.id.tvSpinHeadIconText);
+            headText.setText(account.getName());
+            ImageView headIcon = findById(headSpinner, R.id.ivSpinHeadIconText);
+            headIcon.setImageResource(getTypeIconsArray().getResourceId(account.getType(), 0));
+        }
         return headSpinner;
     }
 }

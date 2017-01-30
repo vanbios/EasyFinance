@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.common.managers.rates.exchange.ExchangeManager;
+import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.repository.Repository;
 
 import dagger.Module;
@@ -19,8 +20,9 @@ public class AddTransactionBetweenAccountsModule {
     @Provides
     AddTransactionBetweenAccountsMVP.Model provideAddTransactionBetweenAccountsMVPModel(Repository repository,
                                                                                         NumberFormatManager numberFormatManager,
-                                                                                        ExchangeManager exchangeManager) {
-        return new AddTransactionBetweenAccountsModel(repository, numberFormatManager, exchangeManager);
+                                                                                        ExchangeManager exchangeManager,
+                                                                                        ResourcesManager resourcesManager) {
+        return new AddTransactionBetweenAccountsModel(repository, numberFormatManager, exchangeManager, resourcesManager);
     }
 
     @Provides

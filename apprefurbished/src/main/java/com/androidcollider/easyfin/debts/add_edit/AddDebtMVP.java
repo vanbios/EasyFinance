@@ -3,8 +3,8 @@ package com.androidcollider.easyfin.debts.add_edit;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.androidcollider.easyfin.common.models.Account;
 import com.androidcollider.easyfin.common.models.Debt;
+import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 
 import java.util.Calendar;
 import java.util.List;
@@ -19,7 +19,7 @@ interface AddDebtMVP {
 
     interface Model {
 
-        Observable<List<Account>> getAllAccounts();
+        Observable<List<SpinAccountViewModel>> getAllAccounts();
 
         Observable<Debt> addNewDebt(Debt debt);
 
@@ -56,19 +56,19 @@ interface AddDebtMVP {
 
         void setAmountTextColor(int color);
 
-        void setAccounts(List<Account> accountList);
+        void setAccounts(List<SpinAccountViewModel> accountList);
 
         void performLastActionsAfterSaveAndClose();
 
         String getAmount();
 
-        Account getAccount();
+        SpinAccountViewModel getAccount();
 
         String getDate();
 
         String getName();
 
-        List<Account> getAccounts();
+        List<SpinAccountViewModel> getAccounts();
     }
 
     interface Presenter {

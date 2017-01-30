@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.androidcollider.easyfin.common.managers.format.date.DateFormatManager;
 import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
+import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.repository.Repository;
 
 import dagger.Module;
@@ -19,8 +20,9 @@ public class AddDebtModule {
     @Provides
     AddDebtMVP.Model provideAddDebtMVPModel(Repository repository,
                                             NumberFormatManager numberFormatManager,
-                                            DateFormatManager dateFormatManager) {
-        return new AddDebtModel(repository, numberFormatManager, dateFormatManager);
+                                            DateFormatManager dateFormatManager,
+                                            ResourcesManager resourcesManager) {
+        return new AddDebtModel(repository, numberFormatManager, dateFormatManager, resourcesManager);
     }
 
     @Provides

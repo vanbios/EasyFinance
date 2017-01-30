@@ -6,9 +6,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
-import com.androidcollider.easyfin.common.models.Account;
+import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 
 import java.util.List;
 
@@ -22,16 +21,18 @@ public class SpinAccountForTransAdapter extends SpinAccountAdapter {
 
     public SpinAccountForTransAdapter(Context context,
                                       int headLayout,
-                                      List<Account> accountL,
-                                      NumberFormatManager numberFormatManager,
+                                      List<SpinAccountViewModel> accountL,
                                       ResourcesManager resourcesManager) {
-        super(context, headLayout, accountL, numberFormatManager, resourcesManager);
+        super(context, headLayout, accountL, resourcesManager);
     }
 
     public View getCustomHeadView(int position, ViewGroup parent) {
         View headSpinner = getInflater().inflate(R.layout.spin_head_text, parent, false);
-        TextView headText = findById(headSpinner, R.id.tvSpinHeadText);
-        headText.setText(getAccountList().get(position).getName());
+        SpinAccountViewModel account = getItem(position);
+        if (account != null) {
+            TextView headText = findById(headSpinner, R.id.tvSpinHeadText);
+            headText.setText(account.getName());
+        }
         return headSpinner;
     }
 }
