@@ -31,7 +31,7 @@ import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager;
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.common.ui.adapters.NavigationDrawerRecyclerAdapter;
-import com.androidcollider.easyfin.common.ui.fragments.FAQFragment;
+import com.androidcollider.easyfin.faq.FAQFragment;
 import com.androidcollider.easyfin.main.MainFragment;
 import com.androidcollider.easyfin.common.ui.fragments.PrefFragment;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment;
