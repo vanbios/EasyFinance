@@ -18,7 +18,7 @@ import com.androidcollider.easyfin.common.managers.ui.shake_edit_text.ShakeEditT
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.common.ui.MainActivity;
 import com.androidcollider.easyfin.common.ui.adapters.SpinIconTextHeadAdapter;
-import com.androidcollider.easyfin.common.ui.fragments.FrgNumericDialog;
+import com.androidcollider.easyfin.common.ui.fragments.NumericDialogFragment;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit;
 
 import org.greenrobot.eventbus.EventBus;
@@ -32,7 +32,7 @@ import butterknife.OnClick;
  * @author Ihor Bilous
  */
 
-public class AddAccountFragment extends CommonFragmentAddEdit implements FrgNumericDialog.OnCommitAmountListener, AddAccountMVP.View {
+public class AddAccountFragment extends CommonFragmentAddEdit implements NumericDialogFragment.OnCommitAmountListener, AddAccountMVP.View {
 
     @BindView(R.id.spinAddAccountType)
     Spinner spinType;

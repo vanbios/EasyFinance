@@ -3,12 +3,13 @@ package com.androidcollider.easyfin.common.ui.fragments.common;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 
-import com.androidcollider.easyfin.common.ui.MainActivity;
 import com.androidcollider.easyfin.common.app.App;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
+import com.androidcollider.easyfin.common.managers.analytics.AnalyticsManager;
+import com.androidcollider.easyfin.common.ui.MainActivity;
 
 import java.util.LinkedList;
+
+import javax.inject.Inject;
 
 /**
  * @author Ihor Bilous
@@ -16,15 +17,18 @@ import java.util.LinkedList;
 
 public abstract class CommonFragment extends AbstractBaseFragment {
 
+    @Inject
+    AnalyticsManager analyticsManager;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
         setHasOptionsMenu(true);
 
-        Tracker mTracker = App.tracker();
-        mTracker.setScreenName(getRealTag());
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        ((App) getActivity().getApplication()).getComponent().inject(this);
+
+        analyticsManager.sendScreeName(getRealTag());
     }
 
     @Override

@@ -31,9 +31,9 @@ import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager;
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.common.ui.adapters.NavigationDrawerRecyclerAdapter;
-import com.androidcollider.easyfin.common.ui.fragments.FrgFAQ;
+import com.androidcollider.easyfin.common.ui.fragments.FAQFragment;
 import com.androidcollider.easyfin.main.MainFragment;
-import com.androidcollider.easyfin.common.ui.fragments.FrgPref;
+import com.androidcollider.easyfin.common.ui.fragments.PrefFragment;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit;
 import com.androidcollider.easyfin.common.ui.fragments.common.PreferenceFragment;
@@ -140,10 +140,10 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                                 addFragment(new DebtsFragment());
                                 break;
                             case 6:
-                                addFragment(new FrgPref());
+                                addFragment(new PrefFragment());
                                 break;
                             case 7:
-                                addFragment(new FrgFAQ());
+                                addFragment(new FAQFragment());
                                 break;
                             case 8:
                                 dialogManager.showAppAboutDialog(MainActivity.this);

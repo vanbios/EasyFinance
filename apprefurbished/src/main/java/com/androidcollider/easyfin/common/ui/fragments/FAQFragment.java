@@ -14,7 +14,7 @@ import butterknife.OnClick;
  * @author Ihor Bilous
  */
 
-public class FrgFAQ extends CommonFragment {
+public class FAQFragment extends CommonFragment {
 
     @BindView(R.id.tvFAQAppBody)
     TextView tvAppBody;

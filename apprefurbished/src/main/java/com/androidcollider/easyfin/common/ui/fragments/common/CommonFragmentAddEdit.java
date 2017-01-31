@@ -15,7 +15,7 @@ import com.androidcollider.easyfin.accounts.add_edit.AddAccountFragment;
 import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager;
 import com.androidcollider.easyfin.common.ui.MainActivity;
-import com.androidcollider.easyfin.common.ui.fragments.FrgNumericDialog;
+import com.androidcollider.easyfin.common.ui.fragments.NumericDialogFragment;
 
 import javax.inject.Inject;
 
@@ -80,7 +80,7 @@ public abstract class CommonFragmentAddEdit extends CommonFragment {
         Bundle args = new Bundle();
         args.putString("value", initialValue);
 
-        DialogFragment numericDialog = new FrgNumericDialog();
+        DialogFragment numericDialog = new NumericDialogFragment();
         numericDialog.setTargetFragment(this, 1);
         numericDialog.setArguments(args);
         numericDialog.show(getActivity().getSupportFragmentManager(), "numericDialog");

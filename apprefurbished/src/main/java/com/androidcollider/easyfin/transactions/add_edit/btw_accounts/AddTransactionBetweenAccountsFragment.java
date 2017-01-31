@@ -19,7 +19,7 @@ import com.androidcollider.easyfin.common.managers.ui.hide_touch_outside.HideTou
 import com.androidcollider.easyfin.common.managers.ui.shake_edit_text.ShakeEditTextManager;
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.common.ui.adapters.SpinAccountForTransAdapter;
-import com.androidcollider.easyfin.common.ui.fragments.FrgNumericDialog;
+import com.androidcollider.easyfin.common.ui.fragments.NumericDialogFragment;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit;
 import com.androidcollider.easyfin.common.utils.EditTextAmountWatcher;
 import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
@@ -39,7 +39,7 @@ import butterknife.OnClick;
  */
 
 public class AddTransactionBetweenAccountsFragment extends CommonFragmentAddEdit
-        implements FrgNumericDialog.OnCommitAmountListener, AddTransactionBetweenAccountsMVP.View {
+        implements NumericDialogFragment.OnCommitAmountListener, AddTransactionBetweenAccountsMVP.View {
 
     @BindView(R.id.spinAddTransBTWAccountFrom)
     Spinner spinAccountFrom;

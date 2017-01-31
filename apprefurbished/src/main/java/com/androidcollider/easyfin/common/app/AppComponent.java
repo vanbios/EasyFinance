@@ -6,6 +6,7 @@ import com.androidcollider.easyfin.accounts.list.AccountsFragment;
 import com.androidcollider.easyfin.accounts.list.AccountsModule;
 import com.androidcollider.easyfin.common.managers.accounts.accounts_info.AccountsInfoModule;
 import com.androidcollider.easyfin.common.managers.accounts.accounts_to_spin_view_model.AccountsToSpinViewModelModule;
+import com.androidcollider.easyfin.common.managers.analytics.AnalyticsModule;
 import com.androidcollider.easyfin.common.managers.api.ApiModule;
 import com.androidcollider.easyfin.common.managers.chart.data.ChartDataModule;
 import com.androidcollider.easyfin.common.managers.chart.setup.ChartSetupModule;
@@ -25,8 +26,9 @@ import com.androidcollider.easyfin.common.managers.ui.shake_edit_text.ShakeEditT
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastModule;
 import com.androidcollider.easyfin.common.repository.RepositoryModule;
 import com.androidcollider.easyfin.common.ui.MainActivity;
-import com.androidcollider.easyfin.common.ui.fragments.FrgNumericDialog;
-import com.androidcollider.easyfin.common.ui.fragments.FrgPref;
+import com.androidcollider.easyfin.common.ui.fragments.NumericDialogFragment;
+import com.androidcollider.easyfin.common.ui.fragments.PrefFragment;
+import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit;
 import com.androidcollider.easyfin.debts.add_edit.AddDebtFragment;
 import com.androidcollider.easyfin.debts.add_edit.AddDebtModule;
@@ -75,6 +77,7 @@ import dagger.Component;
         DialogModule.class,
         PermissionModule.class,
         AccountsToSpinViewModelModule.class,
+        AnalyticsModule.class,
         MainModule.class,
         AccountsModule.class,
         TransactionsModule.class,
@@ -109,9 +112,11 @@ public interface AppComponent {
 
     void inject(PayDebtFragment payDebtFragment);
 
-    void inject(FrgPref frgPref);
+    void inject(PrefFragment prefFragment);
 
-    void inject(FrgNumericDialog frgNumericDialog);
+    void inject(NumericDialogFragment numericDialogFragment);
+
+    void inject(CommonFragment commonFragment);
 
     void inject(CommonFragmentAddEdit commonFragmentAddEdit);
 }

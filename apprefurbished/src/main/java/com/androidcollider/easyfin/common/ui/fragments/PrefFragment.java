@@ -12,14 +12,13 @@ import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgDebts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHome;
 import com.androidcollider.easyfin.common.events.UpdateFrgTransactions;
+import com.androidcollider.easyfin.common.managers.analytics.AnalyticsManager;
 import com.androidcollider.easyfin.common.managers.import_export_db.ImportExportDbManager;
 import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager;
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.common.repository.database.DbHelper;
 import com.androidcollider.easyfin.common.ui.MainActivity;
 import com.androidcollider.easyfin.common.ui.fragments.common.PreferenceFragment;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -31,12 +30,11 @@ import javax.inject.Inject;
  * @author Ihor Bilous
  */
 
-public class FrgPref extends PreferenceFragment {
+public class PrefFragment extends PreferenceFragment {
 
     private static final int FILE_SELECT_CODE = 0;
     private static Uri uri;
     private Preference exportDBPref, importDBPref;
-    private Tracker mTracker;
 
     @Inject
     ImportExportDbManager importExportDbManager;
@@ -46,6 +44,9 @@ public class FrgPref extends PreferenceFragment {
 
     @Inject
     DialogManager dialogManager;
+
+    @Inject
+    AnalyticsManager analyticsManager;
 
     @Inject
     Context context;
@@ -58,9 +59,7 @@ public class FrgPref extends PreferenceFragment {
 
         initializePrefs();
 
-        mTracker = App.tracker();
-        mTracker.setScreenName(this.getClass().getName());
-        mTracker.send(new HitBuilders.ScreenViewBuilder().build());
+        analyticsManager.sendScreeName(this.getClass().getName());
     }
 
     private void initializePrefs() {
@@ -69,9 +68,7 @@ public class FrgPref extends PreferenceFragment {
             exportDBPref.setEnabled(false);
             importExportDbManager.backupDatabase();
 
-            mTracker.send(new HitBuilders.EventBuilder("click", "export")
-                    .setLabel("export_db")
-                    .build());
+            analyticsManager.sendAction("click", "export", "export_db");
             return false;
         });
 
@@ -79,9 +76,7 @@ public class FrgPref extends PreferenceFragment {
         importDBPref.setOnPreferenceClickListener(preference -> {
             openFileExplorer();
 
-            mTracker.send(new HitBuilders.EventBuilder("open", "file_explorer")
-                    .setLabel("open_file_explorer")
-                    .build());
+            analyticsManager.sendAction("open", "file_explorer", "open_file_explorer");
             return false;
         });
     }
@@ -93,9 +88,8 @@ public class FrgPref extends PreferenceFragment {
                     activity,
                     (dialog, which) -> {
                         importDB();
-                        mTracker.send(new HitBuilders.EventBuilder("click", "import")
-                                .setLabel("import_confirm")
-                                .build());
+
+                        analyticsManager.sendAction("click", "import", "import_confirm");
                     }
             );
         }
@@ -157,10 +151,6 @@ public class FrgPref extends PreferenceFragment {
         EventBus.getDefault().post(new UpdateFrgTransactions());
         EventBus.getDefault().post(new UpdateFrgAccounts());
         EventBus.getDefault().post(new UpdateFrgDebts());
-        //EventBus.getDefault().post(new UpdateFrgHomeNewRates());
-
-        //InMemoryRepository.getInstance().setRatesForExchange();
-        //InMemoryRepository.getInstance().updateAccountList();
     }
 
     @Override

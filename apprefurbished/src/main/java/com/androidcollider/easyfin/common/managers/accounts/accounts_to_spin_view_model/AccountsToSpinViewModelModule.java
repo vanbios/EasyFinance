@@ -14,8 +14,8 @@ import dagger.Provides;
 public class AccountsToSpinViewModelModule {
 
     @Provides
-    public AccountsToSpinViewModelManager provideAccountsToSpinViewModelManager(NumberFormatManager numberFormatManager,
-                                                                                ResourcesManager resourcesManager) {
+    AccountsToSpinViewModelManager provideAccountsToSpinViewModelManager(NumberFormatManager numberFormatManager,
+                                                                         ResourcesManager resourcesManager) {
         return new AccountsToSpinViewModelManager(numberFormatManager, resourcesManager);
     }
 }

@@ -30,7 +30,7 @@ import butterknife.OnClick;
  * @author Ihor Bilous
  */
 
-public class FrgNumericDialog extends DialogFragment {
+public class NumericDialogFragment extends DialogFragment {
 
     @BindView(R.id.containerFrgNumericDialog)
     FrameLayout frameLayout;

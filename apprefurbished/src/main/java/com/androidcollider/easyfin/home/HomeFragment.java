@@ -443,15 +443,12 @@ public class HomeFragment extends CommonFragmentWithEvents {
     }
 
     private void setBalanceBarChartData(double[] balance) {
-        MainActivity activity = (MainActivity) getActivity();
-        if (activity != null) {
-            BarData data = chartDataManager.getDataSetMainBalanceHorizontalBarChart(balance);
-            data.setValueFormatter(new ChartLargeValueFormatter(!showOnlyIntegers));
-            chartBalance.setData(data);
+        BarData data = chartDataManager.getDataSetMainBalanceHorizontalBarChart(balance);
+        data.setValueFormatter(new ChartLargeValueFormatter(!showOnlyIntegers));
+        chartBalance.setData(data);
 
-            chartBalance.animateXY(2000, 2000);
-            chartBalance.invalidate();
-        }
+        chartBalance.animateXY(2000, 2000);
+        chartBalance.invalidate();
     }
 
     private void setStatisticBarChartData() {
