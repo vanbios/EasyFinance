@@ -111,6 +111,10 @@ public class AddDebtFragment extends CommonFragmentAddEdit
         EventBus.getDefault().post(new UpdateFrgDebts());
     }
 
+    private void setDateText(Calendar calendar) {
+        tvDate.setText(dateFormatManager.dateToString(calendar.getTime(), DateFormatManager.DAY_MONTH_YEAR_SPACED));
+    }
+
     @OnClick({R.id.tvAddDebtAmount, R.id.tvAddDebtDate})
     public void onClick(View v) {
         switch (v.getId()) {
@@ -176,7 +180,7 @@ public class AddDebtFragment extends CommonFragmentAddEdit
 
     @Override
     public void setupDateTimeField(Calendar calendar, long initTime) {
-        tvDate.setText(dateFormatManager.dateToString(calendar.getTime(), DateFormatManager.DAY_MONTH_YEAR_SPACED));
+        setDateText(calendar);
 
         datePickerDialog = new DatePickerDialog(getActivity(), (view1, year, monthOfYear, dayOfMonth) -> {
             Calendar newDate = Calendar.getInstance();
@@ -184,7 +188,7 @@ public class AddDebtFragment extends CommonFragmentAddEdit
             if (newDate.getTimeInMillis() < initTime) {
                 showMessage(getString(R.string.debt_deadline_past));
             } else {
-                tvDate.setText(dateFormatManager.dateToString(newDate.getTime(), DateFormatManager.DAY_MONTH_YEAR_SPACED));
+                setDateText(newDate);
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
     }

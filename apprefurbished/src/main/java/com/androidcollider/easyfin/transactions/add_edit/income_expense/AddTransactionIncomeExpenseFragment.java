@@ -93,6 +93,10 @@ public class AddTransactionIncomeExpenseFragment extends CommonFragmentAddEdit
         presenter.loadAccounts();
     }
 
+    private void setDateText(Calendar calendar) {
+        tvDate.setText(dateFormatManager.dateToString(calendar.getTime(), DateFormatManager.DAY_MONTH_YEAR_SPACED));
+    }
+
     private void pushBroadcast() {
         EventBus.getDefault().post(new UpdateFrgHome());
         EventBus.getDefault().post(new UpdateFrgTransactions());
@@ -224,7 +228,7 @@ public class AddTransactionIncomeExpenseFragment extends CommonFragmentAddEdit
 
     @Override
     public void setupDateTimeField(Calendar calendar) {
-        tvDate.setText(dateFormatManager.dateToString(calendar.getTime(), DateFormatManager.DAY_MONTH_YEAR_SPACED));
+        setDateText(calendar);
 
         datePickerDialog = new DatePickerDialog(getActivity(), (view1, year, monthOfYear, dayOfMonth) -> {
             Calendar newDate = Calendar.getInstance();
@@ -233,7 +237,7 @@ public class AddTransactionIncomeExpenseFragment extends CommonFragmentAddEdit
             if (newDate.getTimeInMillis() > System.currentTimeMillis()) {
                 showMessage(getString(R.string.transaction_date_future));
             } else {
-                tvDate.setText(dateFormatManager.dateToString(newDate.getTime(), DateFormatManager.DAY_MONTH_YEAR_SPACED));
+                setDateText(newDate);
             }
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
     }
