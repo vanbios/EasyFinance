@@ -2,6 +2,7 @@ package com.androidcollider.easyfin.transactions.add_edit.income_expense;
 
 import android.content.Context;
 
+import com.androidcollider.easyfin.common.managers.accounts.accounts_to_spin_view_model.AccountsToSpinViewModelManager;
 import com.androidcollider.easyfin.common.managers.format.date.DateFormatManager;
 import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
@@ -21,8 +22,8 @@ public class AddTransactionIncomeExpenseModule {
     AddTransactionIncomeExpenseMVP.Model provideAddTransactionIncomeExpenseMVPModel(Repository repository,
                                                                                     NumberFormatManager numberFormatManager,
                                                                                     DateFormatManager dateFormatManager,
-                                                                                    ResourcesManager resourcesManager) {
-        return new AddTransactionIncomeExpenseModel(repository, numberFormatManager, dateFormatManager, resourcesManager);
+                                                                                    AccountsToSpinViewModelManager accountsToSpinViewModelManager) {
+        return new AddTransactionIncomeExpenseModel(repository, numberFormatManager, dateFormatManager, accountsToSpinViewModelManager);
     }
 
     @Provides

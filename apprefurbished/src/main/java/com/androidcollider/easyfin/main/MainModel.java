@@ -1,6 +1,6 @@
 package com.androidcollider.easyfin.main;
 
-import com.androidcollider.easyfin.common.managers.accounts_info.AccountsInfoManager;
+import com.androidcollider.easyfin.common.managers.accounts.accounts_info.AccountsInfoManager;
 
 import rx.Observable;
 

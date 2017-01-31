@@ -4,7 +4,8 @@ import com.androidcollider.easyfin.accounts.add_edit.AddAccountFragment;
 import com.androidcollider.easyfin.accounts.add_edit.AddAccountModule;
 import com.androidcollider.easyfin.accounts.list.AccountsFragment;
 import com.androidcollider.easyfin.accounts.list.AccountsModule;
-import com.androidcollider.easyfin.common.managers.accounts_info.AccountsInfoModule;
+import com.androidcollider.easyfin.common.managers.accounts.accounts_info.AccountsInfoModule;
+import com.androidcollider.easyfin.common.managers.accounts.accounts_to_spin_view_model.AccountsToSpinViewModelModule;
 import com.androidcollider.easyfin.common.managers.api.ApiModule;
 import com.androidcollider.easyfin.common.managers.chart.data.ChartDataModule;
 import com.androidcollider.easyfin.common.managers.chart.setup.ChartSetupModule;
@@ -73,6 +74,7 @@ import dagger.Component;
         ChartSetupModule.class,
         DialogModule.class,
         PermissionModule.class,
+        AccountsToSpinViewModelModule.class,
         MainModule.class,
         AccountsModule.class,
         TransactionsModule.class,

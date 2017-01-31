@@ -1,4 +1,4 @@
-package com.androidcollider.easyfin.common.managers.accounts_info;
+package com.androidcollider.easyfin.common.managers.accounts.accounts_info;
 
 import com.androidcollider.easyfin.common.models.Account;
 import com.androidcollider.easyfin.common.repository.Repository;

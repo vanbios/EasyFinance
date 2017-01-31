@@ -2,9 +2,9 @@ package com.androidcollider.easyfin.transactions.add_edit.btw_accounts;
 
 import android.content.Context;
 
+import com.androidcollider.easyfin.common.managers.accounts.accounts_to_spin_view_model.AccountsToSpinViewModelManager;
 import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.common.managers.rates.exchange.ExchangeManager;
-import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.repository.Repository;
 
 import dagger.Module;
@@ -21,8 +21,8 @@ public class AddTransactionBetweenAccountsModule {
     AddTransactionBetweenAccountsMVP.Model provideAddTransactionBetweenAccountsMVPModel(Repository repository,
                                                                                         NumberFormatManager numberFormatManager,
                                                                                         ExchangeManager exchangeManager,
-                                                                                        ResourcesManager resourcesManager) {
-        return new AddTransactionBetweenAccountsModel(repository, numberFormatManager, exchangeManager, resourcesManager);
+                                                                                        AccountsToSpinViewModelManager accountsToSpinViewModelManager) {
+        return new AddTransactionBetweenAccountsModel(repository, numberFormatManager, exchangeManager, accountsToSpinViewModelManager);
     }
 
     @Provides

@@ -54,7 +54,7 @@ android {
 
 
 ext {
-    supportLibraryVersion = '25.1.0'
+    supportLibraryVersion = '25.1.1'
     retrofitVersion = '2.1.0'
     gmsVersion = '10.0.1'
     daggerVersion = '2.8'
@@ -87,23 +87,23 @@ dependencies {
         transitive = true;
     }
 
-    //dagger 2
+    // dagger 2
     apt "com.google.dagger:dagger-compiler:$daggerVersion"
     compile "com.google.dagger:dagger:$daggerVersion"
     provided "javax.annotation:jsr250-api:$jsr250Version"
 
-    //field and method binding
+    // butterknife
     compile "com.jakewharton:butterknife:$butterknifeVersion"
     apt "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 
-    //retrofit 2
+    // retrofit 2
     compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
     compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     compile "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion"
 
     compile "com.google.code.gson:gson:$gsonVersion"
 
-    //events
+    // eventbus
     compile "org.greenrobot:eventbus:$eventbusVersion"
 
     // stream api
@@ -114,6 +114,7 @@ dependencies {
     compile "io.reactivex:rxjava:$rxjavaVersion"
     //compile "io.reactivex:rxjava-math:$rxmathVersion"
 
+    // lombok
     provided "org.projectlombok:lombok:$lombokVersion"
     apt "org.projectlombok:lombok:$lombokVersion"
 }

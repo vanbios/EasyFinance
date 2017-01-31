@@ -252,28 +252,22 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
 
                 switch (mode) {
                     case TransactionsFragment.MODE_ADD: {
-                        if (view != null) {
-                            view.showAmount("0,00", transType);
-                            view.openNumericDialog();
-                        }
+                        view.showAmount("0,00", transType);
+                        view.openNumericDialog();
                         break;
                     }
                     case TransactionsFragment.MODE_EDIT: {
                         if (transFromIntent != null) {
                             double amount = transFromIntent.getAmount();
                             transType = model.isDoubleNegative(amount) ? TransactionsFragment.TYPE_EXPENSE : TransactionsFragment.TYPE_INCOME;
-                            if (view != null) {
-                                view.showAmount(model.getTransactionForEditAmount(transType, amount), transType);
-                            }
+                            view.showAmount(model.getTransactionForEditAmount(transType, amount), transType);
                         }
                         break;
                     }
                 }
 
-                if (view != null) {
-                    view.setAmountTextColor(ContextCompat.getColor(context,
-                            transType == TransactionsFragment.TYPE_INCOME ? R.color.custom_green : R.color.custom_red));
-                }
+                view.setAmountTextColor(ContextCompat.getColor(context,
+                        transType == TransactionsFragment.TYPE_INCOME ? R.color.custom_green : R.color.custom_red));
 
                 String[] categoryArray = resourcesManager.getStringArray(
                         transType == TransactionsFragment.TYPE_INCOME ?
@@ -288,7 +282,7 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
 
                 view.setupSpinners(categoryArray, categoryIcons);
 
-                if (mode == TransactionsFragment.MODE_ADD) {
+                if (mode == TransactionsFragment.MODE_EDIT && transFromIntent != null) {
                     String accountName = transFromIntent.getAccountName();
 
                     for (int i = 0; i < accountList.size(); i++) {
@@ -302,7 +296,7 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
                 }
 
                 Calendar calendar = Calendar.getInstance();
-                if (mode == TransactionsFragment.MODE_ADD) {
+                if (mode == TransactionsFragment.MODE_EDIT && transFromIntent != null) {
                     calendar.setTime(new Date(transFromIntent.getDate()));
                 }
                 view.setupDateTimeField(calendar);

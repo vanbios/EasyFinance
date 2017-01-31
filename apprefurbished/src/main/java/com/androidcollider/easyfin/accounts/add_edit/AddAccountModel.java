@@ -2,7 +2,7 @@ package com.androidcollider.easyfin.accounts.add_edit;
 
 import android.support.annotation.Nullable;
 
-import com.androidcollider.easyfin.common.managers.accounts_info.AccountsInfoManager;
+import com.androidcollider.easyfin.common.managers.accounts.accounts_info.AccountsInfoManager;
 import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.models.Account;
