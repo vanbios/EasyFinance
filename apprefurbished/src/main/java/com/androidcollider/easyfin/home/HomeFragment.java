@@ -25,7 +25,6 @@ import com.androidcollider.easyfin.common.managers.rates.rates_info.RatesInfoMan
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.managers.shared_pref.SharedPrefManager;
 import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager;
-import com.androidcollider.easyfin.common.repository.Repository;
 import com.androidcollider.easyfin.common.ui.MainActivity;
 import com.androidcollider.easyfin.common.ui.adapters.SpinIconTextHeadAdapter;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentWithEvents;
@@ -46,8 +45,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import rx.Observable;
-import rx.Subscriber;
 
 import static butterknife.ButterKnife.findById;
 
@@ -55,10 +52,10 @@ import static butterknife.ButterKnife.findById;
  * @author Ihor Bilous
  */
 
-public class HomeFragment extends CommonFragmentWithEvents {
+public class HomeFragment extends CommonFragmentWithEvents implements HomeMVP.View {
 
     private String[] currencyArray, currencyLangArray;
-    private double[] statistic = new double[2];
+    private double[] statistic;
     private Map<String, double[]> balanceMap, statisticMap;
 
     @BindView(R.id.spinMainPeriod)
@@ -103,9 +100,6 @@ public class HomeFragment extends CommonFragmentWithEvents {
     RatesInfoManager ratesInfoManager;
 
     @Inject
-    Repository repository;
-
-    @Inject
     SharedPrefManager sharedPrefManager;
 
     @Inject
@@ -122,6 +116,9 @@ public class HomeFragment extends CommonFragmentWithEvents {
 
     @Inject
     DialogManager dialogManager;
+
+    @Inject
+    HomeMVP.Presenter presenter;
 
 
     @Override
@@ -144,36 +141,12 @@ public class HomeFragment extends CommonFragmentWithEvents {
         setBalanceCurrencySpinner();
         setStatisticPeriodSpinner();
 
+        statistic = new double[2];
         balanceMap = new HashMap<>();
         statisticMap = new HashMap<>();
 
-        getBalanceAndStatisticObservable()
-                .subscribe(new Subscriber<Pair<Map<String, double[]>, Map<String, double[]>>>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(Pair<Map<String, double[]>, Map<String, double[]>> pair) {
-                        balanceMap.clear();
-                        balanceMap.putAll(pair.first);
-                        statisticMap.clear();
-                        statisticMap.putAll(pair.second);
-
-                        setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
-                        setBalance(spinBalanceCurrency.getSelectedItemPosition());
-                        setStatisticBarChartData();
-                        setStatisticSumTV();
-                        setChartTypeSpinner();
-                    }
-                });
+        presenter.setView(this);
+        presenter.loadBalanceAndStatistic(spinPeriod.getSelectedItemPosition() + 1);
     }
 
     private void initializeViewsAndRes() {
@@ -273,30 +246,8 @@ public class HomeFragment extends CommonFragmentWithEvents {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (spinPeriodNotInitSelectedItemCall) {
-                    repository.getTransactionsStatistic(i + 1)
-                            .subscribe(new Subscriber<Map<String, double[]>>() {
-
-                                @Override
-                                public void onCompleted() {
-
-                                }
-
-                                @Override
-                                public void onError(Throwable e) {
-
-                                }
-
-                                @Override
-                                public void onNext(Map<String, double[]> map) {
-                                    statisticMap.clear();
-                                    statisticMap.putAll(map);
-                                    setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
-
-                                    setStatisticSumTV();
-                                    checkStatChartTypeForUpdate();
-                                    sharedPrefManager.setHomePeriodPos(i);
-                                }
-                            });
+                    presenter.updateStatistic(i + 1);
+                    sharedPrefManager.setHomePeriodPos(i);
                 } else {
                     spinPeriodNotInitSelectedItemCall = true;
                 }
@@ -356,71 +307,14 @@ public class HomeFragment extends CommonFragmentWithEvents {
         spinChartType.setSelection(sharedPrefManager.getHomeChartTypePos());
     }
 
-    private Observable<Pair<Map<String, double[]>, Map<String, double[]>>> getBalanceAndStatisticObservable() {
-        return Observable.combineLatest(
-                repository.getAccountsAmountSumGroupByTypeAndCurrency(),
-                repository.getTransactionsStatistic(spinPeriod.getSelectedItemPosition() + 1),
-                Pair::new);
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(UpdateFrgHome event) {
-        getBalanceAndStatisticObservable()
-                .subscribe(new Subscriber<Pair<Map<String, double[]>, Map<String, double[]>>>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(Pair<Map<String, double[]>, Map<String, double[]>> pair) {
-                        exchangeManager.updateRates();
-                        ratesInfoManager.prepareInfo();
-
-                        balanceMap.clear();
-                        balanceMap.putAll(pair.first);
-                        setBalance(spinBalanceCurrency.getSelectedItemPosition());
-
-                        statisticMap.clear();
-                        statisticMap.putAll(pair.second);
-                        setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
-                        setStatisticSumTV();
-                        checkStatChartTypeForUpdate();
-                    }
-                });
+        presenter.updateBalanceAndStatistic(spinPeriod.getSelectedItemPosition() + 1);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(UpdateFrgHomeBalance event) {
-        repository.getAccountsAmountSumGroupByTypeAndCurrency()
-                .subscribe(new Subscriber<Map<String, double[]>>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(Map<String, double[]> map) {
-                        exchangeManager.updateRates();
-                        ratesInfoManager.prepareInfo();
-
-                        balanceMap.clear();
-                        balanceMap.putAll(map);
-                        setBalance(spinBalanceCurrency.getSelectedItemPosition());
-                    }
-                });
+        presenter.updateBalance();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -569,5 +463,56 @@ public class HomeFragment extends CommonFragmentWithEvents {
                 balanceSettingsDialog.show();
                 break;
         }
+    }
+
+
+    @Override
+    public void setBalanceAndStatistic(Pair<Map<String, double[]>, Map<String, double[]>> pair) {
+        balanceMap.clear();
+        balanceMap.putAll(pair.first);
+        statisticMap.clear();
+        statisticMap.putAll(pair.second);
+
+        setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
+        setBalance(spinBalanceCurrency.getSelectedItemPosition());
+        setStatisticBarChartData();
+        setStatisticSumTV();
+        setChartTypeSpinner();
+    }
+
+    @Override
+    public void updateBalanceAndStatistic(Pair<Map<String, double[]>, Map<String, double[]>> pair) {
+        exchangeManager.updateRates();
+        ratesInfoManager.prepareInfo();
+
+        balanceMap.clear();
+        balanceMap.putAll(pair.first);
+        setBalance(spinBalanceCurrency.getSelectedItemPosition());
+
+        statisticMap.clear();
+        statisticMap.putAll(pair.second);
+        setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
+        setStatisticSumTV();
+        checkStatChartTypeForUpdate();
+    }
+
+    @Override
+    public void updateBalance(Map<String, double[]> map) {
+        exchangeManager.updateRates();
+        ratesInfoManager.prepareInfo();
+
+        balanceMap.clear();
+        balanceMap.putAll(map);
+        setBalance(spinBalanceCurrency.getSelectedItemPosition());
+    }
+
+    @Override
+    public void updateStatistic(Map<String, double[]> map) {
+        statisticMap.clear();
+        statisticMap.putAll(map);
+        setTransactionStatisticArray(spinBalanceCurrency.getSelectedItemPosition());
+
+        setStatisticSumTV();
+        checkStatChartTypeForUpdate();
     }
 }
