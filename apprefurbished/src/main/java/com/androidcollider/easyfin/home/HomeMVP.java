@@ -3,6 +3,9 @@ package com.androidcollider.easyfin.home;
 import android.support.annotation.Nullable;
 import android.support.v4.util.Pair;
 
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.PieData;
+
 import java.util.Map;
 
 import rx.Observable;
@@ -31,6 +34,10 @@ interface HomeMVP {
         void updateBalance(Map<String, double[]> map);
 
         void updateStatistic(Map<String, double[]> map);
+
+        boolean isNeedToConvert();
+
+        int getBalanceCurrencyPosition();
     }
 
     interface Presenter {
@@ -44,5 +51,23 @@ interface HomeMVP {
         void updateBalance();
 
         void updateStatistic(int statisticPosition);
+
+        boolean isStatisticEmpty();
+
+        String getFormattedBalance(double[] balance);
+
+        String getFormattedStatistic();
+
+        double[] getCurrentBalance(int position);
+
+        void updateTransactionStatisticArray(int posCurrency);
+
+        BarData getDataSetMainBalanceHorizontalBarChart(double[] balance);
+
+        BarData getDataSetMainStatisticHorizontalBarChart();
+
+        PieData getDataSetMainStatisticPieChart();
+
+        void updateRates();
     }
 }
