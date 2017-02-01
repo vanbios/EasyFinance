@@ -53,7 +53,7 @@
         android:layout_alignParentRight="true">
 
         <!--android:layout_gravity="right|bottom"
-        app:layout_behavior="com.androidcollider.easyfin.utils.FloatingActionMenuBehavior"-->
+        app:layout_behavior="FloatingActionMenuBehavior"-->
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/btnFloatAddTransBTW"
