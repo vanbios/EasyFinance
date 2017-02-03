@@ -14,9 +14,12 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.app.App;
+import com.androidcollider.easyfin.common.events.DBImported;
+import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHome;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance;
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeNewRates;
+import com.androidcollider.easyfin.common.events.UpdateFrgTransactions;
 import com.androidcollider.easyfin.common.managers.chart.setup.ChartSetupManager;
 import com.androidcollider.easyfin.common.managers.rates.rates_info.RatesInfoManager;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
@@ -31,6 +34,7 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.PieData;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -278,7 +282,7 @@ public class HomeFragment extends CommonFragmentWithEvents implements HomeMVP.Vi
             }
         });
 
-        spinChartType.setSelection(sharedPrefManager.getHomeChartTypePos());
+        //spinChartType.setSelection(sharedPrefManager.getHomeChartTypePos());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -303,6 +307,12 @@ public class HomeFragment extends CommonFragmentWithEvents implements HomeMVP.Vi
             checkStatChartTypeForUpdate();
         }
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(DBImported event) {
+        presenter.updateBalanceAndStatisticAfterDBImport(spinPeriod.getSelectedItemPosition() + 1);
+    }
+
 
     private void setupCharts() {
         chartSetupManager.setupMainBarChart(chartBalance);
@@ -393,6 +403,18 @@ public class HomeFragment extends CommonFragmentWithEvents implements HomeMVP.Vi
         setBalance(spinBalanceCurrency.getSelectedItemPosition());
         setStatisticSumTV();
         checkStatChartTypeForUpdate();
+    }
+
+    @Override
+    public void updateBalanceAndStatisticAfterDBImport(Pair<Map<String, double[]>, Map<String, double[]>> mapPair) {
+        ratesInfoManager.prepareInfo();
+        setBalance(spinBalanceCurrency.getSelectedItemPosition());
+        setStatisticSumTV();
+        checkStatChartTypeForUpdate();
+
+        EventBus.getDefault().post(new UpdateFrgTransactions());
+        EventBus.getDefault().post(new UpdateFrgAccounts());
+        //EventBus.getDefault().post(new UpdateFrgDebts());
     }
 
     @Override

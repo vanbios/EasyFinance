@@ -8,10 +8,7 @@ import android.preference.Preference;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.app.App;
-import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
-import com.androidcollider.easyfin.common.events.UpdateFrgDebts;
-import com.androidcollider.easyfin.common.events.UpdateFrgHome;
-import com.androidcollider.easyfin.common.events.UpdateFrgTransactions;
+import com.androidcollider.easyfin.common.events.DBImported;
 import com.androidcollider.easyfin.common.managers.analytics.AnalyticsManager;
 import com.androidcollider.easyfin.common.managers.import_export_db.ImportExportDbManager;
 import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager;
@@ -147,10 +144,11 @@ public class PrefFragment extends PreferenceFragment {
     }
 
     private void pushBroadcast() {
-        EventBus.getDefault().post(new UpdateFrgHome());
+        EventBus.getDefault().post(new DBImported());
+        /*EventBus.getDefault().post(new UpdateFrgHome());
         EventBus.getDefault().post(new UpdateFrgTransactions());
         EventBus.getDefault().post(new UpdateFrgAccounts());
-        EventBus.getDefault().post(new UpdateFrgDebts());
+        EventBus.getDefault().post(new UpdateFrgDebts());*/
     }
 
     @Override

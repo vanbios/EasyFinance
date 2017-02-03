@@ -1,0 +1,38 @@
+{
+  "project_info": {
+    "project_number": "709733871232",
+    "project_id": "firebase-finu"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:709733871232:android:2d89c1bf2877630e",
+        "android_client_info": {
+          "package_name": "com.androidcollider.easyfin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5m8Tn7Pd1nVVuoGmTtNtf2ilk3lnBbgo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-65734136-1"
+          }
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

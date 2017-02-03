@@ -119,6 +119,38 @@ class HomePresenter implements HomeMVP.Presenter {
     }
 
     @Override
+    public void updateBalanceAndStatisticAfterDBImport(int statisticPosition) {
+        model.getBalanceAndStatistic(statisticPosition)
+                .subscribe(new Subscriber<Pair<Map<String, double[]>, Map<String, double[]>>>() {
+
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Pair<Map<String, double[]>, Map<String, double[]>> pair) {
+                        updateRates();
+
+                        balanceMap.clear();
+                        balanceMap.putAll(pair.first);
+                        statisticMap.clear();
+                        statisticMap.putAll(pair.second);
+
+                        if (view != null) {
+                            updateTransactionStatisticArray(view.getBalanceCurrencyPosition());
+                            view.updateBalanceAndStatisticAfterDBImport(pair);
+                        }
+                    }
+                });
+    }
+
+    @Override
     public void updateBalance() {
         model.getBalance()
                 .subscribe(new Subscriber<Map<String, double[]>>() {
