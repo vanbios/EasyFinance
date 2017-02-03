@@ -31,6 +31,8 @@ interface HomeMVP {
 
         void updateBalanceAndStatistic(Pair<Map<String, double[]>, Map<String, double[]>> mapPair);
 
+        void updateBalanceAndStatisticAfterDBImport(Pair<Map<String, double[]>, Map<String, double[]>> mapPair);
+
         void updateBalance(Map<String, double[]> map);
 
         void updateStatistic(Map<String, double[]> map);
@@ -47,6 +49,8 @@ interface HomeMVP {
         void loadBalanceAndStatistic(int statisticPosition);
 
         void updateBalanceAndStatistic(int statisticPosition);
+
+        void updateBalanceAndStatisticAfterDBImport(int statisticPosition);
 
         void updateBalance();
 
