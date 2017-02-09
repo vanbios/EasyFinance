@@ -241,6 +241,7 @@
         <item>Week</item>
         <item>Month</item>
         <item>Year</item>
+        <item>All</item>
     </string-array>
 
 

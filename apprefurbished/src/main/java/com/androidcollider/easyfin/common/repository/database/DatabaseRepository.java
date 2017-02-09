@@ -361,6 +361,9 @@ public class DatabaseRepository implements Repository {
             case 4:
                 period = DateConstants.YEAR;
                 break;
+            case 5:
+                period = Long.MAX_VALUE;
+                break;
         }
 
         String[] currencyArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY);

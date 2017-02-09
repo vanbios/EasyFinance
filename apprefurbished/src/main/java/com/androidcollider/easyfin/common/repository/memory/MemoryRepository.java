@@ -434,6 +434,9 @@ public class MemoryRepository implements Repository {
             case 4:
                 period = DateConstants.YEAR;
                 break;
+            case 5:
+                period = Long.MAX_VALUE;
+                break;
         }
 
         Map<String, double[]> result = new HashMap<>();
