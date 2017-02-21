@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rx.Observable;
-import rx.Subscriber;
 
 /**
  * @author Ihor Bilous
@@ -50,23 +49,10 @@ class PayDebtPresenter implements PayDebtMVP.Presenter {
     @Override
     public void loadAccounts() {
         model.getAllAccounts()
-                .subscribe(new Subscriber<List<SpinAccountViewModel>>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<SpinAccountViewModel> accountList) {
-                        setupView(accountList);
-                    }
-                });
+                .subscribe(
+                        this::setupView,
+                        Throwable::printStackTrace
+                );
     }
 
     @Override
@@ -215,25 +201,14 @@ class PayDebtPresenter implements PayDebtMVP.Presenter {
     }
 
     private void handleActionWithDebt(Observable<Boolean> observable) {
-        observable.subscribe(new Subscriber<Boolean>() {
-
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(Boolean aBoolean) {
-                if (aBoolean && view != null) {
-                    view.performLastActionsAfterSaveAndClose();
-                }
-            }
-        });
+        observable.subscribe(
+                aBoolean -> {
+                    if (aBoolean && view != null) {
+                        view.performLastActionsAfterSaveAndClose();
+                    }
+                },
+                Throwable::printStackTrace
+        );
     }
 
     private void setupView(List<SpinAccountViewModel> accountList) {

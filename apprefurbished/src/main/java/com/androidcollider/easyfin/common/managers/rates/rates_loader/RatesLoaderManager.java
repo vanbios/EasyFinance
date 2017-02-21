@@ -24,7 +24,6 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -92,10 +91,9 @@ public class RatesLoaderManager {
     }
 
     private boolean checkForTodayUpdate() {
-        Calendar currentCalendar = Calendar.getInstance();
         Calendar oldCalendar = Calendar.getInstance();
         oldCalendar.setTimeInMillis(sharedPrefManager.getRatesUpdateTime());
-        return currentCalendar.get(Calendar.DAY_OF_YEAR) == oldCalendar.get(Calendar.DAY_OF_YEAR);
+        return Calendar.getInstance().get(Calendar.DAY_OF_YEAR) == oldCalendar.get(Calendar.DAY_OF_YEAR);
     }
 
     private void getRates() {
@@ -103,49 +101,26 @@ public class RatesLoaderManager {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        new Subscriber<RatesRemote>() {
-                            @Override
-                            public void onNext(RatesRemote ratesRemote) {
-                                int[] idArray = new int[]{3, 7, 11, 15};
-                                String[] currencyArray = resourcesManager.getStringArray(ResourcesManager.STRING_JSON_RATES);
-                                ArrayList<Rates> ratesList = new ArrayList<>();
+                        ratesRemote -> {
+                            int[] idArray = new int[]{3, 7, 11, 15};
+                            String[] currencyArray = resourcesManager.getStringArray(ResourcesManager.STRING_JSON_RATES);
+                            ArrayList<Rates> ratesList = new ArrayList<>();
 
-                                for (int i = 0; i < idArray.length; i++) {
-                                    int id = idArray[i];
-                                    String cur = currencyArray[i];
-                                    ratesList.add(generateNewRates(id, cur, ratesRemote));
-                                }
-                                Log.d(TAG, "rates " + ratesList);
+                            for (int i = 0; i < idArray.length; i++) {
+                                int id = idArray[i];
+                                String cur = currencyArray[i];
+                                ratesList.add(generateNewRates(id, cur, ratesRemote));
+                            }
+                            Log.d(TAG, "rates " + ratesList);
 
-                                repository.updateRates(ratesList)
-                                        .subscribe(new Subscriber<Boolean>() {
-
-                                            @Override
-                                            public void onCompleted() {
-
-                                            }
-
-                                            @Override
-                                            public void onError(Throwable e) {
-
-                                            }
-
-                                            @Override
-                                            public void onNext(Boolean aBoolean) {
+                            repository.updateRates(ratesList)
+                                    .subscribe(
+                                            aBoolean -> {
                                                 EventBus.getDefault().post(new UpdateFrgHomeNewRates());
-                                            }
-                                        });
-                            }
-
-                            @Override
-                            public void onCompleted() {
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                e.printStackTrace();
-                            }
-                        }
+                                            },
+                                            Throwable::printStackTrace);
+                        },
+                        Throwable::printStackTrace
                 );
     }
 

@@ -1,7 +1,6 @@
 package com.androidcollider.easyfin.home;
 
 import android.support.annotation.Nullable;
-import android.support.v4.util.Pair;
 
 import com.androidcollider.easyfin.common.managers.chart.data.ChartDataManager;
 import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
@@ -13,8 +12,6 @@ import com.github.mikephil.charting.data.PieData;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import rx.Subscriber;
 
 /**
  * @author Ihor Bilous
@@ -59,153 +56,98 @@ class HomePresenter implements HomeMVP.Presenter {
     @Override
     public void loadBalanceAndStatistic(int statisticPosition) {
         model.getBalanceAndStatistic(statisticPosition)
-                .subscribe(new Subscriber<Pair<Map<String, double[]>, Map<String, double[]>>>() {
+                .subscribe(
+                        pair -> {
+                            balanceMap.clear();
+                            balanceMap.putAll(pair.first);
+                            statisticMap.clear();
+                            statisticMap.putAll(pair.second);
 
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(Pair<Map<String, double[]>, Map<String, double[]>> pair) {
-                        balanceMap.clear();
-                        balanceMap.putAll(pair.first);
-                        statisticMap.clear();
-                        statisticMap.putAll(pair.second);
-
-                        if (view != null) {
-                            updateTransactionStatisticArray(view.getBalanceCurrencyPosition());
-                            view.setBalanceAndStatistic(pair);
-                        }
-                    }
-                });
+                            if (view != null) {
+                                updateTransactionStatisticArray(view.getBalanceCurrencyPosition());
+                                view.setBalanceAndStatistic(pair);
+                            }
+                        },
+                        Throwable::printStackTrace
+                );
     }
 
     @Override
     public void updateBalanceAndStatistic(int statisticPosition) {
         model.getBalanceAndStatistic(statisticPosition)
-                .subscribe(new Subscriber<Pair<Map<String, double[]>, Map<String, double[]>>>() {
+                .subscribe(
+                        pair -> {
+                            updateRates();
 
-                    @Override
-                    public void onCompleted() {
+                            balanceMap.clear();
+                            balanceMap.putAll(pair.first);
+                            statisticMap.clear();
+                            statisticMap.putAll(pair.second);
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(Pair<Map<String, double[]>, Map<String, double[]>> pair) {
-                        updateRates();
-
-                        balanceMap.clear();
-                        balanceMap.putAll(pair.first);
-                        statisticMap.clear();
-                        statisticMap.putAll(pair.second);
-
-                        if (view != null) {
-                            updateTransactionStatisticArray(view.getBalanceCurrencyPosition());
-                            view.updateBalanceAndStatistic(pair);
-                        }
-                    }
-                });
+                            if (view != null) {
+                                updateTransactionStatisticArray(view.getBalanceCurrencyPosition());
+                                view.updateBalanceAndStatistic(pair);
+                            }
+                        },
+                        Throwable::printStackTrace
+                );
     }
 
     @Override
     public void updateBalanceAndStatisticAfterDBImport(int statisticPosition) {
         model.getBalanceAndStatistic(statisticPosition)
-                .subscribe(new Subscriber<Pair<Map<String, double[]>, Map<String, double[]>>>() {
+                .subscribe(
+                        pair -> {
+                            updateRates();
 
-                    @Override
-                    public void onCompleted() {
+                            balanceMap.clear();
+                            balanceMap.putAll(pair.first);
+                            statisticMap.clear();
+                            statisticMap.putAll(pair.second);
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(Pair<Map<String, double[]>, Map<String, double[]>> pair) {
-                        updateRates();
-
-                        balanceMap.clear();
-                        balanceMap.putAll(pair.first);
-                        statisticMap.clear();
-                        statisticMap.putAll(pair.second);
-
-                        if (view != null) {
-                            updateTransactionStatisticArray(view.getBalanceCurrencyPosition());
-                            view.updateBalanceAndStatisticAfterDBImport(pair);
-                        }
-                    }
-                });
+                            if (view != null) {
+                                updateTransactionStatisticArray(view.getBalanceCurrencyPosition());
+                                view.updateBalanceAndStatisticAfterDBImport(pair);
+                            }
+                        },
+                        Throwable::printStackTrace
+                );
     }
 
     @Override
     public void updateBalance() {
         model.getBalance()
-                .subscribe(new Subscriber<Map<String, double[]>>() {
+                .subscribe(
+                        map -> {
+                            updateRates();
 
-                    @Override
-                    public void onCompleted() {
+                            balanceMap.clear();
+                            balanceMap.putAll(map);
 
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(Map<String, double[]> map) {
-                        updateRates();
-
-                        balanceMap.clear();
-                        balanceMap.putAll(map);
-
-                        if (view != null) {
-                            updateTransactionStatisticArray(view.getBalanceCurrencyPosition());
-                            view.updateBalance(map);
-                        }
-                    }
-                });
+                            if (view != null) {
+                                updateTransactionStatisticArray(view.getBalanceCurrencyPosition());
+                                view.updateBalance(map);
+                            }
+                        },
+                        Throwable::printStackTrace
+                );
     }
 
     @Override
     public void updateStatistic(int statisticPosition) {
         model.getStatistic(statisticPosition)
-                .subscribe(new Subscriber<Map<String, double[]>>() {
+                .subscribe(
+                        map -> {
+                            statisticMap.clear();
+                            statisticMap.putAll(map);
 
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(Map<String, double[]> map) {
-                        statisticMap.clear();
-                        statisticMap.putAll(map);
-
-                        if (view != null) {
-                            updateTransactionStatisticArray(view.getBalanceCurrencyPosition());
-                            view.updateStatistic(map);
-                        }
-                    }
-                });
+                            if (view != null) {
+                                updateTransactionStatisticArray(view.getBalanceCurrencyPosition());
+                                view.updateStatistic(map);
+                            }
+                        },
+                        Throwable::printStackTrace
+                );
     }
 
     @Override

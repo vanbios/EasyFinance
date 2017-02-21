@@ -2,12 +2,6 @@ package com.androidcollider.easyfin.transactions.list;
 
 import android.support.annotation.Nullable;
 
-import com.androidcollider.easyfin.common.models.Transaction;
-
-import java.util.List;
-
-import rx.Subscriber;
-
 /**
  * @author Ihor Bilous
  */
@@ -31,72 +25,39 @@ class TransactionsPresenter implements TransactionsMVP.Presenter {
     @Override
     public void loadData() {
         model.getTransactionList()
-                .subscribe(new Subscriber<List<TransactionViewModel>>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<TransactionViewModel> transactionList) {
-                        if (view != null) {
-                            view.setTransactionList(transactionList);
-                        }
-                    }
-                });
+                .subscribe(
+                        transactionList -> {
+                            if (view != null) {
+                                view.setTransactionList(transactionList);
+                            }
+                        },
+                        Throwable::printStackTrace
+                );
     }
 
     @Override
     public void getTransactionById(int id) {
         model.getTransactionById(id)
-                .subscribe(new Subscriber<Transaction>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(Transaction transaction) {
-                        if (view != null) {
-                            view.goToEditTransaction(transaction);
-                        }
-                    }
-                });
+                .subscribe(
+                        transaction -> {
+                            if (view != null) {
+                                view.goToEditTransaction(transaction);
+                            }
+                        },
+                        Throwable::printStackTrace
+                );
     }
 
     @Override
     public void deleteTransactionById(int id) {
         model.deleteTransactionById(id)
-                .subscribe(new Subscriber<Boolean>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(Boolean aBoolean) {
-                        if (aBoolean && view != null) {
-                            view.deleteTransaction();
-                        }
-                    }
-                });
+                .subscribe(
+                        aBoolean -> {
+                            if (aBoolean && view != null) {
+                                view.deleteTransaction();
+                            }
+                        },
+                        Throwable::printStackTrace
+                );
     }
 }

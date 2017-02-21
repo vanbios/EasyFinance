@@ -15,7 +15,6 @@ import java.util.Date;
 import java.util.List;
 
 import rx.Observable;
-import rx.Subscriber;
 
 /**
  * @author Ihor Bilous
@@ -56,23 +55,10 @@ class AddDebtPresenter implements AddDebtMVP.Presenter {
     @Override
     public void loadAccounts() {
         model.getAllAccounts()
-                .subscribe(new Subscriber<List<SpinAccountViewModel>>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<SpinAccountViewModel> accountList) {
-                        setupView(accountList);
-                    }
-                });
+                .subscribe(
+                        this::setupView,
+                        Throwable::printStackTrace
+                );
     }
 
     @Override
@@ -222,25 +208,14 @@ class AddDebtPresenter implements AddDebtMVP.Presenter {
     }
 
     private void handleActionWithDebt(Observable<?> observable) {
-        observable.subscribe(new Subscriber<Object>() {
-
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(Object o) {
-                if (view != null) {
-                    view.performLastActionsAfterSaveAndClose();
-                }
-            }
-        });
+        observable.subscribe(
+                o -> {
+                    if (view != null) {
+                        view.performLastActionsAfterSaveAndClose();
+                    }
+                },
+                Throwable::printStackTrace
+        );
     }
 
     private Debt buildDebt(SpinAccountViewModel account,

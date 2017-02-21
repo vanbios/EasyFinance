@@ -71,23 +71,10 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
     @Override
     public void loadAccounts() {
         model.getAllAccounts()
-                .subscribe(new Subscriber<List<SpinAccountViewModel>>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<SpinAccountViewModel> accountList) {
-                        setupView(accountList);
-                    }
-                });
+                .subscribe(
+                        this::setupView,
+                        Throwable::printStackTrace
+                );
     }
 
     @Override

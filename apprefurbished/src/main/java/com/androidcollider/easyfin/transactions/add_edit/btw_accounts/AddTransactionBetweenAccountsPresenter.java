@@ -6,10 +6,6 @@ import android.support.annotation.Nullable;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 
-import java.util.List;
-
-import rx.Subscriber;
-
 /**
  * @author Ihor Bilous
  */
@@ -67,29 +63,18 @@ class AddTransactionBetweenAccountsPresenter implements AddTransactionBetweenAcc
     @Override
     public void loadAccounts() {
         model.getAllAccounts()
-                .subscribe(new Subscriber<List<SpinAccountViewModel>>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<SpinAccountViewModel> accountList) {
-                        if (view != null) {
-                            if (accountList.size() < 2) {
-                                view.notifyNotEnoughAccounts();
-                            } else {
-                                view.setAccounts(accountList);
+                .subscribe(
+                        accountList -> {
+                            if (view != null) {
+                                if (accountList.size() < 2) {
+                                    view.notifyNotEnoughAccounts();
+                                } else {
+                                    view.setAccounts(accountList);
+                                }
                             }
-                        }
-                    }
-                });
+                        },
+                        Throwable::printStackTrace
+                );
     }
 
     @Override
@@ -116,25 +101,14 @@ class AddTransactionBetweenAccountsPresenter implements AddTransactionBetweenAcc
         double accountAmountTo = accAmountTo + amountTo;
 
         model.transferBTWAccounts(idFrom, accountAmountFrom, idTo, accountAmountTo)
-                .subscribe(new Subscriber<Boolean>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(Boolean aBoolean) {
-                        if (aBoolean && view != null) {
-                            view.performLastActionsAfterSaveAndClose();
-                        }
-                    }
-                });
+                .subscribe(
+                        aBoolean -> {
+                            if (aBoolean && view != null) {
+                                view.performLastActionsAfterSaveAndClose();
+                            }
+                        },
+                        Throwable::printStackTrace
+                );
     }
 
     private boolean isExchangeRateValid() {
