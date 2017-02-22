@@ -16,8 +16,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import rx.Observable;
-import rx.Subscriber;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -208,26 +207,15 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
         return true;
     }
 
-    private void handleActionWithTransaction(Observable<?> observable) {
-        observable.subscribe(new Subscriber<Object>() {
-
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onNext(Object o) {
-                if (view != null) {
-                    view.performLastActionsAfterSaveAndClose();
-                }
-            }
-        });
+    private void handleActionWithTransaction(Flowable<?> observable) {
+        observable.subscribe(
+                o -> {
+                    if (view != null) {
+                        view.performLastActionsAfterSaveAndClose();
+                    }
+                },
+                Throwable::printStackTrace
+        );
     }
 
     private void setupView(List<SpinAccountViewModel> accountList) {

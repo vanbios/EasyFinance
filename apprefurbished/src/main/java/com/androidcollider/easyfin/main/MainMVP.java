@@ -2,7 +2,7 @@ package com.androidcollider.easyfin.main;
 
 import android.support.annotation.Nullable;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -12,7 +12,7 @@ interface MainMVP {
 
     interface Model {
 
-        Observable<Integer> getAccountsCountObservable();
+        Flowable<Integer> getAccountsCountObservable();
     }
 
     interface View {

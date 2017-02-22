@@ -9,7 +9,7 @@ import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 
 import java.util.List;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -34,22 +34,22 @@ class AddTransactionIncomeExpenseModel implements AddTransactionIncomeExpenseMVP
     }
 
     @Override
-    public Observable<List<SpinAccountViewModel>> getAllAccounts() {
+    public Flowable<List<SpinAccountViewModel>> getAllAccounts() {
         return accountsToSpinViewModelManager.getSpinAccountViewModelList(repository.getAllAccounts());
     }
 
     @Override
-    public Observable<Transaction> addNewTransaction(Transaction transaction) {
+    public Flowable<Transaction> addNewTransaction(Transaction transaction) {
         return repository.addNewTransaction(transaction);
     }
 
     @Override
-    public Observable<Transaction> updateTransaction(Transaction transaction) {
+    public Flowable<Transaction> updateTransaction(Transaction transaction) {
         return repository.updateTransaction(transaction);
     }
 
     @Override
-    public Observable<Boolean> updateTransactionDifferentAccounts(Transaction transaction, double oldAccountAmount, int oldAccountId) {
+    public Flowable<Boolean> updateTransactionDifferentAccounts(Transaction transaction, double oldAccountAmount, int oldAccountId) {
         return repository.updateTransactionDifferentAccounts(transaction, oldAccountAmount, oldAccountId);
     }
 

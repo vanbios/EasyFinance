@@ -6,7 +6,7 @@ import com.androidcollider.easyfin.common.models.Transaction;
 
 import java.util.List;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -16,11 +16,11 @@ interface TransactionsMVP {
 
     interface Model {
 
-        Observable<List<TransactionViewModel>> getTransactionList();
+        Flowable<List<TransactionViewModel>> getTransactionList();
 
-        Observable<Transaction> getTransactionById(int id);
+        Flowable<Transaction> getTransactionById(int id);
 
-        Observable<Boolean> deleteTransactionById(int id);
+        Flowable<Boolean> deleteTransactionById(int id);
     }
 
     interface View {

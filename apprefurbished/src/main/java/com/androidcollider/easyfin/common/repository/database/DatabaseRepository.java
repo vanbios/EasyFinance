@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -51,198 +51,132 @@ public class DatabaseRepository implements Repository {
 
 
     @Override
-    public Observable<Account> addNewAccount(Account account) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(insertNewAccount(account));
-            subscriber.onCompleted();
-        });
+    public Flowable<Account> addNewAccount(Account account) {
+        return Flowable.fromCallable(() -> insertNewAccount(account));
     }
 
     @Override
-    public Observable<List<Account>> getAllAccounts() {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(getAllAccountsInfo());
-            subscriber.onCompleted();
-        });
+    public Flowable<List<Account>> getAllAccounts() {
+        return Flowable.fromCallable(this::getAllAccountsInfo);
     }
 
     @Override
-    public Observable<Account> updateAccount(Account account) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(editAccount(account));
-            subscriber.onCompleted();
-        });
+    public Flowable<Account> updateAccount(Account account) {
+        return Flowable.fromCallable(() -> editAccount(account));
     }
 
     @Override
-    public Observable<Boolean> deleteAccount(int id) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(deleteAccountDB(id));
-            subscriber.onCompleted();
-        });
+    public Flowable<Boolean> deleteAccount(int id) {
+        return Flowable.fromCallable(() -> deleteAccountDB(id));
     }
 
     @Override
-    public Observable<Boolean> transferBTWAccounts(int idAccount1, double accountAmount1, int idAccount2, double accountAmount2) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(updateAccountsAmountAfterTransfer(idAccount1, accountAmount1, idAccount2, accountAmount2));
-            subscriber.onCompleted();
-        });
+    public Flowable<Boolean> transferBTWAccounts(int idAccount1, double accountAmount1, int idAccount2, double accountAmount2) {
+        return Flowable.fromCallable(() -> updateAccountsAmountAfterTransfer(idAccount1, accountAmount1, idAccount2, accountAmount2));
     }
 
     @Override
-    public Observable<Transaction> addNewTransaction(Transaction transaction) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(insertNewTransaction(transaction));
-            subscriber.onCompleted();
-        });
+    public Flowable<Transaction> addNewTransaction(Transaction transaction) {
+        return Flowable.fromCallable(() -> insertNewTransaction(transaction));
     }
 
     @Override
-    public Observable<List<Transaction>> getAllTransactions() {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(getAllTransactionsInfo());
-            subscriber.onCompleted();
-        });
+    public Flowable<List<Transaction>> getAllTransactions() {
+        return Flowable.fromCallable(this::getAllTransactionsInfo);
     }
 
     @Override
-    public Observable<Transaction> updateTransaction(Transaction transaction) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(editTransaction(transaction));
-            subscriber.onCompleted();
-        });
+    public Flowable<Transaction> updateTransaction(Transaction transaction) {
+        return Flowable.fromCallable(() -> editTransaction(transaction));
     }
 
     @Override
-    public Observable<Boolean> updateTransactionDifferentAccounts(Transaction transaction, double oldAccountAmount, int oldAccountId) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(editTransactionDifferentAccounts(transaction, oldAccountAmount, oldAccountId));
-            subscriber.onCompleted();
-        });
+    public Flowable<Boolean> updateTransactionDifferentAccounts(Transaction transaction, double oldAccountAmount, int oldAccountId) {
+        return Flowable.fromCallable(() -> editTransactionDifferentAccounts(transaction, oldAccountAmount, oldAccountId));
     }
 
     @Override
-    public Observable<Boolean> deleteTransaction(int idAccount, int idTransaction, double amount) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(deleteTransactionDB(idAccount, idTransaction, amount));
-            subscriber.onCompleted();
-        });
+    public Flowable<Boolean> deleteTransaction(int idAccount, int idTransaction, double amount) {
+        return Flowable.fromCallable(() -> deleteTransactionDB(idAccount, idTransaction, amount));
     }
 
     @Override
-    public Observable<Debt> addNewDebt(Debt debt) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(insertNewDebt(debt));
-            subscriber.onCompleted();
-        });
+    public Flowable<Debt> addNewDebt(Debt debt) {
+        return Flowable.fromCallable(() -> insertNewDebt(debt));
     }
 
     @Override
-    public Observable<List<Debt>> getAllDebts() {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(getAllDebtInfo());
-            subscriber.onCompleted();
-        });
+    public Flowable<List<Debt>> getAllDebts() {
+        return Flowable.fromCallable(this::getAllDebtInfo);
     }
 
     @Override
-    public Observable<Debt> updateDebt(Debt debt) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(editDebt(debt));
-            subscriber.onCompleted();
-        });
+    public Flowable<Debt> updateDebt(Debt debt) {
+        return Flowable.fromCallable(() -> editDebt(debt));
     }
 
     @Override
-    public Observable<Boolean> updateDebtDifferentAccounts(Debt debt, double oldAccountAmount, int oldAccountId) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(editDebtDifferentAccounts(debt, oldAccountAmount, oldAccountId));
-            subscriber.onCompleted();
-        });
+    public Flowable<Boolean> updateDebtDifferentAccounts(Debt debt, double oldAccountAmount, int oldAccountId) {
+        return Flowable.fromCallable(() -> editDebtDifferentAccounts(debt, oldAccountAmount, oldAccountId));
     }
 
     @Override
-    public Observable<Boolean> deleteDebt(int idAccount, int idDebt, double amount, int type) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(deleteDebtDB(idAccount, idDebt, amount, type));
-            subscriber.onCompleted();
-        });
+    public Flowable<Boolean> deleteDebt(int idAccount, int idDebt, double amount, int type) {
+        return Flowable.fromCallable(() -> deleteDebtDB(idAccount, idDebt, amount, type));
     }
 
     @Override
-    public Observable<Boolean> payFullDebt(int idAccount, double accountAmount, int idDebt) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(payAllDebt(idAccount, accountAmount, idDebt));
-            subscriber.onCompleted();
-        });
+    public Flowable<Boolean> payFullDebt(int idAccount, double accountAmount, int idDebt) {
+        return Flowable.fromCallable(() -> payAllDebt(idAccount, accountAmount, idDebt));
     }
 
     @Override
-    public Observable<Boolean> payPartOfDebt(int idAccount, double accountAmount, int idDebt, double debtAmount) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(payPartDebt(idAccount, accountAmount, idDebt, debtAmount));
-            subscriber.onCompleted();
-        });
+    public Flowable<Boolean> payPartOfDebt(int idAccount, double accountAmount, int idDebt, double debtAmount) {
+        return Flowable.fromCallable(() -> payPartDebt(idAccount, accountAmount, idDebt, debtAmount));
     }
 
     @Override
-    public Observable<Boolean> takeMoreDebt(int idAccount, double accountAmount, int idDebt, double debtAmount, double debtAllAmount) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(takeMoreDebtDB(idAccount, accountAmount, idDebt, debtAmount, debtAllAmount));
-            subscriber.onCompleted();
-        });
+    public Flowable<Boolean> takeMoreDebt(int idAccount, double accountAmount, int idDebt, double debtAmount, double debtAllAmount) {
+        return Flowable.fromCallable(() -> takeMoreDebtDB(idAccount, accountAmount, idDebt, debtAmount, debtAllAmount));
     }
 
     @Override
-    public Observable<Map<String, double[]>> getTransactionsStatistic(int position) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(getTransactionsStatisticDB(position));
-            subscriber.onCompleted();
-        });
+    public Flowable<Map<String, double[]>> getTransactionsStatistic(int position) {
+        return Flowable.fromCallable(() -> getTransactionsStatisticDB(position));
     }
 
     @Override
-    public Observable<Map<String, double[]>> getAccountsAmountSumGroupByTypeAndCurrency() {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(getAccountsSumGroupByTypeAndCurrency());
-            subscriber.onCompleted();
-        });
+    public Flowable<Map<String, double[]>> getAccountsAmountSumGroupByTypeAndCurrency() {
+        return Flowable.fromCallable(this::getAccountsSumGroupByTypeAndCurrency);
     }
 
     @Override
-    public Observable<Boolean> updateRates(List<Rates> ratesList) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(insertRates(ratesList));
-            subscriber.onCompleted();
-        });
+    public Flowable<Boolean> updateRates(List<Rates> ratesList) {
+        return Flowable.fromCallable(() -> insertRates(ratesList));
     }
 
     @Override
-    public Observable<double[]> getRates() {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(getRatesDB());
-            subscriber.onCompleted();
-        });
+    public Flowable<double[]> getRates() {
+        return Flowable.fromCallable(this::getRatesDB);
     }
 
     @Override
-    public Observable<Boolean> setAllAccounts(List<Account> accountList) {
+    public Flowable<Boolean> setAllAccounts(List<Account> accountList) {
         throw new IllegalStateException("do not perform this action!");
     }
 
     @Override
-    public Observable<Boolean> setAllTransactions(List<Transaction> transactionList) {
+    public Flowable<Boolean> setAllTransactions(List<Transaction> transactionList) {
         throw new IllegalStateException("do not perform this action!");
     }
 
     @Override
-    public Observable<Boolean> setAllDebts(List<Debt> debtList) {
+    public Flowable<Boolean> setAllDebts(List<Debt> debtList) {
         throw new IllegalStateException("do not perform this action!");
     }
 
     @Override
-    public Observable<Boolean> setRates(double[] rates) {
+    public Flowable<Boolean> setRates(double[] rates) {
         throw new IllegalStateException("do not perform this action!");
     }
 

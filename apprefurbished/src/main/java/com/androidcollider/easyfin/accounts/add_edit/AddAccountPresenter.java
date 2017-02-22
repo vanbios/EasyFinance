@@ -8,7 +8,7 @@ import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.accounts.list.AccountsFragment;
 import com.androidcollider.easyfin.common.models.Account;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -101,7 +101,7 @@ class AddAccountPresenter implements AddAccountMVP.Presenter {
         return true;
     }
 
-    private Observable<Account> getSaveAccountObservable(String name, String amount, int type, String currency) {
+    private Flowable<Account> getSaveAccountObservable(String name, String amount, int type, String currency) {
         return mode == AccountsFragment.EDIT ?
                 model.updateAccount(
                         name,

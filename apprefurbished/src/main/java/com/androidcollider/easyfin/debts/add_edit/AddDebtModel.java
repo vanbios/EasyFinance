@@ -9,7 +9,7 @@ import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 
 import java.util.List;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -34,22 +34,22 @@ class AddDebtModel implements AddDebtMVP.Model {
     }
 
     @Override
-    public Observable<List<SpinAccountViewModel>> getAllAccounts() {
+    public Flowable<List<SpinAccountViewModel>> getAllAccounts() {
         return accountsToSpinViewModelManager.getSpinAccountViewModelList(repository.getAllAccounts());
     }
 
     @Override
-    public Observable<Debt> addNewDebt(Debt debt) {
+    public Flowable<Debt> addNewDebt(Debt debt) {
         return repository.addNewDebt(debt);
     }
 
     @Override
-    public Observable<Debt> updateDebt(Debt debt) {
+    public Flowable<Debt> updateDebt(Debt debt) {
         return repository.updateDebt(debt);
     }
 
     @Override
-    public Observable<Boolean> updateDebtDifferentAccounts(Debt debt, double oldAccountAmount, int oldAccountId) {
+    public Flowable<Boolean> updateDebtDifferentAccounts(Debt debt, double oldAccountAmount, int oldAccountId) {
         return repository.updateDebtDifferentAccounts(debt, oldAccountAmount, oldAccountId);
     }
 

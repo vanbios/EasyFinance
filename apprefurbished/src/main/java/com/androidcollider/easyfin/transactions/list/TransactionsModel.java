@@ -14,7 +14,7 @@ import com.annimon.stream.Stream;
 
 import java.util.List;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -43,20 +43,20 @@ class TransactionsModel implements TransactionsMVP.Model {
     }
 
     @Override
-    public Observable<List<TransactionViewModel>> getTransactionList() {
+    public Flowable<List<TransactionViewModel>> getTransactionList() {
         return repository.getAllTransactions()
                 .map(this::transformTransactionListToViewModelList);
     }
 
     @Override
-    public Observable<Transaction> getTransactionById(int id) {
+    public Flowable<Transaction> getTransactionById(int id) {
         return repository.getAllTransactions()
-                .flatMap(Observable::from)
+                .flatMap(Flowable::fromIterable)
                 .filter(transaction -> transaction.getId() == id);
     }
 
     @Override
-    public Observable<Boolean> deleteTransactionById(int id) {
+    public Flowable<Boolean> deleteTransactionById(int id) {
         return getTransactionById(id)
                 .flatMap(transaction ->
                         repository.deleteTransaction(
@@ -94,13 +94,12 @@ class TransactionsModel implements TransactionsMVP.Model {
         if (isExpense) {
             builder.amount(String.format("- %1$s %2$s", amount.substring(1), curLang));
             builder.colorRes(ContextCompat.getColor(context, R.color.custom_red));
-            builder.category(transaction.getCategory());
         } else {
             builder.amount(String.format("+ %1$s %2$s", amount, curLang));
             builder.colorRes(ContextCompat.getColor(context, R.color.custom_green));
-            builder.category(transaction.getCategory());
         }
 
+        builder.category(transaction.getCategory());
         builder.accountType(transaction.getAccountType());
 
         return builder.build();

@@ -14,7 +14,7 @@ import com.annimon.stream.Stream;
 
 import java.util.List;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -43,20 +43,20 @@ class DebtsModel implements DebtsMVP.Model {
     }
 
     @Override
-    public Observable<List<DebtViewModel>> getDebtList() {
+    public Flowable<List<DebtViewModel>> getDebtList() {
         return repository.getAllDebts()
                 .map(this::transformDebtListToViewModelList);
     }
 
     @Override
-    public Observable<Debt> getDebtById(int id) {
+    public Flowable<Debt> getDebtById(int id) {
         return repository.getAllDebts()
-                .flatMap(Observable::from)
+                .flatMap(Flowable::fromIterable)
                 .filter(debt -> debt.getId() == id);
     }
 
     @Override
-    public Observable<Boolean> deleteDebtById(int id) {
+    public Flowable<Boolean> deleteDebtById(int id) {
         return getDebtById(id)
                 .flatMap(debt ->
                         repository.deleteDebt(

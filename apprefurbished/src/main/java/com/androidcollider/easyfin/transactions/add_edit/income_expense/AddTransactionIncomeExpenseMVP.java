@@ -4,14 +4,13 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.androidcollider.easyfin.common.models.Account;
 import com.androidcollider.easyfin.common.models.Transaction;
 import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 
 import java.util.Calendar;
 import java.util.List;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -21,13 +20,13 @@ interface AddTransactionIncomeExpenseMVP {
 
     interface Model {
 
-        Observable<List<SpinAccountViewModel>> getAllAccounts();
+        Flowable<List<SpinAccountViewModel>> getAllAccounts();
 
-        Observable<Transaction> addNewTransaction(Transaction transaction);
+        Flowable<Transaction> addNewTransaction(Transaction transaction);
 
-        Observable<Transaction> updateTransaction(Transaction transaction);
+        Flowable<Transaction> updateTransaction(Transaction transaction);
 
-        Observable<Boolean> updateTransactionDifferentAccounts(Transaction transaction, double oldAccountAmount, int oldAccountId);
+        Flowable<Boolean> updateTransactionDifferentAccounts(Transaction transaction, double oldAccountAmount, int oldAccountId);
 
         String prepareStringToParse(String value);
 

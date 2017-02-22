@@ -6,7 +6,7 @@ import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 
 import java.util.List;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -16,9 +16,9 @@ interface AddTransactionBetweenAccountsMVP {
 
     interface Model {
 
-        Observable<List<SpinAccountViewModel>> getAllAccounts();
+        Flowable<List<SpinAccountViewModel>> getAllAccounts();
 
-        Observable<Boolean> transferBTWAccounts(int idFrom, double accountAmountFrom, int idTo, double accountAmountTo);
+        Flowable<Boolean> transferBTWAccounts(int idFrom, double accountAmountFrom, int idTo, double accountAmountTo);
 
         String getExchangeRate(String currencyFrom, String currencyTo);
 

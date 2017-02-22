@@ -2,7 +2,7 @@ package com.androidcollider.easyfin.main;
 
 import com.androidcollider.easyfin.common.managers.accounts.accounts_info.AccountsInfoManager;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -17,7 +17,7 @@ class MainModel implements MainMVP.Model {
     }
 
     @Override
-    public Observable<Integer> getAccountsCountObservable() {
+    public Flowable<Integer> getAccountsCountObservable() {
         return accountsInfoManager.getAccountsCountObservable();
     }
 }

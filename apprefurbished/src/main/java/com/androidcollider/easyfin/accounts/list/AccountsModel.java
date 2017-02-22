@@ -9,7 +9,7 @@ import com.annimon.stream.Stream;
 
 import java.util.List;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -30,20 +30,20 @@ class AccountsModel implements AccountsMVP.Model {
     }
 
     @Override
-    public Observable<List<AccountViewModel>> getAccountList() {
+    public Flowable<List<AccountViewModel>> getAccountList() {
         return repository.getAllAccounts()
                 .map(this::transformAccountListToViewModelList);
     }
 
     @Override
-    public Observable<Account> getAccountById(int id) {
+    public Flowable<Account> getAccountById(int id) {
         return repository.getAllAccounts()
-                .flatMap(Observable::from)
+                .flatMap(Flowable::fromIterable)
                 .filter(account -> account.getId() == id);
     }
 
     @Override
-    public Observable<Boolean> deleteAccountById(int id) {
+    public Flowable<Boolean> deleteAccountById(int id) {
         return repository.deleteAccount(id);
     }
 

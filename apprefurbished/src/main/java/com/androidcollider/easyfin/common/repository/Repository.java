@@ -8,7 +8,7 @@ import com.androidcollider.easyfin.common.models.Transaction;
 import java.util.List;
 import java.util.Map;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -18,88 +18,88 @@ public interface Repository {
 
     // Accounts
 
-    Observable<Account> addNewAccount(Account account);
+    Flowable<Account> addNewAccount(Account account);
 
-    Observable<List<Account>> getAllAccounts();
+    Flowable<List<Account>> getAllAccounts();
 
-    Observable<Account> updateAccount(Account account);
+    Flowable<Account> updateAccount(Account account);
 
-    Observable<Boolean> deleteAccount(int id);
+    Flowable<Boolean> deleteAccount(int id);
 
-    Observable<Boolean> transferBTWAccounts(int idAccount1,
+    Flowable<Boolean> transferBTWAccounts(int idAccount1,
                                             double accountAmount1,
                                             int idAccount2,
                                             double accountAmount2);
 
-    Observable<Boolean> setAllAccounts(List<Account> accountList);
+    Flowable<Boolean> setAllAccounts(List<Account> accountList);
 
 
     // Transactions
 
-    Observable<Transaction> addNewTransaction(Transaction transaction);
+    Flowable<Transaction> addNewTransaction(Transaction transaction);
 
-    Observable<List<Transaction>> getAllTransactions();
+    Flowable<List<Transaction>> getAllTransactions();
 
-    Observable<Transaction> updateTransaction(Transaction transaction);
+    Flowable<Transaction> updateTransaction(Transaction transaction);
 
-    Observable<Boolean> updateTransactionDifferentAccounts(Transaction transaction,
+    Flowable<Boolean> updateTransactionDifferentAccounts(Transaction transaction,
                                                            double oldAccountAmount,
                                                            int oldAccountId);
 
-    Observable<Boolean> deleteTransaction(int idAccount,
+    Flowable<Boolean> deleteTransaction(int idAccount,
                                           int idTransaction,
                                           double amount);
 
-    Observable<Boolean> setAllTransactions(List<Transaction> transactionList);
+    Flowable<Boolean> setAllTransactions(List<Transaction> transactionList);
 
 
     // Debts
 
-    Observable<Debt> addNewDebt(Debt debt);
+    Flowable<Debt> addNewDebt(Debt debt);
 
-    Observable<List<Debt>> getAllDebts();
+    Flowable<List<Debt>> getAllDebts();
 
-    Observable<Debt> updateDebt(Debt debt);
+    Flowable<Debt> updateDebt(Debt debt);
 
-    Observable<Boolean> updateDebtDifferentAccounts(Debt debt,
+    Flowable<Boolean> updateDebtDifferentAccounts(Debt debt,
                                                     double oldAccountAmount,
                                                     int oldAccountId);
 
-    Observable<Boolean> deleteDebt(int idAccount,
+    Flowable<Boolean> deleteDebt(int idAccount,
                                    int idDebt,
                                    double amount,
                                    int type);
 
-    Observable<Boolean> payFullDebt(int idAccount,
+    Flowable<Boolean> payFullDebt(int idAccount,
                                     double accountAmount,
                                     int idDebt);
 
-    Observable<Boolean> payPartOfDebt(int idAccount,
+    Flowable<Boolean> payPartOfDebt(int idAccount,
                                       double accountAmount,
                                       int idDebt,
                                       double debtAmount);
 
-    Observable<Boolean> takeMoreDebt(int idAccount,
+    Flowable<Boolean> takeMoreDebt(int idAccount,
                                      double accountAmount,
                                      int idDebt,
                                      double debtAmount,
                                      double debtAllAmount);
 
-    Observable<Boolean> setAllDebts(List<Debt> debtList);
+    Flowable<Boolean> setAllDebts(List<Debt> debtList);
 
 
     // Statistic
 
-    Observable<Map<String, double[]>> getTransactionsStatistic(int position);
+    Flowable<Map<String, double[]>> getTransactionsStatistic(int position);
 
-    Observable<Map<String, double[]>> getAccountsAmountSumGroupByTypeAndCurrency();
+    Flowable<Map<String, double[]>> getAccountsAmountSumGroupByTypeAndCurrency();
 
 
     // Rates
 
-    Observable<Boolean> updateRates(List<Rates> ratesList);
+    Flowable<Boolean> updateRates(List<Rates> ratesList);
 
-    Observable<double[]> getRates();
+    Flowable<double[]> getRates();
 
-    Observable<Boolean> setRates(double[] rates);
+    Flowable<Boolean> setRates(double[] rates);
 }

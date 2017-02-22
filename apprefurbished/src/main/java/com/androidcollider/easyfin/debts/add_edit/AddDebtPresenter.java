@@ -14,7 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -207,7 +207,7 @@ class AddDebtPresenter implements AddDebtMVP.Presenter {
         return true;
     }
 
-    private void handleActionWithDebt(Observable<?> observable) {
+    private void handleActionWithDebt(Flowable<?> observable) {
         observable.subscribe(
                 o -> {
                     if (view != null) {

@@ -13,7 +13,7 @@ import com.annimon.stream.Stream;
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -200,7 +200,7 @@ class PayDebtPresenter implements PayDebtMVP.Presenter {
         return true;
     }
 
-    private void handleActionWithDebt(Observable<Boolean> observable) {
+    private void handleActionWithDebt(Flowable<Boolean> observable) {
         observable.subscribe(
                 aBoolean -> {
                     if (aBoolean && view != null) {

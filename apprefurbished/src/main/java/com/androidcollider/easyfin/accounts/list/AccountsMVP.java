@@ -6,7 +6,7 @@ import com.androidcollider.easyfin.common.models.Account;
 
 import java.util.List;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -16,11 +16,11 @@ interface AccountsMVP {
 
     interface Model {
 
-        Observable<List<AccountViewModel>> getAccountList();
+        Flowable<List<AccountViewModel>> getAccountList();
 
-        Observable<Account> getAccountById(int id);
+        Flowable<Account> getAccountById(int id);
 
-        Observable<Boolean> deleteAccountById(int id);
+        Flowable<Boolean> deleteAccountById(int id);
     }
 
     interface View {

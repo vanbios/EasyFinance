@@ -8,9 +8,9 @@ import com.annimon.stream.Stream;
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Flowable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author Ihor Bilous
@@ -46,7 +46,7 @@ public class AccountsInfoManager {
         return accountList.size();
     }*/
 
-    public Observable<Integer> getAccountsCountObservable() {
+    public Flowable<Integer> getAccountsCountObservable() {
         return repository.getAllAccounts()
                 .map(List::size)
                 .subscribeOn(Schedulers.computation())

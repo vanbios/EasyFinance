@@ -24,8 +24,8 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author Ihor Bilous
@@ -115,9 +115,7 @@ public class RatesLoaderManager {
 
                             repository.updateRates(ratesList)
                                     .subscribe(
-                                            aBoolean -> {
-                                                EventBus.getDefault().post(new UpdateFrgHomeNewRates());
-                                            },
+                                            aBoolean -> EventBus.getDefault().post(new UpdateFrgHomeNewRates()),
                                             Throwable::printStackTrace);
                         },
                         Throwable::printStackTrace
