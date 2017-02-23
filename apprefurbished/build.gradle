@@ -29,13 +29,13 @@ repositories {
 
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "23.0.3"
+    compileSdkVersion project.ANDROID_COMPILE_SDK_VERSION
+    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
 
     defaultConfig {
         applicationId "com.androidcollider.easyfin"
-        minSdkVersion 14
-        targetSdkVersion 25
+        minSdkVersion project.ANDROID_MIN_SDK_VERSION
+        targetSdkVersion project.ANDROID_TARGET_SDK_VERSION
         versionCode 6
         versionName "1.2.0"
     }
@@ -57,12 +57,12 @@ ext {
     supportLibraryVersion = '25.2.0'
     retrofitVersion = '2.2.0'
     gmsVersion = '8.4.0'
-    daggerVersion = '2.8'
+    daggerVersion = '2.9'
     gsonVersion = '2.8.0'
     butterknifeVersion = '8.5.1'
-    lombokVersion = '1.16.12'
+    lombokVersion = '1.16.14'
     eventbusVersion = '3.0.0'
-    streamapiVersion = '1.1.4'
+    streamapiVersion = '1.1.5'
     rxjavaVersion = '2.0.6'
     rxandroidVersion = '2.0.1'
     //rxmathVersion = '1.0.0'
@@ -70,7 +70,6 @@ ext {
     jsr250Version = '1.0'
     crashlyticsVersion = '2.6.6'
     materialdialogVersion = '0.9.3.0'
-    fabVersion = '1.6.4'
 }
 
 dependencies {
