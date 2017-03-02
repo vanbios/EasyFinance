@@ -14,6 +14,7 @@ import com.androidcollider.easyfin.common.models.DateConstants;
 import com.androidcollider.easyfin.common.models.Debt;
 import com.androidcollider.easyfin.common.models.Rates;
 import com.androidcollider.easyfin.common.models.Transaction;
+import com.androidcollider.easyfin.common.models.TransactionCategory;
 import com.androidcollider.easyfin.common.repository.Repository;
 
 import java.util.ArrayList;
@@ -180,6 +181,55 @@ public class DatabaseRepository implements Repository {
         throw new IllegalStateException("do not perform this action!");
     }
 
+    @Override
+    public Flowable<TransactionCategory> addNewTransactionIncomeCategory(TransactionCategory transactionCategory) {
+        return Flowable.fromCallable(() -> insertNewTransactionIncomeCategory(transactionCategory));
+    }
+
+    @Override
+    public Flowable<List<TransactionCategory>> getAllTransactionIncomeCategories() {
+        return Flowable.fromCallable(this::getTransactionIncomeCategories);
+    }
+
+    @Override
+    public Flowable<TransactionCategory> updateTransactionIncomeCategory(TransactionCategory transactionCategory) {
+        return Flowable.fromCallable(() -> editTransactionIncomeCategory(transactionCategory));
+    }
+
+    @Override
+    public Flowable<Boolean> deleteTransactionIncomeCategory(int id) {
+        return Flowable.fromCallable(() -> makeTransactionCategoryIncomeInvisible(id));
+    }
+
+    @Override
+    public Flowable<Boolean> setAllTransactionIncomeCategories(List<TransactionCategory> transactionCategoryList) {
+        throw new IllegalStateException("do not perform this action!");
+    }
+
+    @Override
+    public Flowable<TransactionCategory> addNewTransactionExpenseCategory(TransactionCategory transactionCategory) {
+        return Flowable.fromCallable(() -> insertNewTransactionExpenseCategory(transactionCategory));
+    }
+
+    @Override
+    public Flowable<List<TransactionCategory>> getAllTransactionExpenseCategories() {
+        return Flowable.fromCallable(this::getTransactionExpenseCategories);
+    }
+
+    @Override
+    public Flowable<TransactionCategory> updateTransactionExpenseCategory(TransactionCategory transactionCategory) {
+        return Flowable.fromCallable(() -> editTransactionExpenseCategory(transactionCategory));
+    }
+
+    @Override
+    public Flowable<Boolean> deleteTransactionExpenseCategory(int id) {
+        return Flowable.fromCallable(() -> makeTransactionCategoryExpenseInvisible(id));
+    }
+
+    @Override
+    public Flowable<Boolean> setAllTransactionExpenseCategories(List<TransactionCategory> transactionCategoryList) {
+        throw new IllegalStateException("do not perform this action!");
+    }
 
     //Open database to write
     private void openLocalToWrite() throws SQLException {
@@ -438,10 +488,6 @@ public class DatabaseRepository implements Repository {
                 accountArrayList.add(account);
             }
             while (cursor.moveToNext());
-
-            cursor.close();
-            closeLocal();
-            return accountArrayList;
         }
 
         cursor.close();
@@ -495,9 +541,6 @@ public class DatabaseRepository implements Repository {
 
                 transactionArrayList.add(transaction);
             }
-            cursor.close();
-            closeLocal();
-            return transactionArrayList;
         }
         cursor.close();
         closeLocal();
@@ -542,10 +585,6 @@ public class DatabaseRepository implements Repository {
                         .build();
                 debtArrayList.add(debt);
             } while (cursor.moveToNext());
-
-            cursor.close();
-            closeLocal();
-            return debtArrayList;
         }
 
         cursor.close();
@@ -734,7 +773,6 @@ public class DatabaseRepository implements Repository {
             }
         }
         closeLocal();
-        //InMemoryRepository.getInstance().setRatesForExchange();
         sharedPrefManager.setRatesInsertFirstTimeStatus(true);
         sharedPrefManager.setRatesUpdateTime();
         return true;
@@ -873,6 +911,13 @@ public class DatabaseRepository implements Repository {
         return db.insert("Debt", null, cv);
     }
 
+    private long insertTransactionCategoryQuery(ContentValues cv, boolean isExpense) {
+        return db.insert(isExpense ?
+                        "Transactions_Category_Expense" :
+                        "Transactions_Category_Income",
+                null, cv);
+    }
+
     private boolean updateAccountQuery(ContentValues cv, int id) {
         return db.update("Account", cv, "id_account = " + id, null) > 0;
     }
@@ -885,6 +930,13 @@ public class DatabaseRepository implements Repository {
         return db.update("Debt", cv, "id_debt = " + id, null) > 0;
     }
 
+    private boolean updateTransactionCategoryQuery(ContentValues cv, int id, boolean isExpense) {
+        return db.update(isExpense ?
+                        "Transactions_Category_Expense" :
+                        "Transactions_Category_Income",
+                cv, "id_category = " + id, null) > 0;
+    }
+
     private boolean deleteAccountQuery(int idAccount) {
         return db.delete("Account", "id_account = '" + idAccount + "' ", null) > 0;
     }
@@ -895,5 +947,109 @@ public class DatabaseRepository implements Repository {
 
     private boolean deleteDebtQuery(int idDebt) {
         return db.delete("Debt", "id_debt = " + idDebt, null) > 0;
+    }
+
+    private List<TransactionCategory> getTransactionCategoriesDB(boolean isExpense) {
+        List<TransactionCategory> categoryList = new ArrayList<>();
+
+        String[] initCategoriesArray = resourcesManager.getStringArray(isExpense ?
+                ResourcesManager.STRING_TRANSACTION_CATEGORY_EXPENSE :
+                ResourcesManager.STRING_TRANSACTION_CATEGORY_INCOME
+        );
+
+        for (int i = 0; i < initCategoriesArray.length; i++) {
+            categoryList.add(new TransactionCategory(i, initCategoriesArray[i]));
+        }
+
+        String selectQuery = isExpense ?
+                "SELECT * FROM Transactions_Category_Expense " :
+                "SELECT * FROM Transactions_Category_Income ";
+
+        openLocalToRead();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            int idColIndex = cursor.getColumnIndex("id_category");
+            int nameColIndex = cursor.getColumnIndex("name");
+            int visibilityColIndex = cursor.getColumnIndex("visibility");
+            do {
+                int id = cursor.getInt(idColIndex);
+                String name = cursor.getString(nameColIndex);
+                int visibility = cursor.getInt(visibilityColIndex);
+                categoryList.add(new TransactionCategory(id, name, visibility));
+            }
+            while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        closeLocal();
+        return categoryList;
+    }
+
+    private List<TransactionCategory> getTransactionIncomeCategories() {
+        return getTransactionCategoriesDB(false);
+    }
+
+    private List<TransactionCategory> getTransactionExpenseCategories() {
+        return getTransactionCategoriesDB(true);
+    }
+
+    private boolean makeTransactionCategoryInvisible(int id, boolean isExpense) {
+        ContentValues cv = new ContentValues();
+        cv.put("visibility", 0);
+
+        openLocalToWrite();
+        boolean res = updateTransactionCategoryQuery(cv, id, isExpense);
+        closeLocal();
+        return res;
+    }
+
+    private boolean makeTransactionCategoryIncomeInvisible(int id) {
+        return makeTransactionCategoryInvisible(id, false);
+    }
+
+    private boolean makeTransactionCategoryExpenseInvisible(int id) {
+        return makeTransactionCategoryInvisible(id, true);
+    }
+
+    private TransactionCategory editTransactionCategory(TransactionCategory transactionCategory, boolean isExpense) {
+        ContentValues cv = new ContentValues();
+        cv.put("name", transactionCategory.getName());
+
+        int id = transactionCategory.getId();
+
+        openLocalToWrite();
+        updateTransactionCategoryQuery(cv, id, isExpense);
+        closeLocal();
+        return transactionCategory;
+    }
+
+    private TransactionCategory editTransactionIncomeCategory(TransactionCategory transactionCategory) {
+        return editTransactionCategory(transactionCategory, false);
+    }
+
+    private TransactionCategory editTransactionExpenseCategory(TransactionCategory transactionCategory) {
+        return editTransactionCategory(transactionCategory, true);
+    }
+
+    private TransactionCategory insertNewTransactionCategory(TransactionCategory transactionCategory, boolean isExpense) {
+        ContentValues cv = new ContentValues();
+
+        cv.put("name", transactionCategory.getName());
+        cv.put("id_category", transactionCategory.getId());
+
+        openLocalToWrite();
+        insertTransactionCategoryQuery(cv, isExpense);
+        closeLocal();
+
+        return transactionCategory;
+    }
+
+    private TransactionCategory insertNewTransactionIncomeCategory(TransactionCategory transactionCategory) {
+        return insertNewTransactionCategory(transactionCategory, false);
+    }
+
+    private TransactionCategory insertNewTransactionExpenseCategory(TransactionCategory transactionCategory) {
+        return insertNewTransactionCategory(transactionCategory, true);
     }
 }

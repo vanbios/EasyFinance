@@ -127,10 +127,14 @@
 
 
 
-    //etc.
+    // etc.
     <string name="main_balance_menu_exchange">Convert all costs to selected currency</string>
     <string name="main_balance_menu_show_only_integers">Show only integer values on graphs</string>
 
+
+    // transaction categories
+    <string name="add_category">Add category</string>
+    <string name="category_name_exist">Category with the same name already exists. Try another one</string>
 
 
     //FAQ

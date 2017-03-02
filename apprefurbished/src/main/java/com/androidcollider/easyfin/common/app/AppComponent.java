@@ -22,6 +22,7 @@ import com.androidcollider.easyfin.common.managers.resources.ResourcesModule;
 import com.androidcollider.easyfin.common.managers.shared_pref.SharedPrefModule;
 import com.androidcollider.easyfin.common.managers.ui.dialog.DialogModule;
 import com.androidcollider.easyfin.common.managers.ui.hide_touch_outside.HideTouchOutsideModule;
+import com.androidcollider.easyfin.common.managers.ui.letter_tile.LetterTileModule;
 import com.androidcollider.easyfin.common.managers.ui.shake_edit_text.ShakeEditTextModule;
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastModule;
 import com.androidcollider.easyfin.common.repository.RepositoryModule;
@@ -81,6 +82,7 @@ import dagger.Component;
         PermissionModule.class,
         AccountsToSpinViewModelModule.class,
         AnalyticsModule.class,
+        LetterTileModule.class,
         MainModule.class,
         AccountsModule.class,
         TransactionsModule.class,

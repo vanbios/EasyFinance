@@ -134,6 +134,10 @@
     <string name="main_balance_menu_show_only_integers">Відображати тільки цілі значення на графіках</string>
 
 
+    // transaction categories
+    <string name="add_category">Додати категорію</string>
+    <string name="category_name_exist">Категорія з такою назвою вже існує. Спробуйте іншу</string>
+
 
     //FAQ
     <string name="faq_about_app">

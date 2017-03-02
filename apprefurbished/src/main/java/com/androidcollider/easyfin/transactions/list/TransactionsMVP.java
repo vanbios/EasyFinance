@@ -1,8 +1,10 @@
 package com.androidcollider.easyfin.transactions.list;
 
 import android.support.annotation.Nullable;
+import android.util.Pair;
 
 import com.androidcollider.easyfin.common.models.Transaction;
+import com.androidcollider.easyfin.common.models.TransactionCategory;
 
 import java.util.List;
 
@@ -16,7 +18,8 @@ interface TransactionsMVP {
 
     interface Model {
 
-        Flowable<List<TransactionViewModel>> getTransactionList();
+        Flowable<Pair<List<TransactionViewModel>,
+                Pair<List<TransactionCategory>, List<TransactionCategory>>>> getTransactionAndTransactionCategoriesLists();
 
         Flowable<Transaction> getTransactionById(int id);
 
@@ -25,7 +28,9 @@ interface TransactionsMVP {
 
     interface View {
 
-        void setTransactionList(List<TransactionViewModel> transactionList);
+        void setTransactionAndTransactionCategoriesLists(List<TransactionViewModel> transactionList,
+                                                         List<TransactionCategory> transactionCategoryIncomeList,
+                                                         List<TransactionCategory> transactionCategoryExpenseList);
 
         void goToEditTransaction(Transaction transaction);
 

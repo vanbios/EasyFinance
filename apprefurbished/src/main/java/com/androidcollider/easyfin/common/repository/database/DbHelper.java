@@ -11,7 +11,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DbHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "FinU.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
 
     public DbHelper(Context context) {
@@ -24,9 +24,16 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL(SqlQueries.create_transactions_table);
         db.execSQL(SqlQueries.create_debt_table);
         db.execSQL(SqlQueries.create_rates_table);
+        db.execSQL(SqlQueries.create_transactions_category_expense_table);
+        db.execSQL(SqlQueries.create_transactions_category_income_table);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        switch (oldVersion) {
+            case 1:
+                db.execSQL(SqlQueries.create_transactions_category_expense_table);
+                db.execSQL(SqlQueries.create_transactions_category_income_table);
+        }
     }
 }

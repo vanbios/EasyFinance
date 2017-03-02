@@ -132,6 +132,11 @@
     <string name="main_balance_menu_show_only_integers">Отображать только целые значения на графиках</string>
 
 
+    // transaction categories
+    <string name="add_category">Добавить категорию</string>
+    <string name="category_name_exist">Категория с таким названием уже существует. Попробуйте другое</string>
+
+
 
     //FAQ
     <string name="faq_about_app">
@@ -272,7 +277,6 @@
         <item>@string/app_faq</item>
         <item>@string/app_about</item>
     </string-array>
-
 
 
 </resources>

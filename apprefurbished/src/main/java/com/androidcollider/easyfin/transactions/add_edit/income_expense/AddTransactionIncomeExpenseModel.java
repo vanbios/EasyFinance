@@ -1,9 +1,12 @@
 package com.androidcollider.easyfin.transactions.add_edit.income_expense;
 
+import android.support.v4.util.Pair;
+
 import com.androidcollider.easyfin.common.managers.accounts.accounts_to_spin_view_model.AccountsToSpinViewModelManager;
 import com.androidcollider.easyfin.common.managers.format.date.DateFormatManager;
 import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.common.models.Transaction;
+import com.androidcollider.easyfin.common.models.TransactionCategory;
 import com.androidcollider.easyfin.common.repository.Repository;
 import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 
@@ -34,8 +37,19 @@ class AddTransactionIncomeExpenseModel implements AddTransactionIncomeExpenseMVP
     }
 
     @Override
-    public Flowable<List<SpinAccountViewModel>> getAllAccounts() {
-        return accountsToSpinViewModelManager.getSpinAccountViewModelList(repository.getAllAccounts());
+    public Flowable<Pair<List<SpinAccountViewModel>, List<TransactionCategory>>> getAccountsAndTransactionCategories(boolean isExpense) {
+        return Flowable.combineLatest(
+                accountsToSpinViewModelManager.getSpinAccountViewModelList(repository.getAllAccounts()),
+                getTransactionCategories(isExpense),
+                Pair::new
+        );
+    }
+
+    @Override
+    public Flowable<List<TransactionCategory>> getTransactionCategories(boolean isExpense) {
+        return isExpense ?
+                repository.getAllTransactionExpenseCategories() :
+                repository.getAllTransactionIncomeCategories();
     }
 
     @Override
@@ -51,6 +65,13 @@ class AddTransactionIncomeExpenseModel implements AddTransactionIncomeExpenseMVP
     @Override
     public Flowable<Boolean> updateTransactionDifferentAccounts(Transaction transaction, double oldAccountAmount, int oldAccountId) {
         return repository.updateTransactionDifferentAccounts(transaction, oldAccountAmount, oldAccountId);
+    }
+
+    @Override
+    public Flowable<TransactionCategory> addNewTransactionCategory(TransactionCategory transactionCategory, boolean isExpense) {
+        return isExpense ?
+                repository.addNewTransactionExpenseCategory(transactionCategory) :
+                repository.addNewTransactionIncomeCategory(transactionCategory);
     }
 
     @Override
