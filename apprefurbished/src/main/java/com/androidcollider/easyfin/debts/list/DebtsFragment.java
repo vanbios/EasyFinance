@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -53,7 +54,7 @@ public class DebtsFragment extends CommonFragment implements DebtsMVP.View {
     @BindView(R.id.btnFloatAddDebtGive)
     FloatingActionButton faButtonGive;
     @BindView(R.id.debts_content)
-    RelativeLayout mainContent;
+    FrameLayout mainContent;
 
     public static final int PAY_ALL = 1, PAY_PART = 2, TAKE_MORE = 3, ADD = 0, EDIT = 1;
     static final int ACTION_EDIT = 1, ACTION_PAY = 2;

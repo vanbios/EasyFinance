@@ -124,12 +124,6 @@ class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTransactio
             holderItem.tvTransAmount.setText(transaction.getAmount());
             holderItem.tvTransAmount.setTextColor(transaction.getColorRes());
 
-            /*holderItem.ivTransCategory.setImageDrawable(
-                    transaction.isExpense() ?
-                            catExpenseIconsArray.getDrawable(transaction.getCategory()) :
-                            catIncomeIconsArray.getDrawable(transaction.getCategory())
-            );*/
-
             int categoryId = transaction.getCategory();
             if (transaction.isExpense()) {
                 if (categoryId < catExpenseIconsArray.length()) {

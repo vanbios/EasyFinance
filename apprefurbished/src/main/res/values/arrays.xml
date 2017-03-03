@@ -49,6 +49,7 @@
         <item>@drawable/ic_contrast_box_blue_gray_24dp</item>
         <item>@drawable/ic_clipboard_text_blue_gray_24dp</item>
         <item>@drawable/ic_debt_blue_gray_24dp</item>
+        <item>@drawable/ic_more_blue_gray_48dp</item>
         <item>@drawable/ic_settings_blue_gray_24dp</item>
         <item>@drawable/ic_help_circle_blue_gray_24dp</item>
         <item>@drawable/ic_information_blue_gray_24dp</item>

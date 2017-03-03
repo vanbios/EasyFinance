@@ -86,6 +86,8 @@ public class LetterTileManager {
      * default image is shown instead
      */
     public Bitmap getLetterTile(String displayName, String key, int width, int height) {
+        if (displayName.isEmpty()) displayName = "A";
+        if (key.isEmpty()) key = "A";
         final Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         final char firstChar = displayName.charAt(0);
 

@@ -119,11 +119,34 @@ public class DialogManager {
                 .build();
     }
 
-    public MaterialDialog buildTransactionCategoryDialog(Context context,
-                                                         MaterialDialog.SingleButtonCallback onPositive,
-                                                         MaterialDialog.SingleButtonCallback onNegative) {
+    public MaterialDialog buildAddTransactionCategoryDialog(Context context,
+                                                            MaterialDialog.SingleButtonCallback onPositive,
+                                                            MaterialDialog.SingleButtonCallback onNegative) {
+        return buildTransactionCategoryDialog(
+                context,
+                onPositive,
+                onNegative,
+                R.string.add_category
+        );
+    }
+
+    public MaterialDialog buildUpdateTransactionCategoryDialog(Context context,
+                                                               MaterialDialog.SingleButtonCallback onPositive,
+                                                               MaterialDialog.SingleButtonCallback onNegative) {
+        return buildTransactionCategoryDialog(
+                context,
+                onPositive,
+                onNegative,
+                R.string.edit_category
+        );
+    }
+
+    private MaterialDialog buildTransactionCategoryDialog(Context context,
+                                                          MaterialDialog.SingleButtonCallback onPositive,
+                                                          MaterialDialog.SingleButtonCallback onNegative,
+                                                          int titleRes) {
         return new MaterialDialog.Builder(context)
-                .title(R.string.add_category)
+                .title(titleRes)
                 .customView(R.layout.layout_new_transaction_category, true)
                 .positiveText(R.string.save)
                 .negativeText(R.string.cancel)

@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <android.support.design.widget.TabLayout
-        android:id="@+id/tabsMain"
+        android:id="@+id/tabs_transaction_categories"
         android:layout_width="match_parent"
         android:layout_height="@dimen/tabs_height"
         android:background="?attr/colorPrimary"
@@ -24,7 +24,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tabsMain">
+        android:layout_below="@+id/tabs_transaction_categories">
 
         <View
             android:layout_width="match_parent"
@@ -34,31 +34,15 @@
     </FrameLayout>
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/pagerMain"
+        android:id="@+id/vp_transaction_categories"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/tabsMain" />
+        android:layout_below="@+id/tabs_transaction_categories" />
 
-    <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/btnFloatMain"
-        style="@style/MenuFabStyle"
+    <com.github.clans.fab.FloatingActionButton
+        android:id="@+id/fab_add_transaction_category"
+        style="@style/FabNormalStyle"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true">
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/btnFloatAddTransBTW"
-            style="@style/FabSmallBlue"
-            android:src="@drawable/ic_trans_btw_white_pad_20_48dp" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/btnFloatAddTransIncome"
-            style="@style/FabSmallGreen"
-            android:src="@drawable/ic_plus_white_48dp" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/btnFloatAddTransExpense"
-            style="@style/FabSmallRed"
-            android:src="@drawable/ic_minus_white_48dp" />
-
-    </com.github.clans.fab.FloatingActionMenu>
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_plus_white_48dp" />
 </RelativeLayout>

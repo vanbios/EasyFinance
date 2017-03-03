@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -17,6 +16,7 @@ import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts;
 import com.androidcollider.easyfin.common.events.UpdateFrgHome;
+import com.androidcollider.easyfin.common.events.UpdateFrgTransactionCategories;
 import com.androidcollider.easyfin.common.events.UpdateFrgTransactions;
 import com.androidcollider.easyfin.common.managers.format.date.DateFormatManager;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
@@ -64,11 +64,10 @@ public class AddTransactionIncomeExpenseFragment extends CommonFragmentAddEdit
     @BindView(R.id.ivAddTransCategory)
     ImageView ivAddTransCategory;
 
-    private EditText etNewTransCategoryName;
-
     private DatePickerDialog datePickerDialog;
     private List<SpinAccountViewModel> accountList;
 
+    private EditText etNewTransCategoryName;
     private MaterialDialog transactionCategoryDialog;
 
     @Inject
@@ -123,7 +122,7 @@ public class AddTransactionIncomeExpenseFragment extends CommonFragmentAddEdit
     }
 
     private void buildTransactionCategoryDialog() {
-        transactionCategoryDialog = dialogManager.buildTransactionCategoryDialog(getActivity(),
+        transactionCategoryDialog = dialogManager.buildAddTransactionCategoryDialog(getActivity(),
                 (dialog, which) -> {
                     if (etNewTransCategoryName != null) {
                         presenter.addNewCategory(etNewTransCategoryName.getText().toString().trim());
@@ -134,8 +133,6 @@ public class AddTransactionIncomeExpenseFragment extends CommonFragmentAddEdit
         View root = transactionCategoryDialog.getCustomView();
         if (root != null) {
             etNewTransCategoryName = findById(root, R.id.et_transaction_category_name);
-            RadioGroup rgTransCategory = findById(root, R.id.rg_transaction_category);
-            rgTransCategory.setVisibility(View.GONE);
         }
     }
 
@@ -304,6 +301,12 @@ public class AddTransactionIncomeExpenseFragment extends CommonFragmentAddEdit
     public void dismissDialogNewTransactionCategory() {
         if (transactionCategoryDialog != null && transactionCategoryDialog.isShowing()) {
             transactionCategoryDialog.dismiss();
+            etNewTransCategoryName.getText().clear();
         }
+    }
+
+    @Override
+    public void handleNewTransactionCategoryAdded() {
+        EventBus.getDefault().post(new UpdateFrgTransactionCategories());
     }
 }

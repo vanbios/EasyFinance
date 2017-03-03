@@ -10,15 +10,13 @@
         android:id="@+id/ivSpinDropIconText"
         android:layout_width="@dimen/icon_small"
         android:layout_height="@dimen/icon_small"
-        android:layout_marginRight="@dimen/common_padding_large"
-        android:src="@drawable/ic_tram_blue_gray_48dp" />
+        android:layout_marginRight="@dimen/common_padding_large" />
 
     <TextView
         android:id="@+id/tvSpinDropIconText"
         style="@style/SpinnerFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:text="Transport" />
+        android:singleLine="true" />
 
 </LinearLayout>

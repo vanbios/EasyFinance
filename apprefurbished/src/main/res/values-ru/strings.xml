@@ -6,6 +6,7 @@
     <string name="settings">Настройки</string>
     <string name="app_faq">Справка</string>
     <string name="app_about">О программе</string>
+    <string name="transaction_categories">Категории</string>
 
 
 
@@ -134,7 +135,9 @@
 
     // transaction categories
     <string name="add_category">Добавить категорию</string>
+    <string name="edit_category">Редактировать категорию</string>
     <string name="category_name_exist">Категория с таким названием уже существует. Попробуйте другое</string>
+    <string name="category_delete_warning">Вы уверены, что хотите удалить эту категорию?</string>
 
 
 
@@ -273,6 +276,7 @@
         <item>@string/tab_transactions</item>
         <item>@string/tab_accounts</item>
         <item>@string/debts</item>
+        <item>@string/transaction_categories</item>
         <item>@string/settings</item>
         <item>@string/app_faq</item>
         <item>@string/app_about</item>

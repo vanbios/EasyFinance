@@ -82,6 +82,8 @@ interface AddTransactionIncomeExpenseMVP {
         void shakeDialogNewTransactionCategoryField();
 
         void dismissDialogNewTransactionCategory();
+
+        void handleNewTransactionCategoryAdded();
     }
 
     interface Presenter {
