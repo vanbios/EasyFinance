@@ -2,12 +2,14 @@ package com.androidcollider.easyfin.transactions.list;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
+import android.util.Pair;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.managers.format.date.DateFormatManager;
 import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.models.Transaction;
+import com.androidcollider.easyfin.common.models.TransactionCategory;
 import com.androidcollider.easyfin.common.repository.Repository;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -43,9 +45,21 @@ class TransactionsModel implements TransactionsMVP.Model {
     }
 
     @Override
-    public Flowable<List<TransactionViewModel>> getTransactionList() {
-        return repository.getAllTransactions()
-                .map(this::transformTransactionListToViewModelList);
+    public Flowable<Pair<List<TransactionViewModel>,
+            Pair<List<TransactionCategory>, List<TransactionCategory>>>> getTransactionAndTransactionCategoriesLists() {
+        return Flowable.combineLatest(
+                repository.getAllTransactions()
+                        .map(this::transformTransactionListToViewModelList),
+                repository.getAllTransactionIncomeCategories(),
+                repository.getAllTransactionExpenseCategories(),
+                (transactionViewModels, transactionCategoryIncomeList, transactionCategoryExpenseList) ->
+                        new Pair<>(
+                                transactionViewModels,
+                                new Pair<>(
+                                        transactionCategoryIncomeList,
+                                        transactionCategoryExpenseList
+                                )
+                        ));
     }
 
     @Override

@@ -6,6 +6,7 @@
     <string name="settings">Налаштування</string>
     <string name="app_faq">Довідка</string>
     <string name="app_about">Про програму</string>
+    <string name="transaction_categories">Категорії</string>
 
 
 
@@ -133,6 +134,12 @@
     <string name="main_balance_menu_exchange">Конвертувати всі кошти у вибрану валюту</string>
     <string name="main_balance_menu_show_only_integers">Відображати тільки цілі значення на графіках</string>
 
+
+    // transaction categories
+    <string name="add_category">Додати категорію</string>
+    <string name="edit_category">Редагувати категорію</string>
+    <string name="category_name_exist">Категорія з такою назвою вже існує. Спробуйте іншу</string>
+    <string name="category_delete_warning">Ви впевнені, що хочете видалити цю категорію?</string>
 
 
     //FAQ
@@ -275,6 +282,7 @@
         <item>@string/tab_transactions</item>
         <item>@string/tab_accounts</item>
         <item>@string/debts</item>
+        <item>@string/transaction_categories</item>
         <item>@string/settings</item>
         <item>@string/app_faq</item>
         <item>@string/app_about</item>

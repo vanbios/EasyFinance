@@ -39,21 +39,11 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/tabsMain" />
 
-
-    <!--<android.support.design.widget.CoordinatorLayout
-        android:id="@+id/coordinatorLayoutFloatMain"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="right|bottom">-->
-
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/btnFloatMain"
         style="@style/MenuFabStyle"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true">
-
-        <!--android:layout_gravity="right|bottom"
-        app:layout_behavior="FloatingActionMenuBehavior"-->
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/btnFloatAddTransBTW"
@@ -71,6 +61,4 @@
             android:src="@drawable/ic_minus_white_48dp" />
 
     </com.github.clans.fab.FloatingActionMenu>
-
-    <!--</android.support.design.widget.CoordinatorLayout>-->
 </RelativeLayout>

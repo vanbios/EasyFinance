@@ -38,6 +38,7 @@ import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit;
 import com.androidcollider.easyfin.common.ui.fragments.common.PreferenceFragment;
 import com.androidcollider.easyfin.debts.list.DebtsFragment;
+import com.androidcollider.easyfin.transaction_categories.root.TransactionCategoriesRootFragment;
 
 import javax.inject.Inject;
 
@@ -140,12 +141,15 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                                 addFragment(new DebtsFragment());
                                 break;
                             case 6:
-                                addFragment(new PrefFragment());
+                                addFragment(new TransactionCategoriesRootFragment());
                                 break;
                             case 7:
-                                addFragment(new FAQFragment());
+                                addFragment(new PrefFragment());
                                 break;
                             case 8:
+                                addFragment(new FAQFragment());
+                                break;
+                            case 9:
                                 dialogManager.showAppAboutDialog(MainActivity.this);
                                 break;
                         }

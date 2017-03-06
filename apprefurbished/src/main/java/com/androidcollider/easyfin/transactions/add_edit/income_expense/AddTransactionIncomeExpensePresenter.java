@@ -5,13 +5,18 @@ import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.util.Pair;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.models.Transaction;
+import com.androidcollider.easyfin.common.models.TransactionCategory;
 import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 import com.androidcollider.easyfin.transactions.list.TransactionsFragment;
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -32,6 +37,7 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
 
     private int mode, transType;
     private Transaction transFromIntent;
+    private List<TransactionCategory> transactionCategoryList;
 
 
     AddTransactionIncomeExpensePresenter(Context context,
@@ -40,6 +46,7 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
         this.context = context;
         this.model = model;
         this.resourcesManager = resourcesManager;
+        this.transactionCategoryList = new ArrayList<>();
     }
 
     @Override
@@ -68,8 +75,8 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
     }
 
     @Override
-    public void loadAccounts() {
-        model.getAllAccounts()
+    public void loadAccountsAndCategories() {
+        model.getAccountsAndTransactionCategories(checkTransactionIsExpense())
                 .subscribe(
                         this::setupView,
                         Throwable::printStackTrace
@@ -91,6 +98,76 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
     @Override
     public int getTransactionType() {
         return transType;
+    }
+
+    @Override
+    public void addNewCategory(String name) {
+        if (view != null) {
+            if (name.isEmpty()) {
+                handleNewTransactionCategoryNameIsNotValid(context.getString(R.string.empty_name_field));
+                return;
+            }
+            if (!isNewTransactionCategoryNameUnique(name)) {
+                handleNewTransactionCategoryNameIsNotValid(context.getString(R.string.category_name_exist));
+                return;
+            }
+
+            int id = getIdForNewTransactionCategory();
+            TransactionCategory category = new TransactionCategory(id, name);
+
+            model.addNewTransactionCategory(category, checkTransactionIsExpense())
+                    .flatMap(transactionCategory -> model.getTransactionCategories(checkTransactionIsExpense()))
+                    .subscribe(transactionCategoryList1 -> {
+                                if (view != null) {
+                                    Pair<List<TransactionCategory>, TypedArray> categoriesPair = getTransactionCategoriesData(transactionCategoryList1);
+                                    view.setupCategorySpinner(categoriesPair.first, categoriesPair.second, categoriesPair.first.size() - 1);
+                                    view.handleNewTransactionCategoryAdded();
+                                    view.dismissDialogNewTransactionCategory();
+                                }
+                            },
+                            Throwable::printStackTrace
+                    );
+        }
+    }
+
+    private boolean checkTransactionIsExpense() {
+        return transType == TransactionsFragment.TYPE_EXPENSE;
+    }
+
+    private void handleNewTransactionCategoryNameIsNotValid(String message) {
+        if (view != null) {
+            view.showMessage(message);
+            view.shakeDialogNewTransactionCategoryField();
+        }
+    }
+
+    private boolean isNewTransactionCategoryNameUnique(String name) {
+        for (TransactionCategory category : transactionCategoryList) {
+            if (name.equalsIgnoreCase(category.getName())) return false;
+        }
+        return true;
+    }
+
+    private int getIdForNewTransactionCategory() {
+        return transactionCategoryList.isEmpty() ? 0 : transactionCategoryList.get(transactionCategoryList.size() - 1).getId() + 1;
+    }
+
+    private Pair<List<TransactionCategory>, TypedArray> getTransactionCategoriesData(List<TransactionCategory> categoryList) {
+        transactionCategoryList.clear();
+        transactionCategoryList.addAll(categoryList);
+
+        TypedArray categoryIcons = resourcesManager.getIconArray(
+                transType == TransactionsFragment.TYPE_INCOME ?
+                        ResourcesManager.ICON_TRANSACTION_CATEGORY_INCOME :
+                        ResourcesManager.ICON_TRANSACTION_CATEGORY_EXPENSE
+        );
+
+        List<TransactionCategory> actualTransactionCategoryList =
+                Stream.of(transactionCategoryList)
+                        .filter(t -> t.getVisibility() == 1)
+                        .collect(Collectors.toList());
+
+        return new Pair<>(actualTransactionCategoryList, categoryIcons);
     }
 
     private void addTransaction() {
@@ -218,8 +295,9 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
         );
     }
 
-    private void setupView(List<SpinAccountViewModel> accountList) {
+    private void setupView(Pair<List<SpinAccountViewModel>, List<TransactionCategory>> pair) {
         if (view != null) {
+            List<SpinAccountViewModel> accountList = pair.first;
             if (accountList.isEmpty()) {
                 view.notifyNotEnoughAccounts();
             } else {
@@ -244,18 +322,8 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
                 view.setAmountTextColor(ContextCompat.getColor(context,
                         transType == TransactionsFragment.TYPE_INCOME ? R.color.custom_green : R.color.custom_red));
 
-                String[] categoryArray = resourcesManager.getStringArray(
-                        transType == TransactionsFragment.TYPE_INCOME ?
-                                ResourcesManager.STRING_TRANSACTION_CATEGORY_INCOME :
-                                ResourcesManager.STRING_TRANSACTION_CATEGORY_EXPENSE
-                );
-                TypedArray categoryIcons = resourcesManager.getIconArray(
-                        transType == TransactionsFragment.TYPE_INCOME ?
-                                ResourcesManager.ICON_TRANSACTION_CATEGORY_INCOME :
-                                ResourcesManager.ICON_TRANSACTION_CATEGORY_EXPENSE
-                );
-
-                view.setupSpinners(categoryArray, categoryIcons);
+                Pair<List<TransactionCategory>, TypedArray> categoriesPair = getTransactionCategoriesData(pair.second);
+                view.setupSpinners(categoriesPair.first, categoriesPair.second);
 
                 if (mode == TransactionsFragment.MODE_EDIT && transFromIntent != null) {
                     String accountName = transFromIntent.getAccountName();

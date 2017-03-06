@@ -8,6 +8,7 @@ import com.androidcollider.easyfin.common.models.Data;
 import com.androidcollider.easyfin.common.models.Debt;
 import com.androidcollider.easyfin.common.models.Rates;
 import com.androidcollider.easyfin.common.models.Transaction;
+import com.androidcollider.easyfin.common.models.TransactionCategory;
 import com.androidcollider.easyfin.common.repository.database.Database;
 import com.androidcollider.easyfin.common.repository.memory.Memory;
 import com.androidcollider.easyfin.common.utils.BackgroundExecutor;
@@ -318,6 +319,101 @@ class DataRepository implements Repository {
         return memoryRepository.setRates(rates);
     }
 
+    @Override
+    public Flowable<TransactionCategory> addNewTransactionIncomeCategory(TransactionCategory transactionCategory) {
+        return databaseRepository.addNewTransactionIncomeCategory(transactionCategory)
+                .flatMap(transactionCategory1 -> memoryRepository.addNewTransactionIncomeCategory(transactionCategory1))
+                .subscribeOn(subscribeSc)
+                .observeOn(observeSc);
+    }
+
+    @Override
+    public Flowable<List<TransactionCategory>> getAllTransactionIncomeCategories() {
+        Flowable<List<TransactionCategory>> memoryObservable = memoryRepository.getAllTransactionIncomeCategories();
+        Log.d(TAG, "getAllTransactionIncomeCategories " + String.valueOf(memoryObservable != null));
+        return memoryObservable != null && !isDataExpired() ?
+                memoryObservable :
+                loadAllDataFromDB()
+                        .flatMap(aBoolean -> {
+                            if (aBoolean) importExportDbManager.setDBExpired(false);
+                            return aBoolean ?
+                                    memoryRepository.getAllTransactionIncomeCategories() :
+                                    databaseRepository.getAllTransactionIncomeCategories();
+                        })
+                        .subscribeOn(subscribeSc)
+                        .observeOn(observeSc);
+    }
+
+    @Override
+    public Flowable<TransactionCategory> updateTransactionIncomeCategory(TransactionCategory transactionCategory) {
+        return databaseRepository.updateTransactionIncomeCategory(transactionCategory)
+                .flatMap(transactionCategory1 -> memoryRepository.updateTransactionIncomeCategory(transactionCategory1))
+                .subscribeOn(subscribeSc)
+                .observeOn(observeSc);
+    }
+
+    @Override
+    public Flowable<Boolean> deleteTransactionIncomeCategory(int id) {
+        return Flowable.combineLatest(
+                databaseRepository.deleteTransactionIncomeCategory(id),
+                memoryRepository.deleteTransactionIncomeCategory(id),
+                (aBoolean, aBoolean2) -> aBoolean && aBoolean2)
+                .subscribeOn(subscribeSc)
+                .observeOn(observeSc);
+    }
+
+    @Override
+    public Flowable<Boolean> setAllTransactionIncomeCategories(List<TransactionCategory> transactionCategoryList) {
+        return memoryRepository.setAllTransactionIncomeCategories(transactionCategoryList);
+    }
+
+    @Override
+    public Flowable<TransactionCategory> addNewTransactionExpenseCategory(TransactionCategory transactionCategory) {
+        return databaseRepository.addNewTransactionExpenseCategory(transactionCategory)
+                .flatMap(transactionCategory1 -> memoryRepository.addNewTransactionExpenseCategory(transactionCategory1))
+                .subscribeOn(subscribeSc)
+                .observeOn(observeSc);
+    }
+
+    @Override
+    public Flowable<List<TransactionCategory>> getAllTransactionExpenseCategories() {
+        Flowable<List<TransactionCategory>> memoryObservable = memoryRepository.getAllTransactionExpenseCategories();
+        Log.d(TAG, "getAllTransactionExpenseCategories " + String.valueOf(memoryObservable != null));
+        return memoryObservable != null && !isDataExpired() ?
+                memoryObservable :
+                loadAllDataFromDB()
+                        .flatMap(aBoolean -> {
+                            if (aBoolean) importExportDbManager.setDBExpired(false);
+                            return aBoolean ?
+                                    memoryRepository.getAllTransactionExpenseCategories() :
+                                    databaseRepository.getAllTransactionExpenseCategories();
+                        })
+                        .subscribeOn(subscribeSc)
+                        .observeOn(observeSc);
+    }
+
+    @Override
+    public Flowable<TransactionCategory> updateTransactionExpenseCategory(TransactionCategory transactionCategory) {
+        return databaseRepository.updateTransactionExpenseCategory(transactionCategory)
+                .flatMap(transactionCategory1 -> memoryRepository.updateTransactionExpenseCategory(transactionCategory1))
+                .subscribeOn(subscribeSc)
+                .observeOn(observeSc);
+    }
+
+    @Override
+    public Flowable<Boolean> deleteTransactionExpenseCategory(int id) {
+        return Flowable.combineLatest(
+                databaseRepository.deleteTransactionExpenseCategory(id),
+                memoryRepository.deleteTransactionExpenseCategory(id),
+                (aBoolean, aBoolean2) -> aBoolean && aBoolean2)
+                .subscribeOn(subscribeSc)
+                .observeOn(observeSc);
+    }
+
+    @Override
+    public Flowable<Boolean> setAllTransactionExpenseCategories(List<TransactionCategory> transactionCategoryList) {
+        return memoryRepository.setAllTransactionExpenseCategories(transactionCategoryList);
+    }
 
     private boolean isDataExpired() {
         return importExportDbManager.isDBExpired();
@@ -329,6 +425,8 @@ class DataRepository implements Repository {
                 databaseRepository.getAllTransactions(),
                 databaseRepository.getAllDebts(),
                 databaseRepository.getRates(),
+                databaseRepository.getAllTransactionIncomeCategories(),
+                databaseRepository.getAllTransactionExpenseCategories(),
                 Data::new
         )
                 .flatMap(data ->
@@ -337,8 +435,10 @@ class DataRepository implements Repository {
                                 memoryRepository.setAllTransactions(data.getTransactionList()),
                                 memoryRepository.setAllDebts(data.getDebtList()),
                                 memoryRepository.setRates(data.getRatesArray()),
-                                (aBoolean, aBoolean2, aBoolean3, aBoolean4) ->
-                                        aBoolean && aBoolean2 && aBoolean3 && aBoolean4
+                                memoryRepository.setAllTransactionIncomeCategories(data.getTransactionCategoryIncomeList()),
+                                memoryRepository.setAllTransactionExpenseCategories(data.getTransactionCategoryExpenseList()),
+                                (aBoolean, aBoolean2, aBoolean3, aBoolean4, aBoolean5, aBoolean6) ->
+                                        aBoolean && aBoolean2 && aBoolean3 && aBoolean4 && aBoolean5 && aBoolean6
                         ))
                 .subscribeOn(subscribeSc)
                 .observeOn(observeSc);

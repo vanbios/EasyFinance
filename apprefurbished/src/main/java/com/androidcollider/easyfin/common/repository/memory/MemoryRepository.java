@@ -9,6 +9,7 @@ import com.androidcollider.easyfin.common.models.DateConstants;
 import com.androidcollider.easyfin.common.models.Debt;
 import com.androidcollider.easyfin.common.models.Rates;
 import com.androidcollider.easyfin.common.models.Transaction;
+import com.androidcollider.easyfin.common.models.TransactionCategory;
 import com.androidcollider.easyfin.common.repository.Repository;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -34,6 +35,8 @@ public class MemoryRepository implements Repository {
     private List<Debt> debtList;
     private double[] ratesArray;
     private String[] currencyArray;
+    private List<TransactionCategory> transactionCategoryIncomeList;
+    private List<TransactionCategory> transactionCategoryExpenseList;
 
 
     public MemoryRepository(NumberFormatManager numberFormatManager,
@@ -344,6 +347,85 @@ public class MemoryRepository implements Repository {
         });
     }
 
+    @Override
+    public Flowable<TransactionCategory> addNewTransactionIncomeCategory(TransactionCategory transactionCategory) {
+        return Flowable.fromCallable(() -> {
+            transactionCategoryIncomeList.add(transactionCategory);
+            return transactionCategory;
+        });
+    }
+
+    @Override
+    public Flowable<List<TransactionCategory>> getAllTransactionIncomeCategories() {
+        return transactionCategoryIncomeList == null ? null : Flowable.just(transactionCategoryIncomeList);
+    }
+
+    @Override
+    public Flowable<TransactionCategory> updateTransactionIncomeCategory(TransactionCategory transactionCategory) {
+        return Flowable.fromCallable(() -> {
+            int pos = transactionCategoryIncomeList.indexOf(transactionCategory);
+            return pos >= 0 ? transactionCategoryIncomeList.set(pos, transactionCategory) : null;
+        });
+    }
+
+    @Override
+    public Flowable<Boolean> deleteTransactionIncomeCategory(int id) {
+        return Flowable.fromCallable(() -> {
+            int pos = getTransactionCategoryIncomePosById(id);
+            boolean b = pos != -1;
+            if (b) transactionCategoryIncomeList.remove(pos);
+            return b;
+        });
+    }
+
+    @Override
+    public Flowable<Boolean> setAllTransactionIncomeCategories(List<TransactionCategory> transactionCategoryList) {
+        return Flowable.fromCallable(() -> {
+            this.transactionCategoryIncomeList = new ArrayList<>();
+            this.transactionCategoryIncomeList.addAll(transactionCategoryList);
+            return true;
+        });
+    }
+
+    @Override
+    public Flowable<TransactionCategory> addNewTransactionExpenseCategory(TransactionCategory transactionCategory) {
+        return Flowable.fromCallable(() -> {
+            transactionCategoryExpenseList.add(transactionCategory);
+            return transactionCategory;
+        });
+    }
+
+    @Override
+    public Flowable<List<TransactionCategory>> getAllTransactionExpenseCategories() {
+        return transactionCategoryExpenseList == null ? null : Flowable.just(transactionCategoryExpenseList);
+    }
+
+    @Override
+    public Flowable<TransactionCategory> updateTransactionExpenseCategory(TransactionCategory transactionCategory) {
+        return Flowable.fromCallable(() -> {
+            int pos = transactionCategoryExpenseList.indexOf(transactionCategory);
+            return pos >= 0 ? transactionCategoryExpenseList.set(pos, transactionCategory) : null;
+        });
+    }
+
+    @Override
+    public Flowable<Boolean> deleteTransactionExpenseCategory(int id) {
+        return Flowable.fromCallable(() -> {
+            int pos = getTransactionCategoryExpensePosById(id);
+            boolean b = pos != -1;
+            if (b) transactionCategoryExpenseList.remove(pos);
+            return b;
+        });
+    }
+
+    @Override
+    public Flowable<Boolean> setAllTransactionExpenseCategories(List<TransactionCategory> transactionCategoryList) {
+        return Flowable.fromCallable(() -> {
+            this.transactionCategoryExpenseList = new ArrayList<>();
+            this.transactionCategoryExpenseList.addAll(transactionCategoryList);
+            return true;
+        });
+    }
 
     private Map<String, double[]> getAccountsSumGroupByTypeAndCurrency() {
         Log.d(TAG, "getAccountsSumGroupByTypeAndCurrency");
@@ -460,6 +542,20 @@ public class MemoryRepository implements Repository {
     private int getDebtPosById(int id) {
         for (int i = 0; i < debtList.size(); i++) {
             if (debtList.get(i).getId() == id) return i;
+        }
+        return -1;
+    }
+
+    private int getTransactionCategoryIncomePosById(int id) {
+        for (int i = 0; i < transactionCategoryIncomeList.size(); i++) {
+            if (transactionCategoryIncomeList.get(i).getId() == id) return i;
+        }
+        return -1;
+    }
+
+    private int getTransactionCategoryExpensePosById(int id) {
+        for (int i = 0; i < transactionCategoryExpenseList.size(); i++) {
+            if (transactionCategoryExpenseList.get(i).getId() == id) return i;
         }
         return -1;
     }

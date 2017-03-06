@@ -45,4 +45,18 @@ class SqlQueries {
                 "bid              REAL NOT NULL," +
                 "ask              REAL NOT NULL" +
                 ");";
+
+        //make a string SQL request for Transactions Category Expense table
+        static final String create_transactions_category_expense_table = "CREATE TABLE Transactions_Category_Expense (" +
+                "id_category      INTEGER PRIMARY KEY," +
+                "name             TEXT NOT NULL," +
+                "visibility       INTEGER DEFAULT 1" +
+                ");";
+
+        //make a string SQL request for Transactions Category Income table
+        static final String create_transactions_category_income_table = "CREATE TABLE Transactions_Category_Income (" +
+                "id_category      INTEGER PRIMARY KEY," +
+                "name             TEXT NOT NULL," +
+                "visibility       INTEGER DEFAULT 1" +
+                ");";
 }

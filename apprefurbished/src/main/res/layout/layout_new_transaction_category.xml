@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="32dp"
+    android:paddingRight="32dp">
+
+    <EditText
+        android:id="@+id/et_transaction_category_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/empty_name_field"
+        android:maxLength="50" />
+
+    <!--<RadioGroup
+        android:id="@+id/rg_transaction_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/rb_transaction_category_income"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+            android:text="@string/income"
+            android:textColor="@color/custom_text_gray_dark"
+            app:buttonTint="@color/custom_green"
+            android:paddingLeft="8dp"/>
+
+        <android.support.v7.widget.AppCompatRadioButton
+            android:id="@+id/rb_transaction_category_expense"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="false"
+            android:text="@string/cost"
+            android:textColor="@color/custom_text_gray_dark"
+            app:buttonTint="@color/custom_red"
+            android:paddingLeft="8dp"/>
+    </RadioGroup>-->
+
+</LinearLayout>

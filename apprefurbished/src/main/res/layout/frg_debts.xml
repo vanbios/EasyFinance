@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/debts_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -16,8 +16,9 @@
     <TextView
         android:id="@+id/tvEmptyDebt"
         style="@style/BodyFontSecondary"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:gravity="center"
         android:text="@string/debt_empty_list"
         android:visibility="gone" />
@@ -25,8 +26,7 @@
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/btnFloatDebts"
         style="@style/MenuFabStyle"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true">
+        android:layout_gravity="bottom|right">
 
         <com.github.clans.fab.FloatingActionButton
             android:id="@+id/btnFloatAddDebtGive"
@@ -39,4 +39,4 @@
             android:src="@drawable/ic_debt_take_white_pad_10_48dp" />
 
     </com.github.clans.fab.FloatingActionMenu>
-</RelativeLayout>
+</FrameLayout>

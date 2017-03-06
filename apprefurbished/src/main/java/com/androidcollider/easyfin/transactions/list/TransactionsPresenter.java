@@ -24,11 +24,11 @@ class TransactionsPresenter implements TransactionsMVP.Presenter {
 
     @Override
     public void loadData() {
-        model.getTransactionList()
+        model.getTransactionAndTransactionCategoriesLists()
                 .subscribe(
-                        transactionList -> {
+                        pair -> {
                             if (view != null) {
-                                view.setTransactionList(transactionList);
+                                view.setTransactionAndTransactionCategoriesLists(pair.first, pair.second.first, pair.second.second);
                             }
                         },
                         Throwable::printStackTrace
