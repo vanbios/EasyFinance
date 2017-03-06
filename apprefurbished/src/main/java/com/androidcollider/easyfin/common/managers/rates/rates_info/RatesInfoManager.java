@@ -7,8 +7,6 @@ import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.common.repository.Repository;
 
-import rx.Subscriber;
-
 /**
  * @author Ihor Bilous
  */
@@ -51,33 +49,22 @@ public class RatesInfoManager {
 
     public void prepareInfo() {
         repository.getRates()
-                .subscribe(new Subscriber<double[]>() {
+                .subscribe(
+                        rates -> {
+                            String[] currency = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY);
 
-                    @Override
-                    public void onCompleted() {
+                            StringBuilder sb = new StringBuilder();
 
-                    }
+                            for (int i = 0; i <= rates.length; i++) {
+                                sb.append(currency[i]);
+                                sb.append(" - ");
+                                sb.append(i == 0 ? 1 : rates[i - 1]);
+                                sb.append("; ");
+                            }
 
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(double[] rates) {
-                        String[] currency = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY);
-
-                        StringBuilder sb = new StringBuilder();
-
-                        for (int i = 0; i <= rates.length; i++) {
-                            sb.append(currency[i]);
-                            sb.append(" - ");
-                            sb.append(i == 0 ? 1 : rates[i - 1]);
-                            sb.append("; ");
-                        }
-
-                        info = sb.toString();
-                    }
-                });
+                            info = sb.toString();
+                        },
+                        Throwable::printStackTrace
+                );
     }
 }

@@ -7,7 +7,7 @@ import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 
 import java.util.List;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -17,22 +17,22 @@ interface PayDebtMVP {
 
     interface Model {
 
-        Observable<List<SpinAccountViewModel>> getAllAccounts();
+        Flowable<List<SpinAccountViewModel>> getAllAccounts();
 
-        Observable<Boolean> payFullDebt(int idAccount,
+        Flowable<Boolean> payFullDebt(int idAccount,
+                                      double accountAmount,
+                                      int idDebt);
+
+        Flowable<Boolean> payPartOfDebt(int idAccount,
                                         double accountAmount,
-                                        int idDebt);
+                                        int idDebt,
+                                        double debtAmount);
 
-        Observable<Boolean> payPartOfDebt(int idAccount,
-                                          double accountAmount,
-                                          int idDebt,
-                                          double debtAmount);
-
-        Observable<Boolean> takeMoreDebt(int idAccount,
-                                         double accountAmount,
-                                         int idDebt,
-                                         double debtAmount,
-                                         double debtAllAmount);
+        Flowable<Boolean> takeMoreDebt(int idAccount,
+                                       double accountAmount,
+                                       int idDebt,
+                                       double debtAmount,
+                                       double debtAllAmount);
 
         String prepareStringToParse(String value);
 

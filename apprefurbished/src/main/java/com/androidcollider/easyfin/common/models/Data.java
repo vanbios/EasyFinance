@@ -17,4 +17,6 @@ public class Data {
     private List<Transaction> transactionList;
     private List<Debt> debtList;
     private double[] ratesArray;
+    private List<TransactionCategory> transactionCategoryIncomeList;
+    private List<TransactionCategory> transactionCategoryExpenseList;
 }

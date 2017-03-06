@@ -9,6 +9,7 @@ import com.androidcollider.easyfin.common.models.DateConstants;
 import com.androidcollider.easyfin.common.models.Debt;
 import com.androidcollider.easyfin.common.models.Rates;
 import com.androidcollider.easyfin.common.models.Transaction;
+import com.androidcollider.easyfin.common.models.TransactionCategory;
 import com.androidcollider.easyfin.common.repository.Repository;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
@@ -18,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -34,6 +35,8 @@ public class MemoryRepository implements Repository {
     private List<Debt> debtList;
     private double[] ratesArray;
     private String[] currencyArray;
+    private List<TransactionCategory> transactionCategoryIncomeList;
+    private List<TransactionCategory> transactionCategoryExpenseList;
 
 
     public MemoryRepository(NumberFormatManager numberFormatManager,
@@ -43,43 +46,40 @@ public class MemoryRepository implements Repository {
     }
 
     @Override
-    public Observable<Account> addNewAccount(Account account) {
-        return Observable.create(subscriber -> {
+    public Flowable<Account> addNewAccount(Account account) {
+        return Flowable.fromCallable(() -> {
             accountList.add(account);
-            subscriber.onNext(account);
-            subscriber.onCompleted();
+            return account;
         });
     }
 
     @Override
-    public Observable<List<Account>> getAllAccounts() {
+    public Flowable<List<Account>> getAllAccounts() {
         Log.d(TAG, "getAllAccounts");
-        return accountList == null ? null : Observable.just(accountList);
+        return accountList == null ? null : Flowable.just(accountList);
     }
 
     @Override
-    public Observable<Account> updateAccount(Account account) {
-        return Observable.create(subscriber -> {
+    public Flowable<Account> updateAccount(Account account) {
+        return Flowable.fromCallable(() -> {
             int pos = accountList.indexOf(account);
-            subscriber.onNext(pos >= 0 ? accountList.set(pos, account) : null);
-            subscriber.onCompleted();
+            return pos >= 0 ? accountList.set(pos, account) : null;
         });
     }
 
     @Override
-    public Observable<Boolean> deleteAccount(int id) {
-        return Observable.create(subscriber -> {
+    public Flowable<Boolean> deleteAccount(int id) {
+        return Flowable.fromCallable(() -> {
             int pos = getAccountPosById(id);
             boolean b = pos != -1;
             if (b) accountList.remove(pos);
-            subscriber.onNext(b);
-            subscriber.onCompleted();
+            return b;
         });
     }
 
     @Override
-    public Observable<Boolean> transferBTWAccounts(int idAccount1, double accountAmount1, int idAccount2, double accountAmount2) {
-        return Observable.create(subscriber -> {
+    public Flowable<Boolean> transferBTWAccounts(int idAccount1, double accountAmount1, int idAccount2, double accountAmount2) {
+        return Flowable.fromCallable(() -> {
             int pos = getAccountPosById(idAccount1);
             boolean b1 = pos != -1;
             if (b1) {
@@ -90,46 +90,43 @@ public class MemoryRepository implements Repository {
             if (b2) {
                 accountList.get(pos).setAmount(accountAmount2);
             }
-            subscriber.onNext(b1 && b2);
-            subscriber.onCompleted();
+            return b1 && b2;
         });
     }
 
     @Override
-    public Observable<Transaction> addNewTransaction(Transaction transaction) {
-        return Observable.create(subscriber -> {
+    public Flowable<Transaction> addNewTransaction(Transaction transaction) {
+        return Flowable.fromCallable(() -> {
             transactionList.add(0, transaction);
             int pos = getAccountPosById(transaction.getIdAccount());
             if (pos != -1) {
                 accountList.get(pos).setAmount(transaction.getAccountAmount());
             }
-            subscriber.onNext(transaction);
-            subscriber.onCompleted();
+            return transaction;
         });
     }
 
     @Override
-    public Observable<List<Transaction>> getAllTransactions() {
+    public Flowable<List<Transaction>> getAllTransactions() {
         Log.d(TAG, "getAllTransactions");
-        return transactionList == null ? null : Observable.just(transactionList);
+        return transactionList == null ? null : Flowable.just(transactionList);
     }
 
     @Override
-    public Observable<Transaction> updateTransaction(Transaction transaction) {
-        return Observable.create(subscriber -> {
+    public Flowable<Transaction> updateTransaction(Transaction transaction) {
+        return Flowable.fromCallable(() -> {
             int pos = getAccountPosById(transaction.getIdAccount());
             if (pos != -1) {
                 accountList.get(pos).setAmount(transaction.getAccountAmount());
             }
             pos = transactionList.indexOf(transaction);
-            subscriber.onNext(pos >= 0 ? transactionList.set(pos, transaction) : null);
-            subscriber.onCompleted();
+            return pos >= 0 ? transactionList.set(pos, transaction) : null;
         });
     }
 
     @Override
-    public Observable<Boolean> updateTransactionDifferentAccounts(Transaction transaction, double oldAccountAmount, int oldAccountId) {
-        return Observable.create(subscriber -> {
+    public Flowable<Boolean> updateTransactionDifferentAccounts(Transaction transaction, double oldAccountAmount, int oldAccountId) {
+        return Flowable.fromCallable(() -> {
             int pos = getAccountPosById(transaction.getIdAccount());
             boolean b1 = pos != -1;
             if (b1) {
@@ -142,14 +139,13 @@ public class MemoryRepository implements Repository {
             }
             pos = transactionList.indexOf(transaction);
             boolean b3 = pos != -1 && transactionList.set(pos, transaction) != null;
-            subscriber.onNext(b1 && b2 && b3);
-            subscriber.onCompleted();
+            return b1 && b2 && b3;
         });
     }
 
     @Override
-    public Observable<Boolean> deleteTransaction(int idAccount, int idTransaction, double amount) {
-        return Observable.create(subscriber -> {
+    public Flowable<Boolean> deleteTransaction(int idAccount, int idTransaction, double amount) {
+        return Flowable.fromCallable(() -> {
             int pos = getTransactionPosById(idTransaction);
             boolean b = pos != -1;
             if (b) {
@@ -160,46 +156,43 @@ public class MemoryRepository implements Repository {
                     accountList.get(pos).setAmount(accountList.get(pos).getAmount() - amount);
                 }
             }
-            subscriber.onNext(b);
-            subscriber.onCompleted();
+            return b;
         });
     }
 
     @Override
-    public Observable<Debt> addNewDebt(Debt debt) {
-        return Observable.create(subscriber -> {
+    public Flowable<Debt> addNewDebt(Debt debt) {
+        return Flowable.fromCallable(() -> {
             debtList.add(debt);
             int pos = getAccountPosById(debt.getIdAccount());
             if (pos != -1) {
                 accountList.get(pos).setAmount(debt.getAccountAmount());
             }
-            subscriber.onNext(debt);
-            subscriber.onCompleted();
+            return debt;
         });
     }
 
     @Override
-    public Observable<List<Debt>> getAllDebts() {
+    public Flowable<List<Debt>> getAllDebts() {
         Log.d(TAG, "getAllDebts");
-        return debtList == null ? null : Observable.just(debtList);
+        return debtList == null ? null : Flowable.just(debtList);
     }
 
     @Override
-    public Observable<Debt> updateDebt(Debt debt) {
-        return Observable.create(subscriber -> {
+    public Flowable<Debt> updateDebt(Debt debt) {
+        return Flowable.fromCallable(() -> {
             int pos = getAccountPosById(debt.getIdAccount());
             if (pos != -1) {
                 accountList.get(pos).setAmount(debt.getAccountAmount());
             }
             pos = debtList.indexOf(debt);
-            subscriber.onNext(pos >= 0 ? debtList.set(pos, debt) : null);
-            subscriber.onCompleted();
+            return pos >= 0 ? debtList.set(pos, debt) : null;
         });
     }
 
     @Override
-    public Observable<Boolean> updateDebtDifferentAccounts(Debt debt, double oldAccountAmount, int oldAccountId) {
-        return Observable.create(subscriber -> {
+    public Flowable<Boolean> updateDebtDifferentAccounts(Debt debt, double oldAccountAmount, int oldAccountId) {
+        return Flowable.fromCallable(() -> {
             int pos = getAccountPosById(debt.getIdAccount());
             boolean b1 = pos != -1;
             if (b1) {
@@ -212,14 +205,13 @@ public class MemoryRepository implements Repository {
             }
             pos = debtList.indexOf(debt);
             boolean b3 = pos != -1 && debtList.set(pos, debt) != null;
-            subscriber.onNext(b1 && b2 && b3);
-            subscriber.onCompleted();
+            return b1 && b2 && b3;
         });
     }
 
     @Override
-    public Observable<Boolean> deleteDebt(int idAccount, int idDebt, double amount, int type) {
-        return Observable.create(subscriber -> {
+    public Flowable<Boolean> deleteDebt(int idAccount, int idDebt, double amount, int type) {
+        return Flowable.fromCallable(() -> {
             int pos = getDebtPosById(idDebt);
             boolean b = pos != -1;
             if (b) {
@@ -233,14 +225,13 @@ public class MemoryRepository implements Repository {
                     );
                 }
             }
-            subscriber.onNext(b);
-            subscriber.onCompleted();
+            return b;
         });
     }
 
     @Override
-    public Observable<Boolean> payFullDebt(int idAccount, double accountAmount, int idDebt) {
-        return Observable.create(subscriber -> {
+    public Flowable<Boolean> payFullDebt(int idAccount, double accountAmount, int idDebt) {
+        return Flowable.fromCallable(() -> {
             int pos = getDebtPosById(idDebt);
             boolean b = pos != -1;
             if (b) {
@@ -251,14 +242,13 @@ public class MemoryRepository implements Repository {
                     accountList.get(pos).setAmount(accountAmount);
                 }
             }
-            subscriber.onNext(b);
-            subscriber.onCompleted();
+            return b;
         });
     }
 
     @Override
-    public Observable<Boolean> payPartOfDebt(int idAccount, double accountAmount, int idDebt, double debtAmount) {
-        return Observable.create(subscriber -> {
+    public Flowable<Boolean> payPartOfDebt(int idAccount, double accountAmount, int idDebt, double debtAmount) {
+        return Flowable.fromCallable(() -> {
             int pos = getDebtPosById(idDebt);
             boolean b = pos != -1;
             if (b) {
@@ -269,14 +259,13 @@ public class MemoryRepository implements Repository {
                     accountList.get(pos).setAmount(accountAmount);
                 }
             }
-            subscriber.onNext(b);
-            subscriber.onCompleted();
+            return b;
         });
     }
 
     @Override
-    public Observable<Boolean> takeMoreDebt(int idAccount, double accountAmount, int idDebt, double debtAmount, double debtAllAmount) {
-        return Observable.create(subscriber -> {
+    public Flowable<Boolean> takeMoreDebt(int idAccount, double accountAmount, int idDebt, double debtAmount, double debtAllAmount) {
+        return Flowable.fromCallable(() -> {
             int pos = getDebtPosById(idDebt);
             boolean b = pos != -1;
             if (b) {
@@ -288,88 +277,155 @@ public class MemoryRepository implements Repository {
                     accountList.get(pos).setAmount(accountAmount);
                 }
             }
-            subscriber.onNext(b);
-            subscriber.onCompleted();
+            return b;
         });
     }
 
     @Override
-    public Observable<Map<String, double[]>> getTransactionsStatistic(int position) {
+    public Flowable<Map<String, double[]>> getTransactionsStatistic(int position) {
         return transactionList == null ?
                 null :
-                Observable.create(subscriber -> {
-                    subscriber.onNext(getTransactionsStatisticByPosition(position));
-                    subscriber.onCompleted();
-                });
+                Flowable.fromCallable(() -> getTransactionsStatisticByPosition(position));
     }
 
     @Override
-    public Observable<Map<String, double[]>> getAccountsAmountSumGroupByTypeAndCurrency() {
+    public Flowable<Map<String, double[]>> getAccountsAmountSumGroupByTypeAndCurrency() {
         return accountList == null || debtList == null ?
                 null :
-                Observable.create(subscriber -> {
-                    subscriber.onNext(getAccountsSumGroupByTypeAndCurrency());
-                    subscriber.onCompleted();
-                });
+                Flowable.fromCallable(this::getAccountsSumGroupByTypeAndCurrency);
     }
 
     @Override
-    public Observable<Boolean> updateRates(List<Rates> ratesList) {
-        return Observable.create(subscriber -> {
+    public Flowable<Boolean> updateRates(List<Rates> ratesList) {
+        return Flowable.fromCallable(() -> {
             for (int i = 0; i < ratesArray.length; i++) {
                 ratesArray[i] = ratesList.get(i).getAsk();
             }
-            subscriber.onNext(true);
-            subscriber.onCompleted();
+            return true;
         });
     }
 
     @Override
-    public Observable<double[]> getRates() {
+    public Flowable<double[]> getRates() {
         Log.d(TAG, "getRates");
-        return ratesArray == null ? null : Observable.just(ratesArray);
+        return ratesArray == null ? null : Flowable.just(ratesArray);
     }
 
     @Override
-    public Observable<Boolean> setAllAccounts(List<Account> accountList) {
-        return Observable.create(subscriber -> {
+    public Flowable<Boolean> setAllAccounts(List<Account> accountList) {
+        return Flowable.fromCallable(() -> {
             this.accountList = new ArrayList<>();
             this.accountList.addAll(accountList);
-            subscriber.onNext(true);
-            subscriber.onCompleted();
+            return true;
         });
     }
 
     @Override
-    public Observable<Boolean> setAllTransactions(List<Transaction> transactionList) {
-        return Observable.create(subscriber -> {
+    public Flowable<Boolean> setAllTransactions(List<Transaction> transactionList) {
+        return Flowable.fromCallable(() -> {
             this.transactionList = new ArrayList<>();
             this.transactionList.addAll(transactionList);
-            subscriber.onNext(true);
-            subscriber.onCompleted();
+            return true;
         });
     }
 
     @Override
-    public Observable<Boolean> setAllDebts(List<Debt> debtList) {
-        return Observable.create(subscriber -> {
+    public Flowable<Boolean> setAllDebts(List<Debt> debtList) {
+        return Flowable.fromCallable(() -> {
             this.debtList = new ArrayList<>();
             this.debtList.addAll(debtList);
-            subscriber.onNext(true);
-            subscriber.onCompleted();
+            return true;
         });
     }
 
     @Override
-    public Observable<Boolean> setRates(double[] rates) {
-        return Observable.create(subscriber -> {
+    public Flowable<Boolean> setRates(double[] rates) {
+        return Flowable.fromCallable(() -> {
             this.ratesArray = new double[4];
             System.arraycopy(rates, 0, this.ratesArray, 0, rates.length);
-            subscriber.onNext(true);
-            subscriber.onCompleted();
+            return true;
         });
     }
 
+    @Override
+    public Flowable<TransactionCategory> addNewTransactionIncomeCategory(TransactionCategory transactionCategory) {
+        return Flowable.fromCallable(() -> {
+            transactionCategoryIncomeList.add(transactionCategory);
+            return transactionCategory;
+        });
+    }
+
+    @Override
+    public Flowable<List<TransactionCategory>> getAllTransactionIncomeCategories() {
+        return transactionCategoryIncomeList == null ? null : Flowable.just(transactionCategoryIncomeList);
+    }
+
+    @Override
+    public Flowable<TransactionCategory> updateTransactionIncomeCategory(TransactionCategory transactionCategory) {
+        return Flowable.fromCallable(() -> {
+            int pos = transactionCategoryIncomeList.indexOf(transactionCategory);
+            return pos >= 0 ? transactionCategoryIncomeList.set(pos, transactionCategory) : null;
+        });
+    }
+
+    @Override
+    public Flowable<Boolean> deleteTransactionIncomeCategory(int id) {
+        return Flowable.fromCallable(() -> {
+            int pos = getTransactionCategoryIncomePosById(id);
+            boolean b = pos != -1;
+            if (b) transactionCategoryIncomeList.remove(pos);
+            return b;
+        });
+    }
+
+    @Override
+    public Flowable<Boolean> setAllTransactionIncomeCategories(List<TransactionCategory> transactionCategoryList) {
+        return Flowable.fromCallable(() -> {
+            this.transactionCategoryIncomeList = new ArrayList<>();
+            this.transactionCategoryIncomeList.addAll(transactionCategoryList);
+            return true;
+        });
+    }
+
+    @Override
+    public Flowable<TransactionCategory> addNewTransactionExpenseCategory(TransactionCategory transactionCategory) {
+        return Flowable.fromCallable(() -> {
+            transactionCategoryExpenseList.add(transactionCategory);
+            return transactionCategory;
+        });
+    }
+
+    @Override
+    public Flowable<List<TransactionCategory>> getAllTransactionExpenseCategories() {
+        return transactionCategoryExpenseList == null ? null : Flowable.just(transactionCategoryExpenseList);
+    }
+
+    @Override
+    public Flowable<TransactionCategory> updateTransactionExpenseCategory(TransactionCategory transactionCategory) {
+        return Flowable.fromCallable(() -> {
+            int pos = transactionCategoryExpenseList.indexOf(transactionCategory);
+            return pos >= 0 ? transactionCategoryExpenseList.set(pos, transactionCategory) : null;
+        });
+    }
+
+    @Override
+    public Flowable<Boolean> deleteTransactionExpenseCategory(int id) {
+        return Flowable.fromCallable(() -> {
+            int pos = getTransactionCategoryExpensePosById(id);
+            boolean b = pos != -1;
+            if (b) transactionCategoryExpenseList.remove(pos);
+            return b;
+        });
+    }
+
+    @Override
+    public Flowable<Boolean> setAllTransactionExpenseCategories(List<TransactionCategory> transactionCategoryList) {
+        return Flowable.fromCallable(() -> {
+            this.transactionCategoryExpenseList = new ArrayList<>();
+            this.transactionCategoryExpenseList.addAll(transactionCategoryList);
+            return true;
+        });
+    }
 
     private Map<String, double[]> getAccountsSumGroupByTypeAndCurrency() {
         Log.d(TAG, "getAccountsSumGroupByTypeAndCurrency");
@@ -434,6 +490,9 @@ public class MemoryRepository implements Repository {
             case 4:
                 period = DateConstants.YEAR;
                 break;
+            case 5:
+                period = Long.MAX_VALUE;
+                break;
         }
 
         Map<String, double[]> result = new HashMap<>();
@@ -483,6 +542,20 @@ public class MemoryRepository implements Repository {
     private int getDebtPosById(int id) {
         for (int i = 0; i < debtList.size(); i++) {
             if (debtList.get(i).getId() == id) return i;
+        }
+        return -1;
+    }
+
+    private int getTransactionCategoryIncomePosById(int id) {
+        for (int i = 0; i < transactionCategoryIncomeList.size(); i++) {
+            if (transactionCategoryIncomeList.get(i).getId() == id) return i;
+        }
+        return -1;
+    }
+
+    private int getTransactionCategoryExpensePosById(int id) {
+        for (int i = 0; i < transactionCategoryExpenseList.size(); i++) {
+            if (transactionCategoryExpenseList.get(i).getId() == id) return i;
         }
         return -1;
     }

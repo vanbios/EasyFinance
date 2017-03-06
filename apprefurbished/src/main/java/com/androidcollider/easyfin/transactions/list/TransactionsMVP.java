@@ -1,12 +1,14 @@
 package com.androidcollider.easyfin.transactions.list;
 
 import android.support.annotation.Nullable;
+import android.util.Pair;
 
 import com.androidcollider.easyfin.common.models.Transaction;
+import com.androidcollider.easyfin.common.models.TransactionCategory;
 
 import java.util.List;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -16,16 +18,19 @@ interface TransactionsMVP {
 
     interface Model {
 
-        Observable<List<TransactionViewModel>> getTransactionList();
+        Flowable<Pair<List<TransactionViewModel>,
+                Pair<List<TransactionCategory>, List<TransactionCategory>>>> getTransactionAndTransactionCategoriesLists();
 
-        Observable<Transaction> getTransactionById(int id);
+        Flowable<Transaction> getTransactionById(int id);
 
-        Observable<Boolean> deleteTransactionById(int id);
+        Flowable<Boolean> deleteTransactionById(int id);
     }
 
     interface View {
 
-        void setTransactionList(List<TransactionViewModel> transactionList);
+        void setTransactionAndTransactionCategoriesLists(List<TransactionViewModel> transactionList,
+                                                         List<TransactionCategory> transactionCategoryIncomeList,
+                                                         List<TransactionCategory> transactionCategoryExpenseList);
 
         void goToEditTransaction(Transaction transaction);
 

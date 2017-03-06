@@ -8,7 +8,7 @@ import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 
 import java.util.List;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -33,12 +33,12 @@ class AddTransactionBetweenAccountsModel implements AddTransactionBetweenAccount
     }
 
     @Override
-    public Observable<List<SpinAccountViewModel>> getAllAccounts() {
+    public Flowable<List<SpinAccountViewModel>> getAllAccounts() {
         return accountsToSpinViewModelManager.getSpinAccountViewModelList(repository.getAllAccounts());
     }
 
     @Override
-    public Observable<Boolean> transferBTWAccounts(int idFrom, double accountAmountFrom, int idTo, double accountAmountTo) {
+    public Flowable<Boolean> transferBTWAccounts(int idFrom, double accountAmountFrom, int idTo, double accountAmountTo) {
         return repository.transferBTWAccounts(idFrom, accountAmountFrom, idTo, accountAmountTo);
     }
 

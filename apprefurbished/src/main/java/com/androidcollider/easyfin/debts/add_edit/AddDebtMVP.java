@@ -9,7 +9,7 @@ import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 import java.util.Calendar;
 import java.util.List;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -19,13 +19,13 @@ interface AddDebtMVP {
 
     interface Model {
 
-        Observable<List<SpinAccountViewModel>> getAllAccounts();
+        Flowable<List<SpinAccountViewModel>> getAllAccounts();
 
-        Observable<Debt> addNewDebt(Debt debt);
+        Flowable<Debt> addNewDebt(Debt debt);
 
-        Observable<Debt> updateDebt(Debt debt);
+        Flowable<Debt> updateDebt(Debt debt);
 
-        Observable<Boolean> updateDebtDifferentAccounts(Debt debt, double oldAccountAmount, int oldAccountId);
+        Flowable<Boolean> updateDebtDifferentAccounts(Debt debt, double oldAccountAmount, int oldAccountId);
 
         String prepareStringToParse(String value);
 

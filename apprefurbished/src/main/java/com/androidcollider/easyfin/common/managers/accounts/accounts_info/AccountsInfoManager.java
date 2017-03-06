@@ -8,10 +8,9 @@ import com.annimon.stream.Stream;
 import java.util.ArrayList;
 import java.util.List;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Flowable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * @author Ihor Bilous
@@ -43,11 +42,11 @@ public class AccountsInfoManager {
         return false;
     }
 
-    public int getAccountsCount() {
+    /*public int getAccountsCount() {
         return accountList.size();
-    }
+    }*/
 
-    public Observable<Integer> getAccountsCountObservable() {
+    public Flowable<Integer> getAccountsCountObservable() {
         return repository.getAllAccounts()
                 .map(List::size)
                 .subscribeOn(Schedulers.computation())
@@ -56,23 +55,12 @@ public class AccountsInfoManager {
 
     private void loadAccountList() {
         repository.getAllAccounts()
-                .subscribe(new Subscriber<List<Account>>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(List<Account> accountList) {
-                        AccountsInfoManager.this.accountList.clear();
-                        AccountsInfoManager.this.accountList.addAll(accountList);
-                    }
-                });
+                .subscribe(
+                        accounts -> {
+                            accountList.clear();
+                            accountList.addAll(accounts);
+                        },
+                        Throwable::printStackTrace
+                );
     }
 }

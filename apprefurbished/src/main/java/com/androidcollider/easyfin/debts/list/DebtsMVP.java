@@ -4,7 +4,7 @@ import com.androidcollider.easyfin.common.models.Debt;
 
 import java.util.List;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -14,11 +14,11 @@ interface DebtsMVP {
 
     interface Model {
 
-        Observable<List<DebtViewModel>> getDebtList();
+        Flowable<List<DebtViewModel>> getDebtList();
 
-        Observable<Debt> getDebtById(int id);
+        Flowable<Debt> getDebtById(int id);
 
-        Observable<Boolean> deleteDebtById(int id);
+        Flowable<Boolean> deleteDebtById(int id);
     }
 
     interface View {

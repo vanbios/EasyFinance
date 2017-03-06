@@ -22,6 +22,7 @@ import com.androidcollider.easyfin.common.managers.resources.ResourcesModule;
 import com.androidcollider.easyfin.common.managers.shared_pref.SharedPrefModule;
 import com.androidcollider.easyfin.common.managers.ui.dialog.DialogModule;
 import com.androidcollider.easyfin.common.managers.ui.hide_touch_outside.HideTouchOutsideModule;
+import com.androidcollider.easyfin.common.managers.ui.letter_tile.LetterTileModule;
 import com.androidcollider.easyfin.common.managers.ui.shake_edit_text.ShakeEditTextModule;
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastModule;
 import com.androidcollider.easyfin.common.repository.RepositoryModule;
@@ -42,6 +43,10 @@ import com.androidcollider.easyfin.home.HomeFragment;
 import com.androidcollider.easyfin.home.HomeModule;
 import com.androidcollider.easyfin.main.MainFragment;
 import com.androidcollider.easyfin.main.MainModule;
+import com.androidcollider.easyfin.transaction_categories.nested.TransactionCategoriesNestedFragment;
+import com.androidcollider.easyfin.transaction_categories.nested.TransactionCategoriesNestedModule;
+import com.androidcollider.easyfin.transaction_categories.root.TransactionCategoriesRootFragment;
+import com.androidcollider.easyfin.transaction_categories.root.TransactionCategoriesRootModule;
 import com.androidcollider.easyfin.transactions.add_edit.btw_accounts.AddTransactionBetweenAccountsFragment;
 import com.androidcollider.easyfin.transactions.add_edit.btw_accounts.AddTransactionBetweenAccountsModule;
 import com.androidcollider.easyfin.transactions.add_edit.income_expense.AddTransactionIncomeExpenseFragment;
@@ -81,6 +86,7 @@ import dagger.Component;
         PermissionModule.class,
         AccountsToSpinViewModelModule.class,
         AnalyticsModule.class,
+        LetterTileModule.class,
         MainModule.class,
         AccountsModule.class,
         TransactionsModule.class,
@@ -91,7 +97,9 @@ import dagger.Component;
         AddDebtModule.class,
         PayDebtModule.class,
         FAQModule.class,
-        HomeModule.class
+        HomeModule.class,
+        TransactionCategoriesNestedModule.class,
+        TransactionCategoriesRootModule.class
 })
 public interface AppComponent {
 
@@ -126,4 +134,8 @@ public interface AppComponent {
     void inject(CommonFragment commonFragment);
 
     void inject(CommonFragmentAddEdit commonFragmentAddEdit);
+
+    void inject(TransactionCategoriesRootFragment transactionCategoriesRootFragment);
+
+    void inject(TransactionCategoriesNestedFragment transactionCategoriesNestedFragment);
 }

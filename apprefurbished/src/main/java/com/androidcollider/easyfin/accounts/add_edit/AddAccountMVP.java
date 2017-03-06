@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.androidcollider.easyfin.common.models.Account;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -15,9 +15,9 @@ interface AddAccountMVP {
 
     interface Model {
 
-        Observable<Account> addAccount(String name, String amount, int type, String currency);
+        Flowable<Account> addAccount(String name, String amount, int type, String currency);
 
-        Observable<Account> updateAccount(String name, String amount, int type, String currency);
+        Flowable<Account> updateAccount(String name, String amount, int type, String currency);
 
         void setAccountForUpdate(Account account);
 

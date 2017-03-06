@@ -6,7 +6,7 @@ import com.androidcollider.easyfin.common.repository.Repository;
 
 import java.util.Map;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -21,20 +21,20 @@ class HomeModel implements HomeMVP.Model {
     }
 
     @Override
-    public Observable<Pair<Map<String, double[]>, Map<String, double[]>>> getBalanceAndStatistic(int statisticPosition) {
-        return Observable.combineLatest(
+    public Flowable<Pair<Map<String, double[]>, Map<String, double[]>>> getBalanceAndStatistic(int statisticPosition) {
+        return Flowable.combineLatest(
                 repository.getAccountsAmountSumGroupByTypeAndCurrency(),
                 repository.getTransactionsStatistic(statisticPosition),
                 Pair::new);
     }
 
     @Override
-    public Observable<Map<String, double[]>> getBalance() {
+    public Flowable<Map<String, double[]>> getBalance() {
         return repository.getAccountsAmountSumGroupByTypeAndCurrency();
     }
 
     @Override
-    public Observable<Map<String, double[]>> getStatistic(int statisticPosition) {
+    public Flowable<Map<String, double[]>> getStatistic(int statisticPosition) {
         return repository.getTransactionsStatistic(statisticPosition);
     }
 }

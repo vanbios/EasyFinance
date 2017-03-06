@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
+import com.androidcollider.easyfin.common.managers.ui.letter_tile.LetterTileManager;
+import com.androidcollider.easyfin.common.models.TransactionCategory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,17 +34,23 @@ class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTransactio
     @Setter(AccessLevel.PRIVATE)
     private int currentId;
     private List<TransactionViewModel> transactionList;
+    private List<TransactionCategory> transactionCategoryIncomeList;
+    private List<TransactionCategory> transactionCategoryExpenseList;
     private final TypedArray catExpenseIconsArray, catIncomeIconsArray, typeIconsArray;
     private final int CONTENT_TYPE = 1, BUTTON_TYPE = 2;
     private static int itemCount, maxCount = 30;
     private static boolean showButton;
+    private LetterTileManager letterTileManager;
 
 
-    RecyclerTransactionAdapter(ResourcesManager resourcesManager) {
+    RecyclerTransactionAdapter(ResourcesManager resourcesManager, LetterTileManager letterTileManager) {
         this.transactionList = new ArrayList<>();
+        this.transactionCategoryIncomeList = new ArrayList<>();
+        this.transactionCategoryExpenseList = new ArrayList<>();
         catExpenseIconsArray = resourcesManager.getIconArray(ResourcesManager.ICON_TRANSACTION_CATEGORY_EXPENSE);
         catIncomeIconsArray = resourcesManager.getIconArray(ResourcesManager.ICON_TRANSACTION_CATEGORY_INCOME);
         typeIconsArray = resourcesManager.getIconArray(ResourcesManager.ICON_ACCOUNT_TYPE);
+        this.letterTileManager = letterTileManager;
     }
 
     void setItems(List<TransactionViewModel> items) {
@@ -54,6 +62,14 @@ class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTransactio
     void deleteItem(int position) {
         transactionList.remove(position);
         notifyItemRemoved(position);
+    }
+
+    void setTransactionCategories(List<TransactionCategory> transactionCategoryIncomeList,
+                                  List<TransactionCategory> transactionCategoryExpenseList) {
+        this.transactionCategoryIncomeList.clear();
+        this.transactionCategoryIncomeList.addAll(transactionCategoryIncomeList);
+        this.transactionCategoryExpenseList.clear();
+        this.transactionCategoryExpenseList.addAll(transactionCategoryExpenseList);
     }
 
     @Override
@@ -108,11 +124,20 @@ class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTransactio
             holderItem.tvTransAmount.setText(transaction.getAmount());
             holderItem.tvTransAmount.setTextColor(transaction.getColorRes());
 
-            holderItem.ivTransCategory.setImageDrawable(
-                    transaction.isExpense() ?
-                            catExpenseIconsArray.getDrawable(transaction.getCategory()) :
-                            catIncomeIconsArray.getDrawable(transaction.getCategory())
-            );
+            int categoryId = transaction.getCategory();
+            if (transaction.isExpense()) {
+                if (categoryId < catExpenseIconsArray.length()) {
+                    holderItem.ivTransCategory.setImageDrawable(catExpenseIconsArray.getDrawable(categoryId));
+                } else {
+                    holderItem.ivTransCategory.setImageBitmap(letterTileManager.getLetterTile(getCategoryNameById(categoryId, true)));
+                }
+            } else {
+                if (categoryId < catIncomeIconsArray.length()) {
+                    holderItem.ivTransCategory.setImageDrawable(catIncomeIconsArray.getDrawable(categoryId));
+                } else {
+                    holderItem.ivTransCategory.setImageBitmap(letterTileManager.getLetterTile(getCategoryNameById(categoryId, false)));
+                }
+            }
 
             holderItem.ivTransAccountType.setImageDrawable(typeIconsArray.getDrawable(transaction.getAccountType()));
             holderItem.mView.setOnLongClickListener(view -> {
@@ -129,6 +154,14 @@ class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTransactio
         }
     }
 
+    private String getCategoryNameById(int id, boolean isExpense) {
+        for (TransactionCategory category : isExpense ?
+                transactionCategoryExpenseList :
+                transactionCategoryIncomeList) {
+            if (id == category.getId()) return category.getName();
+        }
+        return "";
+    }
 
     static class MainViewHolder extends RecyclerView.ViewHolder {
         MainViewHolder(View view) {

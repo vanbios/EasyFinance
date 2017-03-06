@@ -1,15 +1,18 @@
 package com.androidcollider.easyfin.transactions.add_edit.income_expense;
 
+import android.support.v4.util.Pair;
+
 import com.androidcollider.easyfin.common.managers.accounts.accounts_to_spin_view_model.AccountsToSpinViewModelManager;
 import com.androidcollider.easyfin.common.managers.format.date.DateFormatManager;
 import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
 import com.androidcollider.easyfin.common.models.Transaction;
+import com.androidcollider.easyfin.common.models.TransactionCategory;
 import com.androidcollider.easyfin.common.repository.Repository;
 import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 
 import java.util.List;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -34,23 +37,41 @@ class AddTransactionIncomeExpenseModel implements AddTransactionIncomeExpenseMVP
     }
 
     @Override
-    public Observable<List<SpinAccountViewModel>> getAllAccounts() {
-        return accountsToSpinViewModelManager.getSpinAccountViewModelList(repository.getAllAccounts());
+    public Flowable<Pair<List<SpinAccountViewModel>, List<TransactionCategory>>> getAccountsAndTransactionCategories(boolean isExpense) {
+        return Flowable.combineLatest(
+                accountsToSpinViewModelManager.getSpinAccountViewModelList(repository.getAllAccounts()),
+                getTransactionCategories(isExpense),
+                Pair::new
+        );
     }
 
     @Override
-    public Observable<Transaction> addNewTransaction(Transaction transaction) {
+    public Flowable<List<TransactionCategory>> getTransactionCategories(boolean isExpense) {
+        return isExpense ?
+                repository.getAllTransactionExpenseCategories() :
+                repository.getAllTransactionIncomeCategories();
+    }
+
+    @Override
+    public Flowable<Transaction> addNewTransaction(Transaction transaction) {
         return repository.addNewTransaction(transaction);
     }
 
     @Override
-    public Observable<Transaction> updateTransaction(Transaction transaction) {
+    public Flowable<Transaction> updateTransaction(Transaction transaction) {
         return repository.updateTransaction(transaction);
     }
 
     @Override
-    public Observable<Boolean> updateTransactionDifferentAccounts(Transaction transaction, double oldAccountAmount, int oldAccountId) {
+    public Flowable<Boolean> updateTransactionDifferentAccounts(Transaction transaction, double oldAccountAmount, int oldAccountId) {
         return repository.updateTransactionDifferentAccounts(transaction, oldAccountAmount, oldAccountId);
+    }
+
+    @Override
+    public Flowable<TransactionCategory> addNewTransactionCategory(TransactionCategory transactionCategory, boolean isExpense) {
+        return isExpense ?
+                repository.addNewTransactionExpenseCategory(transactionCategory) :
+                repository.addNewTransactionIncomeCategory(transactionCategory);
     }
 
     @Override

@@ -15,7 +15,9 @@ import com.androidcollider.easyfin.common.events.UpdateFrgHome;
 import com.androidcollider.easyfin.common.events.UpdateFrgTransactions;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager;
+import com.androidcollider.easyfin.common.managers.ui.letter_tile.LetterTileManager;
 import com.androidcollider.easyfin.common.models.Transaction;
+import com.androidcollider.easyfin.common.models.TransactionCategory;
 import com.androidcollider.easyfin.common.ui.MainActivity;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentWithEvents;
 import com.androidcollider.easyfin.main.MainFragment;
@@ -54,6 +56,9 @@ public class TransactionsFragment extends CommonFragmentWithEvents implements Tr
     DialogManager dialogManager;
 
     @Inject
+    LetterTileManager letterTileManager;
+
+    @Inject
     TransactionsMVP.Presenter presenter;
 
 
@@ -78,7 +83,7 @@ public class TransactionsFragment extends CommonFragmentWithEvents implements Tr
 
     private void setupRecyclerView() {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        recyclerAdapter = new RecyclerTransactionAdapter(resourcesManager);
+        recyclerAdapter = new RecyclerTransactionAdapter(resourcesManager, letterTileManager);
         recyclerView.setAdapter(recyclerAdapter);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
@@ -143,7 +148,10 @@ public class TransactionsFragment extends CommonFragmentWithEvents implements Tr
 
 
     @Override
-    public void setTransactionList(List<TransactionViewModel> transactionList) {
+    public void setTransactionAndTransactionCategoriesLists(List<TransactionViewModel> transactionList,
+                                                            List<TransactionCategory> transactionCategoryIncomeList,
+                                                            List<TransactionCategory> transactionCategoryExpenseList) {
+        recyclerAdapter.setTransactionCategories(transactionCategoryIncomeList, transactionCategoryExpenseList);
         recyclerAdapter.setItems(transactionList);
         setVisibility();
     }

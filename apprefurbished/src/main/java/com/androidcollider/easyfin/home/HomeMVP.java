@@ -8,7 +8,7 @@ import com.github.mikephil.charting.data.PieData;
 
 import java.util.Map;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -18,11 +18,11 @@ interface HomeMVP {
 
     interface Model {
 
-        Observable<Pair<Map<String, double[]>, Map<String, double[]>>> getBalanceAndStatistic(int statisticPosition);
+        Flowable<Pair<Map<String, double[]>, Map<String, double[]>>> getBalanceAndStatistic(int statisticPosition);
 
-        Observable<Map<String, double[]>> getBalance();
+        Flowable<Map<String, double[]>> getBalance();
 
-        Observable<Map<String, double[]>> getStatistic(int statisticPosition);
+        Flowable<Map<String, double[]>> getStatistic(int statisticPosition);
     }
 
     interface View {

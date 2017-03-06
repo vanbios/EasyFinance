@@ -4,7 +4,6 @@ import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.repository.Repository;
 
 import lombok.Getter;
-import rx.Subscriber;
 
 /**
  * @author Ihor Bilous
@@ -25,25 +24,14 @@ public class ExchangeManager {
 
     public void updateRates() {
         repository.getRates()
-                .subscribe(new Subscriber<double[]>() {
-
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(double[] newRates) {
-                        for (int i = 1; i < rates.length; i++) {
-                            if (newRates[i - 1] > 0) rates[i] = newRates[i - 1];
-                        }
-                    }
-                });
+                .subscribe(
+                        newRates -> {
+                            for (int i = 1; i < rates.length; i++) {
+                                if (newRates[i - 1] > 0) rates[i] = newRates[i - 1];
+                            }
+                        },
+                        Throwable::printStackTrace
+                );
     }
 
     public double getExchangeRate(String currFrom, String currTo) {

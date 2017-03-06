@@ -8,8 +8,7 @@ import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.accounts.list.AccountsFragment;
 import com.androidcollider.easyfin.common.models.Account;
 
-import rx.Observable;
-import rx.Subscriber;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -68,25 +67,14 @@ class AddAccountPresenter implements AddAccountMVP.Presenter {
                 String currency = view.getAccountCurrency();
 
                 getSaveAccountObservable(name, amount, type, currency)
-                        .subscribe(new Subscriber<Account>() {
-
-                            @Override
-                            public void onCompleted() {
-
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onNext(Account account) {
-                                if (view != null) {
-                                    view.performLastActionsAfterSaveAndClose();
-                                }
-                            }
-                        });
+                        .subscribe(
+                                account -> {
+                                    if (view != null) {
+                                        view.performLastActionsAfterSaveAndClose();
+                                    }
+                                },
+                                Throwable::printStackTrace
+                        );
             }
         }
     }
@@ -113,7 +101,7 @@ class AddAccountPresenter implements AddAccountMVP.Presenter {
         return true;
     }
 
-    private Observable<Account> getSaveAccountObservable(String name, String amount, int type, String currency) {
+    private Flowable<Account> getSaveAccountObservable(String name, String amount, int type, String currency) {
         return mode == AccountsFragment.EDIT ?
                 model.updateAccount(
                         name,

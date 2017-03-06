@@ -3,15 +3,16 @@ package com.androidcollider.easyfin.transactions.add_edit.income_expense;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.util.Pair;
 
-import com.androidcollider.easyfin.common.models.Account;
 import com.androidcollider.easyfin.common.models.Transaction;
+import com.androidcollider.easyfin.common.models.TransactionCategory;
 import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 
 import java.util.Calendar;
 import java.util.List;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -21,13 +22,17 @@ interface AddTransactionIncomeExpenseMVP {
 
     interface Model {
 
-        Observable<List<SpinAccountViewModel>> getAllAccounts();
+        Flowable<Pair<List<SpinAccountViewModel>, List<TransactionCategory>>> getAccountsAndTransactionCategories(boolean isExpense);
 
-        Observable<Transaction> addNewTransaction(Transaction transaction);
+        Flowable<List<TransactionCategory>> getTransactionCategories(boolean isExpense);
 
-        Observable<Transaction> updateTransaction(Transaction transaction);
+        Flowable<Transaction> addNewTransaction(Transaction transaction);
 
-        Observable<Boolean> updateTransactionDifferentAccounts(Transaction transaction, double oldAccountAmount, int oldAccountId);
+        Flowable<Transaction> updateTransaction(Transaction transaction);
+
+        Flowable<Boolean> updateTransactionDifferentAccounts(Transaction transaction, double oldAccountAmount, int oldAccountId);
+
+        Flowable<TransactionCategory> addNewTransactionCategory(TransactionCategory transactionCategory, boolean isExpense);
 
         String prepareStringToParse(String value);
 
@@ -42,7 +47,9 @@ interface AddTransactionIncomeExpenseMVP {
 
         void showAmount(String amount, int type);
 
-        void setupSpinners(String[] categoryArray, TypedArray categoryIcons);
+        void setupSpinners(List<TransactionCategory> categoryList, TypedArray categoryIcons);
+
+        void setupCategorySpinner(List<TransactionCategory> categoryList, TypedArray categoryIcons, int selectedPos);
 
         void showCategory(int position);
 
@@ -71,6 +78,12 @@ interface AddTransactionIncomeExpenseMVP {
         int getCategory();
 
         List<SpinAccountViewModel> getAccounts();
+
+        void shakeDialogNewTransactionCategoryField();
+
+        void dismissDialogNewTransactionCategory();
+
+        void handleNewTransactionCategoryAdded();
     }
 
     interface Presenter {
@@ -79,10 +92,12 @@ interface AddTransactionIncomeExpenseMVP {
 
         void setArguments(Bundle args);
 
-        void loadAccounts();
+        void loadAccountsAndCategories();
 
         void save();
 
         int getTransactionType();
+
+        void addNewCategory(String name);
     }
 }

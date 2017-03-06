@@ -14,6 +14,7 @@ import com.androidcollider.easyfin.common.models.DateConstants;
 import com.androidcollider.easyfin.common.models.Debt;
 import com.androidcollider.easyfin.common.models.Rates;
 import com.androidcollider.easyfin.common.models.Transaction;
+import com.androidcollider.easyfin.common.models.TransactionCategory;
 import com.androidcollider.easyfin.common.repository.Repository;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -51,201 +52,184 @@ public class DatabaseRepository implements Repository {
 
 
     @Override
-    public Observable<Account> addNewAccount(Account account) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(insertNewAccount(account));
-            subscriber.onCompleted();
-        });
+    public Flowable<Account> addNewAccount(Account account) {
+        return Flowable.fromCallable(() -> insertNewAccount(account));
     }
 
     @Override
-    public Observable<List<Account>> getAllAccounts() {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(getAllAccountsInfo());
-            subscriber.onCompleted();
-        });
+    public Flowable<List<Account>> getAllAccounts() {
+        return Flowable.fromCallable(this::getAllAccountsInfo);
     }
 
     @Override
-    public Observable<Account> updateAccount(Account account) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(editAccount(account));
-            subscriber.onCompleted();
-        });
+    public Flowable<Account> updateAccount(Account account) {
+        return Flowable.fromCallable(() -> editAccount(account));
     }
 
     @Override
-    public Observable<Boolean> deleteAccount(int id) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(deleteAccountDB(id));
-            subscriber.onCompleted();
-        });
+    public Flowable<Boolean> deleteAccount(int id) {
+        return Flowable.fromCallable(() -> deleteAccountDB(id));
     }
 
     @Override
-    public Observable<Boolean> transferBTWAccounts(int idAccount1, double accountAmount1, int idAccount2, double accountAmount2) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(updateAccountsAmountAfterTransfer(idAccount1, accountAmount1, idAccount2, accountAmount2));
-            subscriber.onCompleted();
-        });
+    public Flowable<Boolean> transferBTWAccounts(int idAccount1, double accountAmount1, int idAccount2, double accountAmount2) {
+        return Flowable.fromCallable(() -> updateAccountsAmountAfterTransfer(idAccount1, accountAmount1, idAccount2, accountAmount2));
     }
 
     @Override
-    public Observable<Transaction> addNewTransaction(Transaction transaction) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(insertNewTransaction(transaction));
-            subscriber.onCompleted();
-        });
+    public Flowable<Transaction> addNewTransaction(Transaction transaction) {
+        return Flowable.fromCallable(() -> insertNewTransaction(transaction));
     }
 
     @Override
-    public Observable<List<Transaction>> getAllTransactions() {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(getAllTransactionsInfo());
-            subscriber.onCompleted();
-        });
+    public Flowable<List<Transaction>> getAllTransactions() {
+        return Flowable.fromCallable(this::getAllTransactionsInfo);
     }
 
     @Override
-    public Observable<Transaction> updateTransaction(Transaction transaction) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(editTransaction(transaction));
-            subscriber.onCompleted();
-        });
+    public Flowable<Transaction> updateTransaction(Transaction transaction) {
+        return Flowable.fromCallable(() -> editTransaction(transaction));
     }
 
     @Override
-    public Observable<Boolean> updateTransactionDifferentAccounts(Transaction transaction, double oldAccountAmount, int oldAccountId) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(editTransactionDifferentAccounts(transaction, oldAccountAmount, oldAccountId));
-            subscriber.onCompleted();
-        });
+    public Flowable<Boolean> updateTransactionDifferentAccounts(Transaction transaction, double oldAccountAmount, int oldAccountId) {
+        return Flowable.fromCallable(() -> editTransactionDifferentAccounts(transaction, oldAccountAmount, oldAccountId));
     }
 
     @Override
-    public Observable<Boolean> deleteTransaction(int idAccount, int idTransaction, double amount) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(deleteTransactionDB(idAccount, idTransaction, amount));
-            subscriber.onCompleted();
-        });
+    public Flowable<Boolean> deleteTransaction(int idAccount, int idTransaction, double amount) {
+        return Flowable.fromCallable(() -> deleteTransactionDB(idAccount, idTransaction, amount));
     }
 
     @Override
-    public Observable<Debt> addNewDebt(Debt debt) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(insertNewDebt(debt));
-            subscriber.onCompleted();
-        });
+    public Flowable<Debt> addNewDebt(Debt debt) {
+        return Flowable.fromCallable(() -> insertNewDebt(debt));
     }
 
     @Override
-    public Observable<List<Debt>> getAllDebts() {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(getAllDebtInfo());
-            subscriber.onCompleted();
-        });
+    public Flowable<List<Debt>> getAllDebts() {
+        return Flowable.fromCallable(this::getAllDebtInfo);
     }
 
     @Override
-    public Observable<Debt> updateDebt(Debt debt) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(editDebt(debt));
-            subscriber.onCompleted();
-        });
+    public Flowable<Debt> updateDebt(Debt debt) {
+        return Flowable.fromCallable(() -> editDebt(debt));
     }
 
     @Override
-    public Observable<Boolean> updateDebtDifferentAccounts(Debt debt, double oldAccountAmount, int oldAccountId) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(editDebtDifferentAccounts(debt, oldAccountAmount, oldAccountId));
-            subscriber.onCompleted();
-        });
+    public Flowable<Boolean> updateDebtDifferentAccounts(Debt debt, double oldAccountAmount, int oldAccountId) {
+        return Flowable.fromCallable(() -> editDebtDifferentAccounts(debt, oldAccountAmount, oldAccountId));
     }
 
     @Override
-    public Observable<Boolean> deleteDebt(int idAccount, int idDebt, double amount, int type) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(deleteDebtDB(idAccount, idDebt, amount, type));
-            subscriber.onCompleted();
-        });
+    public Flowable<Boolean> deleteDebt(int idAccount, int idDebt, double amount, int type) {
+        return Flowable.fromCallable(() -> deleteDebtDB(idAccount, idDebt, amount, type));
     }
 
     @Override
-    public Observable<Boolean> payFullDebt(int idAccount, double accountAmount, int idDebt) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(payAllDebt(idAccount, accountAmount, idDebt));
-            subscriber.onCompleted();
-        });
+    public Flowable<Boolean> payFullDebt(int idAccount, double accountAmount, int idDebt) {
+        return Flowable.fromCallable(() -> payAllDebt(idAccount, accountAmount, idDebt));
     }
 
     @Override
-    public Observable<Boolean> payPartOfDebt(int idAccount, double accountAmount, int idDebt, double debtAmount) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(payPartDebt(idAccount, accountAmount, idDebt, debtAmount));
-            subscriber.onCompleted();
-        });
+    public Flowable<Boolean> payPartOfDebt(int idAccount, double accountAmount, int idDebt, double debtAmount) {
+        return Flowable.fromCallable(() -> payPartDebt(idAccount, accountAmount, idDebt, debtAmount));
     }
 
     @Override
-    public Observable<Boolean> takeMoreDebt(int idAccount, double accountAmount, int idDebt, double debtAmount, double debtAllAmount) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(takeMoreDebtDB(idAccount, accountAmount, idDebt, debtAmount, debtAllAmount));
-            subscriber.onCompleted();
-        });
+    public Flowable<Boolean> takeMoreDebt(int idAccount, double accountAmount, int idDebt, double debtAmount, double debtAllAmount) {
+        return Flowable.fromCallable(() -> takeMoreDebtDB(idAccount, accountAmount, idDebt, debtAmount, debtAllAmount));
     }
 
     @Override
-    public Observable<Map<String, double[]>> getTransactionsStatistic(int position) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(getTransactionsStatisticDB(position));
-            subscriber.onCompleted();
-        });
+    public Flowable<Map<String, double[]>> getTransactionsStatistic(int position) {
+        return Flowable.fromCallable(() -> getTransactionsStatisticDB(position));
     }
 
     @Override
-    public Observable<Map<String, double[]>> getAccountsAmountSumGroupByTypeAndCurrency() {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(getAccountsSumGroupByTypeAndCurrency());
-            subscriber.onCompleted();
-        });
+    public Flowable<Map<String, double[]>> getAccountsAmountSumGroupByTypeAndCurrency() {
+        return Flowable.fromCallable(this::getAccountsSumGroupByTypeAndCurrency);
     }
 
     @Override
-    public Observable<Boolean> updateRates(List<Rates> ratesList) {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(insertRates(ratesList));
-            subscriber.onCompleted();
-        });
+    public Flowable<Boolean> updateRates(List<Rates> ratesList) {
+        return Flowable.fromCallable(() -> insertRates(ratesList));
     }
 
     @Override
-    public Observable<double[]> getRates() {
-        return Observable.create(subscriber -> {
-            subscriber.onNext(getRatesDB());
-            subscriber.onCompleted();
-        });
+    public Flowable<double[]> getRates() {
+        return Flowable.fromCallable(this::getRatesDB);
     }
 
     @Override
-    public Observable<Boolean> setAllAccounts(List<Account> accountList) {
+    public Flowable<Boolean> setAllAccounts(List<Account> accountList) {
         throw new IllegalStateException("do not perform this action!");
     }
 
     @Override
-    public Observable<Boolean> setAllTransactions(List<Transaction> transactionList) {
+    public Flowable<Boolean> setAllTransactions(List<Transaction> transactionList) {
         throw new IllegalStateException("do not perform this action!");
     }
 
     @Override
-    public Observable<Boolean> setAllDebts(List<Debt> debtList) {
+    public Flowable<Boolean> setAllDebts(List<Debt> debtList) {
         throw new IllegalStateException("do not perform this action!");
     }
 
     @Override
-    public Observable<Boolean> setRates(double[] rates) {
+    public Flowable<Boolean> setRates(double[] rates) {
         throw new IllegalStateException("do not perform this action!");
     }
 
+    @Override
+    public Flowable<TransactionCategory> addNewTransactionIncomeCategory(TransactionCategory transactionCategory) {
+        return Flowable.fromCallable(() -> insertNewTransactionIncomeCategory(transactionCategory));
+    }
+
+    @Override
+    public Flowable<List<TransactionCategory>> getAllTransactionIncomeCategories() {
+        return Flowable.fromCallable(this::getTransactionIncomeCategories);
+    }
+
+    @Override
+    public Flowable<TransactionCategory> updateTransactionIncomeCategory(TransactionCategory transactionCategory) {
+        return Flowable.fromCallable(() -> editTransactionIncomeCategory(transactionCategory));
+    }
+
+    @Override
+    public Flowable<Boolean> deleteTransactionIncomeCategory(int id) {
+        return Flowable.fromCallable(() -> makeTransactionCategoryIncomeInvisible(id));
+    }
+
+    @Override
+    public Flowable<Boolean> setAllTransactionIncomeCategories(List<TransactionCategory> transactionCategoryList) {
+        throw new IllegalStateException("do not perform this action!");
+    }
+
+    @Override
+    public Flowable<TransactionCategory> addNewTransactionExpenseCategory(TransactionCategory transactionCategory) {
+        return Flowable.fromCallable(() -> insertNewTransactionExpenseCategory(transactionCategory));
+    }
+
+    @Override
+    public Flowable<List<TransactionCategory>> getAllTransactionExpenseCategories() {
+        return Flowable.fromCallable(this::getTransactionExpenseCategories);
+    }
+
+    @Override
+    public Flowable<TransactionCategory> updateTransactionExpenseCategory(TransactionCategory transactionCategory) {
+        return Flowable.fromCallable(() -> editTransactionExpenseCategory(transactionCategory));
+    }
+
+    @Override
+    public Flowable<Boolean> deleteTransactionExpenseCategory(int id) {
+        return Flowable.fromCallable(() -> makeTransactionCategoryExpenseInvisible(id));
+    }
+
+    @Override
+    public Flowable<Boolean> setAllTransactionExpenseCategories(List<TransactionCategory> transactionCategoryList) {
+        throw new IllegalStateException("do not perform this action!");
+    }
 
     //Open database to write
     private void openLocalToWrite() throws SQLException {
@@ -360,6 +344,9 @@ public class DatabaseRepository implements Repository {
                 break;
             case 4:
                 period = DateConstants.YEAR;
+                break;
+            case 5:
+                period = Long.MAX_VALUE;
                 break;
         }
 
@@ -501,10 +488,6 @@ public class DatabaseRepository implements Repository {
                 accountArrayList.add(account);
             }
             while (cursor.moveToNext());
-
-            cursor.close();
-            closeLocal();
-            return accountArrayList;
         }
 
         cursor.close();
@@ -558,9 +541,6 @@ public class DatabaseRepository implements Repository {
 
                 transactionArrayList.add(transaction);
             }
-            cursor.close();
-            closeLocal();
-            return transactionArrayList;
         }
         cursor.close();
         closeLocal();
@@ -605,10 +585,6 @@ public class DatabaseRepository implements Repository {
                         .build();
                 debtArrayList.add(debt);
             } while (cursor.moveToNext());
-
-            cursor.close();
-            closeLocal();
-            return debtArrayList;
         }
 
         cursor.close();
@@ -797,7 +773,6 @@ public class DatabaseRepository implements Repository {
             }
         }
         closeLocal();
-        //InMemoryRepository.getInstance().setRatesForExchange();
         sharedPrefManager.setRatesInsertFirstTimeStatus(true);
         sharedPrefManager.setRatesUpdateTime();
         return true;
@@ -936,6 +911,13 @@ public class DatabaseRepository implements Repository {
         return db.insert("Debt", null, cv);
     }
 
+    private long insertTransactionCategoryQuery(ContentValues cv, boolean isExpense) {
+        return db.insert(isExpense ?
+                        "Transactions_Category_Expense" :
+                        "Transactions_Category_Income",
+                null, cv);
+    }
+
     private boolean updateAccountQuery(ContentValues cv, int id) {
         return db.update("Account", cv, "id_account = " + id, null) > 0;
     }
@@ -948,6 +930,13 @@ public class DatabaseRepository implements Repository {
         return db.update("Debt", cv, "id_debt = " + id, null) > 0;
     }
 
+    private boolean updateTransactionCategoryQuery(ContentValues cv, int id, boolean isExpense) {
+        return db.update(isExpense ?
+                        "Transactions_Category_Expense" :
+                        "Transactions_Category_Income",
+                cv, "id_category = " + id, null) > 0;
+    }
+
     private boolean deleteAccountQuery(int idAccount) {
         return db.delete("Account", "id_account = '" + idAccount + "' ", null) > 0;
     }
@@ -958,5 +947,109 @@ public class DatabaseRepository implements Repository {
 
     private boolean deleteDebtQuery(int idDebt) {
         return db.delete("Debt", "id_debt = " + idDebt, null) > 0;
+    }
+
+    private List<TransactionCategory> getTransactionCategoriesDB(boolean isExpense) {
+        List<TransactionCategory> categoryList = new ArrayList<>();
+
+        String[] initCategoriesArray = resourcesManager.getStringArray(isExpense ?
+                ResourcesManager.STRING_TRANSACTION_CATEGORY_EXPENSE :
+                ResourcesManager.STRING_TRANSACTION_CATEGORY_INCOME
+        );
+
+        for (int i = 0; i < initCategoriesArray.length; i++) {
+            categoryList.add(new TransactionCategory(i, initCategoriesArray[i]));
+        }
+
+        String selectQuery = isExpense ?
+                "SELECT * FROM Transactions_Category_Expense " :
+                "SELECT * FROM Transactions_Category_Income ";
+
+        openLocalToRead();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            int idColIndex = cursor.getColumnIndex("id_category");
+            int nameColIndex = cursor.getColumnIndex("name");
+            int visibilityColIndex = cursor.getColumnIndex("visibility");
+            do {
+                int id = cursor.getInt(idColIndex);
+                String name = cursor.getString(nameColIndex);
+                int visibility = cursor.getInt(visibilityColIndex);
+                categoryList.add(new TransactionCategory(id, name, visibility));
+            }
+            while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        closeLocal();
+        return categoryList;
+    }
+
+    private List<TransactionCategory> getTransactionIncomeCategories() {
+        return getTransactionCategoriesDB(false);
+    }
+
+    private List<TransactionCategory> getTransactionExpenseCategories() {
+        return getTransactionCategoriesDB(true);
+    }
+
+    private boolean makeTransactionCategoryInvisible(int id, boolean isExpense) {
+        ContentValues cv = new ContentValues();
+        cv.put("visibility", 0);
+
+        openLocalToWrite();
+        boolean res = updateTransactionCategoryQuery(cv, id, isExpense);
+        closeLocal();
+        return res;
+    }
+
+    private boolean makeTransactionCategoryIncomeInvisible(int id) {
+        return makeTransactionCategoryInvisible(id, false);
+    }
+
+    private boolean makeTransactionCategoryExpenseInvisible(int id) {
+        return makeTransactionCategoryInvisible(id, true);
+    }
+
+    private TransactionCategory editTransactionCategory(TransactionCategory transactionCategory, boolean isExpense) {
+        ContentValues cv = new ContentValues();
+        cv.put("name", transactionCategory.getName());
+
+        int id = transactionCategory.getId();
+
+        openLocalToWrite();
+        updateTransactionCategoryQuery(cv, id, isExpense);
+        closeLocal();
+        return transactionCategory;
+    }
+
+    private TransactionCategory editTransactionIncomeCategory(TransactionCategory transactionCategory) {
+        return editTransactionCategory(transactionCategory, false);
+    }
+
+    private TransactionCategory editTransactionExpenseCategory(TransactionCategory transactionCategory) {
+        return editTransactionCategory(transactionCategory, true);
+    }
+
+    private TransactionCategory insertNewTransactionCategory(TransactionCategory transactionCategory, boolean isExpense) {
+        ContentValues cv = new ContentValues();
+
+        cv.put("name", transactionCategory.getName());
+        cv.put("id_category", transactionCategory.getId());
+
+        openLocalToWrite();
+        insertTransactionCategoryQuery(cv, isExpense);
+        closeLocal();
+
+        return transactionCategory;
+    }
+
+    private TransactionCategory insertNewTransactionIncomeCategory(TransactionCategory transactionCategory) {
+        return insertNewTransactionCategory(transactionCategory, false);
+    }
+
+    private TransactionCategory insertNewTransactionExpenseCategory(TransactionCategory transactionCategory) {
+        return insertNewTransactionCategory(transactionCategory, true);
     }
 }

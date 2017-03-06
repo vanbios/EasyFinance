@@ -8,7 +8,7 @@ import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.models.Account;
 import com.androidcollider.easyfin.common.repository.Repository;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -36,7 +36,7 @@ class AddAccountModel implements AddAccountMVP.Model {
     }
 
     @Override
-    public Observable<Account> addAccount(String name, String amount, int type, String currency) {
+    public Flowable<Account> addAccount(String name, String amount, int type, String currency) {
         Account account = Account.builder()
                 .name(name)
                 .amount(Double.parseDouble(numberFormatManager.prepareStringToParse(amount)))
@@ -48,7 +48,7 @@ class AddAccountModel implements AddAccountMVP.Model {
     }
 
     @Override
-    public Observable<Account> updateAccount(String name, String amount, int type, String currency) {
+    public Flowable<Account> updateAccount(String name, String amount, int type, String currency) {
         Account account = Account.builder()
                 .id(accountForUpdate != null ? accountForUpdate.getId() : 0)
                 .name(name)

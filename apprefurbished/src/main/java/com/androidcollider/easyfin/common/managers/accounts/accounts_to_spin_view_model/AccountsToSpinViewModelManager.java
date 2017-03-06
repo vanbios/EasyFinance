@@ -9,7 +9,7 @@ import com.annimon.stream.Stream;
 
 import java.util.List;
 
-import rx.Observable;
+import io.reactivex.Flowable;
 
 /**
  * @author Ihor Bilous
@@ -27,7 +27,7 @@ public class AccountsToSpinViewModelManager {
         curLangArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY_LANG);
     }
 
-    public Observable<List<SpinAccountViewModel>> getSpinAccountViewModelList(Observable<List<Account>> accountObservable) {
+    public Flowable<List<SpinAccountViewModel>> getSpinAccountViewModelList(Flowable<List<Account>> accountObservable) {
         return accountObservable
                 .map(this::transformAccountListToViewModelList);
     }
