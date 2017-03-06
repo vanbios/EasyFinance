@@ -49,7 +49,7 @@ interface AddTransactionIncomeExpenseMVP {
 
         void setupSpinners(List<TransactionCategory> categoryList, TypedArray categoryIcons);
 
-        void setupCategorySpinner(List<TransactionCategory> categoryList, TypedArray categoryIcons);
+        void setupCategorySpinner(List<TransactionCategory> categoryList, TypedArray categoryIcons, int selectedPos);
 
         void showCategory(int position);
 

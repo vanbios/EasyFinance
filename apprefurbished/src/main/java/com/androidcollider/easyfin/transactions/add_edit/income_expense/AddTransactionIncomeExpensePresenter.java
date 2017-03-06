@@ -120,7 +120,7 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
                     .subscribe(transactionCategoryList1 -> {
                                 if (view != null) {
                                     Pair<List<TransactionCategory>, TypedArray> categoriesPair = getTransactionCategoriesData(transactionCategoryList1);
-                                    view.setupCategorySpinner(categoriesPair.first, categoriesPair.second);
+                                    view.setupCategorySpinner(categoriesPair.first, categoriesPair.second, categoriesPair.first.size() - 1);
                                     view.handleNewTransactionCategoryAdded();
                                     view.dismissDialogNewTransactionCategory();
                                 }

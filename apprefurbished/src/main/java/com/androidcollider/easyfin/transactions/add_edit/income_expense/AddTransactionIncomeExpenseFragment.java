@@ -237,7 +237,7 @@ public class AddTransactionIncomeExpenseFragment extends CommonFragmentAddEdit
 
     @Override
     public void setupSpinners(List<TransactionCategory> categoryList, TypedArray categoryIcons) {
-        setupCategorySpinner(categoryList, categoryIcons);
+        setupCategorySpinner(categoryList, categoryIcons, categoryIcons.length() - 1);
 
         spinAccount.setAdapter(new SpinAccountForTransHeadIconAdapter(
                 getActivity(),
@@ -248,7 +248,7 @@ public class AddTransactionIncomeExpenseFragment extends CommonFragmentAddEdit
     }
 
     @Override
-    public void setupCategorySpinner(List<TransactionCategory> categoryList, TypedArray categoryIcons) {
+    public void setupCategorySpinner(List<TransactionCategory> categoryList, TypedArray categoryIcons, int selectedPos) {
         spinCategory.setAdapter(new TransactionCategoryAdapter(
                 getActivity(),
                 R.layout.spin_head_icon_text,
@@ -261,7 +261,7 @@ public class AddTransactionIncomeExpenseFragment extends CommonFragmentAddEdit
                 categoryIcons,
                 letterTileManager));
 
-        spinCategory.setSelection(categoryIcons.length() - 1);
+        spinCategory.setSelection(selectedPos);
     }
 
     @Override

@@ -13,6 +13,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.events.UpdateFrgTransactionCategories;
+import com.androidcollider.easyfin.common.events.UpdateFrgTransactions;
 import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager;
 import com.androidcollider.easyfin.common.managers.ui.letter_tile.LetterTileManager;
 import com.androidcollider.easyfin.common.managers.ui.shake_edit_text.ShakeEditTextManager;
@@ -22,6 +23,7 @@ import com.androidcollider.easyfin.common.ui.MainActivity;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentWithEvents;
 import com.androidcollider.easyfin.transaction_categories.root.TransactionCategoriesRootFragment;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -216,6 +218,7 @@ public class TransactionCategoriesNestedFragment extends CommonFragmentWithEvent
     @Override
     public void handleTransactionCategoryUpdated() {
         presenter.loadTransactionCategories();
+        EventBus.getDefault().post(new UpdateFrgTransactions());
     }
 
     @Override
