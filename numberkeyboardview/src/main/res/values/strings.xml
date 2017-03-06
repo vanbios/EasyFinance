@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">NumberKeyboardView</string>
-
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name" translatable="false">NumberKeyboardView</string>
+    <string name="action_settings" translatable="false">Settings</string>
 </resources>
