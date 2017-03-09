@@ -62,14 +62,14 @@ ext {
     butterknifeVersion = '8.5.1'
     lombokVersion = '1.16.14'
     eventbusVersion = '3.0.0'
-    streamapiVersion = '1.1.5'
-    rxjavaVersion = '2.0.6'
+    streamapiVersion = '1.1.6'
+    rxjavaVersion = '2.0.7'
     rxandroidVersion = '2.0.1'
     //rxmathVersion = '1.0.0'
     mpchartVersion = '2.1.3'
     jsr250Version = '1.0'
     crashlyticsVersion = '2.6.6'
-    materialdialogVersion = '0.9.3.0'
+    materialdialogVersion = '0.9.4.1'
 }
 
 dependencies {
