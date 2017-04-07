@@ -8,7 +8,7 @@ import java.util.List;
  * @author Ihor Bilous
  */
 
-interface FAQMVP {
+public interface FAQMVP {
 
     interface Model {
 

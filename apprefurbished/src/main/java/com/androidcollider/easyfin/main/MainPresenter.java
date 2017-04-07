@@ -6,14 +6,14 @@ import android.support.annotation.Nullable;
  * @author Ihor Bilous
  */
 
-class MainPresenter implements MainMVP.Presenter {
+public class MainPresenter implements MainMVP.Presenter {
 
     @Nullable
     private MainMVP.View view;
     private MainMVP.Model model;
 
 
-    MainPresenter(MainMVP.Model model) {
+    public MainPresenter(MainMVP.Model model) {
         this.model = model;
     }
 

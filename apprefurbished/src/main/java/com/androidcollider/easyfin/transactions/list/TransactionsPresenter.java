@@ -6,14 +6,14 @@ import android.support.annotation.Nullable;
  * @author Ihor Bilous
  */
 
-class TransactionsPresenter implements TransactionsMVP.Presenter {
+public class TransactionsPresenter implements TransactionsMVP.Presenter {
 
     @Nullable
     private TransactionsMVP.View view;
     private TransactionsMVP.Model model;
 
 
-    TransactionsPresenter(TransactionsMVP.Model model) {
+    public TransactionsPresenter(TransactionsMVP.Model model) {
         this.model = model;
     }
 

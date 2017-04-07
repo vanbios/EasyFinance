@@ -9,7 +9,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-class TransactionViewModel {
+public class TransactionViewModel {
 
     private int id;
     private String accountName;

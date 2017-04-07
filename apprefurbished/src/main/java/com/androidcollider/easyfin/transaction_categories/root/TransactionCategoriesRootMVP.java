@@ -13,7 +13,7 @@ import io.reactivex.Flowable;
  * @author Ihor Bilous
  */
 
-class TransactionCategoriesRootMVP {
+interface TransactionCategoriesRootMVP {
 
     interface Model {
 

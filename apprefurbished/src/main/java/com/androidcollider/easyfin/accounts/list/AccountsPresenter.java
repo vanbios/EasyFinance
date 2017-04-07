@@ -6,13 +6,13 @@ import android.support.annotation.Nullable;
  * @author Ihor Bilous
  */
 
-class AccountsPresenter implements AccountsMVP.Presenter {
+public class AccountsPresenter implements AccountsMVP.Presenter {
 
     @Nullable
     private AccountsMVP.View view;
     private AccountsMVP.Model model;
 
-    AccountsPresenter(AccountsMVP.Model model) {
+    public AccountsPresenter(AccountsMVP.Model model) {
         this.model = model;
     }
 

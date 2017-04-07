@@ -14,7 +14,7 @@ import io.reactivex.Flowable;
  * @author Ihor Bilous
  */
 
-interface TransactionsMVP {
+public interface TransactionsMVP {
 
     interface Model {
 

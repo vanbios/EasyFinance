@@ -8,7 +8,7 @@ import io.reactivex.Flowable;
  * @author Ihor Bilous
  */
 
-interface MainMVP {
+public interface MainMVP {
 
     interface Model {
 

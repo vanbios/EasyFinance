@@ -6,14 +6,14 @@ import android.support.annotation.Nullable;
  * @author Ihor Bilous
  */
 
-class FAQPresenter implements FAQMVP.Presenter {
+public class FAQPresenter implements FAQMVP.Presenter {
 
     @Nullable
     private FAQMVP.View view;
     private FAQMVP.Model model;
 
 
-    FAQPresenter(FAQMVP.Model model) {
+    public FAQPresenter(FAQMVP.Model model) {
         this.model = model;
     }
 

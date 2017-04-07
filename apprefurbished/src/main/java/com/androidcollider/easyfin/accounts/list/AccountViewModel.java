@@ -9,7 +9,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-class AccountViewModel {
+public class AccountViewModel {
 
     private int id;
     private String name;
