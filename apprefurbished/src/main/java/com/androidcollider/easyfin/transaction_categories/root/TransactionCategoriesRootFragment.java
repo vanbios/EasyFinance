@@ -28,8 +28,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static butterknife.ButterKnife.findById;
-
 /**
  * @author Ihor Bilous
  */
@@ -140,7 +138,7 @@ public class TransactionCategoriesRootFragment extends CommonFragment
 
         View root = transactionCategoryDialog.getCustomView();
         if (root != null) {
-            etNewTransCategoryName = findById(root, R.id.et_transaction_category_name);
+            etNewTransCategoryName = root.findViewById(R.id.et_transaction_category_name);
         }
     }
 

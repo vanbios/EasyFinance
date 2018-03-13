@@ -33,8 +33,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 
-import static butterknife.ButterKnife.findById;
-
 /**
  * @author Ihor Bilous
  */
@@ -88,7 +86,9 @@ public class TransactionCategoriesNestedFragment extends CommonFragmentWithEvent
 
         setupUI();
 
-        type = getArguments().getInt(TYPE);
+        if (getArguments() != null) {
+            type = getArguments().getInt(TYPE);
+        }
 
         presenter.setView(this);
         presenter.setArguments(getArguments());
@@ -174,7 +174,7 @@ public class TransactionCategoriesNestedFragment extends CommonFragmentWithEvent
 
         View root = updateTransactionCategoryDialog.getCustomView();
         if (root != null) {
-            etTransCategoryName = findById(root, R.id.et_transaction_category_name);
+            etTransCategoryName = root.findViewById(R.id.et_transaction_category_name);
             etTransCategoryName.setText(presenter.getCategoryNameById(id));
             etTransCategoryName.setSelection(etTransCategoryName.getText().toString().length());
         }

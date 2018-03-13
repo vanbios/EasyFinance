@@ -11,8 +11,6 @@ import android.widget.TextView;
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 
-import static butterknife.ButterKnife.findById;
-
 /**
  * @author Ihor Bilous
  */
@@ -85,8 +83,8 @@ public class NavigationDrawerRecyclerAdapter extends RecyclerView.Adapter<Naviga
         ViewHolder(View itemView, int viewType) {
             super(itemView);
             if (viewType == TYPE_ITEM) {
-                tvNavItem = findById(itemView, R.id.tvItemNavRow);
-                ivNavItem = findById(itemView, R.id.ivItemNavRow);
+                tvNavItem = itemView.findViewById(R.id.tvItemNavRow);
+                ivNavItem = itemView.findViewById(R.id.ivItemNavRow);
                 holderId = TYPE_ITEM;
             } else {
                 holderId = viewType == TYPE_HEADER ? TYPE_HEADER : TYPE_DIVIDER;

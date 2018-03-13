@@ -21,8 +21,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
-import static butterknife.ButterKnife.findById;
-
 /**
  * @author Ihor Bilous
  */
@@ -110,8 +108,8 @@ class RecyclerTransactionCategoriesAdapter extends RecyclerView.Adapter<Recycler
         ViewHolderItem(View view) {
             super(view);
             mView = view;
-            tvCategory = findById(view, R.id.tv_category_name);
-            ivCategory = findById(view, R.id.iv_category_icon);
+            tvCategory = view.findViewById(R.id.tv_category_name);
+            ivCategory = view.findViewById(R.id.iv_category_icon);
             view.setOnCreateContextMenuListener(this);
         }
 

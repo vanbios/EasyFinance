@@ -19,8 +19,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
-import static butterknife.ButterKnife.findById;
-
 /**
  * @author Ihor Bilous
  */
@@ -109,12 +107,12 @@ class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapter.ViewH
         ViewHolder(View view) {
             super(view);
             mView = view;
-            tvDebtName = findById(view, R.id.tvItemDebtName);
-            tvAmount = findById(view, R.id.tvItemDebtAmount);
-            tvAccountName = findById(view, R.id.tvItemDebtAccountName);
-            tvDate = findById(view, R.id.tvItemDebtDate);
-            prgBar = findById(view, R.id.progressBarItemDebt);
-            tvProgress = findById(view, R.id.tvItemDebtProgress);
+            tvDebtName = view.findViewById(R.id.tvItemDebtName);
+            tvAmount = view.findViewById(R.id.tvItemDebtAmount);
+            tvAccountName = view.findViewById(R.id.tvItemDebtAccountName);
+            tvDate = view.findViewById(R.id.tvItemDebtDate);
+            prgBar = view.findViewById(R.id.progressBarItemDebt);
+            tvProgress = view.findViewById(R.id.tvItemDebtProgress);
             view.setOnCreateContextMenuListener(this);
         }
 

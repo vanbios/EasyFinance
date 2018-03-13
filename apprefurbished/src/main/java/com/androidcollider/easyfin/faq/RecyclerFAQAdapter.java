@@ -12,8 +12,6 @@ import com.androidcollider.easyfin.R;
 
 import java.util.List;
 
-import static butterknife.ButterKnife.findById;
-
 /**
  * @author Ihor Bilous
  */
@@ -62,9 +60,9 @@ class RecyclerFAQAdapter extends RecyclerView.Adapter<RecyclerFAQAdapter.ViewHol
 
         ViewHolder(View view) {
             super(view);
-            card = findById(view, R.id.cardFAQ);
-            tvHead = findById(view, R.id.tvFAQHead);
-            tvBody = findById(view, R.id.tvFAQBody);
+            card = view.findViewById(R.id.cardFAQ);
+            tvHead = view.findViewById(R.id.tvFAQHead);
+            tvBody = view.findViewById(R.id.tvFAQBody);
         }
     }
 }

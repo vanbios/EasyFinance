@@ -8,8 +8,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.androidcollider.easyfin.BuildConfig;
 import com.androidcollider.easyfin.R;
 
-import static butterknife.ButterKnife.findById;
-
 /**
  * @author Ihor Bilous
  */
@@ -98,7 +96,7 @@ public class DialogManager {
 
         View appAboutLayout = appAboutDialog.getCustomView();
         if (appAboutLayout != null) {
-            TextView tvVersion = findById(appAboutLayout, R.id.tvAboutAppVersion);
+            TextView tvVersion = appAboutLayout.findViewById(R.id.tvAboutAppVersion);
             tvVersion.setText(
                     String.format(
                             "%1$s %2$s",

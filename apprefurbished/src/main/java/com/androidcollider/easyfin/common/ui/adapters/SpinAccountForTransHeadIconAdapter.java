@@ -12,8 +12,6 @@ import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 
 import java.util.List;
 
-import static butterknife.ButterKnife.findById;
-
 /**
  * @author Ihor Bilous
  */
@@ -31,9 +29,9 @@ public class SpinAccountForTransHeadIconAdapter extends SpinAccountAdapter {
         View headSpinner = getInflater().inflate(R.layout.spin_head_icon_text, parent, false);
         SpinAccountViewModel account = getItem(position);
         if (account != null) {
-            TextView headText = findById(headSpinner, R.id.tvSpinHeadIconText);
+            TextView headText = headSpinner.findViewById(R.id.tvSpinHeadIconText);
             headText.setText(account.getName());
-            ImageView headIcon = findById(headSpinner, R.id.ivSpinHeadIconText);
+            ImageView headIcon = headSpinner.findViewById(R.id.ivSpinHeadIconText);
             headIcon.setImageResource(getTypeIconsArray().getResourceId(account.getType(), 0));
         }
         return headSpinner;

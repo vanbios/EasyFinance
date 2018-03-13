@@ -45,8 +45,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static butterknife.ButterKnife.findById;
-
 /**
  * @author Ihor Bilous
  */
@@ -139,8 +137,8 @@ public class HomeFragment extends CommonFragmentWithEvents implements HomeMVP.Vi
         View balanceSettings = balanceSettingsDialog.getCustomView();
 
         if (balanceSettings != null) {
-            chkBoxConvert = findById(balanceSettings, R.id.checkBoxMainBalanceSettingsConvert);
-            chkBoxShowOnlyIntegers = findById(balanceSettings, R.id.checkBoxMainBalanceSettingsShowCents);
+            chkBoxConvert = balanceSettings.findViewById(R.id.checkBoxMainBalanceSettingsConvert);
+            chkBoxShowOnlyIntegers = balanceSettings.findViewById(R.id.checkBoxMainBalanceSettingsShowCents);
         }
 
         convert = sharedPrefManager.getMainBalanceSettingsConvertCheck();

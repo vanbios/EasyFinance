@@ -20,8 +20,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
-import static butterknife.ButterKnife.findById;
-
 /**
  * @author Ihor Bilous
  */
@@ -102,9 +100,9 @@ class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccountAdapter
         ViewHolder(View view) {
             super(view);
             mView = view;
-            ivAccountType = findById(view, R.id.ivItemFragmentAccountType);
-            tvAccountName = findById(view, R.id.tvItemFragmentAccountName);
-            tvAccountAmount = findById(view, R.id.tvItemFragmentAccountAmount);
+            ivAccountType = view.findViewById(R.id.ivItemFragmentAccountType);
+            tvAccountName = view.findViewById(R.id.tvItemFragmentAccountName);
+            tvAccountAmount = view.findViewById(R.id.tvItemFragmentAccountAmount);
             view.setOnCreateContextMenuListener(this);
         }
 

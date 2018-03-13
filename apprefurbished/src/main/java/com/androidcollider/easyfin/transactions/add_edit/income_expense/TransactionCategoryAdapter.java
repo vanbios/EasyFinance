@@ -16,8 +16,6 @@ import com.androidcollider.easyfin.common.models.TransactionCategory;
 import java.util.ArrayList;
 import java.util.List;
 
-import static butterknife.ButterKnife.findById;
-
 /**
  * @author Ihor Bilous
  */
@@ -63,10 +61,10 @@ class TransactionCategoryAdapter extends ArrayAdapter<TransactionCategory> {
 
     private View getCustomDropView(int position, ViewGroup parent) {
         View dropSpinner = inflater.inflate(dropLayout, parent, false);
-        TextView text = findById(dropSpinner, dropTvId);
+        TextView text = dropSpinner.findViewById(dropTvId);
         String name = transactionCategoryList.get(position).getName();
         text.setText(name);
-        ImageView icon = findById(dropSpinner, dropIvId);
+        ImageView icon = dropSpinner.findViewById(dropIvId);
         if (position < iconsArray.length()) {
             icon.setImageResource(iconsArray.getResourceId(position, 0));
         } else {
@@ -77,10 +75,10 @@ class TransactionCategoryAdapter extends ArrayAdapter<TransactionCategory> {
 
     private View getCustomHeadView(int position, ViewGroup parent) {
         View headSpinner = inflater.inflate(headLayout, parent, false);
-        TextView headText = findById(headSpinner, headTvId);
+        TextView headText = headSpinner.findViewById(headTvId);
         String name = transactionCategoryList.get(position).getName();
         headText.setText(name);
-        ImageView icon = findById(headSpinner, headIvId);
+        ImageView icon = headSpinner.findViewById(headIvId);
         if (position < iconsArray.length()) {
             icon.setImageResource(iconsArray.getResourceId(position, 0));
         } else {

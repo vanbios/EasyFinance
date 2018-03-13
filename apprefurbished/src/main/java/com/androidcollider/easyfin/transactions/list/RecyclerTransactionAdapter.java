@@ -22,8 +22,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
-import static butterknife.ButterKnife.findById;
-
 /**
  * @author Ihor Bilous
  */
@@ -180,11 +178,11 @@ class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTransactio
         ViewHolderItem(View view) {
             super(view);
             mView = view;
-            tvTransAmount = findById(view, R.id.tvItemTransactionAmount);
-            tvTransAccountName = findById(view, R.id.tvItemTransactionAccountName);
-            tvTransDate = findById(view, R.id.tvItemTransactionDate);
-            ivTransCategory = findById(view, R.id.ivItemTransactionCategory);
-            ivTransAccountType = findById(view, R.id.ivItemTransactionAccountType);
+            tvTransAmount = view.findViewById(R.id.tvItemTransactionAmount);
+            tvTransAccountName = view.findViewById(R.id.tvItemTransactionAccountName);
+            tvTransDate = view.findViewById(R.id.tvItemTransactionDate);
+            ivTransCategory = view.findViewById(R.id.ivItemTransactionCategory);
+            ivTransAccountType = view.findViewById(R.id.ivItemTransactionAccountType);
             view.setOnCreateContextMenuListener(this);
         }
 
@@ -201,7 +199,7 @@ class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTransactio
 
         ViewHolderButton(View view) {
             super(view);
-            tvShowMore = (TextView) view.findViewById(R.id.tvItemShowMore);
+            tvShowMore = view.findViewById(R.id.tvItemShowMore);
         }
     }
 }
