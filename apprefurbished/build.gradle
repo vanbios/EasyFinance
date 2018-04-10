@@ -30,14 +30,14 @@ android {
 ext {
     supportLibraryVersion = '27.1.0'
     retrofitVersion = '2.3.0'
-    gmsVersion = '11.8.0'
+    gmsVersion = '12.0.1'
     daggerVersion = '2.15'
     gsonVersion = '2.8.2'
     butterknifeVersion = '8.8.1'
     lombokVersion = '1.16.20'
     eventbusVersion = '3.1.1'
     streamapiVersion = '1.1.9'
-    rxjavaVersion = '2.1.10'
+    rxjavaVersion = '2.1.12'
     rxandroidVersion = '2.0.2'
     mpchartVersion = '2.1.3'
     jsr250Version = '1.0'
@@ -46,54 +46,54 @@ ext {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile "com.android.support:appcompat-v7:$supportLibraryVersion"
-    compile "com.android.support:design:$supportLibraryVersion"
-    compile "com.android.support:cardview-v7:$supportLibraryVersion"
-    compile "com.google.android.gms:play-services-analytics:$gmsVersion"
-    compile "com.afollestad.material-dialogs:core:$materialdialogVersion"
-    compile "com.github.PhilJay:MPAndroidChart:$mpchartVersion"
-    compile project(':numberkeyboardview')
-    compile project(':floatingactionbutton')
-    compile("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar") {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
+    implementation "com.android.support:design:$supportLibraryVersion"
+    implementation "com.android.support:cardview-v7:$supportLibraryVersion"
+    implementation "com.google.android.gms:play-services-analytics:$gmsVersion"
+    implementation "com.afollestad.material-dialogs:core:$materialdialogVersion"
+    implementation "com.github.PhilJay:MPAndroidChart:$mpchartVersion"
+    implementation project(':numberkeyboardview')
+    implementation project(':floatingactionbutton')
+    implementation("com.crashlytics.sdk.android:crashlytics:$crashlyticsVersion@aar") {
         transitive = true
     }
 
     // dagger 2
     annotationProcessor "com.google.dagger:dagger-compiler:$daggerVersion"
-    compile "com.google.dagger:dagger:$daggerVersion"
-    provided "javax.annotation:jsr250-api:$jsr250Version"
+    implementation "com.google.dagger:dagger:$daggerVersion"
+    compileOnly "javax.annotation:jsr250-api:$jsr250Version"
 
     // butterknife
-    compile "com.jakewharton:butterknife:$butterknifeVersion"
+    implementation "com.jakewharton:butterknife:$butterknifeVersion"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknifeVersion"
 
     // retrofit 2
-    compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
-    compile "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    compile "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
 
-    compile "com.google.code.gson:gson:$gsonVersion"
+    implementation "com.google.code.gson:gson:$gsonVersion"
 
     // eventbus
-    compile "org.greenrobot:eventbus:$eventbusVersion"
+    implementation "org.greenrobot:eventbus:$eventbusVersion"
 
     // stream api
-    compile "com.annimon:stream:$streamapiVersion"
+    implementation "com.annimon:stream:$streamapiVersion"
 
     // rx
-    compile "io.reactivex.rxjava2:rxandroid:$rxandroidVersion"
-    compile "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxandroidVersion"
+    implementation "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
 
     // lombok
-    provided "org.projectlombok:lombok:$lombokVersion"
+    compileOnly "org.projectlombok:lombok:$lombokVersion"
     annotationProcessor "org.projectlombok:lombok:$lombokVersion"
 
 
 
     // testing
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:2.16.0'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.mockito:mockito-core:2.18.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
