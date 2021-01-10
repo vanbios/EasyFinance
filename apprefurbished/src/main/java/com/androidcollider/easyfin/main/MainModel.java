@@ -2,7 +2,7 @@ package com.androidcollider.easyfin.main;
 
 import com.androidcollider.easyfin.common.managers.accounts.accounts_info.AccountsInfoManager;
 
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 
 /**
  * @author Ihor Bilous

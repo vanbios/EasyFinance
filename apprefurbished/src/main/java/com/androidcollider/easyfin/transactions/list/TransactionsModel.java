@@ -17,7 +17,7 @@ import com.annimon.stream.Stream;
 
 import java.util.List;
 
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 
 /**
  * @author Ihor Bilous

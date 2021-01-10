@@ -8,7 +8,7 @@ import com.github.mikephil.charting.data.PieData;
 
 import java.util.Map;
 
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 
 /**
  * @author Ihor Bilous

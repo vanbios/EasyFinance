@@ -9,7 +9,7 @@ import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.accounts.list.AccountsFragment;
 import com.androidcollider.easyfin.common.models.Account;
 
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 
 /**
  * @author Ihor Bilous

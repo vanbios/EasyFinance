@@ -2,7 +2,7 @@ package com.androidcollider.easyfin.common.api;
 
 import com.androidcollider.easyfin.common.models.RatesRemote;
 
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 import retrofit2.http.GET;
 
 /**

@@ -2,7 +2,7 @@ package com.androidcollider.easyfin.main;
 
 import androidx.annotation.Nullable;
 
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 
 /**
  * @author Ihor Bilous

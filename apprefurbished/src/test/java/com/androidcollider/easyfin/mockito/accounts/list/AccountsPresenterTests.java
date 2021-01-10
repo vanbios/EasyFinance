@@ -12,7 +12,7 @@ import org.mockito.ArgumentMatchers;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;

@@ -6,7 +6,7 @@ import androidx.annotation.Nullable;
 
 import com.androidcollider.easyfin.common.models.Account;
 
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 
 /**
  * @author Ihor Bilous

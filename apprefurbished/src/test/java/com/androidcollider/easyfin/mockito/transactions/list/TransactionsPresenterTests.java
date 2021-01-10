@@ -15,7 +15,7 @@ import org.mockito.ArgumentMatchers;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -162,7 +162,7 @@ public class TransactionsPresenterTests {
     }
 
     private Transaction getTestTransaction() {
-        return Transaction.builder().build();
+        return new Transaction();
     }
 
     private Flowable<Transaction> getTestTransactionFlowable(Transaction transaction) {
@@ -182,8 +182,8 @@ public class TransactionsPresenterTests {
 
     private Pair<List<TransactionViewModel>,
             Pair<List<TransactionCategory>, List<TransactionCategory>>> getTransactionAndTransactionCategoriesListsTestPair() {
-        TransactionViewModel transactionViewModel = TransactionViewModel.builder().build();
-        TransactionCategory transactionCategory = new TransactionCategory(0, "");
+        TransactionViewModel transactionViewModel = new TransactionViewModel();
+        TransactionCategory transactionCategory = new TransactionCategory(0, "", 1);
 
         List<TransactionViewModel> transactionViewModelList = new ArrayList<>();
         transactionViewModelList.add(transactionViewModel);

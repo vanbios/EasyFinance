@@ -6,7 +6,7 @@ import com.androidcollider.easyfin.main.MainPresenter;
 import org.junit.Before;
 import org.junit.Test;
 
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;

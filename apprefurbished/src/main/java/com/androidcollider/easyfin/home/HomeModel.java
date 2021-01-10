@@ -6,7 +6,7 @@ import com.androidcollider.easyfin.common.repository.Repository;
 
 import java.util.Map;
 
-import io.reactivex.Flowable;
+import io.reactivex.rxjava3.core.Flowable;
 
 /**
  * @author Ihor Bilous
