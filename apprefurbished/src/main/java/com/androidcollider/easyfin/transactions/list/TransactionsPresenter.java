@@ -10,7 +10,7 @@ public class TransactionsPresenter implements TransactionsMVP.Presenter {
 
     @Nullable
     private TransactionsMVP.View view;
-    private TransactionsMVP.Model model;
+    private final TransactionsMVP.Model model;
 
 
     public TransactionsPresenter(TransactionsMVP.Model model) {

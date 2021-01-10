@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidcollider.easyfin.R;
@@ -26,14 +27,14 @@ import java.util.List;
 class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTransactionAdapter.MainViewHolder> {
 
     private int currentId;
-    private List<TransactionViewModel> transactionList;
-    private List<TransactionCategory> transactionCategoryIncomeList;
-    private List<TransactionCategory> transactionCategoryExpenseList;
+    private final List<TransactionViewModel> transactionList;
+    private final List<TransactionCategory> transactionCategoryIncomeList;
+    private final List<TransactionCategory> transactionCategoryExpenseList;
     private final TypedArray catExpenseIconsArray, catIncomeIconsArray, typeIconsArray;
     private final int CONTENT_TYPE = 1, BUTTON_TYPE = 2;
     private static int itemCount, maxCount = 30;
     private static boolean showButton;
-    private LetterTileManager letterTileManager;
+    private final LetterTileManager letterTileManager;
 
 
     RecyclerTransactionAdapter(ResourcesManager resourcesManager, LetterTileManager letterTileManager) {
@@ -102,8 +103,9 @@ class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTransactio
         return 0;
     }
 
+    @NonNull
     @Override
-    public MainViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MainViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
             case CONTENT_TYPE:
                 return new ViewHolderItem(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_frg_transaction, parent, false));
@@ -114,7 +116,7 @@ class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTransactio
     }
 
     @Override
-    public void onBindViewHolder(final MainViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final MainViewHolder holder, final int position) {
         if (getItemViewType(position) == CONTENT_TYPE) {
             ViewHolderItem holderItem = (ViewHolderItem) holder;
 
