@@ -33,8 +33,8 @@ ext {
     gsonVersion = '2.8.6'
     eventbusVersion = '3.2.0'
     streamapiVersion = '1.1.9'
-    rxjavaVersion = '2.1.12'
-    rxandroidVersion = '2.0.2'
+    rxjavaVersion = '3.0.9'
+    rxandroidVersion = '3.0.0'
     mpchartVersion = '2.1.3'
     jsr250Version = '1.0'
     materialdialogVersion = '3.3.0'
@@ -64,7 +64,7 @@ dependencies {
     // retrofit 2
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava3:$retrofitVersion"
 
     implementation "com.google.code.gson:gson:$gsonVersion"
 
@@ -75,8 +75,8 @@ dependencies {
     implementation "com.annimon:stream:$streamapiVersion"
 
     // rx
-    implementation "io.reactivex.rxjava2:rxandroid:$rxandroidVersion"
-    implementation "io.reactivex.rxjava2:rxjava:$rxjavaVersion"
+    implementation "io.reactivex.rxjava3:rxandroid:$rxandroidVersion"
+    implementation "io.reactivex.rxjava3:rxjava:$rxjavaVersion"
 
     // testing
     testImplementation 'junit:junit:4.13.1'
