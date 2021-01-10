@@ -10,19 +10,15 @@ import com.androidcollider.easyfin.common.events.UpdateFrgHomeNewRates;
 import com.androidcollider.easyfin.common.managers.connection.ConnectionManager;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.managers.shared_pref.SharedPrefManager;
-import com.androidcollider.easyfin.common.models.Currency;
 import com.androidcollider.easyfin.common.models.Rates;
 import com.androidcollider.easyfin.common.models.RatesRemote;
 import com.androidcollider.easyfin.common.repository.Repository;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.List;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -35,12 +31,12 @@ public class RatesLoaderManager {
 
     private static final String TAG = RatesLoaderManager.class.getSimpleName();
 
-    private Context context;
-    private RatesApi ratesApi;
-    private Repository repository;
-    private ConnectionManager connectionManager;
-    private SharedPrefManager sharedPrefManager;
-    private ResourcesManager resourcesManager;
+    private final Context context;
+    private final RatesApi ratesApi;
+    private final Repository repository;
+    private final ConnectionManager connectionManager;
+    private final SharedPrefManager sharedPrefManager;
+    private final ResourcesManager resourcesManager;
 
     RatesLoaderManager(Context context, RatesApi ratesApi, Repository repository,
                        ConnectionManager connectionManager, SharedPrefManager sharedPrefManager,
@@ -59,36 +55,24 @@ public class RatesLoaderManager {
                 && connectionManager.isConnectionEnabled()
                 && (!sharedPrefManager.getRatesInsertFirstTimeStatus()
                 || !checkForTodayUpdate()
-                && checkForAvailableNewRates())) {
-            //getRates();
+                //&& checkForAvailableNewRates()
+        )) {
+            getRates();
         }
     }
 
-    private boolean checkForAvailableNewRates() {
+    /*private boolean checkForAvailableNewRates() {
         Date date = new Date();
         TimeZone timeZone = TimeZone.getTimeZone("UTC");
         Calendar calendar = Calendar.getInstance(timeZone, Locale.UK);
 
         calendar.setTime(date);
 
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+        SimpleDateFormat sdfHour = new SimpleDateFormat("HH", Locale.UK);
+        sdfHour.setTimeZone(timeZone);
 
-        switch (dayOfWeek) {
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-            case 6:
-            case 7: {
-                SimpleDateFormat sdfHour = new SimpleDateFormat("HH", Locale.UK);
-                sdfHour.setTimeZone(timeZone);
-
-                if (Integer.parseInt(sdfHour.format(date)) >= 8) return true;
-            }
-        }
-        return false;
-    }
+        return Integer.parseInt(sdfHour.format(date)) >= 8;
+    }*/
 
     private boolean checkForTodayUpdate() {
         Calendar oldCalendar = Calendar.getInstance();
@@ -97,11 +81,11 @@ public class RatesLoaderManager {
     }
 
     private void getRates() {
-        ratesApi.getRates()
+        ratesApi.getRates("json")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        ratesRemote -> {
+                        ratesRemoteList -> {
                             int[] idArray = new int[]{3, 7, 11, 15};
                             String[] currencyArray = resourcesManager.getStringArray(ResourcesManager.STRING_JSON_RATES);
                             ArrayList<Rates> ratesList = new ArrayList<>();
@@ -109,7 +93,7 @@ public class RatesLoaderManager {
                             for (int i = 0; i < idArray.length; i++) {
                                 int id = idArray[i];
                                 String cur = currencyArray[i];
-                                ratesList.add(generateNewRates(id, cur, ratesRemote));
+                                ratesList.add(generateNewRates(id, cur, ratesRemoteList));
                             }
                             Log.d(TAG, "rates " + ratesList);
 
@@ -122,30 +106,15 @@ public class RatesLoaderManager {
                 );
     }
 
-    private Rates generateNewRates(int id, String cur, RatesRemote ratesRemote) {
+    private Rates generateNewRates(int id, String cur, List<RatesRemote> ratesRemoteList) {
         long date = System.currentTimeMillis();
-        Currency currency;
-        double bid = 1, ask = 1;
-        switch (id) {
-            case 3:
-                currency = ratesRemote.getUsd();
+        double rate = 1;
+        for (RatesRemote ratesRemote : ratesRemoteList) {
+            if (cur.equals(ratesRemote.getCc().toLowerCase())) {
+                rate = ratesRemote.getRate();
                 break;
-            case 7:
-                currency = ratesRemote.getEur();
-                break;
-            case 11:
-                currency = ratesRemote.getRub();
-                break;
-            case 15:
-                currency = ratesRemote.getGbp();
-                break;
-            default:
-                throw new IllegalArgumentException("id should be 3, 7, 11 or 15!");
+            }
         }
-        if (currency != null) {
-            bid = currency.getBid();
-            ask = currency.getAsk();
-        }
-        return new Rates(id, date, cur, "bank", bid, ask);
+        return new Rates(id, date, cur, "bank", rate, rate);
     }
 }

@@ -1,6 +1,7 @@
 package com.androidcollider.easyfin.common.managers.rates.rates_info;
 
 import android.content.Context;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
@@ -18,9 +19,9 @@ public class RatesInfoManager {
     private int count = 0;
 
     private String info;
-    private Repository repository;
-    private ToastManager toastManager;
-    private ResourcesManager resourcesManager;
+    private final Repository repository;
+    private final ToastManager toastManager;
+    private final ResourcesManager resourcesManager;
 
 
     RatesInfoManager(Repository repository, ToastManager toastManager, ResourcesManager resourcesManager) {
@@ -43,6 +44,11 @@ public class RatesInfoManager {
             } else count = 0;
 
             lastPressTime = currentTime;
+
+            if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                view1.performClick();
+            }
+
             return false;
         });
     }

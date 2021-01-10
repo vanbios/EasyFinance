@@ -2,8 +2,11 @@ package com.androidcollider.easyfin.common.api;
 
 import com.androidcollider.easyfin.common.models.RatesRemote;
 
+import java.util.List;
+
 import io.reactivex.rxjava3.core.Flowable;
 import retrofit2.http.GET;
+import retrofit2.http.QueryName;
 
 /**
  * @author Ihor Bilous
@@ -11,6 +14,6 @@ import retrofit2.http.GET;
 
 public interface RatesApi {
 
-    @GET("/summary/f362f94f90fe9d841a98280b9098297ce4d574fa/")
-    Flowable<RatesRemote> getRates();
+    @GET("exchange")
+    Flowable<List<RatesRemote>> getRates(@QueryName String responseType);
 }

@@ -9,9 +9,9 @@ import com.androidcollider.easyfin.common.repository.Repository;
 
 public class ExchangeManager {
 
-    private Repository repository;
-    private ResourcesManager resourcesManager;
-    private double[] rates = {1, 27.708, 29.225, 0.463, 34.1};
+    private final Repository repository;
+    private final ResourcesManager resourcesManager;
+    private final double[] rates = {1, 28.2847, 34.909, 0.384, 38.5238};
 
     ExchangeManager(Repository repository, ResourcesManager resourcesManager) {
         this.repository = repository;

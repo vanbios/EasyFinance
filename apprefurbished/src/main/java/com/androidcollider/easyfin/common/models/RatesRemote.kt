@@ -1,40 +1,30 @@
-package com.androidcollider.easyfin.common.models;
+package com.androidcollider.easyfin.common.models
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import com.google.gson.annotations.Expose
+import com.google.gson.annotations.SerializedName
 
 /**
  * @author Ihor Bilous
  */
+class RatesRemote {
 
-public class RatesRemote {
-
-    @SerializedName("usd")
+    @SerializedName("r030")
     @Expose
-    public Currency usd;
-    @SerializedName("eur")
+    var r030 = 0
+
+    @SerializedName("txt")
     @Expose
-    public Currency eur;
-    @SerializedName("rub")
+    var txt: String? = null
+
+    @SerializedName("rate")
     @Expose
-    public Currency rub;
-    @SerializedName("gbp")
+    var rate = 0.0
+
+    @SerializedName("cc")
     @Expose
-    public Currency gbp;
+    var cc: String? = null
 
-    public Currency getUsd() {
-        return usd;
-    }
-
-    public Currency getEur() {
-        return eur;
-    }
-
-    public Currency getRub() {
-        return rub;
-    }
-
-    public Currency getGbp() {
-        return gbp;
-    }
+    @SerializedName("exchangedate")
+    @Expose
+    var exchangeDate: String? = null
 }
