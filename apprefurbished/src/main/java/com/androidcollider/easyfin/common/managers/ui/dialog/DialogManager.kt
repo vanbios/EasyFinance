@@ -9,6 +9,7 @@ import com.afollestad.materialdialogs.customview.customView
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.androidcollider.easyfin.BuildConfig
 import com.androidcollider.easyfin.R
+import java.util.*
 
 class DialogManager {
 
@@ -89,12 +90,15 @@ class DialogManager {
                 .customView(R.layout.app_about, dialogWrapContent = true)
                 .positiveButton(R.string.ok)
         val appAboutLayout: View = appAboutDialog.getCustomView()
-        val tvVersion = appAboutLayout.findViewById<TextView>(R.id.tvAboutAppVersion)
+        val tvVersion = appAboutLayout.findViewById<TextView>(R.id.tv_about_app_version)
         tvVersion.text = String.format(
                 "%1\$s %2\$s",
                 context.getString(R.string.about_app_version),
                 BuildConfig.VERSION_NAME
         )
+        val tvDeveloper = appAboutLayout.findViewById<TextView>(R.id.tv_about_app_developer)
+        val year = Calendar.getInstance().get(Calendar.YEAR)
+        tvDeveloper.text = context.getString(R.string.about_app_developer, year)
         appAboutDialog.show()
     }
 

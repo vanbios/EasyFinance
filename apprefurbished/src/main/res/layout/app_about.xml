@@ -1,96 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     >
 
     <TextView
-        android:id="@+id/tvAboutAppName"
-        style="@style/TitleFont"
+        android:id="@+id/tv_about_app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:text="@string/app_name"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+        android:textColor="@color/onSurface_highEmphasis"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         />
 
     <TextView
-        android:id="@+id/tvAboutAppVersion"
-        style="@style/BodyFontSecondary"
+        android:id="@+id/tv_about_app_version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvAboutAppName"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/common_padding_small"
+        android:layout_marginTop="5dp"
         android:text="@string/about_app_version"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
+        android:textColor="@color/onSurface_mediumEmphasis"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_about_app_name"
         />
 
     <View
-        android:id="@+id/cvAboutAppDividerAboveRates"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/tvAboutAppVersion"
-        android:layout_alignLeft="@+id/tvAboutAppRatesSourceLink"
-        android:layout_alignRight="@+id/tvAboutAppRatesSourceLink"
-        android:layout_marginTop="@dimen/common_padding_large"
-        android:background="@color/custom_light_gray"
+        android:id="@+id/cv_about_app_divider_above_developers"
+        android:layout_width="0dp"
+        android:layout_height="1px"
+        android:layout_marginTop="16dp"
+        android:background="@color/divider_light_gray"
+        app:layout_constraintEnd_toEndOf="@id/tv_about_app_developer"
+        app:layout_constraintStart_toStartOf="@id/tv_about_app_developer"
+        app:layout_constraintTop_toBottomOf="@id/tv_about_app_version"
         />
 
     <TextView
-        android:id="@+id/tvAboutAppRatesSource"
-        style="@style/BodyFontSecondary"
+        android:id="@+id/tv_about_app_developer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/cvAboutAppDividerAboveRates"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/common_padding_large"
-        android:text="@string/about_app_rates_source"
-        />
-
-    <TextView
-        android:id="@+id/tvAboutAppRatesSourceLink"
-        style="@style/BodyFontSecondary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvAboutAppRatesSource"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/common_padding_small"
-        android:autoLink="web"
-        android:text="@string/about_app_rates_source_link"
-        />
-
-    <View
-        android:id="@+id/cvAboutAppDividerAboveDevelopers"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/tvAboutAppRatesSourceLink"
-        android:layout_alignLeft="@+id/tvAboutAppRatesSourceLink"
-        android:layout_alignRight="@+id/tvAboutAppRatesSourceLink"
-        android:layout_marginTop="@dimen/common_padding_large"
-        android:background="@color/custom_light_gray"
-        />
-
-    <TextView
-        android:id="@+id/tvAboutAppDeveloper"
-        style="@style/BodyFontSecondary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/cvAboutAppDividerAboveDevelopers"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/common_padding_large"
+        android:layout_marginTop="16dp"
         android:text="@string/about_app_developer"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+        android:textColor="@color/onSurface_mediumEmphasis"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cv_about_app_divider_above_developers"
         />
 
     <TextView
-        android:id="@+id/tvAboutAppMailToDeveloper"
-        style="@style/BodyFontSecondary"
+        android:id="@+id/tv_about_app_mail_to_developer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvAboutAppDeveloper"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/common_padding_small"
+        android:layout_marginTop="5dp"
         android:autoLink="web|email"
         android:text="@string/about_app_mail_to_dev"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_about_app_developer"
         />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

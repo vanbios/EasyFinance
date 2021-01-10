@@ -183,16 +183,8 @@
     //about
     <string name="general_info">General information</string>
     <string name="about_app_version">version</string>
-    <string name="about_app_developer">Android Collider © 2015–2017</string>
-
-    <string name="about_app_rates_source">Exchange rates source:</string>
-    <string name="about_app_rates_source_link"><a href="www.minfin.com.ua/currency/">http://www.minfin.com.ua/currency/</a></string>
-
-    <string name="about_app_mail_to_dev"><a href="mailto:android.collider@gmail.com">android.collider@gmail.com</a></string>
-
-
-
-
+    <string name="about_app_developer" translatable="false">Android Collider © 2015–%1$d</string>
+    <string name="about_app_mail_to_dev" translatable="false"><a href="mailto:android.collider@gmail.com">android.collider@gmail.com</a></string>
 
 
     //string arrays

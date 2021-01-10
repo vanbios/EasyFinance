@@ -195,15 +195,6 @@
     //about
     <string name="general_info">Загальна інформація</string>
     <string name="about_app_version">версія</string>
-    <string name="about_app_developer">Android Collider © 2015–2017</string>
-
-    <string name="about_app_rates_source">Джерело курсів валют:</string>
-    <string name="about_app_rates_source_link"><a href="www.minfin.com.ua/currency/">http://www.minfin.com.ua/currency/</a></string>
-
-    <string name="about_app_mail_to_dev"><a href="mailto:android.collider@gmail.com">android.collider@gmail.com</a></string>
-
-
-
 
 
     //string arrays

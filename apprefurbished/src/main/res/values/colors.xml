@@ -31,6 +31,27 @@
     <color name="custom_blue_gray_light">#CFD8DC</color>
 
 
+    <color name="divider_light_gray">#dfdfdf</color>
+
+    <color name="onPrimary_highEmphasis">@android:color/white</color>
+    <color name="onPrimary_mediumEmphasis">#BDFFFFFF</color>
+    <color name="onPrimary_disabled">#61FFFFFF</color>
+
+    <color name="onSurface_highEmphasis">#DE4B4B4B</color>
+    <color name="onSurface_mediumEmphasis">#994B4B4B</color>
+    <color name="onSurface_disabled">#614B4B4B</color>
+
+    <color name="general_surface">#FFFFFFFF</color>
+    <color name="general_surface_light">#EDEDED</color>
+    <color name="general_surface_dark">#D1D1D1</color>
+
+    <color name="secondary_overlay_hover">#697F8A</color>
+    <color name="secondary_overlay_focused">#697F8A</color>
+    <color name="secondary_overlay_pressed">#697F8A</color>
+    <color name="secondary_overlay_dragged">#697F8A</color>
+    <color name="secondary_overlay_selected">#697F8A</color>
+
+
 
     <color name="red_50">#FFEBEE</color>
     <color name="red_100">#FFCDD2</color>
