@@ -1,7 +1,8 @@
 package com.androidcollider.easyfin.common.ui.fragments.common;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
+
+import androidx.fragment.app.FragmentManager;
 
 import com.androidcollider.easyfin.common.app.App;
 import com.androidcollider.easyfin.common.managers.analytics.AnalyticsManager;
@@ -49,7 +50,6 @@ public abstract class CommonFragment extends AbstractBaseFragment {
 
     protected void finish() {
         tryExecuteTransaction(() -> getFragmentManager().popBackStack());
-        //getFragmentManager().popBackStack();
     }
 
     protected void popAll() {
@@ -58,7 +58,7 @@ public abstract class CommonFragment extends AbstractBaseFragment {
 
     public abstract String getTitle();
 
-    private LinkedList<Runnable> pendingTransactions = new LinkedList<>();
+    private final LinkedList<Runnable> pendingTransactions = new LinkedList<>();
 
     protected void tryExecuteTransaction(Runnable runnable) {
         if (isResumed()) runnable.run();

@@ -1,7 +1,6 @@
 package com.androidcollider.easyfin.transactions.add_edit.btw_accounts;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -9,6 +8,8 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.app.App;
@@ -31,9 +32,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-
 /**
  * @author Ihor Bilous
  */
@@ -41,17 +39,11 @@ import butterknife.OnClick;
 public class AddTransactionBetweenAccountsFragment extends CommonFragmentAddEdit
         implements NumericDialogFragment.OnCommitAmountListener, AddTransactionBetweenAccountsMVP.View {
 
-    @BindView(R.id.spinAddTransBTWAccountFrom)
     Spinner spinAccountFrom;
-    @BindView(R.id.spinAddTransBTWAccountTo)
     Spinner spinAccountTo;
-    @BindView(R.id.editTextTransBTWExchange)
     EditText etExchange;
-    @BindView(R.id.tvAddTransBTWAmount)
     TextView tvAmount;
-    @BindView(R.id.layoutAddTransBTWExchange)
     RelativeLayout layoutExchange;
-    @BindView(R.id.scrollAddTransBTW)
     ScrollView scrollView;
 
     private SpinAccountForTransAdapter adapterAccountTo;
@@ -87,12 +79,23 @@ public class AddTransactionBetweenAccountsFragment extends CommonFragmentAddEdit
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        setupUI(view);
         setToolbar();
         accountListFrom = new ArrayList<>();
 
         presenter.setView(this);
         presenter.loadAccounts();
+    }
+
+    private void setupUI(View view) {
+        spinAccountFrom = view.findViewById(R.id.spinAddTransBTWAccountFrom);
+        spinAccountTo = view.findViewById(R.id.spinAddTransBTWAccountTo);
+        etExchange = view.findViewById(R.id.editTextTransBTWExchange);
+        tvAmount = view.findViewById(R.id.tvAddTransBTWAmount);
+        layoutExchange = view.findViewById(R.id.layoutAddTransBTWExchange);
+        scrollView = view.findViewById(R.id.scrollAddTransBTW);
+
+        tvAmount.setOnClickListener(v -> openNumericDialog());
     }
 
     private void setSpinners() {
@@ -151,15 +154,6 @@ public class AddTransactionBetweenAccountsFragment extends CommonFragmentAddEdit
     private void pushBroadcast() {
         EventBus.getDefault().post(new UpdateFrgHomeBalance());
         EventBus.getDefault().post(new UpdateFrgAccounts());
-    }
-
-    @OnClick({R.id.tvAddTransBTWAmount})
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tvAddTransBTWAmount:
-                openNumericDialog();
-                break;
-        }
     }
 
     @Override

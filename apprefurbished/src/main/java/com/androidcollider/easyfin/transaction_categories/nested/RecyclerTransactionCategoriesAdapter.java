@@ -1,7 +1,6 @@
 package com.androidcollider.easyfin.transaction_categories.nested;
 
 import android.content.res.TypedArray;
-import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -10,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.managers.ui.letter_tile.LetterTileManager;
 import com.androidcollider.easyfin.common.models.TransactionCategory;
@@ -17,18 +18,12 @@ import com.androidcollider.easyfin.common.models.TransactionCategory;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
-
 /**
  * @author Ihor Bilous
  */
 
 class RecyclerTransactionCategoriesAdapter extends RecyclerView.Adapter<RecyclerTransactionCategoriesAdapter.ViewHolderItem> {
 
-    @Getter(AccessLevel.PACKAGE)
-    @Setter(AccessLevel.PRIVATE)
     private int currentId;
     private List<TransactionCategory> transactionList;
     private TypedArray catIconsArray;
@@ -50,6 +45,14 @@ class RecyclerTransactionCategoriesAdapter extends RecyclerView.Adapter<Recycler
     void deleteItem(int position) {
         transactionList.remove(position);
         notifyItemRemoved(position);
+    }
+
+    int getCurrentId() {
+        return currentId;
+    }
+
+    private void setCurrentId(int currentId) {
+        this.currentId = currentId;
     }
 
     @Override

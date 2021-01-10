@@ -1,6 +1,6 @@
 package com.androidcollider.easyfin.accounts.add_edit;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.androidcollider.easyfin.common.managers.accounts.accounts_info.AccountsInfoManager;
 import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
@@ -37,25 +37,23 @@ class AddAccountModel implements AddAccountMVP.Model {
 
     @Override
     public Flowable<Account> addAccount(String name, String amount, int type, String currency) {
-        Account account = Account.builder()
-                .name(name)
-                .amount(Double.parseDouble(numberFormatManager.prepareStringToParse(amount)))
-                .type(type)
-                .currency(currency)
-                .build();
+        Account account = new Account();
+        account.setName(name);
+        account.setAmount(Double.parseDouble(numberFormatManager.prepareStringToParse(amount)));
+        account.setType(type);
+        account.setCurrency(currency);
 
         return repository.addNewAccount(account);
     }
 
     @Override
     public Flowable<Account> updateAccount(String name, String amount, int type, String currency) {
-        Account account = Account.builder()
-                .id(accountForUpdate != null ? accountForUpdate.getId() : 0)
-                .name(name)
-                .amount(Double.parseDouble(numberFormatManager.prepareStringToParse(amount)))
-                .type(type)
-                .currency(currency)
-                .build();
+        Account account = new Account();
+        account.setId(accountForUpdate != null ? accountForUpdate.getId() : 0);
+        account.setName(name);
+        account.setAmount(Double.parseDouble(numberFormatManager.prepareStringToParse(amount)));
+        account.setType(type);
+        account.setCurrency(currency);
 
         return repository.updateAccount(account);
     }

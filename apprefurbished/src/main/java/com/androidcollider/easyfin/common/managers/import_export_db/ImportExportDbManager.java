@@ -18,9 +18,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import lombok.Getter;
-import lombok.Setter;
-
 /**
  * @author Ihor Bilous
  */
@@ -31,8 +28,7 @@ public class ImportExportDbManager {
     private Context context;
     private SQLiteDatabase db;
     private ToastManager toastManager;
-    @Getter
-    @Setter
+
     private boolean isDBExpired;
 
 
@@ -71,6 +67,13 @@ public class ImportExportDbManager {
         db.close();
     }
 
+    public boolean isDBExpired() {
+        return isDBExpired;
+    }
+
+    public void setDBExpired(boolean dbExpired) {
+        isDBExpired = dbExpired;
+    }
 
     public void backupDatabase() {
         //Open local db as the input stream

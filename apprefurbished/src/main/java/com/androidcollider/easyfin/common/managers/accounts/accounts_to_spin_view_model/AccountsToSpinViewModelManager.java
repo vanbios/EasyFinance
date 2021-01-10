@@ -33,13 +33,13 @@ public class AccountsToSpinViewModelManager {
     }
 
     private SpinAccountViewModel transformTAccountToViewModel(Account account) {
-        SpinAccountViewModel.SpinAccountViewModelBuilder builder = SpinAccountViewModel.builder();
+        SpinAccountViewModel spinAccountViewModel = new SpinAccountViewModel();
 
-        builder.id(account.getId());
-        builder.name(account.getName());
-        builder.amount(account.getAmount());
-        builder.type(account.getType());
-        builder.currency(account.getCurrency());
+        spinAccountViewModel.setId(account.getId());
+        spinAccountViewModel.setName(account.getName());
+        spinAccountViewModel.setAmount(account.getAmount());
+        spinAccountViewModel.setType(account.getType());
+        spinAccountViewModel.setCurrency(account.getCurrency());
 
         String amount = numberFormatManager.doubleToStringFormatter(
                 account.getAmount(),
@@ -56,9 +56,9 @@ public class AccountsToSpinViewModelManager {
             }
         }
 
-        builder.amountString(String.format("%1$s %2$s", amount, curLang));
+        spinAccountViewModel.setAmountString(String.format("%1$s %2$s", amount, curLang));
 
-        return builder.build();
+        return spinAccountViewModel;
     }
 
     private List<SpinAccountViewModel> transformAccountListToViewModelList(List<Account> accountList) {

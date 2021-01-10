@@ -3,9 +3,10 @@ package com.androidcollider.easyfin.transactions.add_edit.income_expense;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.util.Pair;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.util.Pair;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
@@ -113,7 +114,7 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
             }
 
             int id = getIdForNewTransactionCategory();
-            TransactionCategory category = new TransactionCategory(id, name);
+            TransactionCategory category = new TransactionCategory(id, name, 1);
 
             model.addNewTransactionCategory(category, checkTransactionIsExpense())
                     .flatMap(transactionCategory -> model.getTransactionCategories(checkTransactionIsExpense()))
@@ -185,16 +186,15 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
                 if (checkIsEnoughCosts(isExpense, amount, accountAmount)) {
                     accountAmount += amount;
 
-                    Transaction transaction = Transaction.builder()
-                            .date(model.getMillisFromString(view.getDate()))
-                            .amount(amount)
-                            .category(view.getCategory())
-                            .idAccount(account.getId())
-                            .accountAmount(accountAmount)
-                            .accountName(account.getName())
-                            .accountType(account.getType())
-                            .currency(account.getCurrency())
-                            .build();
+                    Transaction transaction = new Transaction();
+                    transaction.setDate(model.getMillisFromString(view.getDate()));
+                    transaction.setAmount(amount);
+                    transaction.setCategory(view.getCategory());
+                    transaction.setIdAccount(account.getId());
+                    transaction.setAccountAmount(accountAmount);
+                    transaction.setAccountName(account.getName());
+                    transaction.setAccountType(account.getType());
+                    transaction.setCurrency(account.getCurrency());
 
                     handleActionWithTransaction(
                             model.addNewTransaction(transaction)
@@ -234,17 +234,16 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
                 if (checkIsEnoughCosts(isExpense, amount, accountAmount)) {
                     accountAmount += amount;
 
-                    Transaction transaction = Transaction.builder()
-                            .date(model.getMillisFromString(view.getDate()))
-                            .amount(amount)
-                            .category(view.getCategory())
-                            .idAccount(account.getId())
-                            .accountAmount(accountAmount)
-                            .id(transFromIntent.getId())
-                            .currency(account.getCurrency())
-                            .accountType(account.getType())
-                            .accountName(account.getName())
-                            .build();
+                    Transaction transaction = new Transaction();
+                    transaction.setDate(model.getMillisFromString(view.getDate()));
+                    transaction.setAmount(amount);
+                    transaction.setCategory(view.getCategory());
+                    transaction.setIdAccount(account.getId());
+                    transaction.setAccountAmount(accountAmount);
+                    transaction.setId(transFromIntent.getId());
+                    transaction.setCurrency(account.getCurrency());
+                    transaction.setAccountType(account.getType());
+                    transaction.setAccountName(account.getName());
 
                     if (isAccountTheSame) {
                         handleActionWithTransaction(

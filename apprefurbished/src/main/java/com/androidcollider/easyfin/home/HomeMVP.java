@@ -1,7 +1,7 @@
 package com.androidcollider.easyfin.home;
 
-import android.support.annotation.Nullable;
-import android.support.v4.util.Pair;
+import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.PieData;
@@ -14,7 +14,7 @@ import io.reactivex.Flowable;
  * @author Ihor Bilous
  */
 
-interface HomeMVP {
+public interface HomeMVP {
 
     interface Model {
 

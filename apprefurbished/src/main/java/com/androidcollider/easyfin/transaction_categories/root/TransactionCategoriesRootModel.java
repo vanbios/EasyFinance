@@ -1,6 +1,6 @@
 package com.androidcollider.easyfin.transaction_categories.root;
 
-import android.support.v4.util.Pair;
+import androidx.core.util.Pair;
 
 import com.androidcollider.easyfin.common.models.TransactionCategory;
 import com.androidcollider.easyfin.common.repository.Repository;

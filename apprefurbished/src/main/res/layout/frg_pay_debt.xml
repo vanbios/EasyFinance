@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layoutActPayDebtParent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -7,23 +8,27 @@
     android:layout_marginTop="@dimen/common_padding_large"
     android:paddingLeft="@dimen/common_padding_medium"
     android:paddingRight="@dimen/common_padding_medium"
-    android:scrollbars="none">
+    android:scrollbars="none"
+    >
 
-    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    <androidx.cardview.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/cardPayDebtElements"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         card_view:cardElevation="@dimen/elevation_medium"
-        card_view:cardUseCompatPadding="true">
+        card_view:cardUseCompatPadding="true"
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="30dp"
             android:paddingLeft="@dimen/common_padding_xlarge"
+            android:paddingTop="@dimen/common_padding_xlarge"
             android:paddingRight="@dimen/common_padding_xlarge"
-            android:paddingTop="@dimen/common_padding_xlarge">
+            android:paddingBottom="30dp"
+            >
 
             <TextView
                 android:id="@+id/tvPayDebtAmount"
@@ -32,7 +37,8 @@
                 android:gravity="center_horizontal"
                 android:singleLine="true"
                 android:textColor="@color/custom_text_gray_dark"
-                android:textSize="36sp" />
+                android:textSize="36sp"
+                />
 
             <TextView
                 android:id="@+id/tvPayDebtNameHeader"
@@ -42,7 +48,8 @@
                 android:layout_below="@+id/tvPayDebtAmount"
                 android:layout_marginTop="32dp"
                 android:text="@string/name"
-                android:textAllCaps="true" />
+                android:textAllCaps="true"
+                />
 
             <View
                 android:id="@+id/cvAddAccountDividerName"
@@ -50,7 +57,8 @@
                 android:layout_height="1dp"
                 android:layout_below="@+id/tvPayDebtNameHeader"
                 android:layout_marginTop="5dp"
-                android:background="@color/custom_light_gray" />
+                android:background="@color/custom_light_gray"
+                />
 
             <RelativeLayout
                 android:id="@+id/layoutPayDebtName"
@@ -62,7 +70,8 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/common_padding_small"
-                android:paddingRight="@dimen/common_padding_small">
+                android:paddingRight="@dimen/common_padding_small"
+                >
 
                 <ImageView
                     android:id="@+id/ivPayDebtName"
@@ -70,7 +79,8 @@
                     android:layout_height="28dp"
                     android:layout_marginRight="12dp"
                     android:contentDescription="@string/empty_amount_field"
-                    android:src="@drawable/ic_clipboard_text_blue_gray_48dp" />
+                    android:src="@drawable/ic_clipboard_text_blue_gray_48dp"
+                    />
 
                 <TextView
                     android:id="@+id/tvPayDebtName"
@@ -78,7 +88,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/ivPayDebtName"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    />
 
             </RelativeLayout>
 
@@ -90,7 +101,8 @@
                 android:layout_below="@+id/layoutPayDebtName"
                 android:layout_marginTop="24dp"
                 android:text="@string/account"
-                android:textAllCaps="true" />
+                android:textAllCaps="true"
+                />
 
             <View
                 android:id="@+id/cvPayDebtDividerTop"
@@ -98,7 +110,8 @@
                 android:layout_height="1dp"
                 android:layout_below="@+id/tvPayDebtAccount"
                 android:layout_marginTop="5dp"
-                android:background="@color/custom_light_gray" />
+                android:background="@color/custom_light_gray"
+                />
 
             <LinearLayout
                 android:id="@+id/layoutPayDebtAccount"
@@ -107,14 +120,16 @@
                 android:layout_below="@+id/cvPayDebtDividerTop"
                 android:baselineAligned="false"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                >
 
                 <Spinner
                     android:id="@+id/spinPayDebtAccount"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:prompt="@string/account"
-                    android:spinnerMode="dialog" />
+                    android:spinnerMode="dialog"
+                    />
 
             </LinearLayout>
 
@@ -122,8 +137,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/layoutPayDebtAccount"
-                android:background="@color/custom_light_gray" />
+                android:background="@color/custom_light_gray"
+                />
 
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 </ScrollView>

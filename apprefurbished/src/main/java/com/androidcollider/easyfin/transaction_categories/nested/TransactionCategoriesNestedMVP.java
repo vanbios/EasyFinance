@@ -2,7 +2,8 @@ package com.androidcollider.easyfin.transaction_categories.nested;
 
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import com.androidcollider.easyfin.common.models.TransactionCategory;
 
@@ -14,7 +15,7 @@ import io.reactivex.Flowable;
  * @author Ihor Bilous
  */
 
-interface TransactionCategoriesNestedMVP {
+public interface TransactionCategoriesNestedMVP {
 
     interface Model {
 

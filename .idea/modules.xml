@@ -3,10 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/EasyFinance.iml" filepath="$PROJECT_DIR$/EasyFinance.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/apprefurbished/apprefurbished.iml" filepath="$PROJECT_DIR$/apprefurbished/apprefurbished.iml" />
-      <module fileurl="file://$PROJECT_DIR$/floatingactionbutton/floatingactionbutton.iml" filepath="$PROJECT_DIR$/floatingactionbutton/floatingactionbutton.iml" />
-      <module fileurl="file://$PROJECT_DIR$/numberkeyboardview/numberkeyboardview.iml" filepath="$PROJECT_DIR$/numberkeyboardview/numberkeyboardview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/apprefurbished/EasyFinance.apprefurbished.iml" filepath="$PROJECT_DIR$/.idea/modules/apprefurbished/EasyFinance.apprefurbished.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/floatingactionbutton/EasyFinance.floatingactionbutton.iml" filepath="$PROJECT_DIR$/.idea/modules/floatingactionbutton/EasyFinance.floatingactionbutton.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/numberkeyboardview/EasyFinance.numberkeyboardview.iml" filepath="$PROJECT_DIR$/.idea/modules/numberkeyboardview/EasyFinance.numberkeyboardview.iml" />
     </modules>
   </component>
 </project>

@@ -1,7 +1,8 @@
 package com.androidcollider.easyfin.transaction_categories.root;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.models.TransactionCategory;
@@ -65,7 +66,7 @@ class TransactionCategoriesRootPresenter implements TransactionCategoriesRootMVP
             }
 
             int id = getIdForNewTransactionCategory(isExpense);
-            TransactionCategory category = new TransactionCategory(id, name);
+            TransactionCategory category = new TransactionCategory(id, name, 1);
 
             model.addNewTransactionCategory(category, isExpense)
                     .subscribe(transactionCategory -> {

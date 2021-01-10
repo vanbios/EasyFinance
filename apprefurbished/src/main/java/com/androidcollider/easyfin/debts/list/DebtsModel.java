@@ -1,7 +1,8 @@
 package com.androidcollider.easyfin.debts.list;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
+
+import androidx.core.content.ContextCompat;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.managers.format.date.DateFormatManager;
@@ -69,10 +70,10 @@ class DebtsModel implements DebtsMVP.Model {
     }
 
     private DebtViewModel transformDebtToViewModel(Debt debt) {
-        DebtViewModel.DebtViewModelBuilder builder = DebtViewModel.builder();
+        DebtViewModel model = new DebtViewModel();
 
-        builder.id(debt.getId());
-        builder.name(debt.getName());
+        model.setId(debt.getId());
+        model.setName(debt.getName());
 
         String curLang = null;
 
@@ -86,7 +87,7 @@ class DebtsModel implements DebtsMVP.Model {
         double amountCurrent = debt.getAmountCurrent();
         double amountAll = debt.getAmountAll();
 
-        builder.amount(
+        model.setAmount(
                 String.format("%1$s %2$s",
                         numberFormatManager.doubleToStringFormatter(
                                 amountCurrent,
@@ -96,17 +97,17 @@ class DebtsModel implements DebtsMVP.Model {
                         curLang
                 )
         );
-        builder.accountName(debt.getAccountName());
-        builder.date(dateFormatManager.longToDateString(debt.getDate(), DateFormatManager.DAY_MONTH_YEAR_DOTS));
+        model.setAccountName(debt.getAccountName());
+        model.setDate(dateFormatManager.longToDateString(debt.getDate(), DateFormatManager.DAY_MONTH_YEAR_DOTS));
 
         int progress = (int) (amountCurrent / amountAll * 100);
-        builder.progress(progress);
-        builder.progressPercents(String.format("%s%%", progress));
+        model.setProgress(progress);
+        model.setProgressPercents(String.format("%s%%", progress));
 
-        builder.colorRes(ContextCompat.getColor(context,
+        model.setColorRes(ContextCompat.getColor(context,
                 debt.getType() == 1 ? R.color.custom_red : R.color.custom_green));
 
-        return builder.build();
+        return model;
     }
 
     private List<DebtViewModel> transformDebtListToViewModelList(List<Debt> debtList) {

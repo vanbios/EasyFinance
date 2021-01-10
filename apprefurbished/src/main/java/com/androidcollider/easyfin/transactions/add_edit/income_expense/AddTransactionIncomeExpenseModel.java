@@ -1,6 +1,6 @@
 package com.androidcollider.easyfin.transactions.add_edit.income_expense;
 
-import android.support.v4.util.Pair;
+import androidx.core.util.Pair;
 
 import com.androidcollider.easyfin.common.managers.accounts.accounts_to_spin_view_model.AccountsToSpinViewModelManager;
 import com.androidcollider.easyfin.common.managers.format.date.DateFormatManager;

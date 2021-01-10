@@ -1,6 +1,6 @@
 package com.androidcollider.easyfin.home;
 
-import android.support.v4.util.Pair;
+import androidx.core.util.Pair;
 
 import com.androidcollider.easyfin.common.repository.Repository;
 

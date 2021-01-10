@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
     <CheckBox
         android:id="@+id/checkBoxMainBalanceSettingsConvert"
@@ -10,7 +12,8 @@
         android:layout_height="wrap_content"
         android:text="@string/main_balance_menu_exchange"
         android:textColor="@color/custom_text_gray_dark"
-        android:textSize="@dimen/text_size_body" />
+        android:textSize="@dimen/text_size_body"
+        />
 
     <CheckBox
         android:id="@+id/checkBoxMainBalanceSettingsShowCents"
@@ -18,6 +21,7 @@
         android:layout_height="wrap_content"
         android:text="@string/main_balance_menu_show_only_integers"
         android:textColor="@color/custom_text_gray_dark"
-        android:textSize="@dimen/text_size_body" />
+        android:textSize="@dimen/text_size_body"
+        />
 
 </LinearLayout>

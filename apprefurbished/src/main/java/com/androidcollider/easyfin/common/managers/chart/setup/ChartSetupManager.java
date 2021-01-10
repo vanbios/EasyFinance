@@ -2,7 +2,8 @@ package com.androidcollider.easyfin.common.managers.chart.setup;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v4.content.ContextCompat;
+
+import androidx.core.content.ContextCompat;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.utils.ChartLargeValueFormatter;

@@ -3,7 +3,8 @@ package com.androidcollider.easyfin.transaction_categories.nested;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
@@ -89,7 +90,7 @@ class TransactionCategoriesNestedPresenter implements TransactionCategoriesNeste
                 return;
             }
 
-            TransactionCategory category = new TransactionCategory(id, name);
+            TransactionCategory category = new TransactionCategory(id, name, 1);
 
             model.updateTransactionCategory(category, isExpense)
                     .subscribe(transactionCategory -> {

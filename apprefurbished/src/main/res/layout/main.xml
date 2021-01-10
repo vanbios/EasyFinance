@@ -1,27 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/mainContent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <include layout="@layout/toolbar" />
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/toolbar_height">
+        android:layout_marginTop="@dimen/toolbar_height"
+        >
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/toolbar_shadow_height"
-            android:background="@drawable/toolbar_drop_shadow" />
+            android:background="@drawable/toolbar_drop_shadow"
+            />
 
     </FrameLayout>
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <FrameLayout
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/toolbar_height" />
+        android:layout_marginTop="@dimen/toolbar_height"
+        />
 
 </RelativeLayout>

@@ -1,20 +1,23 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/toolbar_height"
     android:layout_marginBottom="@dimen/common_padding_large"
     android:background="@drawable/nav_header_background"
     android:gravity="bottom"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/common_padding_medium"
     android:paddingLeft="@dimen/common_padding_large"
     android:paddingRight="@dimen/common_padding_large"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:paddingBottom="@dimen/common_padding_medium"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    >
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/app_name"
         android:textColor="@color/custom_text_light"
-        android:textSize="26sp" />
+        android:textSize="26sp"
+        />
 
 </LinearLayout>

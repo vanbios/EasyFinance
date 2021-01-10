@@ -1,12 +1,13 @@
 package com.androidcollider.easyfin.common.ui.adapters;
 
 import android.content.res.TypedArray;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;

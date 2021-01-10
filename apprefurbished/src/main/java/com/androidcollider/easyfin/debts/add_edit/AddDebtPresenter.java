@@ -2,8 +2,9 @@ package com.androidcollider.easyfin.debts.add_edit;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.models.Debt;
@@ -224,18 +225,18 @@ class AddDebtPresenter implements AddDebtMVP.Presenter {
                            String name,
                            String date,
                            double accountAmount) {
-        return Debt.builder()
-                .name(name)
-                .amountCurrent(amount)
-                .type(type)
-                .idAccount(account.getId())
-                .date(model.getMillisFromString(date))
-                .accountAmount(accountAmount)
-                .id(debtFrIntent != null ? debtFrIntent.getId() : 0)
-                .currency(account.getCurrency())
-                .accountName(account.getName())
-                .amountAll(amount)
-                .build();
+        Debt debt = new Debt();
+        debt.setName(name);
+        debt.setAmountCurrent(amount);
+                debt.setType(type);
+                debt.setIdAccount(account.getId());
+                debt.setDate(model.getMillisFromString(date));
+                debt.setAccountAmount(accountAmount);
+                debt.setId(debtFrIntent != null ? debtFrIntent.getId() : 0);
+                debt.setCurrency(account.getCurrency());
+                debt.setAccountName(account.getName());
+                debt.setAmountAll(amount);
+        return debt;
     }
 
     private void setupView(List<SpinAccountViewModel> accountList) {

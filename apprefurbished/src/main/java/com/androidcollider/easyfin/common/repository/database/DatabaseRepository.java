@@ -477,13 +477,12 @@ public class DatabaseRepository implements Repository {
             int currencyColIndex = cursor.getColumnIndex("currency");
 
             do {
-                Account account = Account.builder()
-                        .id(cursor.getInt(idColIndex))
-                        .name(cursor.getString(nameColIndex))
-                        .amount(cursor.getDouble(amountColIndex))
-                        .type(cursor.getInt(typeColIndex))
-                        .currency(cursor.getString(currencyColIndex))
-                        .build();
+                Account account = new Account();
+                account.setId(cursor.getInt(idColIndex));
+                account.setName(cursor.getString(nameColIndex));
+                account.setAmount(cursor.getDouble(amountColIndex));
+                account.setType(cursor.getInt(typeColIndex));
+                account.setCurrency(cursor.getString(currencyColIndex));
 
                 accountArrayList.add(account);
             }
@@ -527,17 +526,16 @@ public class DatabaseRepository implements Repository {
             for (int i = cursorCount - 1; i >= limit; i--) {
                 cursor.moveToPosition(i);
 
-                Transaction transaction = Transaction.builder()
-                        .date(cursor.getLong(dateColIndex))
-                        .amount(cursor.getDouble(amountColIndex))
-                        .category(cursor.getInt(categoryColIndex))
-                        .accountName(cursor.getString(nameColIndex))
-                        .currency(cursor.getString(currencyColIndex))
-                        .accountType(cursor.getInt(typeColIndex))
-                        .accountType(cursor.getInt(typeColIndex))
-                        .idAccount(cursor.getInt(idAccountColIndex))
-                        .id(cursor.getInt(idTransColIndex))
-                        .build();
+                Transaction transaction = new Transaction();
+                transaction.setDate(cursor.getLong(dateColIndex));
+                transaction.setAmount(cursor.getDouble(amountColIndex));
+                transaction.setCategory(cursor.getInt(categoryColIndex));
+                transaction.setAccountName(cursor.getString(nameColIndex));
+                transaction.setCurrency(cursor.getString(currencyColIndex));
+                transaction.setAccountType(cursor.getInt(typeColIndex));
+                transaction.setAccountType(cursor.getInt(typeColIndex));
+                transaction.setIdAccount(cursor.getInt(idAccountColIndex));
+                transaction.setId(cursor.getInt(idTransColIndex));
 
                 transactionArrayList.add(transaction);
             }
@@ -572,17 +570,17 @@ public class DatabaseRepository implements Repository {
             int idDebtColIndex = cursor.getColumnIndex("id_debt");
 
             do {
-                Debt debt = Debt.builder()
-                        .name(cursor.getString(dNameColIndex))
-                        .amountCurrent(cursor.getDouble(amountColIndex))
-                        .amountAll(cursor.getDouble(amountAllColIndex))
-                        .type(cursor.getInt(typeColIndex))
-                        .date(cursor.getLong(dateColIndex))
-                        .accountName(cursor.getString(aNameColIndex))
-                        .currency(cursor.getString(curColIndex))
-                        .idAccount(cursor.getInt(idAccountColIndex))
-                        .id(cursor.getInt(idDebtColIndex))
-                        .build();
+                Debt debt = new Debt();
+                debt.setName(cursor.getString(dNameColIndex));
+                debt.setAmountCurrent(cursor.getDouble(amountColIndex));
+                debt.setAmountAll(cursor.getDouble(amountAllColIndex));
+                debt.setType(cursor.getInt(typeColIndex));
+                debt.setDate(cursor.getLong(dateColIndex));
+                debt.setAccountName(cursor.getString(aNameColIndex));
+                debt.setCurrency(cursor.getString(curColIndex));
+                debt.setIdAccount(cursor.getInt(idAccountColIndex));
+                debt.setId(cursor.getInt(idDebtColIndex));
+
                 debtArrayList.add(debt);
             } while (cursor.moveToNext());
         }
@@ -958,7 +956,7 @@ public class DatabaseRepository implements Repository {
         );
 
         for (int i = 0; i < initCategoriesArray.length; i++) {
-            categoryList.add(new TransactionCategory(i, initCategoriesArray[i]));
+            categoryList.add(new TransactionCategory(i, initCategoriesArray[i], 1));
         }
 
         String selectQuery = isExpense ?

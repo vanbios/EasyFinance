@@ -1,40 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"
-    android:paddingBottom="@dimen/common_padding_small"
     android:paddingLeft="@dimen/elevation_small"
-    android:paddingRight="@dimen/elevation_small"
     android:paddingTop="@dimen/common_padding_small"
-    android:scrollbars="none">
+    android:paddingRight="@dimen/elevation_small"
+    android:paddingBottom="@dimen/common_padding_small"
+    android:scrollbars="none"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        >
 
-        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        <androidx.cardview.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:id="@+id/cardMainBalance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_margin="@dimen/common_padding_small"
-            card_view:cardElevation="@dimen/elevation_small">
+            card_view:cardElevation="@dimen/elevation_small"
+            >
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/common_padding_small">
+                android:layout_marginBottom="@dimen/common_padding_small"
+                >
 
                 <RelativeLayout
                     android:id="@+id/layoutMainBalance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:baselineAligned="false"
+                    android:paddingTop="@dimen/common_padding_small"
                     android:paddingRight="@dimen/common_padding_large"
-                    android:paddingTop="@dimen/common_padding_small">
+                    >
 
                     <TextView
                         android:id="@+id/tvMainCurrentBalance"
@@ -45,7 +52,8 @@
                         android:layout_marginLeft="@dimen/common_padding_large"
                         android:layout_marginTop="@dimen/common_padding_small"
                         android:singleLine="true"
-                        android:text="@string/balance" />
+                        android:text="@string/balance"
+                        />
 
                     <View
                         android:id="@+id/cvMainDividerBalanceVerticalLeft"
@@ -54,7 +62,8 @@
                         android:layout_alignParentTop="true"
                         android:layout_marginLeft="@dimen/common_padding_large"
                         android:layout_toRightOf="@+id/tvMainCurrentBalance"
-                        android:background="@color/custom_light_gray" />
+                        android:background="@color/custom_light_gray"
+                        />
 
                     <Spinner
                         android:id="@+id/spinMainCurrency"
@@ -63,7 +72,8 @@
                         android:layout_marginLeft="@dimen/common_padding_medium"
                         android:layout_marginRight="@dimen/common_padding_medium"
                         android:layout_toLeftOf="@+id/cvMainDividerBalanceVerticalRight"
-                        android:layout_toRightOf="@+id/cvMainDividerBalanceVerticalLeft" />
+                        android:layout_toRightOf="@+id/cvMainDividerBalanceVerticalLeft"
+                        />
 
                     <View
                         android:id="@+id/cvMainDividerBalanceVerticalRight"
@@ -72,15 +82,17 @@
                         android:layout_alignParentTop="true"
                         android:layout_marginRight="@dimen/common_padding_large"
                         android:layout_toLeftOf="@+id/ivMainBalanceSettings"
-                        android:background="@color/custom_light_gray" />
+                        android:background="@color/custom_light_gray"
+                        />
 
                     <ImageView
                         android:id="@+id/ivMainBalanceSettings"
                         android:layout_width="36dp"
                         android:layout_height="36dp"
-                        android:layout_alignParentRight="true"
                         android:layout_alignParentTop="true"
-                        android:src="@drawable/ic_tune_gray_48dp" />
+                        android:layout_alignParentRight="true"
+                        android:src="@drawable/ic_tune_gray_48dp"
+                        />
 
                 </RelativeLayout>
 
@@ -91,7 +103,8 @@
                     android:layout_below="@+id/layoutMainBalance"
                     android:layout_marginLeft="@dimen/common_padding_small"
                     android:layout_marginRight="@dimen/common_padding_small"
-                    android:background="@color/custom_light_gray" />
+                    android:background="@color/custom_light_gray"
+                    />
 
                 <LinearLayout
                     android:id="@+id/layoutMainBalanceChart"
@@ -101,13 +114,15 @@
                     android:layout_marginTop="@dimen/common_padding_medium"
                     android:baselineAligned="false"
                     android:orientation="horizontal"
+                    android:paddingLeft="@dimen/common_padding_medium"
                     android:paddingBottom="2dp"
-                    android:paddingLeft="@dimen/common_padding_medium">
+                    >
 
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="150dp"
-                        android:layout_weight="2">
+                        android:layout_weight="2"
+                        >
 
                         <TextView
                             android:id="@+id/tvMainCash"
@@ -117,52 +132,58 @@
                             android:layout_alignParentLeft="true"
                             android:layout_marginTop="26dp"
                             android:singleLine="true"
-                            android:text="@string/cash" />
+                            android:text="@string/cash"
+                            />
 
                         <TextView
                             android:id="@+id/tvMainCard"
                             style="@style/BodyFontSecondary"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignLeft="@+id/tvMainCash"
                             android:layout_below="@+id/tvMainCash"
+                            android:layout_alignLeft="@+id/tvMainCash"
                             android:layout_marginTop="7dp"
                             android:singleLine="true"
-                            android:text="@string/cards" />
+                            android:text="@string/cards"
+                            />
 
                         <TextView
                             android:id="@+id/tvMainDeposit"
                             style="@style/BodyFontSecondary"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignLeft="@+id/tvMainCard"
                             android:layout_below="@+id/tvMainCard"
+                            android:layout_alignLeft="@+id/tvMainCard"
                             android:layout_marginTop="8dp"
                             android:singleLine="true"
-                            android:text="@string/deposits" />
+                            android:text="@string/deposits"
+                            />
 
                         <TextView
                             android:id="@+id/tvMainDebt"
                             style="@style/BodyFontSecondary"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignLeft="@+id/tvMainDeposit"
                             android:layout_below="@+id/tvMainDeposit"
+                            android:layout_alignLeft="@+id/tvMainDeposit"
                             android:layout_marginTop="7dp"
                             android:singleLine="true"
-                            android:text="@string/debts" />
+                            android:text="@string/debts"
+                            />
 
                     </RelativeLayout>
 
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="150dp"
-                        android:layout_weight="7">
+                        android:layout_weight="7"
+                        >
 
                         <com.github.mikephil.charting.charts.HorizontalBarChart
                             android:id="@+id/chartMainBalance"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            />
 
                     </RelativeLayout>
                 </LinearLayout>
@@ -174,17 +195,19 @@
                     android:layout_below="@+id/layoutMainBalanceChart"
                     android:layout_marginLeft="@dimen/common_padding_small"
                     android:layout_marginRight="@dimen/common_padding_small"
-                    android:background="@color/custom_light_gray" />
+                    android:background="@color/custom_light_gray"
+                    />
 
                 <LinearLayout
                     android:id="@+id/layoutMainBalanceSum"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/layoutMainBalanceChart"
-                    android:layout_marginBottom="2dp"
                     android:layout_marginLeft="@dimen/common_padding_medium"
                     android:layout_marginTop="@dimen/common_padding_medium"
-                    android:orientation="horizontal">
+                    android:layout_marginBottom="2dp"
+                    android:orientation="horizontal"
+                    >
 
                     <TextView
                         android:id="@+id/tvMainSum"
@@ -193,7 +216,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:singleLine="true"
-                        android:text="@string/sum" />
+                        android:text="@string/sum"
+                        />
 
                     <TextView
                         android:id="@+id/tvMainSumValue"
@@ -202,30 +226,35 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="7"
-                        android:singleLine="true" />
+                        android:singleLine="true"
+                        />
 
                 </LinearLayout>
             </RelativeLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
-        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        <androidx.cardview.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:id="@+id/cardMainStatistic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/cardMainBalance"
             android:layout_margin="@dimen/common_padding_small"
-            card_view:cardElevation="@dimen/elevation_small">
+            card_view:cardElevation="@dimen/elevation_small"
+            >
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/common_padding_small">
+                android:layout_marginBottom="@dimen/common_padding_small"
+                >
 
                 <RelativeLayout
                     android:id="@+id/layoutMainStatisticTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/common_padding_small">
+                    android:paddingTop="@dimen/common_padding_small"
+                    >
 
                     <TextView
                         android:id="@+id/tvMainStatistic"
@@ -236,7 +265,8 @@
                         android:layout_marginLeft="@dimen/common_padding_large"
                         android:layout_marginTop="@dimen/common_padding_small"
                         android:singleLine="true"
-                        android:text="@string/report" />
+                        android:text="@string/report"
+                        />
 
                     <View
                         android:id="@+id/cvMainDividerStatisticVerticalLeft"
@@ -245,14 +275,16 @@
                         android:layout_alignParentTop="true"
                         android:layout_marginLeft="@dimen/common_padding_large"
                         android:layout_toRightOf="@+id/tvMainStatistic"
-                        android:background="@color/custom_light_gray" />
+                        android:background="@color/custom_light_gray"
+                        />
 
                     <Spinner
                         android:id="@+id/spinMainChart"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_toLeftOf="@+id/cvMainDividerStatisticVerticalRight"
-                        android:layout_toRightOf="@+id/cvMainDividerStatisticVerticalLeft" />
+                        android:layout_toRightOf="@+id/cvMainDividerStatisticVerticalLeft"
+                        />
 
                     <View
                         android:id="@+id/cvMainDividerStatisticVerticalRight"
@@ -261,14 +293,16 @@
                         android:layout_alignParentTop="true"
                         android:layout_marginLeft="4dp"
                         android:layout_toLeftOf="@+id/spinMainPeriod"
-                        android:background="@color/custom_light_gray" />
+                        android:background="@color/custom_light_gray"
+                        />
 
                     <Spinner
                         android:id="@+id/spinMainPeriod"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/common_padding_medium" />
+                        android:layout_marginRight="@dimen/common_padding_medium"
+                        />
 
                 </RelativeLayout>
 
@@ -279,7 +313,8 @@
                     android:layout_below="@+id/layoutMainStatisticTitle"
                     android:layout_marginLeft="@dimen/common_padding_small"
                     android:layout_marginRight="@dimen/common_padding_small"
-                    android:background="@color/custom_light_gray" />
+                    android:background="@color/custom_light_gray"
+                    />
 
                 <LinearLayout
                     android:id="@+id/layoutMainStatisticChart"
@@ -289,13 +324,15 @@
                     android:layout_marginTop="@dimen/common_padding_medium"
                     android:baselineAligned="false"
                     android:orientation="horizontal"
-                    android:paddingBottom="2dp">
+                    android:paddingBottom="2dp"
+                    >
 
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="100dp"
                         android:layout_marginLeft="@dimen/common_padding_medium"
-                        android:layout_weight="2">
+                        android:layout_weight="2"
+                        >
 
                         <TextView
                             android:id="@+id/tvMainIncome"
@@ -304,37 +341,42 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="28dp"
                             android:singleLine="true"
-                            android:text="@string/income" />
+                            android:text="@string/income"
+                            />
 
                         <TextView
                             android:id="@+id/tvMainCost"
                             style="@style/BodyFontSecondary"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignLeft="@+id/tvMainIncome"
                             android:layout_below="@+id/tvMainIncome"
+                            android:layout_alignLeft="@+id/tvMainIncome"
                             android:layout_marginTop="7dp"
                             android:singleLine="true"
-                            android:text="@string/cost" />
+                            android:text="@string/cost"
+                            />
 
                     </RelativeLayout>
 
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="7">
+                        android:layout_weight="7"
+                        >
 
                         <com.github.mikephil.charting.charts.HorizontalBarChart
                             android:id="@+id/chartHBarMainStatistic"
                             android:layout_width="match_parent"
-                            android:layout_height="100dp" />
+                            android:layout_height="100dp"
+                            />
 
                         <com.github.mikephil.charting.charts.PieChart
                             android:id="@+id/chartPieMainStatistic"
                             android:layout_width="match_parent"
                             android:layout_height="150dp"
                             android:layout_marginRight="30dp"
-                            android:visibility="gone" />
+                            android:visibility="gone"
+                            />
 
                         <TextView
                             android:id="@+id/tvMainNoData"
@@ -344,7 +386,8 @@
                             android:layout_centerInParent="true"
                             android:gravity="center"
                             android:text="@string/no_data_yet"
-                            android:visibility="gone" />
+                            android:visibility="gone"
+                            />
 
                     </RelativeLayout>
                 </LinearLayout>
@@ -356,17 +399,19 @@
                     android:layout_below="@+id/layoutMainStatisticChart"
                     android:layout_marginLeft="@dimen/common_padding_small"
                     android:layout_marginRight="@dimen/common_padding_small"
-                    android:background="@color/custom_light_gray" />
+                    android:background="@color/custom_light_gray"
+                    />
 
                 <LinearLayout
                     android:id="@+id/layoutMainStatisticSum"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_below="@+id/layoutMainStatisticChart"
-                    android:layout_marginBottom="2dp"
                     android:layout_marginLeft="@dimen/common_padding_medium"
                     android:layout_marginTop="@dimen/common_padding_medium"
-                    android:orientation="horizontal">
+                    android:layout_marginBottom="2dp"
+                    android:orientation="horizontal"
+                    >
 
                     <TextView
                         android:id="@+id/tvMainStatisticSumTitle"
@@ -375,7 +420,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
                         android:singleLine="true"
-                        android:text="@string/sum" />
+                        android:text="@string/sum"
+                        />
 
                     <TextView
                         android:id="@+id/tvMainStatisticSum"
@@ -384,10 +430,11 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="7"
-                        android:singleLine="true" />
+                        android:singleLine="true"
+                        />
 
                 </LinearLayout>
             </RelativeLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
     </RelativeLayout>
 </ScrollView>

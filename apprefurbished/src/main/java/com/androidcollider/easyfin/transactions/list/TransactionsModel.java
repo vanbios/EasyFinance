@@ -1,8 +1,9 @@
 package com.androidcollider.easyfin.transactions.list;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.util.Pair;
+
+import androidx.core.content.ContextCompat;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.managers.format.date.DateFormatManager;
@@ -82,11 +83,11 @@ class TransactionsModel implements TransactionsMVP.Model {
     }
 
     private TransactionViewModel transformTransactionToViewModel(Transaction transaction) {
-        TransactionViewModel.TransactionViewModelBuilder builder = TransactionViewModel.builder();
+        TransactionViewModel model = new TransactionViewModel();
 
-        builder.id(transaction.getId());
-        builder.accountName(transaction.getAccountName());
-        builder.date(dateFormatManager.longToDateString(transaction.getDate(), DateFormatManager.DAY_MONTH_YEAR_DOTS));
+        model.setId(transaction.getId());
+        model.setAccountName(transaction.getAccountName());
+        model.setDate(dateFormatManager.longToDateString(transaction.getDate(), DateFormatManager.DAY_MONTH_YEAR_DOTS));
 
         String amount = numberFormatManager.doubleToStringFormatter(
                 transaction.getAmount(),
@@ -103,20 +104,20 @@ class TransactionsModel implements TransactionsMVP.Model {
         }
 
         boolean isExpense = amount.contains("-");
-        builder.isExpense(isExpense);
+        model.setExpense(isExpense);
 
         if (isExpense) {
-            builder.amount(String.format("- %1$s %2$s", amount.substring(1), curLang));
-            builder.colorRes(ContextCompat.getColor(context, R.color.custom_red));
+            model.setAmount(String.format("- %1$s %2$s", amount.substring(1), curLang));
+            model.setColorRes(ContextCompat.getColor(context, R.color.custom_red));
         } else {
-            builder.amount(String.format("+ %1$s %2$s", amount, curLang));
-            builder.colorRes(ContextCompat.getColor(context, R.color.custom_green));
+            model.setAmount(String.format("+ %1$s %2$s", amount, curLang));
+            model.setColorRes(ContextCompat.getColor(context, R.color.custom_green));
         }
 
-        builder.category(transaction.getCategory());
-        builder.accountType(transaction.getAccountType());
+        model.setCategory(transaction.getCategory());
+        model.setAccountType(transaction.getAccountType());
 
-        return builder.build();
+        return model;
     }
 
     private List<TransactionViewModel> transformTransactionListToViewModelList(List<Transaction> transactionList) {

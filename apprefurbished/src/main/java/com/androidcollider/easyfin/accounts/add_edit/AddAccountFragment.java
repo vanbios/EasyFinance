@@ -1,12 +1,14 @@
 package com.androidcollider.easyfin.accounts.add_edit;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.app.App;
@@ -25,24 +27,16 @@ import org.greenrobot.eventbus.EventBus;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-
 /**
  * @author Ihor Bilous
  */
 
 public class AddAccountFragment extends CommonFragmentAddEdit implements NumericDialogFragment.OnCommitAmountListener, AddAccountMVP.View {
 
-    @BindView(R.id.spinAddAccountType)
     Spinner spinType;
-    @BindView(R.id.spinAddAccountCurrency)
     Spinner spinCurrency;
-    @BindView(R.id.editTextAccountName)
     EditText etName;
-    @BindView(R.id.tvAddAccountAmount)
     TextView tvAmount;
-    @BindView(R.id.layoutActAccountParent)
     ScrollView mainContent;
 
     @Inject
@@ -73,13 +67,24 @@ public class AddAccountFragment extends CommonFragmentAddEdit implements Numeric
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setupUI(view);
         setToolbar();
         setSpinner();
         presenter.setView(this);
         presenter.setArguments(getArguments());
         hideTouchOutsideManager.hideKeyboardByTouchOutsideEditText(mainContent, getActivity());
+    }
+
+    private void setupUI(View view) {
+        spinType = view.findViewById(R.id.spinAddAccountType);
+        spinCurrency = view.findViewById(R.id.spinAddAccountCurrency);
+        etName = view.findViewById(R.id.editTextAccountName);
+        tvAmount = view.findViewById(R.id.tvAddAccountAmount);
+        mainContent = view.findViewById(R.id.layoutActAccountParent);
+
+        tvAmount.setOnClickListener(v -> openNumericDialog());
     }
 
     private void setSpinner() {
@@ -111,15 +116,6 @@ public class AddAccountFragment extends CommonFragmentAddEdit implements Numeric
     private void pushBroadcast() {
         EventBus.getDefault().post(new UpdateFrgHomeBalance());
         EventBus.getDefault().post(new UpdateFrgAccounts());
-    }
-
-    @OnClick({R.id.tvAddAccountAmount})
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tvAddAccountAmount:
-                openNumericDialog();
-                break;
-        }
     }
 
     @Override

@@ -3,15 +3,10 @@ package com.androidcollider.easyfin.common.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import lombok.Getter;
-import lombok.ToString;
-
 /**
  * @author Ihor Bilous
  */
 
-@Getter
-@ToString
 public class Currency {
     @SerializedName("bid")
     @Expose
@@ -25,4 +20,20 @@ public class Currency {
     @SerializedName("trendBid")
     @Expose
     public double trendBid;
+
+    public double getBid() {
+        return bid;
+    }
+
+    public double getAsk() {
+        return ask;
+    }
+
+    public double getTrendAsk() {
+        return trendAsk;
+    }
+
+    public double getTrendBid() {
+        return trendBid;
+    }
 }

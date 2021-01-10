@@ -1,7 +1,8 @@
 package com.androidcollider.easyfin.transactions.list;
 
-import android.support.annotation.Nullable;
 import android.util.Pair;
+
+import androidx.annotation.Nullable;
 
 import com.androidcollider.easyfin.common.models.Transaction;
 import com.androidcollider.easyfin.common.models.TransactionCategory;

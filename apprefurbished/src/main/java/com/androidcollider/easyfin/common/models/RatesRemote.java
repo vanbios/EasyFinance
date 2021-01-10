@@ -3,15 +3,10 @@ package com.androidcollider.easyfin.common.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import lombok.Getter;
-import lombok.ToString;
-
 /**
  * @author Ihor Bilous
  */
 
-@Getter
-@ToString
 public class RatesRemote {
 
     @SerializedName("usd")
@@ -26,4 +21,20 @@ public class RatesRemote {
     @SerializedName("gbp")
     @Expose
     public Currency gbp;
+
+    public Currency getUsd() {
+        return usd;
+    }
+
+    public Currency getEur() {
+        return eur;
+    }
+
+    public Currency getRub() {
+        return rub;
+    }
+
+    public Currency getGbp() {
+        return gbp;
+    }
 }

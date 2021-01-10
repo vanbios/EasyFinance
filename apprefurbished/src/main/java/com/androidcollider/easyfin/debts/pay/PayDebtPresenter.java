@@ -2,7 +2,8 @@ package com.androidcollider.easyfin.debts.pay;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.models.Debt;

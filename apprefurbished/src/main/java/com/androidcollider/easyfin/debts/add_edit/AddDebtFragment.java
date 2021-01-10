@@ -2,13 +2,14 @@ package com.androidcollider.easyfin.debts.add_edit;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.app.App;
@@ -34,9 +35,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-
 /**
  * @author Ihor Bilous
  */
@@ -44,17 +42,11 @@ import butterknife.OnClick;
 public class AddDebtFragment extends CommonFragmentAddEdit
         implements NumericDialogFragment.OnCommitAmountListener, AddDebtMVP.View {
 
-    @BindView(R.id.tvAddDebtDate)
     TextView tvDate;
-    @BindView(R.id.tvAddDebtAmount)
     TextView tvAmount;
-    @BindView(R.id.editTextDebtName)
     EditText etName;
-    @BindView(R.id.spinAddDebtAccount)
     Spinner spinAccount;
-    @BindView(R.id.cardAddDebtElements)
     CardView cardView;
-    @BindView(R.id.layoutActAddDebtParent)
     ScrollView mainContent;
 
     private DatePickerDialog datePickerDialog;
@@ -93,7 +85,7 @@ public class AddDebtFragment extends CommonFragmentAddEdit
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        setupUI(view);
         setToolbar();
 
         hideTouchOutsideManager.hideKeyboardByTouchOutsideEditText(mainContent, getActivity());
@@ -105,6 +97,18 @@ public class AddDebtFragment extends CommonFragmentAddEdit
         presenter.loadAccounts();
     }
 
+    private void setupUI(View view) {
+        tvDate = view.findViewById(R.id.tvAddDebtDate);
+        tvAmount = view.findViewById(R.id.tvAddDebtAmount);
+        etName = view.findViewById(R.id.editTextDebtName);
+        spinAccount = view.findViewById(R.id.spinAddDebtAccount);
+        cardView = view.findViewById(R.id.cardAddDebtElements);
+        mainContent = view.findViewById(R.id.layoutActAddDebtParent);
+
+        tvAmount.setOnClickListener(v -> openNumericDialog());
+        tvDate.setOnClickListener(v -> datePickerDialog.show());
+    }
+
     private void pushBroadcast() {
         EventBus.getDefault().post(new UpdateFrgHomeBalance());
         EventBus.getDefault().post(new UpdateFrgAccounts());
@@ -113,18 +117,6 @@ public class AddDebtFragment extends CommonFragmentAddEdit
 
     private void setDateText(Calendar calendar) {
         tvDate.setText(dateFormatManager.dateToString(calendar.getTime(), DateFormatManager.DAY_MONTH_YEAR_SPACED));
-    }
-
-    @OnClick({R.id.tvAddDebtAmount, R.id.tvAddDebtDate})
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tvAddDebtAmount:
-                openNumericDialog();
-                break;
-            case R.id.tvAddDebtDate:
-                datePickerDialog.show();
-                break;
-        }
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.androidcollider.easyfin.common.ui.adapters;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,19 +9,18 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
 
 import java.util.List;
 
-import lombok.Getter;
-
 /**
  * @author Ihor Bilous
  */
 
-@Getter
 abstract class SpinAccountAdapter extends ArrayAdapter<SpinAccountViewModel> {
 
     private final TypedArray typeIconsArray;
@@ -67,6 +65,26 @@ abstract class SpinAccountAdapter extends ArrayAdapter<SpinAccountViewModel> {
         }
 
         return dropSpinner;
+    }
+
+    public TypedArray getTypeIconsArray() {
+        return typeIconsArray;
+    }
+
+    public List<SpinAccountViewModel> getAccountList() {
+        return accountList;
+    }
+
+    public String[] getCurArray() {
+        return curArray;
+    }
+
+    public String[] getCurLangArray() {
+        return curLangArray;
+    }
+
+    public LayoutInflater getInflater() {
+        return inflater;
     }
 
     public abstract View getCustomHeadView(int position, ViewGroup parent);

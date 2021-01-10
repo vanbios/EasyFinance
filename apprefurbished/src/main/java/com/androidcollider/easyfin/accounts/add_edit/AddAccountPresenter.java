@@ -2,7 +2,8 @@ package com.androidcollider.easyfin.accounts.add_edit;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.accounts.list.AccountsFragment;

@@ -1,6 +1,6 @@
 package com.androidcollider.easyfin.home;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.androidcollider.easyfin.common.managers.chart.data.ChartDataManager;
 import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;

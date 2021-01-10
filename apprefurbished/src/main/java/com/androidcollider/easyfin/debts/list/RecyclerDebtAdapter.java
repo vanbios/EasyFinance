@@ -1,7 +1,6 @@
 package com.androidcollider.easyfin.debts.list;
 
 import android.graphics.LightingColorFilter;
-import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -10,14 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.androidcollider.easyfin.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * @author Ihor Bilous
@@ -25,8 +22,6 @@ import lombok.Setter;
 
 class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapter.ViewHolder> {
 
-    @Getter(AccessLevel.PACKAGE)
-    @Setter(AccessLevel.PRIVATE)
     private int currentId;
     private List<DebtViewModel> debtList;
 
@@ -44,6 +39,14 @@ class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapter.ViewH
     void deleteItem(int position) {
         debtList.remove(position);
         notifyItemRemoved(position);
+    }
+
+    int getCurrentId() {
+        return currentId;
+    }
+
+    private void setCurrentId(int currentId) {
+        this.currentId = currentId;
     }
 
     @Override

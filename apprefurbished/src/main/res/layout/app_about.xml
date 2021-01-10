@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    >
 
     <TextView
         android:id="@+id/tvAboutAppName"
@@ -9,7 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="@string/app_name" />
+        android:text="@string/app_name"
+        />
 
     <TextView
         android:id="@+id/tvAboutAppVersion"
@@ -19,17 +22,19 @@
         android:layout_below="@+id/tvAboutAppName"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/common_padding_small"
-        android:text="@string/about_app_version" />
+        android:text="@string/about_app_version"
+        />
 
     <View
         android:id="@+id/cvAboutAppDividerAboveRates"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_below="@+id/tvAboutAppVersion"
         android:layout_alignLeft="@+id/tvAboutAppRatesSourceLink"
         android:layout_alignRight="@+id/tvAboutAppRatesSourceLink"
-        android:layout_below="@+id/tvAboutAppVersion"
         android:layout_marginTop="@dimen/common_padding_large"
-        android:background="@color/custom_light_gray" />
+        android:background="@color/custom_light_gray"
+        />
 
     <TextView
         android:id="@+id/tvAboutAppRatesSource"
@@ -39,7 +44,8 @@
         android:layout_below="@+id/cvAboutAppDividerAboveRates"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/common_padding_large"
-        android:text="@string/about_app_rates_source" />
+        android:text="@string/about_app_rates_source"
+        />
 
     <TextView
         android:id="@+id/tvAboutAppRatesSourceLink"
@@ -50,17 +56,19 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/common_padding_small"
         android:autoLink="web"
-        android:text="@string/about_app_rates_source_link" />
+        android:text="@string/about_app_rates_source_link"
+        />
 
     <View
         android:id="@+id/cvAboutAppDividerAboveDevelopers"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_below="@+id/tvAboutAppRatesSourceLink"
         android:layout_alignLeft="@+id/tvAboutAppRatesSourceLink"
         android:layout_alignRight="@+id/tvAboutAppRatesSourceLink"
-        android:layout_below="@+id/tvAboutAppRatesSourceLink"
         android:layout_marginTop="@dimen/common_padding_large"
-        android:background="@color/custom_light_gray" />
+        android:background="@color/custom_light_gray"
+        />
 
     <TextView
         android:id="@+id/tvAboutAppDeveloper"
@@ -70,7 +78,8 @@
         android:layout_below="@+id/cvAboutAppDividerAboveDevelopers"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/common_padding_large"
-        android:text="@string/about_app_developer" />
+        android:text="@string/about_app_developer"
+        />
 
     <TextView
         android:id="@+id/tvAboutAppMailToDeveloper"
@@ -81,6 +90,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/common_padding_small"
         android:autoLink="web|email"
-        android:text="@string/about_app_mail_to_dev" />
+        android:text="@string/about_app_mail_to_dev"
+        />
 
 </RelativeLayout>

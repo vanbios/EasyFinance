@@ -1,19 +1,13 @@
 package com.androidcollider.easyfin.common.app;
 
-import android.app.Application;
-
-import com.crashlytics.android.Crashlytics;
-
-import io.fabric.sdk.android.Fabric;
-import lombok.Getter;
+import androidx.multidex.MultiDexApplication;
 
 /**
  * @author Ihor Bilous
  */
 
-public class App extends Application {
+public class App extends MultiDexApplication {
 
-    @Getter
     private AppComponent component;
 
 
@@ -24,7 +18,9 @@ public class App extends Application {
         component = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .build();
+    }
 
-        Fabric.with(this, new Crashlytics());
+    public AppComponent getComponent() {
+        return component;
     }
 }

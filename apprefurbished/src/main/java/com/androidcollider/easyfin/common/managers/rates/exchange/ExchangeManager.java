@@ -3,8 +3,6 @@ package com.androidcollider.easyfin.common.managers.rates.exchange;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.repository.Repository;
 
-import lombok.Getter;
-
 /**
  * @author Ihor Bilous
  */
@@ -13,7 +11,6 @@ public class ExchangeManager {
 
     private Repository repository;
     private ResourcesManager resourcesManager;
-    @Getter
     private double[] rates = {1, 27.708, 29.225, 0.463, 34.1};
 
     ExchangeManager(Repository repository, ResourcesManager resourcesManager) {
@@ -45,5 +42,9 @@ public class ExchangeManager {
             if (currencyArray[i].equals(currTo)) posTo = i;
         }
         return rates[posTo] / rates[posFrom];
+    }
+
+    public double[] getRates() {
+        return rates;
     }
 }

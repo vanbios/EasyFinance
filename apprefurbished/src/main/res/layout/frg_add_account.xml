@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layoutActAccountParent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -7,23 +8,27 @@
     android:layout_marginTop="@dimen/common_padding_large"
     android:paddingLeft="@dimen/common_padding_medium"
     android:paddingRight="@dimen/common_padding_medium"
-    android:scrollbars="none">
+    android:scrollbars="none"
+    >
 
-    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    <androidx.cardview.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/cardAddAccountElements"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         card_view:cardElevation="@dimen/elevation_medium"
-        card_view:cardUseCompatPadding="true">
+        card_view:cardUseCompatPadding="true"
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="30dp"
             android:paddingLeft="@dimen/common_padding_xlarge"
+            android:paddingTop="@dimen/common_padding_xlarge"
             android:paddingRight="@dimen/common_padding_xlarge"
-            android:paddingTop="@dimen/common_padding_xlarge">
+            android:paddingBottom="30dp"
+            >
 
             <TextView
                 android:id="@+id/tvAddAccountAmount"
@@ -32,7 +37,8 @@
                 android:gravity="center_horizontal"
                 android:singleLine="true"
                 android:textColor="@color/custom_text_gray_dark"
-                android:textSize="36sp" />
+                android:textSize="36sp"
+                />
 
             <TextView
                 android:id="@+id/tvAddAccountName"
@@ -42,7 +48,8 @@
                 android:layout_below="@+id/tvAddAccountAmount"
                 android:layout_marginTop="32dp"
                 android:text="@string/name"
-                android:textAllCaps="true" />
+                android:textAllCaps="true"
+                />
 
             <View
                 android:id="@+id/cvAddAccountDividerName"
@@ -50,7 +57,8 @@
                 android:layout_height="1dp"
                 android:layout_below="@+id/tvAddAccountName"
                 android:layout_marginTop="@dimen/common_padding_small"
-                android:background="@color/custom_light_gray" />
+                android:background="@color/custom_light_gray"
+                />
 
             <LinearLayout
                 android:id="@+id/linLayoutAddAccountName"
@@ -62,16 +70,18 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/common_padding_small"
-                android:paddingRight="@dimen/common_padding_small">
+                android:paddingRight="@dimen/common_padding_small"
+                >
 
                 <ImageView
                     android:id="@+id/ivAddAccountName"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
-                    android:layout_marginRight="12dp"
                     android:layout_marginTop="4dp"
+                    android:layout_marginRight="12dp"
                     android:contentDescription="@string/empty_amount_field"
-                    android:src="@drawable/ic_clipboard_text_blue_gray_48dp" />
+                    android:src="@drawable/ic_clipboard_text_blue_gray_48dp"
+                    />
 
                 <EditText
                     android:id="@+id/editTextAccountName"
@@ -79,7 +89,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="50"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    />
 
             </LinearLayout>
 
@@ -91,7 +102,8 @@
                 android:layout_below="@+id/linLayoutAddAccountName"
                 android:layout_marginTop="@dimen/common_padding_xlarge"
                 android:text="@string/account_type"
-                android:textAllCaps="true" />
+                android:textAllCaps="true"
+                />
 
             <View
                 android:id="@+id/cvAddAccountDividerTop"
@@ -99,7 +111,8 @@
                 android:layout_height="1dp"
                 android:layout_below="@+id/tvAddAccountType"
                 android:layout_marginTop="@dimen/common_padding_small"
-                android:background="@color/custom_light_gray" />
+                android:background="@color/custom_light_gray"
+                />
 
             <LinearLayout
                 android:id="@+id/linLayoutAddAccountType"
@@ -108,14 +121,16 @@
                 android:layout_below="@+id/cvAddAccountDividerTop"
                 android:baselineAligned="false"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                >
 
                 <Spinner
                     android:id="@+id/spinAddAccountType"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:prompt="@string/account_type"
-                    android:spinnerMode="dialog" />
+                    android:spinnerMode="dialog"
+                    />
 
             </LinearLayout>
 
@@ -127,7 +142,8 @@
                 android:layout_below="@+id/linLayoutAddAccountType"
                 android:layout_marginTop="12dp"
                 android:text="@string/currency"
-                android:textAllCaps="true" />
+                android:textAllCaps="true"
+                />
 
             <View
                 android:id="@+id/cvAddAccountDividerCurrencyTop"
@@ -135,7 +151,8 @@
                 android:layout_height="1dp"
                 android:layout_below="@+id/tvAddAccountCurrency"
                 android:layout_marginTop="@dimen/common_padding_small"
-                android:background="@color/custom_light_gray" />
+                android:background="@color/custom_light_gray"
+                />
 
             <LinearLayout
                 android:id="@+id/linLayoutAddAccountCurrency"
@@ -144,14 +161,16 @@
                 android:layout_below="@+id/cvAddAccountDividerCurrencyTop"
                 android:baselineAligned="false"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                >
 
                 <Spinner
                     android:id="@+id/spinAddAccountCurrency"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
                     android:prompt="@string/currency"
-                    android:spinnerMode="dialog" />
+                    android:spinnerMode="dialog"
+                    />
 
             </LinearLayout>
 
@@ -160,8 +179,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_below="@+id/linLayoutAddAccountCurrency"
-                android:background="@color/custom_light_gray" />
+                android:background="@color/custom_light_gray"
+                />
 
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 </ScrollView>

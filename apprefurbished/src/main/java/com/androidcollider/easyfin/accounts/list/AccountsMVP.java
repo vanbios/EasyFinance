@@ -1,6 +1,6 @@
 package com.androidcollider.easyfin.accounts.list;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.androidcollider.easyfin.common.models.Account;
 

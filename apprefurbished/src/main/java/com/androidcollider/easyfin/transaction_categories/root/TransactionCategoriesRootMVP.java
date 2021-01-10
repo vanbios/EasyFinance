@@ -1,7 +1,7 @@
 package com.androidcollider.easyfin.transaction_categories.root;
 
-import android.support.annotation.Nullable;
-import android.support.v4.util.Pair;
+import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 
 import com.androidcollider.easyfin.common.models.TransactionCategory;
 
@@ -13,7 +13,7 @@ import io.reactivex.Flowable;
  * @author Ihor Bilous
  */
 
-interface TransactionCategoriesRootMVP {
+public interface TransactionCategoriesRootMVP {
 
     interface Model {
 

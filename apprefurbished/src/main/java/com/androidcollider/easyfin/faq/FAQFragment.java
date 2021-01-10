@@ -1,11 +1,12 @@
 package com.androidcollider.easyfin.faq;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.View;
+
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.app.App;
@@ -15,15 +16,12 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-
 /**
  * @author Ihor Bilous
  */
 
 public class FAQFragment extends CommonFragment implements FAQMVP.View {
 
-    @BindView(R.id.rvFAQ)
     RecyclerView recyclerView;
 
     @Inject
@@ -44,9 +42,13 @@ public class FAQFragment extends CommonFragment implements FAQMVP.View {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        setupUI(view);
         presenter.setView(this);
         presenter.loadInfo();
+    }
+
+    private void setupUI(View view) {
+        recyclerView = view.findViewById(R.id.rvFAQ);
     }
 
     @Override

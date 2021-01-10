@@ -1,7 +1,6 @@
 package com.androidcollider.easyfin.transactions.list;
 
 import android.content.res.TypedArray;
-import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -9,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
@@ -18,18 +19,12 @@ import com.androidcollider.easyfin.common.models.TransactionCategory;
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
-
 /**
  * @author Ihor Bilous
  */
 
 class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTransactionAdapter.MainViewHolder> {
 
-    @Getter(AccessLevel.PACKAGE)
-    @Setter(AccessLevel.PRIVATE)
     private int currentId;
     private List<TransactionViewModel> transactionList;
     private List<TransactionCategory> transactionCategoryIncomeList;
@@ -60,6 +55,14 @@ class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTransactio
     void deleteItem(int position) {
         transactionList.remove(position);
         notifyItemRemoved(position);
+    }
+
+    int getCurrentId() {
+        return currentId;
+    }
+
+    private void setCurrentId(int currentId) {
+        this.currentId = currentId;
     }
 
     void setTransactionCategories(List<TransactionCategory> transactionCategoryIncomeList,

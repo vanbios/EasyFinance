@@ -1,12 +1,13 @@
 package com.androidcollider.easyfin.debts.pay;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.common.app.App;
@@ -29,9 +30,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
-import butterknife.OnClick;
-
 /**
  * @author Ihor Bilous
  */
@@ -39,15 +37,10 @@ import butterknife.OnClick;
 public class PayDebtFragment extends CommonFragmentAddEdit
         implements NumericDialogFragment.OnCommitAmountListener, PayDebtMVP.View {
 
-    @BindView(R.id.tvPayDebtName)
     TextView tvDebtName;
-    @BindView(R.id.tvPayDebtAmount)
     TextView tvAmount;
-    @BindView(R.id.spinPayDebtAccount)
     Spinner spinAccount;
-    @BindView(R.id.cardPayDebtElements)
     CardView cardView;
-    @BindView(R.id.layoutActPayDebtParent)
     ScrollView mainContent;
 
     private List<SpinAccountViewModel> accountsAvailableList;
@@ -79,7 +72,7 @@ public class PayDebtFragment extends CommonFragmentAddEdit
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        setupUI(view);
         setToolbar();
 
         hideTouchOutsideManager.hideKeyboardByTouchOutsideEditText(mainContent, getActivity());
@@ -91,19 +84,20 @@ public class PayDebtFragment extends CommonFragmentAddEdit
         presenter.loadAccounts();
     }
 
+    private void setupUI(View view) {
+        tvDebtName = view.findViewById(R.id.tvPayDebtName);
+        tvAmount = view.findViewById(R.id.tvPayDebtAmount);
+        spinAccount = view.findViewById(R.id.spinPayDebtAccount);
+        cardView = view.findViewById(R.id.cardPayDebtElements);
+        mainContent = view.findViewById(R.id.layoutActPayDebtParent);
+
+        tvAmount.setOnClickListener(v -> openNumericDialog());
+    }
+
     private void pushBroadcast() {
         EventBus.getDefault().post(new UpdateFrgHomeBalance());
         EventBus.getDefault().post(new UpdateFrgAccounts());
         EventBus.getDefault().post(new UpdateFrgDebts());
-    }
-
-    @OnClick({R.id.tvPayDebtAmount})
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tvPayDebtAmount:
-                openNumericDialog();
-                break;
-        }
     }
 
     @Override

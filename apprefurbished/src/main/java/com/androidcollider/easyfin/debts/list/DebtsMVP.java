@@ -10,7 +10,7 @@ import io.reactivex.Flowable;
  * @author Ihor Bilous
  */
 
-interface DebtsMVP {
+public interface DebtsMVP {
 
     interface Model {
 

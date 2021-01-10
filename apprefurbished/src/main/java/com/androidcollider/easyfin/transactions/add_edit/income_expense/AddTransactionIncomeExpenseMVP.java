@@ -2,8 +2,9 @@ package com.androidcollider.easyfin.transactions.add_edit.income_expense;
 
 import android.content.res.TypedArray;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.util.Pair;
+
+import androidx.annotation.Nullable;
+import androidx.core.util.Pair;
 
 import com.androidcollider.easyfin.common.models.Transaction;
 import com.androidcollider.easyfin.common.models.TransactionCategory;
@@ -18,7 +19,7 @@ import io.reactivex.Flowable;
  * @author Ihor Bilous
  */
 
-interface AddTransactionIncomeExpenseMVP {
+public interface AddTransactionIncomeExpenseMVP {
 
     interface Model {
 

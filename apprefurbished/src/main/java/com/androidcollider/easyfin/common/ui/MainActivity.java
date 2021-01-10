@@ -4,23 +4,24 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidcollider.easyfin.R;
 import com.androidcollider.easyfin.accounts.add_edit.AddAccountFragment;
@@ -31,19 +32,16 @@ import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager;
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager;
 import com.androidcollider.easyfin.common.ui.adapters.NavigationDrawerRecyclerAdapter;
-import com.androidcollider.easyfin.faq.FAQFragment;
-import com.androidcollider.easyfin.main.MainFragment;
 import com.androidcollider.easyfin.common.ui.fragments.PrefFragment;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment;
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit;
 import com.androidcollider.easyfin.common.ui.fragments.common.PreferenceFragment;
 import com.androidcollider.easyfin.debts.list.DebtsFragment;
+import com.androidcollider.easyfin.faq.FAQFragment;
+import com.androidcollider.easyfin.main.MainFragment;
 import com.androidcollider.easyfin.transaction_categories.root.TransactionCategoriesRootFragment;
 
 import javax.inject.Inject;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * @author Ihor Bilous
@@ -51,11 +49,8 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
 
-    @BindView(R.id.navDrawerLayout)
     DrawerLayout drawerLayout;
-    @BindView(R.id.recyclerViewNavDrawer)
     RecyclerView recyclerNavDrawer;
-    @BindView(R.id.toolbarMain)
     Toolbar toolbar;
 
     private static long backPressExitTime;
@@ -81,9 +76,10 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nav_drawer_root_layout);
-        ButterKnife.bind(this);
 
         ((App) getApplication()).getComponent().inject(this);
+
+        setupUI();
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.addOnBackStackChangedListener(this);
@@ -97,6 +93,12 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
         permissionManager.setActivity(this);
         permissionManager.requestRequiredPermissions();
+    }
+
+    private void setupUI() {
+        drawerLayout = findViewById(R.id.navDrawerLayout);
+        recyclerNavDrawer = findViewById(R.id.recyclerViewNavDrawer);
+        toolbar = findViewById(R.id.toolbarMain);
     }
 
     private void initializeViews() {

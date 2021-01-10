@@ -60,7 +60,7 @@ public class RatesLoaderManager {
                 && (!sharedPrefManager.getRatesInsertFirstTimeStatus()
                 || !checkForTodayUpdate()
                 && checkForAvailableNewRates())) {
-            getRates();
+            //getRates();
         }
     }
 

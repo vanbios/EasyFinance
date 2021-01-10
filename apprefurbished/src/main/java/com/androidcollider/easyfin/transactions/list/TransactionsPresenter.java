@@ -1,6 +1,6 @@
 package com.androidcollider.easyfin.transactions.list;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 /**
  * @author Ihor Bilous
