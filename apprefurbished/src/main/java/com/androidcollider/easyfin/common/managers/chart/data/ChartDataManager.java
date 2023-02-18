@@ -5,14 +5,15 @@ import android.content.Context;
 import androidx.core.content.ContextCompat;
 
 import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
+import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
+import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -24,14 +25,17 @@ import java.util.List;
 
 public class ChartDataManager {
 
-    private NumberFormatManager numberFormatManager;
-    private ResourcesManager resourcesManager;
-    private Context context;
+    private final NumberFormatManager numberFormatManager;
+    private final ResourcesManager resourcesManager;
+    private final Context context;
+
+    private final int textColor;
 
     ChartDataManager(NumberFormatManager numberFormatManager, ResourcesManager resourcesManager, Context context) {
         this.numberFormatManager = numberFormatManager;
         this.resourcesManager = resourcesManager;
         this.context = context;
+        textColor = ContextCompat.getColor(context, R.color.custom_text_gray_dark);
     }
 
 
@@ -43,10 +47,10 @@ public class ChartDataManager {
 
         String[] accountType = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_TYPE);
 
-        List<BarEntry> valueSet1 = Collections.singletonList(new BarEntry(cash, 0));
-        List<BarEntry> valueSet2 = Collections.singletonList(new BarEntry(card, 0));
-        List<BarEntry> valueSet3 = Collections.singletonList(new BarEntry(deposit, 0));
-        List<BarEntry> valueSet4 = Collections.singletonList(new BarEntry(debt, 0));
+        List<BarEntry> valueSet1 = Collections.singletonList(new BarEntry(4, cash));
+        List<BarEntry> valueSet2 = Collections.singletonList(new BarEntry(3, card));
+        List<BarEntry> valueSet3 = Collections.singletonList(new BarEntry(2, deposit));
+        List<BarEntry> valueSet4 = Collections.singletonList(new BarEntry(1, debt));
 
         BarDataSet barDataSet1 = new BarDataSet(valueSet1, accountType[0]);
         barDataSet1.setColor(ContextCompat.getColor(context, R.color.custom_teal_dark));
@@ -65,13 +69,7 @@ public class ChartDataManager {
                         ContextCompat.getColor(context, R.color.custom_green)
         );
 
-        List<BarDataSet> dataSets = Arrays.asList(barDataSet4, barDataSet3, barDataSet2, barDataSet1);
-
-        BarData data = new BarData(getXAxisValues(), dataSets);
-        data.setValueTextSize(12f);
-        data.setValueTextColor(context.getResources().getColor(R.color.custom_text_gray_dark));
-
-        return data;
+        return getBarDataFromDataSets(Arrays.asList(barDataSet4, barDataSet3, barDataSet2, barDataSet1));
     }
 
 
@@ -79,8 +77,8 @@ public class ChartDataManager {
         float cost = (float) Math.abs(values[0]);
         float income = (float) values[1];
 
-        List<BarEntry> valueSet1 = Collections.singletonList(new BarEntry(income, 0));
-        List<BarEntry> valueSet2 = Collections.singletonList(new BarEntry(cost, 0));
+        List<BarEntry> valueSet1 = Collections.singletonList(new BarEntry(2, income));
+        List<BarEntry> valueSet2 = Collections.singletonList(new BarEntry(1, cost));
 
         BarDataSet barDataSet1 = new BarDataSet(valueSet1, "income");
         barDataSet1.setColor(ContextCompat.getColor(context, R.color.custom_green));
@@ -88,30 +86,24 @@ public class ChartDataManager {
         BarDataSet barDataSet2 = new BarDataSet(valueSet2, "cost");
         barDataSet2.setColor(ContextCompat.getColor(context, R.color.custom_red));
 
-        List<BarDataSet> dataSets = Arrays.asList(barDataSet2, barDataSet1);
+        return getBarDataFromDataSets(Arrays.asList(barDataSet2, barDataSet1));
+    }
 
-        BarData data = new BarData(getXAxisValues(), dataSets);
+    private BarData getBarDataFromDataSets(List<IBarDataSet> dataSets) {
+        BarData data = new BarData(dataSets);
         data.setValueTextSize(12f);
-        data.setValueTextColor(ContextCompat.getColor(context, R.color.custom_text_gray_dark));
+        data.setValueTextColor(textColor);
 
         return data;
-    }
-
-    private List<String> getXAxisValues() {
-        return Collections.singletonList("");
-    }
-
-    private List<String> getXAxisValuesPie() {
-        return Arrays.asList("", "");
     }
 
     public PieData getDataSetMainStatisticPieChart(double[] values) {
         float cost = (float) Math.abs(values[0]);
         float income = (float) values[1];
 
-        List<Entry> valueSet = Arrays.asList(
-                new Entry(income, 0),
-                new Entry(cost, 0)
+        List<PieEntry> valueSet = Arrays.asList(
+                new PieEntry(income),
+                new PieEntry(cost)
         );
 
         PieDataSet pieDataSet = new PieDataSet(valueSet, "statistic");
@@ -126,9 +118,9 @@ public class ChartDataManager {
         pieDataSet.setSliceSpace(3);
         pieDataSet.setSelectionShift(5);
 
-        PieData data = new PieData(getXAxisValuesPie(), pieDataSet);
+        PieData data = new PieData(pieDataSet);
         data.setValueTextSize(12f);
-        data.setValueTextColor(ContextCompat.getColor(context, R.color.custom_text_light));
+        data.setValueTextColor(textColor);
 
         return data;
     }

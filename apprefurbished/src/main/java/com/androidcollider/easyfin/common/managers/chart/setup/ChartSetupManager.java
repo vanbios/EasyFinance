@@ -18,15 +18,13 @@ import com.github.mikephil.charting.components.YAxis;
 
 public class ChartSetupManager {
 
-    private Context context;
+    private final Context context;
 
     ChartSetupManager(Context context) {
         this.context = context;
     }
 
     public void setupMainBarChart(BarChart chart) {
-        chart.setDescription("");
-        chart.getLegend().setEnabled(false);
         YAxis leftAxis = chart.getAxisLeft();
         YAxis rightAxis = chart.getAxisRight();
         rightAxis.setEnabled(false);
@@ -43,30 +41,27 @@ public class ChartSetupManager {
         leftAxis.setGridColor(ContextCompat.getColor(context, R.color.custom_light_gray));
         leftAxis.setTextColor(ContextCompat.getColor(context, R.color.custom_text_gray_dark));
 
-        chart.getXAxis().setTextColor(ContextCompat.getColor(context, R.color.custom_text_gray_dark));
-
         chart.setDrawGridBackground(false);
         chart.setBackgroundColor(Color.TRANSPARENT);
         chart.setDrawBorders(false);
+        chart.getDescription().setEnabled(false);
+        chart.getLegend().setEnabled(false);
 
-        /*if (!isBorderVisible) {
-            chart.setBorderColor(Color.TRANSPARENT);
-        }*/
+        chart.setFitBars(true);
 
         chart.setTouchEnabled(false);
     }
 
     public void setupMainPieChart(PieChart chart) {
-        chart.setDescription("");
-
         chart.setDrawHoleEnabled(true);
-        chart.setHoleColorTransparent(true);
+        chart.setHoleColor(Color.TRANSPARENT);
         chart.setHoleRadius(45);
         chart.setTransparentCircleRadius(48);
 
         chart.setRotationAngle(0);
         chart.setRotationEnabled(true);
 
+        chart.getDescription().setEnabled(false);
         chart.getLegend().setEnabled(false);
         chart.highlightValues(null);
     }

@@ -7,18 +7,14 @@ android {
     defaultConfig {
         minSdkVersion project.ANDROID_MIN_SDK_VERSION
         targetSdkVersion project.ANDROID_TARGET_SDK_VERSION
-        versionCode 10604
-        versionName '1.6.4'
     }
     buildTypes {
         release {
             minifyEnabled false
-            debuggable false
         }
 
         debug {
             minifyEnabled false
-            debuggable true
         }
     }
 }

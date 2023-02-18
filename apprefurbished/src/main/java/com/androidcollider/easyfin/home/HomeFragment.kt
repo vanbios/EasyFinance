@@ -139,8 +139,9 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
     }
 
     private fun setBalanceCurrencySpinner() {
-        spinBalanceCurrency.adapter = SpinIconTextHeadAdapter(
-                activity,
+        activity?.let {
+            spinBalanceCurrency.adapter = SpinIconTextHeadAdapter(
+                it,
                 R.layout.spin_head_icon_text_main,
                 R.id.tvSpinHeadIconTextMain,
                 R.id.ivSpinHeadIconTextMain,
@@ -149,22 +150,23 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
                 R.id.ivSpinDropIconText,
                 resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY),
                 resourcesManager.getIconArray(ResourcesManager.ICON_FLAGS))
-        spinBalanceCurrency.onItemSelectedListener = object : OnItemSelectedListener {
-            override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
-                if (spinBalanceCurrencyNotInitSelectedItemCall) {
-                    setBalance(i)
-                    presenter.updateTransactionStatisticArray(i)
-                    setStatisticSumTV()
-                    checkStatChartTypeForUpdate()
-                    sharedPrefManager.homeBalanceCurrencyPos = i
-                } else {
-                    spinBalanceCurrencyNotInitSelectedItemCall = true
+            spinBalanceCurrency.onItemSelectedListener = object : OnItemSelectedListener {
+                override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, i: Int, l: Long) {
+                    if (spinBalanceCurrencyNotInitSelectedItemCall) {
+                        setBalance(i)
+                        presenter.updateTransactionStatisticArray(i)
+                        setStatisticSumTV()
+                        checkStatChartTypeForUpdate()
+                        sharedPrefManager.homeBalanceCurrencyPos = i
+                    } else {
+                        spinBalanceCurrencyNotInitSelectedItemCall = true
+                    }
                 }
-            }
 
-            override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+                override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+            }
+            spinBalanceCurrency.setSelection(sharedPrefManager.homeBalanceCurrencyPos)
         }
-        spinBalanceCurrency.setSelection(sharedPrefManager.homeBalanceCurrencyPos)
     }
 
     private fun setStatisticPeriodSpinner() {
@@ -174,10 +176,11 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
                     ResourcesManager.STRING_MAIN_STATISTIC_PERIOD,
                     R.layout.spin_head_text_medium
             )
+
             adapterStatPeriod.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinPeriod.adapter = adapterStatPeriod
             spinPeriod.onItemSelectedListener = object : OnItemSelectedListener {
-                override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
+                override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, i: Int, l: Long) {
                     if (spinPeriodNotInitSelectedItemCall) {
                         presenter.updateStatistic(i + 1)
                         sharedPrefManager.homePeriodPos = i
@@ -193,7 +196,8 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
     }
 
     private fun setChartTypeSpinner() {
-        spinChartType.adapter = SpinIconTextHeadAdapter(
+        activity.let {
+            spinChartType.adapter = SpinIconTextHeadAdapter(
                 activity,
                 R.layout.spin_head_icon_text_main_chart,
                 R.id.tvSpinHeadIconTextMainChart,
@@ -203,31 +207,32 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
                 R.id.ivSpinDropIconText,
                 resourcesManager.getStringArray(ResourcesManager.STRING_CHART_TYPE),
                 resourcesManager.getIconArray(ResourcesManager.ICON_CHART_TYPE))
-        spinChartType.onItemSelectedListener = object : OnItemSelectedListener {
-            override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
-                if (spinChartTypeNotInitSelectedItemCall) {
-                    if (i == 1) {
-                        chartStatistic.visibility = View.GONE
-                        if (presenter.isStatisticEmpty) tvNoData.visibility = View.VISIBLE else {
-                            chartStatisticPie.visibility = View.VISIBLE
-                            setStatisticPieChartData()
+            spinChartType.onItemSelectedListener = object : OnItemSelectedListener {
+                override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
+                    if (spinChartTypeNotInitSelectedItemCall) {
+                        if (i == 1) {
+                            chartStatistic.visibility = View.GONE
+                            if (presenter.isStatisticEmpty) tvNoData.visibility = View.VISIBLE else {
+                                chartStatisticPie.visibility = View.VISIBLE
+                                setStatisticPieChartData()
+                            }
+                        } else {
+                            tvNoData.visibility = View.GONE
+                            chartStatisticPie.visibility = View.GONE
+                            chartStatistic.visibility = View.VISIBLE
+                            setStatisticBarChartData()
                         }
+                        sharedPrefManager.homeChartTypePos = i
                     } else {
-                        tvNoData.visibility = View.GONE
-                        chartStatisticPie.visibility = View.GONE
-                        chartStatistic.visibility = View.VISIBLE
-                        setStatisticBarChartData()
+                        spinChartTypeNotInitSelectedItemCall = true
                     }
-                    sharedPrefManager.homeChartTypePos = i
-                } else {
-                    spinChartTypeNotInitSelectedItemCall = true
                 }
+
+                override fun onNothingSelected(adapterView: AdapterView<*>?) {}
             }
 
-            override fun onNothingSelected(adapterView: AdapterView<*>?) {}
+            //spinChartType.setSelection(sharedPrefManager.getHomeChartTypePos());
         }
-
-        //spinChartType.setSelection(sharedPrefManager.getHomeChartTypePos());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

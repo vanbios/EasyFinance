@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         addFragment(new MainFragment());
 
         permissionManager.setActivity(this);
-        permissionManager.requestRequiredPermissions();
+        //permissionManager.requestRequiredPermissions();
     }
 
     private void setupUI() {
@@ -285,5 +285,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         permissionManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

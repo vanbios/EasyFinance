@@ -1,6 +1,7 @@
 package com.androidcollider.easyfin.common.utils;
 
-import com.github.mikephil.charting.utils.ValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 
@@ -8,7 +9,7 @@ import java.text.DecimalFormatSymbols;
  * @author Ihor Bilous
  */
 
-public class ChartLargeValueFormatter implements ValueFormatter {
+public class ChartLargeValueFormatter extends ValueFormatter {
 
     private boolean showCents;
 
