@@ -1,64 +1,58 @@
-package com.androidcollider.easyfin.debts.pay;
+package com.androidcollider.easyfin.debts.pay
 
-import com.androidcollider.easyfin.common.managers.accounts.accounts_to_spin_view_model.AccountsToSpinViewModelManager;
-import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
-import com.androidcollider.easyfin.common.repository.Repository;
-import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
-
-import java.util.List;
-
-import io.reactivex.rxjava3.core.Flowable;
+import com.androidcollider.easyfin.common.managers.accounts.accounts_to_spin_view_model.AccountsToSpinViewModelManager
+import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager
+import com.androidcollider.easyfin.common.repository.Repository
+import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel
+import io.reactivex.rxjava3.core.Flowable
 
 /**
  * @author Ihor Bilous
  */
+internal class PayDebtModel(
+    private val repository: Repository,
+    private val numberFormatManager: NumberFormatManager,
+    private val accountsToSpinViewModelManager: AccountsToSpinViewModelManager
+) : PayDebtMVP.Model {
+    override val allAccounts: Flowable<List<SpinAccountViewModel>>
+        get() = accountsToSpinViewModelManager.getSpinAccountViewModelList(repository.allAccounts)
 
-class PayDebtModel implements PayDebtMVP.Model {
-
-    private final Repository repository;
-    private final NumberFormatManager numberFormatManager;
-    private final AccountsToSpinViewModelManager accountsToSpinViewModelManager;
-
-
-    PayDebtModel(Repository repository,
-                 NumberFormatManager numberFormatManager,
-                 AccountsToSpinViewModelManager accountsToSpinViewModelManager) {
-        this.repository = repository;
-        this.numberFormatManager = numberFormatManager;
-        this.accountsToSpinViewModelManager = accountsToSpinViewModelManager;
+    override fun payFullDebt(
+        idAccount: Int,
+        accountAmount: Double,
+        idDebt: Int
+    ): Flowable<Boolean> {
+        return repository.payFullDebt(idAccount, accountAmount, idDebt)
     }
 
-    @Override
-    public Flowable<List<SpinAccountViewModel>> getAllAccounts() {
-        return accountsToSpinViewModelManager.getSpinAccountViewModelList(repository.getAllAccounts());
+    override fun payPartOfDebt(
+        idAccount: Int,
+        accountAmount: Double,
+        idDebt: Int,
+        debtAmount: Double
+    ): Flowable<Boolean> {
+        return repository.payPartOfDebt(idAccount, accountAmount, idDebt, debtAmount)
     }
 
-    @Override
-    public Flowable<Boolean> payFullDebt(int idAccount, double accountAmount, int idDebt) {
-        return repository.payFullDebt(idAccount, accountAmount, idDebt);
+    override fun takeMoreDebt(
+        idAccount: Int,
+        accountAmount: Double,
+        idDebt: Int,
+        debtAmount: Double,
+        debtAllAmount: Double
+    ): Flowable<Boolean> {
+        return repository.takeMoreDebt(idAccount, accountAmount, idDebt, debtAmount, debtAllAmount)
     }
 
-    @Override
-    public Flowable<Boolean> payPartOfDebt(int idAccount, double accountAmount, int idDebt, double debtAmount) {
-        return repository.payPartOfDebt(idAccount, accountAmount, idDebt, debtAmount);
+    override fun prepareStringToParse(value: String?): String {
+        return numberFormatManager.prepareStringToParse(value)
     }
 
-    @Override
-    public Flowable<Boolean> takeMoreDebt(int idAccount, double accountAmount, int idDebt, double debtAmount, double debtAllAmount) {
-        return repository.takeMoreDebt(idAccount, accountAmount, idDebt, debtAmount, debtAllAmount);
-    }
-
-    @Override
-    public String prepareStringToParse(String value) {
-        return numberFormatManager.prepareStringToParse(value);
-    }
-
-    @Override
-    public String formatAmount(double amount) {
+    override fun formatAmount(amount: Double): String {
         return numberFormatManager.doubleToStringFormatterForEdit(
-                amount,
-                NumberFormatManager.FORMAT_1,
-                NumberFormatManager.PRECISE_1
-        );
+            amount,
+            NumberFormatManager.FORMAT_1,
+            NumberFormatManager.PRECISE_1
+        )
     }
 }

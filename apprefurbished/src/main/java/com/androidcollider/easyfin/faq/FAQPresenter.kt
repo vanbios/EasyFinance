@@ -1,31 +1,15 @@
-package com.androidcollider.easyfin.faq;
-
-import androidx.annotation.Nullable;
+package com.androidcollider.easyfin.faq
 
 /**
  * @author Ihor Bilous
  */
-
-public class FAQPresenter implements FAQMVP.Presenter {
-
-    @Nullable
-    private FAQMVP.View view;
-    private final FAQMVP.Model model;
-
-
-    public FAQPresenter(FAQMVP.Model model) {
-        this.model = model;
+class FAQPresenter(private val model: FAQMVP.Model) : FAQMVP.Presenter {
+    private var view: FAQMVP.View? = null
+    override fun setView(view: FAQMVP.View?) {
+        this.view = view
     }
 
-    @Override
-    public void setView(@Nullable FAQMVP.View view) {
-        this.view = view;
-    }
-
-    @Override
-    public void loadInfo() {
-        if (view != null) {
-            view.setInfo(model.getInfo());
-        }
+    override fun loadInfo() {
+        view?.setInfo(model.info)
     }
 }

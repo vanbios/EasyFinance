@@ -10,12 +10,12 @@ import dagger.Provides
 @Module
 class MainModule {
     @Provides
-    fun provideMainMVPModel(accountsInfoManager: AccountsInfoManager?): MainMVP.Model {
+    fun provideMainMVPModel(accountsInfoManager: AccountsInfoManager): MainMVP.Model {
         return MainModel(accountsInfoManager)
     }
 
     @Provides
-    fun provideMainMVPPresenter(model: MainMVP.Model?): MainMVP.Presenter {
+    fun provideMainMVPPresenter(model: MainMVP.Model): MainMVP.Presenter {
         return MainPresenter(model)
     }
 }

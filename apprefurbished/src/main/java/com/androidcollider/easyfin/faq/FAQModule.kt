@@ -10,12 +10,12 @@ import dagger.Provides
 @Module
 class FAQModule {
     @Provides
-    fun provideFAQMVPPresenter(model: FAQMVP.Model?): FAQMVP.Presenter {
+    fun provideFAQMVPPresenter(model: FAQMVP.Model): FAQMVP.Presenter {
         return FAQPresenter(model)
     }
 
     @Provides
-    fun provideFAQMVPModel(context: Context?): FAQMVP.Model {
+    fun provideFAQMVPModel(context: Context): FAQMVP.Model {
         return FAQModel(context)
     }
 }

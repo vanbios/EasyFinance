@@ -15,10 +15,10 @@ import dagger.Provides
 class AddDebtModule {
     @Provides
     fun provideAddDebtMVPModel(
-        repository: Repository?,
-        numberFormatManager: NumberFormatManager?,
-        dateFormatManager: DateFormatManager?,
-        accountsToSpinViewModelManager: AccountsToSpinViewModelManager?
+        repository: Repository,
+        numberFormatManager: NumberFormatManager,
+        dateFormatManager: DateFormatManager,
+        accountsToSpinViewModelManager: AccountsToSpinViewModelManager
     ): AddDebtMVP.Model {
         return AddDebtModel(
             repository,

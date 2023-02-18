@@ -1,37 +1,20 @@
-package com.androidcollider.easyfin.main;
-
-import androidx.annotation.Nullable;
+package com.androidcollider.easyfin.main
 
 /**
  * @author Ihor Bilous
  */
-
-public class MainPresenter implements MainMVP.Presenter {
-
-    @Nullable
-    private MainMVP.View view;
-    private final MainMVP.Model model;
-
-
-    public MainPresenter(MainMVP.Model model) {
-        this.model = model;
+class MainPresenter(private val model: MainMVP.Model) : MainMVP.Presenter {
+    private var view: MainMVP.View? = null
+    override fun setView(view: MainMVP.View?) {
+        this.view = view
     }
 
-    @Override
-    public void setView(@Nullable MainMVP.View view) {
-        this.view = view;
-    }
-
-    @Override
-    public void checkIsAccountsExists() {
-        model.getAccountsCountObservable()
-                .subscribe(
-                        count -> {
-                            if (count == 0 && view != null) {
-                                view.informNoAccounts();
-                            }
-                        },
-                        Throwable::printStackTrace
-                );
+    override fun checkIsAccountsExists() {
+        model.accountsCountObservable?.subscribe(
+            { count: Int ->
+                if (count == 0) {
+                    view?.informNoAccounts()
+                }
+            }, { obj: Throwable -> obj.printStackTrace() })
     }
 }

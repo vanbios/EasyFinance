@@ -36,7 +36,8 @@ class DataRepository implements Repository {
 
     private final ImportExportDbManager importExportDbManager;
 
-    private final Scheduler subscribeSc = Schedulers.from(BackgroundExecutor.getSafeBackgroundExecutor());
+    private final Scheduler subscribeSc = Schedulers.from(
+            BackgroundExecutor.INSTANCE.getSafeBackgroundExecutor());
     private final Scheduler observeSc = AndroidSchedulers.mainThread();
 
 

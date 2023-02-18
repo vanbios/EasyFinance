@@ -9,19 +9,19 @@ import io.reactivex.rxjava3.core.Flowable
  */
 interface PayDebtMVP {
     interface Model {
-        val allAccounts: Flowable<List<SpinAccountViewModel>>?
+        val allAccounts: Flowable<List<SpinAccountViewModel>>
         fun payFullDebt(
             idAccount: Int,
             accountAmount: Double,
             idDebt: Int
-        ): Flowable<Boolean>?
+        ): Flowable<Boolean>
 
         fun payPartOfDebt(
             idAccount: Int,
             accountAmount: Double,
             idDebt: Int,
             debtAmount: Double
-        ): Flowable<Boolean>?
+        ): Flowable<Boolean>
 
         fun takeMoreDebt(
             idAccount: Int,
@@ -29,10 +29,10 @@ interface PayDebtMVP {
             idDebt: Int,
             debtAmount: Double,
             debtAllAmount: Double
-        ): Flowable<Boolean>?
+        ): Flowable<Boolean>
 
-        fun prepareStringToParse(value: String?): String?
-        fun formatAmount(amount: Double): String?
+        fun prepareStringToParse(value: String?): String
+        fun formatAmount(amount: Double): String
     }
 
     interface View {

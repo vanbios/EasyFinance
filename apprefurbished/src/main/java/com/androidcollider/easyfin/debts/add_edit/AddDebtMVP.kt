@@ -11,18 +11,18 @@ import java.util.*
  */
 interface AddDebtMVP {
     interface Model {
-        val allAccounts: Flowable<List<SpinAccountViewModel>>?
-        fun addNewDebt(debt: Debt?): Flowable<Debt>?
-        fun updateDebt(debt: Debt?): Flowable<Debt>?
+        val allAccounts: Flowable<List<SpinAccountViewModel>>
+        fun addNewDebt(debt: Debt): Flowable<Debt>
+        fun updateDebt(debt: Debt): Flowable<Debt>
         fun updateDebtDifferentAccounts(
-            debt: Debt?,
+            debt: Debt,
             oldAccountAmount: Double,
             oldAccountId: Int
-        ): Flowable<Boolean>?
+        ): Flowable<Boolean>
 
-        fun prepareStringToParse(value: String?): String?
+        fun prepareStringToParse(value: String?): String
         fun getMillisFromString(date: String?): Long
-        fun formatAmount(amount: Double): String?
+        fun formatAmount(amount: Double): String
     }
 
     interface View {

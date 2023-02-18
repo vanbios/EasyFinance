@@ -14,11 +14,15 @@ import dagger.Provides
 class PayDebtModule {
     @Provides
     fun providePayDebtMVPModel(
-        repository: Repository?,
-        numberFormatManager: NumberFormatManager?,
-        accountsToSpinViewModelManager: AccountsToSpinViewModelManager?
+        repository: Repository,
+        numberFormatManager: NumberFormatManager,
+        accountsToSpinViewModelManager: AccountsToSpinViewModelManager
     ): PayDebtMVP.Model {
-        return PayDebtModel(repository, numberFormatManager, accountsToSpinViewModelManager)
+        return PayDebtModel(
+            repository,
+            numberFormatManager,
+            accountsToSpinViewModelManager
+        )
     }
 
     @Provides
