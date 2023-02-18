@@ -47,7 +47,7 @@ class AccountsFragment : CommonFragmentWithEvents(), AccountsMVP.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity?.application as App).component.inject(this)
+        (activity?.application as App).component?.inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -118,12 +118,12 @@ class AccountsFragment : CommonFragmentWithEvents(), AccountsMVP.View {
         EventBus.getDefault().post(UpdateFrgHomeBalance())
     }
 
-    override fun setAccountList(accountList: List<AccountViewModel>) {
+    override fun setAccountList(accountList: List<AccountViewModel>?) {
         recyclerAdapter.setItems(accountList)
         setVisibility()
     }
 
-    override fun goToEditAccount(account: Account) {
+    override fun goToEditAccount(account: Account?) {
         val addAccountFragment = AddAccountFragment()
         val arguments = Bundle()
         arguments.putInt(MODE, EDIT)

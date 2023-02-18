@@ -1,8 +1,6 @@
-package com.androidcollider.easyfin.common.events;
+package com.androidcollider.easyfin.common.events
 
 /**
  * @author Ihor Bilous
  */
-
-public class UpdateFrgAccounts {
-}
+class UpdateFrgAccounts 

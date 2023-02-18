@@ -1,45 +1,28 @@
-package com.androidcollider.easyfin.accounts.list;
+package com.androidcollider.easyfin.accounts.list
 
-import androidx.annotation.Nullable;
-
-import com.androidcollider.easyfin.common.models.Account;
-
-import java.util.List;
-
-import io.reactivex.rxjava3.core.Flowable;
+import com.androidcollider.easyfin.common.models.Account
+import io.reactivex.rxjava3.core.Flowable
 
 /**
  * @author Ihor Bilous
  */
-
-public interface AccountsMVP {
-
+interface AccountsMVP {
     interface Model {
-
-        Flowable<List<AccountViewModel>> getAccountList();
-
-        Flowable<Account> getAccountById(int id);
-
-        Flowable<Boolean> deleteAccountById(int id);
+        val accountList: Flowable<List<AccountViewModel>>?
+        fun getAccountById(id: Int): Flowable<Account>?
+        fun deleteAccountById(id: Int): Flowable<Boolean>?
     }
 
     interface View {
-
-        void setAccountList(List<AccountViewModel> accountList);
-
-        void goToEditAccount(Account account);
-
-        void deleteAccount();
+        fun setAccountList(accountList: List<AccountViewModel>?)
+        fun goToEditAccount(account: Account?)
+        fun deleteAccount()
     }
 
     interface Presenter {
-
-        void setView(@Nullable AccountsMVP.View view);
-
-        void loadData();
-
-        void getAccountById(int id);
-
-        void deleteAccountById(int id);
+        fun setView(view: View?)
+        fun loadData()
+        fun getAccountById(id: Int)
+        fun deleteAccountById(id: Int)
     }
 }

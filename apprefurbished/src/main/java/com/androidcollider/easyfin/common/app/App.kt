@@ -1,26 +1,18 @@
-package com.androidcollider.easyfin.common.app;
+package com.androidcollider.easyfin.common.app
 
-import androidx.multidex.MultiDexApplication;
+import androidx.multidex.MultiDexApplication
 
 /**
  * @author Ihor Bilous
  */
+class App : MultiDexApplication() {
+    var component: AppComponent? = null
+        private set
 
-public class App extends MultiDexApplication {
-
-    private AppComponent component;
-
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
+    override fun onCreate() {
+        super.onCreate()
         component = DaggerAppComponent.builder()
-                .appModule(new AppModule(this))
-                .build();
-    }
-
-    public AppComponent getComponent() {
-        return component;
+            .appModule(AppModule(this))
+            .build()
     }
 }

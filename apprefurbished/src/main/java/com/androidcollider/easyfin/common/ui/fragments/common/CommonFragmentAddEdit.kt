@@ -26,7 +26,7 @@ abstract class CommonFragmentAddEdit : CommonFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity?.application as App).component.inject(this)
+        (activity?.application as App).component?.inject(this)
     }
 
     override fun getTitle(): String {

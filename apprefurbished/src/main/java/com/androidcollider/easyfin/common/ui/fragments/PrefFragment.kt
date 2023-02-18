@@ -45,7 +45,7 @@ class PrefFragment : PreferenceFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addPreferencesFromResource(R.xml.preferences)
-        (activity!!.application as App).component.inject(this)
+        (activity?.application as App).component?.inject(this)
         initializePrefs()
         analyticsManager!!.sendScreeName(this.javaClass.name)
     }

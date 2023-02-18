@@ -54,7 +54,7 @@ class TransactionCategoriesRootFragment : CommonFragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (activity?.application as App).component.inject(this)
+        (activity?.application as App).component?.inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

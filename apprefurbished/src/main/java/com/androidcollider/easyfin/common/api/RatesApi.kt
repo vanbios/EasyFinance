@@ -1,19 +1,14 @@
-package com.androidcollider.easyfin.common.api;
+package com.androidcollider.easyfin.common.api
 
-import com.androidcollider.easyfin.common.models.RatesRemote;
-
-import java.util.List;
-
-import io.reactivex.rxjava3.core.Flowable;
-import retrofit2.http.GET;
-import retrofit2.http.QueryName;
+import com.androidcollider.easyfin.common.models.RatesRemote
+import io.reactivex.rxjava3.core.Flowable
+import retrofit2.http.GET
+import retrofit2.http.QueryName
 
 /**
  * @author Ihor Bilous
  */
-
-public interface RatesApi {
-
+interface RatesApi {
     @GET("exchange")
-    Flowable<List<RatesRemote>> getRates(@QueryName String responseType);
+    fun getRates(@QueryName responseType: String): Flowable<List<RatesRemote>>
 }
