@@ -33,11 +33,11 @@ public class DatabaseRepository implements Repository {
 
     private static final String TAG = DatabaseRepository.class.getSimpleName();
 
-    private DbHelper dbHelper;
+    private final DbHelper dbHelper;
     private SQLiteDatabase db;
-    private SharedPrefManager sharedPrefManager;
-    private NumberFormatManager numberFormatManager;
-    private ResourcesManager resourcesManager;
+    private final SharedPrefManager sharedPrefManager;
+    private final NumberFormatManager numberFormatManager;
+    private final ResourcesManager resourcesManager;
 
 
     public DatabaseRepository(DbHelper dbHelper,

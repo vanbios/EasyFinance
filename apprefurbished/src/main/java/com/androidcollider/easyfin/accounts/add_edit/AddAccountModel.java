@@ -16,10 +16,10 @@ import io.reactivex.rxjava3.core.Flowable;
 
 class AddAccountModel implements AddAccountMVP.Model {
 
-    private Repository repository;
-    private AccountsInfoManager accountsInfoManager;
-    private NumberFormatManager numberFormatManager;
-    private ResourcesManager resourcesManager;
+    private final Repository repository;
+    private final AccountsInfoManager accountsInfoManager;
+    private final NumberFormatManager numberFormatManager;
+    private final ResourcesManager resourcesManager;
 
     @Nullable
     private Account accountForUpdate;

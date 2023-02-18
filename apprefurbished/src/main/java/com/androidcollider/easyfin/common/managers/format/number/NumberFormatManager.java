@@ -28,7 +28,7 @@ public class NumberFormatManager {
         String s = dfRate.format(result);
 
         int length = s.length();
-        if (s.substring(length - 2, length).equals("00"))
+        if (s.startsWith("00", length - 2))
             return s.substring(0, length - 3);
         else if (s.charAt(length - 1) == '0')
             return s.substring(0, length - 1);

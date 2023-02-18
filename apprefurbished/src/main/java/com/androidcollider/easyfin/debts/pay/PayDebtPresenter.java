@@ -24,8 +24,8 @@ class PayDebtPresenter implements PayDebtMVP.Presenter {
 
     @Nullable
     private PayDebtMVP.View view;
-    private PayDebtMVP.Model model;
-    private Context context;
+    private final PayDebtMVP.Model model;
+    private final Context context;
 
     private int mode;
     private Debt debt;

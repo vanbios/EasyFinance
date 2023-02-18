@@ -1,7 +1,6 @@
 package com.androidcollider.easyfin.transactions.add_edit.income_expense
 
 import android.app.DatePickerDialog
-import android.app.DatePickerDialog.OnDateSetListener
 import android.content.res.TypedArray
 import android.os.Bundle
 import android.view.View
@@ -32,8 +31,8 @@ import javax.inject.Inject
  * @author Ihor Bilous
  */
 class AddTransactionIncomeExpenseFragment : CommonFragmentAddEdit(),
-        OnCommitAmountListener,
-        AddTransactionIncomeExpenseMVP.View {
+    OnCommitAmountListener,
+    AddTransactionIncomeExpenseMVP.View {
 
     private lateinit var tvDate: TextView
     private lateinit var tvAmount: TextView
@@ -101,15 +100,17 @@ class AddTransactionIncomeExpenseFragment : CommonFragmentAddEdit(),
     }
 
     private fun setDateText(calendar: Calendar) {
-        tvDate.text = dateFormatManager.dateToString(calendar.time, DateFormatManager.DAY_MONTH_YEAR_SPACED)
+        tvDate.text =
+            dateFormatManager.dateToString(calendar.time, DateFormatManager.DAY_MONTH_YEAR_SPACED)
     }
 
     private fun buildTransactionCategoryDialog() {
         activity?.let { act ->
             transactionCategoryDialog = dialogManager.buildAddTransactionCategoryDialog(act,
-                    {
-                        presenter.addNewCategory(etNewTransCategoryName.text.toString().trim { it <= ' ' })
-                    }
+                {
+                    presenter.addNewCategory(
+                        etNewTransCategoryName.text.toString().trim { it <= ' ' })
+                }
             ) { dialog: MaterialDialog -> dialog.dismiss() }
             val root: View? = transactionCategoryDialog?.getCustomView()
             root?.let {
@@ -190,26 +191,29 @@ class AddTransactionIncomeExpenseFragment : CommonFragmentAddEdit(),
     override fun setupSpinners(categoryList: List<TransactionCategory>, categoryIcons: TypedArray) {
         setupCategorySpinner(categoryList, categoryIcons, categoryIcons.length() - 1)
         spinAccount.adapter = SpinAccountForTransHeadIconAdapter(
-                activity,
-                R.layout.spin_head_icon_text,
-                accountList,
-                resourcesManager
+            activity,
+            R.layout.spin_head_icon_text,
+            accountList,
+            resourcesManager
         )
     }
 
-    override fun setupCategorySpinner(categoryList: List<TransactionCategory>,
-                                      categoryIcons: TypedArray, selectedPos: Int) {
+    override fun setupCategorySpinner(
+        categoryList: List<TransactionCategory>,
+        categoryIcons: TypedArray, selectedPos: Int
+    ) {
         spinCategory.adapter = TransactionCategoryAdapter(
-                activity,
-                R.layout.spin_head_icon_text,
-                R.id.tvSpinHeadIconText,
-                R.id.ivSpinHeadIconText,
-                R.layout.spin_drop_icon_text,
-                R.id.tvSpinDropIconText,
-                R.id.ivSpinDropIconText,
-                categoryList,
-                categoryIcons,
-                letterTileManager)
+            activity,
+            R.layout.spin_head_icon_text,
+            R.id.tvSpinHeadIconText,
+            R.id.ivSpinHeadIconText,
+            R.layout.spin_drop_icon_text,
+            R.id.tvSpinDropIconText,
+            R.id.ivSpinDropIconText,
+            categoryList,
+            categoryIcons,
+            letterTileManager
+        )
         spinCategory.setSelection(selectedPos)
     }
 
@@ -224,10 +228,10 @@ class AddTransactionIncomeExpenseFragment : CommonFragmentAddEdit(),
     override fun setupDateTimeField(calendar: Calendar) {
         setDateText(calendar)
         activity?.let {
-            datePickerDialog = DatePickerDialog(it, OnDateSetListener { _: DatePicker?,
-                                                                        year: Int,
-                                                                        monthOfYear: Int,
-                                                                        dayOfMonth: Int ->
+            datePickerDialog = DatePickerDialog(it, { _: DatePicker?,
+                                                      year: Int,
+                                                      monthOfYear: Int,
+                                                      dayOfMonth: Int ->
                 val newDate = Calendar.getInstance()
                 newDate[year, monthOfYear] = dayOfMonth
                 if (newDate.timeInMillis > System.currentTimeMillis()) {

@@ -18,8 +18,8 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class AccountsInfoManager {
 
-    private List<Account> accountList;
-    private Repository repository;
+    private final List<Account> accountList;
+    private final Repository repository;
 
 
     AccountsInfoManager(Repository repository) {

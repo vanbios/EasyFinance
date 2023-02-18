@@ -2,7 +2,6 @@ package com.androidcollider.easyfin.common.managers.permission;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.os.Build;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -32,16 +31,11 @@ public class PermissionManager {
         } else {
             ActivityCompat.requestPermissions(
                     activity,
-                    checkIsReadStoragePermissionNeeded() ?
-                            new String[]{
-                                    Manifest.permission.ACCESS_NETWORK_STATE,
-                                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                            } :
-                            new String[]{
-                                    Manifest.permission.ACCESS_NETWORK_STATE,
-                                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            },
+                    new String[]{
+                            Manifest.permission.ACCESS_NETWORK_STATE,
+                            Manifest.permission.READ_EXTERNAL_STORAGE,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    },
                     REQUEST_PERMISSIONS
             );
             return false;
@@ -52,23 +46,21 @@ public class PermissionManager {
                                               String permissions[],
                                               int[] grantResults) {
         checkActivityIsNotNull();
-        switch (requestCode) {
-            case REQUEST_PERMISSIONS: {
-                if (grantResults.length > 0) {
-                    for (int grantResult : grantResults) {
-                        if (grantResult != PackageManager.PERMISSION_GRANTED) {
-                            System.out.println("Permissions denied!");
-                            activity.finish();
-                            return false;
-                        }
+        if (requestCode == REQUEST_PERMISSIONS) {
+            if (grantResults.length > 0) {
+                for (int grantResult : grantResults) {
+                    if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                        System.out.println("Permissions denied!");
+                        activity.finish();
+                        return false;
                     }
-                    System.out.println("Permissions granted!");
-                    return true;
-                } else {
-                    System.out.println("Permissions denied!");
-                    activity.finish();
-                    return false;
                 }
+                System.out.println("Permissions granted!");
+                return true;
+            } else {
+                System.out.println("Permissions denied!");
+                activity.finish();
+                return false;
             }
         }
         return false;
@@ -76,22 +68,21 @@ public class PermissionManager {
 
     private boolean checkWriteExternalStoragePermissionGranted() {
         checkActivityIsNotNull();
-        return !checkIsPermissionsNeeded() ||
+        return !isPermissionsNeeded() ||
                 checkPermission(
                         Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
     private boolean checkNetworkStatePermissionGranted() {
         checkActivityIsNotNull();
-        return !checkIsPermissionsNeeded() ||
+        return !isPermissionsNeeded() ||
                 checkPermission(
                         Manifest.permission.ACCESS_NETWORK_STATE);
     }
 
     private boolean checkReadExternalStoragePermissionGranted() {
         checkActivityIsNotNull();
-        return !checkIsPermissionsNeeded() ||
-                !checkIsReadStoragePermissionNeeded() ||
+        return !isPermissionsNeeded() ||
                 checkPermission(
                         Manifest.permission.READ_EXTERNAL_STORAGE);
     }
@@ -112,11 +103,7 @@ public class PermissionManager {
             throw new IllegalStateException("Activity must be not null in Permissions Manager. Please set it!");
     }
 
-    private boolean checkIsPermissionsNeeded() {
+    private boolean isPermissionsNeeded() {
         return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M;
-    }
-
-    private boolean checkIsReadStoragePermissionNeeded() {
-        return android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
     }
 }

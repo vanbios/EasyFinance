@@ -20,10 +20,10 @@ import io.reactivex.rxjava3.core.Flowable;
 
 class AddTransactionIncomeExpenseModel implements AddTransactionIncomeExpenseMVP.Model {
 
-    private Repository repository;
-    private NumberFormatManager numberFormatManager;
-    private DateFormatManager dateFormatManager;
-    private AccountsToSpinViewModelManager accountsToSpinViewModelManager;
+    private final Repository repository;
+    private final NumberFormatManager numberFormatManager;
+    private final DateFormatManager dateFormatManager;
+    private final AccountsToSpinViewModelManager accountsToSpinViewModelManager;
 
 
     AddTransactionIncomeExpenseModel(Repository repository,

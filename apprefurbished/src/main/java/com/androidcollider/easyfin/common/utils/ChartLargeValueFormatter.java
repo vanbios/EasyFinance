@@ -11,7 +11,7 @@ import java.text.DecimalFormatSymbols;
 
 public class ChartLargeValueFormatter extends ValueFormatter {
 
-    private boolean showCents;
+    private final boolean showCents;
 
     public ChartLargeValueFormatter(boolean b) {
         showCents = b;
@@ -48,7 +48,7 @@ public class ChartLargeValueFormatter extends ValueFormatter {
 
     private String checkForRedundantZeros(String s) {
         int length = s.length();
-        if (s.substring(length-2, length).equals("00")) return s.substring(0, length-3);
+        if (s.startsWith("00", length-2)) return s.substring(0, length-3);
         else if (s.charAt(length-1) == '0') return s.substring(0, length-1);
         return s;
     }

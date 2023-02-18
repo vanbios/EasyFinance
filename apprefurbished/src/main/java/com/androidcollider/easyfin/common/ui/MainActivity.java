@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     Toolbar toolbar;
 
     private static long backPressExitTime;
-    private final int TOOLBAR_DEFAULT = 1;
 
     @Inject
     RatesLoaderManager ratesLoaderManager;
@@ -87,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         ratesLoaderManager.updateRatesForExchange();
 
         initializeViews();
-        setToolbar(getString(R.string.app_name), TOOLBAR_DEFAULT);
+        setToolbar(getString(R.string.app_name));
 
         addFragment(new MainFragment());
 
@@ -104,85 +103,82 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     private void initializeViews() {
         setSupportActionBar(toolbar);
 
-        if (recyclerNavDrawer != null) recyclerNavDrawer.setHasFixedSize(true);
-        recyclerNavDrawer.setLayoutManager(new LinearLayoutManager(this));
-        recyclerNavDrawer.setAdapter(new NavigationDrawerRecyclerAdapter(resourcesManager));
+        if (recyclerNavDrawer != null) {
+            recyclerNavDrawer.setHasFixedSize(true);
+            recyclerNavDrawer.setLayoutManager(new LinearLayoutManager(this));
+            recyclerNavDrawer.setAdapter(new NavigationDrawerRecyclerAdapter(resourcesManager));
 
-        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name);
-        drawerLayout.addDrawerListener(mDrawerToggle);
-        mDrawerToggle.syncState();
+            ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name);
+            drawerLayout.addDrawerListener(mDrawerToggle);
+            mDrawerToggle.syncState();
 
-        final GestureDetector gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
-            @Override
-            public boolean onSingleTapUp(MotionEvent e) {
-                return true;
-            }
-        });
+            final GestureDetector gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
+                @Override
+                public boolean onSingleTapUp(MotionEvent e) {
+                    return true;
+                }
+            });
 
-        recyclerNavDrawer.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                View child = rv.findChildViewUnder(e.getX(), e.getY());
+            recyclerNavDrawer.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+                @Override
+                public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                    View child = rv.findChildViewUnder(e.getX(), e.getY());
 
-                if (child != null && gestureDetector.onTouchEvent(e)) {
-                    int position = recyclerNavDrawer.getChildAdapterPosition(child);
-                    if (position != 0 && position != 5) {
-                        drawerLayout.closeDrawers();
+                    if (child != null && gestureDetector.onTouchEvent(e)) {
+                        int position = recyclerNavDrawer.getChildAdapterPosition(child);
+                        if (position != 0 && position != 5) {
+                            drawerLayout.closeDrawers();
 
-                        switch (position) {
-                            case 1:
-                                openSelectedFrgMainPage(0);
-                                break;
-                            case 2:
-                                openSelectedFrgMainPage(1);
-                                break;
-                            case 3:
-                                openSelectedFrgMainPage(2);
-                                break;
-                            case 4:
-                                addFragment(new DebtsFragment());
-                                break;
-                            case 6:
-                                addFragment(new TransactionCategoriesRootFragment());
-                                break;
-                            case 7:
-                                addFragment(new PrefFragment());
-                                break;
-                            case 8:
-                                addFragment(new FAQFragment());
-                                break;
-                            case 9:
-                                dialogManager.showAppAboutDialog(MainActivity.this);
-                                break;
+                            switch (position) {
+                                case 1:
+                                    openSelectedFrgMainPage(0);
+                                    break;
+                                case 2:
+                                    openSelectedFrgMainPage(1);
+                                    break;
+                                case 3:
+                                    openSelectedFrgMainPage(2);
+                                    break;
+                                case 4:
+                                    addFragment(new DebtsFragment());
+                                    break;
+                                case 6:
+                                    addFragment(new TransactionCategoriesRootFragment());
+                                    break;
+                                case 7:
+                                    addFragment(new PrefFragment());
+                                    break;
+                                case 8:
+                                    addFragment(new FAQFragment());
+                                    break;
+                                case 9:
+                                    dialogManager.showAppAboutDialog(MainActivity.this);
+                                    break;
+                            }
                         }
                     }
+                    return false;
                 }
-                return false;
-            }
 
-            @Override
-            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-            }
+                @Override
+                public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                }
 
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-            }
-        });
+                @Override
+                public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+                }
+            });
+        }
     }
 
-    private void setToolbar(String title, int mode) {
+    private void setToolbar(String title) {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            switch (mode) {
-                case TOOLBAR_DEFAULT: {
-                    actionBar.setDisplayShowCustomEnabled(false);
-                    actionBar.setDisplayShowTitleEnabled(true);
-                    actionBar.setTitle(title);
-                    actionBar.setDisplayHomeAsUpEnabled(true);
-                    toolbar.setNavigationIcon(R.drawable.ic_menu);
-                    break;
-                }
-            }
+            actionBar.setDisplayShowCustomEnabled(false);
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setTitle(title);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            toolbar.setNavigationIcon(R.drawable.ic_menu);
         }
     }
 
@@ -197,10 +193,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                drawerLayout.openDrawer(GravityCompat.START);
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            drawerLayout.openDrawer(GravityCompat.START);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -232,9 +227,9 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     public void onBackStackChanged() {
         Fragment topFragment = getTopFragment();
         if (topFragment instanceof CommonFragment && !(topFragment instanceof CommonFragmentAddEdit)) {
-            setToolbar((((CommonFragment) topFragment).getTitle()), TOOLBAR_DEFAULT);
+            setToolbar((((CommonFragment) topFragment).getTitle()));
         } else if (topFragment instanceof PreferenceFragment) {
-            setToolbar((((PreferenceFragment) topFragment).getTitle()), TOOLBAR_DEFAULT);
+            setToolbar((((PreferenceFragment) topFragment).getTitle()));
         }
         hideKeyboard();
     }
@@ -271,7 +266,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
         restartActivity();
         super.onConfigurationChanged(newConfig);
     }

@@ -10,7 +10,7 @@ class DebtsPresenter implements DebtsMVP.Presenter {
 
     @Nullable
     private DebtsMVP.View view;
-    private DebtsMVP.Model model;
+    private final DebtsMVP.Model model;
 
 
     DebtsPresenter(DebtsMVP.Model model) {

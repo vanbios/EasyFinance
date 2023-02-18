@@ -17,8 +17,8 @@ import io.reactivex.rxjava3.core.Flowable;
 
 class AccountsModel implements AccountsMVP.Model {
 
-    private Repository repository;
-    private NumberFormatManager numberFormatManager;
+    private final Repository repository;
+    private final NumberFormatManager numberFormatManager;
     private final String[] curArray, curLangArray;
 
 

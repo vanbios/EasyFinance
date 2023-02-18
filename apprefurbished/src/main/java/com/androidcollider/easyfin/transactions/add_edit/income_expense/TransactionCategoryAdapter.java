@@ -26,8 +26,8 @@ class TransactionCategoryAdapter extends ArrayAdapter<TransactionCategory> {
     private final TypedArray iconsArray;
     private final List<TransactionCategory> transactionCategoryList;
     private final int headLayout, headTvId, headIvId, dropLayout, dropTvId, dropIvId;
-    private LayoutInflater inflater;
-    private LetterTileManager letterTileManager;
+    private final LayoutInflater inflater;
+    private final LetterTileManager letterTileManager;
 
     TransactionCategoryAdapter(Context context,
                                int headLayout, int headTvId, int headIvId,

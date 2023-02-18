@@ -23,10 +23,10 @@ import io.reactivex.rxjava3.core.Flowable;
 
 class DebtsModel implements DebtsMVP.Model {
 
-    private Repository repository;
-    private DateFormatManager dateFormatManager;
-    private NumberFormatManager numberFormatManager;
-    private Context context;
+    private final Repository repository;
+    private final DateFormatManager dateFormatManager;
+    private final NumberFormatManager numberFormatManager;
+    private final Context context;
     private final String[] curArray, curLangArray;
 
 

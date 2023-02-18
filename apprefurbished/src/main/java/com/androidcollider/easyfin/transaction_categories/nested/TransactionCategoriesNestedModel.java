@@ -13,7 +13,7 @@ import io.reactivex.rxjava3.core.Flowable;
 
 class TransactionCategoriesNestedModel implements TransactionCategoriesNestedMVP.Model {
 
-    private Repository repository;
+    private final Repository repository;
 
 
     TransactionCategoriesNestedModel(Repository repository) {

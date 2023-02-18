@@ -20,7 +20,7 @@ public class SpinIconTextHeadAdapter extends ArrayAdapter<String> {
     private final TypedArray iconsArray;
     private final String[] textArray;
     private final int headLayout, headTvId, headIvId, dropLayout, dropTvId, dropIvId;
-    private LayoutInflater inflater;
+    private final LayoutInflater inflater;
 
     public SpinIconTextHeadAdapter(Context context,
                                    int headLayout, int headTvId, int headIvId,

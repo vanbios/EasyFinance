@@ -15,7 +15,7 @@ import io.reactivex.rxjava3.core.Flowable;
 
 class TransactionCategoriesRootModel implements TransactionCategoriesRootMVP.Model {
 
-    private Repository repository;
+    private final Repository repository;
 
 
     TransactionCategoriesRootModel(Repository repository) {

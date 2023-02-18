@@ -26,7 +26,7 @@ abstract class SpinAccountAdapter extends ArrayAdapter<SpinAccountViewModel> {
     private final TypedArray typeIconsArray;
     private final List<SpinAccountViewModel> accountList;
     private final String[] curArray, curLangArray;
-    private LayoutInflater inflater;
+    private final LayoutInflater inflater;
 
 
     SpinAccountAdapter(Context context,

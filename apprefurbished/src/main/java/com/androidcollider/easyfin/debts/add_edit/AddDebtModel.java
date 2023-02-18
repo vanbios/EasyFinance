@@ -17,10 +17,10 @@ import io.reactivex.rxjava3.core.Flowable;
 
 class AddDebtModel implements AddDebtMVP.Model {
 
-    private Repository repository;
-    private NumberFormatManager numberFormatManager;
-    private DateFormatManager dateFormatManager;
-    private AccountsToSpinViewModelManager accountsToSpinViewModelManager;
+    private final Repository repository;
+    private final NumberFormatManager numberFormatManager;
+    private final DateFormatManager dateFormatManager;
+    private final AccountsToSpinViewModelManager accountsToSpinViewModelManager;
 
 
     AddDebtModel(Repository repository,

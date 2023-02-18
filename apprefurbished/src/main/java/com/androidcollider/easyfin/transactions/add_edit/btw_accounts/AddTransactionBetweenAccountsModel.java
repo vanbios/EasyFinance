@@ -16,10 +16,10 @@ import io.reactivex.rxjava3.core.Flowable;
 
 class AddTransactionBetweenAccountsModel implements AddTransactionBetweenAccountsMVP.Model {
 
-    private Repository repository;
-    private NumberFormatManager numberFormatManager;
-    private ExchangeManager exchangeManager;
-    private AccountsToSpinViewModelManager accountsToSpinViewModelManager;
+    private final Repository repository;
+    private final NumberFormatManager numberFormatManager;
+    private final ExchangeManager exchangeManager;
+    private final AccountsToSpinViewModelManager accountsToSpinViewModelManager;
 
 
     AddTransactionBetweenAccountsModel(Repository repository,

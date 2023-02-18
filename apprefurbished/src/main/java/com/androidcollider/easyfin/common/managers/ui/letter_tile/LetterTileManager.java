@@ -98,7 +98,7 @@ public class LetterTileManager {
         mFirstChar[0] = Character.toUpperCase(firstChar);
         mPaint.setTextSize(mTileLetterFontSize);
         mPaint.getTextBounds(mFirstChar, 0, 1, mBounds);
-        c.drawText(mFirstChar, 0, 1, width / 2, height / 2 + (mBounds.bottom - mBounds.top) / 2, mPaint);
+        c.drawText(mFirstChar, 0, 1, width / 2f, height / 2f + (mBounds.bottom - mBounds.top) / 2f, mPaint);
 
         return getCircleBitmap(bitmap);
     }

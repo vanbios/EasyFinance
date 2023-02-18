@@ -25,8 +25,8 @@ class AddDebtPresenter implements AddDebtMVP.Presenter {
 
     @Nullable
     private AddDebtMVP.View view;
-    private AddDebtMVP.Model model;
-    private Context context;
+    private final AddDebtMVP.Model model;
+    private final Context context;
 
     private int mode, debtType;
     private Debt debtFrIntent;

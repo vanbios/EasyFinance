@@ -9,7 +9,7 @@ import android.content.SharedPreferences;
 
 public class SharedPrefManager {
 
-    private SharedPreferences sharedPref;
+    private final SharedPreferences sharedPref;
     private final static String APP_PREFERENCES = "FinUPref";
 
 

@@ -10,7 +10,7 @@ import io.reactivex.rxjava3.core.Flowable;
 
 class MainModel implements MainMVP.Model {
 
-    private AccountsInfoManager accountsInfoManager;
+    private final AccountsInfoManager accountsInfoManager;
 
     MainModel(AccountsInfoManager accountsInfoManager) {
         this.accountsInfoManager = accountsInfoManager;

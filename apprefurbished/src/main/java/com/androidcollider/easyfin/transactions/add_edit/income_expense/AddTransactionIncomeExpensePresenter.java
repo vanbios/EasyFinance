@@ -32,13 +32,13 @@ class AddTransactionIncomeExpensePresenter implements AddTransactionIncomeExpens
 
     @Nullable
     private AddTransactionIncomeExpenseMVP.View view;
-    private AddTransactionIncomeExpenseMVP.Model model;
-    private Context context;
-    private ResourcesManager resourcesManager;
+    private final AddTransactionIncomeExpenseMVP.Model model;
+    private final Context context;
+    private final ResourcesManager resourcesManager;
 
     private int mode, transType;
     private Transaction transFromIntent;
-    private List<TransactionCategory> transactionCategoryList;
+    private final List<TransactionCategory> transactionCategoryList;
 
 
     AddTransactionIncomeExpensePresenter(Context context,

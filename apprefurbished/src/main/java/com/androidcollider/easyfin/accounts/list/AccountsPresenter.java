@@ -10,7 +10,7 @@ public class AccountsPresenter implements AccountsMVP.Presenter {
 
     @Nullable
     private AccountsMVP.View view;
-    private AccountsMVP.Model model;
+    private final AccountsMVP.Model model;
 
     public AccountsPresenter(AccountsMVP.Model model) {
         this.model = model;

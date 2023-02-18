@@ -23,11 +23,11 @@ class TransactionCategoriesNestedPresenter implements TransactionCategoriesNeste
 
     @Nullable
     private TransactionCategoriesNestedMVP.View view;
-    private TransactionCategoriesNestedMVP.Model model;
-    private Context context;
-    private ResourcesManager resourcesManager;
+    private final TransactionCategoriesNestedMVP.Model model;
+    private final Context context;
+    private final ResourcesManager resourcesManager;
 
-    private List<TransactionCategory> transactionCategoryList;
+    private final List<TransactionCategory> transactionCategoryList;
     private TypedArray iconsArray;
 
     private boolean isExpense;

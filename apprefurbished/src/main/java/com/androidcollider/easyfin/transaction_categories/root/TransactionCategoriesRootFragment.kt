@@ -80,8 +80,12 @@ class TransactionCategoriesRootFragment : CommonFragment(),
 
     private fun setupViewPager() {
         val adapterPager = ViewPagerFragmentAdapter(childFragmentManager)
-        adapterPager.addFragment(getNestedFragment(false), resources.getString(R.string.income).toUpperCase(Locale.getDefault()))
-        adapterPager.addFragment(getNestedFragment(true), resources.getString(R.string.cost).toUpperCase(Locale.getDefault()))
+        adapterPager.addFragment(getNestedFragment(false),
+            resources.getString(R.string.income).uppercase(Locale.getDefault())
+        )
+        adapterPager.addFragment(getNestedFragment(true),
+            resources.getString(R.string.cost).uppercase(Locale.getDefault())
+        )
         pager.adapter = adapterPager
         pager.offscreenPageLimit = 2
         pager.addOnPageChangeListener(object : OnPageChangeListener {

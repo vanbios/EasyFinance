@@ -19,8 +19,8 @@ class AddAccountPresenter implements AddAccountMVP.Presenter {
 
     @Nullable
     private AddAccountMVP.View view;
-    private AddAccountMVP.Model model;
-    private Context context;
+    private final AddAccountMVP.Model model;
+    private final Context context;
 
     private int mode;
 

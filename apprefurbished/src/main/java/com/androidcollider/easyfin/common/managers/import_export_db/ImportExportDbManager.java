@@ -24,10 +24,10 @@ import java.io.OutputStream;
 
 public class ImportExportDbManager {
 
-    private DbHelper dbHelper;
-    private Context context;
+    private final DbHelper dbHelper;
+    private final Context context;
     private SQLiteDatabase db;
-    private ToastManager toastManager;
+    private final ToastManager toastManager;
 
     private boolean isDBExpired;
 
@@ -118,7 +118,7 @@ public class ImportExportDbManager {
     }
 
 
-    private void copyFromStream(InputStream inputStream, FileOutputStream toFile) throws IOException {
+    private void copyFromStream(InputStream inputStream, FileOutputStream toFile) {
         try {
             int read;
             byte[] bytes = new byte[1024];

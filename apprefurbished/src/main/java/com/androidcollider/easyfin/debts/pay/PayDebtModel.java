@@ -15,9 +15,9 @@ import io.reactivex.rxjava3.core.Flowable;
 
 class PayDebtModel implements PayDebtMVP.Model {
 
-    private Repository repository;
-    private NumberFormatManager numberFormatManager;
-    private AccountsToSpinViewModelManager accountsToSpinViewModelManager;
+    private final Repository repository;
+    private final NumberFormatManager numberFormatManager;
+    private final AccountsToSpinViewModelManager accountsToSpinViewModelManager;
 
 
     PayDebtModel(Repository repository,

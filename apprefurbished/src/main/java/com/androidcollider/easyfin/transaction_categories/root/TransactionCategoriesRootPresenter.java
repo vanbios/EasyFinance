@@ -20,11 +20,13 @@ class TransactionCategoriesRootPresenter implements TransactionCategoriesRootMVP
 
     @Nullable
     private TransactionCategoriesRootMVP.View view;
-    private TransactionCategoriesRootMVP.Model model;
-    private Context context;
+    private final TransactionCategoriesRootMVP.Model model;
+    private final Context context;
 
-    private List<TransactionCategory> transactionCategoryIncomeList, transactionCategoryIncomeNotFilteredList;
-    private List<TransactionCategory> transactionCategoryExpenseList, transactionCategoryExpenseNotFilteredList;
+    private final List<TransactionCategory> transactionCategoryIncomeList;
+    private final List<TransactionCategory> transactionCategoryIncomeNotFilteredList;
+    private final List<TransactionCategory> transactionCategoryExpenseList;
+    private final List<TransactionCategory> transactionCategoryExpenseNotFilteredList;
 
 
     TransactionCategoriesRootPresenter(Context context,

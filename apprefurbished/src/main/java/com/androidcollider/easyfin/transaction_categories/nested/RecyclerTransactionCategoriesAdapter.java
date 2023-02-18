@@ -25,9 +25,9 @@ import java.util.List;
 class RecyclerTransactionCategoriesAdapter extends RecyclerView.Adapter<RecyclerTransactionCategoriesAdapter.ViewHolderItem> {
 
     private int currentId;
-    private List<TransactionCategory> transactionList;
+    private final List<TransactionCategory> transactionList;
     private TypedArray catIconsArray;
-    private LetterTileManager letterTileManager;
+    private final LetterTileManager letterTileManager;
 
 
     RecyclerTransactionCategoriesAdapter(LetterTileManager letterTileManager) {

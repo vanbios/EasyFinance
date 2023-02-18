@@ -9,7 +9,7 @@ import android.net.ConnectivityManager;
 
 public class ConnectionManager {
 
-    private Context context;
+    private final Context context;
 
     public ConnectionManager(Context context) {
         this.context = context;

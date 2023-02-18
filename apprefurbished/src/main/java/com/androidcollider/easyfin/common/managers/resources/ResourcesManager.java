@@ -31,9 +31,9 @@ public class ResourcesManager {
     public static final int ICON_CHART_TYPE = R.array.charts_main_icons;
     public static final int ICON_NAVIGATION_DRAWER_MENU = R.array.navigation_drawer_icons_array;
 
-    private Context context;
-    private Map<Integer, String[]> stringArrayResMap;
-    private Map<Integer, TypedArray> iconArrayResMap;
+    private final Context context;
+    private final Map<Integer, String[]> stringArrayResMap;
+    private final Map<Integer, TypedArray> iconArrayResMap;
 
     ResourcesManager(Context context) {
         this.context = context;

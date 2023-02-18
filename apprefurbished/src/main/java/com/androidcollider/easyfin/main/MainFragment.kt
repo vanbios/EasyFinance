@@ -94,9 +94,9 @@ class MainFragment : CommonFragment(), MainMVP.View {
 
     private fun setupViewPager() {
         val adapterPager = ViewPagerFragmentAdapter(childFragmentManager)
-        adapterPager.addFragment(HomeFragment(), resources.getString(R.string.tab_home).toUpperCase(Locale.getDefault()))
-        adapterPager.addFragment(TransactionsFragment(), resources.getString(R.string.tab_transactions).toUpperCase(Locale.getDefault()))
-        adapterPager.addFragment(AccountsFragment(), resources.getString(R.string.tab_accounts).toUpperCase(Locale.getDefault()))
+        adapterPager.addFragment(HomeFragment(), resources.getString(R.string.tab_home).uppercase(Locale.getDefault()))
+        adapterPager.addFragment(TransactionsFragment(), resources.getString(R.string.tab_transactions).uppercase(Locale.getDefault()))
+        adapterPager.addFragment(AccountsFragment(), resources.getString(R.string.tab_accounts).uppercase(Locale.getDefault()))
         pager.adapter = adapterPager
         pager.offscreenPageLimit = 3
         pager.addOnPageChangeListener(object : OnPageChangeListener {

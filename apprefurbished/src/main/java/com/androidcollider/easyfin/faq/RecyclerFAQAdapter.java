@@ -19,7 +19,7 @@ import java.util.List;
 
 class RecyclerFAQAdapter extends RecyclerView.Adapter<RecyclerFAQAdapter.ViewHolder> {
 
-    private List<Pair<String, String>> itemsList;
+    private final List<Pair<String, String>> itemsList;
 
 
     RecyclerFAQAdapter(List<Pair<String, String>> itemsList) {

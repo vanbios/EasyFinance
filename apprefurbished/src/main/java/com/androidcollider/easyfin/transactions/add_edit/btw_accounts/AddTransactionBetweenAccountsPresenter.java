@@ -15,8 +15,8 @@ class AddTransactionBetweenAccountsPresenter implements AddTransactionBetweenAcc
 
     @Nullable
     private AddTransactionBetweenAccountsMVP.View view;
-    private AddTransactionBetweenAccountsMVP.Model model;
-    private Context context;
+    private final AddTransactionBetweenAccountsMVP.Model model;
+    private final Context context;
 
 
     AddTransactionBetweenAccountsPresenter(Context context,

@@ -14,7 +14,7 @@ import io.reactivex.rxjava3.core.Flowable;
 
 class HomeModel implements HomeMVP.Model {
 
-    private Repository repository;
+    private final Repository repository;
 
     HomeModel(Repository repository) {
         this.repository = repository;

@@ -23,7 +23,7 @@ import java.util.List;
 class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapter.ViewHolder> {
 
     private int currentId;
-    private List<DebtViewModel> debtList;
+    private final List<DebtViewModel> debtList;
 
 
     RecyclerDebtAdapter() {

@@ -31,13 +31,13 @@ class DataRepository implements Repository {
 
     private static final String TAG = DataRepository.class.getSimpleName();
 
-    private Repository memoryRepository;
-    private Repository databaseRepository;
+    private final Repository memoryRepository;
+    private final Repository databaseRepository;
 
-    private ImportExportDbManager importExportDbManager;
+    private final ImportExportDbManager importExportDbManager;
 
-    private Scheduler subscribeSc = Schedulers.from(BackgroundExecutor.getSafeBackgroundExecutor());
-    private Scheduler observeSc = AndroidSchedulers.mainThread();
+    private final Scheduler subscribeSc = Schedulers.from(BackgroundExecutor.getSafeBackgroundExecutor());
+    private final Scheduler observeSc = AndroidSchedulers.mainThread();
 
 
     DataRepository(@Memory Repository memoryRepository,
@@ -51,7 +51,7 @@ class DataRepository implements Repository {
     @Override
     public Flowable<Account> addNewAccount(Account account) {
         return databaseRepository.addNewAccount(account)
-                .flatMap(account1 -> memoryRepository.addNewAccount(account1))
+                .flatMap(memoryRepository::addNewAccount)
                 .subscribeOn(subscribeSc)
                 .observeOn(observeSc);
     }
@@ -59,7 +59,7 @@ class DataRepository implements Repository {
     @Override
     public Flowable<List<Account>> getAllAccounts() {
         Flowable<List<Account>> memoryObservable = memoryRepository.getAllAccounts();
-        Log.d(TAG, "getAllAccounts " + String.valueOf(memoryObservable != null));
+        Log.d(TAG, "getAllAccounts " + (memoryObservable != null));
         return memoryObservable != null && !isDataExpired() ?
                 memoryObservable :
                 loadAllDataFromDB()
@@ -76,7 +76,7 @@ class DataRepository implements Repository {
     @Override
     public Flowable<Account> updateAccount(Account account) {
         return databaseRepository.updateAccount(account)
-                .flatMap(account1 -> memoryRepository.updateAccount(account1))
+                .flatMap(memoryRepository::updateAccount)
                 .subscribeOn(subscribeSc)
                 .observeOn(observeSc);
     }
@@ -104,7 +104,7 @@ class DataRepository implements Repository {
     @Override
     public Flowable<Transaction> addNewTransaction(Transaction transaction) {
         return databaseRepository.addNewTransaction(transaction)
-                .flatMap(transaction1 -> memoryRepository.addNewTransaction(transaction1))
+                .flatMap(memoryRepository::addNewTransaction)
                 .subscribeOn(subscribeSc)
                 .observeOn(observeSc);
     }
@@ -112,7 +112,7 @@ class DataRepository implements Repository {
     @Override
     public Flowable<List<Transaction>> getAllTransactions() {
         Flowable<List<Transaction>> memoryObservable = memoryRepository.getAllTransactions();
-        Log.d(TAG, "getAllTransactions " + String.valueOf(memoryObservable != null));
+        Log.d(TAG, "getAllTransactions " + (memoryObservable != null));
         return memoryObservable != null && !isDataExpired() ?
                 memoryObservable :
                 loadAllDataFromDB()
@@ -129,7 +129,7 @@ class DataRepository implements Repository {
     @Override
     public Flowable<Transaction> updateTransaction(Transaction transaction) {
         return databaseRepository.updateTransaction(transaction)
-                .flatMap(transaction1 -> memoryRepository.updateTransaction(transaction1))
+                .flatMap(memoryRepository::updateTransaction)
                 .subscribeOn(subscribeSc)
                 .observeOn(observeSc);
     }
@@ -157,7 +157,7 @@ class DataRepository implements Repository {
     @Override
     public Flowable<Debt> addNewDebt(Debt debt) {
         return databaseRepository.addNewDebt(debt)
-                .flatMap(debt1 -> memoryRepository.addNewDebt(debt1))
+                .flatMap(memoryRepository::addNewDebt)
                 .subscribeOn(subscribeSc)
                 .observeOn(observeSc);
     }
@@ -165,7 +165,7 @@ class DataRepository implements Repository {
     @Override
     public Flowable<List<Debt>> getAllDebts() {
         Flowable<List<Debt>> memoryObservable = memoryRepository.getAllDebts();
-        Log.d(TAG, "getAllDebts " + String.valueOf(memoryObservable != null));
+        Log.d(TAG, "getAllDebts " + (memoryObservable != null));
         return memoryObservable != null && !isDataExpired() ?
                 memoryObservable :
                 loadAllDataFromDB()
@@ -182,7 +182,7 @@ class DataRepository implements Repository {
     @Override
     public Flowable<Debt> updateDebt(Debt debt) {
         return databaseRepository.updateDebt(debt)
-                .flatMap(debt1 -> memoryRepository.updateDebt(debt1))
+                .flatMap(memoryRepository::updateDebt)
                 .subscribeOn(subscribeSc)
                 .observeOn(observeSc);
     }
@@ -240,22 +240,20 @@ class DataRepository implements Repository {
     @Override
     public Flowable<Map<String, double[]>> getTransactionsStatistic(int position) {
         Flowable<Map<String, double[]>> memoryObservable = memoryRepository.getTransactionsStatistic(position);
-        Log.d(TAG, "getTransactionsStatistic " + String.valueOf(memoryObservable != null));
+        Log.d(TAG, "getTransactionsStatistic " + (memoryObservable != null));
         return memoryObservable != null && !isDataExpired() ?
                 memoryObservable :
                 loadAllDataFromDB()
                         .flatMap(aBoolean -> {
                             if (aBoolean) importExportDbManager.setDBExpired(false);
-                            return aBoolean ?
-                                    databaseRepository.getTransactionsStatistic(position) :
-                                    databaseRepository.getTransactionsStatistic(position);
+                            return databaseRepository.getTransactionsStatistic(position);
                         });
     }
 
     @Override
     public Flowable<Map<String, double[]>> getAccountsAmountSumGroupByTypeAndCurrency() {
         Flowable<Map<String, double[]>> memoryObservable = memoryRepository.getAccountsAmountSumGroupByTypeAndCurrency();
-        Log.d(TAG, "getAccountsAmountSumGroupByTypeAndCurrency " + String.valueOf(memoryObservable != null));
+        Log.d(TAG, "getAccountsAmountSumGroupByTypeAndCurrency " + (memoryObservable != null));
         return memoryObservable != null && !isDataExpired() ?
                 memoryObservable :
                 loadAllDataFromDB()
@@ -280,21 +278,19 @@ class DataRepository implements Repository {
     @Override
     public Flowable<double[]> getRates() {
         Flowable<double[]> memoryObservable = memoryRepository.getRates();
-        Log.d(TAG, "getRates " + String.valueOf(memoryObservable != null));
+        Log.d(TAG, "getRates " + (memoryObservable != null));
         return memoryObservable != null && !isDataExpired() ?
                 memoryObservable :
                 Flowable.unsafeCreate((Publisher<double[]>) s ->
                         databaseRepository.getRates()
                                 .subscribe(
-                                        rates -> {
-                                            memoryRepository.setRates(rates)
-                                                    .subscribe(aBoolean -> {
-                                                                s.onNext(rates);
-                                                                s.onComplete();
-                                                            },
-                                                            Throwable::printStackTrace
-                                                    );
-                                        }))
+                                        rates -> memoryRepository.setRates(rates)
+                                                .subscribe(aBoolean -> {
+                                                            s.onNext(rates);
+                                                            s.onComplete();
+                                                        },
+                                                        Throwable::printStackTrace
+                                                )))
                         .subscribeOn(subscribeSc)
                         .observeOn(observeSc);
     }
@@ -322,7 +318,7 @@ class DataRepository implements Repository {
     @Override
     public Flowable<TransactionCategory> addNewTransactionIncomeCategory(TransactionCategory transactionCategory) {
         return databaseRepository.addNewTransactionIncomeCategory(transactionCategory)
-                .flatMap(transactionCategory1 -> memoryRepository.addNewTransactionIncomeCategory(transactionCategory1))
+                .flatMap(memoryRepository::addNewTransactionIncomeCategory)
                 .subscribeOn(subscribeSc)
                 .observeOn(observeSc);
     }
@@ -330,7 +326,7 @@ class DataRepository implements Repository {
     @Override
     public Flowable<List<TransactionCategory>> getAllTransactionIncomeCategories() {
         Flowable<List<TransactionCategory>> memoryObservable = memoryRepository.getAllTransactionIncomeCategories();
-        Log.d(TAG, "getAllTransactionIncomeCategories " + String.valueOf(memoryObservable != null));
+        Log.d(TAG, "getAllTransactionIncomeCategories " + (memoryObservable != null));
         return memoryObservable != null && !isDataExpired() ?
                 memoryObservable :
                 loadAllDataFromDB()
@@ -347,7 +343,7 @@ class DataRepository implements Repository {
     @Override
     public Flowable<TransactionCategory> updateTransactionIncomeCategory(TransactionCategory transactionCategory) {
         return databaseRepository.updateTransactionIncomeCategory(transactionCategory)
-                .flatMap(transactionCategory1 -> memoryRepository.updateTransactionIncomeCategory(transactionCategory1))
+                .flatMap(memoryRepository::updateTransactionIncomeCategory)
                 .subscribeOn(subscribeSc)
                 .observeOn(observeSc);
     }
@@ -370,7 +366,7 @@ class DataRepository implements Repository {
     @Override
     public Flowable<TransactionCategory> addNewTransactionExpenseCategory(TransactionCategory transactionCategory) {
         return databaseRepository.addNewTransactionExpenseCategory(transactionCategory)
-                .flatMap(transactionCategory1 -> memoryRepository.addNewTransactionExpenseCategory(transactionCategory1))
+                .flatMap(memoryRepository::addNewTransactionExpenseCategory)
                 .subscribeOn(subscribeSc)
                 .observeOn(observeSc);
     }
@@ -378,7 +374,7 @@ class DataRepository implements Repository {
     @Override
     public Flowable<List<TransactionCategory>> getAllTransactionExpenseCategories() {
         Flowable<List<TransactionCategory>> memoryObservable = memoryRepository.getAllTransactionExpenseCategories();
-        Log.d(TAG, "getAllTransactionExpenseCategories " + String.valueOf(memoryObservable != null));
+        Log.d(TAG, "getAllTransactionExpenseCategories " + (memoryObservable != null));
         return memoryObservable != null && !isDataExpired() ?
                 memoryObservable :
                 loadAllDataFromDB()
@@ -395,7 +391,7 @@ class DataRepository implements Repository {
     @Override
     public Flowable<TransactionCategory> updateTransactionExpenseCategory(TransactionCategory transactionCategory) {
         return databaseRepository.updateTransactionExpenseCategory(transactionCategory)
-                .flatMap(transactionCategory1 -> memoryRepository.updateTransactionExpenseCategory(transactionCategory1))
+                .flatMap(memoryRepository::updateTransactionExpenseCategory)
                 .subscribeOn(subscribeSc)
                 .observeOn(observeSc);
     }

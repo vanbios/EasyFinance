@@ -17,7 +17,7 @@ import io.reactivex.rxjava3.core.Flowable;
 
 public class AccountsToSpinViewModelManager {
 
-    private NumberFormatManager numberFormatManager;
+    private final NumberFormatManager numberFormatManager;
     private final String[] curArray, curLangArray;
 
 

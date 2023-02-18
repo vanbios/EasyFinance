@@ -10,7 +10,7 @@ public class MainPresenter implements MainMVP.Presenter {
 
     @Nullable
     private MainMVP.View view;
-    private MainMVP.Model model;
+    private final MainMVP.Model model;
 
 
     public MainPresenter(MainMVP.Model model) {

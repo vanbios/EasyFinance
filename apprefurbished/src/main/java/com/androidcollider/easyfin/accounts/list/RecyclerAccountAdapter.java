@@ -24,7 +24,7 @@ import java.util.List;
 class RecyclerAccountAdapter extends RecyclerView.Adapter<RecyclerAccountAdapter.ViewHolder> {
 
     private int currentId;
-    private List<AccountViewModel> accountList;
+    private final List<AccountViewModel> accountList;
     private final TypedArray typeIconsArray;
 
 

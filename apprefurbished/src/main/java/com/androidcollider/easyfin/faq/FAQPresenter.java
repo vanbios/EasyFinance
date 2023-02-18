@@ -10,7 +10,7 @@ public class FAQPresenter implements FAQMVP.Presenter {
 
     @Nullable
     private FAQMVP.View view;
-    private FAQMVP.Model model;
+    private final FAQMVP.Model model;
 
 
     public FAQPresenter(FAQMVP.Model model) {

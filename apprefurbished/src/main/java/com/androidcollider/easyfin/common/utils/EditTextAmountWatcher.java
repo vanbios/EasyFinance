@@ -10,7 +10,7 @@ import android.widget.EditText;
 
 public class EditTextAmountWatcher implements TextWatcher {
 
-    private EditText et;
+    private final EditText et;
     private boolean isInWatcher;
 
     public EditTextAmountWatcher(EditText et) {
@@ -40,11 +40,11 @@ public class EditTextAmountWatcher implements TextWatcher {
             if (input.contains(".")) {
                 j = input.indexOf(".");
                 StringBuilder sb = new StringBuilder(input.substring(0, j));
-                String append = input.substring(j, input.length());
+                String append = input.substring(j);
                 for (int k = sb.length() - 3; k > 0; k -= 3) {
                     sb.insert(k, " ");
                 }
-                res = sb.toString() + append;
+                res = sb + append;
             } else {
                 StringBuilder sb = new StringBuilder(input);
                 for (int k = sb.length() - 3; k > 0; k -= 3) {

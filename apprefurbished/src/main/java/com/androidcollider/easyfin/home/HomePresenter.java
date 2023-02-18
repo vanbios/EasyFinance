@@ -20,14 +20,16 @@ import java.util.Map;
 class HomePresenter implements HomeMVP.Presenter {
 
     private HomeMVP.View view;
-    private HomeMVP.Model model;
-    private NumberFormatManager numberFormatManager;
-    private ExchangeManager exchangeManager;
-    private ChartDataManager chartDataManager;
+    private final HomeMVP.Model model;
+    private final NumberFormatManager numberFormatManager;
+    private final ExchangeManager exchangeManager;
+    private final ChartDataManager chartDataManager;
 
-    private String[] currencyArray, currencyLangArray;
-    private double[] statistic;
-    private Map<String, double[]> balanceMap, statisticMap;
+    private final String[] currencyArray;
+    private final String[] currencyLangArray;
+    private final double[] statistic;
+    private final Map<String, double[]> balanceMap;
+    private final Map<String, double[]> statisticMap;
 
 
     HomePresenter(HomeMVP.Model model,

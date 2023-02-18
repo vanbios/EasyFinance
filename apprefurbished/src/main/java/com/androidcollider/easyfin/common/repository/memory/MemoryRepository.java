@@ -29,12 +29,12 @@ public class MemoryRepository implements Repository {
 
     private static final String TAG = MemoryRepository.class.getSimpleName();
 
-    private NumberFormatManager numberFormatManager;
+    private final NumberFormatManager numberFormatManager;
     private List<Account> accountList;
     private List<Transaction> transactionList;
     private List<Debt> debtList;
     private double[] ratesArray;
-    private String[] currencyArray;
+    private final String[] currencyArray;
     private List<TransactionCategory> transactionCategoryIncomeList;
     private List<TransactionCategory> transactionCategoryExpenseList;
 
