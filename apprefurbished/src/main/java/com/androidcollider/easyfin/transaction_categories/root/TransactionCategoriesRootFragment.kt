@@ -27,7 +27,7 @@ import javax.inject.Inject
  * @author Ihor Bilous
  */
 class TransactionCategoriesRootFragment : CommonFragment(),
-        TransactionCategoriesRootMVP.View {
+    TransactionCategoriesRootMVP.View {
 
     private lateinit var pager: ViewPager
     private lateinit var tabLayout: TabLayout
@@ -80,16 +80,24 @@ class TransactionCategoriesRootFragment : CommonFragment(),
 
     private fun setupViewPager() {
         val adapterPager = ViewPagerFragmentAdapter(childFragmentManager)
-        adapterPager.addFragment(getNestedFragment(false),
+        adapterPager.addFragment(
+            getNestedFragment(false),
             resources.getString(R.string.income).uppercase(Locale.getDefault())
         )
-        adapterPager.addFragment(getNestedFragment(true),
+        adapterPager.addFragment(
+            getNestedFragment(true),
             resources.getString(R.string.cost).uppercase(Locale.getDefault())
         )
         pager.adapter = adapterPager
         pager.offscreenPageLimit = 2
         pager.addOnPageChangeListener(object : OnPageChangeListener {
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+            }
+
             override fun onPageSelected(position: Int) {
                 showFab()
             }
@@ -102,25 +110,29 @@ class TransactionCategoriesRootFragment : CommonFragment(),
     private fun getNestedFragment(isExpense: Boolean): TransactionCategoriesNestedFragment {
         val fragment = TransactionCategoriesNestedFragment()
         val args = Bundle()
-        args.putInt(TransactionCategoriesNestedFragment.TYPE,
-                if (isExpense) TransactionCategoriesNestedFragment.TYPE_EXPENSE else TransactionCategoriesNestedFragment.TYPE_INCOME
+        args.putInt(
+            TransactionCategoriesNestedFragment.TYPE,
+            if (isExpense) TransactionCategoriesNestedFragment.TYPE_EXPENSE else TransactionCategoriesNestedFragment.TYPE_INCOME
         )
         fragment.arguments = args
         return fragment
     }
 
     private fun buildTransactionCategoryDialog() {
-        transactionCategoryDialog = dialogManager.buildAddTransactionCategoryDialog(activity!!,
+        activity?.let { act ->
+            transactionCategoryDialog = dialogManager.buildAddTransactionCategoryDialog(
+                act,
                 {
                     presenter.addNewCategory(
-                            etNewTransCategoryName.text.toString().trim { it <= ' ' },
-                            checkCategoryIsExpense()
+                        etNewTransCategoryName.text.toString().trim { it <= ' ' },
+                        checkCategoryIsExpense()
                     )
                 }
-        ) { dialog: MaterialDialog -> dialog.dismiss() }
-        val root: View? = transactionCategoryDialog?.getCustomView()
-        root?.let {
-            etNewTransCategoryName = it.findViewById(R.id.et_transaction_category_name)
+            ) { dialog: MaterialDialog -> dialog.dismiss() }
+            val root: View? = transactionCategoryDialog?.getCustomView()
+            root?.let {
+                etNewTransCategoryName = it.findViewById(R.id.et_transaction_category_name)
+            }
         }
     }
 

@@ -1,60 +1,44 @@
-package com.androidcollider.easyfin.transaction_categories.nested;
+package com.androidcollider.easyfin.transaction_categories.nested
 
-import android.content.res.TypedArray;
-import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-
-import com.androidcollider.easyfin.common.models.TransactionCategory;
-
-import java.util.List;
-
-import io.reactivex.rxjava3.core.Flowable;
+import android.content.res.TypedArray
+import android.os.Bundle
+import com.androidcollider.easyfin.common.models.TransactionCategory
+import io.reactivex.rxjava3.core.Flowable
 
 /**
  * @author Ihor Bilous
  */
-
-public interface TransactionCategoriesNestedMVP {
-
+interface TransactionCategoriesNestedMVP {
     interface Model {
+        fun getTransactionCategories(isExpense: Boolean): Flowable<List<TransactionCategory>>?
+        fun updateTransactionCategory(
+            transactionCategory: TransactionCategory,
+            isExpense: Boolean
+        ): Flowable<TransactionCategory>?
 
-        Flowable<List<TransactionCategory>> getTransactionCategories(boolean isExpense);
-
-        Flowable<TransactionCategory> updateTransactionCategory(TransactionCategory transactionCategory, boolean isExpense);
-
-        Flowable<Boolean> deleteTransactionCategory(int id, boolean isExpense);
+        fun deleteTransactionCategory(id: Int, isExpense: Boolean): Flowable<Boolean>?
     }
 
     interface View {
+        fun setTransactionCategoryList(
+            transactionCategoryList: List<TransactionCategory>,
+            iconsArray: TypedArray
+        )
 
-        void setTransactionCategoryList(List<TransactionCategory> transactionCategoryList, TypedArray iconsArray);
-
-        void showMessage(String message);
-
-        void shakeDialogUpdateTransactionCategoryField();
-
-        void dismissDialogUpdateTransactionCategory();
-
-        void handleTransactionCategoryUpdated();
-
-        void deleteTransactionCategory();
+        fun showMessage(message: String)
+        fun shakeDialogUpdateTransactionCategoryField()
+        fun dismissDialogUpdateTransactionCategory()
+        fun handleTransactionCategoryUpdated()
+        fun deleteTransactionCategory()
     }
 
     interface Presenter {
-
-        void setView(@Nullable TransactionCategoriesNestedMVP.View view);
-
-        void loadData();
-
-        void loadTransactionCategories();
-
-        void setArguments(Bundle args);
-
-        void updateTransactionCategory(int id, String name);
-
-        void deleteTransactionCategoryById(int id);
-
-        String getCategoryNameById(int id);
+        fun setView(view: View?)
+        fun loadData()
+        fun loadTransactionCategories()
+        fun setArguments(args: Bundle?)
+        fun updateTransactionCategory(id: Int, name: String?)
+        fun deleteTransactionCategoryById(id: Int)
+        fun getCategoryNameById(id: Int): String?
     }
 }

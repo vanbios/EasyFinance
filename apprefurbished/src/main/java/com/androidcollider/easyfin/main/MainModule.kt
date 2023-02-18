@@ -1,24 +1,21 @@
-package com.androidcollider.easyfin.main;
+package com.androidcollider.easyfin.main
 
-import com.androidcollider.easyfin.common.managers.accounts.accounts_info.AccountsInfoManager;
-
-import dagger.Module;
-import dagger.Provides;
+import com.androidcollider.easyfin.common.managers.accounts.accounts_info.AccountsInfoManager
+import dagger.Module
+import dagger.Provides
 
 /**
  * @author Ihor Bilous
  */
-
 @Module
-public class MainModule {
-
+class MainModule {
     @Provides
-    MainMVP.Model provideMainMVPModel(AccountsInfoManager accountsInfoManager) {
-        return new MainModel(accountsInfoManager);
+    fun provideMainMVPModel(accountsInfoManager: AccountsInfoManager?): MainMVP.Model {
+        return MainModel(accountsInfoManager)
     }
 
     @Provides
-    MainMVP.Presenter provideMainMVPPresenter(MainMVP.Model model) {
-        return new MainPresenter(model);
+    fun provideMainMVPPresenter(model: MainMVP.Model?): MainMVP.Presenter {
+        return MainPresenter(model)
     }
 }

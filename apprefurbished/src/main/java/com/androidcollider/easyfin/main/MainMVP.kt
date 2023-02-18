@@ -1,29 +1,21 @@
-package com.androidcollider.easyfin.main;
+package com.androidcollider.easyfin.main
 
-import androidx.annotation.Nullable;
-
-import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Flowable
 
 /**
  * @author Ihor Bilous
  */
-
-public interface MainMVP {
-
+interface MainMVP {
     interface Model {
-
-        Flowable<Integer> getAccountsCountObservable();
+        val accountsCountObservable: Flowable<Int>?
     }
 
     interface View {
-
-        void informNoAccounts();
+        fun informNoAccounts()
     }
 
     interface Presenter {
-
-        void setView(@Nullable MainMVP.View view);
-
-        void checkIsAccountsExists();
+        fun setView(view: View?)
+        fun checkIsAccountsExists()
     }
 }

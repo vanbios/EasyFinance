@@ -107,7 +107,8 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
 
         val balanceSettings = balanceSettingsDialog.getCustomView()
         chkBoxConvert = balanceSettings.findViewById(R.id.checkBoxMainBalanceSettingsConvert)
-        chkBoxShowOnlyIntegers = balanceSettings.findViewById(R.id.checkBoxMainBalanceSettingsShowCents)
+        chkBoxShowOnlyIntegers =
+            balanceSettings.findViewById(R.id.checkBoxMainBalanceSettingsShowCents)
         convert = sharedPrefManager.mainBalanceSettingsConvertCheck
         showOnlyIntegers = sharedPrefManager.mainBalanceSettingsShowOnlyIntegersCheck
         chkBoxConvert.isChecked = convert
@@ -149,9 +150,15 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
                 R.id.tvSpinDropIconText,
                 R.id.ivSpinDropIconText,
                 resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY),
-                resourcesManager.getIconArray(ResourcesManager.ICON_FLAGS))
+                resourcesManager.getIconArray(ResourcesManager.ICON_FLAGS)
+            )
             spinBalanceCurrency.onItemSelectedListener = object : OnItemSelectedListener {
-                override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, i: Int, l: Long) {
+                override fun onItemSelected(
+                    adapterView: AdapterView<*>?,
+                    view: View?,
+                    i: Int,
+                    l: Long
+                ) {
                     if (spinBalanceCurrencyNotInitSelectedItemCall) {
                         setBalance(i)
                         presenter.updateTransactionStatisticArray(i)
@@ -172,15 +179,20 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
     private fun setStatisticPeriodSpinner() {
         activity?.let {
             val adapterStatPeriod: ArrayAdapter<*> = ArrayAdapter.createFromResource(
-                    it,
-                    ResourcesManager.STRING_MAIN_STATISTIC_PERIOD,
-                    R.layout.spin_head_text_medium
+                it,
+                ResourcesManager.STRING_MAIN_STATISTIC_PERIOD,
+                R.layout.spin_head_text_medium
             )
 
             adapterStatPeriod.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinPeriod.adapter = adapterStatPeriod
             spinPeriod.onItemSelectedListener = object : OnItemSelectedListener {
-                override fun onItemSelected(adapterView: AdapterView<*>?, view: View?, i: Int, l: Long) {
+                override fun onItemSelected(
+                    adapterView: AdapterView<*>?,
+                    view: View?,
+                    i: Int,
+                    l: Long
+                ) {
                     if (spinPeriodNotInitSelectedItemCall) {
                         presenter.updateStatistic(i + 1)
                         sharedPrefManager.homePeriodPos = i
@@ -206,13 +218,20 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
                 R.id.tvSpinDropIconText,
                 R.id.ivSpinDropIconText,
                 resourcesManager.getStringArray(ResourcesManager.STRING_CHART_TYPE),
-                resourcesManager.getIconArray(ResourcesManager.ICON_CHART_TYPE))
+                resourcesManager.getIconArray(ResourcesManager.ICON_CHART_TYPE)
+            )
             spinChartType.onItemSelectedListener = object : OnItemSelectedListener {
-                override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
+                override fun onItemSelected(
+                    adapterView: AdapterView<*>?,
+                    view: View,
+                    i: Int,
+                    l: Long
+                ) {
                     if (spinChartTypeNotInitSelectedItemCall) {
                         if (i == 1) {
                             chartStatistic.visibility = View.GONE
-                            if (presenter.isStatisticEmpty) tvNoData.visibility = View.VISIBLE else {
+                            if (presenter.isStatisticEmpty) tvNoData.visibility =
+                                View.VISIBLE else {
                                 chartStatisticPie.visibility = View.VISIBLE
                                 setStatisticPieChartData()
                             }
@@ -353,11 +372,9 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
         checkStatChartTypeForUpdate()
     }
 
-    override fun isNeedToConvert(): Boolean {
-        return convert
-    }
+    override val isNeedToConvert: Boolean
+        get() = convert
 
-    override fun getBalanceCurrencyPosition(): Int {
-        return spinBalanceCurrency.selectedItemPosition
-    }
+    override val balanceCurrencyPosition: Int
+        get() = spinBalanceCurrency.selectedItemPosition
 }

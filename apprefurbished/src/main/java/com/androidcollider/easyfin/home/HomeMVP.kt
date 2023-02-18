@@ -1,77 +1,45 @@
-package com.androidcollider.easyfin.home;
+package com.androidcollider.easyfin.home
 
-import androidx.annotation.Nullable;
-import androidx.core.util.Pair;
-
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.PieData;
-
-import java.util.Map;
-
-import io.reactivex.rxjava3.core.Flowable;
+import androidx.core.util.Pair
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.PieData
+import io.reactivex.rxjava3.core.Flowable
 
 /**
  * @author Ihor Bilous
  */
-
-public interface HomeMVP {
-
+interface HomeMVP {
     interface Model {
-
-        Flowable<Pair<Map<String, double[]>, Map<String, double[]>>> getBalanceAndStatistic(int statisticPosition);
-
-        Flowable<Map<String, double[]>> getBalance();
-
-        Flowable<Map<String, double[]>> getStatistic(int statisticPosition);
+        fun getBalanceAndStatistic(statisticPosition: Int): Flowable<Pair<Map<String, DoubleArray>, Map<String, DoubleArray>>>?
+        val balance: Flowable<Map<String, DoubleArray>>?
+        fun getStatistic(statisticPosition: Int): Flowable<Map<String, DoubleArray>>?
     }
 
     interface View {
-
-        void setBalanceAndStatistic(Pair<Map<String, double[]>, Map<String, double[]>> mapPair);
-
-        void updateBalanceAndStatistic(Pair<Map<String, double[]>, Map<String, double[]>> mapPair);
-
-        void updateBalanceAndStatisticAfterDBImport(Pair<Map<String, double[]>, Map<String, double[]>> mapPair);
-
-        void updateBalance(Map<String, double[]> map);
-
-        void updateStatistic(Map<String, double[]> map);
-
-        boolean isNeedToConvert();
-
-        int getBalanceCurrencyPosition();
+        fun setBalanceAndStatistic(mapPair: Pair<Map<String, DoubleArray>, Map<String, DoubleArray>>)
+        fun updateBalanceAndStatistic(mapPair: Pair<Map<String, DoubleArray>, Map<String, DoubleArray>>)
+        fun updateBalanceAndStatisticAfterDBImport(mapPair: Pair<Map<String, DoubleArray>, Map<String, DoubleArray>>)
+        fun updateBalance(map: Map<String, DoubleArray>)
+        fun updateStatistic(map: Map<String, DoubleArray>)
+        val isNeedToConvert: Boolean
+        val balanceCurrencyPosition: Int
     }
 
     interface Presenter {
-
-        void setView(@Nullable HomeMVP.View view);
-
-        void loadBalanceAndStatistic(int statisticPosition);
-
-        void updateBalanceAndStatistic(int statisticPosition);
-
-        void updateBalanceAndStatisticAfterDBImport(int statisticPosition);
-
-        void updateBalance();
-
-        void updateStatistic(int statisticPosition);
-
-        boolean isStatisticEmpty();
-
-        String getFormattedBalance(double[] balance);
-
-        String getFormattedStatistic();
-
-        double[] getCurrentBalance(int position);
-
-        void updateTransactionStatisticArray(int posCurrency);
-
-        BarData getDataSetMainBalanceHorizontalBarChart(double[] balance);
-
-        BarData getDataSetMainStatisticHorizontalBarChart();
-
-        PieData getDataSetMainStatisticPieChart();
-
-        void updateRates();
+        fun setView(view: View?)
+        fun loadBalanceAndStatistic(statisticPosition: Int)
+        fun updateBalanceAndStatistic(statisticPosition: Int)
+        fun updateBalanceAndStatisticAfterDBImport(statisticPosition: Int)
+        fun updateBalance()
+        fun updateStatistic(statisticPosition: Int)
+        val isStatisticEmpty: Boolean
+        fun getFormattedBalance(balance: DoubleArray?): String
+        val formattedStatistic: String
+        fun getCurrentBalance(position: Int): DoubleArray
+        fun updateTransactionStatisticArray(posCurrency: Int)
+        fun getDataSetMainBalanceHorizontalBarChart(balance: DoubleArray): BarData
+        val dataSetMainStatisticHorizontalBarChart: BarData
+        val dataSetMainStatisticPieChart: PieData
+        fun updateRates()
     }
 }

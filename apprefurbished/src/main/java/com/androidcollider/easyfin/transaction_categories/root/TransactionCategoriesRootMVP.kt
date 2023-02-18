@@ -1,44 +1,31 @@
-package com.androidcollider.easyfin.transaction_categories.root;
+package com.androidcollider.easyfin.transaction_categories.root
 
-import androidx.annotation.Nullable;
-import androidx.core.util.Pair;
-
-import com.androidcollider.easyfin.common.models.TransactionCategory;
-
-import java.util.List;
-
-import io.reactivex.rxjava3.core.Flowable;
+import androidx.core.util.Pair
+import com.androidcollider.easyfin.common.models.TransactionCategory
+import io.reactivex.rxjava3.core.Flowable
 
 /**
  * @author Ihor Bilous
  */
-
-public interface TransactionCategoriesRootMVP {
-
+interface TransactionCategoriesRootMVP {
     interface Model {
-
-        Flowable<Pair<List<TransactionCategory>, List<TransactionCategory>>> getAllTransactionCategories();
-
-        Flowable<TransactionCategory> addNewTransactionCategory(TransactionCategory transactionCategory, boolean isExpense);
+        val allTransactionCategories: Flowable<Pair<List<TransactionCategory>, List<TransactionCategory>>>?
+        fun addNewTransactionCategory(
+            transactionCategory: TransactionCategory,
+            isExpense: Boolean
+        ): Flowable<TransactionCategory>?
     }
 
     interface View {
-
-        void showMessage(String message);
-
-        void shakeDialogNewTransactionCategoryField();
-
-        void dismissDialogNewTransactionCategory();
-
-        void handleNewTransactionCategoryAdded();
+        fun showMessage(message: String)
+        fun shakeDialogNewTransactionCategoryField()
+        fun dismissDialogNewTransactionCategory()
+        fun handleNewTransactionCategoryAdded()
     }
 
     interface Presenter {
-
-        void setView(@Nullable TransactionCategoriesRootMVP.View view);
-
-        void loadData();
-
-        void addNewCategory(String name, boolean isExpense);
+        fun setView(view: View?)
+        fun loadData()
+        fun addNewCategory(name: String?, isExpense: Boolean)
     }
 }

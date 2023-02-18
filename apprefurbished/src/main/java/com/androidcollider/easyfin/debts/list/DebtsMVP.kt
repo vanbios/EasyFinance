@@ -1,45 +1,29 @@
-package com.androidcollider.easyfin.debts.list;
+package com.androidcollider.easyfin.debts.list
 
-import com.androidcollider.easyfin.common.models.Debt;
-
-import java.util.List;
-
-import io.reactivex.rxjava3.core.Flowable;
+import com.androidcollider.easyfin.common.models.Debt
+import io.reactivex.rxjava3.core.Flowable
 
 /**
  * @author Ihor Bilous
  */
-
-public interface DebtsMVP {
-
+interface DebtsMVP {
     interface Model {
-
-        Flowable<List<DebtViewModel>> getDebtList();
-
-        Flowable<Debt> getDebtById(int id);
-
-        Flowable<Boolean> deleteDebtById(int id);
+        val debtList: Flowable<List<DebtViewModel>>?
+        fun getDebtById(id: Int): Flowable<Debt>?
+        fun deleteDebtById(id: Int): Flowable<Boolean>?
     }
 
     interface View {
-
-        void setDebtList(List<DebtViewModel> debtList);
-
-        void goToEditDebt(Debt debt, int mode);
-
-        void goToPayDebt(Debt debt, int mode);
-
-        void deleteDebt();
+        fun setDebtList(debtList: List<DebtViewModel>?)
+        fun goToEditDebt(debt: Debt?, mode: Int)
+        fun goToPayDebt(debt: Debt?, mode: Int)
+        fun deleteDebt()
     }
 
     interface Presenter {
-
-        void setView(DebtsMVP.View view);
-
-        void loadData();
-
-        void getDebtById(int id, int mode, int actionType);
-
-        void deleteDebtById(int id);
+        fun setView(view: View?)
+        fun loadData()
+        fun getDebtById(id: Int, mode: Int, actionType: Int)
+        fun deleteDebtById(id: Int)
     }
 }

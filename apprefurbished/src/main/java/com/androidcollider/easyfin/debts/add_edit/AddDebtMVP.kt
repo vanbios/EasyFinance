@@ -1,85 +1,53 @@
-package com.androidcollider.easyfin.debts.add_edit;
+package com.androidcollider.easyfin.debts.add_edit
 
-import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-
-import com.androidcollider.easyfin.common.models.Debt;
-import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
-
-import java.util.Calendar;
-import java.util.List;
-
-import io.reactivex.rxjava3.core.Flowable;
+import android.os.Bundle
+import com.androidcollider.easyfin.common.models.Debt
+import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel
+import io.reactivex.rxjava3.core.Flowable
+import java.util.*
 
 /**
  * @author Ihor Bilous
  */
-
 interface AddDebtMVP {
-
     interface Model {
+        val allAccounts: Flowable<List<SpinAccountViewModel>>?
+        fun addNewDebt(debt: Debt?): Flowable<Debt>?
+        fun updateDebt(debt: Debt?): Flowable<Debt>?
+        fun updateDebtDifferentAccounts(
+            debt: Debt?,
+            oldAccountAmount: Double,
+            oldAccountId: Int
+        ): Flowable<Boolean>?
 
-        Flowable<List<SpinAccountViewModel>> getAllAccounts();
-
-        Flowable<Debt> addNewDebt(Debt debt);
-
-        Flowable<Debt> updateDebt(Debt debt);
-
-        Flowable<Boolean> updateDebtDifferentAccounts(Debt debt, double oldAccountAmount, int oldAccountId);
-
-        String prepareStringToParse(String value);
-
-        long getMillisFromString(String date);
-
-        String formatAmount(double amount);
+        fun prepareStringToParse(value: String?): String?
+        fun getMillisFromString(date: String?): Long
+        fun formatAmount(amount: Double): String?
     }
 
     interface View {
-
-        void showAmount(String amount);
-
-        void showName(String name);
-
-        void setupSpinner();
-
-        void showAccount(int position);
-
-        void showMessage(String message);
-
-        void highlightNameField();
-
-        void setupDateTimeField(Calendar calendar, long initTime);
-
-        void openNumericDialog();
-
-        void notifyNotEnoughAccounts();
-
-        void setAmountTextColor(int color);
-
-        void setAccounts(List<SpinAccountViewModel> accountList);
-
-        void performLastActionsAfterSaveAndClose();
-
-        String getAmount();
-
-        SpinAccountViewModel getAccount();
-
-        String getDate();
-
-        String getName();
-
-        List<SpinAccountViewModel> getAccounts();
+        fun showAmount(amount: String?)
+        fun showName(name: String?)
+        fun setupSpinner()
+        fun showAccount(position: Int)
+        fun showMessage(message: String?)
+        fun highlightNameField()
+        fun setupDateTimeField(calendar: Calendar?, initTime: Long)
+        fun openNumericDialog()
+        fun notifyNotEnoughAccounts()
+        fun setAmountTextColor(color: Int)
+        fun performLastActionsAfterSaveAndClose()
+        val amount: String?
+        val account: SpinAccountViewModel?
+        val date: String?
+        val name: String?
+        var accounts: List<SpinAccountViewModel>?
     }
 
     interface Presenter {
-
-        void setView(@Nullable AddDebtMVP.View view);
-
-        void setArguments(Bundle args);
-
-        void loadAccounts();
-
-        void save();
+        fun setView(view: View?)
+        fun setArguments(args: Bundle?)
+        fun loadAccounts()
+        fun save()
     }
 }

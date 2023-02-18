@@ -211,12 +211,12 @@ class DebtsFragment : CommonFragment(), DebtsMVP.View {
         return getString(R.string.debts)
     }
 
-    override fun setDebtList(debtList: List<DebtViewModel>) {
+    override fun setDebtList(debtList: List<DebtViewModel>?) {
         recyclerAdapter.setItems(debtList)
         setVisibility()
     }
 
-    override fun goToEditDebt(debt: Debt, mode: Int) {
+    override fun goToEditDebt(debt: Debt?, mode: Int) {
         val addDebtFragment = AddDebtFragment()
         val arguments = Bundle()
         arguments.putInt(MODE, mode)
@@ -225,7 +225,7 @@ class DebtsFragment : CommonFragment(), DebtsMVP.View {
         addFragment(addDebtFragment)
     }
 
-    override fun goToPayDebt(debt: Debt, mode: Int) {
+    override fun goToPayDebt(debt: Debt?, mode: Int) {
         val payDebtFragment = PayDebtFragment()
         val arguments = Bundle()
         arguments.putInt(MODE, mode)

@@ -1,82 +1,59 @@
-package com.androidcollider.easyfin.debts.pay;
+package com.androidcollider.easyfin.debts.pay
 
-import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-
-import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
-
-import java.util.List;
-
-import io.reactivex.rxjava3.core.Flowable;
+import android.os.Bundle
+import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel
+import io.reactivex.rxjava3.core.Flowable
 
 /**
  * @author Ihor Bilous
  */
-
 interface PayDebtMVP {
-
     interface Model {
+        val allAccounts: Flowable<List<SpinAccountViewModel>>?
+        fun payFullDebt(
+            idAccount: Int,
+            accountAmount: Double,
+            idDebt: Int
+        ): Flowable<Boolean>?
 
-        Flowable<List<SpinAccountViewModel>> getAllAccounts();
+        fun payPartOfDebt(
+            idAccount: Int,
+            accountAmount: Double,
+            idDebt: Int,
+            debtAmount: Double
+        ): Flowable<Boolean>?
 
-        Flowable<Boolean> payFullDebt(int idAccount,
-                                      double accountAmount,
-                                      int idDebt);
+        fun takeMoreDebt(
+            idAccount: Int,
+            accountAmount: Double,
+            idDebt: Int,
+            debtAmount: Double,
+            debtAllAmount: Double
+        ): Flowable<Boolean>?
 
-        Flowable<Boolean> payPartOfDebt(int idAccount,
-                                        double accountAmount,
-                                        int idDebt,
-                                        double debtAmount);
-
-        Flowable<Boolean> takeMoreDebt(int idAccount,
-                                       double accountAmount,
-                                       int idDebt,
-                                       double debtAmount,
-                                       double debtAllAmount);
-
-        String prepareStringToParse(String value);
-
-        String formatAmount(double amount);
+        fun prepareStringToParse(value: String?): String?
+        fun formatAmount(amount: Double): String?
     }
 
     interface View {
-
-        void showAmount(String amount);
-
-        void showName(String name);
-
-        void setupSpinner();
-
-        void showAccount(int position);
-
-        void showMessage(String message);
-
-        void openNumericDialog();
-
-        void notifyNotEnoughAccounts();
-
-        void disableAmountField();
-
-        void setAccounts(List<SpinAccountViewModel> accountList);
-
-        void performLastActionsAfterSaveAndClose();
-
-        String getAmount();
-
-        SpinAccountViewModel getAccount();
-
-        List<SpinAccountViewModel> getAccounts();
+        fun showAmount(amount: String?)
+        fun showName(name: String?)
+        fun setupSpinner()
+        fun showAccount(position: Int)
+        fun showMessage(message: String?)
+        fun openNumericDialog()
+        fun notifyNotEnoughAccounts()
+        fun disableAmountField()
+        fun performLastActionsAfterSaveAndClose()
+        val amount: String?
+        val account: SpinAccountViewModel?
+        var accounts: List<SpinAccountViewModel?>?
     }
 
     interface Presenter {
-
-        void setView(@Nullable PayDebtMVP.View view);
-
-        void setArguments(Bundle args);
-
-        void loadAccounts();
-
-        void save();
+        fun setView(view: View?)
+        fun setArguments(args: Bundle?)
+        fun loadAccounts()
+        fun save()
     }
 }

@@ -133,9 +133,9 @@ class AddTransactionIncomeExpenseFragment : CommonFragmentAddEdit(),
         presenter.save()
     }
 
-    override fun showAmount(amount: String, transType: Int) {
+    override fun showAmount(amount: String, type: Int) {
         setTVTextSize(tvAmount, amount, 9, 14)
-        tvAmount.text = String.format("%1\$s %2\$s", if (transType == 1) "+" else "-", amount)
+        tvAmount.text = String.format("%1\$s %2\$s", if (type == 1) "+" else "-", amount)
     }
 
     override fun showMessage(message: String) {
@@ -157,36 +157,26 @@ class AddTransactionIncomeExpenseFragment : CommonFragmentAddEdit(),
         tvAmount.setTextColor(color)
     }
 
-    override fun setAccounts(accountList: List<SpinAccountViewModel>) {
-        this.accountList.clear()
-        this.accountList.addAll(accountList)
-        scrollView.visibility = View.VISIBLE
-    }
-
     override fun performLastActionsAfterSaveAndClose() {
         pushBroadcast()
         finish()
     }
 
-    override fun getAmount(): String {
-        return tvAmount.text.toString()
-    }
-
-    override fun getAccount(): SpinAccountViewModel {
-        return spinAccount.selectedItem as SpinAccountViewModel
-    }
-
-    override fun getDate(): String {
-        return tvDate.text.toString()
-    }
-
-    override fun getCategory(): Int {
-        return (spinCategory.selectedItem as TransactionCategory).id
-    }
-
-    override fun getAccounts(): List<SpinAccountViewModel> {
-        return accountList
-    }
+    override val amount: String
+        get() = tvAmount.text.toString()
+    override val account: SpinAccountViewModel
+        get() = spinAccount.selectedItem as SpinAccountViewModel
+    override val date: String
+        get() = tvDate.text.toString()
+    override val category: Int
+        get() = (spinCategory.selectedItem as TransactionCategory).id
+    override var accounts: List<SpinAccountViewModel>
+        get() = accountList
+        set(value) {
+            accountList.clear()
+            accountList.addAll(value)
+            scrollView.visibility = View.VISIBLE
+        }
 
     override fun setupSpinners(categoryList: List<TransactionCategory>, categoryIcons: TypedArray) {
         setupCategorySpinner(categoryList, categoryIcons, categoryIcons.length() - 1)
@@ -217,8 +207,8 @@ class AddTransactionIncomeExpenseFragment : CommonFragmentAddEdit(),
         spinCategory.setSelection(selectedPos)
     }
 
-    override fun showCategory(category: Int) {
-        spinCategory.setSelection(category)
+    override fun showCategory(position: Int) {
+        spinCategory.setSelection(position)
     }
 
     override fun showAccount(position: Int) {

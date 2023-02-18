@@ -1,64 +1,50 @@
-package com.androidcollider.easyfin.faq;
+package com.androidcollider.easyfin.faq
 
-import android.os.Bundle;
-import android.util.Pair;
-import android.view.View;
-
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.common.app.App;
-import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment;
-
-import java.util.List;
-
-import javax.inject.Inject;
+import android.os.Bundle
+import android.util.Pair
+import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.androidcollider.easyfin.R
+import com.androidcollider.easyfin.common.app.App
+import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment
+import javax.inject.Inject
 
 /**
  * @author Ihor Bilous
  */
+class FAQFragment : CommonFragment(), FAQMVP.View {
+    var recyclerView: RecyclerView? = null
 
-public class FAQFragment extends CommonFragment implements FAQMVP.View {
-
-    RecyclerView recyclerView;
-
+    @JvmField
     @Inject
-    FAQMVP.Presenter presenter;
-
-
-    @Override
-    public int getContentView() {
-        return R.layout.frg_faq;
+    var presenter: FAQMVP.Presenter? = null
+    override fun getContentView(): Int {
+        return R.layout.frg_faq
     }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ((App) getActivity().getApplication()).getComponent().inject(this);
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        (activity?.application as App).component?.inject(this)
     }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        setupUI(view);
-        presenter.setView(this);
-        presenter.loadInfo();
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupUI(view)
+        presenter?.setView(this)
+        presenter?.loadInfo()
     }
 
-    private void setupUI(View view) {
-        recyclerView = view.findViewById(R.id.rvFAQ);
+    private fun setupUI(view: View) {
+        recyclerView = view.findViewById(R.id.rvFAQ)
     }
 
-    @Override
-    public void setInfo(List<Pair<String, String>> list) {
-        recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        recyclerView.setAdapter(new RecyclerFAQAdapter(list));
+    override fun setInfo(list: List<Pair<String, String>>) {
+        recyclerView?.layoutManager = LinearLayoutManager(recyclerView?.context)
+        recyclerView?.adapter = RecyclerFAQAdapter(list)
     }
 
-    @Override
-    public String getTitle() {
-        return getString(R.string.app_faq);
+    override fun getTitle(): String {
+        return getString(R.string.app_faq)
     }
 }

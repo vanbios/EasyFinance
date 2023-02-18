@@ -1,24 +1,21 @@
-package com.androidcollider.easyfin.faq;
+package com.androidcollider.easyfin.faq
 
-import android.content.Context;
-
-import dagger.Module;
-import dagger.Provides;
+import android.content.Context
+import dagger.Module
+import dagger.Provides
 
 /**
  * @author Ihor Bilous
  */
-
 @Module
-public class FAQModule {
-
+class FAQModule {
     @Provides
-    FAQMVP.Presenter provideFAQMVPPresenter(FAQMVP.Model model) {
-        return new FAQPresenter(model);
+    fun provideFAQMVPPresenter(model: FAQMVP.Model?): FAQMVP.Presenter {
+        return FAQPresenter(model)
     }
 
     @Provides
-    FAQMVP.Model provideFAQMVPModel(Context context) {
-        return new FAQModel(context);
+    fun provideFAQMVPModel(context: Context?): FAQMVP.Model {
+        return FAQModel(context)
     }
 }

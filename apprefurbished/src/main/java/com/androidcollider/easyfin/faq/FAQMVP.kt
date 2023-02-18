@@ -1,29 +1,21 @@
-package com.androidcollider.easyfin.faq;
+package com.androidcollider.easyfin.faq
 
-import android.util.Pair;
-
-import java.util.List;
+import android.util.Pair
 
 /**
  * @author Ihor Bilous
  */
-
-public interface FAQMVP {
-
+interface FAQMVP {
     interface Model {
-
-        List<Pair<String, String>> getInfo();
+        val info: List<Pair<String, String>>
     }
 
     interface View {
-
-        void setInfo(List<Pair<String, String>> list);
+        fun setInfo(list: List<Pair<String, String>>)
     }
 
     interface Presenter {
-
-        void setView(FAQMVP.View view);
-
-        void loadInfo();
+        fun setView(view: View?)
+        fun loadInfo()
     }
 }

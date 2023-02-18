@@ -1,104 +1,75 @@
-package com.androidcollider.easyfin.transactions.add_edit.income_expense;
+package com.androidcollider.easyfin.transactions.add_edit.income_expense
 
-import android.content.res.TypedArray;
-import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.core.util.Pair;
-
-import com.androidcollider.easyfin.common.models.Transaction;
-import com.androidcollider.easyfin.common.models.TransactionCategory;
-import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
-
-import java.util.Calendar;
-import java.util.List;
-
-import io.reactivex.rxjava3.core.Flowable;
+import android.content.res.TypedArray
+import android.os.Bundle
+import androidx.core.util.Pair
+import com.androidcollider.easyfin.common.models.Transaction
+import com.androidcollider.easyfin.common.models.TransactionCategory
+import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel
+import io.reactivex.rxjava3.core.Flowable
+import java.util.*
 
 /**
  * @author Ihor Bilous
  */
-
-public interface AddTransactionIncomeExpenseMVP {
-
+interface AddTransactionIncomeExpenseMVP {
     interface Model {
+        fun getAccountsAndTransactionCategories(isExpense: Boolean):
+                Flowable<Pair<List<SpinAccountViewModel>, List<TransactionCategory>>>?
 
-        Flowable<Pair<List<SpinAccountViewModel>, List<TransactionCategory>>> getAccountsAndTransactionCategories(boolean isExpense);
+        fun getTransactionCategories(isExpense: Boolean): Flowable<List<TransactionCategory>>?
+        fun addNewTransaction(transaction: Transaction): Flowable<Transaction>?
+        fun updateTransaction(transaction: Transaction): Flowable<Transaction>?
+        fun updateTransactionDifferentAccounts(
+            transaction: Transaction?,
+            oldAccountAmount: Double,
+            oldAccountId: Int
+        ): Flowable<Boolean>?
 
-        Flowable<List<TransactionCategory>> getTransactionCategories(boolean isExpense);
+        fun addNewTransactionCategory(
+            transactionCategory: TransactionCategory,
+            isExpense: Boolean
+        ): Flowable<TransactionCategory>?
 
-        Flowable<Transaction> addNewTransaction(Transaction transaction);
-
-        Flowable<Transaction> updateTransaction(Transaction transaction);
-
-        Flowable<Boolean> updateTransactionDifferentAccounts(Transaction transaction, double oldAccountAmount, int oldAccountId);
-
-        Flowable<TransactionCategory> addNewTransactionCategory(TransactionCategory transactionCategory, boolean isExpense);
-
-        String prepareStringToParse(String value);
-
-        long getMillisFromString(String date);
-
-        boolean isDoubleNegative(double d);
-
-        String getTransactionForEditAmount(int type, double amount);
+        fun prepareStringToParse(value: String): String?
+        fun getMillisFromString(date: String): Long
+        fun isDoubleNegative(d: Double): Boolean
+        fun getTransactionForEditAmount(type: Int, amount: Double): String?
     }
 
     interface View {
+        fun showAmount(amount: String, type: Int)
+        fun setupSpinners(categoryList: List<TransactionCategory>, categoryIcons: TypedArray)
+        fun setupCategorySpinner(
+            categoryList: List<TransactionCategory>,
+            categoryIcons: TypedArray,
+            selectedPos: Int
+        )
 
-        void showAmount(String amount, int type);
-
-        void setupSpinners(List<TransactionCategory> categoryList, TypedArray categoryIcons);
-
-        void setupCategorySpinner(List<TransactionCategory> categoryList, TypedArray categoryIcons, int selectedPos);
-
-        void showCategory(int position);
-
-        void showAccount(int position);
-
-        void showMessage(String message);
-
-        void setupDateTimeField(Calendar calendar);
-
-        void openNumericDialog();
-
-        void notifyNotEnoughAccounts();
-
-        void setAmountTextColor(int color);
-
-        void setAccounts(List<SpinAccountViewModel> accountList);
-
-        void performLastActionsAfterSaveAndClose();
-
-        String getAmount();
-
-        SpinAccountViewModel getAccount();
-
-        String getDate();
-
-        int getCategory();
-
-        List<SpinAccountViewModel> getAccounts();
-
-        void shakeDialogNewTransactionCategoryField();
-
-        void dismissDialogNewTransactionCategory();
-
-        void handleNewTransactionCategoryAdded();
+        fun showCategory(position: Int)
+        fun showAccount(position: Int)
+        fun showMessage(message: String)
+        fun setupDateTimeField(calendar: Calendar)
+        fun openNumericDialog()
+        fun notifyNotEnoughAccounts()
+        fun setAmountTextColor(color: Int)
+        fun performLastActionsAfterSaveAndClose()
+        val amount: String
+        val account: SpinAccountViewModel
+        val date: String
+        val category: Int
+        var accounts: List<SpinAccountViewModel>
+        fun shakeDialogNewTransactionCategoryField()
+        fun dismissDialogNewTransactionCategory()
+        fun handleNewTransactionCategoryAdded()
     }
 
     interface Presenter {
-
-        void setView(@Nullable AddTransactionIncomeExpenseMVP.View view);
-
-        void setArguments(Bundle args);
-
-        void loadAccountsAndCategories();
-
-        void save();
-
-        int getTransactionType();
-
-        void addNewCategory(String name);
+        fun setView(view: View?)
+        fun setArguments(args: Bundle?)
+        fun loadAccountsAndCategories()
+        fun save()
+        val transactionType: Int
+        fun addNewCategory(name: String?)
     }
 }

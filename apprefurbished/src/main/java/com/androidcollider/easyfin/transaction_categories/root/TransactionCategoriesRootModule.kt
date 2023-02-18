@@ -1,27 +1,25 @@
-package com.androidcollider.easyfin.transaction_categories.root;
+package com.androidcollider.easyfin.transaction_categories.root
 
-import android.content.Context;
-
-import com.androidcollider.easyfin.common.repository.Repository;
-
-import dagger.Module;
-import dagger.Provides;
+import android.content.Context
+import com.androidcollider.easyfin.common.repository.Repository
+import dagger.Module
+import dagger.Provides
 
 /**
  * @author Ihor Bilous
  */
-
 @Module
-public class TransactionCategoriesRootModule {
-
+class TransactionCategoriesRootModule {
     @Provides
-    TransactionCategoriesRootMVP.Model provideTransactionCategoriesRootMVPModel(Repository repository) {
-        return new TransactionCategoriesRootModel(repository);
+    fun provideTransactionCategoriesRootMVPModel(repository: Repository?): TransactionCategoriesRootMVP.Model {
+        return TransactionCategoriesRootModel(repository)
     }
 
     @Provides
-    TransactionCategoriesRootMVP.Presenter provideTransactionCategoriesRootMVPPresenter(Context context,
-                                                                                         TransactionCategoriesRootMVP.Model model) {
-        return new TransactionCategoriesRootPresenter(context, model);
+    fun provideTransactionCategoriesRootMVPPresenter(
+        context: Context?,
+        model: TransactionCategoriesRootMVP.Model?
+    ): TransactionCategoriesRootMVP.Presenter {
+        return TransactionCategoriesRootPresenter(context, model)
     }
 }

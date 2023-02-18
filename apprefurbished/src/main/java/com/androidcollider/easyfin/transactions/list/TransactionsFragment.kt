@@ -109,8 +109,8 @@ class TransactionsFragment : CommonFragmentWithEvents(), TransactionsMVP.View {
         val activity = activity as MainActivity?
         if (activity != null) {
             dialogManager.showDeleteDialog(
-                    activity,
-                    getString(R.string.transaction_delete_warning)
+                activity,
+                getString(R.string.transaction_delete_warning)
             ) { presenter.deleteTransactionById(id) }
         }
     }
@@ -125,10 +125,15 @@ class TransactionsFragment : CommonFragmentWithEvents(), TransactionsMVP.View {
         presenter.loadData()
     }
 
-    override fun setTransactionAndTransactionCategoriesLists(transactionList: List<TransactionViewModel>,
-                                                             transactionCategoryIncomeList: List<TransactionCategory>,
-                                                             transactionCategoryExpenseList: List<TransactionCategory>) {
-        recyclerAdapter.setTransactionCategories(transactionCategoryIncomeList, transactionCategoryExpenseList)
+    override fun setTransactionAndTransactionCategoriesLists(
+        transactionList: List<TransactionViewModel>,
+        transactionCategoryIncomeList: List<TransactionCategory>,
+        transactionCategoryExpenseList: List<TransactionCategory>
+    ) {
+        recyclerAdapter.setTransactionCategories(
+            transactionCategoryIncomeList,
+            transactionCategoryExpenseList
+        )
         recyclerAdapter.setItems(transactionList)
         setVisibility()
     }

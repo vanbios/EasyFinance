@@ -1,69 +1,46 @@
-package com.androidcollider.easyfin.transactions.add_edit.btw_accounts;
+package com.androidcollider.easyfin.transactions.add_edit.btw_accounts
 
-import androidx.annotation.Nullable;
-
-import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
-
-import java.util.List;
-
-import io.reactivex.rxjava3.core.Flowable;
+import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel
+import io.reactivex.rxjava3.core.Flowable
 
 /**
  * @author Ihor Bilous
  */
-
 interface AddTransactionBetweenAccountsMVP {
-
     interface Model {
+        val allAccounts: Flowable<List<SpinAccountViewModel>>?
+        fun transferBTWAccounts(
+            idFrom: Int,
+            accountAmountFrom: Double,
+            idTo: Int,
+            accountAmountTo: Double
+        ): Flowable<Boolean>?
 
-        Flowable<List<SpinAccountViewModel>> getAllAccounts();
-
-        Flowable<Boolean> transferBTWAccounts(int idFrom, double accountAmountFrom, int idTo, double accountAmountTo);
-
-        String getExchangeRate(String currencyFrom, String currencyTo);
-
-        String prepareStringToParse(String value);
+        fun getExchangeRate(currencyFrom: String?, currencyTo: String?): String?
+        fun prepareStringToParse(value: String?): String?
     }
 
     interface View {
-
-        void showAmount(String amount);
-
-        void showExchangeRate(String rate);
-
-        void hideExchangeRate();
-
-        void highlightExchangeRateField();
-
-        void showMessage(String message);
-
-        void openNumericDialog();
-
-        void notifyNotEnoughAccounts();
-
-        void setAccounts(List<SpinAccountViewModel> accountList);
-
-        void performLastActionsAfterSaveAndClose();
-
-        String getAmount();
-
-        String getExchangeRate();
-
-        SpinAccountViewModel getAccountFrom();
-
-        SpinAccountViewModel getAccountTo();
-
-        boolean isMultiCurrencyTransaction();
+        fun showAmount(amount: String?)
+        fun showExchangeRate(rate: String?)
+        fun hideExchangeRate()
+        fun highlightExchangeRateField()
+        fun showMessage(message: String?)
+        fun openNumericDialog()
+        fun notifyNotEnoughAccounts()
+        fun setAccounts(accountList: List<SpinAccountViewModel>?)
+        fun performLastActionsAfterSaveAndClose()
+        val amount: String?
+        val exchangeRate: String?
+        val accountFrom: SpinAccountViewModel?
+        val accountTo: SpinAccountViewModel?
+        val isMultiCurrencyTransaction: Boolean
     }
 
     interface Presenter {
-
-        void setView(@Nullable AddTransactionBetweenAccountsMVP.View view);
-
-        void loadAccounts();
-
-        void save();
-
-        void setCurrencyMode();
+        fun setView(view: View?)
+        fun loadAccounts()
+        fun save()
+        fun setCurrencyMode()
     }
 }

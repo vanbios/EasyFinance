@@ -1,51 +1,39 @@
-package com.androidcollider.easyfin.transactions.list;
+package com.androidcollider.easyfin.transactions.list
 
-import android.util.Pair;
-
-import androidx.annotation.Nullable;
-
-import com.androidcollider.easyfin.common.models.Transaction;
-import com.androidcollider.easyfin.common.models.TransactionCategory;
-
-import java.util.List;
-
-import io.reactivex.rxjava3.core.Flowable;
+import android.util.Pair
+import com.androidcollider.easyfin.common.models.Transaction
+import com.androidcollider.easyfin.common.models.TransactionCategory
+import io.reactivex.rxjava3.core.Flowable
 
 /**
  * @author Ihor Bilous
  */
-
-public interface TransactionsMVP {
-
+interface TransactionsMVP {
     interface Model {
+        val transactionAndTransactionCategoriesLists:
+                Flowable<Pair<List<TransactionViewModel>,
+                        Pair<List<TransactionCategory>,
+                                List<TransactionCategory>>>>?
 
-        Flowable<Pair<List<TransactionViewModel>,
-                Pair<List<TransactionCategory>, List<TransactionCategory>>>> getTransactionAndTransactionCategoriesLists();
-
-        Flowable<Transaction> getTransactionById(int id);
-
-        Flowable<Boolean> deleteTransactionById(int id);
+        fun getTransactionById(id: Int): Flowable<Transaction>?
+        fun deleteTransactionById(id: Int): Flowable<Boolean>?
     }
 
     interface View {
+        fun setTransactionAndTransactionCategoriesLists(
+            transactionList: List<TransactionViewModel>,
+            transactionCategoryIncomeList: List<TransactionCategory>,
+            transactionCategoryExpenseList: List<TransactionCategory>
+        )
 
-        void setTransactionAndTransactionCategoriesLists(List<TransactionViewModel> transactionList,
-                                                         List<TransactionCategory> transactionCategoryIncomeList,
-                                                         List<TransactionCategory> transactionCategoryExpenseList);
-
-        void goToEditTransaction(Transaction transaction);
-
-        void deleteTransaction();
+        fun goToEditTransaction(transaction: Transaction)
+        fun deleteTransaction()
     }
 
     interface Presenter {
-
-        void setView(@Nullable TransactionsMVP.View view);
-
-        void loadData();
-
-        void getTransactionById(int id);
-
-        void deleteTransactionById(int id);
+        fun setView(view: View?)
+        fun loadData()
+        fun getTransactionById(id: Int)
+        fun deleteTransactionById(id: Int)
     }
 }
