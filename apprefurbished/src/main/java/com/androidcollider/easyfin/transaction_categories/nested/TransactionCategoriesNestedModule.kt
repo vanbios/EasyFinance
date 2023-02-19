@@ -12,15 +12,16 @@ import dagger.Provides
 @Module
 class TransactionCategoriesNestedModule {
     @Provides
-    fun provideTransactionCategoriesNestedMVPModel(repository: Repository?): TransactionCategoriesNestedMVP.Model {
+    fun provideTransactionCategoriesNestedMVPModel(repository: Repository)
+            : TransactionCategoriesNestedMVP.Model {
         return TransactionCategoriesNestedModel(repository)
     }
 
     @Provides
     fun provideTransactionCategoriesNestedMVPPresenter(
-        context: Context?,
-        model: TransactionCategoriesNestedMVP.Model?,
-        resourcesManager: ResourcesManager?
+        context: Context,
+        model: TransactionCategoriesNestedMVP.Model,
+        resourcesManager: ResourcesManager
     ): TransactionCategoriesNestedMVP.Presenter {
         return TransactionCategoriesNestedPresenter(context, model, resourcesManager)
     }

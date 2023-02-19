@@ -1,62 +1,42 @@
-package com.androidcollider.easyfin.accounts.list;
+package com.androidcollider.easyfin.accounts.list
 
-import androidx.annotation.Nullable;
+import com.androidcollider.easyfin.common.models.Account
 
 /**
  * @author Ihor Bilous
  */
-
-public class AccountsPresenter implements AccountsMVP.Presenter {
-
-    @Nullable
-    private AccountsMVP.View view;
-    private final AccountsMVP.Model model;
-
-    public AccountsPresenter(AccountsMVP.Model model) {
-        this.model = model;
+class AccountsPresenter(private val model: AccountsMVP.Model) : AccountsMVP.Presenter {
+    private var view: AccountsMVP.View? = null
+    override fun setView(view: AccountsMVP.View?) {
+        this.view = view
     }
 
-    @Override
-    public void setView(@Nullable AccountsMVP.View view) {
-        this.view = view;
+    override fun loadData() {
+        model.accountList
+            .subscribe(
+                { accountList: List<AccountViewModel> ->
+                    view?.setAccountList(accountList)
+                })
+            { obj: Throwable -> obj.printStackTrace() }
     }
 
-    @Override
-    public void loadData() {
-        model.getAccountList()
-                .subscribe(
-                        accountList -> {
-                            if (view != null) {
-                                view.setAccountList(accountList);
-                            }
-                        },
-                        Throwable::printStackTrace
-                );
-    }
-
-    @Override
-    public void getAccountById(int id) {
+    override fun getAccountById(id: Int) {
         model.getAccountById(id)
-                .subscribe(
-                        account -> {
-                            if (view != null) {
-                                view.goToEditAccount(account);
-                            }
-                        },
-                        Throwable::printStackTrace
-                );
+            .subscribe(
+                { account: Account ->
+                    view?.goToEditAccount(account)
+                })
+            { obj: Throwable -> obj.printStackTrace() }
     }
 
-    @Override
-    public void deleteAccountById(int id) {
+    override fun deleteAccountById(id: Int) {
         model.deleteAccountById(id)
-                .subscribe(
-                        aBoolean -> {
-                            if (aBoolean && view != null) {
-                                view.deleteAccount();
-                            }
-                        },
-                        Throwable::printStackTrace
-                );
+            .subscribe(
+                { isDeleted: Boolean ->
+                    if (isDeleted) {
+                        view?.deleteAccount()
+                    }
+                })
+            { obj: Throwable -> obj.printStackTrace() }
     }
 }

@@ -13,15 +13,15 @@ import dagger.Provides
 class AccountsModule {
     @Provides
     fun provideAccountsMVPModel(
-        repository: Repository?,
-        numberFormatManager: NumberFormatManager?,
-        resourcesManager: ResourcesManager?
+        repository: Repository,
+        numberFormatManager: NumberFormatManager,
+        resourcesManager: ResourcesManager
     ): AccountsMVP.Model {
         return AccountsModel(repository, numberFormatManager, resourcesManager)
     }
 
     @Provides
-    fun provideAccountsMVPPresenter(model: AccountsMVP.Model?): AccountsMVP.Presenter {
+    fun provideAccountsMVPPresenter(model: AccountsMVP.Model): AccountsMVP.Presenter {
         return AccountsPresenter(model)
     }
 }

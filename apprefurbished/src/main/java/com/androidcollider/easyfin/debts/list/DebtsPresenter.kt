@@ -1,70 +1,43 @@
-package com.androidcollider.easyfin.debts.list;
+package com.androidcollider.easyfin.debts.list
 
-import androidx.annotation.Nullable;
+import com.androidcollider.easyfin.common.models.Debt
 
 /**
  * @author Ihor Bilous
  */
-
-class DebtsPresenter implements DebtsMVP.Presenter {
-
-    @Nullable
-    private DebtsMVP.View view;
-    private final DebtsMVP.Model model;
-
-
-    DebtsPresenter(DebtsMVP.Model model) {
-        this.model = model;
+internal class DebtsPresenter(private val model: DebtsMVP.Model) : DebtsMVP.Presenter {
+    private var view: DebtsMVP.View? = null
+    override fun setView(view: DebtsMVP.View?) {
+        this.view = view
     }
 
-    @Override
-    public void setView(@Nullable DebtsMVP.View view) {
-        this.view = view;
+    override fun loadData() {
+        model.debtList
+            .subscribe(
+                { debtList: List<DebtViewModel> -> view?.setDebtList(debtList) },
+                { obj: Throwable -> obj.printStackTrace() })
     }
 
-    @Override
-    public void loadData() {
-        model.getDebtList()
-                .subscribe(
-                        debtList -> {
-                            if (view != null) {
-                                view.setDebtList(debtList);
-                            }
-                        },
-                        Throwable::printStackTrace
-                );
-    }
-
-    @Override
-    public void getDebtById(int id, int mode, int actionType) {
+    override fun getDebtById(id: Int, mode: Int, actionType: Int) {
         model.getDebtById(id)
-                .subscribe(
-                        debt -> {
-                            if (view != null) {
-                                switch (actionType) {
-                                    case DebtsFragment.ACTION_EDIT:
-                                        view.goToEditDebt(debt, mode);
-                                        break;
-                                    case DebtsFragment.ACTION_PAY:
-                                        view.goToPayDebt(debt, mode);
-                                        break;
-                                }
-                            }
-                        },
-                        Throwable::printStackTrace
-                );
+            .subscribe(
+                { debt: Debt ->
+                    when (actionType) {
+                        DebtsFragment.ACTION_EDIT -> view?.goToEditDebt(debt, mode)
+                        DebtsFragment.ACTION_PAY -> view?.goToPayDebt(debt, mode)
+                    }
+                },
+                { obj: Throwable -> obj.printStackTrace() })
     }
 
-    @Override
-    public void deleteDebtById(int id) {
+    override fun deleteDebtById(id: Int) {
         model.deleteDebtById(id)
-                .subscribe(
-                        aBoolean -> {
-                            if (aBoolean && view != null) {
-                                view.deleteDebt();
-                            }
-                        },
-                        Throwable::printStackTrace
-                );
+            .subscribe(
+                { aBoolean: Boolean ->
+                    if (aBoolean) {
+                        view?.deleteDebt()
+                    }
+                },
+                { obj: Throwable -> obj.printStackTrace() })
     }
 }

@@ -1,77 +1,67 @@
-package com.androidcollider.easyfin.accounts.list;
+package com.androidcollider.easyfin.accounts.list
 
-import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
-import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
-import com.androidcollider.easyfin.common.models.Account;
-import com.androidcollider.easyfin.common.repository.Repository;
-import com.annimon.stream.Collectors;
-import com.annimon.stream.Stream;
-
-import java.util.List;
-
-import io.reactivex.rxjava3.core.Flowable;
+import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager
+import com.androidcollider.easyfin.common.managers.resources.ResourcesManager
+import com.androidcollider.easyfin.common.models.Account
+import com.androidcollider.easyfin.common.repository.Repository
+import io.reactivex.rxjava3.core.Flowable
 
 /**
  * @author Ihor Bilous
  */
+internal class AccountsModel(
+    private val repository: Repository,
+    private val numberFormatManager: NumberFormatManager,
+    resourcesManager: ResourcesManager
+) : AccountsMVP.Model {
+    private val curArray: Array<String>
+    private val curLangArray: Array<String>
 
-class AccountsModel implements AccountsMVP.Model {
-
-    private final Repository repository;
-    private final NumberFormatManager numberFormatManager;
-    private final String[] curArray, curLangArray;
-
-
-    AccountsModel(Repository repository, NumberFormatManager numberFormatManager, ResourcesManager resourcesManager) {
-        this.repository = repository;
-        this.numberFormatManager = numberFormatManager;
-        curArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY);
-        curLangArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY_LANG);
+    init {
+        curArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY)
+        curLangArray =
+            resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY_LANG)
     }
 
-    @Override
-    public Flowable<List<AccountViewModel>> getAccountList() {
-        return repository.getAllAccounts()
-                .map(this::transformAccountListToViewModelList);
+    override val accountList: Flowable<List<AccountViewModel>>
+        get() = repository.allAccounts
+            .map { accountList: List<Account> -> transformAccountListToViewModelList(accountList) }
+
+    override fun getAccountById(id: Int): Flowable<Account> {
+        return repository.allAccounts
+            .flatMap { source: List<Account> -> Flowable.fromIterable(source) }
+            .filter { account: Account -> account.id == id }
     }
 
-    @Override
-    public Flowable<Account> getAccountById(int id) {
-        return repository.getAllAccounts()
-                .flatMap(Flowable::fromIterable)
-                .filter(account -> account.getId() == id);
+    override fun deleteAccountById(id: Int): Flowable<Boolean> {
+        return repository.deleteAccount(id)
     }
 
-    @Override
-    public Flowable<Boolean> deleteAccountById(int id) {
-        return repository.deleteAccount(id);
-    }
-
-    private AccountViewModel transformAccountToViewModel(Account account) {
-        String curLang = null;
-
-        for (int i = 0; i < curArray.length; i++) {
-            if (account.getCurrency().equals(curArray[i])) {
-                curLang = curLangArray[i];
-                break;
+    private fun transformAccountToViewModel(account: Account): AccountViewModel {
+        var curLang: String? = null
+        for (i in curArray.indices) {
+            if (account.currency == curArray[i]) {
+                curLang = curLangArray[i]
+                break
             }
         }
-
-        return new AccountViewModel(
-                account.getId(),
-                account.getName(),
-                String.format("%1$s %2$s",
-                        numberFormatManager.doubleToStringFormatter(
-                                account.getAmount(),
-                                NumberFormatManager.FORMAT_1,
-                                NumberFormatManager.PRECISE_1
-                        ),
-                        curLang),
-                account.getType()
-        );
+        return AccountViewModel(
+            account.id,
+            account.name, String.format(
+                "%1\$s %2\$s",
+                numberFormatManager.doubleToStringFormatter(
+                    account.amount,
+                    NumberFormatManager.FORMAT_1,
+                    NumberFormatManager.PRECISE_1
+                ),
+                curLang
+            ),
+            account.type
+        )
     }
 
-    private List<AccountViewModel> transformAccountListToViewModelList(List<Account> accountList) {
-        return Stream.of(accountList).map(this::transformAccountToViewModel).collect(Collectors.toList());
+    private fun transformAccountListToViewModelList(accountList: List<Account>)
+            : List<AccountViewModel> {
+        return accountList.map { transformAccountToViewModel(it) }
     }
 }

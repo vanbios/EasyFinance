@@ -1,162 +1,131 @@
-package com.androidcollider.easyfin.transaction_categories.nested;
+package com.androidcollider.easyfin.transaction_categories.nested
 
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-
-import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
-import com.androidcollider.easyfin.common.models.TransactionCategory;
-import com.annimon.stream.Collectors;
-import com.annimon.stream.Stream;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.content.Context
+import android.content.res.TypedArray
+import android.os.Bundle
+import com.androidcollider.easyfin.R
+import com.androidcollider.easyfin.common.managers.resources.ResourcesManager
+import com.androidcollider.easyfin.common.models.TransactionCategory
 
 /**
  * @author Ihor Bilous
  */
+internal class TransactionCategoriesNestedPresenter(
+    private val context: Context,
+    private val model: TransactionCategoriesNestedMVP.Model,
+    private val resourcesManager: ResourcesManager
+) : TransactionCategoriesNestedMVP.Presenter {
 
-class TransactionCategoriesNestedPresenter implements TransactionCategoriesNestedMVP.Presenter {
+    private var view: TransactionCategoriesNestedMVP.View? = null
+    private val transactionCategoryList: MutableList<TransactionCategory>
+    private lateinit var iconsArray: TypedArray
+    private var isExpense = false
 
-    @Nullable
-    private TransactionCategoriesNestedMVP.View view;
-    private final TransactionCategoriesNestedMVP.Model model;
-    private final Context context;
-    private final ResourcesManager resourcesManager;
-
-    private final List<TransactionCategory> transactionCategoryList;
-    private TypedArray iconsArray;
-
-    private boolean isExpense;
-
-
-    TransactionCategoriesNestedPresenter(Context context,
-                                         TransactionCategoriesNestedMVP.Model model,
-                                         ResourcesManager resourcesManager) {
-        this.context = context;
-        this.model = model;
-        this.resourcesManager = resourcesManager;
-        transactionCategoryList = new ArrayList<>();
+    init {
+        transactionCategoryList = ArrayList()
     }
 
-    @Override
-    public void setView(@Nullable TransactionCategoriesNestedMVP.View view) {
-        this.view = view;
+    override fun setView(view: TransactionCategoriesNestedMVP.View?) {
+        this.view = view
     }
 
-    @Override
-    public void setArguments(Bundle args) {
-        int type = args.getInt(TransactionCategoriesNestedFragment.TYPE);
-        isExpense = type == TransactionCategoriesNestedFragment.TYPE_EXPENSE;
+    override fun setArguments(args: Bundle?) {
+        val type = args?.getInt(TransactionCategoriesNestedFragment.TYPE)
+        isExpense = type == TransactionCategoriesNestedFragment.TYPE_EXPENSE
     }
 
-    @Override
-    public void loadData() {
+    override fun loadData() {
         iconsArray = resourcesManager.getIconArray(
-                isExpense ?
-                        ResourcesManager.ICON_TRANSACTION_CATEGORY_EXPENSE :
-                        ResourcesManager.ICON_TRANSACTION_CATEGORY_INCOME
-        );
-
-        loadTransactionCategories();
+            if (isExpense)
+                ResourcesManager.ICON_TRANSACTION_CATEGORY_EXPENSE
+            else ResourcesManager.ICON_TRANSACTION_CATEGORY_INCOME
+        )
+        loadTransactionCategories()
     }
 
-    @Override
-    public void loadTransactionCategories() {
+    override fun loadTransactionCategories() {
         model.getTransactionCategories(isExpense)
-                .subscribe(transactionCategories -> {
-                            List<TransactionCategory> actualTransactionCategoryList =
-                                    getActualTransactionCategoryList(transactionCategories);
-                            if (view != null) {
-                                view.setTransactionCategoryList(actualTransactionCategoryList, iconsArray);
-                            }
-                        },
-                        Throwable::printStackTrace
-                );
+            .subscribe({ transactionCategories: List<TransactionCategory> ->
+                val actualTransactionCategoryList =
+                    getActualTransactionCategoryList(transactionCategories)
+                view?.setTransactionCategoryList(actualTransactionCategoryList, iconsArray)
+            })
+            { obj: Throwable -> obj.printStackTrace() }
     }
 
-    @Override
-    public void updateTransactionCategory(int id, String name) {
-        if (view != null) {
+    override fun updateTransactionCategory(id: Int, name: String) {
+        view?.let {
             if (name.isEmpty()) {
-                handleUpdatedTransactionCategoryNameIsNotValid(context.getString(R.string.empty_name_field));
-                return;
+                handleUpdatedTransactionCategoryNameIsNotValid(
+                    context.getString(R.string.empty_name_field)
+                )
+                return
             }
             if (!isNewTransactionCategoryNameUnique(name, id)) {
-                handleUpdatedTransactionCategoryNameIsNotValid(context.getString(R.string.category_name_exist));
-                return;
+                handleUpdatedTransactionCategoryNameIsNotValid(
+                    context.getString(R.string.category_name_exist)
+                )
+                return
             }
-
-            TransactionCategory category = new TransactionCategory(id, name, 1);
-
+            val category = TransactionCategory(id, name, 1)
             model.updateTransactionCategory(category, isExpense)
-                    .subscribe(transactionCategory -> {
-                                if (view != null) {
-                                    view.handleTransactionCategoryUpdated();
-                                    view.dismissDialogUpdateTransactionCategory();
-                                }
-                            },
-                            Throwable::printStackTrace
-                    );
+                .subscribe({
+                    view?.let {
+                        it.handleTransactionCategoryUpdated()
+                        it.dismissDialogUpdateTransactionCategory()
+                    }
+                }) { obj: Throwable -> obj.printStackTrace() }
         }
     }
 
-    @Override
-    public void deleteTransactionCategoryById(int id) {
+    override fun deleteTransactionCategoryById(id: Int) {
         model.deleteTransactionCategory(id, isExpense)
-                .subscribe(aBoolean -> {
-                            deleteTransactionCategoryFromListById(id);
-                            if (view != null) {
-                                view.deleteTransactionCategory();
-                            }
-                        },
-                        Throwable::printStackTrace
-                );
+            .subscribe({
+                deleteTransactionCategoryFromListById(id)
+                view?.deleteTransactionCategory()
+            })
+            { obj: Throwable -> obj.printStackTrace() }
     }
 
-    private void handleUpdatedTransactionCategoryNameIsNotValid(String message) {
-        if (view != null) {
-            view.showMessage(message);
-            view.shakeDialogUpdateTransactionCategoryField();
+    private fun handleUpdatedTransactionCategoryNameIsNotValid(message: String) {
+        view?.let {
+            it.showMessage(message)
+            it.shakeDialogUpdateTransactionCategoryField()
         }
     }
 
-    private boolean isNewTransactionCategoryNameUnique(String name, int id) {
-        if (name.equalsIgnoreCase(getCategoryNameById(id))) return true;
-        for (TransactionCategory category : transactionCategoryList) {
-            if (name.equalsIgnoreCase(category.getName())) return false;
+    private fun isNewTransactionCategoryNameUnique(name: String, id: Int): Boolean {
+        if (name.equals(getCategoryNameById(id), ignoreCase = true)) return true
+        for (category in transactionCategoryList) {
+            if (name.equals(category.name, ignoreCase = true)) return false
         }
-        return true;
+        return true
     }
 
-    @Override
-    public String getCategoryNameById(int id) {
-        for (TransactionCategory transactionCategory : transactionCategoryList) {
-            if (transactionCategory.getId() == id) return transactionCategory.getName();
+    override fun getCategoryNameById(id: Int): String {
+        for (transactionCategory in transactionCategoryList) {
+            if (transactionCategory.id == id) return transactionCategory.name
         }
-        return "";
+        return ""
     }
 
-    private void deleteTransactionCategoryFromListById(int id) {
-        int pos = -1;
-        for (int i = 0; i < transactionCategoryList.size(); i++) {
-            if (id == transactionCategoryList.get(i).getId()) {
-                pos = i;
-                break;
+    private fun deleteTransactionCategoryFromListById(id: Int) {
+        var pos = -1
+        for (i in transactionCategoryList.indices) {
+            if (id == transactionCategoryList[i].id) {
+                pos = i
+                break
             }
         }
-        if (pos >= 0) transactionCategoryList.remove(pos);
+        if (pos >= 0) transactionCategoryList.removeAt(pos)
     }
 
-    private List<TransactionCategory> getActualTransactionCategoryList(List<TransactionCategory> categoryList) {
-        transactionCategoryList.clear();
-        transactionCategoryList.addAll(categoryList);
+    private fun getActualTransactionCategoryList(categoryList: List<TransactionCategory>)
+            : List<TransactionCategory> {
+        transactionCategoryList.clear()
+        transactionCategoryList.addAll(categoryList)
 
-        return Stream.of(transactionCategoryList)
-                .filter(t -> t.getVisibility() == 1)
-                .collect(Collectors.toList());
+        return transactionCategoryList
+            .filter { t: TransactionCategory -> t.visibility == 1 }
     }
 }

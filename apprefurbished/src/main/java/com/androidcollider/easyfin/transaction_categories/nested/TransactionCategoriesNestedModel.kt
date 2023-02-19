@@ -1,44 +1,33 @@
-package com.androidcollider.easyfin.transaction_categories.nested;
+package com.androidcollider.easyfin.transaction_categories.nested
 
-import com.androidcollider.easyfin.common.models.TransactionCategory;
-import com.androidcollider.easyfin.common.repository.Repository;
-
-import java.util.List;
-
-import io.reactivex.rxjava3.core.Flowable;
+import com.androidcollider.easyfin.common.models.TransactionCategory
+import com.androidcollider.easyfin.common.repository.Repository
+import io.reactivex.rxjava3.core.Flowable
 
 /**
  * @author Ihor Bilous
  */
+internal class TransactionCategoriesNestedModel(private val repository: Repository) :
+    TransactionCategoriesNestedMVP.Model {
 
-class TransactionCategoriesNestedModel implements TransactionCategoriesNestedMVP.Model {
-
-    private final Repository repository;
-
-
-    TransactionCategoriesNestedModel(Repository repository) {
-        this.repository = repository;
+    override fun getTransactionCategories(isExpense: Boolean): Flowable<List<TransactionCategory>> {
+        return if (isExpense)
+            repository.allTransactionExpenseCategories
+        else repository.allTransactionIncomeCategories
     }
 
-
-    @Override
-    public Flowable<List<TransactionCategory>> getTransactionCategories(boolean isExpense) {
-        return isExpense ?
-                repository.getAllTransactionExpenseCategories() :
-                repository.getAllTransactionIncomeCategories();
+    override fun updateTransactionCategory(
+        transactionCategory: TransactionCategory,
+        isExpense: Boolean
+    ): Flowable<TransactionCategory> {
+        return if (isExpense)
+            repository.updateTransactionExpenseCategory(transactionCategory)
+        else repository.updateTransactionIncomeCategory(transactionCategory)
     }
 
-    @Override
-    public Flowable<TransactionCategory> updateTransactionCategory(TransactionCategory transactionCategory, boolean isExpense) {
-        return isExpense ?
-                repository.updateTransactionExpenseCategory(transactionCategory) :
-                repository.updateTransactionIncomeCategory(transactionCategory);
-    }
-
-    @Override
-    public Flowable<Boolean> deleteTransactionCategory(int id, boolean isExpense) {
-        return isExpense ?
-                repository.deleteTransactionExpenseCategory(id) :
-                repository.deleteTransactionIncomeCategory(id);
+    override fun deleteTransactionCategory(id: Int, isExpense: Boolean): Flowable<Boolean> {
+        return if (isExpense)
+            repository.deleteTransactionExpenseCategory(id)
+        else repository.deleteTransactionIncomeCategory(id)
     }
 }

@@ -1,120 +1,101 @@
-package com.androidcollider.easyfin.accounts.add_edit;
+package com.androidcollider.easyfin.accounts.add_edit
 
-import android.content.Context;
-import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-
-import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.accounts.list.AccountsFragment;
-import com.androidcollider.easyfin.common.models.Account;
-
-import io.reactivex.rxjava3.core.Flowable;
+import android.content.Context
+import android.os.Bundle
+import com.androidcollider.easyfin.R
+import com.androidcollider.easyfin.accounts.list.AccountsFragment
+import com.androidcollider.easyfin.common.models.Account
+import com.androidcollider.easyfin.common.utils.serializable
+import io.reactivex.rxjava3.core.Flowable
 
 /**
  * @author Ihor Bilous
  */
+internal class AddAccountPresenter(
+    private val model: AddAccountMVP.Model,
+    private val context: Context
+) : AddAccountMVP.Presenter {
 
-class AddAccountPresenter implements AddAccountMVP.Presenter {
+    private var view: AddAccountMVP.View? = null
+    private var mode = 0
 
-    @Nullable
-    private AddAccountMVP.View view;
-    private final AddAccountMVP.Model model;
-    private final Context context;
-
-    private int mode;
-
-
-    AddAccountPresenter(AddAccountMVP.Model model, Context context) {
-        this.model = model;
-        this.context = context;
+    override fun setView(view: AddAccountMVP.View?) {
+        this.view = view
     }
 
-    @Override
-    public void setView(@Nullable AddAccountMVP.View view) {
-        this.view = view;
-    }
-
-    @Override
-    public void setArguments(Bundle args) {
-        mode = args.getInt(AccountsFragment.MODE, 0);
-        switch (mode) {
-            case AccountsFragment.ADD:
-                if (view != null) {
-                    view.showAmount("0,00");
-                    view.openNumericDialog();
+    override fun setArguments(args: Bundle?) {
+        args?.let { bundle ->
+            mode = bundle.getInt(AccountsFragment.MODE, 0)
+            when (mode) {
+                AccountsFragment.ADD -> view?.let {
+                    it.showAmount("0,00")
+                    it.openNumericDialog()
                 }
-                break;
-            case AccountsFragment.EDIT:
-                model.setAccountForUpdate((Account) args.getSerializable(AccountsFragment.ACCOUNT));
-                if (view != null) {
-                    view.showName(model.getAccountForUpdateName());
-                    view.showAmount(model.getAccountForUpdateAmount());
-                    view.showType(model.getAccountForUpdateType());
-                    view.showCurrency(model.getAccountForUpdateCurrencyPosition());
+                AccountsFragment.EDIT -> {
+                    (bundle.serializable(AccountsFragment.ACCOUNT) as Account?)?.let {
+                        model.setAccountForUpdate(it)
+                    }
+                    view?.let {
+                        it.showName(model.accountForUpdateName)
+                        it.showAmount(model.accountForUpdateAmount)
+                        it.showType(model.accountForUpdateType)
+                        it.showCurrency(model.accountForUpdateCurrencyPosition)
+                    }
                 }
-                break;
+                else -> {}
+            }
         }
     }
 
-    @Override
-    public void save() {
-        if (view != null) {
-            String accountName = view.getAccountName();
+    override fun save() {
+        view?.let {
+            val accountName = it.accountName
             if (checkForFillNameField(accountName) && isAccountNameIsValid(accountName)) {
-                String name = view.getAccountName();
-                String amount = view.getAccountAmount();
-                int type = view.getAccountType();
-                String currency = view.getAccountCurrency();
-
+                val name = it.accountName
+                val amount = it.accountAmount
+                val type = it.accountType
+                val currency = it.accountCurrency
                 getSaveAccountObservable(name, amount, type, currency)
-                        .subscribe(
-                                account -> {
-                                    if (view != null) {
-                                        view.performLastActionsAfterSaveAndClose();
-                                    }
-                                },
-                                Throwable::printStackTrace
-                        );
+                    .subscribe({
+                        view?.let { view1 ->
+                            view1.performLastActionsAfterSaveAndClose()
+                        }
+                    })
+                    { obj: Throwable -> obj.printStackTrace() }
             }
         }
     }
 
-    private boolean checkForFillNameField(String accountName) {
-        if (accountName.replaceAll("\\s+", "").isEmpty()) {
-            if (view != null) {
-                view.highlightNameField();
-                view.showMessage(context.getString(R.string.empty_name_field));
+    private fun checkForFillNameField(accountName: String): Boolean {
+        if (accountName.replace("\\s+".toRegex(), "").isEmpty()) {
+            view?.let {
+                it.highlightNameField()
+                it.showMessage(context.getString(R.string.empty_name_field))
             }
-            return false;
+            return false
         }
-        return true;
+        return true
     }
 
-    private boolean isAccountNameIsValid(String accountName) {
+    private fun isAccountNameIsValid(accountName: String): Boolean {
         if (model.validateAccountName(accountName)) {
-            if (view != null) {
-                view.highlightNameField();
-                view.showMessage(context.getString(R.string.account_name_exist));
+            view?.let {
+                it.highlightNameField()
+                it.showMessage(context.getString(R.string.account_name_exist))
             }
-            return false;
+            return false
         }
-        return true;
+        return true
     }
 
-    private Flowable<Account> getSaveAccountObservable(String name, String amount, int type, String currency) {
-        return mode == AccountsFragment.EDIT ?
-                model.updateAccount(
-                        name,
-                        amount,
-                        type,
-                        currency
-                ) :
-                model.addAccount(
-                        name,
-                        amount,
-                        type,
-                        currency
-                );
+    private fun getSaveAccountObservable(
+        name: String,
+        amount: String,
+        type: Int,
+        currency: String
+    ): Flowable<Account> {
+        return if (mode == AccountsFragment.EDIT)
+            model.updateAccount(name, amount, type, currency) else
+            model.addAccount(name, amount, type, currency)
     }
 }

@@ -15,10 +15,10 @@ import dagger.Provides
 class AddAccountModule {
     @Provides
     fun provideAddAccountMVPModel(
-        repository: Repository?,
-        accountsInfoManager: AccountsInfoManager?,
-        numberFormatManager: NumberFormatManager?,
-        resourcesManager: ResourcesManager?
+        repository: Repository,
+        accountsInfoManager: AccountsInfoManager,
+        numberFormatManager: NumberFormatManager,
+        resourcesManager: ResourcesManager
     ): AddAccountMVP.Model {
         return AddAccountModel(
             repository,
@@ -30,8 +30,8 @@ class AddAccountModule {
 
     @Provides
     fun provideAddAccountMVPPresenter(
-        model: AddAccountMVP.Model?,
-        context: Context?
+        model: AddAccountMVP.Model,
+        context: Context
     ): AddAccountMVP.Presenter {
         return AddAccountPresenter(model, context)
     }

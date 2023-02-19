@@ -15,11 +15,11 @@ import dagger.Provides
 class DebtsModule {
     @Provides
     fun provideDebtsMVPModel(
-        repository: Repository?,
-        dateFormatManager: DateFormatManager?,
-        numberFormatManager: NumberFormatManager?,
-        resourcesManager: ResourcesManager?,
-        context: Context?
+        repository: Repository,
+        dateFormatManager: DateFormatManager,
+        numberFormatManager: NumberFormatManager,
+        resourcesManager: ResourcesManager,
+        context: Context
     ): DebtsMVP.Model {
         return DebtsModel(
             repository,
@@ -31,7 +31,7 @@ class DebtsModule {
     }
 
     @Provides
-    fun provideDebtsMVPPresenter(model: DebtsMVP.Model?): DebtsMVP.Presenter {
+    fun provideDebtsMVPPresenter(model: DebtsMVP.Model): DebtsMVP.Presenter {
         return DebtsPresenter(model)
     }
 }

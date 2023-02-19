@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.androidcollider.easyfin.R;
@@ -70,6 +71,7 @@ class RecyclerDebtAdapter extends RecyclerView.Adapter<RecyclerDebtAdapter.ViewH
         return 0;
     }
 
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_frg_debt, parent, false));

@@ -10,39 +10,39 @@ import io.reactivex.rxjava3.core.Flowable
 interface AddAccountMVP {
     interface Model {
         fun addAccount(
-            name: String?,
-            amount: String?,
+            name: String,
+            amount: String,
             type: Int,
-            currency: String?
-        ): Flowable<Account>?
+            currency: String
+        ): Flowable<Account>
 
         fun updateAccount(
-            name: String?,
-            amount: String?,
+            name: String,
+            amount: String,
             type: Int,
-            currency: String?
-        ): Flowable<Account>?
+            currency: String
+        ): Flowable<Account>
 
-        fun setAccountForUpdate(account: Account?)
+        fun setAccountForUpdate(account: Account)
         val accountForUpdateName: String?
-        val accountForUpdateAmount: String?
+        val accountForUpdateAmount: String
         val accountForUpdateType: Int
         val accountForUpdateCurrencyPosition: Int
-        fun validateAccountName(name: String?): Boolean
+        fun validateAccountName(name: String): Boolean
     }
 
     interface View {
-        fun showAmount(amount: String?)
+        fun showAmount(amount: String)
         fun showName(name: String?)
         fun showType(type: Int)
         fun showCurrency(position: Int)
         fun highlightNameField()
-        fun showMessage(message: String?)
+        fun showMessage(message: String)
         fun openNumericDialog()
         fun performLastActionsAfterSaveAndClose()
-        val accountName: String?
-        val accountAmount: String?
-        val accountCurrency: String?
+        val accountName: String
+        val accountAmount: String
+        val accountCurrency: String
         val accountType: Int
     }
 

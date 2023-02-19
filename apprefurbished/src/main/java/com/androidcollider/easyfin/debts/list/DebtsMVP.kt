@@ -8,13 +8,13 @@ import io.reactivex.rxjava3.core.Flowable
  */
 interface DebtsMVP {
     interface Model {
-        val debtList: Flowable<List<DebtViewModel>>?
-        fun getDebtById(id: Int): Flowable<Debt>?
-        fun deleteDebtById(id: Int): Flowable<Boolean>?
+        val debtList: Flowable<List<DebtViewModel>>
+        fun getDebtById(id: Int): Flowable<Debt>
+        fun deleteDebtById(id: Int): Flowable<Boolean>
     }
 
     interface View {
-        fun setDebtList(debtList: List<DebtViewModel>?)
+        fun setDebtList(debtList: List<DebtViewModel>)
         fun goToEditDebt(debt: Debt?, mode: Int)
         fun goToPayDebt(debt: Debt?, mode: Int)
         fun deleteDebt()

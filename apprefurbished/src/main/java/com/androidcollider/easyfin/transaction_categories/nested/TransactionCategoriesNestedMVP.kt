@@ -10,13 +10,13 @@ import io.reactivex.rxjava3.core.Flowable
  */
 interface TransactionCategoriesNestedMVP {
     interface Model {
-        fun getTransactionCategories(isExpense: Boolean): Flowable<List<TransactionCategory>>?
+        fun getTransactionCategories(isExpense: Boolean): Flowable<List<TransactionCategory>>
         fun updateTransactionCategory(
             transactionCategory: TransactionCategory,
             isExpense: Boolean
-        ): Flowable<TransactionCategory>?
+        ): Flowable<TransactionCategory>
 
-        fun deleteTransactionCategory(id: Int, isExpense: Boolean): Flowable<Boolean>?
+        fun deleteTransactionCategory(id: Int, isExpense: Boolean): Flowable<Boolean>
     }
 
     interface View {
@@ -37,8 +37,8 @@ interface TransactionCategoriesNestedMVP {
         fun loadData()
         fun loadTransactionCategories()
         fun setArguments(args: Bundle?)
-        fun updateTransactionCategory(id: Int, name: String?)
+        fun updateTransactionCategory(id: Int, name: String)
         fun deleteTransactionCategoryById(id: Int)
-        fun getCategoryNameById(id: Int): String?
+        fun getCategoryNameById(id: Int): String
     }
 }

@@ -1,107 +1,88 @@
-package com.androidcollider.easyfin.accounts.add_edit;
+package com.androidcollider.easyfin.accounts.add_edit
 
-import androidx.annotation.Nullable;
-
-import com.androidcollider.easyfin.common.managers.accounts.accounts_info.AccountsInfoManager;
-import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
-import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
-import com.androidcollider.easyfin.common.models.Account;
-import com.androidcollider.easyfin.common.repository.Repository;
-
-import io.reactivex.rxjava3.core.Flowable;
+import com.androidcollider.easyfin.common.managers.accounts.accounts_info.AccountsInfoManager
+import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager
+import com.androidcollider.easyfin.common.managers.resources.ResourcesManager
+import com.androidcollider.easyfin.common.models.Account
+import com.androidcollider.easyfin.common.repository.Repository
+import io.reactivex.rxjava3.core.Flowable
 
 /**
  * @author Ihor Bilous
  */
+internal class AddAccountModel(
+    private val repository: Repository,
+    private val accountsInfoManager: AccountsInfoManager,
+    private val numberFormatManager: NumberFormatManager,
+    private val resourcesManager: ResourcesManager
+) : AddAccountMVP.Model {
+    private var accountForUpdate: Account? = null
 
-class AddAccountModel implements AddAccountMVP.Model {
-
-    private final Repository repository;
-    private final AccountsInfoManager accountsInfoManager;
-    private final NumberFormatManager numberFormatManager;
-    private final ResourcesManager resourcesManager;
-
-    @Nullable
-    private Account accountForUpdate;
-
-
-    AddAccountModel(Repository repository,
-                    AccountsInfoManager accountsInfoManager,
-                    NumberFormatManager numberFormatManager,
-                    ResourcesManager resourcesManager) {
-        this.repository = repository;
-        this.accountsInfoManager = accountsInfoManager;
-        this.numberFormatManager = numberFormatManager;
-        this.resourcesManager = resourcesManager;
+    override fun addAccount(
+        name: String,
+        amount: String,
+        type: Int,
+        currency: String
+    ): Flowable<Account> {
+        val account = Account()
+        account.name = name
+        account.amount = numberFormatManager.prepareStringToParse(amount).toDouble()
+        account.type = type
+        account.currency = currency
+        return repository.addNewAccount(account)
     }
 
-    @Override
-    public Flowable<Account> addAccount(String name, String amount, int type, String currency) {
-        Account account = new Account();
-        account.setName(name);
-        account.setAmount(Double.parseDouble(numberFormatManager.prepareStringToParse(amount)));
-        account.setType(type);
-        account.setCurrency(currency);
-
-        return repository.addNewAccount(account);
+    override fun updateAccount(
+        name: String,
+        amount: String,
+        type: Int,
+        currency: String
+    ): Flowable<Account> {
+        val account = Account()
+        account.id = if (accountForUpdate != null) accountForUpdate!!.id else 0
+        account.name = name
+        account.amount = numberFormatManager.prepareStringToParse(amount).toDouble()
+        account.type = type
+        account.currency = currency
+        return repository.updateAccount(account)
     }
 
-    @Override
-    public Flowable<Account> updateAccount(String name, String amount, int type, String currency) {
-        Account account = new Account();
-        account.setId(accountForUpdate != null ? accountForUpdate.getId() : 0);
-        account.setName(name);
-        account.setAmount(Double.parseDouble(numberFormatManager.prepareStringToParse(amount)));
-        account.setType(type);
-        account.setCurrency(currency);
-
-        return repository.updateAccount(account);
+    override fun setAccountForUpdate(account: Account) {
+        accountForUpdate = account
     }
 
-    @Override
-    public void setAccountForUpdate(@Nullable Account account) {
-        accountForUpdate = account;
-    }
+    override val accountForUpdateName: String?
+        get() = if (accountForUpdate != null) accountForUpdate!!.name else ""
 
-    @Override
-    public String getAccountForUpdateName() {
-        return accountForUpdate != null ? accountForUpdate.getName() : "";
-    }
+    override val accountForUpdateAmount: String
+        get() = if (accountForUpdate != null)
+            numberFormatManager.doubleToStringFormatterForEdit(
+                accountForUpdate!!.amount,
+                NumberFormatManager.FORMAT_1,
+                NumberFormatManager.PRECISE_1
+            ) else "0,00"
 
-    @Override
-    public String getAccountForUpdateAmount() {
-        return accountForUpdate != null ?
-                numberFormatManager.doubleToStringFormatterForEdit(
-                        accountForUpdate.getAmount(),
-                        NumberFormatManager.FORMAT_1,
-                        NumberFormatManager.PRECISE_1
-                ) :
-                "0,00";
-    }
+    override val accountForUpdateType: Int
+        get() = if (accountForUpdate != null) accountForUpdate!!.type else 0
 
-    @Override
-    public int getAccountForUpdateType() {
-        return accountForUpdate != null ? accountForUpdate.getType() : 0;
-    }
-
-    @Override
-    public int getAccountForUpdateCurrencyPosition() {
-        if (accountForUpdate != null) {
-            String[] currencyArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY);
-
-            for (int i = 0; i < currencyArray.length; i++) {
-                if (currencyArray[i].equals(accountForUpdate.getCurrency())) {
-                    return i;
+    override val accountForUpdateCurrencyPosition: Int
+        get() {
+            if (accountForUpdate != null) {
+                val currencyArray =
+                    resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY)
+                for (i in currencyArray.indices) {
+                    if (currencyArray[i] == accountForUpdate!!.currency) {
+                        return i
+                    }
                 }
             }
+            return 0
         }
-        return 0;
-    }
 
-    @Override
-    public boolean validateAccountName(String name) {
-        return accountForUpdate == null ?
-                accountsInfoManager.checkForAccountNameMatches(name) :
-                accountsInfoManager.checkForAccountNameMatches(name) && !name.equals(accountForUpdate.getName());
+    override fun validateAccountName(name: String): Boolean {
+        return if (accountForUpdate == null)
+            accountsInfoManager.checkForAccountNameMatches(name)
+        else accountsInfoManager.checkForAccountNameMatches(name)
+                && name != accountForUpdate!!.name
     }
 }

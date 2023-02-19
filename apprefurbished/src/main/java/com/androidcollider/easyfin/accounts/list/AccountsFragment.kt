@@ -108,8 +108,8 @@ class AccountsFragment : CommonFragmentWithEvents(), AccountsMVP.View {
         val activity = activity as MainActivity?
         if (activity != null) {
             dialogManager.showDeleteDialog(
-                    activity,
-                    getString(R.string.dialog_text_delete_account)
+                activity,
+                getString(R.string.dialog_text_delete_account)
             ) { presenter.deleteAccountById(id) }
         }
     }
@@ -118,12 +118,12 @@ class AccountsFragment : CommonFragmentWithEvents(), AccountsMVP.View {
         EventBus.getDefault().post(UpdateFrgHomeBalance())
     }
 
-    override fun setAccountList(accountList: List<AccountViewModel>?) {
+    override fun setAccountList(accountList: List<AccountViewModel>) {
         recyclerAdapter.setItems(accountList)
         setVisibility()
     }
 
-    override fun goToEditAccount(account: Account?) {
+    override fun goToEditAccount(account: Account) {
         val addAccountFragment = AddAccountFragment()
         val arguments = Bundle()
         arguments.putInt(MODE, EDIT)

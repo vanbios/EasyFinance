@@ -155,11 +155,10 @@ class DebtsFragment : CommonFragment(), DebtsMVP.View {
     }
 
     private fun showDialogDeleteDebt(id: Int) {
-        val activity = activity as MainActivity?
-        if (activity != null) {
+        (activity as MainActivity?)?.let {
             dialogManager.showDeleteDialog(
-                    activity,
-                    getString(R.string.debt_delete_warning)
+                it,
+                getString(R.string.debt_delete_warning)
             ) { presenter.deleteDebtById(id) }
         }
     }
@@ -211,7 +210,7 @@ class DebtsFragment : CommonFragment(), DebtsMVP.View {
         return getString(R.string.debts)
     }
 
-    override fun setDebtList(debtList: List<DebtViewModel>?) {
+    override fun setDebtList(debtList: List<DebtViewModel>) {
         recyclerAdapter.setItems(debtList)
         setVisibility()
     }

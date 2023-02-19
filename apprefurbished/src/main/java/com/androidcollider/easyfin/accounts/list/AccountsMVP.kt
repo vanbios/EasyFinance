@@ -8,14 +8,14 @@ import io.reactivex.rxjava3.core.Flowable
  */
 interface AccountsMVP {
     interface Model {
-        val accountList: Flowable<List<AccountViewModel>>?
-        fun getAccountById(id: Int): Flowable<Account>?
-        fun deleteAccountById(id: Int): Flowable<Boolean>?
+        val accountList: Flowable<List<AccountViewModel>>
+        fun getAccountById(id: Int): Flowable<Account>
+        fun deleteAccountById(id: Int): Flowable<Boolean>
     }
 
     interface View {
-        fun setAccountList(accountList: List<AccountViewModel>?)
-        fun goToEditAccount(account: Account?)
+        fun setAccountList(accountList: List<AccountViewModel>)
+        fun goToEditAccount(account: Account)
         fun deleteAccount()
     }
 
