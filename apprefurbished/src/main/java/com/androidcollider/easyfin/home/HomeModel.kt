@@ -1,40 +1,30 @@
-package com.androidcollider.easyfin.home;
+package com.androidcollider.easyfin.home
 
-import androidx.core.util.Pair;
-
-import com.androidcollider.easyfin.common.repository.Repository;
-
-import java.util.Map;
-
-import io.reactivex.rxjava3.core.Flowable;
+import com.androidcollider.easyfin.common.repository.Repository
+import io.reactivex.rxjava3.core.Flowable
 
 /**
  * @author Ihor Bilous
  */
+internal class HomeModel(private val repository: Repository) : HomeMVP.Model {
 
-class HomeModel implements HomeMVP.Model {
-
-    private final Repository repository;
-
-    HomeModel(Repository repository) {
-        this.repository = repository;
+    override fun getBalanceAndStatistic(statisticPosition: Int):
+            Flowable<Pair<Map<String, DoubleArray>, Map<String, DoubleArray>>> {
+        return Flowable.combineLatest<
+                Map<String, DoubleArray>,
+                Map<String, DoubleArray>,
+                Pair<Map<String, DoubleArray>, Map<String, DoubleArray>>>(
+            repository.accountsAmountSumGroupByTypeAndCurrency,
+            repository.getTransactionsStatistic(statisticPosition)
+        ) { first: Map<String, DoubleArray>, second: Map<String, DoubleArray> ->
+            Pair(first, second)
+        }
     }
 
-    @Override
-    public Flowable<Pair<Map<String, double[]>, Map<String, double[]>>> getBalanceAndStatistic(int statisticPosition) {
-        return Flowable.combineLatest(
-                repository.getAccountsAmountSumGroupByTypeAndCurrency(),
-                repository.getTransactionsStatistic(statisticPosition),
-                Pair::new);
-    }
+    override val balance: Flowable<Map<String, DoubleArray>>
+        get() = repository.accountsAmountSumGroupByTypeAndCurrency
 
-    @Override
-    public Flowable<Map<String, double[]>> getBalance() {
-        return repository.getAccountsAmountSumGroupByTypeAndCurrency();
-    }
-
-    @Override
-    public Flowable<Map<String, double[]>> getStatistic(int statisticPosition) {
-        return repository.getTransactionsStatistic(statisticPosition);
+    override fun getStatistic(statisticPosition: Int): Flowable<Map<String, DoubleArray>> {
+        return repository.getTransactionsStatistic(statisticPosition)
     }
 }

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
-import androidx.core.util.Pair
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.androidcollider.easyfin.R
@@ -249,8 +248,6 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
 
                 override fun onNothingSelected(adapterView: AdapterView<*>?) {}
             }
-
-            //spinChartType.setSelection(sharedPrefManager.getHomeChartTypePos());
         }
     }
 
@@ -339,21 +336,21 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
         }
     }
 
-    override fun setBalanceAndStatistic(pair: Pair<Map<String, DoubleArray>, Map<String, DoubleArray>>) {
+    override fun setBalanceAndStatistic() {
         setBalance(spinBalanceCurrency.selectedItemPosition)
         setStatisticBarChartData()
         setStatisticSumTV()
         setChartTypeSpinner()
     }
 
-    override fun updateBalanceAndStatistic(pair: Pair<Map<String, DoubleArray>, Map<String, DoubleArray>>) {
+    override fun updateBalanceAndStatistic() {
         ratesInfoManager.prepareInfo()
         setBalance(spinBalanceCurrency.selectedItemPosition)
         setStatisticSumTV()
         checkStatChartTypeForUpdate()
     }
 
-    override fun updateBalanceAndStatisticAfterDBImport(mapPair: Pair<Map<String, DoubleArray>, Map<String, DoubleArray>>) {
+    override fun updateBalanceAndStatisticAfterDBImport() {
         ratesInfoManager.prepareInfo()
         setBalance(spinBalanceCurrency.selectedItemPosition)
         setStatisticSumTV()
@@ -362,12 +359,12 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
         EventBus.getDefault().post(UpdateFrgAccounts())
     }
 
-    override fun updateBalance(map: Map<String, DoubleArray>) {
+    override fun updateBalance() {
         ratesInfoManager.prepareInfo()
         setBalance(spinBalanceCurrency.selectedItemPosition)
     }
 
-    override fun updateStatistic(map: Map<String, DoubleArray>) {
+    override fun updateStatistic() {
         setStatisticSumTV()
         checkStatChartTypeForUpdate()
     }

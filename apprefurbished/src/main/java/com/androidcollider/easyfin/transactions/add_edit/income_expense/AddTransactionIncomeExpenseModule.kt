@@ -16,10 +16,10 @@ import dagger.Provides
 class AddTransactionIncomeExpenseModule {
     @Provides
     fun provideAddTransactionIncomeExpenseMVPModel(
-        repository: Repository?,
-        numberFormatManager: NumberFormatManager?,
-        dateFormatManager: DateFormatManager?,
-        accountsToSpinViewModelManager: AccountsToSpinViewModelManager?
+        repository: Repository,
+        numberFormatManager: NumberFormatManager,
+        dateFormatManager: DateFormatManager,
+        accountsToSpinViewModelManager: AccountsToSpinViewModelManager
     ): AddTransactionIncomeExpenseMVP.Model {
         return AddTransactionIncomeExpenseModel(
             repository,
@@ -31,9 +31,9 @@ class AddTransactionIncomeExpenseModule {
 
     @Provides
     fun provideAddTransactionIncomeExpenseMVPPresenter(
-        context: Context?,
-        model: AddTransactionIncomeExpenseMVP.Model?,
-        resourcesManager: ResourcesManager?
+        context: Context,
+        model: AddTransactionIncomeExpenseMVP.Model,
+        resourcesManager: ResourcesManager
     ): AddTransactionIncomeExpenseMVP.Presenter {
         return AddTransactionIncomeExpensePresenter(context, model, resourcesManager)
     }

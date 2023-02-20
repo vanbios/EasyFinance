@@ -15,11 +15,11 @@ import dagger.Provides
 class TransactionsModule {
     @Provides
     fun provideTransactionsMVPModel(
-        repository: Repository?,
-        dateFormatManager: DateFormatManager?,
-        numberFormatManager: NumberFormatManager?,
-        resourcesManager: ResourcesManager?,
-        context: Context?
+        repository: Repository,
+        dateFormatManager: DateFormatManager,
+        numberFormatManager: NumberFormatManager,
+        resourcesManager: ResourcesManager,
+        context: Context
     ): TransactionsMVP.Model {
         return TransactionsModel(
             repository,
@@ -31,7 +31,7 @@ class TransactionsModule {
     }
 
     @Provides
-    fun provideTransactionsMVPPresenter(model: TransactionsMVP.Model?): TransactionsMVP.Presenter {
+    fun provideTransactionsMVPPresenter(model: TransactionsMVP.Model): TransactionsMVP.Presenter {
         return TransactionsPresenter(model)
     }
 }

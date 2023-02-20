@@ -15,11 +15,11 @@ import dagger.Provides
 class HomeModule {
     @Provides
     fun provideHomeMVPPresenter(
-        model: HomeMVP.Model?,
-        resourcesManager: ResourcesManager?,
-        numberFormatManager: NumberFormatManager?,
-        exchangeManager: ExchangeManager?,
-        chartDataManager: ChartDataManager?
+        model: HomeMVP.Model,
+        resourcesManager: ResourcesManager,
+        numberFormatManager: NumberFormatManager,
+        exchangeManager: ExchangeManager,
+        chartDataManager: ChartDataManager
     ): HomeMVP.Presenter {
         return HomePresenter(
             model,
@@ -31,7 +31,7 @@ class HomeModule {
     }
 
     @Provides
-    fun provideHomeMVPModel(repository: Repository?): HomeMVP.Model {
+    fun provideHomeMVPModel(repository: Repository): HomeMVP.Model {
         return HomeModel(repository)
     }
 }

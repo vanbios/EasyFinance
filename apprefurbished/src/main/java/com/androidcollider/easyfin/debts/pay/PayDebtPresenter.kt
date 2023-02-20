@@ -1,146 +1,111 @@
-package com.androidcollider.easyfin.debts.pay;
+package com.androidcollider.easyfin.debts.pay
 
-import android.content.Context;
-import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-
-import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.common.models.Debt;
-import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
-import com.androidcollider.easyfin.debts.list.DebtsFragment;
-import com.annimon.stream.Stream;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import io.reactivex.rxjava3.core.Flowable;
+import android.content.Context
+import android.os.Bundle
+import com.androidcollider.easyfin.R
+import com.androidcollider.easyfin.common.models.Debt
+import com.androidcollider.easyfin.common.utils.serializable
+import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel
+import com.androidcollider.easyfin.debts.list.DebtsFragment
+import io.reactivex.rxjava3.core.Flowable
 
 /**
  * @author Ihor Bilous
  */
+internal class PayDebtPresenter(
+    private val context: Context,
+    private val model: PayDebtMVP.Model
+) : PayDebtMVP.Presenter {
 
-class PayDebtPresenter implements PayDebtMVP.Presenter {
+    private var view: PayDebtMVP.View? = null
+    private var mode = 0
+    private var debt: Debt? = null
 
-    @Nullable
-    private PayDebtMVP.View view;
-    private final PayDebtMVP.Model model;
-    private final Context context;
-
-    private int mode;
-    private Debt debt;
-
-    PayDebtPresenter(Context context,
-                     PayDebtMVP.Model model) {
-        this.context = context;
-        this.model = model;
+    override fun setView(view: PayDebtMVP.View?) {
+        this.view = view
     }
 
-    @Override
-    public void setView(@Nullable PayDebtMVP.View view) {
-        this.view = view;
+    override fun setArguments(args: Bundle?) {
+        val aMode = args?.getInt(DebtsFragment.MODE, 0)
+        aMode?.let { mode = it }
+        debt = args?.serializable(DebtsFragment.DEBT) as Debt?
     }
 
-    @Override
-    public void setArguments(Bundle args) {
-        mode = args.getInt(DebtsFragment.MODE, 0);
-        debt = (Debt) args.getSerializable(DebtsFragment.DEBT);
+    override fun loadAccounts() {
+        model.allAccounts
+            .subscribe(this::setupView)
+            { obj: Throwable -> obj.printStackTrace() }
     }
 
-    @Override
-    public void loadAccounts() {
-        model.getAllAccounts()
-                .subscribe(
-                        this::setupView,
-                        Throwable::printStackTrace
-                );
-    }
-
-    @Override
-    public void save() {
-        switch (mode) {
-            case DebtsFragment.PAY_ALL:
-                payAllDebt();
-                break;
-            case DebtsFragment.PAY_PART:
-                payPartDebt();
-                break;
-            case DebtsFragment.TAKE_MORE:
-                takeMoreDebt();
-                break;
+    override fun save() {
+        when (mode) {
+            DebtsFragment.PAY_ALL -> payAllDebt()
+            DebtsFragment.PAY_PART -> payPartDebt()
+            DebtsFragment.TAKE_MORE -> takeMoreDebt()
         }
     }
 
-    private void payAllDebt() {
+    private fun payAllDebt() {
         if (view != null) {
-            double amountDebt = debt.getAmountCurrent();
-            int type = debt.getType();
-
-            SpinAccountViewModel account = view.getAccount();
-
-            double amountAccount = account.getAmount();
-
+            val amountDebt = debt!!.amountCurrent
+            val type = debt!!.type
+            val account = view!!.account
+            var amountAccount = account.amount
             if (type == DebtsFragment.TYPE_TAKE) {
-                amountAccount -= amountDebt;
+                amountAccount -= amountDebt
             } else {
-                amountAccount += amountDebt;
+                amountAccount += amountDebt
             }
-
             handleActionWithDebt(
-                    model.payFullDebt(
-                            account.getId(),
-                            amountAccount,
-                            debt.getId()
-                    )
-            );
+                model.payFullDebt(
+                    account.id,
+                    amountAccount,
+                    debt!!.id
+                )
+            )
         }
     }
 
-    private void payPartDebt() {
+    private fun payPartDebt() {
         if (view != null) {
-            String sum = model.prepareStringToParse(view.getAmount());
+            val sum = model.prepareStringToParse(view!!.amount)
             if (checkForFillSumField(sum)) {
-                double amountDebt = Double.parseDouble(sum);
-                double amountAllDebt = debt.getAmountCurrent();
-
+                val amountDebt = sum.toDouble()
+                val amountAllDebt = debt!!.amountCurrent
                 if (amountDebt > amountAllDebt) {
-                    view.showMessage(context.getString(R.string.debt_sum_more_then_amount));
+                    view!!.showMessage(context.getString(R.string.debt_sum_more_then_amount))
                 } else {
-                    int type = debt.getType();
-                    SpinAccountViewModel account = view.getAccount();
-
-                    double amountAccount = account.getAmount();
-
+                    val type = debt!!.type
+                    val account = view!!.account
+                    var amountAccount = account.amount
                     if (type == DebtsFragment.TYPE_TAKE && amountDebt > amountAccount) {
-                        view.showMessage(context.getString(R.string.not_enough_costs));
+                        view!!.showMessage(context.getString(R.string.not_enough_costs))
                     } else {
-                        int idDebt = debt.getId();
-                        int idAccount = account.getId();
-
+                        val idDebt = debt!!.id
+                        val idAccount = account.id
                         if (type == DebtsFragment.TYPE_TAKE) {
-                            amountAccount -= amountDebt;
+                            amountAccount -= amountDebt
                         } else {
-                            amountAccount += amountDebt;
+                            amountAccount += amountDebt
                         }
-
                         if (amountDebt == amountAllDebt) {
                             handleActionWithDebt(
-                                    model.payFullDebt(
-                                            idAccount,
-                                            amountAccount,
-                                            idDebt
-                                    )
-                            );
+                                model.payFullDebt(
+                                    idAccount,
+                                    amountAccount,
+                                    idDebt
+                                )
+                            )
                         } else {
-                            double newDebtAmount = amountAllDebt - amountDebt;
+                            val newDebtAmount = amountAllDebt - amountDebt
                             handleActionWithDebt(
-                                    model.payPartOfDebt(
-                                            idAccount,
-                                            amountAccount,
-                                            idDebt,
-                                            newDebtAmount
-                                    )
-                            );
+                                model.payPartOfDebt(
+                                    idAccount,
+                                    amountAccount,
+                                    idDebt,
+                                    newDebtAmount
+                                )
+                            )
                         }
                     }
                 }
@@ -148,116 +113,100 @@ class PayDebtPresenter implements PayDebtMVP.Presenter {
         }
     }
 
-    private void takeMoreDebt() {
+    private fun takeMoreDebt() {
         if (view != null) {
-            String sum = model.prepareStringToParse(view.getAmount());
+            val sum = model.prepareStringToParse(view!!.amount)
             if (checkForFillSumField(sum)) {
-                double amountDebt = Double.parseDouble(sum);
-                double amountDebtCurrent = debt.getAmountCurrent();
-                double amountDebtAll = debt.getAmountAll();
-
-                int type = debt.getType();
-
-                SpinAccountViewModel account = view.getAccount();
-
-                double amountAccount = account.getAmount();
-
+                val amountDebt = sum.toDouble()
+                val amountDebtCurrent = debt!!.amountCurrent
+                val amountDebtAll = debt!!.amountAll
+                val type = debt!!.type
+                val account = view!!.account
+                var amountAccount = account.amount
                 if (type == DebtsFragment.TYPE_GIVE && amountDebt > amountAccount) {
-                    view.showMessage(context.getString(R.string.not_enough_costs));
+                    view!!.showMessage(context.getString(R.string.not_enough_costs))
                 } else {
-
-                    switch (type) {
-                        case DebtsFragment.TYPE_GIVE:
-                            amountAccount -= amountDebt;
-                            break;
-                        case DebtsFragment.TYPE_TAKE:
-                            amountAccount += amountDebt;
-                            break;
+                    when (type) {
+                        DebtsFragment.TYPE_GIVE -> amountAccount -= amountDebt
+                        DebtsFragment.TYPE_TAKE -> amountAccount += amountDebt
                     }
-
-                    double newDebtCurrentAmount = amountDebtCurrent + amountDebt;
-                    double newDebtAllAmount = amountDebtAll + amountDebt;
-
+                    val newDebtCurrentAmount = amountDebtCurrent + amountDebt
+                    val newDebtAllAmount = amountDebtAll + amountDebt
                     handleActionWithDebt(
-                            model.takeMoreDebt(account.getId(),
-                                    amountAccount,
-                                    debt.getId(),
-                                    newDebtCurrentAmount,
-                                    newDebtAllAmount
-                            )
-                    );
+                        model.takeMoreDebt(
+                            account.id,
+                            amountAccount,
+                            debt!!.id,
+                            newDebtCurrentAmount,
+                            newDebtAllAmount
+                        )
+                    )
                 }
             }
         }
     }
 
-    private boolean checkForFillSumField(String s) {
-        if (!s.matches(".*\\d.*") || Double.parseDouble(s) == 0) {
-            if (view != null) {
-                view.showMessage(context.getString(R.string.empty_amount_field));
-            }
-            return false;
+    private fun checkForFillSumField(s: String): Boolean {
+        if (!s.matches(".*\\d.*".toRegex()) || s.toDouble().compareTo(0) == 0) {
+            view?.showMessage(context.getString(R.string.empty_amount_field))
+            return false
         }
-        return true;
+        return true
     }
 
-    private void handleActionWithDebt(Flowable<Boolean> observable) {
+    private fun handleActionWithDebt(observable: Flowable<Boolean>) {
         observable.subscribe(
-                aBoolean -> {
-                    if (aBoolean && view != null) {
-                        view.performLastActionsAfterSaveAndClose();
-                    }
-                },
-                Throwable::printStackTrace
-        );
+            { aBoolean: Boolean ->
+                if (aBoolean) {
+                    view?.performLastActionsAfterSaveAndClose()
+                }
+            }) { obj: Throwable -> obj.printStackTrace() }
     }
 
-    private void setupView(List<SpinAccountViewModel> accountList) {
+    private fun setupView(accountList: List<SpinAccountViewModel>) {
         if (view != null) {
-            List<SpinAccountViewModel> accountsAvailableList = getAccountAvailableList(accountList);
-
+            val accountsAvailableList = getAccountAvailableList(accountList)
             if (accountsAvailableList.isEmpty()) {
-                view.notifyNotEnoughAccounts();
+                view!!.notifyNotEnoughAccounts()
             } else {
-                view.setAccounts(accountsAvailableList);
-                view.showName(debt.getName());
+                view!!.accounts = accountsAvailableList
+                view!!.showName(debt!!.name)
                 if (mode == DebtsFragment.PAY_ALL || mode == DebtsFragment.PAY_PART) {
-                    view.showAmount(model.formatAmount(debt.getAmountCurrent()));
+                    view!!.showAmount(model.formatAmount(debt!!.amountCurrent))
                 } else {
-                    view.showAmount("0,00");
-                    view.openNumericDialog();
+                    view!!.showAmount("0,00")
+                    view!!.openNumericDialog()
                 }
-                if (mode == DebtsFragment.PAY_ALL) view.disableAmountField();
-
-                view.setupSpinner();
-
-                int idAccount = debt.getIdAccount();
-                int pos = 0;
-                for (int i = 0; i < accountsAvailableList.size(); i++) {
-                    if (idAccount == accountsAvailableList.get(i).getId()) {
-                        pos = i;
-                        break;
+                if (mode == DebtsFragment.PAY_ALL) view!!.disableAmountField()
+                view!!.setupSpinner()
+                val idAccount = debt!!.idAccount
+                var pos = 0
+                for (i in accountsAvailableList.indices) {
+                    if (idAccount == accountsAvailableList[i].id) {
+                        pos = i
+                        break
                     }
                 }
-
-                view.showAccount(pos);
+                view!!.showAccount(pos)
             }
         }
     }
 
-    private List<SpinAccountViewModel> getAccountAvailableList(List<SpinAccountViewModel> accountList) {
-        List<SpinAccountViewModel> accountsAvailableList = new ArrayList<>();
-        String currency = debt.getCurrency();
-        double amount = debt.getAmountCurrent();
-        int type = debt.getType();
-
-        Stream.of(accountList)
-                .filter(account ->
-                        mode == DebtsFragment.PAY_ALL && type == DebtsFragment.TYPE_TAKE ?
-                                account.getCurrency().equals(currency) && account.getAmount() >= amount :
-                                account.getCurrency().equals(currency))
-                .forEach(accountsAvailableList::add);
-
-        return accountsAvailableList;
+    private fun getAccountAvailableList(accountList: List<SpinAccountViewModel>):
+            List<SpinAccountViewModel> {
+        val accountsAvailableList: MutableList<SpinAccountViewModel> = ArrayList()
+        debt?.let {
+            val currency = it.currency
+            val amount = it.amountCurrent
+            val type = it.type
+            accountList
+                .filter { account: SpinAccountViewModel ->
+                    if (mode == DebtsFragment.PAY_ALL && type == DebtsFragment.TYPE_TAKE)
+                        account.currency == currency && account.amount >= amount
+                    else account.currency == currency
+                }
+                .forEach { e: SpinAccountViewModel -> accountsAvailableList.add(e) }
+        }
+        return accountsAvailableList
     }
 }

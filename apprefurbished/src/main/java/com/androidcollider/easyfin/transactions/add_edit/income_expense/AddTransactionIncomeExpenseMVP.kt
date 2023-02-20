@@ -2,7 +2,6 @@ package com.androidcollider.easyfin.transactions.add_edit.income_expense
 
 import android.content.res.TypedArray
 import android.os.Bundle
-import androidx.core.util.Pair
 import com.androidcollider.easyfin.common.models.Transaction
 import com.androidcollider.easyfin.common.models.TransactionCategory
 import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel
@@ -15,26 +14,26 @@ import java.util.*
 interface AddTransactionIncomeExpenseMVP {
     interface Model {
         fun getAccountsAndTransactionCategories(isExpense: Boolean):
-                Flowable<Pair<List<SpinAccountViewModel>, List<TransactionCategory>>>?
+                Flowable<Pair<List<SpinAccountViewModel>, List<TransactionCategory>>>
 
-        fun getTransactionCategories(isExpense: Boolean): Flowable<List<TransactionCategory>>?
-        fun addNewTransaction(transaction: Transaction): Flowable<Transaction>?
-        fun updateTransaction(transaction: Transaction): Flowable<Transaction>?
+        fun getTransactionCategories(isExpense: Boolean): Flowable<List<TransactionCategory>>
+        fun addNewTransaction(transaction: Transaction): Flowable<Transaction>
+        fun updateTransaction(transaction: Transaction): Flowable<Transaction>
         fun updateTransactionDifferentAccounts(
-            transaction: Transaction?,
+            transaction: Transaction,
             oldAccountAmount: Double,
             oldAccountId: Int
-        ): Flowable<Boolean>?
+        ): Flowable<Boolean>
 
         fun addNewTransactionCategory(
             transactionCategory: TransactionCategory,
             isExpense: Boolean
-        ): Flowable<TransactionCategory>?
+        ): Flowable<TransactionCategory>
 
-        fun prepareStringToParse(value: String): String?
+        fun prepareStringToParse(value: String): String
         fun getMillisFromString(date: String): Long
         fun isDoubleNegative(d: Double): Boolean
-        fun getTransactionForEditAmount(type: Int, amount: Double): String?
+        fun getTransactionForEditAmount(type: Int, amount: Double): String
     }
 
     interface View {
@@ -70,6 +69,6 @@ interface AddTransactionIncomeExpenseMVP {
         fun loadAccountsAndCategories()
         fun save()
         val transactionType: Int
-        fun addNewCategory(name: String?)
+        fun addNewCategory(name: String)
     }
 }

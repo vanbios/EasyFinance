@@ -27,8 +27,8 @@ class PayDebtModule {
 
     @Provides
     fun providePayDebtMVPPresenter(
-        context: Context?,
-        model: PayDebtMVP.Model?
+        context: Context,
+        model: PayDebtMVP.Model
     ): PayDebtMVP.Presenter {
         return PayDebtPresenter(context, model)
     }

@@ -1,252 +1,223 @@
-package com.androidcollider.easyfin.home;
+package com.androidcollider.easyfin.home
 
-import androidx.annotation.Nullable;
-
-import com.androidcollider.easyfin.common.managers.chart.data.ChartDataManager;
-import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager;
-import com.androidcollider.easyfin.common.managers.rates.exchange.ExchangeManager;
-import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
-import com.annimon.stream.Stream;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.PieData;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.androidcollider.easyfin.common.managers.chart.data.ChartDataManager
+import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager
+import com.androidcollider.easyfin.common.managers.rates.exchange.ExchangeManager
+import com.androidcollider.easyfin.common.managers.resources.ResourcesManager
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.PieData
 
 /**
  * @author Ihor Bilous
  */
+internal class HomePresenter(
+    private val model: HomeMVP.Model,
+    resourcesManager: ResourcesManager,
+    private val numberFormatManager: NumberFormatManager,
+    private val exchangeManager: ExchangeManager,
+    private val chartDataManager: ChartDataManager
+) : HomeMVP.Presenter {
 
-class HomePresenter implements HomeMVP.Presenter {
+    private var view: HomeMVP.View? = null
+    private val currencyArray: Array<String>
+    private val currencyLangArray: Array<String>
+    private val statistic: DoubleArray = DoubleArray(2)
+    private val balanceMap: MutableMap<String, DoubleArray>
+    private val statisticMap: MutableMap<String, DoubleArray>
 
-    private HomeMVP.View view;
-    private final HomeMVP.Model model;
-    private final NumberFormatManager numberFormatManager;
-    private final ExchangeManager exchangeManager;
-    private final ChartDataManager chartDataManager;
-
-    private final String[] currencyArray;
-    private final String[] currencyLangArray;
-    private final double[] statistic;
-    private final Map<String, double[]> balanceMap;
-    private final Map<String, double[]> statisticMap;
-
-
-    HomePresenter(HomeMVP.Model model,
-                  ResourcesManager resourcesManager,
-                  NumberFormatManager numberFormatManager,
-                  ExchangeManager exchangeManager,
-                  ChartDataManager chartDataManager) {
-        this.model = model;
-        this.numberFormatManager = numberFormatManager;
-        this.exchangeManager = exchangeManager;
-        this.chartDataManager = chartDataManager;
-
-        statistic = new double[2];
-        balanceMap = new HashMap<>();
-        statisticMap = new HashMap<>();
-
-        currencyArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY);
-        currencyLangArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY_LANG);
+    init {
+        balanceMap = HashMap()
+        statisticMap = HashMap()
+        currencyArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY)
+        currencyLangArray =
+            resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY_LANG)
     }
 
-    @Override
-    public void setView(@Nullable HomeMVP.View view) {
-        this.view = view;
+    override fun setView(view: HomeMVP.View?) {
+        this.view = view
     }
 
-    @Override
-    public void loadBalanceAndStatistic(int statisticPosition) {
+    override fun loadBalanceAndStatistic(statisticPosition: Int) {
         model.getBalanceAndStatistic(statisticPosition)
-                .subscribe(
-                        pair -> {
-                            balanceMap.clear();
-                            balanceMap.putAll(pair.first);
-                            statisticMap.clear();
-                            statisticMap.putAll(pair.second);
-
-                            if (view != null) {
-                                updateTransactionStatisticArray(view.getBalanceCurrencyPosition());
-                                view.setBalanceAndStatistic(pair);
-                            }
-                        },
-                        Throwable::printStackTrace
-                );
+            .subscribe(
+                { (first, second): Pair<Map<String, DoubleArray>, Map<String, DoubleArray>> ->
+                    balanceMap.clear()
+                    balanceMap.putAll(first)
+                    statisticMap.clear()
+                    statisticMap.putAll(second)
+                    view?.let {
+                        updateTransactionStatisticArray(it.balanceCurrencyPosition)
+                        it.setBalanceAndStatistic()
+                    }
+                }) { obj: Throwable -> obj.printStackTrace() }
     }
 
-    @Override
-    public void updateBalanceAndStatistic(int statisticPosition) {
+    override fun updateBalanceAndStatistic(statisticPosition: Int) {
         model.getBalanceAndStatistic(statisticPosition)
-                .subscribe(
-                        pair -> {
-                            updateRates();
-
-                            balanceMap.clear();
-                            balanceMap.putAll(pair.first);
-                            statisticMap.clear();
-                            statisticMap.putAll(pair.second);
-
-                            if (view != null) {
-                                updateTransactionStatisticArray(view.getBalanceCurrencyPosition());
-                                view.updateBalanceAndStatistic(pair);
-                            }
-                        },
-                        Throwable::printStackTrace
-                );
+            .subscribe(
+                { (first, second): Pair<Map<String, DoubleArray>, Map<String, DoubleArray>> ->
+                    updateRates()
+                    balanceMap.clear()
+                    balanceMap.putAll(first)
+                    statisticMap.clear()
+                    statisticMap.putAll(second)
+                    view?.let {
+                        updateTransactionStatisticArray(it.balanceCurrencyPosition)
+                        it.updateBalanceAndStatistic()
+                    }
+                }) { obj: Throwable -> obj.printStackTrace() }
     }
 
-    @Override
-    public void updateBalanceAndStatisticAfterDBImport(int statisticPosition) {
+    override fun updateBalanceAndStatisticAfterDBImport(statisticPosition: Int) {
         model.getBalanceAndStatistic(statisticPosition)
-                .subscribe(
-                        pair -> {
-                            updateRates();
-
-                            balanceMap.clear();
-                            balanceMap.putAll(pair.first);
-                            statisticMap.clear();
-                            statisticMap.putAll(pair.second);
-
-                            if (view != null) {
-                                updateTransactionStatisticArray(view.getBalanceCurrencyPosition());
-                                view.updateBalanceAndStatisticAfterDBImport(pair);
-                            }
-                        },
-                        Throwable::printStackTrace
-                );
+            .subscribe(
+                { (first, second): Pair<Map<String, DoubleArray>, Map<String, DoubleArray>> ->
+                    updateRates()
+                    balanceMap.clear()
+                    balanceMap.putAll(first)
+                    statisticMap.clear()
+                    statisticMap.putAll(second)
+                    view?.let {
+                        updateTransactionStatisticArray(it.balanceCurrencyPosition)
+                        it.updateBalanceAndStatisticAfterDBImport()
+                    }
+                }) { obj: Throwable -> obj.printStackTrace() }
     }
 
-    @Override
-    public void updateBalance() {
-        model.getBalance()
-                .subscribe(
-                        map -> {
-                            updateRates();
-
-                            balanceMap.clear();
-                            balanceMap.putAll(map);
-
-                            if (view != null) {
-                                updateTransactionStatisticArray(view.getBalanceCurrencyPosition());
-                                view.updateBalance(map);
-                            }
-                        },
-                        Throwable::printStackTrace
-                );
+    override fun updateBalance() {
+        model.balance
+            .subscribe(
+                { map: Map<String, DoubleArray> ->
+                    updateRates()
+                    balanceMap.clear()
+                    balanceMap.putAll(map)
+                    view?.let {
+                        updateTransactionStatisticArray(it.balanceCurrencyPosition)
+                        it.updateBalance()
+                    }
+                }) { obj: Throwable -> obj.printStackTrace() }
     }
 
-    @Override
-    public void updateStatistic(int statisticPosition) {
+    override fun updateStatistic(statisticPosition: Int) {
         model.getStatistic(statisticPosition)
-                .subscribe(
-                        map -> {
-                            statisticMap.clear();
-                            statisticMap.putAll(map);
-
-                            if (view != null) {
-                                updateTransactionStatisticArray(view.getBalanceCurrencyPosition());
-                                view.updateStatistic(map);
-                            }
-                        },
-                        Throwable::printStackTrace
-                );
+            .subscribe(
+                { map: Map<String, DoubleArray> ->
+                    statisticMap.clear()
+                    statisticMap.putAll(map)
+                    view?.let {
+                        updateTransactionStatisticArray(it.balanceCurrencyPosition)
+                        it.updateStatistic()
+                    }
+                }) { obj: Throwable -> obj.printStackTrace() }
     }
 
-    @Override
-    public boolean isStatisticEmpty() {
-        return statistic[0] == 0 && statistic[1] == 0;
+    override val isStatisticEmpty: Boolean
+        get() = statistic[0] == 0.0 && statistic[1] == 0.0
+
+    override fun getFormattedBalance(balance: DoubleArray): String {
+        var sum = 0.0
+        for (d in balance) sum += d
+        return String.format(
+            "%1\$s %2\$s",
+            numberFormatManager.doubleToStringFormatter(
+                sum,
+                NumberFormatManager.FORMAT_1,
+                NumberFormatManager.PRECISE_1
+            ),
+            currencyLang
+        )
     }
 
-    @Override
-    public String getFormattedBalance(double[] balance) {
-        double sum = 0;
-        for (double d : balance) sum += d;
-        return String.format("%1$s %2$s",
-                numberFormatManager.doubleToStringFormatter(
-                        sum,
-                        NumberFormatManager.FORMAT_1,
-                        NumberFormatManager.PRECISE_1),
-                getCurrencyLang());
+    override val formattedStatistic: String
+        get() = String.format(
+            "%1\$s %2\$s",
+            numberFormatManager.doubleToStringFormatter(
+                statistic[0] + statistic[1],
+                NumberFormatManager.FORMAT_1,
+                NumberFormatManager.PRECISE_1
+            ),
+            currencyLang
+        )
+
+    override fun getDataSetMainBalanceHorizontalBarChart(balance: DoubleArray): BarData {
+        return chartDataManager.getDataSetMainBalanceHorizontalBarChart(balance)
     }
 
-    @Override
-    public String getFormattedStatistic() {
-        return String.format("%1$s %2$s",
-                numberFormatManager.doubleToStringFormatter(
-                        statistic[0] + statistic[1],
-                        NumberFormatManager.FORMAT_1,
-                        NumberFormatManager.PRECISE_1),
-                getCurrencyLang());
+    override val dataSetMainStatisticHorizontalBarChart: BarData
+        get() = chartDataManager.getDataSetMainStatisticHorizontalBarChart(statistic)
+    override val dataSetMainStatisticPieChart: PieData
+        get() = chartDataManager.getDataSetMainStatisticPieChart(statistic)
+
+    override fun updateRates() {
+        exchangeManager.updateRates()
     }
 
-    @Override
-    public BarData getDataSetMainBalanceHorizontalBarChart(double[] balance) {
-        return chartDataManager.getDataSetMainBalanceHorizontalBarChart(balance);
-    }
-
-    @Override
-    public BarData getDataSetMainStatisticHorizontalBarChart() {
-        return chartDataManager.getDataSetMainStatisticHorizontalBarChart(statistic);
-    }
-
-    @Override
-    public PieData getDataSetMainStatisticPieChart() {
-        return chartDataManager.getDataSetMainStatisticPieChart(statistic);
-    }
-
-    @Override
-    public void updateRates() {
-        exchangeManager.updateRates();
-    }
-
-    @Override
-    public double[] getCurrentBalance(int posCurrency) {
-        if (view.isNeedToConvert()) return convertAllCurrencyToOne(posCurrency, balanceMap, 4);
-        for (Map.Entry<String, double[]> pair : balanceMap.entrySet()) {
-            if (currencyArray[posCurrency].equals(pair.getKey())) return pair.getValue();
+    override fun getCurrentBalance(posCurrency: Int): DoubleArray {
+        view?.let {
+            if (it.isNeedToConvert)
+                return convertAllCurrencyToOne(posCurrency, balanceMap, 4)
         }
-        return new double[]{0, 0, 0, 0};
+        for ((key, value) in balanceMap) {
+            if (currencyArray[posCurrency] == key)
+                return value
+        }
+        return doubleArrayOf(0.0, 0.0, 0.0, 0.0)
     }
 
-    private double[] convertAllCurrencyToOne(int posCurrency, Map<String, double[]> map, int arrSize) {
-        double[][] arr = new double[currencyArray.length][arrSize];
-
-        for (int i = 0; i < arr.length; i++) {
-            double[] value = map.get(currencyArray[i]);
+    private fun convertAllCurrencyToOne(
+        posCurrency: Int,
+        map: Map<String, DoubleArray>,
+        arrSize: Int
+    ): DoubleArray {
+        val arr = Array(currencyArray.size) { DoubleArray(arrSize) }
+        for (i in arr.indices) {
+            val value = map[currencyArray[i]]
             if (value != null) {
-                System.arraycopy(value, 0, arr[i], 0, arr[i].length);
-                arr[i] = convertArray(arr[i], exchangeManager.getExchangeRate(currencyArray[i], currencyArray[posCurrency]));
+                System.arraycopy(value, 0, arr[i], 0, arr[i].size)
+                arr[i] = convertArray(
+                    arr[i],
+                    exchangeManager.getExchangeRate(currencyArray[i], currencyArray[posCurrency])
+                )
             }
         }
-
-        double[] result = new double[arrSize];
-
-        for (int i = 0; i < result.length; i++) {
-            for (double[] a : arr) {
-                result[i] += a[i];
+        val result = DoubleArray(arrSize)
+        for (i in result.indices) {
+            for (a in arr) {
+                result[i] += a[i]
             }
         }
-
-        return result;
+        return result
     }
 
-    private double[] convertArray(double[] arr, double exc) {
-        for (int i = 0; i < arr.length; i++) arr[i] /= exc;
-        return arr;
+    private fun convertArray(arr: DoubleArray, exc: Double): DoubleArray {
+        for (i in arr.indices) arr[i] /= exc
+        return arr
     }
 
-    @Override
-    public void updateTransactionStatisticArray(int posCurrency) {
-        if (view.isNeedToConvert()) {
-            System.arraycopy(convertAllCurrencyToOne(posCurrency, statisticMap, 2), 0, statistic, 0, statistic.length);
+    override fun updateTransactionStatisticArray(posCurrency: Int) {
+        var isNeedConvert = false
+        view?.let { isNeedConvert = it.isNeedToConvert }
+
+        if (isNeedConvert) {
+            System.arraycopy(
+                convertAllCurrencyToOne(posCurrency, statisticMap, 2),
+                0, statistic, 0, statistic.size
+            )
         } else {
-            Stream.of(statisticMap.entrySet())
-                    .filter(p -> currencyArray[posCurrency].equals(p.getKey()))
-                    .forEach(p -> System.arraycopy(p.getValue(), 0, statistic, 0, statistic.length));
+            statisticMap.entries
+                .filter { (key): Map.Entry<String, DoubleArray> ->
+                    currencyArray[posCurrency] == key
+                }
+                .forEach { (_, value): Map.Entry<String, DoubleArray> ->
+                    System.arraycopy(value, 0, statistic, 0, statistic.size)
+                }
         }
     }
 
-    private String getCurrencyLang() {
-        return currencyLangArray[view.getBalanceCurrencyPosition()];
-    }
+    private val currencyLang: String
+        get() {
+            var position = 0
+            view?.let { position = it.balanceCurrencyPosition }
+            return currencyLangArray[position]
+        }
 }

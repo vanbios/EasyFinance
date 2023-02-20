@@ -57,9 +57,7 @@ internal class AddAccountPresenter(
                 val currency = it.accountCurrency
                 getSaveAccountObservable(name, amount, type, currency)
                     .subscribe({
-                        view?.let { view1 ->
-                            view1.performLastActionsAfterSaveAndClose()
-                        }
+                        view?.performLastActionsAfterSaveAndClose()
                     })
                     { obj: Throwable -> obj.printStackTrace() }
             }

@@ -45,9 +45,9 @@ interface PayDebtMVP {
         fun notifyNotEnoughAccounts()
         fun disableAmountField()
         fun performLastActionsAfterSaveAndClose()
-        val amount: String?
-        val account: SpinAccountViewModel?
-        var accounts: List<SpinAccountViewModel?>?
+        val amount: String
+        val account: SpinAccountViewModel
+        var accounts: List<SpinAccountViewModel>
     }
 
     interface Presenter {
