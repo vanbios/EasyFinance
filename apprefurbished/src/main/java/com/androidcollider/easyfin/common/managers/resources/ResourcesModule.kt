@@ -1,22 +1,18 @@
-package com.androidcollider.easyfin.common.managers.resources;
+package com.androidcollider.easyfin.common.managers.resources
 
-import android.content.Context;
-
-import javax.inject.Singleton;
-
-import dagger.Module;
-import dagger.Provides;
+import android.content.Context
+import dagger.Module
+import dagger.Provides
+import javax.inject.Singleton
 
 /**
  * @author Ihor Bilous
  */
-
 @Module
-public class ResourcesModule {
-
+class ResourcesModule {
     @Provides
     @Singleton
-    ResourcesManager provideResourcesManager(Context context) {
-        return new ResourcesManager(context);
+    fun provideResourcesManager(context: Context): ResourcesManager {
+        return ResourcesManager(context)
     }
 }

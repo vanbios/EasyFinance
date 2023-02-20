@@ -1,22 +1,18 @@
-package com.androidcollider.easyfin.common.managers.analytics;
+package com.androidcollider.easyfin.common.managers.analytics
 
-import android.content.Context;
-
-import javax.inject.Singleton;
-
-import dagger.Module;
-import dagger.Provides;
+import android.content.Context
+import dagger.Module
+import dagger.Provides
+import javax.inject.Singleton
 
 /**
  * @author Ihor Bilous
  */
-
 @Module
-public class AnalyticsModule {
-
+class AnalyticsModule {
     @Provides
     @Singleton
-    AnalyticsManager provideAnalyticsManager(Context context) {
-        return new AnalyticsManager(context);
+    fun provideAnalyticsManager(context: Context): AnalyticsManager {
+        return AnalyticsManager(context)
     }
 }

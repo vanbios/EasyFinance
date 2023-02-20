@@ -51,7 +51,7 @@ internal class AddAccountModel(
         accountForUpdate = account
     }
 
-    override val accountForUpdateName: String?
+    override val accountForUpdateName: String
         get() = if (accountForUpdate != null) accountForUpdate!!.name else ""
 
     override val accountForUpdateAmount: String

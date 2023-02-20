@@ -8,10 +8,10 @@ import java.io.Serializable
 
 class Account : Serializable {
     var id = 0
-    var name: String? = null
+    lateinit var name: String
     var amount = 0.0
     var type = 0
-    var currency: String? = null
+    lateinit var currency: String
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

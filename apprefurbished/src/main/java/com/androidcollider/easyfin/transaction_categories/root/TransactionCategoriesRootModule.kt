@@ -11,14 +11,15 @@ import dagger.Provides
 @Module
 class TransactionCategoriesRootModule {
     @Provides
-    fun provideTransactionCategoriesRootMVPModel(repository: Repository?): TransactionCategoriesRootMVP.Model {
+    fun provideTransactionCategoriesRootMVPModel(repository: Repository):
+            TransactionCategoriesRootMVP.Model {
         return TransactionCategoriesRootModel(repository)
     }
 
     @Provides
     fun provideTransactionCategoriesRootMVPPresenter(
-        context: Context?,
-        model: TransactionCategoriesRootMVP.Model?
+        context: Context,
+        model: TransactionCategoriesRootMVP.Model
     ): TransactionCategoriesRootMVP.Presenter {
         return TransactionCategoriesRootPresenter(context, model)
     }

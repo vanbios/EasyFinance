@@ -2,6 +2,7 @@ package com.androidcollider.easyfin.transaction_categories.root
 
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.EditText
 import androidx.viewpager.widget.ViewPager
@@ -75,7 +76,7 @@ class TransactionCategoriesRootFragment : CommonFragment(),
         buildTransactionCategoryDialog()
 
         fabAddNew.hide(false)
-        Handler().postDelayed({ fabAddNew.show(true) }, 1000)
+        Handler(Looper.getMainLooper()).postDelayed({ fabAddNew.show(true) }, 1000)
     }
 
     private fun setupViewPager() {
@@ -112,7 +113,8 @@ class TransactionCategoriesRootFragment : CommonFragment(),
         val args = Bundle()
         args.putInt(
             TransactionCategoriesNestedFragment.TYPE,
-            if (isExpense) TransactionCategoriesNestedFragment.TYPE_EXPENSE else TransactionCategoriesNestedFragment.TYPE_INCOME
+            if (isExpense) TransactionCategoriesNestedFragment.TYPE_EXPENSE
+            else TransactionCategoriesNestedFragment.TYPE_INCOME
         )
         fragment.arguments = args
         return fragment

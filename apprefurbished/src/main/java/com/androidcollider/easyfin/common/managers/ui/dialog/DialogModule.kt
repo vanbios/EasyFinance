@@ -1,17 +1,15 @@
-package com.androidcollider.easyfin.common.managers.ui.dialog;
+package com.androidcollider.easyfin.common.managers.ui.dialog
 
-import dagger.Module;
-import dagger.Provides;
+import dagger.Module
+import dagger.Provides
 
 /**
  * @author Ihor Bilous
  */
-
 @Module
-public class DialogModule {
-
+class DialogModule {
     @Provides
-    DialogManager provideDialogManager() {
-        return new DialogManager();
+    fun provideDialogManager(): DialogManager {
+        return DialogManager()
     }
 }

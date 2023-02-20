@@ -1,19 +1,16 @@
-package com.androidcollider.easyfin.common.managers.ui.letter_tile;
+package com.androidcollider.easyfin.common.managers.ui.letter_tile
 
-import android.content.Context;
-
-import dagger.Module;
-import dagger.Provides;
+import android.content.Context
+import dagger.Module
+import dagger.Provides
 
 /**
  * @author Ihor Bilous
  */
-
 @Module
-public class LetterTileModule {
-
+class LetterTileModule {
     @Provides
-    LetterTileManager provideLetterTileManager(Context context) {
-        return new LetterTileManager(context);
+    fun provideLetterTileManager(context: Context): LetterTileManager {
+        return LetterTileManager(context)
     }
 }

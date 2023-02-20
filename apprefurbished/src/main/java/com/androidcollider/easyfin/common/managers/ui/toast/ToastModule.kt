@@ -1,20 +1,17 @@
-package com.androidcollider.easyfin.common.managers.ui.toast;
+package com.androidcollider.easyfin.common.managers.ui.toast
 
-import javax.inject.Singleton;
-
-import dagger.Module;
-import dagger.Provides;
+import dagger.Module
+import dagger.Provides
+import javax.inject.Singleton
 
 /**
  * @author Ihor Bilous
  */
-
 @Module
-public class ToastModule {
-
+class ToastModule {
     @Provides
     @Singleton
-    ToastManager provideToastManager() {
-        return new ToastManager();
+    fun provideToastManager(): ToastManager {
+        return ToastManager()
     }
 }

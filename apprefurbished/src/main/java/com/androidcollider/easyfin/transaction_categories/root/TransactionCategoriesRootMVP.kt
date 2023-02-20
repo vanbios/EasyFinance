@@ -1,6 +1,5 @@
 package com.androidcollider.easyfin.transaction_categories.root
 
-import androidx.core.util.Pair
 import com.androidcollider.easyfin.common.models.TransactionCategory
 import io.reactivex.rxjava3.core.Flowable
 
@@ -9,11 +8,13 @@ import io.reactivex.rxjava3.core.Flowable
  */
 interface TransactionCategoriesRootMVP {
     interface Model {
-        val allTransactionCategories: Flowable<Pair<List<TransactionCategory>, List<TransactionCategory>>>?
+        val allTransactionCategories:
+                Flowable<Pair<List<TransactionCategory>, List<TransactionCategory>>>
+
         fun addNewTransactionCategory(
             transactionCategory: TransactionCategory,
             isExpense: Boolean
-        ): Flowable<TransactionCategory>?
+        ): Flowable<TransactionCategory>
     }
 
     interface View {
@@ -26,6 +27,6 @@ interface TransactionCategoriesRootMVP {
     interface Presenter {
         fun setView(view: View?)
         fun loadData()
-        fun addNewCategory(name: String?, isExpense: Boolean)
+        fun addNewCategory(name: String, isExpense: Boolean)
     }
 }

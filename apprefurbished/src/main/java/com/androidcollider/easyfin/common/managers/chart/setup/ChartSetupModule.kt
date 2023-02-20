@@ -1,19 +1,16 @@
-package com.androidcollider.easyfin.common.managers.chart.setup;
+package com.androidcollider.easyfin.common.managers.chart.setup
 
-import android.content.Context;
-
-import dagger.Module;
-import dagger.Provides;
+import android.content.Context
+import dagger.Module
+import dagger.Provides
 
 /**
  * @author Ihor Bilous
  */
-
 @Module
-public class ChartSetupModule {
-
+class ChartSetupModule {
     @Provides
-    ChartSetupManager provideChartSetupManager(Context context) {
-        return new ChartSetupManager(context);
+    fun provideChartSetupManager(context: Context): ChartSetupManager {
+        return ChartSetupManager(context)
     }
 }

@@ -1,41 +1,29 @@
-package com.androidcollider.easyfin.transaction_categories.root;
+package com.androidcollider.easyfin.transaction_categories.root
 
-import androidx.core.util.Pair;
-
-import com.androidcollider.easyfin.common.models.TransactionCategory;
-import com.androidcollider.easyfin.common.repository.Repository;
-
-import java.util.List;
-
-import io.reactivex.rxjava3.core.Flowable;
+import com.androidcollider.easyfin.common.models.TransactionCategory
+import com.androidcollider.easyfin.common.repository.Repository
+import io.reactivex.rxjava3.core.Flowable
 
 /**
  * @author Ihor Bilous
  */
+internal class TransactionCategoriesRootModel(private val repository: Repository) :
+    TransactionCategoriesRootMVP.Model {
 
-class TransactionCategoriesRootModel implements TransactionCategoriesRootMVP.Model {
+    override val allTransactionCategories:
+            Flowable<Pair<List<TransactionCategory>, List<TransactionCategory>>>
+        get() = Flowable.combineLatest(
+            repository.allTransactionIncomeCategories,
+            repository.allTransactionExpenseCategories
+        ) { first: List<TransactionCategory>, second: List<TransactionCategory> ->
+            Pair(first, second)
+        }
 
-    private final Repository repository;
-
-
-    TransactionCategoriesRootModel(Repository repository) {
-        this.repository = repository;
-    }
-
-
-    @Override
-    public Flowable<Pair<List<TransactionCategory>, List<TransactionCategory>>> getAllTransactionCategories() {
-        return Flowable.combineLatest(
-                repository.getAllTransactionIncomeCategories(),
-                repository.getAllTransactionExpenseCategories(),
-                Pair::new
-        );
-    }
-
-    @Override
-    public Flowable<TransactionCategory> addNewTransactionCategory(TransactionCategory transactionCategory, boolean isExpense) {
-        return isExpense ?
-                        repository.addNewTransactionExpenseCategory(transactionCategory) :
-                        repository.addNewTransactionIncomeCategory(transactionCategory);
+    override fun addNewTransactionCategory(
+        transactionCategory: TransactionCategory,
+        isExpense: Boolean
+    ): Flowable<TransactionCategory> {
+        return if (isExpense) repository.addNewTransactionExpenseCategory(transactionCategory)
+        else repository.addNewTransactionIncomeCategory(transactionCategory)
     }
 }

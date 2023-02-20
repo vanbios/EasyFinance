@@ -1,131 +1,122 @@
-package com.androidcollider.easyfin.transaction_categories.root;
+package com.androidcollider.easyfin.transaction_categories.root
 
-import android.content.Context;
-
-import androidx.annotation.Nullable;
-
-import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.common.models.TransactionCategory;
-import com.annimon.stream.Collectors;
-import com.annimon.stream.Stream;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.content.Context
+import com.androidcollider.easyfin.R
+import com.androidcollider.easyfin.common.models.TransactionCategory
 
 /**
  * @author Ihor Bilous
  */
+internal class TransactionCategoriesRootPresenter(
+    private val context: Context,
+    private val model: TransactionCategoriesRootMVP.Model
+) : TransactionCategoriesRootMVP.Presenter {
 
-class TransactionCategoriesRootPresenter implements TransactionCategoriesRootMVP.Presenter {
+    private var view: TransactionCategoriesRootMVP.View? = null
+    private val transactionCategoryIncomeList: MutableList<TransactionCategory>
+    private val transactionCategoryIncomeNotFilteredList: MutableList<TransactionCategory>
+    private val transactionCategoryExpenseList: MutableList<TransactionCategory>
+    private val transactionCategoryExpenseNotFilteredList: MutableList<TransactionCategory>
 
-    @Nullable
-    private TransactionCategoriesRootMVP.View view;
-    private final TransactionCategoriesRootMVP.Model model;
-    private final Context context;
-
-    private final List<TransactionCategory> transactionCategoryIncomeList;
-    private final List<TransactionCategory> transactionCategoryIncomeNotFilteredList;
-    private final List<TransactionCategory> transactionCategoryExpenseList;
-    private final List<TransactionCategory> transactionCategoryExpenseNotFilteredList;
-
-
-    TransactionCategoriesRootPresenter(Context context,
-                                       TransactionCategoriesRootMVP.Model model) {
-        this.context = context;
-        this.model = model;
-        transactionCategoryIncomeList = new ArrayList<>();
-        transactionCategoryExpenseList = new ArrayList<>();
-        transactionCategoryIncomeNotFilteredList = new ArrayList<>();
-        transactionCategoryExpenseNotFilteredList = new ArrayList<>();
+    init {
+        transactionCategoryIncomeList = ArrayList()
+        transactionCategoryExpenseList = ArrayList()
+        transactionCategoryIncomeNotFilteredList = ArrayList()
+        transactionCategoryExpenseNotFilteredList = ArrayList()
     }
 
-    @Override
-    public void setView(@Nullable TransactionCategoriesRootMVP.View view) {
-        this.view = view;
+    override fun setView(view: TransactionCategoriesRootMVP.View?) {
+        this.view = view
     }
 
-    @Override
-    public void loadData() {
-        model.getAllTransactionCategories()
-                .subscribe(pair -> {
-                            saveActualTransactionCategoryList(pair.first, false);
-                            saveActualTransactionCategoryList(pair.second, true);
-                        },
-                        Throwable::printStackTrace
-                );
+    override fun loadData() {
+        model.allTransactionCategories
+            .subscribe({ (first, second):
+                         Pair<List<TransactionCategory>, List<TransactionCategory>> ->
+                saveActualTransactionCategoryList(first, false)
+                saveActualTransactionCategoryList(second, true)
+            }) { obj: Throwable -> obj.printStackTrace() }
     }
 
-    @Override
-    public void addNewCategory(String name, boolean isExpense) {
+    override fun addNewCategory(name: String, isExpense: Boolean) {
         if (view != null) {
             if (name.isEmpty()) {
-                handleNewTransactionCategoryNameIsNotValid(context.getString(R.string.empty_name_field));
-                return;
+                handleNewTransactionCategoryNameIsNotValid(
+                    context.getString(R.string.empty_name_field)
+                )
+                return
             }
             if (!isNewTransactionCategoryNameUnique(name, isExpense)) {
-                handleNewTransactionCategoryNameIsNotValid(context.getString(R.string.category_name_exist));
-                return;
+                handleNewTransactionCategoryNameIsNotValid(
+                    context.getString(R.string.category_name_exist)
+                )
+                return
             }
-
-            int id = getIdForNewTransactionCategory(isExpense);
-            TransactionCategory category = new TransactionCategory(id, name, 1);
-
+            val id = getIdForNewTransactionCategory(isExpense)
+            val category = TransactionCategory(id, name, 1)
             model.addNewTransactionCategory(category, isExpense)
-                    .subscribe(transactionCategory -> {
-                                if (view != null) {
-                                    addNewTransactionCategoryInLists(transactionCategory, isExpense);
-                                    view.handleNewTransactionCategoryAdded();
-                                    view.dismissDialogNewTransactionCategory();
-                                }
-                            },
-                            Throwable::printStackTrace
-                    );
+                .subscribe({ transactionCategory: TransactionCategory ->
+                    view?.let {
+                        addNewTransactionCategoryInLists(transactionCategory, isExpense)
+                        it.handleNewTransactionCategoryAdded()
+                        it.dismissDialogNewTransactionCategory()
+                    }
+                }) { obj: Throwable -> obj.printStackTrace() }
         }
     }
 
-    private void addNewTransactionCategoryInLists(TransactionCategory transactionCategory, boolean isExpense) {
+    private fun addNewTransactionCategoryInLists(
+        transactionCategory: TransactionCategory,
+        isExpense: Boolean
+    ) {
         if (isExpense) {
-            transactionCategoryExpenseList.add(transactionCategory);
-            transactionCategoryExpenseNotFilteredList.add(transactionCategory);
+            transactionCategoryExpenseList.add(transactionCategory)
+            transactionCategoryExpenseNotFilteredList.add(transactionCategory)
         } else {
-            transactionCategoryIncomeList.add(transactionCategory);
-            transactionCategoryIncomeNotFilteredList.add(transactionCategory);
+            transactionCategoryIncomeList.add(transactionCategory)
+            transactionCategoryIncomeNotFilteredList.add(transactionCategory)
         }
     }
 
-    private void handleNewTransactionCategoryNameIsNotValid(String message) {
-        if (view != null) {
-            view.showMessage(message);
-            view.shakeDialogNewTransactionCategoryField();
+    private fun handleNewTransactionCategoryNameIsNotValid(message: String) {
+        view?.let {
+            it.showMessage(message)
+            it.shakeDialogNewTransactionCategoryField()
         }
     }
 
-    private boolean isNewTransactionCategoryNameUnique(String name, boolean isExpense) {
-        for (TransactionCategory category : isExpense ?
-                transactionCategoryExpenseList :
-                transactionCategoryIncomeList) {
-            if (name.equalsIgnoreCase(category.getName())) return false;
+    private fun isNewTransactionCategoryNameUnique(name: String, isExpense: Boolean): Boolean {
+        for (category in if (isExpense) transactionCategoryExpenseList
+        else transactionCategoryIncomeList) {
+            if (name.equals(category.name, ignoreCase = true)) return false
         }
-        return true;
+        return true
     }
 
-    private int getIdForNewTransactionCategory(boolean isExpense) {
-        List<TransactionCategory> list = isExpense ? transactionCategoryExpenseNotFilteredList : transactionCategoryIncomeNotFilteredList;
-        return list.isEmpty() ? 0 : list.get(list.size() - 1).getId() + 1;
+    private fun getIdForNewTransactionCategory(isExpense: Boolean): Int {
+        val list: List<TransactionCategory> =
+            if (isExpense) transactionCategoryExpenseNotFilteredList
+            else transactionCategoryIncomeNotFilteredList
+        return if (list.isEmpty()) 0 else list[list.size - 1].id + 1
     }
 
-    private void saveActualTransactionCategoryList(List<TransactionCategory> categoryList, boolean isExpense) {
-        List<TransactionCategory> list = isExpense ? transactionCategoryExpenseList : transactionCategoryIncomeList;
-        List<TransactionCategory> notFilteredList = isExpense ? transactionCategoryExpenseNotFilteredList : transactionCategoryIncomeNotFilteredList;
-        notFilteredList.clear();
-        notFilteredList.addAll(categoryList);
-        list.clear();
-        list.addAll(getFilteredList(categoryList));
+    private fun saveActualTransactionCategoryList(
+        categoryList: List<TransactionCategory>,
+        isExpense: Boolean
+    ) {
+        val list =
+            if (isExpense) transactionCategoryExpenseList
+            else transactionCategoryIncomeList
+        val notFilteredList =
+            if (isExpense) transactionCategoryExpenseNotFilteredList
+            else transactionCategoryIncomeNotFilteredList
+        notFilteredList.clear()
+        notFilteredList.addAll(categoryList)
+        list.clear()
+        list.addAll(getFilteredList(categoryList))
     }
 
-    private List<TransactionCategory> getFilteredList(List<TransactionCategory> list) {
-        return Stream.of(list)
-                .filter(t -> t.getVisibility() == 1)
-                .collect(Collectors.toList());
+    private fun getFilteredList(list: List<TransactionCategory>): List<TransactionCategory> {
+        return list.filter { t: TransactionCategory -> t.visibility == 1 }
     }
 }

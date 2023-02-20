@@ -1,23 +1,22 @@
-package com.androidcollider.easyfin.common.managers.rates.exchange;
+package com.androidcollider.easyfin.common.managers.rates.exchange
 
-import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
-import com.androidcollider.easyfin.common.repository.Repository;
-
-import javax.inject.Singleton;
-
-import dagger.Module;
-import dagger.Provides;
+import com.androidcollider.easyfin.common.managers.resources.ResourcesManager
+import com.androidcollider.easyfin.common.repository.Repository
+import dagger.Module
+import dagger.Provides
+import javax.inject.Singleton
 
 /**
  * @author Ihor Bilous
  */
-
 @Module
-public class ExchangeModule {
-
+class ExchangeModule {
     @Provides
     @Singleton
-    ExchangeManager provideExchangeManager(Repository repository, ResourcesManager resourcesManager) {
-        return new ExchangeManager(repository, resourcesManager);
+    fun provideExchangeManager(
+        repository: Repository,
+        resourcesManager: ResourcesManager
+    ): ExchangeManager {
+        return ExchangeManager(repository, resourcesManager)
     }
 }
