@@ -44,7 +44,7 @@ internal class PayDebtModel(
         return repository.takeMoreDebt(idAccount, accountAmount, idDebt, debtAmount, debtAllAmount)
     }
 
-    override fun prepareStringToParse(value: String?): String {
+    override fun prepareStringToParse(value: String): String {
         return numberFormatManager.prepareStringToParse(value)
     }
 

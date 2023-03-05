@@ -30,8 +30,8 @@ class AddDebtModule {
 
     @Provides
     fun provideAddDebtMVPPresenter(
-        context: Context?,
-        model: AddDebtMVP.Model?
+        context: Context,
+        model: AddDebtMVP.Model
     ): AddDebtMVP.Presenter {
         return AddDebtPresenter(context, model)
     }

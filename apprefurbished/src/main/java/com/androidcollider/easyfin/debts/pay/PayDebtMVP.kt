@@ -31,16 +31,16 @@ interface PayDebtMVP {
             debtAllAmount: Double
         ): Single<Boolean>
 
-        fun prepareStringToParse(value: String?): String
+        fun prepareStringToParse(value: String): String
         fun formatAmount(amount: Double): String
     }
 
     interface View {
-        fun showAmount(amount: String?)
+        fun showAmount(amount: String)
         fun showName(name: String?)
         fun setupSpinner()
         fun showAccount(position: Int)
-        fun showMessage(message: String?)
+        fun showMessage(message: String)
         fun openNumericDialog()
         fun notifyNotEnoughAccounts()
         fun disableAmountField()

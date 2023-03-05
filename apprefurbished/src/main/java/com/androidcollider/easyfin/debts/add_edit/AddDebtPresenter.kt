@@ -1,285 +1,223 @@
-package com.androidcollider.easyfin.debts.add_edit;
+package com.androidcollider.easyfin.debts.add_edit
 
-import android.content.Context;
-import android.os.Bundle;
-
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-
-import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.common.models.Debt;
-import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
-import com.androidcollider.easyfin.debts.list.DebtsFragment;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import io.reactivex.rxjava3.core.Single;
+import android.content.Context
+import android.os.Bundle
+import androidx.core.content.ContextCompat
+import com.androidcollider.easyfin.R
+import com.androidcollider.easyfin.common.models.Debt
+import com.androidcollider.easyfin.common.utils.serializable
+import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel
+import com.androidcollider.easyfin.debts.list.DebtsFragment
+import io.reactivex.rxjava3.core.Single
+import java.util.*
+import kotlin.math.abs
 
 /**
  * @author Ihor Bilous
  */
+internal class AddDebtPresenter(
+    private val context: Context,
+    private val model: AddDebtMVP.Model
+) : AddDebtMVP.Presenter {
 
-class AddDebtPresenter implements AddDebtMVP.Presenter {
+    private var view: AddDebtMVP.View? = null
+    private var mode = 0
+    private var debtType = 0
+    private var debtFrIntent: Debt? = null
 
-    @Nullable
-    private AddDebtMVP.View view;
-    private final AddDebtMVP.Model model;
-    private final Context context;
-
-    private int mode, debtType;
-    private Debt debtFrIntent;
-
-
-    AddDebtPresenter(Context context,
-                     AddDebtMVP.Model model) {
-        this.context = context;
-        this.model = model;
+    override fun setView(view: AddDebtMVP.View?) {
+        this.view = view
     }
 
-    @Override
-    public void setView(@Nullable AddDebtMVP.View view) {
-        this.view = view;
-    }
-
-    @Override
-    public void setArguments(Bundle args) {
-        mode = args.getInt(DebtsFragment.MODE, 0);
-        if (mode == DebtsFragment.EDIT) {
-            debtFrIntent = (Debt) args.getSerializable(DebtsFragment.DEBT);
-        } else {
-            debtType = args.getInt(DebtsFragment.TYPE, 0);
+    override fun setArguments(args: Bundle?) {
+        args?.let {
+            mode = it.getInt(DebtsFragment.MODE, 0)
+            if (mode == DebtsFragment.EDIT) {
+                debtFrIntent = it.serializable(DebtsFragment.DEBT) as Debt?
+            } else {
+                debtType = it.getInt(DebtsFragment.TYPE, 0)
+            }
         }
     }
 
-    @Override
-    public void loadAccounts() {
-        model.getAllAccounts()
-                .subscribe(
-                        this::setupView,
-                        Throwable::printStackTrace
-                );
+    override fun loadAccounts() {
+        model.allAccounts
+            .subscribe({ accountList: List<SpinAccountViewModel> -> setupView(accountList) })
+            { obj: Throwable -> obj.printStackTrace() }
     }
 
-    @Override
-    public void save() {
-        switch (mode) {
-            case DebtsFragment.ADD:
-                addDebt();
-                break;
-            case DebtsFragment.EDIT:
-                editDebt();
-                break;
+    override fun save() {
+        when (mode) {
+            DebtsFragment.ADD -> addDebt()
+            DebtsFragment.EDIT -> editDebt()
         }
     }
 
-    private void addDebt() {
-        if (view != null) {
-            if (validateName(view.getName())) {
-                SpinAccountViewModel account = view.getAccount();
-                double accountAmount = account.getAmount();
-                double amount = Double.parseDouble(model.prepareStringToParse(view.getAmount()));
-
+    private fun addDebt() {
+        view?.let {
+            if (validateName(it.name)) {
+                val account = it.account
+                var accountAmount = account!!.amount
+                val amount = model.prepareStringToParse(it.amount).toDouble()
                 if (checkIsEnoughCosts(debtType, amount, accountAmount)) {
-                    switch (debtType) {
-                        case DebtsFragment.TYPE_GIVE:
-                            accountAmount -= amount;
-                            break;
-                        case DebtsFragment.TYPE_TAKE:
-                            accountAmount += amount;
-                            break;
+                    when (debtType) {
+                        DebtsFragment.TYPE_GIVE -> accountAmount -= amount
+                        DebtsFragment.TYPE_TAKE -> accountAmount += amount
                     }
-
-                    Debt debt = buildDebt(account, amount, debtType, view.getName(), view.getDate(), accountAmount);
-                    /*Debt debt = Debt.builder()
-                            .name(view.getName())
-                            .amountCurrent(amount)
-                            .type(debtType)
-                            .idAccount(account.getId())
-                            .date(model.getMillisFromString(view.getDate()))
-                            .accountAmount(accountAmount)
-                            .currency(account.getCurrency())
-                            .accountName(account.getName())
-                            .amountAll(amount)
-                            .build();*/
-
+                    val debt = buildDebt(
+                        account,
+                        amount,
+                        debtType,
+                        it.name,
+                        it.date,
+                        accountAmount
+                    )
                     handleActionWithDebt(
-                            model.addNewDebt(debt)
-                    );
+                        model.addNewDebt(debt)
+                    )
                 }
             }
         }
     }
 
-    private void editDebt() {
-        if (view != null) {
-            if (validateName(view.getName())) {
-                SpinAccountViewModel account = view.getAccount();
-                double accountAmount = account.getAmount();
-                int type = debtType;
-                double amount = Double.parseDouble(model.prepareStringToParse(view.getAmount()));
-
-                int accountId = account.getId();
-                int oldAccountId = debtFrIntent.getIdAccount();
-
-                boolean isAccountsTheSame = accountId == oldAccountId;
-
-                double oldAmount = debtFrIntent.getAmountCurrent();
-                double oldAccountAmount = 0;
-                int oldType = debtFrIntent.getType();
-
+    private fun editDebt() {
+        view?.let {
+            if (validateName(it.name)) {
+                val account = it.account
+                var accountAmount = account!!.amount
+                val type = debtType
+                val amount = model.prepareStringToParse(it.amount).toDouble()
+                val accountId = account.id
+                val oldAccountId = debtFrIntent!!.idAccount
+                val isAccountsTheSame = accountId == oldAccountId
+                val oldAmount = debtFrIntent!!.amountCurrent
+                var oldAccountAmount = 0.0
+                val oldType = debtFrIntent!!.type
                 if (isAccountsTheSame) {
-                    switch (oldType) {
-                        case DebtsFragment.TYPE_GIVE:
-                            accountAmount += oldAmount;
-                            break;
-                        case DebtsFragment.TYPE_TAKE:
-                            accountAmount -= oldAmount;
-                            break;
+                    when (oldType) {
+                        DebtsFragment.TYPE_GIVE -> accountAmount += oldAmount
+                        DebtsFragment.TYPE_TAKE -> accountAmount -= oldAmount
                     }
                 } else {
-                    List<SpinAccountViewModel> accountList = view.getAccounts();
-                    for (int i = 0; i < accountList.size(); i++) {
-                        if (oldAccountId == accountList.get(i).getId()) {
-                            oldAccountAmount = accountList.get(i).getAmount();
-                            break;
+                    val accountList = it.accounts
+                    for (i in accountList.indices) {
+                        if (oldAccountId == accountList[i].id) {
+                            oldAccountAmount = accountList[i].amount
+                            break
                         }
                     }
-
-                    switch (oldType) {
-                        case DebtsFragment.TYPE_GIVE:
-                            oldAccountAmount += oldAmount;
-                            break;
-                        case DebtsFragment.TYPE_TAKE:
-                            oldAccountAmount -= oldAmount;
-                            break;
+                    when (oldType) {
+                        DebtsFragment.TYPE_GIVE -> oldAccountAmount += oldAmount
+                        DebtsFragment.TYPE_TAKE -> oldAccountAmount -= oldAmount
                     }
                 }
-
                 if (checkIsEnoughCosts(type, amount, accountAmount)) {
-                    switch (type) {
-                        case DebtsFragment.TYPE_GIVE:
-                            accountAmount -= amount;
-                            break;
-                        case DebtsFragment.TYPE_TAKE:
-                            accountAmount += amount;
-                            break;
+                    when (type) {
+                        DebtsFragment.TYPE_GIVE -> accountAmount -= amount
+                        DebtsFragment.TYPE_TAKE -> accountAmount += amount
                     }
-
-                    Debt debt = buildDebt(account, amount, type, view.getName(), view.getDate(), accountAmount);
-
+                    val debt =
+                        buildDebt(account, amount, type, it.name, it.date, accountAmount)
                     if (isAccountsTheSame) {
                         handleActionWithDebt(
-                                model.updateDebt(debt)
-                        );
+                            model.updateDebt(debt)
+                        )
                     } else {
                         handleActionWithDebt(
-                                model.updateDebtDifferentAccounts(
-                                        debt,
-                                        oldAccountAmount,
-                                        oldAccountId
-                                )
-                        );
+                            model.updateDebtDifferentAccounts(
+                                debt,
+                                oldAccountAmount,
+                                oldAccountId
+                            )
+                        )
                     }
                 }
             }
         }
     }
 
-    private boolean checkIsEnoughCosts(int type, double amount, double accountAmount) {
-        if (type == DebtsFragment.TYPE_GIVE && Math.abs(amount) > accountAmount) {
-            if (view != null) {
-                view.showMessage(context.getString(R.string.not_enough_costs));
-            }
-            return false;
+    private fun checkIsEnoughCosts(type: Int, amount: Double, accountAmount: Double): Boolean {
+        if (type == DebtsFragment.TYPE_GIVE && abs(amount) > accountAmount) {
+            view?.showMessage(context.getString(R.string.not_enough_costs))
+            return false
         }
-        return true;
+        return true
     }
 
-    private boolean validateName(String name) {
-        if (name.replaceAll("\\s+", "").isEmpty()) {
-            if (view != null) {
-                view.highlightNameField();
-                view.showMessage(context.getString(R.string.empty_name_field));
-            }
-            return false;
+    private fun validateName(name: String?): Boolean {
+        if (name!!.replace("\\s+".toRegex(), "").isEmpty()) {
+            view?.highlightNameField()
+            view?.showMessage(context.getString(R.string.empty_name_field))
+            return false
         }
-        return true;
+        return true
     }
 
-    private void handleActionWithDebt(Single<?> single) {
+    private fun handleActionWithDebt(single: Single<*>) {
         single.subscribe(
-                o -> {
-                    if (view != null) {
-                        view.performLastActionsAfterSaveAndClose();
-                    }
-                },
-                Throwable::printStackTrace
-        );
+            { view?.performLastActionsAfterSaveAndClose() })
+        { obj: Throwable -> obj.printStackTrace() }
     }
 
-    private Debt buildDebt(SpinAccountViewModel account,
-                           double amount,
-                           int type,
-                           String name,
-                           String date,
-                           double accountAmount) {
-        Debt debt = new Debt();
-        debt.setName(name);
-        debt.setAmountCurrent(amount);
-        debt.setType(type);
-        debt.setIdAccount(account.getId());
-        debt.setDate(model.getMillisFromString(date));
-        debt.setAccountAmount(accountAmount);
-        debt.setId(debtFrIntent != null ? debtFrIntent.getId() : 0);
-        debt.setCurrency(account.getCurrency());
-        debt.setAccountName(account.getName());
-        debt.setAmountAll(amount);
-        return debt;
+    private fun buildDebt(
+        account: SpinAccountViewModel,
+        amount: Double,
+        type: Int,
+        name: String?,
+        date: String?,
+        accountAmount: Double
+    ): Debt {
+        val debt = Debt()
+        debt.name = name
+        debt.amountCurrent = amount
+        debt.type = type
+        debt.idAccount = account.id
+        debt.date = model.getMillisFromString(date)
+        debt.accountAmount = accountAmount
+        debt.id = if (debtFrIntent != null) debtFrIntent!!.id else 0
+        debt.currency = account.currency
+        debt.accountName = account.name
+        debt.amountAll = amount
+        return debt
     }
 
-    private void setupView(List<SpinAccountViewModel> accountList) {
-        if (view != null) {
+    private fun setupView(accountList: List<SpinAccountViewModel>) {
+        view?.let {
             if (accountList.isEmpty()) {
-                view.notifyNotEnoughAccounts();
+                it.notifyNotEnoughAccounts()
             } else {
-                view.setAccounts(accountList);
-
+                it.accounts = accountList
                 if (mode == DebtsFragment.ADD) {
-                    view.showAmount("0,00");
-                    view.openNumericDialog();
+                    it.showAmount("0,00")
+                    it.openNumericDialog()
                 }
-
-                final Calendar calendar = Calendar.getInstance();
-                final long initTime = System.currentTimeMillis();
+                val calendar = Calendar.getInstance()
+                val initTime = System.currentTimeMillis()
                 if (mode == DebtsFragment.EDIT) {
-                    calendar.setTime(new Date(debtFrIntent.getDate()));
+                    calendar.time = Date(debtFrIntent!!.date)
                 }
-                view.setupDateTimeField(calendar, initTime);
-
-                view.setupSpinner();
-
+                it.setupDateTimeField(calendar, initTime)
+                it.setupSpinner()
                 if (mode == DebtsFragment.EDIT) {
-                    view.showName(debtFrIntent.getName());
-                    view.showAmount(model.formatAmount(debtFrIntent.getAmountCurrent()));
-
-                    debtType = debtFrIntent.getType();
-
-                    int pos = 0;
-                    for (int i = 0; i < accountList.size(); i++) {
-                        if (debtFrIntent.getIdAccount() == accountList.get(i).getId()) {
-                            pos = i;
-                            break;
+                    it.showName(debtFrIntent!!.name)
+                    it.showAmount(model.formatAmount(debtFrIntent!!.amountCurrent))
+                    debtType = debtFrIntent!!.type
+                    var pos = 0
+                    for (i in accountList.indices) {
+                        if (debtFrIntent!!.idAccount == accountList[i].id) {
+                            pos = i
+                            break
                         }
                     }
-                    view.showAccount(pos);
+                    it.showAccount(pos)
                 }
-
-                view.setAmountTextColor(ContextCompat.getColor(context,
-                        debtType == DebtsFragment.TYPE_TAKE ?
-                                R.color.custom_red : R.color.custom_green
-                ));
+                it.setAmountTextColor(
+                    ContextCompat.getColor(
+                        context,
+                        if (debtType == DebtsFragment.TYPE_TAKE)
+                            R.color.custom_red else R.color.custom_green
+                    )
+                )
             }
         }
     }

@@ -41,7 +41,7 @@ interface AddDebtMVP {
         val account: SpinAccountViewModel?
         val date: String?
         val name: String?
-        var accounts: List<SpinAccountViewModel>?
+        var accounts: List<SpinAccountViewModel>
     }
 
     interface Presenter {
