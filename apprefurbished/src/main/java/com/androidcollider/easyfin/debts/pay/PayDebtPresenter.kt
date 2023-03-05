@@ -7,7 +7,7 @@ import com.androidcollider.easyfin.common.models.Debt
 import com.androidcollider.easyfin.common.utils.serializable
 import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel
 import com.androidcollider.easyfin.debts.list.DebtsFragment
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 
 /**
  * @author Ihor Bilous
@@ -154,8 +154,8 @@ internal class PayDebtPresenter(
         return true
     }
 
-    private fun handleActionWithDebt(observable: Flowable<Boolean>) {
-        observable.subscribe(
+    private fun handleActionWithDebt(single: Single<Boolean>) {
+        single.subscribe(
             { aBoolean: Boolean ->
                 if (aBoolean) {
                     view?.performLastActionsAfterSaveAndClose()

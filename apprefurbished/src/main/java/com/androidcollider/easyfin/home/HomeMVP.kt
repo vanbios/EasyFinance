@@ -2,7 +2,7 @@ package com.androidcollider.easyfin.home
 
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.PieData
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 
 /**
  * @author Ihor Bilous
@@ -10,10 +10,10 @@ import io.reactivex.rxjava3.core.Flowable
 interface HomeMVP {
     interface Model {
         fun getBalanceAndStatistic(statisticPosition: Int):
-                Flowable<Pair<Map<String, DoubleArray>, Map<String, DoubleArray>>>
+                Single<Pair<Map<String, DoubleArray>, Map<String, DoubleArray>>>
 
-        val balance: Flowable<Map<String, DoubleArray>>
-        fun getStatistic(statisticPosition: Int): Flowable<Map<String, DoubleArray>>
+        val balance: Single<Map<String, DoubleArray>>
+        fun getStatistic(statisticPosition: Int): Single<Map<String, DoubleArray>>
     }
 
     interface View {

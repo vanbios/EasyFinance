@@ -5,7 +5,7 @@ import android.os.Bundle
 import com.androidcollider.easyfin.common.models.Transaction
 import com.androidcollider.easyfin.common.models.TransactionCategory
 import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 import java.util.*
 
 /**
@@ -14,21 +14,21 @@ import java.util.*
 interface AddTransactionIncomeExpenseMVP {
     interface Model {
         fun getAccountsAndTransactionCategories(isExpense: Boolean):
-                Flowable<Pair<List<SpinAccountViewModel>, List<TransactionCategory>>>
+                Single<Pair<List<SpinAccountViewModel>, List<TransactionCategory>>>
 
-        fun getTransactionCategories(isExpense: Boolean): Flowable<List<TransactionCategory>>
-        fun addNewTransaction(transaction: Transaction): Flowable<Transaction>
-        fun updateTransaction(transaction: Transaction): Flowable<Transaction>
+        fun getTransactionCategories(isExpense: Boolean): Single<List<TransactionCategory>>
+        fun addNewTransaction(transaction: Transaction): Single<Transaction>
+        fun updateTransaction(transaction: Transaction): Single<Transaction>
         fun updateTransactionDifferentAccounts(
             transaction: Transaction,
             oldAccountAmount: Double,
             oldAccountId: Int
-        ): Flowable<Boolean>
+        ): Single<Boolean>
 
         fun addNewTransactionCategory(
             transactionCategory: TransactionCategory,
             isExpense: Boolean
-        ): Flowable<TransactionCategory>
+        ): Single<TransactionCategory>
 
         fun prepareStringToParse(value: String): String
         fun getMillisFromString(date: String): Long

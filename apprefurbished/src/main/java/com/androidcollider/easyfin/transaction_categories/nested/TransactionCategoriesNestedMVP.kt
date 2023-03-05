@@ -3,20 +3,20 @@ package com.androidcollider.easyfin.transaction_categories.nested
 import android.content.res.TypedArray
 import android.os.Bundle
 import com.androidcollider.easyfin.common.models.TransactionCategory
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 
 /**
  * @author Ihor Bilous
  */
 interface TransactionCategoriesNestedMVP {
     interface Model {
-        fun getTransactionCategories(isExpense: Boolean): Flowable<List<TransactionCategory>>
+        fun getTransactionCategories(isExpense: Boolean): Single<List<TransactionCategory>>
         fun updateTransactionCategory(
             transactionCategory: TransactionCategory,
             isExpense: Boolean
-        ): Flowable<TransactionCategory>
+        ): Single<TransactionCategory>
 
-        fun deleteTransactionCategory(id: Int, isExpense: Boolean): Flowable<Boolean>
+        fun deleteTransactionCategory(id: Int, isExpense: Boolean): Single<Boolean>
     }
 
     interface View {

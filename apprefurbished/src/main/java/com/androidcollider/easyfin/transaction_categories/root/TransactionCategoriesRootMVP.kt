@@ -1,7 +1,7 @@
 package com.androidcollider.easyfin.transaction_categories.root
 
 import com.androidcollider.easyfin.common.models.TransactionCategory
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 
 /**
  * @author Ihor Bilous
@@ -9,12 +9,12 @@ import io.reactivex.rxjava3.core.Flowable
 interface TransactionCategoriesRootMVP {
     interface Model {
         val allTransactionCategories:
-                Flowable<Pair<List<TransactionCategory>, List<TransactionCategory>>>
+                Single<Pair<List<TransactionCategory>, List<TransactionCategory>>>
 
         fun addNewTransactionCategory(
             transactionCategory: TransactionCategory,
             isExpense: Boolean
-        ): Flowable<TransactionCategory>
+        ): Single<TransactionCategory>
     }
 
     interface View {

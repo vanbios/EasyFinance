@@ -2,26 +2,26 @@ package com.androidcollider.easyfin.debts.pay
 
 import android.os.Bundle
 import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 
 /**
  * @author Ihor Bilous
  */
 interface PayDebtMVP {
     interface Model {
-        val allAccounts: Flowable<List<SpinAccountViewModel>>
+        val allAccounts: Single<List<SpinAccountViewModel>>
         fun payFullDebt(
             idAccount: Int,
             accountAmount: Double,
             idDebt: Int
-        ): Flowable<Boolean>
+        ): Single<Boolean>
 
         fun payPartOfDebt(
             idAccount: Int,
             accountAmount: Double,
             idDebt: Int,
             debtAmount: Double
-        ): Flowable<Boolean>
+        ): Single<Boolean>
 
         fun takeMoreDebt(
             idAccount: Int,
@@ -29,7 +29,7 @@ interface PayDebtMVP {
             idDebt: Int,
             debtAmount: Double,
             debtAllAmount: Double
-        ): Flowable<Boolean>
+        ): Single<Boolean>
 
         fun prepareStringToParse(value: String?): String
         fun formatAmount(amount: Double): String

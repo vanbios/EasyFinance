@@ -4,7 +4,7 @@ import com.androidcollider.easyfin.common.managers.accounts.accounts_to_spin_vie
 import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager
 import com.androidcollider.easyfin.common.repository.Repository
 import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 
 /**
  * @author Ihor Bilous
@@ -14,14 +14,14 @@ internal class PayDebtModel(
     private val numberFormatManager: NumberFormatManager,
     private val accountsToSpinViewModelManager: AccountsToSpinViewModelManager
 ) : PayDebtMVP.Model {
-    override val allAccounts: Flowable<List<SpinAccountViewModel>>
-        get() = accountsToSpinViewModelManager.getSpinAccountViewModelList(repository.allAccounts)
+    override val allAccounts: Single<List<SpinAccountViewModel>>
+        get() = accountsToSpinViewModelManager.getSpinAccountViewModelList(repository.allAccounts!!)
 
     override fun payFullDebt(
         idAccount: Int,
         accountAmount: Double,
         idDebt: Int
-    ): Flowable<Boolean> {
+    ): Single<Boolean> {
         return repository.payFullDebt(idAccount, accountAmount, idDebt)
     }
 
@@ -30,7 +30,7 @@ internal class PayDebtModel(
         accountAmount: Double,
         idDebt: Int,
         debtAmount: Double
-    ): Flowable<Boolean> {
+    ): Single<Boolean> {
         return repository.payPartOfDebt(idAccount, accountAmount, idDebt, debtAmount)
     }
 
@@ -40,7 +40,7 @@ internal class PayDebtModel(
         idDebt: Int,
         debtAmount: Double,
         debtAllAmount: Double
-    ): Flowable<Boolean> {
+    ): Single<Boolean> {
         return repository.takeMoreDebt(idAccount, accountAmount, idDebt, debtAmount, debtAllAmount)
     }
 

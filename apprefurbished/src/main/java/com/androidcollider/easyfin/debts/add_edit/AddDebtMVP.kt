@@ -3,7 +3,7 @@ package com.androidcollider.easyfin.debts.add_edit
 import android.os.Bundle
 import com.androidcollider.easyfin.common.models.Debt
 import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 import java.util.*
 
 /**
@@ -11,14 +11,14 @@ import java.util.*
  */
 interface AddDebtMVP {
     interface Model {
-        val allAccounts: Flowable<List<SpinAccountViewModel>>
-        fun addNewDebt(debt: Debt): Flowable<Debt>
-        fun updateDebt(debt: Debt): Flowable<Debt>
+        val allAccounts: Single<List<SpinAccountViewModel>>
+        fun addNewDebt(debt: Debt): Single<Debt>
+        fun updateDebt(debt: Debt): Single<Debt>
         fun updateDebtDifferentAccounts(
             debt: Debt,
             oldAccountAmount: Double,
             oldAccountId: Int
-        ): Flowable<Boolean>
+        ): Single<Boolean>
 
         fun prepareStringToParse(value: String?): String
         fun getMillisFromString(date: String?): Long

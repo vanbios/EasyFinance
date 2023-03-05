@@ -15,7 +15,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Single;
 
 /**
  * @author Ihor Bilous
@@ -208,8 +208,8 @@ class AddDebtPresenter implements AddDebtMVP.Presenter {
         return true;
     }
 
-    private void handleActionWithDebt(Flowable<?> observable) {
-        observable.subscribe(
+    private void handleActionWithDebt(Single<?> single) {
+        single.subscribe(
                 o -> {
                     if (view != null) {
                         view.performLastActionsAfterSaveAndClose();
@@ -228,14 +228,14 @@ class AddDebtPresenter implements AddDebtMVP.Presenter {
         Debt debt = new Debt();
         debt.setName(name);
         debt.setAmountCurrent(amount);
-                debt.setType(type);
-                debt.setIdAccount(account.getId());
-                debt.setDate(model.getMillisFromString(date));
-                debt.setAccountAmount(accountAmount);
-                debt.setId(debtFrIntent != null ? debtFrIntent.getId() : 0);
-                debt.setCurrency(account.getCurrency());
-                debt.setAccountName(account.getName());
-                debt.setAmountAll(amount);
+        debt.setType(type);
+        debt.setIdAccount(account.getId());
+        debt.setDate(model.getMillisFromString(date));
+        debt.setAccountAmount(accountAmount);
+        debt.setId(debtFrIntent != null ? debtFrIntent.getId() : 0);
+        debt.setCurrency(account.getCurrency());
+        debt.setAccountName(account.getName());
+        debt.setAmountAll(amount);
         return debt;
     }
 

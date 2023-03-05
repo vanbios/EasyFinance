@@ -1,16 +1,16 @@
 package com.androidcollider.easyfin.debts.list
 
 import com.androidcollider.easyfin.common.models.Debt
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 
 /**
  * @author Ihor Bilous
  */
 interface DebtsMVP {
     interface Model {
-        val debtList: Flowable<List<DebtViewModel>>
-        fun getDebtById(id: Int): Flowable<Debt>
-        fun deleteDebtById(id: Int): Flowable<Boolean>
+        val debtList: Single<List<DebtViewModel>>
+        fun getDebtById(id: Int): Single<Debt>
+        fun deleteDebtById(id: Int): Single<Boolean>
     }
 
     interface View {

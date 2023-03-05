@@ -4,7 +4,7 @@ import com.androidcollider.easyfin.common.managers.format.number.NumberFormatMan
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager
 import com.androidcollider.easyfin.common.models.Account
 import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 
 /**
  * @author Ihor Bilous
@@ -23,8 +23,8 @@ class AccountsToSpinViewModelManager internal constructor(
             resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY_LANG)
     }
 
-    fun getSpinAccountViewModelList(accountObservable: Flowable<List<Account>>):
-            Flowable<List<SpinAccountViewModel>> {
+    fun getSpinAccountViewModelList(accountObservable: Single<List<Account>>):
+            Single<List<SpinAccountViewModel>> {
         return accountObservable
             .map { accountList: List<Account> ->
                 transformAccountListToViewModelList(

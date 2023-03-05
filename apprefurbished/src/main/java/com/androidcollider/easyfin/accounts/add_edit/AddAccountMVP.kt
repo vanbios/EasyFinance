@@ -2,7 +2,7 @@ package com.androidcollider.easyfin.accounts.add_edit
 
 import android.os.Bundle
 import com.androidcollider.easyfin.common.models.Account
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 
 /**
  * @author Ihor Bilous
@@ -14,14 +14,14 @@ interface AddAccountMVP {
             amount: String,
             type: Int,
             currency: String
-        ): Flowable<Account>
+        ): Single<Account>
 
         fun updateAccount(
             name: String,
             amount: String,
             type: Int,
             currency: String
-        ): Flowable<Account>
+        ): Single<Account>
 
         fun setAccountForUpdate(account: Account)
         val accountForUpdateName: String?

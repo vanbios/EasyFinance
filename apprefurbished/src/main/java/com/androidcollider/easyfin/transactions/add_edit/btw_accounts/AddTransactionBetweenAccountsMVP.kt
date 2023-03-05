@@ -1,23 +1,23 @@
 package com.androidcollider.easyfin.transactions.add_edit.btw_accounts
 
 import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 
 /**
  * @author Ihor Bilous
  */
 interface AddTransactionBetweenAccountsMVP {
     interface Model {
-        val allAccounts: Flowable<List<SpinAccountViewModel>>?
+        val allAccounts: Single<List<SpinAccountViewModel>>?
         fun transferBTWAccounts(
             idFrom: Int,
             accountAmountFrom: Double,
             idTo: Int,
             accountAmountTo: Double
-        ): Flowable<Boolean>?
+        ): Single<Boolean>
 
-        fun getExchangeRate(currencyFrom: String?, currencyTo: String?): String?
-        fun prepareStringToParse(value: String?): String?
+        fun getExchangeRate(currencyFrom: String, currencyTo: String): String
+        fun prepareStringToParse(value: String): String
     }
 
     interface View {

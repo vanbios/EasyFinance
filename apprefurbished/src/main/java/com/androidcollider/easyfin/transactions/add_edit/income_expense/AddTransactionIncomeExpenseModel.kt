@@ -7,7 +7,7 @@ import com.androidcollider.easyfin.common.models.Transaction
 import com.androidcollider.easyfin.common.models.TransactionCategory
 import com.androidcollider.easyfin.common.repository.Repository
 import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 import kotlin.math.abs
 
 /**
@@ -21,9 +21,9 @@ internal class AddTransactionIncomeExpenseModel(
 ) : AddTransactionIncomeExpenseMVP.Model {
 
     override fun getAccountsAndTransactionCategories(isExpense: Boolean):
-            Flowable<Pair<List<SpinAccountViewModel>, List<TransactionCategory>>> {
-        return Flowable.combineLatest(
-            accountsToSpinViewModelManager.getSpinAccountViewModelList(repository.allAccounts),
+            Single<Pair<List<SpinAccountViewModel>, List<TransactionCategory>>> {
+        return Single.zip(
+            accountsToSpinViewModelManager.getSpinAccountViewModelList(repository.allAccounts!!),
             getTransactionCategories(isExpense)
         ) { first: List<SpinAccountViewModel>,
             second: List<TransactionCategory> ->
@@ -31,16 +31,16 @@ internal class AddTransactionIncomeExpenseModel(
         }
     }
 
-    override fun getTransactionCategories(isExpense: Boolean): Flowable<List<TransactionCategory>> {
-        return if (isExpense) repository.allTransactionExpenseCategories
-        else repository.allTransactionIncomeCategories
+    override fun getTransactionCategories(isExpense: Boolean): Single<List<TransactionCategory>> {
+        return if (isExpense) repository.allTransactionExpenseCategories!!
+        else repository.allTransactionIncomeCategories!!
     }
 
-    override fun addNewTransaction(transaction: Transaction): Flowable<Transaction> {
+    override fun addNewTransaction(transaction: Transaction): Single<Transaction> {
         return repository.addNewTransaction(transaction)
     }
 
-    override fun updateTransaction(transaction: Transaction): Flowable<Transaction> {
+    override fun updateTransaction(transaction: Transaction): Single<Transaction> {
         return repository.updateTransaction(transaction)
     }
 
@@ -48,7 +48,7 @@ internal class AddTransactionIncomeExpenseModel(
         transaction: Transaction,
         oldAccountAmount: Double,
         oldAccountId: Int
-    ): Flowable<Boolean> {
+    ): Single<Boolean> {
         return repository.updateTransactionDifferentAccounts(
             transaction,
             oldAccountAmount,
@@ -59,7 +59,7 @@ internal class AddTransactionIncomeExpenseModel(
     override fun addNewTransactionCategory(
         transactionCategory: TransactionCategory,
         isExpense: Boolean
-    ): Flowable<TransactionCategory> {
+    ): Single<TransactionCategory> {
         return if (isExpense) repository.addNewTransactionExpenseCategory(transactionCategory)
         else repository.addNewTransactionIncomeCategory(transactionCategory)
     }

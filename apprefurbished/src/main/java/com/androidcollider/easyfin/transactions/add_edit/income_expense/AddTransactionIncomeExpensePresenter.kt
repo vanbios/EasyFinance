@@ -11,7 +11,7 @@ import com.androidcollider.easyfin.common.models.TransactionCategory
 import com.androidcollider.easyfin.common.utils.serializable
 import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel
 import com.androidcollider.easyfin.transactions.list.TransactionsFragment
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 import java.util.*
 import kotlin.math.abs
 
@@ -242,7 +242,7 @@ internal class AddTransactionIncomeExpensePresenter(
         return true
     }
 
-    private fun handleActionWithTransaction(observable: Flowable<*>) {
+    private fun handleActionWithTransaction(observable: Single<*>) {
         observable.subscribe(
             { view?.performLastActionsAfterSaveAndClose() })
         { obj: Throwable -> obj.printStackTrace() }

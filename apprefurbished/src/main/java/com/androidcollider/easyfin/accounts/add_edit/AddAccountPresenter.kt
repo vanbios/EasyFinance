@@ -6,7 +6,7 @@ import com.androidcollider.easyfin.R
 import com.androidcollider.easyfin.accounts.list.AccountsFragment
 import com.androidcollider.easyfin.common.models.Account
 import com.androidcollider.easyfin.common.utils.serializable
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 
 /**
  * @author Ihor Bilous
@@ -91,7 +91,7 @@ internal class AddAccountPresenter(
         amount: String,
         type: Int,
         currency: String
-    ): Flowable<Account> {
+    ): Single<Account> {
         return if (mode == AccountsFragment.EDIT)
             model.updateAccount(name, amount, type, currency) else
             model.addAccount(name, amount, type, currency)

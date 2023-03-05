@@ -2,7 +2,7 @@ package com.androidcollider.easyfin.transactions.list
 
 import com.androidcollider.easyfin.common.models.Transaction
 import com.androidcollider.easyfin.common.models.TransactionCategory
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 
 /**
  * @author Ihor Bilous
@@ -10,11 +10,11 @@ import io.reactivex.rxjava3.core.Flowable
 interface TransactionsMVP {
     interface Model {
         val transactionAndTransactionCategoriesLists:
-                Flowable<Pair<List<TransactionViewModel>,
+                Single<Pair<List<TransactionViewModel>,
                         Pair<List<TransactionCategory>, List<TransactionCategory>>>>
 
-        fun getTransactionById(id: Int): Flowable<Transaction>
-        fun deleteTransactionById(id: Int): Flowable<Boolean>
+        fun getTransactionById(id: Int): Single<Transaction>
+        fun deleteTransactionById(id: Int): Single<Boolean>
     }
 
     interface View {

@@ -15,10 +15,10 @@ import dagger.Provides
 class AddTransactionBetweenAccountsModule {
     @Provides
     fun provideAddTransactionBetweenAccountsMVPModel(
-        repository: Repository?,
-        numberFormatManager: NumberFormatManager?,
-        exchangeManager: ExchangeManager?,
-        accountsToSpinViewModelManager: AccountsToSpinViewModelManager?
+        repository: Repository,
+        numberFormatManager: NumberFormatManager,
+        exchangeManager: ExchangeManager,
+        accountsToSpinViewModelManager: AccountsToSpinViewModelManager
     ): AddTransactionBetweenAccountsMVP.Model {
         return AddTransactionBetweenAccountsModel(
             repository,
@@ -30,8 +30,8 @@ class AddTransactionBetweenAccountsModule {
 
     @Provides
     fun provideAddTransactionBetweenAccountsMVPPresenter(
-        context: Context?,
-        model: AddTransactionBetweenAccountsMVP.Model?
+        context: Context,
+        model: AddTransactionBetweenAccountsMVP.Model
     ): AddTransactionBetweenAccountsMVP.Presenter {
         return AddTransactionBetweenAccountsPresenter(context, model)
     }

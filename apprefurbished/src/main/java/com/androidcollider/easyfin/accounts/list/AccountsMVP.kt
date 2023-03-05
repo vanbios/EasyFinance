@@ -1,16 +1,16 @@
 package com.androidcollider.easyfin.accounts.list
 
 import com.androidcollider.easyfin.common.models.Account
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 
 /**
  * @author Ihor Bilous
  */
 interface AccountsMVP {
     interface Model {
-        val accountList: Flowable<List<AccountViewModel>>
-        fun getAccountById(id: Int): Flowable<Account>
-        fun deleteAccountById(id: Int): Flowable<Boolean>
+        val accountList: Single<List<AccountViewModel>>
+        fun getAccountById(id: Int): Single<Account>
+        fun deleteAccountById(id: Int): Single<Boolean>
     }
 
     interface View {

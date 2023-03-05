@@ -33,7 +33,6 @@ ext {
     daggerVersion = '2.45'
     gsonVersion = '2.10.1'
     eventbusVersion = '3.3.1'
-    streamapiVersion = '1.2.2'
     rxjavaVersion = '3.1.6'
     rxandroidVersion = '3.0.2'
     mpchartVersion = '3.1.0'
@@ -77,9 +76,6 @@ dependencies {
     // eventbus
     implementation "org.greenrobot:eventbus:$eventbusVersion"
 
-    // stream api
-    implementation "com.annimon:stream:$streamapiVersion"
-
     // rx
     implementation "io.reactivex.rxjava3:rxandroid:$rxandroidVersion"
     implementation "io.reactivex.rxjava3:rxjava:$rxjavaVersion"
@@ -88,5 +84,3 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.mockito:mockito-core:5.1.1'
 }
-
-apply plugin: 'com.google.gms.google-services'

@@ -8,7 +8,7 @@ import com.androidcollider.easyfin.common.managers.format.number.NumberFormatMan
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager
 import com.androidcollider.easyfin.common.models.Debt
 import com.androidcollider.easyfin.common.repository.Repository
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 
 /**
  * @author Ihor Bilous
@@ -29,17 +29,20 @@ internal class DebtsModel(
             resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY_LANG)
     }
 
-    override val debtList: Flowable<List<DebtViewModel>>
-        get() = repository.allDebts
-            .map { debtList: List<Debt> -> transformDebtListToViewModelList(debtList) }
+    override val debtList: Single<List<DebtViewModel>>
+        get() = repository.allDebts!!.map { debtList: List<Debt> ->
+            transformDebtListToViewModelList(
+                debtList
+            )
+        }
 
-    override fun getDebtById(id: Int): Flowable<Debt> {
-        return repository.allDebts
-            .flatMap { source: List<Debt> -> Flowable.fromIterable(source) }
-            .filter { debt: Debt -> debt.id == id }
+    override fun getDebtById(id: Int): Single<Debt> {
+        return repository.allDebts!!.flatMap { source: List<Debt> ->
+            Single.just(source.first { debt: Debt -> debt.id == id })
+        }
     }
 
-    override fun deleteDebtById(id: Int): Flowable<Boolean> {
+    override fun deleteDebtById(id: Int): Single<Boolean> {
         return getDebtById(id)
             .flatMap { debt: Debt ->
                 repository.deleteDebt(

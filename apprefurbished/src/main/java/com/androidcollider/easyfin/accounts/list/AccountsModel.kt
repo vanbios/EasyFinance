@@ -4,7 +4,7 @@ import com.androidcollider.easyfin.common.managers.format.number.NumberFormatMan
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager
 import com.androidcollider.easyfin.common.models.Account
 import com.androidcollider.easyfin.common.repository.Repository
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 
 /**
  * @author Ihor Bilous
@@ -23,17 +23,20 @@ internal class AccountsModel(
             resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY_LANG)
     }
 
-    override val accountList: Flowable<List<AccountViewModel>>
-        get() = repository.allAccounts
-            .map { accountList: List<Account> -> transformAccountListToViewModelList(accountList) }
+    override val accountList: Single<List<AccountViewModel>>
+        get() = repository.allAccounts!!.map { accountList: List<Account> ->
+            transformAccountListToViewModelList(
+                accountList
+            )
+        }
 
-    override fun getAccountById(id: Int): Flowable<Account> {
-        return repository.allAccounts
-            .flatMap { source: List<Account> -> Flowable.fromIterable(source) }
-            .filter { account: Account -> account.id == id }
+    override fun getAccountById(id: Int): Single<Account> {
+        return repository.allAccounts!!.flatMap { source: List<Account> ->
+            Single.just(source.first { account: Account -> account.id == id })
+        }
     }
 
-    override fun deleteAccountById(id: Int): Flowable<Boolean> {
+    override fun deleteAccountById(id: Int): Single<Boolean> {
         return repository.deleteAccount(id)
     }
 

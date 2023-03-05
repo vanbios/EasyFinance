@@ -6,7 +6,7 @@ import com.androidcollider.easyfin.common.managers.format.number.NumberFormatMan
 import com.androidcollider.easyfin.common.models.Debt
 import com.androidcollider.easyfin.common.repository.Repository
 import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 
 /**
  * @author Ihor Bilous
@@ -17,14 +17,14 @@ internal class AddDebtModel(
     private val dateFormatManager: DateFormatManager,
     private val accountsToSpinViewModelManager: AccountsToSpinViewModelManager
 ) : AddDebtMVP.Model {
-    override val allAccounts: Flowable<List<SpinAccountViewModel>>
-        get() = accountsToSpinViewModelManager.getSpinAccountViewModelList(repository.allAccounts)
+    override val allAccounts: Single<List<SpinAccountViewModel>>
+        get() = accountsToSpinViewModelManager.getSpinAccountViewModelList(repository.allAccounts!!)
 
-    override fun addNewDebt(debt: Debt): Flowable<Debt> {
+    override fun addNewDebt(debt: Debt): Single<Debt> {
         return repository.addNewDebt(debt)
     }
 
-    override fun updateDebt(debt: Debt): Flowable<Debt> {
+    override fun updateDebt(debt: Debt): Single<Debt> {
         return repository.updateDebt(debt)
     }
 
@@ -32,7 +32,7 @@ internal class AddDebtModel(
         debt: Debt,
         oldAccountAmount: Double,
         oldAccountId: Int
-    ): Flowable<Boolean> {
+    ): Single<Boolean> {
         return repository.updateDebtDifferentAccounts(debt, oldAccountAmount, oldAccountId)
     }
 

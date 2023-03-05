@@ -5,7 +5,7 @@ import com.androidcollider.easyfin.common.managers.format.number.NumberFormatMan
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager
 import com.androidcollider.easyfin.common.models.Account
 import com.androidcollider.easyfin.common.repository.Repository
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 
 /**
  * @author Ihor Bilous
@@ -23,7 +23,7 @@ internal class AddAccountModel(
         amount: String,
         type: Int,
         currency: String
-    ): Flowable<Account> {
+    ): Single<Account> {
         val account = Account()
         account.name = name
         account.amount = numberFormatManager.prepareStringToParse(amount).toDouble()
@@ -37,7 +37,7 @@ internal class AddAccountModel(
         amount: String,
         type: Int,
         currency: String
-    ): Flowable<Account> {
+    ): Single<Account> {
         val account = Account()
         account.id = if (accountForUpdate != null) accountForUpdate!!.id else 0
         account.name = name

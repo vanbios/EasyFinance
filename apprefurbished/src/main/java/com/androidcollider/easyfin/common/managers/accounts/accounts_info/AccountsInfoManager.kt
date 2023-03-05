@@ -3,7 +3,7 @@ package com.androidcollider.easyfin.common.managers.accounts.accounts_info
 import com.androidcollider.easyfin.common.models.Account
 import com.androidcollider.easyfin.common.repository.Repository
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 /**
@@ -28,18 +28,16 @@ class AccountsInfoManager internal constructor(private val repository: Repositor
         return false
     }
 
-    val accountsCountObservable: Flowable<Int>
-        get() = repository.allAccounts
-            .map { obj: List<Account> -> obj.size }
+    val accountsCountObservable: Single<Int>
+        get() = repository.allAccounts!!.map { obj: List<Account> -> obj.size }
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
 
     private fun loadAccountList() {
-        repository.allAccounts
-            .subscribe(
-                { accounts: List<Account> ->
-                    accountList.clear()
-                    accountList.addAll(accounts)
-                }) { obj: Throwable -> obj.printStackTrace() }
+        repository.allAccounts?.subscribe(
+            { accounts: List<Account> ->
+                accountList.clear()
+                accountList.addAll(accounts)
+            }) { obj: Throwable -> obj.printStackTrace() }
     }
 }

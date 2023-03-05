@@ -9,7 +9,7 @@ import com.androidcollider.easyfin.common.managers.resources.ResourcesManager
 import com.androidcollider.easyfin.common.models.Transaction
 import com.androidcollider.easyfin.common.models.TransactionCategory
 import com.androidcollider.easyfin.common.repository.Repository
-import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.core.Single
 
 /**
  * @author Ihor Bilous
@@ -32,17 +32,16 @@ internal class TransactionsModel(
     }
 
     override val transactionAndTransactionCategoriesLists:
-            Flowable<Pair<List<TransactionViewModel>,
+            Single<Pair<List<TransactionViewModel>,
                     Pair<List<TransactionCategory>, List<TransactionCategory>>>>
-        get() = Flowable.combineLatest(
-            repository.allTransactions
-                .map { transactionList: List<Transaction> ->
-                    transformTransactionListToViewModelList(
-                        transactionList
-                    )
-                },
-            repository.allTransactionIncomeCategories,
-            repository.allTransactionExpenseCategories
+        get() = Single.zip(
+            repository.allTransactions!!.map { transactionList: List<Transaction> ->
+                transformTransactionListToViewModelList(
+                    transactionList
+                )
+            },
+            repository.allTransactionIncomeCategories!!,
+            repository.allTransactionExpenseCategories!!
         ) { transactionViewModels: List<TransactionViewModel>,
             transactionCategoryIncomeList: List<TransactionCategory>,
             transactionCategoryExpenseList: List<TransactionCategory> ->
@@ -55,13 +54,13 @@ internal class TransactionsModel(
             )
         }
 
-    override fun getTransactionById(id: Int): Flowable<Transaction> {
-        return repository.allTransactions
-            .flatMap { source: List<Transaction> -> Flowable.fromIterable(source) }
-            .filter { transaction: Transaction -> transaction.id == id }
+    override fun getTransactionById(id: Int): Single<Transaction> {
+        return repository.allTransactions!!.flatMap { source: List<Transaction> ->
+            Single.just(source.first { transaction: Transaction -> transaction.id == id })
+        }
     }
 
-    override fun deleteTransactionById(id: Int): Flowable<Boolean> {
+    override fun deleteTransactionById(id: Int): Single<Boolean> {
         return getTransactionById(id)
             .flatMap { transaction: Transaction ->
                 repository.deleteTransaction(
