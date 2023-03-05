@@ -1,69 +1,54 @@
-package com.androidcollider.easyfin.faq;
+package com.androidcollider.easyfin.faq
 
-import android.util.Pair;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.androidcollider.easyfin.R;
-
-import java.util.List;
+import android.util.Pair
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.recyclerview.widget.RecyclerView
+import com.androidcollider.easyfin.R
 
 /**
  * @author Ihor Bilous
  */
+internal class RecyclerFAQAdapter(private val itemsList: List<Pair<String, String>>) :
+    RecyclerView.Adapter<RecyclerFAQAdapter.ViewHolder>() {
 
-class RecyclerFAQAdapter extends RecyclerView.Adapter<RecyclerFAQAdapter.ViewHolder> {
-
-    private final List<Pair<String, String>> itemsList;
-
-
-    RecyclerFAQAdapter(List<Pair<String, String>> itemsList) {
-        this.itemsList = itemsList;
+    override fun getItemCount(): Int {
+        return itemsList.size
     }
 
-    @Override
-    public int getItemCount() {
-        return itemsList.size();
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_faq, parent, false)
+        )
     }
 
-    @Override
-    public RecyclerFAQAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new RecyclerFAQAdapter.ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_faq, parent, false));
+    private fun getItem(position: Int): Pair<String, String> {
+        return itemsList[position]
     }
 
-    private Pair<String, String> getItem(int position) {
-        return itemsList.get(position);
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val pair = getItem(position)
+        holder.tvHead.text = pair.first
+        holder.tvBody.text = pair.second
+        holder.card.setOnClickListener {
+            holder.tvBody.visibility =
+                if (holder.tvBody.visibility == View.GONE) View.VISIBLE else View.GONE
+        }
     }
 
-    @Override
-    public void onBindViewHolder(final RecyclerFAQAdapter.ViewHolder holder, final int position) {
-        Pair<String, String> pair = getItem(position);
-        holder.tvHead.setText(pair.first);
-        holder.tvBody.setText(pair.second);
-        holder.card.setOnClickListener(v ->
-                holder.tvBody.setVisibility(
-                        holder.tvBody.getVisibility() == View.GONE ?
-                                View.VISIBLE : View.GONE)
-        );
-    }
+    internal class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val card: CardView
+        val tvHead: TextView
+        val tvBody: TextView
 
-
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        private final CardView card;
-        private final TextView tvHead;
-        private final TextView tvBody;
-
-
-        ViewHolder(View view) {
-            super(view);
-            card = view.findViewById(R.id.cardFAQ);
-            tvHead = view.findViewById(R.id.tvFAQHead);
-            tvBody = view.findViewById(R.id.tvFAQBody);
+        init {
+            card = view.findViewById(R.id.cardFAQ)
+            tvHead = view.findViewById(R.id.tvFAQHead)
+            tvBody = view.findViewById(R.id.tvFAQBody)
         }
     }
 }

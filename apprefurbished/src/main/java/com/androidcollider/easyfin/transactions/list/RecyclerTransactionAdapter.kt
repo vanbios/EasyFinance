@@ -1,210 +1,196 @@
-package com.androidcollider.easyfin.transactions.list;
+package com.androidcollider.easyfin.transactions.list
 
-import android.content.res.TypedArray;
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
-import com.androidcollider.easyfin.common.managers.ui.letter_tile.LetterTileManager;
-import com.androidcollider.easyfin.common.models.TransactionCategory;
-
-import java.util.ArrayList;
-import java.util.List;
+import android.content.res.TypedArray
+import android.view.*
+import android.view.ContextMenu.ContextMenuInfo
+import android.view.View.OnCreateContextMenuListener
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.androidcollider.easyfin.R
+import com.androidcollider.easyfin.common.managers.resources.ResourcesManager
+import com.androidcollider.easyfin.common.managers.ui.letter_tile.LetterTileManager
+import com.androidcollider.easyfin.common.models.TransactionCategory
+import com.androidcollider.easyfin.transactions.list.RecyclerTransactionAdapter.MainViewHolder
 
 /**
  * @author Ihor Bilous
  */
+internal class RecyclerTransactionAdapter(
+    resourcesManager: ResourcesManager,
+    letterTileManager: LetterTileManager
+) : RecyclerView.Adapter<MainViewHolder>() {
 
-class RecyclerTransactionAdapter extends RecyclerView.Adapter<RecyclerTransactionAdapter.MainViewHolder> {
+    var currentId = 0
+        private set
 
-    private int currentId;
-    private final List<TransactionViewModel> transactionList;
-    private final List<TransactionCategory> transactionCategoryIncomeList;
-    private final List<TransactionCategory> transactionCategoryExpenseList;
-    private final TypedArray catExpenseIconsArray, catIncomeIconsArray, typeIconsArray;
-    private final int CONTENT_TYPE = 1, BUTTON_TYPE = 2;
-    private static int itemCount, maxCount = 30;
-    private static boolean showButton;
-    private final LetterTileManager letterTileManager;
+    private val transactionList: MutableList<TransactionViewModel>
+    private val transactionCategoryIncomeList: MutableList<TransactionCategory>
+    private val transactionCategoryExpenseList: MutableList<TransactionCategory>
+    private val catExpenseIconsArray: TypedArray
+    private val catIncomeIconsArray: TypedArray
+    private val typeIconsArray: TypedArray
+    private val letterTileManager: LetterTileManager
 
-
-    RecyclerTransactionAdapter(ResourcesManager resourcesManager, LetterTileManager letterTileManager) {
-        this.transactionList = new ArrayList<>();
-        this.transactionCategoryIncomeList = new ArrayList<>();
-        this.transactionCategoryExpenseList = new ArrayList<>();
-        catExpenseIconsArray = resourcesManager.getIconArray(ResourcesManager.ICON_TRANSACTION_CATEGORY_EXPENSE);
-        catIncomeIconsArray = resourcesManager.getIconArray(ResourcesManager.ICON_TRANSACTION_CATEGORY_INCOME);
-        typeIconsArray = resourcesManager.getIconArray(ResourcesManager.ICON_ACCOUNT_TYPE);
-        this.letterTileManager = letterTileManager;
+    init {
+        transactionList = ArrayList()
+        transactionCategoryIncomeList = ArrayList()
+        transactionCategoryExpenseList = ArrayList()
+        catExpenseIconsArray =
+            resourcesManager.getIconArray(ResourcesManager.ICON_TRANSACTION_CATEGORY_EXPENSE)
+        catIncomeIconsArray =
+            resourcesManager.getIconArray(ResourcesManager.ICON_TRANSACTION_CATEGORY_INCOME)
+        typeIconsArray = resourcesManager.getIconArray(ResourcesManager.ICON_ACCOUNT_TYPE)
+        this.letterTileManager = letterTileManager
     }
 
-    void setItems(List<TransactionViewModel> items) {
-        transactionList.clear();
-        transactionList.addAll(items);
-        notifyDataSetChanged();
+    fun setItems(items: List<TransactionViewModel>) {
+        transactionList.clear()
+        transactionList.addAll(items)
+        notifyDataSetChanged()
     }
 
-    void deleteItem(int position) {
-        transactionList.remove(position);
-        notifyItemRemoved(position);
+    fun deleteItem(position: Int) {
+        transactionList.removeAt(position)
+        notifyItemRemoved(position)
     }
 
-    int getCurrentId() {
-        return currentId;
+    fun setTransactionCategories(
+        transactionCategoryIncomeList: List<TransactionCategory>,
+        transactionCategoryExpenseList: List<TransactionCategory>
+    ) {
+        this.transactionCategoryIncomeList.clear()
+        this.transactionCategoryIncomeList.addAll(transactionCategoryIncomeList)
+        this.transactionCategoryExpenseList.clear()
+        this.transactionCategoryExpenseList.addAll(transactionCategoryExpenseList)
     }
 
-    private void setCurrentId(int currentId) {
-        this.currentId = currentId;
+    override fun getItemViewType(position: Int): Int {
+        return if (showButton && position == Companion.itemCount) BUTTON_TYPE else CONTENT_TYPE
     }
 
-    void setTransactionCategories(List<TransactionCategory> transactionCategoryIncomeList,
-                                  List<TransactionCategory> transactionCategoryExpenseList) {
-        this.transactionCategoryIncomeList.clear();
-        this.transactionCategoryIncomeList.addAll(transactionCategoryIncomeList);
-        this.transactionCategoryExpenseList.clear();
-        this.transactionCategoryExpenseList.addAll(transactionCategoryExpenseList);
+    override fun getItemCount(): Int {
+        val arraySize = transactionList.size
+        showButton = arraySize > maxCount
+        Companion.itemCount = if (showButton) maxCount else arraySize
+        return if (showButton) Companion.itemCount + 1 else Companion.itemCount
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return showButton && position == itemCount ? BUTTON_TYPE : CONTENT_TYPE;
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
     }
 
-    @Override
-    public int getItemCount() {
-        int arraySize = transactionList.size();
-        showButton = arraySize > maxCount;
-        itemCount = showButton ? maxCount : arraySize;
-        return showButton ? itemCount + 1 : itemCount;
+    private fun getTransaction(position: Int): TransactionViewModel {
+        return transactionList[position]
     }
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    private TransactionViewModel getTransaction(int position) {
-        return transactionList.get(position);
-    }
-
-    int getPositionById(int id) {
-        for (int i = 0; i < transactionList.size(); i++) {
-            if (transactionList.get(i).getId() == id) return i;
+    fun getPositionById(id: Int): Int {
+        for (i in transactionList.indices) {
+            if (transactionList[i].id == id) return i
         }
-        return 0;
+        return 0
     }
 
-    @NonNull
-    @Override
-    public MainViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        switch (viewType) {
-            case CONTENT_TYPE:
-                return new ViewHolderItem(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_frg_transaction, parent, false));
-            case BUTTON_TYPE:
-                return new ViewHolderButton(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_button_show_more, parent, false));
-        }
-        return null;
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
+        return if (viewType == BUTTON_TYPE) ViewHolderButton(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_button_show_more, parent, false)
+        )
+        else ViewHolderItem(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_frg_transaction, parent, false)
+        )
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull final MainViewHolder holder, final int position) {
+    override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         if (getItemViewType(position) == CONTENT_TYPE) {
-            ViewHolderItem holderItem = (ViewHolderItem) holder;
-
-            TransactionViewModel transaction = getTransaction(position);
-
-            holderItem.tvTransAccountName.setText(transaction.getAccountName());
-            holderItem.tvTransDate.setText(transaction.getDate());
-            holderItem.tvTransAmount.setText(transaction.getAmount());
-            holderItem.tvTransAmount.setTextColor(transaction.getColorRes());
-
-            int categoryId = transaction.getCategory();
-            if (transaction.isExpense()) {
+            val holderItem = holder as ViewHolderItem
+            val transaction = getTransaction(position)
+            holderItem.tvTransAccountName.text = transaction.accountName
+            holderItem.tvTransDate.text = transaction.date
+            holderItem.tvTransAmount.text = transaction.amount
+            holderItem.tvTransAmount.setTextColor(transaction.colorRes)
+            val categoryId = transaction.category
+            if (transaction.isExpense) {
                 if (categoryId < catExpenseIconsArray.length()) {
-                    holderItem.ivTransCategory.setImageDrawable(catExpenseIconsArray.getDrawable(categoryId));
+                    holderItem.ivTransCategory.setImageDrawable(
+                        catExpenseIconsArray.getDrawable(
+                            categoryId
+                        )
+                    )
                 } else {
-                    holderItem.ivTransCategory.setImageBitmap(letterTileManager.getLetterTile(getCategoryNameById(categoryId, true)));
+                    holderItem.ivTransCategory.setImageBitmap(
+                        letterTileManager.getLetterTile(
+                            getCategoryNameById(categoryId, true)
+                        )
+                    )
                 }
             } else {
                 if (categoryId < catIncomeIconsArray.length()) {
-                    holderItem.ivTransCategory.setImageDrawable(catIncomeIconsArray.getDrawable(categoryId));
+                    holderItem.ivTransCategory.setImageDrawable(
+                        catIncomeIconsArray.getDrawable(
+                            categoryId
+                        )
+                    )
                 } else {
-                    holderItem.ivTransCategory.setImageBitmap(letterTileManager.getLetterTile(getCategoryNameById(categoryId, false)));
+                    holderItem.ivTransCategory.setImageBitmap(
+                        letterTileManager.getLetterTile(
+                            getCategoryNameById(categoryId, false)
+                        )
+                    )
                 }
             }
-
-            holderItem.ivTransAccountType.setImageDrawable(typeIconsArray.getDrawable(transaction.getAccountType()));
-            holderItem.mView.setOnLongClickListener(view -> {
-                setCurrentId(transaction.getId());
-                return false;
-            });
-
+            holderItem.ivTransAccountType.setImageDrawable(typeIconsArray.getDrawable(transaction.accountType))
+            holderItem.mView.setOnLongClickListener {
+                currentId = transaction.id
+                false
+            }
         } else if (getItemViewType(position) == BUTTON_TYPE) {
-            ViewHolderButton holderButton = (ViewHolderButton) holder;
-            holderButton.tvShowMore.setOnClickListener(v -> {
-                maxCount += 30;
-                notifyDataSetChanged();
-            });
+            val holderButton = holder as ViewHolderButton
+            holderButton.tvShowMore.setOnClickListener {
+                maxCount += 30
+                notifyDataSetChanged()
+            }
         }
     }
 
-    private String getCategoryNameById(int id, boolean isExpense) {
-        for (TransactionCategory category : isExpense ?
-                transactionCategoryExpenseList :
-                transactionCategoryIncomeList) {
-            if (id == category.getId()) return category.getName();
+    private fun getCategoryNameById(id: Int, isExpense: Boolean): String {
+        for (category in if (isExpense)
+            transactionCategoryExpenseList else transactionCategoryIncomeList) {
+            if (id == category.id) return category.name
         }
-        return "";
+        return ""
     }
 
-    static class MainViewHolder extends RecyclerView.ViewHolder {
-        MainViewHolder(View view) {
-            super(view);
-        }
-    }
+    internal open class MainViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
-    private static class ViewHolderItem extends MainViewHolder implements View.OnCreateContextMenuListener {
-        private final View mView;
-        private final TextView tvTransAmount;
-        private final TextView tvTransAccountName;
-        private final TextView tvTransDate;
-        private final ImageView ivTransCategory;
-        private final ImageView ivTransAccountType;
+    private class ViewHolderItem constructor(val mView: View) : MainViewHolder(mView),
+        OnCreateContextMenuListener {
+        val tvTransAmount: TextView = mView.findViewById(R.id.tvItemTransactionAmount)
+        val tvTransAccountName: TextView = mView.findViewById(R.id.tvItemTransactionAccountName)
+        val tvTransDate: TextView = mView.findViewById(R.id.tvItemTransactionDate)
+        val ivTransCategory: ImageView = mView.findViewById(R.id.ivItemTransactionCategory)
+        val ivTransAccountType: ImageView = mView.findViewById(R.id.ivItemTransactionAccountType)
 
-        ViewHolderItem(View view) {
-            super(view);
-            mView = view;
-            tvTransAmount = view.findViewById(R.id.tvItemTransactionAmount);
-            tvTransAccountName = view.findViewById(R.id.tvItemTransactionAccountName);
-            tvTransDate = view.findViewById(R.id.tvItemTransactionDate);
-            ivTransCategory = view.findViewById(R.id.ivItemTransactionCategory);
-            ivTransAccountType = view.findViewById(R.id.ivItemTransactionAccountType);
-            view.setOnCreateContextMenuListener(this);
+        init {
+            mView.setOnCreateContextMenuListener(this)
         }
 
-        @Override
-        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-            menu.add(Menu.NONE, R.id.ctx_menu_edit_transaction, 1, R.string.edit);
-            menu.add(Menu.NONE, R.id.ctx_menu_delete_transaction, 2, R.string.delete);
+        override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenuInfo) {
+            menu.add(Menu.NONE, R.id.ctx_menu_edit_transaction, 1, R.string.edit)
+            menu.add(Menu.NONE, R.id.ctx_menu_delete_transaction, 2, R.string.delete)
         }
     }
 
+    private class ViewHolderButton constructor(view: View) : MainViewHolder(view) {
+        val tvShowMore: TextView = view.findViewById(R.id.tvItemShowMore)
+    }
 
-    private static class ViewHolderButton extends MainViewHolder {
-        private final TextView tvShowMore;
-
-        ViewHolderButton(View view) {
-            super(view);
-            tvShowMore = view.findViewById(R.id.tvItemShowMore);
-        }
+    companion object {
+        private var itemCount = 0
+        private var maxCount = 30
+        private var showButton = false
+        private const val CONTENT_TYPE = 1
+        private const val BUTTON_TYPE = 2
     }
 }

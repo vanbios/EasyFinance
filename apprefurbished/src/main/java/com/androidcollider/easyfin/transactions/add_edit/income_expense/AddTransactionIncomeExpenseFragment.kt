@@ -192,18 +192,20 @@ class AddTransactionIncomeExpenseFragment : CommonFragmentAddEdit(),
         categoryList: List<TransactionCategory>,
         categoryIcons: TypedArray, selectedPos: Int
     ) {
-        spinCategory.adapter = TransactionCategoryAdapter(
-            activity,
-            R.layout.spin_head_icon_text,
-            R.id.tvSpinHeadIconText,
-            R.id.ivSpinHeadIconText,
-            R.layout.spin_drop_icon_text,
-            R.id.tvSpinDropIconText,
-            R.id.ivSpinDropIconText,
-            categoryList,
-            categoryIcons,
-            letterTileManager
-        )
+        activity?.let {
+            spinCategory.adapter = TransactionCategoryAdapter(
+                it,
+                R.layout.spin_head_icon_text,
+                R.id.tvSpinHeadIconText,
+                R.id.ivSpinHeadIconText,
+                R.layout.spin_drop_icon_text,
+                R.id.tvSpinDropIconText,
+                R.id.ivSpinDropIconText,
+                categoryList,
+                categoryIcons,
+                letterTileManager
+            )
+        }
         spinCategory.setSelection(selectedPos)
     }
 
