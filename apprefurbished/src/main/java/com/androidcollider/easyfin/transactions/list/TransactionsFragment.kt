@@ -47,9 +47,8 @@ class TransactionsFragment : CommonFragmentWithEvents(), TransactionsMVP.View {
     @Inject
     lateinit var presenter: TransactionsMVP.Presenter
 
-    override fun getContentView(): Int {
-        return R.layout.frg_transactions
-    }
+    override val contentView: Int
+        get() = R.layout.frg_transactions
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

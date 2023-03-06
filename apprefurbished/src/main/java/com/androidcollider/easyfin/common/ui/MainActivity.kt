@@ -1,285 +1,248 @@
-package com.androidcollider.easyfin.common.ui;
+package com.androidcollider.easyfin.common.ui
 
-import android.content.Context;
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.view.GestureDetector;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.accounts.add_edit.AddAccountFragment;
-import com.androidcollider.easyfin.common.app.App;
-import com.androidcollider.easyfin.common.managers.permission.PermissionManager;
-import com.androidcollider.easyfin.common.managers.rates.rates_loader.RatesLoaderManager;
-import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
-import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager;
-import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager;
-import com.androidcollider.easyfin.common.ui.adapters.NavigationDrawerRecyclerAdapter;
-import com.androidcollider.easyfin.common.ui.fragments.PrefFragment;
-import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment;
-import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit;
-import com.androidcollider.easyfin.common.ui.fragments.common.PreferenceFragment;
-import com.androidcollider.easyfin.debts.list.DebtsFragment;
-import com.androidcollider.easyfin.faq.FAQFragment;
-import com.androidcollider.easyfin.main.MainFragment;
-import com.androidcollider.easyfin.transaction_categories.root.TransactionCategoriesRootFragment;
-
-import javax.inject.Inject;
+import android.content.res.Configuration
+import android.os.Bundle
+import android.view.GestureDetector
+import android.view.GestureDetector.SimpleOnGestureListener
+import android.view.MenuItem
+import android.view.MotionEvent
+import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnItemTouchListener
+import com.androidcollider.easyfin.R
+import com.androidcollider.easyfin.accounts.add_edit.AddAccountFragment
+import com.androidcollider.easyfin.common.app.App
+import com.androidcollider.easyfin.common.managers.permission.PermissionManager
+import com.androidcollider.easyfin.common.managers.rates.rates_loader.RatesLoaderManager
+import com.androidcollider.easyfin.common.managers.resources.ResourcesManager
+import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager
+import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager
+import com.androidcollider.easyfin.common.ui.adapters.NavigationDrawerRecyclerAdapter
+import com.androidcollider.easyfin.common.ui.fragments.PrefFragment
+import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment
+import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit
+import com.androidcollider.easyfin.common.ui.fragments.common.PreferenceFragment
+import com.androidcollider.easyfin.debts.list.DebtsFragment
+import com.androidcollider.easyfin.faq.FAQFragment
+import com.androidcollider.easyfin.main.MainFragment
+import com.androidcollider.easyfin.transaction_categories.root.TransactionCategoriesRootFragment
+import javax.inject.Inject
 
 /**
  * @author Ihor Bilous
  */
+class MainActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedListener {
 
-public class MainActivity extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
-
-    DrawerLayout drawerLayout;
-    RecyclerView recyclerNavDrawer;
-    Toolbar toolbar;
-
-    private static long backPressExitTime;
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var recyclerNavDrawer: RecyclerView
+    private lateinit var toolbar: Toolbar
 
     @Inject
-    RatesLoaderManager ratesLoaderManager;
+    lateinit var ratesLoaderManager: RatesLoaderManager
 
     @Inject
-    ToastManager toastManager;
+    lateinit var toastManager: ToastManager
 
     @Inject
-    DialogManager dialogManager;
+    lateinit var dialogManager: DialogManager
 
     @Inject
-    ResourcesManager resourcesManager;
+    lateinit var resourcesManager: ResourcesManager
 
     @Inject
-    PermissionManager permissionManager;
+    lateinit var permissionManager: PermissionManager
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.nav_drawer_root_layout);
-
-        ((App) getApplication()).getComponent().inject(this);
-
-        setupUI();
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.addOnBackStackChangedListener(this);
-
-        ratesLoaderManager.updateRatesForExchange();
-
-        initializeViews();
-        setToolbar(getString(R.string.app_name));
-
-        addFragment(new MainFragment());
-
-        permissionManager.setActivity(this);
-        //permissionManager.requestRequiredPermissions();
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.nav_drawer_root_layout)
+        (application as App).component?.inject(this)
+        setupUI()
+        val fragmentManager = supportFragmentManager
+        fragmentManager.addOnBackStackChangedListener(this)
+        ratesLoaderManager.updateRatesForExchange()
+        initializeViews()
+        setToolbar(getString(R.string.app_name))
+        addFragment(MainFragment())
+        permissionManager.setActivity(this)
+        //permissionManager.requestRequiredPermissions()
     }
 
-    private void setupUI() {
-        drawerLayout = findViewById(R.id.navDrawerLayout);
-        recyclerNavDrawer = findViewById(R.id.recyclerViewNavDrawer);
-        toolbar = findViewById(R.id.toolbarMain);
+    private fun setupUI() {
+        drawerLayout = findViewById(R.id.navDrawerLayout)
+        recyclerNavDrawer = findViewById(R.id.recyclerViewNavDrawer)
+        toolbar = findViewById(R.id.toolbarMain)
     }
 
-    private void initializeViews() {
-        setSupportActionBar(toolbar);
-
-        if (recyclerNavDrawer != null) {
-            recyclerNavDrawer.setHasFixedSize(true);
-            recyclerNavDrawer.setLayoutManager(new LinearLayoutManager(this));
-            recyclerNavDrawer.setAdapter(new NavigationDrawerRecyclerAdapter(resourcesManager));
-
-            ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name);
-            drawerLayout.addDrawerListener(mDrawerToggle);
-            mDrawerToggle.syncState();
-
-            final GestureDetector gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
-                @Override
-                public boolean onSingleTapUp(MotionEvent e) {
-                    return true;
-                }
-            });
-
-            recyclerNavDrawer.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-                @Override
-                public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                    View child = rv.findChildViewUnder(e.getX(), e.getY());
-
-                    if (child != null && gestureDetector.onTouchEvent(e)) {
-                        int position = recyclerNavDrawer.getChildAdapterPosition(child);
-                        if (position != 0 && position != 5) {
-                            drawerLayout.closeDrawers();
-
-                            switch (position) {
-                                case 1:
-                                    openSelectedFrgMainPage(0);
-                                    break;
-                                case 2:
-                                    openSelectedFrgMainPage(1);
-                                    break;
-                                case 3:
-                                    openSelectedFrgMainPage(2);
-                                    break;
-                                case 4:
-                                    addFragment(new DebtsFragment());
-                                    break;
-                                case 6:
-                                    addFragment(new TransactionCategoriesRootFragment());
-                                    break;
-                                case 7:
-                                    addFragment(new PrefFragment());
-                                    break;
-                                case 8:
-                                    addFragment(new FAQFragment());
-                                    break;
-                                case 9:
-                                    dialogManager.showAppAboutDialog(MainActivity.this);
-                                    break;
-                            }
+    private fun initializeViews() {
+        setSupportActionBar(toolbar)
+        recyclerNavDrawer.setHasFixedSize(true)
+        recyclerNavDrawer.layoutManager = LinearLayoutManager(this)
+        recyclerNavDrawer.adapter = NavigationDrawerRecyclerAdapter(resourcesManager)
+        val mDrawerToggle = ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            toolbar,
+            R.string.app_name,
+            R.string.app_name
+        )
+        drawerLayout.addDrawerListener(mDrawerToggle)
+        mDrawerToggle.syncState()
+        val gestureDetector = GestureDetector(this, object : SimpleOnGestureListener() {
+            override fun onSingleTapUp(e: MotionEvent): Boolean {
+                return true
+            }
+        })
+        recyclerNavDrawer.addOnItemTouchListener(object : OnItemTouchListener {
+            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                val child = rv.findChildViewUnder(e.x, e.y)
+                if (child != null && gestureDetector.onTouchEvent(e)) {
+                    val position = recyclerNavDrawer.getChildAdapterPosition(child)
+                    if (position != 0 && position != 5) {
+                        drawerLayout.closeDrawers()
+                        when (position) {
+                            1 -> openSelectedFrgMainPage(0)
+                            2 -> openSelectedFrgMainPage(1)
+                            3 -> openSelectedFrgMainPage(2)
+                            4 -> addFragment(DebtsFragment())
+                            6 -> addFragment(TransactionCategoriesRootFragment())
+                            7 -> addFragment(PrefFragment())
+                            8 -> addFragment(FAQFragment())
+                            9 -> dialogManager.showAppAboutDialog(this@MainActivity)
                         }
                     }
-                    return false;
                 }
-
-                @Override
-                public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                }
-
-                @Override
-                public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-                }
-            });
-        }
-    }
-
-    private void setToolbar(String title) {
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayShowCustomEnabled(false);
-            actionBar.setDisplayShowTitleEnabled(true);
-            actionBar.setTitle(title);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            toolbar.setNavigationIcon(R.drawable.ic_menu);
-        }
-    }
-
-    private void openSelectedFrgMainPage(int page) {
-        popFragments();
-        Fragment f = getTopFragment();
-        if (f instanceof MainFragment) {
-            MainFragment mainFragment = (MainFragment) f;
-            mainFragment.openSelectedPage(page);
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            drawerLayout.openDrawer(GravityCompat.START);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-    public void addFragment(Fragment f) {
-        treatFragment(f, true, false);
-    }
-
-    public Fragment getTopFragment() {
-        return getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-    }
-
-    private void treatFragment(Fragment f, boolean addToBackStack, boolean replace) {
-        String tag = f.getClass().getName();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        if (replace) {
-            ft.replace(R.id.fragment_container, f, tag);
-        } else {
-            Fragment currentTop = getTopFragment();
-            if (currentTop != null) ft.hide(currentTop);
-            ft.add(R.id.fragment_container, f, tag);
-        }
-        if (addToBackStack) ft.addToBackStack(tag);
-        ft.commitAllowingStateLoss();
-    }
-
-    @Override
-    public void onBackStackChanged() {
-        Fragment topFragment = getTopFragment();
-        if (topFragment instanceof CommonFragment && !(topFragment instanceof CommonFragmentAddEdit)) {
-            setToolbar((((CommonFragment) topFragment).getTitle()));
-        } else if (topFragment instanceof PreferenceFragment) {
-            setToolbar((((PreferenceFragment) topFragment).getTitle()));
-        }
-        hideKeyboard();
-    }
-
-    public void hideKeyboard() {
-        InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-        View view = this.getCurrentFocus();
-        if (view != null) {
-            inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
-        }
-    }
-
-    private void popFragments() {
-        getSupportFragmentManager().popBackStackImmediate(1, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-    }
-
-    private void popFragment() {
-        getSupportFragmentManager().popBackStack();
-    }
-
-    @Override
-    public void onBackPressed() {
-        Fragment fragment = getTopFragment();
-        if (fragment instanceof MainFragment) {
-            if (backPressExitTime + 2000 > System.currentTimeMillis()) {
-                this.finish();
-            } else {
-                toastManager.showClosableToast(this, getString(R.string.press_again_to_exit), ToastManager.SHORT);
-                backPressExitTime = System.currentTimeMillis();
+                return false
             }
-        } else if (fragment instanceof AddAccountFragment) popFragments();
-        else if (fragment instanceof CommonFragmentAddEdit) popFragment();
-        else popFragments();
+
+            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {}
+            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
+        })
     }
 
-    @Override
-    public void onConfigurationChanged(@NonNull Configuration newConfig) {
-        restartActivity();
-        super.onConfigurationChanged(newConfig);
+    private fun setToolbar(title: String) {
+        val actionBar = supportActionBar
+        if (actionBar != null) {
+            actionBar.setDisplayShowCustomEnabled(false)
+            actionBar.setDisplayShowTitleEnabled(true)
+            actionBar.title = title
+            actionBar.setDisplayHomeAsUpEnabled(true)
+            toolbar.setNavigationIcon(R.drawable.ic_menu)
+        }
     }
 
-    private void restartActivity() {
-        Intent intent = getIntent();
-        this.finish();
-        startActivity(intent);
+    private fun openSelectedFrgMainPage(page: Int) {
+        popFragments()
+        val f = topFragment
+        if (f is MainFragment) {
+            f.openSelectedPage(page)
+        }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        permissionManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == android.R.id.home) {
+            drawerLayout.openDrawer(GravityCompat.START)
+            return true
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    fun addFragment(f: Fragment) {
+        treatFragment(f, true, false)
+    }
+
+    private val topFragment: Fragment?
+        get() = supportFragmentManager.findFragmentById(R.id.fragment_container)
+
+    private fun treatFragment(f: Fragment, addToBackStack: Boolean, replace: Boolean) {
+        val tag = f.javaClass.name
+        val ft = supportFragmentManager.beginTransaction()
+        if (replace) {
+            ft.replace(R.id.fragment_container, f, tag)
+        } else {
+            val currentTop = topFragment
+            if (currentTop != null) ft.hide(currentTop)
+            ft.add(R.id.fragment_container, f, tag)
+        }
+        if (addToBackStack) ft.addToBackStack(tag)
+        ft.commitAllowingStateLoss()
+    }
+
+    override fun onBackStackChanged() {
+        val topFragment = topFragment
+        if (topFragment is CommonFragment && topFragment !is CommonFragmentAddEdit) {
+            setToolbar(topFragment.title)
+        } else if (topFragment is PreferenceFragment) {
+            setToolbar(topFragment.title)
+        }
+        hideKeyboard()
+    }
+
+    private fun hideKeyboard() {
+        val inputManager = this.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        val view = this.currentFocus
+        if (view != null) {
+            inputManager.hideSoftInputFromWindow(
+                view.windowToken,
+                InputMethodManager.HIDE_NOT_ALWAYS
+            )
+        }
+    }
+
+    private fun popFragments() {
+        supportFragmentManager.popBackStackImmediate(1, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    }
+
+    private fun popFragment() {
+        supportFragmentManager.popBackStack()
+    }
+
+    override fun onBackPressed() {
+        val fragment = topFragment
+        if (fragment is MainFragment) {
+            if (backPressExitTime + 2000 > System.currentTimeMillis()) {
+                finish()
+            } else {
+                toastManager.showClosableToast(
+                    this,
+                    getString(R.string.press_again_to_exit),
+                    ToastManager.SHORT
+                )
+                backPressExitTime = System.currentTimeMillis()
+            }
+        } else if (fragment is AddAccountFragment) popFragments()
+        else if (fragment is CommonFragmentAddEdit) popFragment()
+        else popFragments()
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        restartActivity()
+        super.onConfigurationChanged(newConfig)
+    }
+
+    private fun restartActivity() {
+        val intent = intent
+        finish()
+        startActivity(intent)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        permissionManager.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    companion object {
+        private var backPressExitTime: Long = 0
     }
 }

@@ -1,69 +1,54 @@
-package com.androidcollider.easyfin.common.ui.adapters;
+package com.androidcollider.easyfin.common.ui.adapters
 
-import android.content.Context;
-import android.content.res.TypedArray;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
+import android.content.Context
+import android.content.res.TypedArray
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.TextView
 
 /**
  * @author Ihor Bilous
  */
+class SpinIconTextHeadAdapter(
+    mContext: Context,
+    private val headLayout: Int, private val headTvId: Int, private val headIvId: Int,
+    private val dropLayout: Int, private val dropTvId: Int, private val dropIvId: Int,
+    private val textArray: Array<String>, private val iconsArray: TypedArray
+) : ArrayAdapter<String>(mContext, headLayout, textArray) {
 
-public class SpinIconTextHeadAdapter extends ArrayAdapter<String> {
+    private val inflater: LayoutInflater =
+        mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-    private final TypedArray iconsArray;
-    private final String[] textArray;
-    private final int headLayout, headTvId, headIvId, dropLayout, dropTvId, dropIvId;
-    private final LayoutInflater inflater;
-
-    public SpinIconTextHeadAdapter(Context context,
-                                   int headLayout, int headTvId, int headIvId,
-                                   int dropLayout, int dropTvId, int dropIvId,
-                                   String[] text, TypedArray icons) {
-        super(context, headLayout, text);
-        textArray = text;
-        iconsArray = icons;
-        this.headLayout = headLayout;
-        this.headTvId = headTvId;
-        this.headIvId = headIvId;
-        this.dropLayout = dropLayout;
-        this.dropTvId = dropTvId;
-        this.dropIvId = dropIvId;
-        inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    override fun getDropDownView(position: Int, view: View?, parent: ViewGroup): View {
+        return getCustomDropView(position, parent)
     }
 
-    @Override
-    public View getDropDownView(int position, View view, @NonNull ViewGroup parent) {
-        return getCustomDropView(position, parent);
+    override fun getView(pos: Int, view: View?, parent: ViewGroup): View {
+        return getCustomHeadView(pos, parent)
     }
 
-    @NonNull
-    @Override
-    public View getView(int pos, View view, @NonNull ViewGroup parent) {
-        return getCustomHeadView(pos, parent);
+    private fun getCustomDropView(position: Int, parent: ViewGroup): View {
+        val dropSpinner = inflater.inflate(dropLayout, parent, false)
+        val text = dropSpinner.findViewById<TextView>(dropTvId)
+        text.text = textArray[position]
+        val icon = dropSpinner.findViewById<ImageView>(
+            dropIvId
+        )
+        icon.setImageResource(iconsArray.getResourceId(position, 0))
+        return dropSpinner
     }
 
-    private View getCustomDropView(int position, ViewGroup parent) {
-        View dropSpinner = inflater.inflate(dropLayout, parent, false);
-        TextView text = dropSpinner.findViewById(dropTvId);
-        text.setText(textArray[position]);
-        ImageView icon = dropSpinner.findViewById(dropIvId);
-        icon.setImageResource(iconsArray.getResourceId(position, 0));
-        return dropSpinner;
-    }
-
-    private View getCustomHeadView(int position, ViewGroup parent) {
-        View headSpinner = inflater.inflate(headLayout, parent, false);
-        TextView headText = headSpinner.findViewById(headTvId);
-        headText.setText(textArray[position]);
-        ImageView icon = headSpinner.findViewById(headIvId);
-        icon.setImageResource(iconsArray.getResourceId(position, 0));
-        return headSpinner;
+    private fun getCustomHeadView(position: Int, parent: ViewGroup): View {
+        val headSpinner = inflater.inflate(headLayout, parent, false)
+        val headText = headSpinner.findViewById<TextView>(headTvId)
+        headText.text = textArray[position]
+        val icon = headSpinner.findViewById<ImageView>(
+            headIvId
+        )
+        icon.setImageResource(iconsArray.getResourceId(position, 0))
+        return headSpinner
     }
 }

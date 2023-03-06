@@ -1,44 +1,36 @@
-package com.androidcollider.easyfin.common.ui.adapters;
+package com.androidcollider.easyfin.common.ui.adapters
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentStatePagerAdapter
 
 /**
  * @author Ihor Bilous
  */
+class ViewPagerFragmentAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
 
-public class ViewPagerFragmentAdapter extends FragmentStatePagerAdapter {
+    private val mFragments: MutableList<Fragment>
+    private val mFragmentTitles: MutableList<String>
 
-    private final List<Fragment> mFragments;
-    private final List<String> mFragmentTitles;
-
-    public ViewPagerFragmentAdapter(FragmentManager fm) {
-        super(fm);
-        mFragments = new ArrayList<>();
-        mFragmentTitles = new ArrayList<>();
+    init {
+        mFragments = ArrayList()
+        mFragmentTitles = ArrayList()
     }
 
-    public void addFragment(Fragment fragment, String title) {
-        mFragments.add(fragment);
-        mFragmentTitles.add(title);
+    fun addFragment(fragment: Fragment, title: String) {
+        mFragments.add(fragment)
+        mFragmentTitles.add(title)
     }
 
-    @Override
-    public Fragment getItem(int position) {
-        return mFragments.get(position);
+    override fun getItem(position: Int): Fragment {
+        return mFragments[position]
     }
 
-    @Override
-    public int getCount() {
-        return mFragments.size();
+    override fun getCount(): Int {
+        return mFragments.size
     }
 
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return mFragmentTitles.get(position);
+    override fun getPageTitle(position: Int): CharSequence {
+        return mFragmentTitles[position]
     }
 }

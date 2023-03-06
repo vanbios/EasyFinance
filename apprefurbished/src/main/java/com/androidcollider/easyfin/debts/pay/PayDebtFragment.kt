@@ -47,9 +47,8 @@ class PayDebtFragment : CommonFragmentAddEdit(), OnCommitAmountListener, PayDebt
     @Inject
     lateinit var presenter: PayDebtMVP.Presenter
 
-    override fun getContentView(): Int {
-        return R.layout.frg_pay_debt
-    }
+    override val contentView: Int
+        get() = R.layout.frg_pay_debt
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,12 +99,14 @@ class PayDebtFragment : CommonFragmentAddEdit(), OnCommitAmountListener, PayDebt
     }
 
     override fun setupSpinner() {
-        spinAccount.adapter = SpinAccountForTransHeadIconAdapter(
-            activity,
-            R.layout.spin_head_icon_text,
-            accountsAvailableList,
-            resourcesManager
-        )
+        activity?.let {
+            spinAccount.adapter = SpinAccountForTransHeadIconAdapter(
+                it,
+                R.layout.spin_head_icon_text,
+                accountsAvailableList,
+                resourcesManager
+            )
+        }
     }
 
     override fun showAccount(position: Int) {

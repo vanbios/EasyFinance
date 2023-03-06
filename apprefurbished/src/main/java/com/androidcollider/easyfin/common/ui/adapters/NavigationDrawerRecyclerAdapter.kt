@@ -1,95 +1,98 @@
-package com.androidcollider.easyfin.common.ui.adapters;
+package com.androidcollider.easyfin.common.ui.adapters
 
-import android.content.res.TypedArray;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
+import android.content.res.TypedArray
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+import com.androidcollider.easyfin.R
+import com.androidcollider.easyfin.common.managers.resources.ResourcesManager
 
 /**
  * @author Ihor Bilous
  */
+class NavigationDrawerRecyclerAdapter(resourcesManager: ResourcesManager) :
+    RecyclerView.Adapter<NavigationDrawerRecyclerAdapter.ViewHolder>() {
 
-public class NavigationDrawerRecyclerAdapter extends RecyclerView.Adapter<NavigationDrawerRecyclerAdapter.ViewHolder> {
+    private val navTitles: Array<String>
+    private val navIcons: TypedArray
 
-    private final String navTitles[];
-    private final TypedArray navIcons;
-    private final static int TYPE_HEADER = 0, TYPE_ITEM = 1, TYPE_DIVIDER = 2;
-
-
-    public NavigationDrawerRecyclerAdapter(ResourcesManager resourcesManager) {
-        navTitles = resourcesManager.getStringArray(ResourcesManager.STRING_NAVIGATION_DRAWER_MENU);
-        navIcons = resourcesManager.getIconArray(ResourcesManager.ICON_NAVIGATION_DRAWER_MENU);
+    init {
+        navTitles = resourcesManager.getStringArray(ResourcesManager.STRING_NAVIGATION_DRAWER_MENU)
+        navIcons = resourcesManager.getIconArray(ResourcesManager.ICON_NAVIGATION_DRAWER_MENU)
     }
 
-    @Override
-    public NavigationDrawerRecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        switch (viewType) {
-            case TYPE_ITEM:
-                return new ViewHolder(
-                        LayoutInflater.from(parent.getContext()).inflate(R.layout.item_nav_row, parent, false), TYPE_ITEM);
-            case TYPE_HEADER:
-                return new ViewHolder(
-                        LayoutInflater.from(parent.getContext()).inflate(R.layout.nav_header, parent, false), TYPE_HEADER);
-            case TYPE_DIVIDER:
-                return new ViewHolder(
-                        LayoutInflater.from(parent.getContext()).inflate(R.layout.item_nav_divider, parent, false), TYPE_DIVIDER);
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        when (viewType) {
+            TYPE_ITEM -> return ViewHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_nav_row, parent, false),
+                TYPE_ITEM
+            )
+            TYPE_HEADER -> return ViewHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.nav_header, parent, false),
+                TYPE_HEADER
+            )
+            TYPE_DIVIDER -> return ViewHolder(
+                LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_nav_divider, parent, false), TYPE_DIVIDER
+            )
         }
-        return null;
+        return ViewHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_nav_row, parent, false),
+            TYPE_ITEM
+        )
     }
 
-    @Override
-    public void onBindViewHolder(NavigationDrawerRecyclerAdapter.ViewHolder holder, int position) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if (holder.holderId == TYPE_ITEM) {
-            int arrayPos = 0;
-            if (position < 5) arrayPos = position - 1;
-            else if (position > 5) arrayPos = position - 2;
-            holder.tvNavItem.setText(navTitles[arrayPos]);
-            holder.ivNavItem.setImageDrawable(navIcons.getDrawable(arrayPos));
+            var arrayPos = 0
+            if (position < 5) arrayPos = position - 1 else if (position > 5) arrayPos = position - 2
+            holder.tvNavItem?.text = navTitles[arrayPos]
+            holder.ivNavItem?.setImageDrawable(navIcons.getDrawable(arrayPos))
         }
     }
 
-    @Override
-    public int getItemCount() {
-        return navTitles.length + 2;
+    override fun getItemCount(): Int {
+        return navTitles.size + 2
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        if (isPositionHeader(position)) return TYPE_HEADER;
-        if (isPositionDivider(position)) return TYPE_DIVIDER;
-        return TYPE_ITEM;
+    override fun getItemViewType(position: Int): Int {
+        if (isPositionHeader(position)) return TYPE_HEADER
+        return if (isPositionDivider(position)) TYPE_DIVIDER else TYPE_ITEM
     }
 
-    private boolean isPositionHeader(int position) {
-        return position == 0;
+    private fun isPositionHeader(position: Int): Boolean {
+        return position == 0
     }
 
-    private boolean isPositionDivider(int position) {
-        return position == 5;
+    private fun isPositionDivider(position: Int): Boolean {
+        return position == 5
     }
 
+    class ViewHolder(itemView: View, viewType: Int) : RecyclerView.ViewHolder(itemView) {
+        var holderId = 0
+        var tvNavItem: TextView? = null
+        var ivNavItem: ImageView? = null
 
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        int holderId;
-        private TextView tvNavItem;
-        private ImageView ivNavItem;
-
-        ViewHolder(View itemView, int viewType) {
-            super(itemView);
+        init {
             if (viewType == TYPE_ITEM) {
-                tvNavItem = itemView.findViewById(R.id.tvItemNavRow);
-                ivNavItem = itemView.findViewById(R.id.ivItemNavRow);
-                holderId = TYPE_ITEM;
+                tvNavItem = itemView.findViewById(R.id.tvItemNavRow)
+                ivNavItem = itemView.findViewById(R.id.ivItemNavRow)
+                holderId = TYPE_ITEM
             } else {
-                holderId = viewType == TYPE_HEADER ? TYPE_HEADER : TYPE_DIVIDER;
+                holderId = if (viewType == TYPE_HEADER) TYPE_HEADER else TYPE_DIVIDER
             }
         }
+    }
+
+    companion object {
+        private const val TYPE_HEADER = 0
+        private const val TYPE_ITEM = 1
+        private const val TYPE_DIVIDER = 2
     }
 }

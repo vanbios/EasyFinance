@@ -1,36 +1,28 @@
-package com.androidcollider.easyfin.common.ui.adapters;
+package com.androidcollider.easyfin.common.ui.adapters
 
-import android.content.Context;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
-import com.androidcollider.easyfin.R;
-import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
-import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel;
-
-import java.util.List;
+import android.content.Context
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import com.androidcollider.easyfin.R
+import com.androidcollider.easyfin.common.managers.resources.ResourcesManager
+import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel
 
 /**
  * @author Ihor Bilous
  */
+class SpinAccountForTransAdapter(
+    context: Context,
+    headLayout: Int,
+    accountList: List<SpinAccountViewModel>,
+    resourcesManager: ResourcesManager
+) : SpinAccountAdapter(context, headLayout, accountList, resourcesManager) {
 
-public class SpinAccountForTransAdapter extends SpinAccountAdapter {
-
-    public SpinAccountForTransAdapter(Context context,
-                                      int headLayout,
-                                      List<SpinAccountViewModel> accountL,
-                                      ResourcesManager resourcesManager) {
-        super(context, headLayout, accountL, resourcesManager);
-    }
-
-    public View getCustomHeadView(int position, ViewGroup parent) {
-        View headSpinner = getInflater().inflate(R.layout.spin_head_text, parent, false);
-        SpinAccountViewModel account = getItem(position);
-        if (account != null) {
-            TextView headText = headSpinner.findViewById(R.id.tvSpinHeadText);
-            headText.setText(account.getName());
-        }
-        return headSpinner;
+    override fun getCustomHeadView(position: Int, parent: ViewGroup?): View {
+        val headSpinner = inflater.inflate(R.layout.spin_head_text, parent, false)
+        val account = getItem(position)
+        val headText = headSpinner.findViewById<TextView>(R.id.tvSpinHeadText)
+        headText.text = account.name
+        return headSpinner
     }
 }

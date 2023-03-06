@@ -49,9 +49,8 @@ class TransactionCategoriesRootFragment : CommonFragment(),
     @Inject
     lateinit var presenter: TransactionCategoriesRootMVP.Presenter
 
-    override fun getContentView(): Int {
-        return R.layout.frg_transaction_categories_root
-    }
+    override val contentView: Int
+        get() = R.layout.frg_transaction_categories_root
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -157,9 +156,8 @@ class TransactionCategoriesRootFragment : CommonFragment(),
         }
     }
 
-    override fun getTitle(): String {
-        return getString(R.string.transaction_categories)
-    }
+    override val title: String
+        get() = getString(R.string.transaction_categories)
 
     override fun showMessage(message: String) {
         activity?.let {

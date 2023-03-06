@@ -29,19 +29,20 @@ abstract class CommonFragmentAddEdit : CommonFragment() {
         (activity?.application as App).component?.inject(this)
     }
 
-    override fun getTitle(): String {
-        return getString(R.string.app_name)
-    }
+    override val title: String
+        get() = getString(R.string.app_name)
 
     protected fun setToolbar() {
         activity?.let {
             val actionBar = (it as AppCompatActivity).supportActionBar
             if (actionBar != null) {
                 val actionBarLayout = it.layoutInflater.inflate(
-                        R.layout.save_close_buttons_toolbar, null) as ViewGroup
+                    R.layout.save_close_buttons_toolbar, null
+                ) as ViewGroup
                 val layoutParams = ActionBar.LayoutParams(
-                        ActionBar.LayoutParams.MATCH_PARENT,
-                        ActionBar.LayoutParams.MATCH_PARENT)
+                    ActionBar.LayoutParams.MATCH_PARENT,
+                    ActionBar.LayoutParams.MATCH_PARENT
+                )
                 actionBar.setDisplayShowTitleEnabled(false)
                 actionBar.setDisplayHomeAsUpEnabled(false)
                 actionBar.setDisplayShowCustomEnabled(true)
@@ -59,7 +60,8 @@ abstract class CommonFragmentAddEdit : CommonFragment() {
     protected fun setTVTextSize(textView: TextView, s: String, min: Int, max: Int) {
         val length = s.length
         when {
-            length in (min + 1)..max -> textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f)
+            length in (min + 1)..max ->
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 30f)
             length > max -> textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24f)
             else -> textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 36f)
         }
@@ -78,7 +80,10 @@ abstract class CommonFragmentAddEdit : CommonFragment() {
 
     protected fun showDialogNoAccount(message: String, withFinish: Boolean) {
         activity?.let {
-            dialogManager.showNoAccountsDialog(it, message, { goToAddAccount(withFinish) }) { finish() }
+            dialogManager.showNoAccountsDialog(
+                it,
+                message,
+                { goToAddAccount(withFinish) }) { finish() }
         }
     }
 

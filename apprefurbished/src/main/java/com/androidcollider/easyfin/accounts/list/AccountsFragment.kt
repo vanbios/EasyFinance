@@ -41,9 +41,9 @@ class AccountsFragment : CommonFragmentWithEvents(), AccountsMVP.View {
     @Inject
     lateinit var presenter: AccountsMVP.Presenter
 
-    override fun getContentView(): Int {
-        return R.layout.frg_accounts
-    }
+
+    override val contentView: Int
+        get() = R.layout.frg_accounts
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

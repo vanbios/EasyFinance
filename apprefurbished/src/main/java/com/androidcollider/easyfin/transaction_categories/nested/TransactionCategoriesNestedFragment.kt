@@ -54,9 +54,8 @@ class TransactionCategoriesNestedFragment : CommonFragmentWithEvents(),
     @Inject
     lateinit var presenter: TransactionCategoriesNestedMVP.Presenter
 
-    override fun getContentView(): Int {
-        return R.layout.frg_transaction_categories_nested
-    }
+    override val contentView: Int
+        get() = R.layout.frg_transaction_categories_nested
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

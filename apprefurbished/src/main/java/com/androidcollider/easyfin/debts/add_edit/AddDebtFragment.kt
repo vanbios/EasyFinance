@@ -56,9 +56,8 @@ class AddDebtFragment : CommonFragmentAddEdit(), OnCommitAmountListener, AddDebt
     @Inject
     lateinit var presenter: AddDebtMVP.Presenter
 
-    override fun getContentView(): Int {
-        return R.layout.frg_add_debt
-    }
+    override val contentView: Int
+        get() = R.layout.frg_add_debt
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,12 +119,14 @@ class AddDebtFragment : CommonFragmentAddEdit(), OnCommitAmountListener, AddDebt
     }
 
     override fun setupSpinner() {
-        spinAccount.adapter = SpinAccountForTransHeadIconAdapter(
-            activity,
-            R.layout.spin_head_icon_text,
-            accountList,
-            resourcesManager
-        )
+        activity?.let {
+            spinAccount.adapter = SpinAccountForTransHeadIconAdapter(
+                it,
+                R.layout.spin_head_icon_text,
+                accountList,
+                resourcesManager
+            )
+        }
     }
 
     override fun highlightNameField() {

@@ -47,9 +47,8 @@ class AddAccountFragment : CommonFragmentAddEdit(), OnCommitAmountListener, AddA
     @Inject
     lateinit var presenter: AddAccountMVP.Presenter
 
-    override fun getContentView(): Int {
-        return R.layout.frg_add_account
-    }
+    override val contentView: Int
+        get() = R.layout.frg_add_account
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,28 +75,30 @@ class AddAccountFragment : CommonFragmentAddEdit(), OnCommitAmountListener, AddA
     }
 
     private fun setSpinner() {
-        spinType.adapter = SpinIconTextHeadAdapter(
-            activity,
-            R.layout.spin_head_icon_text,
-            R.id.tvSpinHeadIconText,
-            R.id.ivSpinHeadIconText,
-            R.layout.spin_drop_icon_text,
-            R.id.tvSpinDropIconText,
-            R.id.ivSpinDropIconText,
-            resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_TYPE),
-            resourcesManager.getIconArray(ResourcesManager.ICON_ACCOUNT_TYPE)
-        )
-        spinCurrency.adapter = SpinIconTextHeadAdapter(
-            activity,
-            R.layout.spin_head_icon_text,
-            R.id.tvSpinHeadIconText,
-            R.id.ivSpinHeadIconText,
-            R.layout.spin_drop_icon_text,
-            R.id.tvSpinDropIconText,
-            R.id.ivSpinDropIconText,
-            resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY),
-            resourcesManager.getIconArray(ResourcesManager.ICON_FLAGS)
-        )
+        activity?.let {
+            spinType.adapter = SpinIconTextHeadAdapter(
+                it,
+                R.layout.spin_head_icon_text,
+                R.id.tvSpinHeadIconText,
+                R.id.ivSpinHeadIconText,
+                R.layout.spin_drop_icon_text,
+                R.id.tvSpinDropIconText,
+                R.id.ivSpinDropIconText,
+                resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_TYPE),
+                resourcesManager.getIconArray(ResourcesManager.ICON_ACCOUNT_TYPE)
+            )
+            spinCurrency.adapter = SpinIconTextHeadAdapter(
+                it,
+                R.layout.spin_head_icon_text,
+                R.id.tvSpinHeadIconText,
+                R.id.ivSpinHeadIconText,
+                R.layout.spin_drop_icon_text,
+                R.id.tvSpinDropIconText,
+                R.id.ivSpinDropIconText,
+                resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY),
+                resourcesManager.getIconArray(ResourcesManager.ICON_FLAGS)
+            )
+        }
     }
 
     private fun pushBroadcast() {

@@ -50,9 +50,8 @@ class DebtsFragment : CommonFragment(), DebtsMVP.View {
     @Inject
     lateinit var presenter: DebtsMVP.Presenter
 
-    override fun getContentView(): Int {
-        return R.layout.frg_debts
-    }
+    override val contentView: Int
+        get() = R.layout.frg_debts
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -206,9 +205,8 @@ class DebtsFragment : CommonFragment(), DebtsMVP.View {
         }
     }
 
-    override fun getTitle(): String {
-        return getString(R.string.debts)
-    }
+    override val title: String
+        get() = getString(R.string.debts)
 
     override fun setDebtList(debtList: List<DebtViewModel>) {
         recyclerAdapter.setItems(debtList)

@@ -49,9 +49,8 @@ class AddTransactionBetweenAccountsFragment : CommonFragmentAddEdit(), OnCommitA
     @Inject
     lateinit var presenter: AddTransactionBetweenAccountsMVP.Presenter
 
-    override fun getContentView(): Int {
-        return R.layout.frg_add_trans_btw
-    }
+    override val contentView: Int
+        get() = R.layout.frg_add_trans_btw
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,20 +78,27 @@ class AddTransactionBetweenAccountsFragment : CommonFragmentAddEdit(), OnCommitA
 
     private fun setSpinners() {
         accountListTo = ArrayList()
-        spinAccountFrom.adapter = SpinAccountForTransAdapter(
-            activity,
-            R.layout.spin_head_text,
-            accountListFrom,
-            resourcesManager
-        )
+        activity?.let {
+            spinAccountFrom.adapter = SpinAccountForTransAdapter(
+                it,
+                R.layout.spin_head_text,
+                accountListFrom,
+                resourcesManager
+            )
+        }
+
         accountListTo.addAll(accountListFrom)
         accountListTo.removeAt(spinAccountFrom.selectedItemPosition)
-        adapterAccountTo = SpinAccountForTransAdapter(
-            activity,
-            R.layout.spin_head_text,
-            accountListTo,
-            resourcesManager
-        )
+
+        activity?.let {
+            adapterAccountTo = SpinAccountForTransAdapter(
+                it,
+                R.layout.spin_head_text,
+                accountListTo,
+                resourcesManager
+            )
+        }
+
         spinAccountTo.adapter = adapterAccountTo
         spinAccountFrom.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(

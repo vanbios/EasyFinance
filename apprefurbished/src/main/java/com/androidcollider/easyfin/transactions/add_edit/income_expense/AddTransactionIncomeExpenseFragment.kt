@@ -65,9 +65,8 @@ class AddTransactionIncomeExpenseFragment : CommonFragmentAddEdit(),
     @Inject
     lateinit var presenter: AddTransactionIncomeExpenseMVP.Presenter
 
-    override fun getContentView(): Int {
-        return R.layout.frg_add_trans_def
-    }
+    override val contentView: Int
+        get() = R.layout.frg_add_trans_def
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -180,12 +179,14 @@ class AddTransactionIncomeExpenseFragment : CommonFragmentAddEdit(),
 
     override fun setupSpinners(categoryList: List<TransactionCategory>, categoryIcons: TypedArray) {
         setupCategorySpinner(categoryList, categoryIcons, categoryIcons.length() - 1)
-        spinAccount.adapter = SpinAccountForTransHeadIconAdapter(
-            activity,
-            R.layout.spin_head_icon_text,
-            accountList,
-            resourcesManager
-        )
+        activity?.let {
+            spinAccount.adapter = SpinAccountForTransHeadIconAdapter(
+                it,
+                R.layout.spin_head_icon_text,
+                accountList,
+                resourcesManager
+            )
+        }
     }
 
     override fun setupCategorySpinner(

@@ -2,6 +2,7 @@ package com.androidcollider.easyfin.main
 
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
@@ -47,9 +48,8 @@ class MainFragment : CommonFragment(), MainMVP.View {
     @Inject
     lateinit var presenter: MainMVP.Presenter
 
-    override fun getContentView(): Int {
-        return R.layout.frg_main
-    }
+    override val contentView: Int
+        get() = R.layout.frg_main
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,18 +89,34 @@ class MainFragment : CommonFragment(), MainMVP.View {
         setupFabs()
 
         fabMenu.hideMenu(false)
-        Handler().postDelayed({ fabMenu.showMenu(true) }, 1000)
+        Handler(Looper.getMainLooper())
+            .postDelayed({ fabMenu.showMenu(true) }, 1000)
     }
 
     private fun setupViewPager() {
         val adapterPager = ViewPagerFragmentAdapter(childFragmentManager)
-        adapterPager.addFragment(HomeFragment(), resources.getString(R.string.tab_home).uppercase(Locale.getDefault()))
-        adapterPager.addFragment(TransactionsFragment(), resources.getString(R.string.tab_transactions).uppercase(Locale.getDefault()))
-        adapterPager.addFragment(AccountsFragment(), resources.getString(R.string.tab_accounts).uppercase(Locale.getDefault()))
+        adapterPager.addFragment(
+            HomeFragment(),
+            resources.getString(R.string.tab_home).uppercase(Locale.getDefault())
+        )
+        adapterPager.addFragment(
+            TransactionsFragment(),
+            resources.getString(R.string.tab_transactions).uppercase(Locale.getDefault())
+        )
+        adapterPager.addFragment(
+            AccountsFragment(),
+            resources.getString(R.string.tab_accounts).uppercase(Locale.getDefault())
+        )
         pager.adapter = adapterPager
         pager.offscreenPageLimit = 3
         pager.addOnPageChangeListener(object : OnPageChangeListener {
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+            }
+
             override fun onPageSelected(position: Int) {
                 showMenu()
                 if (position == 2) collapseFloatingMenu(true)
@@ -201,7 +217,6 @@ class MainFragment : CommonFragment(), MainMVP.View {
         showDialogNoAccount()
     }
 
-    override fun getTitle(): String {
-        return getString(R.string.app_name)
-    }
+    override val title: String
+        get() = getString(R.string.app_name)
 }

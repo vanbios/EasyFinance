@@ -70,9 +70,8 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
     @Inject
     lateinit var presenter: HomeMVP.Presenter
 
-    override fun getContentView(): Int {
-        return R.layout.frg_home
-    }
+    override val contentView: Int
+        get() = R.layout.frg_home
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -207,9 +206,9 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
     }
 
     private fun setChartTypeSpinner() {
-        activity.let {
+        activity?.let {
             spinChartType.adapter = SpinIconTextHeadAdapter(
-                activity,
+                it,
                 R.layout.spin_head_icon_text_main_chart,
                 R.id.tvSpinHeadIconTextMainChart,
                 R.id.ivSpinHeadIconTextMainChart,
@@ -275,7 +274,9 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onEvent(event: DBImported?) {
-        presenter.updateBalanceAndStatisticAfterDBImport(spinPeriod.selectedItemPosition + 1)
+        presenter.updateBalanceAndStatisticAfterDBImport(
+            spinPeriod.selectedItemPosition + 1
+        )
     }
 
     private fun setupCharts() {
