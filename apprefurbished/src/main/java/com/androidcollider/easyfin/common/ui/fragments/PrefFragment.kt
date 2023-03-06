@@ -4,7 +4,8 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.preference.Preference
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
 import com.androidcollider.easyfin.R
 import com.androidcollider.easyfin.common.app.App
 import com.androidcollider.easyfin.common.events.DBImported
@@ -14,7 +15,6 @@ import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager
 import com.androidcollider.easyfin.common.repository.database.DbHelper
 import com.androidcollider.easyfin.common.ui.MainActivity
-import com.androidcollider.easyfin.common.ui.fragments.common.PreferenceFragment
 import org.greenrobot.eventbus.EventBus
 import java.io.IOException
 import javax.inject.Inject
@@ -22,7 +22,8 @@ import javax.inject.Inject
 /**
  * @author Ihor Bilous
  */
-class PrefFragment : PreferenceFragment() {
+class PrefFragment : PreferenceFragmentCompat() {
+
     private var exportDBPref: Preference? = null
     private var importDBPref: Preference? = null
 
@@ -38,9 +39,8 @@ class PrefFragment : PreferenceFragment() {
     @Inject
     lateinit var analyticsManager: AnalyticsManager
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        addPreferencesFromResource(R.xml.preferences)
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        setPreferencesFromResource(R.xml.preferences, rootKey)
         (activity?.application as App).component?.inject(this)
         initializePrefs()
         analyticsManager.sendScreeName(this.javaClass.name)
@@ -143,9 +143,8 @@ class PrefFragment : PreferenceFragment() {
         EventBus.getDefault().post(DBImported())
     }
 
-    override fun getTitle(): String {
-        return getString(R.string.settings)
-    }
+    val title: String
+        get() = getString(R.string.settings)
 
     companion object {
         private const val FILE_SELECT_CODE = 0

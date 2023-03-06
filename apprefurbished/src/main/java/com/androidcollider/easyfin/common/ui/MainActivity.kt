@@ -29,7 +29,6 @@ import com.androidcollider.easyfin.common.ui.adapters.NavigationDrawerRecyclerAd
 import com.androidcollider.easyfin.common.ui.fragments.PrefFragment
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit
-import com.androidcollider.easyfin.common.ui.fragments.common.PreferenceFragment
 import com.androidcollider.easyfin.debts.list.DebtsFragment
 import com.androidcollider.easyfin.faq.FAQFragment
 import com.androidcollider.easyfin.main.MainFragment
@@ -179,7 +178,7 @@ class MainActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedList
         val topFragment = topFragment
         if (topFragment is CommonFragment && topFragment !is CommonFragmentAddEdit) {
             setToolbar(topFragment.title)
-        } else if (topFragment is PreferenceFragment) {
+        } else if (topFragment is PrefFragment) {
             setToolbar(topFragment.title)
         }
         hideKeyboard()
