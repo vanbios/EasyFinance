@@ -25,7 +25,7 @@ interface AddTransactionBetweenAccountsMVP {
         fun showExchangeRate(rate: String?)
         fun hideExchangeRate()
         fun highlightExchangeRateField()
-        fun showMessage(message: String?)
+        fun showMessage(message: String)
         fun openNumericDialog()
         fun notifyNotEnoughAccounts()
         fun setAccounts(accountList: List<SpinAccountViewModel>?)

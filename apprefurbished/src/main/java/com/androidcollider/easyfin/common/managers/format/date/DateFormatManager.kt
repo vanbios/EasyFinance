@@ -1,34 +1,34 @@
-package com.androidcollider.easyfin.common.managers.format.date;
+package com.androidcollider.easyfin.common.managers.format.date
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * @author Ihor Bilous
  */
+class DateFormatManager {
 
-public class DateFormatManager {
-
-    public static final String DAY_MONTH_YEAR_DOTS = "dd.MM.yyyy";
-    public static final String DAY_MONTH_YEAR_SPACED = "dd MMMM yyyy";
-
-    public String dateToString(Date date, String dateFormat) {
-        return new SimpleDateFormat(dateFormat, Locale.getDefault()).format(date);
+    fun dateToString(date: Date, dateFormat: String): String {
+        return SimpleDateFormat(dateFormat, Locale.getDefault()).format(date)
     }
 
-    public Date stringToDate(String dateStr, String dateFormat) {
-        Date date = null;
+    fun stringToDate(dateStr: String, dateFormat: String): Date? {
+        var date: Date? = null
         try {
-            date = new SimpleDateFormat(dateFormat, Locale.getDefault()).parse(dateStr);
-        } catch (ParseException e) {
-            e.printStackTrace();
+            date = SimpleDateFormat(dateFormat, Locale.getDefault()).parse(dateStr)
+        } catch (e: ParseException) {
+            e.printStackTrace()
         }
-        return date;
+        return date
     }
 
-    public String longToDateString(long dateLong, String dateFormat) {
-        return new SimpleDateFormat(dateFormat, Locale.getDefault()).format(new Date(dateLong));
+    fun longToDateString(dateLong: Long, dateFormat: String): String {
+        return SimpleDateFormat(dateFormat, Locale.getDefault()).format(Date(dateLong))
+    }
+
+    companion object {
+        const val DAY_MONTH_YEAR_DOTS = "dd.MM.yyyy"
+        const val DAY_MONTH_YEAR_SPACED = "dd MMMM yyyy"
     }
 }

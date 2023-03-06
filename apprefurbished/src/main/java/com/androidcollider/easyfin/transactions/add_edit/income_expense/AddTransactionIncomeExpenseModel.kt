@@ -69,7 +69,11 @@ internal class AddTransactionIncomeExpenseModel(
     }
 
     override fun getMillisFromString(date: String): Long {
-        return dateFormatManager.stringToDate(date, DateFormatManager.DAY_MONTH_YEAR_SPACED).time
+        val parsedDate =
+            dateFormatManager.stringToDate(date, DateFormatManager.DAY_MONTH_YEAR_SPACED)
+        var res = 0L
+        parsedDate?.let { res = it.time }
+        return res
     }
 
     override fun isDoubleNegative(d: Double): Boolean {

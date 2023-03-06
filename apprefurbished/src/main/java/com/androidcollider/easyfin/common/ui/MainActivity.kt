@@ -238,7 +238,7 @@ class MainActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedList
         permissions: Array<String>,
         grantResults: IntArray
     ) {
-        permissionManager.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        permissionManager.onRequestPermissionsResult(requestCode, grantResults)
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 

@@ -1,17 +1,15 @@
-package com.androidcollider.easyfin.common.managers.api;
+package com.androidcollider.easyfin.common.managers.api
 
-import dagger.Module;
-import dagger.Provides;
+import dagger.Module
+import dagger.Provides
 
 /**
  * @author Ihor Bilous
  */
-
 @Module
-public class ApiModule {
-
+class ApiModule {
     @Provides
-    ApiManager provideApiManager() {
-        return new ApiManager();
+    fun provideApiManager(): ApiManager {
+        return ApiManager()
     }
 }

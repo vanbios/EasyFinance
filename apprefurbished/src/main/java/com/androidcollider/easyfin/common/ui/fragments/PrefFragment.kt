@@ -26,42 +26,38 @@ class PrefFragment : PreferenceFragment() {
     private var exportDBPref: Preference? = null
     private var importDBPref: Preference? = null
 
-    @JvmField
     @Inject
-    var importExportDbManager: ImportExportDbManager? = null
+    lateinit var importExportDbManager: ImportExportDbManager
 
-    @JvmField
     @Inject
-    var toastManager: ToastManager? = null
+    lateinit var toastManager: ToastManager
 
-    @JvmField
     @Inject
-    var dialogManager: DialogManager? = null
+    lateinit var dialogManager: DialogManager
 
-    @JvmField
     @Inject
-    var analyticsManager: AnalyticsManager? = null
+    lateinit var analyticsManager: AnalyticsManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addPreferencesFromResource(R.xml.preferences)
         (activity?.application as App).component?.inject(this)
         initializePrefs()
-        analyticsManager!!.sendScreeName(this.javaClass.name)
+        analyticsManager.sendScreeName(this.javaClass.name)
     }
 
     private fun initializePrefs() {
         exportDBPref = findPreference("export_db")
         exportDBPref?.setOnPreferenceClickListener {
             exportDBPref?.isEnabled = false
-            importExportDbManager!!.backupDatabase()
-            analyticsManager!!.sendAction("click", "export", "export_db")
+            importExportDbManager.backupDatabase()
+            analyticsManager.sendAction("click", "export", "export_db")
             false
         }
         importDBPref = findPreference("import_db")
         importDBPref?.setOnPreferenceClickListener {
             openFileExplorer()
-            analyticsManager!!.sendAction("open", "file_explorer", "open_file_explorer")
+            analyticsManager.sendAction("open", "file_explorer", "open_file_explorer")
             false
         }
     }
@@ -69,11 +65,11 @@ class PrefFragment : PreferenceFragment() {
     private fun showDialogImportDB() {
         val activity = activity as MainActivity?
         if (activity != null) {
-            dialogManager!!.showImportDBDialog(
-                    activity
+            dialogManager.showImportDBDialog(
+                activity
             ) {
                 importDB()
-                analyticsManager!!.sendAction("click", "import", "import_confirm")
+                analyticsManager.sendAction("click", "import", "import_confirm")
             }
         }
     }
@@ -84,10 +80,16 @@ class PrefFragment : PreferenceFragment() {
         intent.addCategory(Intent.CATEGORY_OPENABLE)
         try {
             startActivityForResult(
-                    Intent.createChooser(intent, "Select a File to Upload"),
-                    FILE_SELECT_CODE)
+                Intent.createChooser(intent, "Select a File to Upload"),
+                FILE_SELECT_CODE
+            )
         } catch (ex: ActivityNotFoundException) {
-            toastManager!!.showClosableToast(context, getString(R.string.import_no_file_explorer), ToastManager.LONG)
+            context?.let {
+                toastManager.showClosableToast(
+                    it,
+                    getString(R.string.import_no_file_explorer), ToastManager.LONG
+                )
+            }
         }
     }
 
@@ -97,7 +99,13 @@ class PrefFragment : PreferenceFragment() {
                 // Get the Uri of the selected file
                 uri = data!!.data
                 if (!uri.toString().contains(DbHelper.DATABASE_NAME)) {
-                    toastManager!!.showClosableToast(context, getString(R.string.import_wrong_file_type), ToastManager.LONG)
+                    context?.let {
+                        toastManager.showClosableToast(
+                            it,
+                            getString(R.string.import_wrong_file_type), ToastManager.LONG
+                        )
+                    }
+
                 } else {
                     try {
                         showDialogImportDB()
@@ -113,7 +121,7 @@ class PrefFragment : PreferenceFragment() {
     private fun importDB() {
         var importDB = false
         try {
-            importDB = importExportDbManager!!.importDatabase(uri)
+            importDB = importExportDbManager.importDatabase(uri)
         } catch (e: IOException) {
             e.printStackTrace()
         }
@@ -121,8 +129,14 @@ class PrefFragment : PreferenceFragment() {
             importDBPref!!.isEnabled = false
             pushBroadcast()
         }
-        toastManager!!.showClosableToast(context,
-                if (importDB) getString(R.string.import_complete) else getString(R.string.import_error), ToastManager.LONG)
+        context?.let {
+            toastManager.showClosableToast(
+                it,
+                if (importDB) getString(R.string.import_complete)
+                else getString(R.string.import_error),
+                ToastManager.LONG
+            )
+        }
     }
 
     private fun pushBroadcast() {

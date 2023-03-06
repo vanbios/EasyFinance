@@ -1,37 +1,37 @@
-package com.androidcollider.easyfin.common.managers.ui.hide_touch_outside;
+package com.androidcollider.easyfin.common.managers.ui.hide_touch_outside
 
-import android.app.Activity;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
+import android.app.Activity
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 
 /**
  * @author Ihor Bilous
  */
+class HideTouchOutsideManager {
 
-public class HideTouchOutsideManager {
-
-    public void hideKeyboardByTouchOutsideEditText(View view, final Activity activity) {
+    fun hideKeyboardByTouchOutsideEditText(view: View, activity: Activity) {
         //Set up touch listener for non-text box views to hide keyboard.
-        if (!(view instanceof EditText)) {
-            view.setOnTouchListener((v, event) -> {
-                InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-                if (activity.getCurrentFocus() != null) {
-                    inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+        if (view !is EditText) {
+            view.setOnTouchListener { v: View, event: MotionEvent ->
+                val inputMethodManager =
+                    activity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+                activity.currentFocus?.let {
+                    inputMethodManager.hideSoftInputFromWindow(it.windowToken, 0)
                 }
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    v.performClick();
+                if (event.action == MotionEvent.ACTION_UP) {
+                    v.performClick()
                 }
-                return false;
-            });
+                false
+            }
         }
         //If a layout container, iterate over children and seed recursion.
-        if (view instanceof ViewGroup) {
-            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
-                View innerView = ((ViewGroup) view).getChildAt(i);
-                hideKeyboardByTouchOutsideEditText(innerView, activity);
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                val innerView = view.getChildAt(i)
+                hideKeyboardByTouchOutsideEditText(innerView, activity)
             }
         }
     }

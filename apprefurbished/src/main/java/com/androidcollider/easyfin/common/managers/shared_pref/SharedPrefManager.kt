@@ -1,87 +1,70 @@
-package com.androidcollider.easyfin.common.managers.shared_pref;
+package com.androidcollider.easyfin.common.managers.shared_pref
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Context
+import android.content.SharedPreferences
 
 /**
  * @author Ihor Bilous
  */
+class SharedPrefManager internal constructor(context: Context) {
 
-public class SharedPrefManager {
+    private val sharedPref: SharedPreferences
 
-    private final SharedPreferences sharedPref;
-    private final static String APP_PREFERENCES = "FinUPref";
-
-
-    SharedPrefManager(Context context) {
-        this.sharedPref = context.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+    init {
+        sharedPref = context.getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE)
     }
 
-    public void disableSnackBarAccount() {
-        sharedPref.edit().putBoolean("snackAccountDisabled", true).apply();
+    fun disableSnackBarAccount() {
+        sharedPref.edit().putBoolean("snackAccountDisabled", true).apply()
     }
 
-    public boolean isSnackBarAccountDisable() {
-        return sharedPref.contains("snackAccountDisabled");
+    val isSnackBarAccountDisable: Boolean
+        get() = sharedPref.contains("snackAccountDisabled")
+
+    var mainBalanceSettingsConvertCheck: Boolean
+        get() = sharedPref.getBoolean("mainBalanceSettingsConvertChecked", false)
+        set(b) {
+            sharedPref.edit().putBoolean("mainBalanceSettingsConvertChecked", b).apply()
+        }
+
+    var mainBalanceSettingsShowOnlyIntegersCheck: Boolean
+        get() = sharedPref.getBoolean("mainBalanceSettingsShowOnlyIntegersChecked", true)
+        set(b) {
+            sharedPref.edit().putBoolean("mainBalanceSettingsShowOnlyIntegersChecked", b).apply()
+        }
+
+    fun setRatesUpdateTime() {
+        sharedPref.edit().putLong("ratesUpdateTime", System.currentTimeMillis()).apply()
     }
 
+    val ratesUpdateTime: Long
+        get() = sharedPref.getLong("ratesUpdateTime", 0)
 
-    public void setMainBalanceSettingsConvertCheck(boolean b) {
-        sharedPref.edit().putBoolean("mainBalanceSettingsConvertChecked", b).apply();
-    }
+    var ratesInsertFirstTimeStatus: Boolean
+        get() = sharedPref.getBoolean("ratesInsertFirstTimeStatus", false)
+        set(b) {
+            sharedPref.edit().putBoolean("ratesInsertFirstTimeStatus", b).apply()
+        }
 
-    public boolean getMainBalanceSettingsConvertCheck() {
-        return sharedPref.getBoolean("mainBalanceSettingsConvertChecked", false);
-    }
+    var homeBalanceCurrencyPos: Int
+        get() = sharedPref.getInt("homeBalanceCurrencyPos", 0)
+        set(pos) {
+            sharedPref.edit().putInt("homeBalanceCurrencyPos", pos).apply()
+        }
 
+    var homePeriodPos: Int
+        get() = sharedPref.getInt("homePeriodPos", 1)
+        set(pos) {
+            sharedPref.edit().putInt("homePeriodPos", pos).apply()
+        }
 
-    public void setMainBalanceSettingsShowOnlyIntegersCheck(boolean b) {
-        sharedPref.edit().putBoolean("mainBalanceSettingsShowOnlyIntegersChecked", b).apply();
-    }
+    var homeChartTypePos: Int
+        get() = sharedPref.getInt("homeChartTypePos", 0)
+        set(pos) {
+            sharedPref.edit().putInt("homeChartTypePos", pos).apply()
+        }
 
-    public boolean getMainBalanceSettingsShowOnlyIntegersCheck() {
-        return sharedPref.getBoolean("mainBalanceSettingsShowOnlyIntegersChecked", true);
-    }
-
-
-    public void setRatesUpdateTime() {
-        sharedPref.edit().putLong("ratesUpdateTime", System.currentTimeMillis()).apply();
-    }
-
-    public long getRatesUpdateTime() {
-        return sharedPref.getLong("ratesUpdateTime", 0);
-    }
-
-    public void setRatesInsertFirstTimeStatus(boolean b) {
-        sharedPref.edit().putBoolean("ratesInsertFirstTimeStatus", b).apply();
-    }
-
-    public boolean getRatesInsertFirstTimeStatus() {
-        return sharedPref.getBoolean("ratesInsertFirstTimeStatus", false);
-    }
-
-
-    public void setHomeBalanceCurrencyPos(int pos) {
-        sharedPref.edit().putInt("homeBalanceCurrencyPos", pos).apply();
-    }
-
-    public int getHomeBalanceCurrencyPos() {
-        return sharedPref.getInt("homeBalanceCurrencyPos", 0);
-    }
-
-    public void setHomePeriodPos(int pos) {
-        sharedPref.edit().putInt("homePeriodPos", pos).apply();
-    }
-
-    public int getHomePeriodPos() {
-        return sharedPref.getInt("homePeriodPos", 1);
-    }
-
-    public void setHomeChartTypePos(int pos) {
-        sharedPref.edit().putInt("homeChartTypePos", pos).apply();
-    }
-
-    public int getHomeChartTypePos() {
-        return sharedPref.getInt("homeChartTypePos", 0);
+    companion object {
+        private const val APP_PREFERENCES = "FinUPref"
     }
 }

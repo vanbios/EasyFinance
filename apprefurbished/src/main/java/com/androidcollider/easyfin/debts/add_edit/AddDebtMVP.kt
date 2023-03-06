@@ -20,8 +20,8 @@ interface AddDebtMVP {
             oldAccountId: Int
         ): Single<Boolean>
 
-        fun prepareStringToParse(value: String?): String
-        fun getMillisFromString(date: String?): Long
+        fun prepareStringToParse(value: String): String
+        fun getMillisFromString(date: String): Long
         fun formatAmount(amount: Double): String
     }
 
@@ -30,17 +30,17 @@ interface AddDebtMVP {
         fun showName(name: String?)
         fun setupSpinner()
         fun showAccount(position: Int)
-        fun showMessage(message: String?)
+        fun showMessage(message: String)
         fun highlightNameField()
         fun setupDateTimeField(calendar: Calendar?, initTime: Long)
         fun openNumericDialog()
         fun notifyNotEnoughAccounts()
         fun setAmountTextColor(color: Int)
         fun performLastActionsAfterSaveAndClose()
-        val amount: String?
+        val amount: String
         val account: SpinAccountViewModel?
-        val date: String?
-        val name: String?
+        val date: String
+        val name: String
         var accounts: List<SpinAccountViewModel>
     }
 

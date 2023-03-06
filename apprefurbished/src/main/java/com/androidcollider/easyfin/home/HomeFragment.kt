@@ -125,7 +125,7 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
             setBalance(spinBalanceCurrency.selectedItemPosition)
             checkStatChartTypeForUpdate()
         }
-        ratesInfoManager.setupMultiTapListener(tvBalance, activity)
+        ratesInfoManager.setupMultiTapListener(tvBalance, requireActivity())
 
         setBalanceCurrencySpinner()
         setStatisticPeriodSpinner()

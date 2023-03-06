@@ -36,12 +36,16 @@ internal class AddDebtModel(
         return repository.updateDebtDifferentAccounts(debt, oldAccountAmount, oldAccountId)
     }
 
-    override fun prepareStringToParse(value: String?): String {
+    override fun prepareStringToParse(value: String): String {
         return numberFormatManager.prepareStringToParse(value)
     }
 
-    override fun getMillisFromString(date: String?): Long {
-        return dateFormatManager.stringToDate(date, DateFormatManager.DAY_MONTH_YEAR_SPACED).time
+    override fun getMillisFromString(date: String): Long {
+        val parsedDate =
+            dateFormatManager.stringToDate(date, DateFormatManager.DAY_MONTH_YEAR_SPACED)
+        var res = 0L
+        parsedDate?.let { res = it.time }
+        return res
     }
 
     override fun formatAmount(amount: Double): String {

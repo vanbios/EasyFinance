@@ -1,76 +1,63 @@
-package com.androidcollider.easyfin.common.managers.rates.rates_info;
+package com.androidcollider.easyfin.common.managers.rates.rates_info
 
-import android.content.Context;
-import android.view.MotionEvent;
-import android.view.View;
-
-import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
-import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager;
-import com.androidcollider.easyfin.common.repository.Repository;
+import android.content.Context
+import android.view.MotionEvent
+import android.view.View
+import com.androidcollider.easyfin.common.managers.resources.ResourcesManager
+import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager
+import com.androidcollider.easyfin.common.repository.Repository
 
 /**
  * @author Ihor Bilous
  */
+class RatesInfoManager internal constructor(
+    private val repository: Repository,
+    private val toastManager: ToastManager,
+    private val resourcesManager: ResourcesManager
+) {
+    private var lastPressTime: Long = 0
+    private var count = 0
+    private lateinit var info: String
 
-public class RatesInfoManager {
-
-    private static final long DOUBLE_PRESS_INTERVAL = 1000;
-    private long lastPressTime = 0;
-    private int count = 0;
-
-    private String info;
-    private final Repository repository;
-    private final ToastManager toastManager;
-    private final ResourcesManager resourcesManager;
-
-
-    RatesInfoManager(Repository repository, ToastManager toastManager, ResourcesManager resourcesManager) {
-        this.repository = repository;
-        this.toastManager = toastManager;
-        this.resourcesManager = resourcesManager;
-        prepareInfo();
+    init {
+        prepareInfo()
     }
 
-    public void setupMultiTapListener(View view, final Context context) {
-        view.setOnTouchListener((view1, motionEvent) -> {
-            long currentTime = System.currentTimeMillis();
-            if (count == 0) lastPressTime = currentTime;
-
+    fun setupMultiTapListener(view: View, context: Context) {
+        view.setOnTouchListener { view1: View, motionEvent: MotionEvent ->
+            val currentTime = System.currentTimeMillis()
+            if (count == 0) lastPressTime = currentTime
             if (currentTime - lastPressTime < DOUBLE_PRESS_INTERVAL) {
-                count++;
+                count++
                 if (count == 7) {
-                    toastManager.showClosableToast(context, info, ToastManager.LONG);
+                    toastManager.showClosableToast(context, info, ToastManager.LONG)
                 }
-            } else count = 0;
-
-            lastPressTime = currentTime;
-
-            if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                view1.performClick();
+            } else count = 0
+            lastPressTime = currentTime
+            if (motionEvent.action == MotionEvent.ACTION_UP) {
+                view1.performClick()
             }
-
-            return false;
-        });
+            false
+        }
     }
 
-    public void prepareInfo() {
-        repository.getRates()
-                .subscribe(
-                        rates -> {
-                            String[] currency = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY);
+    fun prepareInfo() {
+        repository.rates?.subscribe(
+            { rates: DoubleArray ->
+                val currency =
+                    resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY)
+                val sb = StringBuilder()
+                for (i in 0..rates.size) {
+                    sb.append(currency[i])
+                    sb.append(" - ")
+                    sb.append(if (i == 0) 1 else rates[i - 1])
+                    sb.append("; ")
+                }
+                info = sb.toString()
+            }, { obj: Throwable -> obj.printStackTrace() })
+    }
 
-                            StringBuilder sb = new StringBuilder();
-
-                            for (int i = 0; i <= rates.length; i++) {
-                                sb.append(currency[i]);
-                                sb.append(" - ");
-                                sb.append(i == 0 ? 1 : rates[i - 1]);
-                                sb.append("; ");
-                            }
-
-                            info = sb.toString();
-                        },
-                        Throwable::printStackTrace
-                );
+    companion object {
+        private const val DOUBLE_PRESS_INTERVAL: Long = 1000
     }
 }

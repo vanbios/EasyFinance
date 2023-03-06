@@ -59,7 +59,7 @@ class PayDebtFragment : CommonFragmentAddEdit(), OnCommitAmountListener, PayDebt
         super.onViewCreated(view, savedInstanceState)
         setupUI(view)
         setToolbar()
-        hideTouchOutsideManager.hideKeyboardByTouchOutsideEditText(mainContent, activity)
+        hideTouchOutsideManager.hideKeyboardByTouchOutsideEditText(mainContent, requireActivity())
         accountsAvailableList = ArrayList()
         presenter.setView(this)
         presenter.setArguments(arguments)

@@ -161,8 +161,10 @@ class AddTransactionBetweenAccountsFragment : CommonFragmentAddEdit(), OnCommitA
         shakeEditTextManager.highlightEditText(etExchange)
     }
 
-    override fun showMessage(message: String?) {
-        toastManager.showClosableToast(activity, message, ToastManager.SHORT)
+    override fun showMessage(message: String) {
+        activity?.let {
+            toastManager.showClosableToast(it, message, ToastManager.SHORT)
+        }
     }
 
     override fun openNumericDialog() {
@@ -198,6 +200,6 @@ class AddTransactionBetweenAccountsFragment : CommonFragmentAddEdit(), OnCommitA
         openNumericDialog()
         etExchange.addTextChangedListener(EditTextAmountWatcher(etExchange))
         setSpinners()
-        hideTouchOutsideManager.hideKeyboardByTouchOutsideEditText(scrollView, activity)
+        hideTouchOutsideManager.hideKeyboardByTouchOutsideEditText(scrollView, requireActivity())
     }
 }

@@ -164,7 +164,7 @@ internal class AddDebtPresenter(
         amount: Double,
         type: Int,
         name: String?,
-        date: String?,
+        date: String,
         accountAmount: Double
     ): Debt {
         val debt = Debt()

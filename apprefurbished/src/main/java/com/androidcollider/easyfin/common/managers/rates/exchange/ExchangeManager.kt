@@ -1,50 +1,40 @@
-package com.androidcollider.easyfin.common.managers.rates.exchange;
+package com.androidcollider.easyfin.common.managers.rates.exchange
 
-import com.androidcollider.easyfin.common.managers.resources.ResourcesManager;
-import com.androidcollider.easyfin.common.repository.Repository;
+import com.androidcollider.easyfin.common.managers.resources.ResourcesManager
+import com.androidcollider.easyfin.common.repository.Repository
 
 /**
  * @author Ihor Bilous
  */
+class ExchangeManager internal constructor(
+    private val repository: Repository,
+    private val resourcesManager: ResourcesManager
+) {
 
-public class ExchangeManager {
+    val rates = doubleArrayOf(1.0, 28.2847, 34.909, 0.384, 38.5238)
 
-    private final Repository repository;
-    private final ResourcesManager resourcesManager;
-    private final double[] rates = {1, 28.2847, 34.909, 0.384, 38.5238};
-
-    ExchangeManager(Repository repository, ResourcesManager resourcesManager) {
-        this.repository = repository;
-        this.resourcesManager = resourcesManager;
-        updateRates();
+    init {
+        updateRates()
     }
 
-    public void updateRates() {
-        repository.getRates()
-                .subscribe(
-                        newRates -> {
-                            for (int i = 1; i < rates.length; i++) {
-                                if (newRates[i - 1] > 0) rates[i] = newRates[i - 1];
-                            }
-                        },
-                        Throwable::printStackTrace
-                );
+    fun updateRates() {
+        repository.rates?.subscribe(
+            { newRates: DoubleArray ->
+                for (i in 1 until rates.size) {
+                    if (newRates[i - 1] > 0) rates[i] = newRates[i - 1]
+                }
+            }, { obj: Throwable -> obj.printStackTrace() })
     }
 
-    public double getExchangeRate(String currFrom, String currTo) {
-        String[] currencyArray = resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY);
-
-        int posFrom = 0;
-        int posTo = 0;
-
-        for (int i = 0; i < currencyArray.length; i++) {
-            if (currencyArray[i].equals(currFrom)) posFrom = i;
-            if (currencyArray[i].equals(currTo)) posTo = i;
+    fun getExchangeRate(currFrom: String, currTo: String): Double {
+        val currencyArray =
+            resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY)
+        var posFrom = 0
+        var posTo = 0
+        for (i in currencyArray.indices) {
+            if (currencyArray[i] == currFrom) posFrom = i
+            if (currencyArray[i] == currTo) posTo = i
         }
-        return rates[posTo] / rates[posFrom];
-    }
-
-    public double[] getRates() {
-        return rates;
+        return rates[posTo] / rates[posFrom]
     }
 }

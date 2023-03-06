@@ -29,7 +29,7 @@ import javax.inject.Inject
  * @author Ihor Bilous
  */
 class TransactionCategoriesNestedFragment : CommonFragmentWithEvents(),
-        TransactionCategoriesNestedMVP.View {
+    TransactionCategoriesNestedMVP.View {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var recyclerAdapter: RecyclerTransactionCategoriesAdapter
@@ -120,22 +120,25 @@ class TransactionCategoriesNestedFragment : CommonFragmentWithEvents(),
     private fun showDeleteTransactionCategoryDialog(id: Int) {
         activity?.let {
             dialogManager.showDeleteDialog(
-                    it,
-                    getString(R.string.category_delete_warning)
+                it,
+                getString(R.string.category_delete_warning)
             ) { presenter.deleteTransactionCategoryById(id) }
         }
     }
 
     private fun showUpdateTransactionCategoryDialog(id: Int) {
         activity?.let { act ->
-            updateTransactionCategoryDialog = dialogManager.buildUpdateTransactionCategoryDialog(act,
+            updateTransactionCategoryDialog =
+                dialogManager.buildUpdateTransactionCategoryDialog(act,
                     {
-                        presenter.updateTransactionCategory(id, etTransCategoryName.text.toString().trim { it <= ' ' })
+                        presenter.updateTransactionCategory(
+                            id,
+                            etTransCategoryName.text.toString().trim { it <= ' ' })
                     }
-            ) { dialog: MaterialDialog ->
-                dialog.dismiss()
-                etTransCategoryName.text.clear()
-            }
+                ) { dialog: MaterialDialog ->
+                    dialog.dismiss()
+                    etTransCategoryName.text.clear()
+                }
             val root: View? = updateTransactionCategoryDialog?.getCustomView()
             root?.let {
                 etTransCategoryName = it.findViewById(R.id.et_transaction_category_name)
@@ -151,13 +154,16 @@ class TransactionCategoriesNestedFragment : CommonFragmentWithEvents(),
         presenter.loadTransactionCategories()
     }
 
-    override fun setTransactionCategoryList(transactionCategoryList: List<TransactionCategory>, iconsArray: TypedArray) {
+    override fun setTransactionCategoryList(
+        transactionCategoryList: List<TransactionCategory>,
+        iconsArray: TypedArray
+    ) {
         recyclerAdapter.setItems(transactionCategoryList, iconsArray)
     }
 
     override fun showMessage(message: String) {
         activity?.let {
-            toastManager.showClosableToast(activity, message, ToastManager.SHORT)
+            toastManager.showClosableToast(it, message, ToastManager.SHORT)
         }
     }
 

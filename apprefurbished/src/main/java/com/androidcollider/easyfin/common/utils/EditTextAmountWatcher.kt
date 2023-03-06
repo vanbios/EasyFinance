@@ -1,64 +1,53 @@
-package com.androidcollider.easyfin.common.utils;
+package com.androidcollider.easyfin.common.utils
 
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.widget.EditText;
+import android.text.Editable
+import android.text.TextWatcher
+import android.widget.EditText
 
 /**
  * @author Ihor Bilous
  */
+class EditTextAmountWatcher(private val et: EditText) : TextWatcher {
 
-public class EditTextAmountWatcher implements TextWatcher {
+    private var isInWatcher = false
 
-    private final EditText et;
-    private boolean isInWatcher;
+    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
 
-    public EditTextAmountWatcher(EditText et) {
-        this.et = et;
-        isInWatcher = false;
-    }
+    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-    }
-
-    @Override
-    public void afterTextChanged(Editable e) {
-        if (isInWatcher) return;
-        isInWatcher = true;
-
-        String input = et.getText().toString().replaceAll("\\s+", "");
-        int j = input.length();
+    override fun afterTextChanged(e: Editable) {
+        if (isInWatcher) return
+        isInWatcher = true
+        var input = et.text.toString().replace("\\s+".toRegex(), "")
+        var j = input.length
         if (j > 3) {
-            String res;
-            if (input.contains(","))
-                input = input.replaceAll(",", ".");
+            val res: String
+            if (input.contains(",")) input = input.replace(",".toRegex(), ".")
             if (input.contains(".")) {
-                j = input.indexOf(".");
-                StringBuilder sb = new StringBuilder(input.substring(0, j));
-                String append = input.substring(j);
-                for (int k = sb.length() - 3; k > 0; k -= 3) {
-                    sb.insert(k, " ");
+                j = input.indexOf(".")
+                val sb = StringBuilder(input.substring(0, j))
+                val append = input.substring(j)
+                var k = sb.length - 3
+                while (k > 0) {
+                    sb.insert(k, " ")
+                    k -= 3
                 }
-                res = sb + append;
+                res = sb.toString() + append
             } else {
-                StringBuilder sb = new StringBuilder(input);
-                for (int k = sb.length() - 3; k > 0; k -= 3) {
-                    sb.insert(k, " ");
+                val sb = StringBuilder(input)
+                var k = sb.length - 3
+                while (k > 0) {
+                    sb.insert(k, " ")
+                    k -= 3
                 }
-                res = sb.toString();
+                res = sb.toString()
             }
-            et.setText(res);
-            et.setSelection(et.getText().length());
+            et.setText(res)
+            et.setSelection(et.text.length)
         } else {
-            et.setText(input);
-            et.setSelection(et.getText().length());
+            et.setText(input)
+            et.setSelection(et.text.length)
         }
-
-        isInWatcher = false;
+        isInWatcher = false
     }
 }

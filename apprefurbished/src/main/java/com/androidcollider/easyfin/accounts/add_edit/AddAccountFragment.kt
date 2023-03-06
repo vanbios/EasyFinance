@@ -62,7 +62,7 @@ class AddAccountFragment : CommonFragmentAddEdit(), OnCommitAmountListener, AddA
         setSpinner()
         presenter.setView(this)
         presenter.setArguments(arguments)
-        hideTouchOutsideManager.hideKeyboardByTouchOutsideEditText(mainContent, activity)
+        hideTouchOutsideManager.hideKeyboardByTouchOutsideEditText(mainContent, requireActivity())
     }
 
     private fun setupUI(view: View) {

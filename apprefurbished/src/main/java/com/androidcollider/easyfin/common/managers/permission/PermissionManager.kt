@@ -1,109 +1,112 @@
-package com.androidcollider.easyfin.common.managers.permission;
+package com.androidcollider.easyfin.common.managers.permission
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 
 /**
  * @author Ihor Bilous
  */
-
-public class PermissionManager {
-
-    private final static int REQUEST_PERMISSIONS = 1000;
-
-    private AppCompatActivity activity;
-
-
-    public void setActivity(AppCompatActivity activity) {
-        this.activity = activity;
+class PermissionManager {
+    private var activity: AppCompatActivity? = null
+    fun setActivity(activity: AppCompatActivity?) {
+        this.activity = activity
     }
 
-    public boolean requestRequiredPermissions() {
-        checkActivityIsNotNull();
-        if (checkWriteExternalStoragePermissionGranted()
-                && checkReadExternalStoragePermissionGranted()
-                && checkNetworkStatePermissionGranted()) {
-            return true;
+    fun requestRequiredPermissions(): Boolean {
+        checkActivityIsNotNull()
+        return if (checkWriteExternalStoragePermissionGranted()
+            && checkReadExternalStoragePermissionGranted()
+            && checkNetworkStatePermissionGranted()
+        ) {
+            true
         } else {
-            ActivityCompat.requestPermissions(
-                    activity,
-                    new String[]{
-                            Manifest.permission.ACCESS_NETWORK_STATE,
-                            Manifest.permission.READ_EXTERNAL_STORAGE,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    },
+            activity?.let {
+                ActivityCompat.requestPermissions(
+                    it, arrayOf(
+                        Manifest.permission.ACCESS_NETWORK_STATE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    ),
                     REQUEST_PERMISSIONS
-            );
-            return false;
+                )
+            }
+            false
         }
     }
 
-    public boolean onRequestPermissionsResult(int requestCode,
-                                              String permissions[],
-                                              int[] grantResults) {
-        checkActivityIsNotNull();
-        if (requestCode == REQUEST_PERMISSIONS) {
-            if (grantResults.length > 0) {
-                for (int grantResult : grantResults) {
+    fun onRequestPermissionsResult(
+        requestCode: Int,
+        grantResults: IntArray
+    ): Boolean {
+        checkActivityIsNotNull()
+        return if (requestCode == REQUEST_PERMISSIONS) {
+            if (grantResults.isNotEmpty()) {
+                for (grantResult in grantResults) {
                     if (grantResult != PackageManager.PERMISSION_GRANTED) {
-                        System.out.println("Permissions denied!");
-                        activity.finish();
-                        return false;
+                        println("Permissions denied!")
+                        activity?.finish()
+                        return false
                     }
                 }
-                System.out.println("Permissions granted!");
-                return true;
+                println("Permissions granted!")
+                true
             } else {
-                System.out.println("Permissions denied!");
-                activity.finish();
-                return false;
+                println("Permissions denied!")
+                activity?.finish()
+                false
             }
+        } else false
+    }
+
+    private fun checkWriteExternalStoragePermissionGranted(): Boolean {
+        checkActivityIsNotNull()
+        return !isPermissionsNeeded ||
+                checkPermission(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+    }
+
+    private fun checkNetworkStatePermissionGranted(): Boolean {
+        checkActivityIsNotNull()
+        return !isPermissionsNeeded ||
+                checkPermission(
+                    Manifest.permission.ACCESS_NETWORK_STATE
+                )
+    }
+
+    private fun checkReadExternalStoragePermissionGranted(): Boolean {
+        checkActivityIsNotNull()
+        return !isPermissionsNeeded ||
+                checkPermission(
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+    }
+
+    private fun checkPermission(permission: String): Boolean {
+        return try {
+            (ContextCompat.checkSelfPermission(
+                activity!!,
+                permission
+            )
+                    == PackageManager.PERMISSION_GRANTED)
+        } catch (e: RuntimeException) {
+            e.printStackTrace()
+            false
         }
-        return false;
     }
 
-    private boolean checkWriteExternalStoragePermissionGranted() {
-        checkActivityIsNotNull();
-        return !isPermissionsNeeded() ||
-                checkPermission(
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    private fun checkActivityIsNotNull() {
+        checkNotNull(activity) { "Activity must be not null in Permissions Manager. Please set it!" }
     }
 
-    private boolean checkNetworkStatePermissionGranted() {
-        checkActivityIsNotNull();
-        return !isPermissionsNeeded() ||
-                checkPermission(
-                        Manifest.permission.ACCESS_NETWORK_STATE);
-    }
+    private val isPermissionsNeeded: Boolean
+        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
 
-    private boolean checkReadExternalStoragePermissionGranted() {
-        checkActivityIsNotNull();
-        return !isPermissionsNeeded() ||
-                checkPermission(
-                        Manifest.permission.READ_EXTERNAL_STORAGE);
-    }
-
-    private boolean checkPermission(String permission) {
-        try {
-            return ContextCompat.checkSelfPermission(activity,
-                    permission)
-                    == PackageManager.PERMISSION_GRANTED;
-        } catch (RuntimeException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
-
-    private void checkActivityIsNotNull() {
-        if (activity == null)
-            throw new IllegalStateException("Activity must be not null in Permissions Manager. Please set it!");
-    }
-
-    private boolean isPermissionsNeeded() {
-        return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M;
+    companion object {
+        private const val REQUEST_PERMISSIONS = 1000
     }
 }

@@ -68,7 +68,7 @@ class AddDebtFragment : CommonFragmentAddEdit(), OnCommitAmountListener, AddDebt
         super.onViewCreated(view, savedInstanceState)
         setupUI(view)
         setToolbar()
-        hideTouchOutsideManager.hideKeyboardByTouchOutsideEditText(mainContent, activity)
+        hideTouchOutsideManager.hideKeyboardByTouchOutsideEditText(mainContent, requireActivity())
         accountList = ArrayList()
         presenter.setView(this)
         presenter.setArguments(arguments)
@@ -137,7 +137,7 @@ class AddDebtFragment : CommonFragmentAddEdit(), OnCommitAmountListener, AddDebt
         spinAccount.setSelection(position)
     }
 
-    override fun showMessage(message: String?) {
+    override fun showMessage(message: String) {
         (activity as MainActivity?)?.let {
             toastManager.showClosableToast(it, message, ToastManager.SHORT)
         }
