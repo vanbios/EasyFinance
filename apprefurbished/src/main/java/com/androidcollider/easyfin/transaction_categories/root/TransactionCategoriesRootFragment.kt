@@ -5,8 +5,7 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.EditText
-import androidx.viewpager.widget.ViewPager
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import androidx.viewpager2.widget.ViewPager2
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.androidcollider.easyfin.R
@@ -15,12 +14,11 @@ import com.androidcollider.easyfin.common.events.UpdateFrgTransactionCategories
 import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager
 import com.androidcollider.easyfin.common.managers.ui.shake_edit_text.ShakeEditTextManager
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager
-import com.androidcollider.easyfin.common.ui.adapters.ViewPagerFragmentAdapter
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment
 import com.androidcollider.easyfin.common.utils.animateViewWithChangeVisibilityAndClickable
-import com.androidcollider.easyfin.transaction_categories.nested.TransactionCategoriesNestedFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import org.greenrobot.eventbus.EventBus
 import java.util.*
 import javax.inject.Inject
@@ -31,7 +29,7 @@ import javax.inject.Inject
 class TransactionCategoriesRootFragment : CommonFragment(),
     TransactionCategoriesRootMVP.View {
 
-    private lateinit var pager: ViewPager
+    private lateinit var pager: ViewPager2
     private lateinit var tabLayout: TabLayout
     private lateinit var fabAddNew: FloatingActionButton
     private lateinit var etNewTransCategoryName: EditText
@@ -80,44 +78,18 @@ class TransactionCategoriesRootFragment : CommonFragment(),
     }
 
     private fun setupViewPager() {
-        val adapterPager = ViewPagerFragmentAdapter(childFragmentManager)
-        adapterPager.addFragment(
-            getNestedFragment(false),
-            resources.getString(R.string.income).uppercase(Locale.getDefault())
-        )
-        adapterPager.addFragment(
-            getNestedFragment(true),
-            resources.getString(R.string.cost).uppercase(Locale.getDefault())
-        )
+        val adapterPager = TransactionCategoriesViewPager2Adapter(this)
         pager.adapter = adapterPager
         pager.offscreenPageLimit = 2
-        pager.addOnPageChangeListener(object : OnPageChangeListener {
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-            }
+        pager.registerOnPageChangeCallback(pagerPageChangeCallback)
 
-            override fun onPageSelected(position: Int) {
-                showFab()
-            }
-
-            override fun onPageScrollStateChanged(state: Int) {}
-        })
-        tabLayout.setupWithViewPager(pager)
-    }
-
-    private fun getNestedFragment(isExpense: Boolean): TransactionCategoriesNestedFragment {
-        val fragment = TransactionCategoriesNestedFragment()
-        val args = Bundle()
-        args.putInt(
-            TransactionCategoriesNestedFragment.TYPE,
-            if (isExpense) TransactionCategoriesNestedFragment.TYPE_EXPENSE
-            else TransactionCategoriesNestedFragment.TYPE_INCOME
+        val tabTitles = arrayOf(
+            resources.getString(R.string.income).uppercase(Locale.getDefault()),
+            resources.getString(R.string.cost).uppercase(Locale.getDefault())
         )
-        fragment.arguments = args
-        return fragment
+        TabLayoutMediator(tabLayout, pager) { tab, position ->
+            tab.text = tabTitles[position]
+        }.attach()
     }
 
     private fun buildTransactionCategoryDialog() {
@@ -196,6 +168,17 @@ class TransactionCategoriesRootFragment : CommonFragment(),
 
     override fun handleNewTransactionCategoryAdded() {
         EventBus.getDefault().post(UpdateFrgTransactionCategories())
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        pager.unregisterOnPageChangeCallback(pagerPageChangeCallback)
+    }
+
+    var pagerPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            showFab()
+        }
     }
 
     private var isFABVisible = true

@@ -11,22 +11,20 @@ import android.view.animation.AnimationUtils
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager.widget.ViewPager
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener
+import androidx.viewpager2.widget.ViewPager2
 import com.androidcollider.easyfin.R
 import com.androidcollider.easyfin.accounts.add_edit.AddAccountFragment
 import com.androidcollider.easyfin.accounts.list.AccountsFragment
 import com.androidcollider.easyfin.common.app.App
 import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager
-import com.androidcollider.easyfin.common.ui.adapters.ViewPagerFragmentAdapter
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment
 import com.androidcollider.easyfin.common.utils.animateViewWithChangeVisibilityAndClickable
-import com.androidcollider.easyfin.home.HomeFragment
 import com.androidcollider.easyfin.transactions.add_edit.btw_accounts.AddTransactionBetweenAccountsFragment
 import com.androidcollider.easyfin.transactions.add_edit.income_expense.AddTransactionIncomeExpenseFragment
 import com.androidcollider.easyfin.transactions.list.TransactionsFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import java.util.*
 import javax.inject.Inject
 
@@ -35,13 +33,13 @@ import javax.inject.Inject
  */
 class MainFragment : CommonFragment(), MainMVP.View {
 
-    lateinit var pager: ViewPager
-    lateinit var tabLayout: TabLayout
-    lateinit var fabMenu: FloatingActionButton
-    lateinit var faButtonExpense: FloatingActionButton
-    lateinit var faButtonIncome: FloatingActionButton
-    lateinit var faButtonBTW: FloatingActionButton
-    lateinit var mainContent: RelativeLayout
+    private lateinit var pager: ViewPager2
+    private lateinit var tabLayout: TabLayout
+    private lateinit var fabMenu: FloatingActionButton
+    private lateinit var faButtonExpense: FloatingActionButton
+    private lateinit var faButtonIncome: FloatingActionButton
+    private lateinit var faButtonBTW: FloatingActionButton
+    private lateinit var mainContent: RelativeLayout
 
     @Inject
     lateinit var dialogManager: DialogManager
@@ -87,47 +85,29 @@ class MainFragment : CommonFragment(), MainMVP.View {
         }
 
         setupViewPager()
-        setupFabs()
+        setupFABs()
 
         showFABMenu(show = false, withAnim = false)
         view.postDelayed({ showFABMenu(show = true, withAnim = true) }, 1000)
     }
 
     private fun setupViewPager() {
-        val adapterPager = ViewPagerFragmentAdapter(childFragmentManager)
-        adapterPager.addFragment(
-            HomeFragment(),
-            resources.getString(R.string.tab_home).uppercase(Locale.getDefault())
-        )
-        adapterPager.addFragment(
-            TransactionsFragment(),
-            resources.getString(R.string.tab_transactions).uppercase(Locale.getDefault())
-        )
-        adapterPager.addFragment(
-            AccountsFragment(),
-            resources.getString(R.string.tab_accounts).uppercase(Locale.getDefault())
-        )
+        val adapterPager = MainViewPager2Adapter(this)
         pager.adapter = adapterPager
         pager.offscreenPageLimit = 3
-        pager.addOnPageChangeListener(object : OnPageChangeListener {
-            override fun onPageScrolled(
-                position: Int,
-                positionOffset: Float,
-                positionOffsetPixels: Int
-            ) {
-            }
+        pager.registerOnPageChangeCallback(pagerPageChangeCallback)
 
-            override fun onPageSelected(position: Int) {
-                showMenu()
-                if (position == 2) collapseFloatingMenu(true)
-            }
-
-            override fun onPageScrollStateChanged(state: Int) {}
-        })
-        tabLayout.setupWithViewPager(pager)
+        val tabTitles = arrayOf(
+            resources.getString(R.string.tab_home).uppercase(Locale.getDefault()),
+            resources.getString(R.string.tab_transactions).uppercase(Locale.getDefault()),
+            resources.getString(R.string.tab_accounts).uppercase(Locale.getDefault())
+        )
+        TabLayoutMediator(tabLayout, pager) { tab, position ->
+            tab.text = tabTitles[position]
+        }.attach()
     }
 
-    private fun setupFabs() {
+    private fun setupFABs() {
         fabMenu.setOnClickListener { checkPageNum() }
         addNonFabTouchListener(mainContent)
     }
@@ -271,6 +251,18 @@ class MainFragment : CommonFragment(), MainMVP.View {
 
     override val title: String
         get() = getString(R.string.app_name)
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        pager.unregisterOnPageChangeCallback(pagerPageChangeCallback)
+    }
+
+    var pagerPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
+        override fun onPageSelected(position: Int) {
+            showMenu()
+            if (position == 2) collapseFloatingMenu(true)
+        }
+    }
 
     private var isFABMenuVisible = true
     private var isFABMenuExpanded = false
