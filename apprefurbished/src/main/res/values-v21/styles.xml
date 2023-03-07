@@ -1,29 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <style name="floating_action_button_big">
-        <item name="android:layout_margin">@dimen/common_padding_large</item>
-    </style>
-
-    <style name="floating_action_button_small_expense">
-        <item name="android:layout_marginLeft">@dimen/common_padding_xlarge</item>
-        <item name="android:layout_marginTop">@dimen/common_padding_large</item>
-        <item name="android:layout_marginRight">@dimen/common_padding_xlarge</item>
-        <item name="android:layout_marginBottom">88dp</item>
-    </style>
-
-    <style name="floating_action_button_small_income">
-        <item name="android:layout_marginLeft">@dimen/common_padding_xlarge</item>
-        <item name="android:layout_marginTop">@dimen/common_padding_large</item>
-        <item name="android:layout_marginRight">@dimen/common_padding_xlarge</item>
-        <item name="android:layout_marginBottom">144dp</item>
-    </style>
-
-    <style name="floating_action_button_small_transfer">
-        <item name="android:layout_marginLeft">@dimen/common_padding_xlarge</item>
-        <item name="android:layout_marginTop">16dp</item>
-        <item name="android:layout_marginRight">@dimen/common_padding_xlarge</item>
-        <item name="android:layout_marginBottom">200dp</item>
-    </style>
-
 </resources>

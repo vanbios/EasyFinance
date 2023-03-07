@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/debts_content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerDebt"
@@ -13,8 +13,7 @@
         android:layout_marginLeft="@dimen/common_padding_small"
         android:layout_marginTop="@dimen/common_padding_medium"
         android:layout_marginRight="@dimen/common_padding_small"
-        android:layout_marginBottom="@dimen/common_padding_medium"
-        />
+        android:layout_marginBottom="@dimen/common_padding_medium" />
 
     <TextView
         android:id="@+id/tvEmptyDebt"
@@ -24,26 +23,59 @@
         android:layout_gravity="center"
         android:gravity="center"
         android:text="@string/debt_empty_list"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
-    <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/btnFloatDebts"
-        style="@style/MenuFabStyle"
-        android:layout_gravity="bottom|right"
-        >
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end">
 
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/btnFloatAddDebtGive"
-            style="@style/FabSmallGreen"
-            android:src="@drawable/ic_debt_give_white_pad_10_48dp"
-            />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnFloatDebts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/common_padding_xlarge"
+            android:layout_marginBottom="@dimen/common_padding_xlarge"
+            android:clickable="true"
+            android:focusable="true"
+            android:tint="@color/general_surface"
+            app:backgroundTint="@color/custom_cyan_dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:srcCompat="@drawable/ic_plus_white_48dp" />
 
-        <com.github.clans.fab.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnFloatAddDebtTake"
-            style="@style/FabSmallRed"
-            android:src="@drawable/ic_debt_take_white_pad_10_48dp"
-            />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/common_padding_large"
+            android:clickable="true"
+            android:focusable="true"
+            android:tint="@color/general_surface"
+            android:visibility="invisible"
+            app:backgroundTint="@color/custom_red"
+            app:fabSize="mini"
+            app:layout_constraintBottom_toTopOf="@+id/btnFloatDebts"
+            app:layout_constraintEnd_toEndOf="@+id/btnFloatDebts"
+            app:layout_constraintStart_toStartOf="@+id/btnFloatDebts"
+            app:srcCompat="@drawable/ic_debt_take_white_pad_10_48dp"
+            tools:visibility="visible" />
 
-    </com.github.clans.fab.FloatingActionMenu>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnFloatAddDebtGive"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/common_padding_large"
+            android:clickable="true"
+            android:focusable="true"
+            android:tint="@color/general_surface"
+            android:visibility="invisible"
+            app:backgroundTint="@color/custom_green"
+            app:fabSize="mini"
+            app:layout_constraintBottom_toTopOf="@+id/btnFloatAddDebtTake"
+            app:layout_constraintEnd_toEndOf="@+id/btnFloatAddDebtTake"
+            app:srcCompat="@drawable/ic_debt_give_white_pad_10_48dp"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </FrameLayout>

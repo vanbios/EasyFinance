@@ -1,9 +1,9 @@
 package com.androidcollider.easyfin.transaction_categories.root
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.EditText
 import androidx.viewpager.widget.ViewPager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
@@ -17,8 +17,9 @@ import com.androidcollider.easyfin.common.managers.ui.shake_edit_text.ShakeEditT
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager
 import com.androidcollider.easyfin.common.ui.adapters.ViewPagerFragmentAdapter
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment
+import com.androidcollider.easyfin.common.utils.animateViewWithChangeVisibilityAndClickable
 import com.androidcollider.easyfin.transaction_categories.nested.TransactionCategoriesNestedFragment
-import com.github.clans.fab.FloatingActionButton
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import org.greenrobot.eventbus.EventBus
 import java.util.*
@@ -74,8 +75,8 @@ class TransactionCategoriesRootFragment : CommonFragment(),
         setupViewPager()
         buildTransactionCategoryDialog()
 
-        fabAddNew.hide(false)
-        Handler(Looper.getMainLooper()).postDelayed({ fabAddNew.show(true) }, 1000)
+        showFab(show = false, withAnim = false)
+        view.postDelayed({ showFab(show = true, withAnim = true) }, 1000)
     }
 
     private fun setupViewPager() {
@@ -145,15 +146,30 @@ class TransactionCategoriesRootFragment : CommonFragment(),
         get() = pager.currentItem
 
     fun hideFab() {
-        if (!fabAddNew.isHidden) {
-            fabAddNew.hide(true)
+        if (isFABVisible) {
+            showFab(show = false, withAnim = true)
         }
     }
 
     fun showFab() {
-        if (fabAddNew.isHidden) {
-            fabAddNew.show(true)
+        if (!isFABVisible) {
+            showFab(show = true, withAnim = true)
         }
+    }
+
+    private fun showFab(show: Boolean, withAnim: Boolean) {
+        if (withAnim) {
+            animateViewWithChangeVisibilityAndClickable(
+                fabAddNew,
+                if (show) jumpFromBottomAnimation else jumpToBottomAnimation,
+                show
+            )
+        } else {
+            fabAddNew.visibility = if (show) View.VISIBLE else View.INVISIBLE
+            fabAddNew.isClickable = show
+        }
+
+        isFABVisible = !isFABVisible
     }
 
     override val title: String
@@ -180,5 +196,20 @@ class TransactionCategoriesRootFragment : CommonFragment(),
 
     override fun handleNewTransactionCategoryAdded() {
         EventBus.getDefault().post(UpdateFrgTransactionCategories())
+    }
+
+    private var isFABVisible = true
+
+    private val jumpFromBottomAnimation: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            requireContext(),
+            R.anim.jump_from_down
+        )
+    }
+    private val jumpToBottomAnimation: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            requireContext(),
+            R.anim.jump_to_down
+        )
     }
 }

@@ -1,12 +1,13 @@
 package com.androidcollider.easyfin.main
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.view.MotionEvent
 import android.view.View
-import android.view.View.OnTouchListener
+import android.view.View.*
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationSet
+import android.view.animation.AnimationUtils
 import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -19,12 +20,12 @@ import com.androidcollider.easyfin.common.app.App
 import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager
 import com.androidcollider.easyfin.common.ui.adapters.ViewPagerFragmentAdapter
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment
+import com.androidcollider.easyfin.common.utils.animateViewWithChangeVisibilityAndClickable
 import com.androidcollider.easyfin.home.HomeFragment
 import com.androidcollider.easyfin.transactions.add_edit.btw_accounts.AddTransactionBetweenAccountsFragment
 import com.androidcollider.easyfin.transactions.add_edit.income_expense.AddTransactionIncomeExpenseFragment
 import com.androidcollider.easyfin.transactions.list.TransactionsFragment
-import com.github.clans.fab.FloatingActionButton
-import com.github.clans.fab.FloatingActionMenu
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import java.util.*
 import javax.inject.Inject
@@ -36,7 +37,7 @@ class MainFragment : CommonFragment(), MainMVP.View {
 
     lateinit var pager: ViewPager
     lateinit var tabLayout: TabLayout
-    lateinit var fabMenu: FloatingActionMenu
+    lateinit var fabMenu: FloatingActionButton
     lateinit var faButtonExpense: FloatingActionButton
     lateinit var faButtonIncome: FloatingActionButton
     lateinit var faButtonBTW: FloatingActionButton
@@ -88,9 +89,8 @@ class MainFragment : CommonFragment(), MainMVP.View {
         setupViewPager()
         setupFabs()
 
-        fabMenu.hideMenu(false)
-        Handler(Looper.getMainLooper())
-            .postDelayed({ fabMenu.showMenu(true) }, 1000)
+        showFABMenu(show = false, withAnim = false)
+        view.postDelayed({ showFABMenu(show = true, withAnim = true) }, 1000)
     }
 
     private fun setupViewPager() {
@@ -128,7 +128,7 @@ class MainFragment : CommonFragment(), MainMVP.View {
     }
 
     private fun setupFabs() {
-        fabMenu.setOnMenuButtonClickListener { checkPageNum() }
+        fabMenu.setOnClickListener { checkPageNum() }
         addNonFabTouchListener(mainContent)
     }
 
@@ -171,14 +171,14 @@ class MainFragment : CommonFragment(), MainMVP.View {
     }
 
     private fun changeFloatingMenuState() {
-        if (!fabMenu.isOpened) {
-            fabMenu.open(true)
+        if (!isFABMenuExpanded) {
+            expandFABMenu(expand = true, withAnim = true)
         } else collapseFloatingMenu(true)
     }
 
     private fun collapseFloatingMenu(withAnim: Boolean) {
-        if (fabMenu.isOpened) {
-            fabMenu.close(withAnim)
+        if (isFABMenuExpanded) {
+            expandFABMenu(expand = false, withAnim)
         }
     }
 
@@ -202,15 +202,67 @@ class MainFragment : CommonFragment(), MainMVP.View {
     }
 
     fun hideMenu() {
-        if (!fabMenu.isMenuHidden) {
-            fabMenu.hideMenu(true)
+        if (isFABMenuVisible) {
+            showFABMenu(show = false, withAnim = true)
         }
     }
 
     fun showMenu() {
-        if (fabMenu.isMenuHidden) {
-            fabMenu.showMenu(true)
+        if (!isFABMenuVisible) {
+            showFABMenu(show = true, withAnim = true)
         }
+    }
+
+    private fun showFABMenu(show: Boolean, withAnim: Boolean) {
+        if (!show && isFABMenuExpanded) {
+            expandFABMenu(expand = false, withAnim = true, hideMenu = true)
+        } else if (withAnim) {
+            animateViewWithChangeVisibilityAndClickable(
+                fabMenu,
+                if (show) jumpFromBottomAnimation else jumpToBottomAnimation,
+                show
+            )
+        } else {
+            fabMenu.visibility = if (show) VISIBLE else INVISIBLE
+            fabMenu.isClickable = show
+        }
+
+        isFABMenuVisible = !isFABMenuVisible
+    }
+
+    private fun expandFABMenu(expand: Boolean, withAnim: Boolean, hideMenu: Boolean = false) {
+        if (withAnim) {
+            animateViewWithChangeVisibilityAndClickable(
+                faButtonIncome,
+                if (expand) fromBottomAnimation else toBottomAnimation,
+                expand
+            )
+            animateViewWithChangeVisibilityAndClickable(
+                faButtonExpense,
+                if (expand) fromBottomAnimation else toBottomAnimation,
+                expand
+            )
+            animateViewWithChangeVisibilityAndClickable(
+                faButtonBTW,
+                if (expand) fromBottomAnimation else toBottomAnimation,
+                expand
+            )
+
+            val menuAnimationSet = AnimationSet(false)
+            menuAnimationSet.addAnimation(if (expand) rotateOpenAnimation else rotateCloseAnimation)
+            if (hideMenu) menuAnimationSet.addAnimation(jumpToBottomAnimation)
+            animateViewWithChangeVisibilityAndClickable(fabMenu, menuAnimationSet, !hideMenu)
+        } else {
+            faButtonIncome.visibility = if (expand) VISIBLE else INVISIBLE
+            faButtonExpense.visibility = if (expand) VISIBLE else INVISIBLE
+            faButtonBTW.visibility = if (expand) VISIBLE else INVISIBLE
+
+            faButtonIncome.isClickable = expand
+            faButtonExpense.isClickable = expand
+            faButtonBTW.isClickable = expand
+        }
+
+        isFABMenuExpanded = !isFABMenuExpanded
     }
 
     override fun informNoAccounts() {
@@ -219,4 +271,44 @@ class MainFragment : CommonFragment(), MainMVP.View {
 
     override val title: String
         get() = getString(R.string.app_name)
+
+    private var isFABMenuVisible = true
+    private var isFABMenuExpanded = false
+
+    private val rotateOpenAnimation: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            requireContext(),
+            R.anim.rotate_open
+        )
+    }
+    private val rotateCloseAnimation: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            requireContext(),
+            R.anim.rotate_close
+        )
+    }
+    private val jumpFromBottomAnimation: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            requireContext(),
+            R.anim.jump_from_down
+        )
+    }
+    private val jumpToBottomAnimation: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            requireContext(),
+            R.anim.jump_to_down
+        )
+    }
+    private val fromBottomAnimation: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            requireContext(),
+            R.anim.show_from_bottom
+        )
+    }
+    private val toBottomAnimation: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            requireContext(),
+            R.anim.hide_to_bottom
+        )
+    }
 }

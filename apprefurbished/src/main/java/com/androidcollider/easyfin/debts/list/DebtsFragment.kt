@@ -1,12 +1,14 @@
 package com.androidcollider.easyfin.debts.list
 
 import android.os.Bundle
-import android.os.Handler
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationSet
+import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
@@ -21,10 +23,10 @@ import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager
 import com.androidcollider.easyfin.common.models.Debt
 import com.androidcollider.easyfin.common.ui.MainActivity
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment
+import com.androidcollider.easyfin.common.utils.animateViewWithChangeVisibilityAndClickable
 import com.androidcollider.easyfin.debts.add_edit.AddDebtFragment
 import com.androidcollider.easyfin.debts.pay.PayDebtFragment
-import com.github.clans.fab.FloatingActionButton
-import com.github.clans.fab.FloatingActionMenu
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -37,7 +39,7 @@ class DebtsFragment : CommonFragment(), DebtsMVP.View {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var tvEmpty: TextView
-    private lateinit var fabMenu: FloatingActionMenu
+    private lateinit var fabMenu: FloatingActionButton
     private lateinit var faButtonTake: FloatingActionButton
     private lateinit var faButtonGive: FloatingActionButton
     private lateinit var mainContent: FrameLayout
@@ -84,10 +86,11 @@ class DebtsFragment : CommonFragment(), DebtsMVP.View {
         }
 
         setupRecyclerView()
+        fabMenu.setOnClickListener { changeFloatingMenuState() }
         addNonFabTouchListener(mainContent)
 
-        fabMenu.hideMenu(false)
-        Handler().postDelayed({ fabMenu.showMenu(true) }, 300)
+        showFABMenu(show = false, withAnim = false)
+        view.postDelayed({ showFABMenu(show = true, withAnim = true) }, 300)
     }
 
     private fun setupRecyclerView() {
@@ -97,12 +100,12 @@ class DebtsFragment : CommonFragment(), DebtsMVP.View {
         recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 if (dy > 0) {
-                    if (!fabMenu.isMenuHidden) {
-                        fabMenu.hideMenu(true)
+                    if (isFABMenuVisible) {
+                        showFABMenu(show = false, withAnim = true)
                     }
                 } else if (dy < 0) {
-                    if (fabMenu.isMenuHidden) {
-                        fabMenu.showMenu(true)
+                    if (!isFABMenuVisible) {
+                        showFABMenu(show = true, withAnim = true)
                     }
                 }
                 super.onScrolled(recyclerView, dx, dy)
@@ -181,10 +184,61 @@ class DebtsFragment : CommonFragment(), DebtsMVP.View {
         addFragment(addDebtFragment)
     }
 
+    private fun changeFloatingMenuState() {
+        if (!isFABMenuExpanded) {
+            expandFABMenu(expand = true, withAnim = true)
+        } else collapseFloatingMenu(true)
+    }
+
     private fun collapseFloatingMenu(withAnim: Boolean) {
-        if (fabMenu.isOpened) {
-            fabMenu.close(withAnim)
+        if (isFABMenuExpanded) {
+            expandFABMenu(expand = false, withAnim)
         }
+    }
+
+    private fun showFABMenu(show: Boolean, withAnim: Boolean) {
+        if (!show && isFABMenuExpanded) {
+            expandFABMenu(expand = false, withAnim = true, hideMenu = true)
+        } else if (withAnim) {
+            animateViewWithChangeVisibilityAndClickable(
+                fabMenu,
+                if (show) jumpFromBottomAnimation else jumpToBottomAnimation,
+                show
+            )
+        } else {
+            fabMenu.visibility = if (show) View.VISIBLE else View.INVISIBLE
+            fabMenu.isClickable = show
+        }
+
+        isFABMenuVisible = !isFABMenuVisible
+    }
+
+    private fun expandFABMenu(expand: Boolean, withAnim: Boolean, hideMenu: Boolean = false) {
+        if (withAnim) {
+            animateViewWithChangeVisibilityAndClickable(
+                faButtonGive,
+                if (expand) fromBottomAnimation else toBottomAnimation,
+                expand
+            )
+            animateViewWithChangeVisibilityAndClickable(
+                faButtonTake,
+                if (expand) fromBottomAnimation else toBottomAnimation,
+                expand
+            )
+
+            val menuAnimationSet = AnimationSet(false)
+            menuAnimationSet.addAnimation(if (expand) rotateOpenAnimation else rotateCloseAnimation)
+            if (hideMenu) menuAnimationSet.addAnimation(jumpToBottomAnimation)
+            animateViewWithChangeVisibilityAndClickable(fabMenu, menuAnimationSet, !hideMenu)
+        } else {
+            faButtonGive.visibility = if (expand) View.VISIBLE else View.INVISIBLE
+            faButtonTake.visibility = if (expand) View.VISIBLE else View.INVISIBLE
+
+            faButtonGive.isClickable = expand
+            faButtonTake.isClickable = expand
+        }
+
+        isFABMenuExpanded = !isFABMenuExpanded
     }
 
     private fun addNonFabTouchListener(view: View?) {
@@ -235,6 +289,46 @@ class DebtsFragment : CommonFragment(), DebtsMVP.View {
         recyclerAdapter.deleteItem(recyclerAdapter.getPositionById(recyclerAdapter.currentId))
         setVisibility()
         pushBroadcast()
+    }
+
+    private var isFABMenuVisible = true
+    private var isFABMenuExpanded = false
+
+    private val rotateOpenAnimation: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            requireContext(),
+            R.anim.rotate_open
+        )
+    }
+    private val rotateCloseAnimation: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            requireContext(),
+            R.anim.rotate_close
+        )
+    }
+    private val jumpFromBottomAnimation: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            requireContext(),
+            R.anim.jump_from_down
+        )
+    }
+    private val jumpToBottomAnimation: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            requireContext(),
+            R.anim.jump_to_down
+        )
+    }
+    private val fromBottomAnimation: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            requireContext(),
+            R.anim.show_from_bottom
+        )
+    }
+    private val toBottomAnimation: Animation by lazy {
+        AnimationUtils.loadAnimation(
+            requireContext(),
+            R.anim.hide_to_bottom
+        )
     }
 
     companion object {
