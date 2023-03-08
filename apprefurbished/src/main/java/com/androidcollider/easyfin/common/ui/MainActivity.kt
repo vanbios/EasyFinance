@@ -2,21 +2,16 @@ package com.androidcollider.easyfin.common.ui
 
 import android.content.res.Configuration
 import android.os.Bundle
-import android.view.GestureDetector
-import android.view.GestureDetector.SimpleOnGestureListener
 import android.view.MenuItem
-import android.view.MotionEvent
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
+import androidx.core.view.forEach
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.OnItemTouchListener
 import com.androidcollider.easyfin.R
 import com.androidcollider.easyfin.accounts.add_edit.AddAccountFragment
 import com.androidcollider.easyfin.common.app.App
@@ -25,7 +20,6 @@ import com.androidcollider.easyfin.common.managers.rates.rates_loader.RatesLoade
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager
 import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager
-import com.androidcollider.easyfin.common.ui.adapters.NavigationDrawerRecyclerAdapter
 import com.androidcollider.easyfin.common.ui.fragments.PrefFragment
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit
@@ -33,6 +27,7 @@ import com.androidcollider.easyfin.debts.list.DebtsFragment
 import com.androidcollider.easyfin.faq.FAQFragment
 import com.androidcollider.easyfin.main.MainFragment
 import com.androidcollider.easyfin.transaction_categories.root.TransactionCategoriesRootFragment
+import com.google.android.material.navigation.NavigationView
 import javax.inject.Inject
 
 /**
@@ -41,7 +36,7 @@ import javax.inject.Inject
 class MainActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedListener {
 
     private lateinit var drawerLayout: DrawerLayout
-    private lateinit var recyclerNavDrawer: RecyclerView
+    private lateinit var navigationView: NavigationView
     private lateinit var toolbar: Toolbar
 
     @Inject
@@ -76,15 +71,12 @@ class MainActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedList
 
     private fun setupUI() {
         drawerLayout = findViewById(R.id.navDrawerLayout)
-        recyclerNavDrawer = findViewById(R.id.recyclerViewNavDrawer)
+        navigationView = findViewById(R.id.nvView)
         toolbar = findViewById(R.id.toolbarMain)
     }
 
     private fun initializeViews() {
         setSupportActionBar(toolbar)
-        recyclerNavDrawer.setHasFixedSize(true)
-        recyclerNavDrawer.layoutManager = LinearLayoutManager(this)
-        recyclerNavDrawer.adapter = NavigationDrawerRecyclerAdapter(resourcesManager)
         val mDrawerToggle = ActionBarDrawerToggle(
             this,
             drawerLayout,
@@ -92,38 +84,34 @@ class MainActivity : AppCompatActivity(), FragmentManager.OnBackStackChangedList
             R.string.app_name,
             R.string.app_name
         )
-        drawerLayout.addDrawerListener(mDrawerToggle)
+        //mDrawerToggle.isDrawerIndicatorEnabled = true
         mDrawerToggle.syncState()
-        val gestureDetector = GestureDetector(this, object : SimpleOnGestureListener() {
-            override fun onSingleTapUp(e: MotionEvent): Boolean {
-                return true
-            }
-        })
-        recyclerNavDrawer.addOnItemTouchListener(object : OnItemTouchListener {
-            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-                val child = rv.findChildViewUnder(e.x, e.y)
-                if (child != null && gestureDetector.onTouchEvent(e)) {
-                    val position = recyclerNavDrawer.getChildAdapterPosition(child)
-                    if (position != 0 && position != 5) {
-                        drawerLayout.closeDrawers()
-                        when (position) {
-                            1 -> openSelectedFrgMainPage(0)
-                            2 -> openSelectedFrgMainPage(1)
-                            3 -> openSelectedFrgMainPage(2)
-                            4 -> addFragment(DebtsFragment())
-                            6 -> addFragment(TransactionCategoriesRootFragment())
-                            7 -> addFragment(PrefFragment())
-                            8 -> addFragment(FAQFragment())
-                            9 -> dialogManager.showAppAboutDialog(this@MainActivity)
-                        }
-                    }
-                }
-                return false
+        drawerLayout.addDrawerListener(mDrawerToggle)
+
+        navigationView.setNavigationItemSelectedListener { item ->
+            drawerLayout.closeDrawers()
+
+            when (item.itemId) {
+                R.id.drawer_item_home -> openSelectedFrgMainPage(0)
+                R.id.drawer_item_transactions -> openSelectedFrgMainPage(1)
+                R.id.drawer_item_accounts -> openSelectedFrgMainPage(2)
+                R.id.drawer_item_debts -> addFragment(DebtsFragment())
+                R.id.drawer_item_transaction_categories -> addFragment(
+                    TransactionCategoriesRootFragment()
+                )
+                R.id.drawer_item_settings -> addFragment(PrefFragment())
+                R.id.drawer_item_faq -> addFragment(FAQFragment())
+                R.id.drawer_item_about_app -> dialogManager.showAppAboutDialog(this@MainActivity)
             }
 
-            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {}
-            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {}
-        })
+            if (item.itemId != R.id.drawer_item_about_app) {
+                navigationView.menu.forEach {
+                    it.isChecked = it.itemId == item.itemId
+                }
+            }
+
+            false
+        }
     }
 
     private fun setToolbar(title: String) {

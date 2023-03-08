@@ -43,6 +43,7 @@ ext {
     appcompatVersion = "1.6.1"
     materialVersion = "1.8.0"
     preferenceVersion = "1.2.0"
+    navigationVersion = "2.5.3"
 }
 
 dependencies {
@@ -54,6 +55,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "androidx.constraintlayout:constraintlayout:$constraintVersion"
     implementation "androidx.preference:preference-ktx:$preferenceVersion"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
 
     implementation "androidx.multidex:multidex:$multidexVersion"
 

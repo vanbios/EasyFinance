@@ -32,7 +32,6 @@ class ResourcesManager internal constructor(private val context: Context) {
     }
 
     companion object {
-        const val STRING_NAVIGATION_DRAWER_MENU = R.array.navigation_drawer_string_array
         const val STRING_JSON_RATES = R.array.json_rates_array
         const val STRING_CHART_TYPE = R.array.chart_type_array
         const val STRING_MAIN_STATISTIC_PERIOD = R.array.main_statistic_period_array
@@ -46,6 +45,5 @@ class ResourcesManager internal constructor(private val context: Context) {
         const val ICON_FLAGS = R.array.flag_icons
         const val ICON_ACCOUNT_TYPE = R.array.account_type_icons
         const val ICON_CHART_TYPE = R.array.charts_main_icons
-        const val ICON_NAVIGATION_DRAWER_MENU = R.array.navigation_drawer_icons_array
     }
 }
