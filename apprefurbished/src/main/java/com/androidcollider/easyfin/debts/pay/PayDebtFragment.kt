@@ -6,6 +6,7 @@ import android.widget.ScrollView
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.navigation.fragment.findNavController
 import com.androidcollider.easyfin.R
 import com.androidcollider.easyfin.common.app.App
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts
@@ -16,7 +17,6 @@ import com.androidcollider.easyfin.common.managers.ui.hide_touch_outside.HideTou
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager
 import com.androidcollider.easyfin.common.ui.MainActivity
 import com.androidcollider.easyfin.common.ui.adapters.SpinAccountForTransHeadIconAdapter
-import com.androidcollider.easyfin.common.ui.fragments.NumericDialogFragment.OnCommitAmountListener
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit
 import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel
 import org.greenrobot.eventbus.EventBus
@@ -25,7 +25,7 @@ import javax.inject.Inject
 /**
  * @author Ihor Bilous
  */
-class PayDebtFragment : CommonFragmentAddEdit(), OnCommitAmountListener, PayDebtMVP.View {
+class PayDebtFragment : CommonFragmentAddEdit(), PayDebtMVP.View {
 
     private lateinit var tvDebtName: TextView
     private lateinit var tvAmount: TextView
@@ -81,7 +81,7 @@ class PayDebtFragment : CommonFragmentAddEdit(), OnCommitAmountListener, PayDebt
         EventBus.getDefault().post(UpdateFrgDebts())
     }
 
-    override fun onCommitAmountSubmit(amount: String) {
+    override fun updateAmount(amount: String) {
         showAmount(amount)
     }
 
@@ -134,7 +134,7 @@ class PayDebtFragment : CommonFragmentAddEdit(), OnCommitAmountListener, PayDebt
 
     override fun performLastActionsAfterSaveAndClose() {
         pushBroadcast()
-        finish()
+        findNavController().navigateUp()
     }
 
     override val amount: String

@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.setFragmentResult
 import com.acollider.numberkeyboardview.CalculatorView
 import com.androidcollider.easyfin.R
 import com.androidcollider.easyfin.common.app.App
@@ -25,7 +27,6 @@ class NumericDialogFragment : DialogFragment() {
     private lateinit var tvCommit: TextView
     private lateinit var tvCancel: TextView
     private lateinit var calculatorView: CalculatorView
-    private lateinit var callback: OnCommitAmountListener
 
     @Inject
     lateinit var numberFormatManager: NumberFormatManager
@@ -41,35 +42,29 @@ class NumericDialogFragment : DialogFragment() {
     ): View? {
         val view = inflater.inflate(R.layout.frg_numeric_dialog, container, false)
         setupUI(view)
-        callback = try {
-            targetFragment as OnCommitAmountListener
-        } catch (e: ClassCastException) {
-            throw ClassCastException("Calling Fragment must implement OnCommitAmountListener")
-        }
+
         calculatorView = CalculatorView(activity)
         calculatorView.isShowSpaces = true
         calculatorView.isShowSelectors = true
         calculatorView.build()
-        try {
-            val inputValue = requireArguments().getString("value")
-            if (inputValue != null) {
-                val str = numberFormatManager.prepareStringToSeparate(inputValue)
-                var integers: String
-                var hundreds: String? = ""
-                if (str.contains(",")) {
-                    val j = str.indexOf(",")
-                    integers = str.substring(0, j)
-                    val h = str.substring(j + 1)
-                    if (h != "00") hundreds = h
-                } else integers = str
-                if (integers == "0") integers = ""
-                calculatorView.setIntegers(integers)
-                calculatorView.setHundredths(hundreds)
-                calculatorView.formatAndShow()
-            }
-        } catch (e: NullPointerException) {
-            e.printStackTrace()
+
+        val inputValue = requireArguments().getString(INPUT_VALUE)
+        if (inputValue != null) {
+            val str = numberFormatManager.prepareStringToSeparate(inputValue)
+            var integers: String
+            var hundreds: String? = ""
+            if (str.contains(",")) {
+                val j = str.indexOf(",")
+                integers = str.substring(0, j)
+                val h = str.substring(j + 1)
+                if (h != "00") hundreds = h
+            } else integers = str
+            if (integers == "0") integers = ""
+            calculatorView.setIntegers(integers)
+            calculatorView.setHundredths(hundreds)
+            calculatorView.formatAndShow()
         }
+
         frameLayout.addView(calculatorView)
         return view
     }
@@ -79,7 +74,10 @@ class NumericDialogFragment : DialogFragment() {
         tvCommit = view.findViewById(R.id.btnFrgNumericDialogCommit)
         tvCancel = view.findViewById(R.id.btnFrgNumericDialogCancel)
         tvCommit.setOnClickListener {
-            callback.onCommitAmountSubmit(calculatorView.calculatorValue)
+            setFragmentResult(
+                NUMERIC_DIALOG_REQUEST_KEY,
+                bundleOf(OUTPUT_VALUE to calculatorView.calculatorValue)
+            )
             dismiss()
         }
         tvCancel.setOnClickListener { dismiss() }
@@ -102,7 +100,9 @@ class NumericDialogFragment : DialogFragment() {
         return dialog
     }
 
-    interface OnCommitAmountListener {
-        fun onCommitAmountSubmit(amount: String)
+    companion object {
+        const val INPUT_VALUE = "input_value"
+        const val OUTPUT_VALUE = "output_value"
+        const val NUMERIC_DIALOG_REQUEST_KEY = "numeric_dialog_request_key"
     }
 }

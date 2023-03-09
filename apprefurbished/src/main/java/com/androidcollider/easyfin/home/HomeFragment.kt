@@ -221,7 +221,7 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
             spinChartType.onItemSelectedListener = object : OnItemSelectedListener {
                 override fun onItemSelected(
                     adapterView: AdapterView<*>?,
-                    view: View,
+                    view: View?,
                     i: Int,
                     l: Long
                 ) {

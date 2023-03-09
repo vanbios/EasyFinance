@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.androidcollider.easyfin.R
-import com.androidcollider.easyfin.accounts.add_edit.AddAccountFragment
 import com.androidcollider.easyfin.common.app.App
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts
 import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance
@@ -124,13 +125,13 @@ class AccountsFragment : CommonFragmentWithEvents(), AccountsMVP.View {
     }
 
     override fun goToEditAccount(account: Account) {
-        val addAccountFragment = AddAccountFragment()
-        val arguments = Bundle()
-        arguments.putInt(MODE, EDIT)
-        arguments.putSerializable(ACCOUNT, account)
-        addAccountFragment.arguments = arguments
-        val activity = activity as MainActivity?
-        activity?.addFragment(addAccountFragment)
+        findNavController().navigate(
+            R.id.addAccountFragment,
+            bundleOf(
+                MODE to EDIT,
+                ACCOUNT to account
+            )
+        )
     }
 
     override fun deleteAccount() {

@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.androidcollider.easyfin.R
@@ -19,7 +21,6 @@ import com.androidcollider.easyfin.common.models.TransactionCategory
 import com.androidcollider.easyfin.common.ui.MainActivity
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentWithEvents
 import com.androidcollider.easyfin.main.MainFragment
-import com.androidcollider.easyfin.transactions.add_edit.income_expense.AddTransactionIncomeExpenseFragment
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -138,15 +139,13 @@ class TransactionsFragment : CommonFragmentWithEvents(), TransactionsMVP.View {
     }
 
     override fun goToEditTransaction(transaction: Transaction) {
-        val activity = activity as MainActivity?
-        if (activity != null) {
-            val frgAddTransDef = AddTransactionIncomeExpenseFragment()
-            val arguments = Bundle()
-            arguments.putInt(MODE, MODE_EDIT)
-            arguments.putSerializable(TRANSACTION, transaction)
-            frgAddTransDef.arguments = arguments
-            activity.addFragment(frgAddTransDef)
-        }
+        findNavController().navigate(
+            R.id.addTransactionIncomeExpenseFragment,
+            bundleOf(
+                MODE to MODE_EDIT,
+                TRANSACTION to transaction
+            )
+        )
     }
 
     override fun deleteTransaction() {

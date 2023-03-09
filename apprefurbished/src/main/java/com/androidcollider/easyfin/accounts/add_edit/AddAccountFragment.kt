@@ -6,6 +6,7 @@ import android.widget.EditText
 import android.widget.ScrollView
 import android.widget.Spinner
 import android.widget.TextView
+import androidx.navigation.fragment.findNavController
 import com.androidcollider.easyfin.R
 import com.androidcollider.easyfin.common.app.App
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts
@@ -16,7 +17,6 @@ import com.androidcollider.easyfin.common.managers.ui.shake_edit_text.ShakeEditT
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager
 import com.androidcollider.easyfin.common.ui.MainActivity
 import com.androidcollider.easyfin.common.ui.adapters.SpinIconTextHeadAdapter
-import com.androidcollider.easyfin.common.ui.fragments.NumericDialogFragment.OnCommitAmountListener
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit
 import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
@@ -24,7 +24,7 @@ import javax.inject.Inject
 /**
  * @author Ihor Bilous
  */
-class AddAccountFragment : CommonFragmentAddEdit(), OnCommitAmountListener, AddAccountMVP.View {
+class AddAccountFragment : CommonFragmentAddEdit(), AddAccountMVP.View {
 
     private lateinit var spinType: Spinner
     private lateinit var spinCurrency: Spinner
@@ -106,7 +106,7 @@ class AddAccountFragment : CommonFragmentAddEdit(), OnCommitAmountListener, AddA
         EventBus.getDefault().post(UpdateFrgAccounts())
     }
 
-    override fun onCommitAmountSubmit(amount: String) {
+    override fun updateAmount(amount: String) {
         showAmount(amount)
     }
 
@@ -149,7 +149,7 @@ class AddAccountFragment : CommonFragmentAddEdit(), OnCommitAmountListener, AddA
 
     override fun performLastActionsAfterSaveAndClose() {
         pushBroadcast()
-        popAll()
+        findNavController().navigateUp()
     }
 
     override val accountName: String

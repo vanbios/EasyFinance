@@ -176,7 +176,7 @@ internal class RecyclerTransactionAdapter(
             mView.setOnCreateContextMenuListener(this)
         }
 
-        override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenuInfo) {
+        override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenuInfo?) {
             menu.add(Menu.NONE, R.id.ctx_menu_edit_transaction, 1, R.string.edit)
             menu.add(Menu.NONE, R.id.ctx_menu_delete_transaction, 2, R.string.delete)
         }

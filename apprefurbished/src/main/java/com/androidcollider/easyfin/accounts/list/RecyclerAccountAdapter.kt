@@ -84,7 +84,7 @@ internal class RecyclerAccountAdapter(resourcesManager: ResourcesManager) :
             mView.setOnCreateContextMenuListener(this)
         }
 
-        override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenuInfo) {
+        override fun onCreateContextMenu(menu: ContextMenu, v: View, menuInfo: ContextMenuInfo?) {
             menu.add(Menu.NONE, R.id.ctx_menu_edit_account, 1, R.string.edit)
             menu.add(Menu.NONE, R.id.ctx_menu_delete_account, 2, R.string.delete)
         }

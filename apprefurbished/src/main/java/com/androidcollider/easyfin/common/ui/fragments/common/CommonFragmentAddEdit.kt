@@ -2,18 +2,23 @@ package com.androidcollider.easyfin.common.ui.fragments.common
 
 import android.os.Bundle
 import android.util.TypedValue
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.DialogFragment
+import androidx.core.os.bundleOf
+import androidx.fragment.app.setFragmentResultListener
+import androidx.navigation.fragment.findNavController
 import com.androidcollider.easyfin.R
-import com.androidcollider.easyfin.accounts.add_edit.AddAccountFragment
+import com.androidcollider.easyfin.accounts.list.AccountsFragment.Companion.MODE
 import com.androidcollider.easyfin.common.app.App
 import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager
-import com.androidcollider.easyfin.common.ui.fragments.NumericDialogFragment
+import com.androidcollider.easyfin.common.ui.fragments.NumericDialogFragment.Companion.INPUT_VALUE
+import com.androidcollider.easyfin.common.ui.fragments.NumericDialogFragment.Companion.NUMERIC_DIALOG_REQUEST_KEY
+import com.androidcollider.easyfin.common.ui.fragments.NumericDialogFragment.Companion.OUTPUT_VALUE
 import javax.inject.Inject
 
 /**
@@ -27,6 +32,14 @@ abstract class CommonFragmentAddEdit : CommonFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity?.application as App).component?.inject(this)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setFragmentResultListener(NUMERIC_DIALOG_REQUEST_KEY) { _, bundle ->
+            updateAmount(bundle.getString(OUTPUT_VALUE, "0,00"))
+        }
     }
 
     override val title: String
@@ -52,7 +65,7 @@ abstract class CommonFragmentAddEdit : CommonFragment() {
                 val btnSave = actionBarLayout.findViewById<Button>(R.id.btnToolbarSave)
                 val btnClose = actionBarLayout.findViewById<Button>(R.id.btnToolbarClose)
                 btnSave.setOnClickListener { handleSaveAction() }
-                btnClose.setOnClickListener { finish() }
+                btnClose.setOnClickListener { findNavController().navigateUp() }
             }
         }
     }
@@ -67,15 +80,13 @@ abstract class CommonFragmentAddEdit : CommonFragment() {
         }
     }
 
-    protected fun openNumericDialog(initialValue: String?) {
-        activity?.let {
-            val args = Bundle()
-            args.putString("value", initialValue)
-            val numericDialog: DialogFragment = NumericDialogFragment()
-            numericDialog.setTargetFragment(this, 1)
-            numericDialog.arguments = args
-            numericDialog.show(it.supportFragmentManager, "numericDialog")
-        }
+    protected fun openNumericDialog(initialValue: String) {
+        findNavController().navigate(
+            R.id.numericDialogFragment,
+            bundleOf(
+                INPUT_VALUE to initialValue
+            )
+        )
     }
 
     protected fun showDialogNoAccount(message: String, withFinish: Boolean) {
@@ -83,18 +94,19 @@ abstract class CommonFragmentAddEdit : CommonFragment() {
             dialogManager.showNoAccountsDialog(
                 it,
                 message,
-                { goToAddAccount(withFinish) }) { finish() }
+                { goToAddAccount(withFinish) }) { findNavController().navigateUp() }
         }
     }
 
     private fun goToAddAccount(withFinish: Boolean) {
-        if (withFinish) finish()
-        val addAccountFragment = AddAccountFragment()
-        val arguments = Bundle()
-        arguments.putInt("mode", 0)
-        addAccountFragment.arguments = arguments
-        addFragment(addAccountFragment)
+        val navController = findNavController()
+        if (withFinish) navController.navigateUp()
+        navController.navigate(
+            R.id.addAccountFragment,
+            bundleOf(MODE to 0)
+        )
     }
 
     protected abstract fun handleSaveAction()
+    protected abstract fun updateAmount(amount: String)
 }

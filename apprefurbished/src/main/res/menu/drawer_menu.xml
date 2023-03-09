@@ -5,7 +5,6 @@
         android:checkableBehavior="none">
         <item
             android:id="@+id/drawer_item_home"
-            android:checked="true"
             android:icon="@drawable/ic_view_dashboard_blue_gray_24dp"
             android:title="@string/tab_home" />
         <item

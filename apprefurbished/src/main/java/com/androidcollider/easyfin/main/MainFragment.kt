@@ -10,17 +10,16 @@ import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.androidcollider.easyfin.R
-import com.androidcollider.easyfin.accounts.add_edit.AddAccountFragment
 import com.androidcollider.easyfin.accounts.list.AccountsFragment
 import com.androidcollider.easyfin.common.app.App
 import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment
 import com.androidcollider.easyfin.common.utils.animateViewWithChangeVisibilityAndClickable
-import com.androidcollider.easyfin.transactions.add_edit.btw_accounts.AddTransactionBetweenAccountsFragment
-import com.androidcollider.easyfin.transactions.add_edit.income_expense.AddTransactionIncomeExpenseFragment
 import com.androidcollider.easyfin.transactions.list.TransactionsFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
@@ -124,24 +123,28 @@ class MainFragment : CommonFragment(), MainMVP.View {
     }
 
     private fun goToAddTransaction(type: Int) {
-        val frgAddTransDef = AddTransactionIncomeExpenseFragment()
-        val arguments = Bundle()
-        arguments.putInt(TransactionsFragment.MODE, TransactionsFragment.MODE_ADD)
-        arguments.putInt(TransactionsFragment.TYPE, type)
-        frgAddTransDef.arguments = arguments
-        addFragment(frgAddTransDef)
+        findNavController().navigate(
+            R.id.action_mainFragment_to_addTransactionIncomeExpenseFragment,
+            bundleOf(
+                TransactionsFragment.MODE to TransactionsFragment.MODE_ADD,
+                TransactionsFragment.TYPE to type
+            )
+        )
     }
 
     private fun goToAddTransBTW() {
-        addFragment(AddTransactionBetweenAccountsFragment())
+        findNavController().navigate(
+            R.id.action_mainFragment_to_addTransactionBetweenAccountsFragment
+        )
     }
 
     private fun goToAddAccount() {
-        val addAccountFragment = AddAccountFragment()
-        val arguments = Bundle()
-        arguments.putInt(AccountsFragment.MODE, AccountsFragment.ADD)
-        addAccountFragment.arguments = arguments
-        addFragment(addAccountFragment)
+        findNavController().navigate(
+            R.id.action_mainFragment_to_addAccountFragment,
+            bundleOf(
+                AccountsFragment.MODE to AccountsFragment.ADD
+            )
+        )
     }
 
     private fun showDialogNoAccount() {

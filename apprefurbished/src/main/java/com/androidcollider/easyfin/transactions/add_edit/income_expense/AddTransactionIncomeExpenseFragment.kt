@@ -5,6 +5,7 @@ import android.content.res.TypedArray
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import androidx.navigation.fragment.findNavController
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.androidcollider.easyfin.R
@@ -20,7 +21,6 @@ import com.androidcollider.easyfin.common.managers.ui.shake_edit_text.ShakeEditT
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager
 import com.androidcollider.easyfin.common.models.TransactionCategory
 import com.androidcollider.easyfin.common.ui.adapters.SpinAccountForTransHeadIconAdapter
-import com.androidcollider.easyfin.common.ui.fragments.NumericDialogFragment.OnCommitAmountListener
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit
 import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel
 import org.greenrobot.eventbus.EventBus
@@ -31,7 +31,6 @@ import javax.inject.Inject
  * @author Ihor Bilous
  */
 class AddTransactionIncomeExpenseFragment : CommonFragmentAddEdit(),
-    OnCommitAmountListener,
     AddTransactionIncomeExpenseMVP.View {
 
     private lateinit var tvDate: TextView
@@ -124,7 +123,7 @@ class AddTransactionIncomeExpenseFragment : CommonFragmentAddEdit(),
         EventBus.getDefault().post(UpdateFrgAccounts())
     }
 
-    override fun onCommitAmountSubmit(amount: String) {
+    override fun updateAmount(amount: String) {
         showAmount(amount, presenter.transactionType)
     }
 
@@ -158,7 +157,7 @@ class AddTransactionIncomeExpenseFragment : CommonFragmentAddEdit(),
 
     override fun performLastActionsAfterSaveAndClose() {
         pushBroadcast()
-        finish()
+        findNavController().navigateUp()
     }
 
     override val amount: String

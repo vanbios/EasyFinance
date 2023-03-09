@@ -3,6 +3,7 @@ package com.androidcollider.easyfin.transactions.add_edit.btw_accounts
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import androidx.navigation.fragment.findNavController
 import com.androidcollider.easyfin.R
 import com.androidcollider.easyfin.common.app.App
 import com.androidcollider.easyfin.common.events.UpdateFrgAccounts
@@ -12,7 +13,6 @@ import com.androidcollider.easyfin.common.managers.ui.hide_touch_outside.HideTou
 import com.androidcollider.easyfin.common.managers.ui.shake_edit_text.ShakeEditTextManager
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager
 import com.androidcollider.easyfin.common.ui.adapters.SpinAccountForTransAdapter
-import com.androidcollider.easyfin.common.ui.fragments.NumericDialogFragment.OnCommitAmountListener
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit
 import com.androidcollider.easyfin.common.utils.EditTextAmountWatcher
 import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel
@@ -22,7 +22,7 @@ import javax.inject.Inject
 /**
  * @author Ihor Bilous
  */
-class AddTransactionBetweenAccountsFragment : CommonFragmentAddEdit(), OnCommitAmountListener,
+class AddTransactionBetweenAccountsFragment : CommonFragmentAddEdit(),
     AddTransactionBetweenAccountsMVP.View {
     private lateinit var spinAccountFrom: Spinner
     private lateinit var spinAccountTo: Spinner
@@ -134,7 +134,7 @@ class AddTransactionBetweenAccountsFragment : CommonFragmentAddEdit(), OnCommitA
         EventBus.getDefault().post(UpdateFrgAccounts())
     }
 
-    override fun onCommitAmountSubmit(amount: String) {
+    override fun updateAmount(amount: String) {
         showAmount(amount)
     }
 
@@ -173,7 +173,7 @@ class AddTransactionBetweenAccountsFragment : CommonFragmentAddEdit(), OnCommitA
 
     override fun performLastActionsAfterSaveAndClose() {
         pushBroadcast()
-        finish()
+        findNavController().navigateUp()
     }
 
     override val amount: String

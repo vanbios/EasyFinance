@@ -12,6 +12,8 @@ import android.view.animation.AnimationUtils
 import android.widget.FrameLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.androidcollider.easyfin.R
@@ -24,8 +26,6 @@ import com.androidcollider.easyfin.common.models.Debt
 import com.androidcollider.easyfin.common.ui.MainActivity
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment
 import com.androidcollider.easyfin.common.utils.animateViewWithChangeVisibilityAndClickable
-import com.androidcollider.easyfin.debts.add_edit.AddDebtFragment
-import com.androidcollider.easyfin.debts.pay.PayDebtFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -121,15 +121,15 @@ class DebtsFragment : CommonFragment(), DebtsMVP.View {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                finish()
+                findNavController().navigateUp()
                 return true
             }
         }
         return false
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         EventBus.getDefault().unregister(this)
     }
 
@@ -176,12 +176,13 @@ class DebtsFragment : CommonFragment(), DebtsMVP.View {
     }
 
     private fun goToAddDebt(type: Int) {
-        val addDebtFragment = AddDebtFragment()
-        val arguments = Bundle()
-        arguments.putInt(MODE, ADD)
-        arguments.putInt(TYPE, type)
-        addDebtFragment.arguments = arguments
-        addFragment(addDebtFragment)
+        findNavController().navigate(
+            R.id.addDebtFragment,
+            bundleOf(
+                MODE to ADD,
+                TYPE to type
+            )
+        )
     }
 
     private fun changeFloatingMenuState() {
@@ -268,21 +269,23 @@ class DebtsFragment : CommonFragment(), DebtsMVP.View {
     }
 
     override fun goToEditDebt(debt: Debt?, mode: Int) {
-        val addDebtFragment = AddDebtFragment()
-        val arguments = Bundle()
-        arguments.putInt(MODE, mode)
-        arguments.putSerializable(DEBT, debt)
-        addDebtFragment.arguments = arguments
-        addFragment(addDebtFragment)
+        findNavController().navigate(
+            R.id.addDebtFragment,
+            bundleOf(
+                MODE to mode,
+                DEBT to debt
+            )
+        )
     }
 
     override fun goToPayDebt(debt: Debt?, mode: Int) {
-        val payDebtFragment = PayDebtFragment()
-        val arguments = Bundle()
-        arguments.putInt(MODE, mode)
-        arguments.putSerializable(DEBT, debt)
-        payDebtFragment.arguments = arguments
-        addFragment(payDebtFragment)
+        findNavController().navigate(
+            R.id.payDebtFragment,
+            bundleOf(
+                MODE to mode,
+                DEBT to debt
+            )
+        )
     }
 
     override fun deleteDebt() {

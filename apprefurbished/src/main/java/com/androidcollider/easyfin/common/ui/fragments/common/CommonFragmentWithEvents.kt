@@ -19,8 +19,8 @@ abstract class CommonFragmentWithEvents : AbstractBaseFragment() {
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         EventBus.getDefault().unregister(this)
     }
 }
