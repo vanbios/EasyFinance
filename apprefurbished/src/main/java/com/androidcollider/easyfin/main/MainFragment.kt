@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
-import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -38,7 +38,7 @@ class MainFragment : CommonFragment(), MainMVP.View {
     private lateinit var faButtonExpense: FloatingActionButton
     private lateinit var faButtonIncome: FloatingActionButton
     private lateinit var faButtonBTW: FloatingActionButton
-    private lateinit var mainContent: RelativeLayout
+    private lateinit var mainContent: ConstraintLayout
 
     @Inject
     lateinit var dialogManager: DialogManager
@@ -166,7 +166,7 @@ class MainFragment : CommonFragment(), MainMVP.View {
     }
 
     private fun addNonFabTouchListener(view: View?) {
-        if (view is RelativeLayout || view is RecyclerView || view is TextView) {
+        if (view is ConstraintLayout || view is RecyclerView || view is TextView) {
             view.setOnTouchListener(OnTouchListener { v: View?, event: MotionEvent? ->
                 collapseFloatingMenu(true)
                 if (event?.action == MotionEvent.ACTION_UP) {

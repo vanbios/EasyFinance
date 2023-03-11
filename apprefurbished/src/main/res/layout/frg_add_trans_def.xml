@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollAddTransDef"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -10,136 +10,101 @@
     android:paddingLeft="@dimen/common_padding_medium"
     android:paddingTop="@dimen/common_padding_large"
     android:paddingRight="@dimen/common_padding_medium"
-    android:scrollbars="none"
-    >
+    android:scrollbars="none">
 
     <androidx.cardview.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/cardAddTransDefElements"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardElevation="@dimen/elevation_medium"
-        card_view:cardUseCompatPadding="true"
-        >
+        app:cardElevation="@dimen/elevation_medium"
+        app:cardUseCompatPadding="true">
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="@dimen/common_padding_xlarge"
             android:paddingRight="@dimen/common_padding_xlarge"
-            android:paddingBottom="@dimen/common_padding_medium"
-            >
+            android:paddingBottom="@dimen/common_padding_medium">
 
-            <FrameLayout
-                android:id="@+id/layoutAddTransDefSum"
+            <TextView
+                android:id="@+id/tvAddTransDefAmount"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/common_padding_xlarge"
-                >
-
-                <TextView
-                    android:id="@+id/tvAddTransDefAmount"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_horizontal"
-                    android:singleLine="true"
-                    android:textColor="@color/custom_text_gray_dark"
-                    android:textSize="36sp"
-                    />
-
-            </FrameLayout>
+                android:gravity="center_horizontal"
+                android:singleLine="true"
+                android:textColor="@color/custom_text_gray_dark"
+                android:textSize="36sp"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="+ 5 000 000,00" />
 
             <TextView
                 android:id="@+id/tvAddTransDefAccount"
                 style="@style/BodyFontSecondary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/layoutAddTransDefSum"
                 android:layout_marginTop="28dp"
                 android:text="@string/account"
                 android:textAllCaps="true"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvAddTransDefAmount" />
 
             <View
                 android:id="@+id/cvAddTransDefDividerTop"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_below="@+id/tvAddTransDefAccount"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/common_padding_small"
                 android:background="@color/custom_light_gray"
-                />
+                app:layout_constraintTop_toBottomOf="@id/tvAddTransDefAccount" />
 
-            <LinearLayout
-                android:id="@+id/linLayoutAddTransDefAccount"
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinAddTransDefAccount"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/cvAddTransDefDividerTop"
-                android:layout_marginTop="0dp"
-                android:baselineAligned="false"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                >
-
-                <Spinner
-                    android:id="@+id/spinAddTransDefAccount"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:prompt="@string/account"
-                    android:spinnerMode="dialog"
-                    />
-
-            </LinearLayout>
+                android:layout_height="60dp"
+                android:prompt="@string/account"
+                android:spinnerMode="dialog"
+                app:layout_constraintTop_toBottomOf="@id/cvAddTransDefDividerTop" />
 
             <TextView
                 android:id="@+id/tvAddTransDefCategory"
                 style="@style/BodyFontSecondary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/linLayoutAddTransDefAccount"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/common_padding_big"
                 android:text="@string/category"
                 android:textAllCaps="true"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/spinAddTransDefAccount" />
 
             <View
                 android:id="@+id/cvAddTransDefDividerCategory"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_below="@+id/tvAddTransDefCategory"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/common_padding_small"
                 android:background="@color/custom_light_gray"
-                />
+                app:layout_constraintTop_toBottomOf="@id/tvAddTransDefCategory" />
 
-            <LinearLayout
-                android:id="@+id/linLayoutAddTransDefCategory"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/cvAddTransDefDividerCategory"
-                android:layout_marginTop="0dp"
-                android:baselineAligned="false"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                >
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinAddTransCategory"
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:prompt="@string/category"
+                android:spinnerMode="dialog"
+                app:layout_constraintEnd_toStartOf="@id/ivAddTransCategory"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cvAddTransDefDividerCategory" />
 
-                <Spinner
-                    android:id="@+id/spinAddTransCategory"
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:layout_weight="1"
-                    android:prompt="@string/category"
-                    android:spinnerMode="dialog"
-                    />
+            <ImageView
+                android:id="@+id/ivAddTransCategory"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:padding="8dp"
+                android:src="@drawable/ic_plus_white_48dp"
+                app:layout_constraintBottom_toBottomOf="@id/spinAddTransCategory"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/spinAddTransCategory"
+                app:tint="@color/green_600" />
 
-                <ImageView
-                    android:id="@+id/ivAddTransCategory"
-                    android:layout_width="44dp"
-                    android:layout_height="44dp"
-                    android:padding="8dp"
-                    android:src="@drawable/ic_plus_white_48dp"
-                    app:tint="@color/green_600"
-                    />
-
-            </LinearLayout>
 
             <TextView
                 android:id="@+id/tvAddTransDefDate"
@@ -147,49 +112,44 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/linLayoutAddTransDefCategory"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/common_padding_big"
                 android:text="@string/date"
                 android:textAllCaps="true"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/spinAddTransCategory" />
 
             <View
                 android:id="@+id/cvAddTransDefDividerDate"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_below="@+id/tvAddTransDefDate"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/common_padding_small"
                 android:background="@color/custom_light_gray"
-                />
+                app:layout_constraintTop_toBottomOf="@id/tvAddTransDefDate" />
 
-            <RelativeLayout
-                android:id="@+id/linLayoutAddTransDefDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/cvAddTransDefDividerDate"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="0dp"
-                >
+            <ImageView
+                android:id="@+id/ivAddTransDefDate"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/common_padding_small"
+                android:contentDescription="@string/date"
+                android:src="@drawable/ic_calendar_blue_gray_48dp"
+                app:layout_constraintBottom_toBottomOf="@id/tvTransactionDate"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tvTransactionDate" />
 
-                <ImageView
-                    android:id="@+id/ivAddTransDefDate"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_centerVertical="true"
-                    android:contentDescription="@string/date"
-                    android:src="@drawable/ic_calendar_blue_gray_48dp"
-                    />
+            <TextView
+                android:id="@+id/tvTransactionDate"
+                style="@style/SpinnerFont"
+                android:layout_width="0dp"
+                android:layout_height="68dp"
+                android:layout_centerHorizontal="true"
+                android:clickable="true"
+                android:gravity="center"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ivAddTransDefDate"
+                app:layout_constraintTop_toBottomOf="@id/cvAddTransDefDividerDate" />
 
-                <TextView
-                    android:id="@+id/tvTransactionDate"
-                    style="@style/SpinnerFont"
-                    android:layout_width="match_parent"
-                    android:layout_height="68dp"
-                    android:layout_centerHorizontal="true"
-                    android:clickable="true"
-                    android:gravity="center"
-                    />
-
-            </RelativeLayout>
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </ScrollView>

@@ -1,43 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
     android:paddingLeft="@dimen/margin_spinner_elements"
     android:paddingTop="@dimen/margin_spinner_top_bottom"
     android:paddingRight="@dimen/margin_spinner_elements"
-    android:paddingBottom="@dimen/margin_spinner_top_bottom"
-    >
+    android:paddingBottom="@dimen/margin_spinner_top_bottom">
 
     <ImageView
         android:id="@+id/ivSpinDropdownAccountType"
         android:layout_width="42dp"
         android:layout_height="42dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="@dimen/margin_spinner_elements"
-        android:layout_marginBottom="8dp"
         android:contentDescription="@string/account_type"
-        />
+        app:layout_constraintBottom_toBottomOf="@id/tvSpinDropdownAccountAmount"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvSpinDropdownAccountName"
+        tools:src="@drawable/ic_card_new_48dp" />
 
     <TextView
         android:id="@+id/tvSpinDropdownAccountName"
         style="@style/SpinnerFont"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/common_padding_medium"
-        android:layout_toRightOf="@+id/ivSpinDropdownAccountType"
+        android:layout_marginStart="@dimen/margin_spinner_elements"
         android:singleLine="true"
-        />
+        app:layout_constraintStart_toEndOf="@id/ivSpinDropdownAccountType"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@string/faq_about_app" />
 
     <TextView
         android:id="@+id/tvSpinDropdownAccountAmount"
         style="@style/SubheadFontSecondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvSpinDropdownAccountName"
-        android:layout_toRightOf="@+id/ivSpinDropdownAccountType"
+        android:layout_marginTop="@dimen/common_padding_medium"
         android:singleLine="true"
-        />
+        app:layout_constraintStart_toStartOf="@id/tvSpinDropdownAccountName"
+        app:layout_constraintTop_toBottomOf="@id/tvSpinDropdownAccountName"
+        tools:text="@string/faq_about_app" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

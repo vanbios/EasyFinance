@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_content"
@@ -11,104 +11,87 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/tabs_height"
         android:background="?attr/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:tabIndicatorColor="@color/custom_text_light"
         app:tabIndicatorHeight="3dp"
         app:tabMode="fixed"
         app:tabPaddingBottom="8dp"
         app:tabPaddingEnd="0dp"
         app:tabPaddingStart="0dp"
-        app:tabPaddingTop="8dp"
+        app:tabPaddingTop="0dp"
         app:tabSelectedTextColor="@color/custom_text_light"
         app:tabTextAppearance="@style/TabsFont"
         app:tabTextColor="@color/custom_blue_gray_light" />
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tabsMain">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/toolbar_shadow_height"
-            android:background="@drawable/toolbar_drop_shadow" />
-
-    </FrameLayout>
-
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/pagerMain"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/tabsMain" />
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tabsMain" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnFloatMain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true">
+        android:layout_marginEnd="@dimen/common_padding_large"
+        android:layout_marginBottom="@dimen/common_padding_large"
+        android:clickable="true"
+        android:focusable="true"
+        android:tint="@color/general_surface"
+        app:backgroundTint="@color/custom_cyan_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_plus_white_48dp" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btnFloatMain"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/common_padding_xlarge"
-            android:layout_marginEnd="@dimen/common_padding_xlarge"
-            android:layout_marginBottom="@dimen/common_padding_xlarge"
-            android:clickable="true"
-            android:focusable="true"
-            android:tint="@color/general_surface"
-            app:backgroundTint="@color/custom_cyan_dark"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:srcCompat="@drawable/ic_plus_white_48dp" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnFloatAddTransExpense"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/common_padding_medium"
+        android:clickable="true"
+        android:focusable="true"
+        android:tint="@color/general_surface"
+        android:visibility="invisible"
+        app:backgroundTint="@color/custom_red"
+        app:fabCustomSize="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnFloatMain"
+        app:layout_constraintEnd_toEndOf="@+id/btnFloatMain"
+        app:layout_constraintStart_toStartOf="@+id/btnFloatMain"
+        app:srcCompat="@drawable/ic_minus_white_48dp"
+        tools:visibility="visible" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btnFloatAddTransExpense"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/common_padding_large"
-            android:clickable="true"
-            android:focusable="true"
-            android:tint="@color/general_surface"
-            android:visibility="invisible"
-            app:backgroundTint="@color/custom_red"
-            app:fabSize="mini"
-            app:layout_constraintBottom_toTopOf="@+id/btnFloatMain"
-            app:layout_constraintEnd_toEndOf="@+id/btnFloatMain"
-            app:layout_constraintStart_toStartOf="@+id/btnFloatMain"
-            app:srcCompat="@drawable/ic_minus_white_48dp"
-            tools:visibility="visible" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnFloatAddTransIncome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/common_padding_medium"
+        android:clickable="true"
+        android:focusable="true"
+        android:tint="@color/general_surface"
+        android:visibility="invisible"
+        app:backgroundTint="@color/custom_green"
+        app:fabCustomSize="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnFloatAddTransExpense"
+        app:layout_constraintEnd_toEndOf="@+id/btnFloatAddTransExpense"
+        app:srcCompat="@drawable/ic_plus_white_48dp"
+        tools:visibility="visible" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btnFloatAddTransIncome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/common_padding_large"
-            android:clickable="true"
-            android:focusable="true"
-            android:tint="@color/general_surface"
-            android:visibility="invisible"
-            app:backgroundTint="@color/custom_green"
-            app:fabSize="mini"
-            app:layout_constraintBottom_toTopOf="@+id/btnFloatAddTransExpense"
-            app:layout_constraintEnd_toEndOf="@+id/btnFloatAddTransExpense"
-            app:srcCompat="@drawable/ic_plus_white_48dp"
-            tools:visibility="visible" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnFloatAddTransBTW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/common_padding_medium"
+        android:clickable="true"
+        android:focusable="true"
+        android:tint="@color/general_surface"
+        android:visibility="invisible"
+        app:backgroundTint="@color/custom_indigo"
+        app:fabCustomSize="40dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnFloatAddTransIncome"
+        app:layout_constraintEnd_toEndOf="@+id/btnFloatAddTransIncome"
+        app:srcCompat="@drawable/ic_trans_btw_white_pad_20_48dp"
+        tools:visibility="visible" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/btnFloatAddTransBTW"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/common_padding_large"
-            android:clickable="true"
-            android:focusable="true"
-            android:tint="@color/general_surface"
-            android:visibility="invisible"
-            app:backgroundTint="@color/custom_indigo"
-            app:fabSize="mini"
-            app:layout_constraintBottom_toTopOf="@+id/btnFloatAddTransIncome"
-            app:layout_constraintEnd_toEndOf="@+id/btnFloatAddTransIncome"
-            app:srcCompat="@drawable/ic_trans_btw_white_pad_20_48dp"
-            tools:visibility="visible" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,84 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/cardItemTransaction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/elevation_small"
-        card_view:cardElevation="@dimen/elevation_small"
-        >
+        app:cardElevation="@dimen/elevation_small">
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/recycler_item_selector"
             android:paddingLeft="@dimen/common_padding_large"
             android:paddingTop="@dimen/common_padding_medium"
             android:paddingRight="@dimen/common_padding_large"
-            android:paddingBottom="@dimen/common_padding_medium"
-            >
+            android:paddingBottom="@dimen/common_padding_medium">
 
             <ImageView
                 android:id="@+id/ivItemTransactionAccountType"
                 android:layout_width="42dp"
                 android:layout_height="42dp"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="16dp"
                 android:contentDescription="@string/account_type"
-                />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_card_new_48dp" />
 
             <TextView
                 android:id="@+id/tvItemTransactionAmount"
                 style="@style/TitleFont"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_toLeftOf="@+id/ivItemTransactionCategory"
-                android:layout_toRightOf="@+id/ivItemTransactionAccountType"
+                android:layout_marginStart="@dimen/common_padding_large"
                 android:singleLine="true"
-                />
+                app:layout_constraintEnd_toStartOf="@id/barrierTransaction"
+                app:layout_constraintStart_toEndOf="@id/ivItemTransactionAccountType"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="+ 5 000 000.98 hrn" />
 
             <ImageView
                 android:id="@+id/ivItemTransactionCategory"
                 android:layout_width="@dimen/icon_small"
                 android:layout_height="@dimen/icon_small"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="@dimen/common_padding_large"
                 android:contentDescription="@string/category"
-                />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_cash_multiple_blue_gray_48dp" />
 
             <TextView
                 android:id="@+id/tvItemTransactionAccountName"
                 style="@style/SubheadFontSecondary"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvItemTransactionAmount"
-                android:layout_marginLeft="8dp"
-                android:layout_toLeftOf="@+id/tvItemTransactionDate"
-                android:layout_toRightOf="@+id/ivItemTransactionAccountType"
+                android:layout_marginEnd="@dimen/common_padding_large"
                 android:singleLine="true"
-                />
+                app:layout_constraintEnd_toStartOf="@id/barrierTransaction"
+                app:layout_constraintStart_toStartOf="@id/tvItemTransactionAmount"
+                app:layout_constraintTop_toBottomOf="@id/tvItemTransactionAmount"
+                tools:text="@string/faq_about_app" />
 
             <TextView
                 android:id="@+id/tvItemTransactionDate"
                 style="@style/CaptionFontSecondary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/tvItemTransactionAccountName"
-                android:layout_alignBottom="@+id/tvItemTransactionAccountName"
-                android:layout_alignParentRight="true"
-                android:layout_marginLeft="@dimen/common_padding_large"
                 android:singleLine="true"
-                />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="10.03.2023" />
 
-        </RelativeLayout>
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrierTransaction"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="start"
+                app:constraint_referenced_ids="tvItemTransactionDate, ivItemTransactionCategory" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </FrameLayout>

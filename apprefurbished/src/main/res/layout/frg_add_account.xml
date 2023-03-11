@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layoutActAccountParent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -8,37 +9,33 @@
     android:layout_marginTop="@dimen/common_padding_large"
     android:paddingLeft="@dimen/common_padding_medium"
     android:paddingRight="@dimen/common_padding_medium"
-    android:scrollbars="none"
-    >
+    android:scrollbars="none">
 
     <androidx.cardview.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/cardAddAccountElements"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardElevation="@dimen/elevation_medium"
-        card_view:cardUseCompatPadding="true"
-        >
+        app:cardElevation="@dimen/elevation_medium"
+        app:cardUseCompatPadding="true">
 
-        <RelativeLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:paddingLeft="@dimen/common_padding_xlarge"
             android:paddingTop="@dimen/common_padding_xlarge"
             android:paddingRight="@dimen/common_padding_xlarge"
-            android:paddingBottom="30dp"
-            >
+            android:paddingBottom="32dp">
 
             <TextView
                 android:id="@+id/tvAddAccountAmount"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:singleLine="true"
                 android:textColor="@color/custom_text_gray_dark"
                 android:textSize="36sp"
-                />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="5 000 000,00" />
 
             <TextView
                 android:id="@+id/tvAddAccountName"
@@ -49,7 +46,8 @@
                 android:layout_marginTop="32dp"
                 android:text="@string/name"
                 android:textAllCaps="true"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvAddAccountAmount" />
 
             <View
                 android:id="@+id/cvAddAccountDividerName"
@@ -58,130 +56,94 @@
                 android:layout_below="@+id/tvAddAccountName"
                 android:layout_marginTop="@dimen/common_padding_small"
                 android:background="@color/custom_light_gray"
-                />
+                app:layout_constraintTop_toBottomOf="@id/tvAddAccountName" />
 
-            <LinearLayout
-                android:id="@+id/linLayoutAddAccountName"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/cvAddAccountDividerName"
-                android:layout_marginTop="16dp"
-                android:baselineAligned="false"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/common_padding_small"
-                android:paddingRight="@dimen/common_padding_small"
-                >
+            <ImageView
+                android:id="@+id/ivAddAccountName"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginStart="@dimen/common_padding_x_small"
+                android:contentDescription="@string/empty_amount_field"
+                android:src="@drawable/ic_clipboard_text_blue_gray_48dp"
+                app:layout_constraintBottom_toBottomOf="@id/editTextAccountName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/editTextAccountName" />
 
-                <ImageView
-                    android:id="@+id/ivAddAccountName"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginRight="12dp"
-                    android:contentDescription="@string/empty_amount_field"
-                    android:src="@drawable/ic_clipboard_text_blue_gray_48dp"
-                    />
-
-                <EditText
-                    android:id="@+id/editTextAccountName"
-                    style="@style/TitleFont"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLength="50"
-                    android:singleLine="true"
-                    />
-
-            </LinearLayout>
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/editTextAccountName"
+                style="@style/TitleFont"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_padding_big"
+                android:layout_marginTop="@dimen/common_padding_large"
+                android:layout_marginEnd="@dimen/common_padding_x_small"
+                android:maxLength="50"
+                android:singleLine="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/ivAddAccountName"
+                app:layout_constraintTop_toBottomOf="@id/cvAddAccountDividerName" />
 
             <TextView
                 android:id="@+id/tvAddAccountType"
                 style="@style/BodyFontSecondary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/linLayoutAddAccountName"
                 android:layout_marginTop="@dimen/common_padding_xlarge"
                 android:text="@string/account_type"
                 android:textAllCaps="true"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/editTextAccountName" />
 
             <View
                 android:id="@+id/cvAddAccountDividerTop"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_below="@+id/tvAddAccountType"
                 android:layout_marginTop="@dimen/common_padding_small"
                 android:background="@color/custom_light_gray"
-                />
+                app:layout_constraintTop_toBottomOf="@id/tvAddAccountType" />
 
-            <LinearLayout
-                android:id="@+id/linLayoutAddAccountType"
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinAddAccountType"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/cvAddAccountDividerTop"
-                android:baselineAligned="false"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                >
-
-                <Spinner
-                    android:id="@+id/spinAddAccountType"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:prompt="@string/account_type"
-                    android:spinnerMode="dialog"
-                    />
-
-            </LinearLayout>
+                android:layout_height="60dp"
+                android:prompt="@string/account_type"
+                android:spinnerMode="dialog"
+                app:layout_constraintTop_toBottomOf="@id/cvAddAccountDividerTop" />
 
             <TextView
                 android:id="@+id/tvAddAccountCurrency"
                 style="@style/BodyFontSecondary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/linLayoutAddAccountType"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="@dimen/common_padding_big"
                 android:text="@string/currency"
                 android:textAllCaps="true"
-                />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/spinAddAccountType" />
 
             <View
                 android:id="@+id/cvAddAccountDividerCurrencyTop"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_below="@+id/tvAddAccountCurrency"
                 android:layout_marginTop="@dimen/common_padding_small"
                 android:background="@color/custom_light_gray"
-                />
+                app:layout_constraintTop_toBottomOf="@id/tvAddAccountCurrency" />
 
-            <LinearLayout
-                android:id="@+id/linLayoutAddAccountCurrency"
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/spinAddAccountCurrency"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/cvAddAccountDividerCurrencyTop"
-                android:baselineAligned="false"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                >
-
-                <Spinner
-                    android:id="@+id/spinAddAccountCurrency"
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:prompt="@string/currency"
-                    android:spinnerMode="dialog"
-                    />
-
-            </LinearLayout>
+                android:layout_height="60dp"
+                android:prompt="@string/currency"
+                android:spinnerMode="dialog"
+                app:layout_constraintTop_toBottomOf="@id/cvAddAccountDividerCurrencyTop" />
 
             <View
                 android:id="@+id/cvAddAccountDividerBottom"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_below="@+id/linLayoutAddAccountCurrency"
                 android:background="@color/custom_light_gray"
-                />
+                app:layout_constraintTop_toBottomOf="@id/spinAddAccountCurrency" />
 
-        </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </ScrollView>

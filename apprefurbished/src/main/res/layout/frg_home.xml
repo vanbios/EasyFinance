@@ -1,440 +1,370 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentTop="true"
     android:layout_centerHorizontal="true"
     android:paddingLeft="@dimen/elevation_small"
-    android:paddingTop="@dimen/common_padding_small"
     android:paddingRight="@dimen/elevation_small"
-    android:paddingBottom="@dimen/common_padding_small"
-    android:scrollbars="none"
-    >
+    android:scrollbars="none">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        >
+        android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:id="@+id/cardMainBalance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_margin="@dimen/common_padding_small"
-            card_view:cardElevation="@dimen/elevation_small"
-            >
+            android:layout_marginStart="@dimen/common_padding_small"
+            android:layout_marginTop="@dimen/common_padding_medium"
+            android:layout_marginEnd="@dimen/common_padding_small"
+            android:layout_marginBottom="@dimen/common_padding_x_small"
+            app:cardElevation="@dimen/elevation_small">
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/common_padding_small"
-                >
+                android:layout_marginBottom="10dp">
 
-                <RelativeLayout
-                    android:id="@+id/layoutMainBalance"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tvMainCurrentBalance"
+                    style="@style/TitleFontSecondary"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:baselineAligned="false"
-                    android:paddingTop="@dimen/common_padding_small"
-                    android:paddingRight="@dimen/common_padding_large"
-                    >
+                    android:layout_marginStart="@dimen/common_padding_large"
+                    android:singleLine="true"
+                    android:text="@string/balance"
+                    app:layout_constraintBottom_toBottomOf="@id/spinMainCurrency"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/spinMainCurrency" />
 
-                    <TextView
-                        android:id="@+id/tvMainCurrentBalance"
-                        style="@style/TitleFontSecondary"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="@dimen/common_padding_large"
-                        android:layout_marginTop="@dimen/common_padding_small"
-                        android:singleLine="true"
-                        android:text="@string/balance"
-                        />
+                <View
+                    android:id="@+id/cvMainDividerBalanceVerticalLeft"
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/common_padding_large"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="@color/custom_light_gray"
+                    app:layout_constraintBottom_toBottomOf="@id/spinMainCurrency"
+                    app:layout_constraintStart_toEndOf="@id/tvMainCurrentBalance"
+                    app:layout_constraintTop_toTopOf="@id/spinMainCurrency" />
 
-                    <View
-                        android:id="@+id/cvMainDividerBalanceVerticalLeft"
-                        android:layout_width="1dp"
-                        android:layout_height="36dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginLeft="@dimen/common_padding_large"
-                        android:layout_toRightOf="@+id/tvMainCurrentBalance"
-                        android:background="@color/custom_light_gray"
-                        />
+                <Spinner
+                    android:id="@+id/spinMainCurrency"
+                    android:layout_width="0dp"
+                    android:layout_height="42dp"
+                    android:layout_marginStart="@dimen/common_padding_medium"
+                    app:layout_constraintEnd_toEndOf="@id/cvMainDividerBalanceVerticalRight"
+                    app:layout_constraintStart_toEndOf="@id/cvMainDividerBalanceVerticalLeft"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <Spinner
-                        android:id="@+id/spinMainCurrency"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/common_padding_medium"
-                        android:layout_marginRight="@dimen/common_padding_medium"
-                        android:layout_toLeftOf="@+id/cvMainDividerBalanceVerticalRight"
-                        android:layout_toRightOf="@+id/cvMainDividerBalanceVerticalLeft"
-                        />
+                <View
+                    android:id="@+id/cvMainDividerBalanceVerticalRight"
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="@dimen/common_padding_medium"
+                    android:layout_marginBottom="4dp"
+                    android:background="@color/custom_light_gray"
+                    app:layout_constraintBottom_toBottomOf="@id/spinMainCurrency"
+                    app:layout_constraintEnd_toStartOf="@id/ivMainBalanceSettings"
+                    app:layout_constraintTop_toTopOf="@id/spinMainCurrency" />
 
-                    <View
-                        android:id="@+id/cvMainDividerBalanceVerticalRight"
-                        android:layout_width="1dp"
-                        android:layout_height="36dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginRight="@dimen/common_padding_large"
-                        android:layout_toLeftOf="@+id/ivMainBalanceSettings"
-                        android:background="@color/custom_light_gray"
-                        />
-
-                    <ImageView
-                        android:id="@+id/ivMainBalanceSettings"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentRight="true"
-                        android:src="@drawable/ic_tune_gray_48dp"
-                        />
-
-                </RelativeLayout>
+                <ImageView
+                    android:id="@+id/ivMainBalanceSettings"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginEnd="@dimen/common_padding_medium"
+                    android:padding="4dp"
+                    android:src="@drawable/ic_tune_gray_48dp"
+                    app:layout_constraintBottom_toBottomOf="@id/spinMainCurrency"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/spinMainCurrency" />
 
                 <View
                     android:id="@+id/cvMainDividerBalanceCurrency"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@+id/layoutMainBalance"
-                    android:layout_marginLeft="@dimen/common_padding_small"
-                    android:layout_marginRight="@dimen/common_padding_small"
+                    android:layout_marginStart="@dimen/common_padding_small"
+                    android:layout_marginEnd="@dimen/common_padding_small"
                     android:background="@color/custom_light_gray"
-                    />
+                    app:layout_constraintTop_toBottomOf="@id/spinMainCurrency" />
 
-                <LinearLayout
-                    android:id="@+id/layoutMainBalanceChart"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/cvMainDividerBalanceCurrency"
+                <TextView
+                    android:id="@+id/tvMainCash"
+                    style="@style/BodyFontSecondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/common_padding_large"
+                    android:layout_marginTop="26dp"
+                    android:singleLine="true"
+                    android:text="@string/cash"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/chartMainBalance" />
+
+                <TextView
+                    android:id="@+id/tvMainCard"
+                    style="@style/BodyFontSecondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:singleLine="true"
+                    android:text="@string/cards"
+                    app:layout_constraintStart_toStartOf="@id/tvMainCash"
+                    app:layout_constraintTop_toBottomOf="@id/tvMainCash" />
+
+                <TextView
+                    android:id="@+id/tvMainDeposit"
+                    style="@style/BodyFontSecondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:singleLine="true"
+                    android:text="@string/deposits"
+                    app:layout_constraintStart_toStartOf="@id/tvMainCard"
+                    app:layout_constraintTop_toBottomOf="@id/tvMainCard" />
+
+                <TextView
+                    android:id="@+id/tvMainDebt"
+                    style="@style/BodyFontSecondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:singleLine="true"
+                    android:text="@string/debts"
+                    app:layout_constraintStart_toStartOf="@id/tvMainDeposit"
+                    app:layout_constraintTop_toBottomOf="@id/tvMainDeposit" />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/barrierMainBalance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="end"
+                    app:constraint_referenced_ids="tvMainCash, tvMainCard, tvMainDeposit, tvMainDebt" />
+
+                <com.github.mikephil.charting.charts.HorizontalBarChart
+                    android:id="@+id/chartMainBalance"
+                    android:layout_width="0dp"
+                    android:layout_height="154dp"
                     android:layout_marginTop="@dimen/common_padding_medium"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal"
-                    android:paddingLeft="@dimen/common_padding_medium"
-                    android:paddingBottom="2dp"
-                    >
-
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="150dp"
-                        android:layout_weight="2"
-                        >
-
-                        <TextView
-                            android:id="@+id/tvMainCash"
-                            style="@style/BodyFontSecondary"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentLeft="true"
-                            android:layout_marginTop="26dp"
-                            android:singleLine="true"
-                            android:text="@string/cash"
-                            />
-
-                        <TextView
-                            android:id="@+id/tvMainCard"
-                            style="@style/BodyFontSecondary"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/tvMainCash"
-                            android:layout_alignLeft="@+id/tvMainCash"
-                            android:layout_marginTop="7dp"
-                            android:singleLine="true"
-                            android:text="@string/cards"
-                            />
-
-                        <TextView
-                            android:id="@+id/tvMainDeposit"
-                            style="@style/BodyFontSecondary"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/tvMainCard"
-                            android:layout_alignLeft="@+id/tvMainCard"
-                            android:layout_marginTop="8dp"
-                            android:singleLine="true"
-                            android:text="@string/deposits"
-                            />
-
-                        <TextView
-                            android:id="@+id/tvMainDebt"
-                            style="@style/BodyFontSecondary"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/tvMainDeposit"
-                            android:layout_alignLeft="@+id/tvMainDeposit"
-                            android:layout_marginTop="7dp"
-                            android:singleLine="true"
-                            android:text="@string/debts"
-                            />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="150dp"
-                        android:layout_weight="7"
-                        >
-
-                        <com.github.mikephil.charting.charts.HorizontalBarChart
-                            android:id="@+id/chartMainBalance"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            />
-
-                    </RelativeLayout>
-                </LinearLayout>
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/barrierMainBalance"
+                    app:layout_constraintTop_toBottomOf="@id/cvMainDividerBalanceCurrency" />
 
                 <View
                     android:id="@+id/cvMainDividerBalanceCurrencyBottom"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@+id/layoutMainBalanceChart"
                     android:layout_marginLeft="@dimen/common_padding_small"
                     android:layout_marginRight="@dimen/common_padding_small"
                     android:background="@color/custom_light_gray"
-                    />
+                    app:layout_constraintTop_toBottomOf="@id/chartMainBalance" />
 
-                <LinearLayout
-                    android:id="@+id/layoutMainBalanceSum"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tvMainSum"
+                    style="@style/SubheadFont"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/layoutMainBalanceChart"
-                    android:layout_marginLeft="@dimen/common_padding_medium"
+                    android:layout_marginStart="@dimen/common_padding_large"
                     android:layout_marginTop="@dimen/common_padding_medium"
-                    android:layout_marginBottom="2dp"
-                    android:orientation="horizontal"
-                    >
+                    android:singleLine="true"
+                    android:text="@string/sum"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cvMainDividerBalanceCurrencyBottom" />
 
-                    <TextView
-                        android:id="@+id/tvMainSum"
-                        style="@style/SubheadFont"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:singleLine="true"
-                        android:text="@string/sum"
-                        />
+                <TextView
+                    android:id="@+id/tvMainSumValue"
+                    style="@style/SubheadFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/common_padding_xlarge"
+                    android:singleLine="true"
+                    app:layout_constraintStart_toEndOf="@id/barrierMainBalance"
+                    app:layout_constraintTop_toTopOf="@id/tvMainSum"
+                    tools:text="54 000 000,86 hrn" />
 
-                    <TextView
-                        android:id="@+id/tvMainSumValue"
-                        style="@style/SubheadFont"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="7"
-                        android:singleLine="true"
-                        />
-
-                </LinearLayout>
-            </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:id="@+id/cardMainStatistic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/cardMainBalance"
-            android:layout_margin="@dimen/common_padding_small"
-            card_view:cardElevation="@dimen/elevation_small"
-            >
+            android:layout_marginStart="@dimen/common_padding_small"
+            android:layout_marginTop="@dimen/common_padding_medium"
+            android:layout_marginEnd="@dimen/common_padding_small"
+            android:layout_marginBottom="@dimen/common_padding_small"
+            app:cardElevation="@dimen/elevation_small">
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/common_padding_small"
-                >
+                android:layout_marginBottom="10dp">
 
-                <RelativeLayout
-                    android:id="@+id/layoutMainStatisticTitle"
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tvMainStatistic"
+                    style="@style/TitleFontSecondary"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingTop="@dimen/common_padding_small"
-                    >
+                    android:layout_marginStart="@dimen/common_padding_large"
+                    android:singleLine="true"
+                    android:text="@string/report"
+                    app:layout_constraintBottom_toBottomOf="@id/spinMainChart"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/spinMainChart" />
 
-                    <TextView
-                        android:id="@+id/tvMainStatistic"
-                        style="@style/TitleFontSecondary"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginLeft="@dimen/common_padding_large"
-                        android:layout_marginTop="@dimen/common_padding_small"
-                        android:singleLine="true"
-                        android:text="@string/report"
-                        />
+                <View
+                    android:id="@+id/cvMainDividerStatisticVerticalLeft"
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/common_padding_large"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="@color/custom_light_gray"
+                    app:layout_constraintBottom_toBottomOf="@id/spinMainChart"
+                    app:layout_constraintStart_toEndOf="@id/tvMainStatistic"
+                    app:layout_constraintTop_toTopOf="@id/spinMainChart" />
 
-                    <View
-                        android:id="@+id/cvMainDividerStatisticVerticalLeft"
-                        android:layout_width="1dp"
-                        android:layout_height="36dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginLeft="@dimen/common_padding_large"
-                        android:layout_toRightOf="@+id/tvMainStatistic"
-                        android:background="@color/custom_light_gray"
-                        />
+                <Spinner
+                    android:id="@+id/spinMainChart"
+                    android:layout_width="0dp"
+                    android:layout_height="42dp"
+                    android:layout_marginStart="@dimen/common_padding_medium"
+                    app:layout_constraintEnd_toStartOf="@id/cvMainDividerStatisticVerticalRight"
+                    app:layout_constraintStart_toEndOf="@id/cvMainDividerStatisticVerticalLeft"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                    <Spinner
-                        android:id="@+id/spinMainChart"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_toLeftOf="@+id/cvMainDividerStatisticVerticalRight"
-                        android:layout_toRightOf="@+id/cvMainDividerStatisticVerticalLeft"
-                        />
+                <View
+                    android:id="@+id/cvMainDividerStatisticVerticalRight"
+                    android:layout_width="1dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginEnd="@dimen/common_padding_medium"
+                    android:layout_marginBottom="4dp"
+                    android:background="@color/custom_light_gray"
+                    app:layout_constraintBottom_toBottomOf="@id/spinMainChart"
+                    app:layout_constraintEnd_toStartOf="@id/spinMainPeriod"
+                    app:layout_constraintTop_toTopOf="@id/spinMainChart" />
 
-                    <View
-                        android:id="@+id/cvMainDividerStatisticVerticalRight"
-                        android:layout_width="1dp"
-                        android:layout_height="36dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginLeft="4dp"
-                        android:layout_toLeftOf="@+id/spinMainPeriod"
-                        android:background="@color/custom_light_gray"
-                        />
-
-                    <Spinner
-                        android:id="@+id/spinMainPeriod"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/common_padding_medium"
-                        />
-
-                </RelativeLayout>
+                <Spinner
+                    android:id="@+id/spinMainPeriod"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="@id/spinMainChart"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/spinMainChart" />
 
                 <View
                     android:id="@+id/cvMainDividerStatisticTop"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@+id/layoutMainStatisticTitle"
-                    android:layout_marginLeft="@dimen/common_padding_small"
-                    android:layout_marginRight="@dimen/common_padding_small"
+                    android:layout_marginStart="@dimen/common_padding_small"
+                    android:layout_marginEnd="@dimen/common_padding_small"
                     android:background="@color/custom_light_gray"
-                    />
+                    app:layout_constraintTop_toBottomOf="@id/spinMainChart" />
 
-                <LinearLayout
-                    android:id="@+id/layoutMainStatisticChart"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/cvMainDividerStatisticTop"
+                <TextView
+                    android:id="@+id/tvMainIncome"
+                    style="@style/BodyFontSecondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/common_padding_large"
+                    android:layout_marginTop="28dp"
+                    android:singleLine="true"
+                    android:text="@string/income"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/flMainStatisticChart" />
+
+                <TextView
+                    android:id="@+id/tvMainCost"
+                    style="@style/BodyFontSecondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:singleLine="true"
+                    android:text="@string/cost"
+                    app:layout_constraintStart_toStartOf="@id/tvMainIncome"
+                    app:layout_constraintTop_toBottomOf="@id/tvMainIncome" />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:id="@+id/barrierMainStatistic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:barrierDirection="end"
+                    app:constraint_referenced_ids="tvMainIncome, tvMainCost" />
+
+                <FrameLayout
+                    android:id="@+id/flMainStatisticChart"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/common_padding_medium"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal"
-                    android:paddingBottom="2dp"
-                    >
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/barrierMainStatistic"
+                    app:layout_constraintTop_toBottomOf="@id/cvMainDividerStatisticTop">
 
-                    <RelativeLayout
-                        android:layout_width="0dp"
+                    <com.github.mikephil.charting.charts.HorizontalBarChart
+                        android:id="@+id/chartHBarMainStatistic"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp" />
+
+                    <com.github.mikephil.charting.charts.PieChart
+                        android:id="@+id/chartPieMainStatistic"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_marginRight="30dp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tvMainNoData"
+                        style="@style/SubheadFontSecondary"
+                        android:layout_width="wrap_content"
                         android:layout_height="100dp"
-                        android:layout_marginLeft="@dimen/common_padding_medium"
-                        android:layout_weight="2"
-                        >
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        android:text="@string/no_data_yet"
+                        android:visibility="gone" />
 
-                        <TextView
-                            android:id="@+id/tvMainIncome"
-                            style="@style/BodyFontSecondary"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="28dp"
-                            android:singleLine="true"
-                            android:text="@string/income"
-                            />
-
-                        <TextView
-                            android:id="@+id/tvMainCost"
-                            style="@style/BodyFontSecondary"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/tvMainIncome"
-                            android:layout_alignLeft="@+id/tvMainIncome"
-                            android:layout_marginTop="7dp"
-                            android:singleLine="true"
-                            android:text="@string/cost"
-                            />
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="7"
-                        >
-
-                        <com.github.mikephil.charting.charts.HorizontalBarChart
-                            android:id="@+id/chartHBarMainStatistic"
-                            android:layout_width="match_parent"
-                            android:layout_height="100dp"
-                            />
-
-                        <com.github.mikephil.charting.charts.PieChart
-                            android:id="@+id/chartPieMainStatistic"
-                            android:layout_width="match_parent"
-                            android:layout_height="150dp"
-                            android:layout_marginRight="30dp"
-                            android:visibility="gone"
-                            />
-
-                        <TextView
-                            android:id="@+id/tvMainNoData"
-                            style="@style/SubheadFontSecondary"
-                            android:layout_width="wrap_content"
-                            android:layout_height="100dp"
-                            android:layout_centerInParent="true"
-                            android:gravity="center"
-                            android:text="@string/no_data_yet"
-                            android:visibility="gone"
-                            />
-
-                    </RelativeLayout>
-                </LinearLayout>
+                </FrameLayout>
 
                 <View
                     android:id="@+id/cvMainDividerStatisticBottom"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@+id/layoutMainStatisticChart"
                     android:layout_marginLeft="@dimen/common_padding_small"
                     android:layout_marginRight="@dimen/common_padding_small"
                     android:background="@color/custom_light_gray"
-                    />
+                    app:layout_constraintTop_toBottomOf="@id/flMainStatisticChart" />
 
-                <LinearLayout
-                    android:id="@+id/layoutMainStatisticSum"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@+id/layoutMainStatisticChart"
-                    android:layout_marginLeft="@dimen/common_padding_medium"
+                <TextView
+                    android:id="@+id/tvMainStatisticSumTitle"
+                    style="@style/SubheadFont"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/common_padding_large"
                     android:layout_marginTop="@dimen/common_padding_medium"
-                    android:layout_marginBottom="2dp"
-                    android:orientation="horizontal"
-                    >
+                    android:singleLine="true"
+                    android:text="@string/sum"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cvMainDividerStatisticBottom" />
 
-                    <TextView
-                        android:id="@+id/tvMainStatisticSumTitle"
-                        style="@style/SubheadFont"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:singleLine="true"
-                        android:text="@string/sum"
-                        />
+                <TextView
+                    android:id="@+id/tvMainStatisticSum"
+                    style="@style/SubheadFont"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/common_padding_xlarge"
+                    android:singleLine="true"
+                    app:layout_constraintStart_toEndOf="@id/barrierMainStatistic"
+                    app:layout_constraintTop_toTopOf="@id/tvMainStatisticSumTitle"
+                    tools:text="54 000 000,86 hrn" />
 
-                    <TextView
-                        android:id="@+id/tvMainStatisticSum"
-                        style="@style/SubheadFont"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="7"
-                        android:singleLine="true"
-                        />
-
-                </LinearLayout>
-            </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
-    </RelativeLayout>
+    </LinearLayout>
 </ScrollView>

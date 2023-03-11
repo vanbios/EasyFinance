@@ -9,9 +9,9 @@ import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
-import android.widget.FrameLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,7 +42,7 @@ class DebtsFragment : CommonFragment(), DebtsMVP.View {
     private lateinit var fabMenu: FloatingActionButton
     private lateinit var faButtonTake: FloatingActionButton
     private lateinit var faButtonGive: FloatingActionButton
-    private lateinit var mainContent: FrameLayout
+    private lateinit var mainContent: ConstraintLayout
 
     private lateinit var recyclerAdapter: RecyclerDebtAdapter
 

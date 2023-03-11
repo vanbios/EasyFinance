@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
 
         <item name="colorPrimary">@color/custom_blue_gray</item>
         <item name="colorPrimaryDark">@color/custom_blue_gray_dark</item>

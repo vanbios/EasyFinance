@@ -148,7 +148,7 @@ internal class RecyclerTransactionAdapter(
         } else if (getItemViewType(position) == BUTTON_TYPE) {
             val holderButton = holder as ViewHolderButton
             holderButton.tvShowMore.setOnClickListener {
-                maxCount += 30
+                maxCount += maxCount
                 notifyDataSetChanged()
             }
         }
