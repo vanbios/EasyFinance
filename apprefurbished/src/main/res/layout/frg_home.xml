@@ -16,14 +16,16 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardMainBalance"
+            style="?attr/materialCardViewElevatedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/common_padding_small"
             android:layout_marginTop="@dimen/common_padding_medium"
             android:layout_marginEnd="@dimen/common_padding_small"
             android:layout_marginBottom="@dimen/common_padding_x_small"
+            app:cardBackgroundColor="@color/general_surface"
             app:cardElevation="@dimen/elevation_small">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -190,16 +192,18 @@
                     tools:text="54 000 000,86 hrn" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardMainStatistic"
+            style="?attr/materialCardViewElevatedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/common_padding_small"
             android:layout_marginTop="@dimen/common_padding_medium"
             android:layout_marginEnd="@dimen/common_padding_small"
             android:layout_marginBottom="@dimen/common_padding_small"
+            app:cardBackgroundColor="@color/general_surface"
             app:cardElevation="@dimen/elevation_small">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -365,6 +369,6 @@
                     tools:text="54 000 000,86 hrn" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 </ScrollView>

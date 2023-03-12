@@ -1,58 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardItemExpense"
+    style="?attr/materialCardViewElevatedStyle"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/elevation_small"
+    android:clickable="true"
+    android:focusable="true"
+    android:longClickable="true"
+    app:cardBackgroundColor="@color/general_surface"
+    app:cardCornerRadius="4dp">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardItemExpense"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/elevation_small"
-        app:cardElevation="@dimen/elevation_small">
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/common_padding_large"
+        android:paddingTop="@dimen/common_padding_medium"
+        android:paddingRight="@dimen/common_padding_large"
+        android:paddingBottom="@dimen/common_padding_medium">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/recycler_item_selector"
-            android:paddingLeft="@dimen/common_padding_large"
-            android:paddingTop="@dimen/common_padding_medium"
-            android:paddingRight="@dimen/common_padding_large"
-            android:paddingBottom="@dimen/common_padding_medium">
+        <ImageView
+            android:id="@+id/ivItemFragmentAccountType"
+            android:layout_width="@dimen/icon_big"
+            android:layout_height="@dimen/icon_big"
+            android:contentDescription="@string/account_type"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_card_new_48dp" />
 
-            <ImageView
-                android:id="@+id/ivItemFragmentAccountType"
-                android:layout_width="@dimen/icon_big"
-                android:layout_height="@dimen/icon_big"
-                android:contentDescription="@string/account_type"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:src="@drawable/ic_card_new_48dp" />
+        <TextView
+            android:id="@+id/tvItemFragmentAccountName"
+            style="@style/SubheadFont"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/common_padding_large"
+            android:singleLine="true"
+            app:layout_constraintStart_toEndOf="@id/ivItemFragmentAccountType"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/faq_about_app" />
 
-            <TextView
-                android:id="@+id/tvItemFragmentAccountName"
-                style="@style/SubheadFont"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_padding_large"
-                android:singleLine="true"
-                app:layout_constraintStart_toEndOf="@id/ivItemFragmentAccountType"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/faq_about_app" />
+        <TextView
+            android:id="@+id/tvItemFragmentAccountAmount"
+            style="@style/TitleFontSecondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_padding_small"
+            android:singleLine="true"
+            app:layout_constraintStart_toStartOf="@id/tvItemFragmentAccountName"
+            app:layout_constraintTop_toBottomOf="@id/tvItemFragmentAccountName"
+            tools:text="5 000 000.98 hrn" />
 
-            <TextView
-                android:id="@+id/tvItemFragmentAccountAmount"
-                style="@style/TitleFontSecondary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/common_padding_small"
-                android:singleLine="true"
-                app:layout_constraintStart_toStartOf="@id/tvItemFragmentAccountName"
-                app:layout_constraintTop_toBottomOf="@id/tvItemFragmentAccountName"
-                tools:text="5 000 000.98 hrn" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
-</FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

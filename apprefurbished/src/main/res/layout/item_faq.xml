@@ -1,10 +1,15 @@
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardFAQ"
+    style="?attr/materialCardViewElevatedStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card_view:cardElevation="@dimen/elevation_small"
-    card_view:cardUseCompatPadding="true">
+    android:layout_margin="@dimen/elevation_small"
+    android:clickable="true"
+    android:focusable="true"
+    android:longClickable="true"
+    app:cardBackgroundColor="@color/general_surface"
+    app:cardCornerRadius="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,4 +34,4 @@
             android:visibility="gone" />
 
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

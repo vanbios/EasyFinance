@@ -1,100 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardItemDebt"
+    style="?attr/materialCardViewElevatedStyle"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/elevation_small"
+    android:clickable="true"
+    android:focusable="true"
+    android:longClickable="true"
+    app:cardBackgroundColor="@color/general_surface"
+    app:cardCornerRadius="4dp">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardItemDebt"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/elevation_small"
-        app:cardElevation="@dimen/elevation_small">
+        android:paddingLeft="@dimen/common_padding_large"
+        android:paddingTop="@dimen/common_padding_medium"
+        android:paddingRight="@dimen/common_padding_large"
+        android:paddingBottom="@dimen/common_padding_big">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvItemDebtName"
+            style="@style/SubheadFontSecondary"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/recycler_item_selector"
-            android:paddingLeft="@dimen/common_padding_large"
-            android:paddingTop="@dimen/common_padding_medium"
-            android:paddingRight="@dimen/common_padding_large"
-            android:paddingBottom="@dimen/common_padding_big">
+            android:layout_marginEnd="@dimen/common_padding_medium"
+            android:singleLine="true"
+            app:layout_constraintEnd_toStartOf="@id/tvItemDebtAccountName"
+            app:layout_constraintHorizontal_weight="7"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/faq_about_app" />
 
-            <TextView
-                android:id="@+id/tvItemDebtName"
-                style="@style/SubheadFontSecondary"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/common_padding_medium"
-                android:singleLine="true"
-                app:layout_constraintEnd_toStartOf="@id/tvItemDebtAccountName"
-                app:layout_constraintHorizontal_weight="7"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/faq_about_app" />
+        <TextView
+            android:id="@+id/tvItemDebtAmount"
+            style="@style/TitleFont"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_padding_x_small"
+            android:layout_marginEnd="@dimen/common_padding_medium"
+            android:singleLine="true"
+            app:layout_constraintEnd_toStartOf="@id/tvItemDebtDate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvItemDebtName"
+            tools:text="5 000 000.98 hrn" />
 
-            <TextView
-                android:id="@+id/tvItemDebtAmount"
-                style="@style/TitleFont"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/common_padding_x_small"
-                android:layout_marginEnd="@dimen/common_padding_medium"
-                android:singleLine="true"
-                app:layout_constraintEnd_toStartOf="@id/tvItemDebtDate"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvItemDebtName"
-                tools:text="5 000 000.98 hrn" />
+        <TextView
+            android:id="@+id/tvItemDebtAccountName"
+            style="@style/SubheadFontSecondary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:singleLine="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="4"
+            app:layout_constraintStart_toEndOf="@id/tvItemDebtName"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/faq_about_app" />
 
-            <TextView
-                android:id="@+id/tvItemDebtAccountName"
-                style="@style/SubheadFontSecondary"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:singleLine="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_weight="4"
-                app:layout_constraintStart_toEndOf="@id/tvItemDebtName"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/faq_about_app" />
+        <TextView
+            android:id="@+id/tvItemDebtDate"
+            style="@style/CaptionFontSecondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            app:layout_constraintBottom_toBottomOf="@id/tvItemDebtAmount"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="10.03.2023" />
 
-            <TextView
-                android:id="@+id/tvItemDebtDate"
-                style="@style/CaptionFontSecondary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                app:layout_constraintBottom_toBottomOf="@id/tvItemDebtAmount"
-                app:layout_constraintEnd_toEndOf="parent"
-                tools:text="10.03.2023" />
+        <ProgressBar
+            android:id="@+id/progressBarItemDebt"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_padding_large"
+            android:layout_marginEnd="@dimen/common_padding_xlarge"
+            android:layout_weight="1"
+            android:max="100"
+            android:minHeight="4dp"
+            app:layout_constraintEnd_toStartOf="@id/tvItemDebtProgress"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvItemDebtAmount" />
 
-            <ProgressBar
-                android:id="@+id/progressBarItemDebt"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/common_padding_large"
-                android:layout_marginEnd="@dimen/common_padding_xlarge"
-                android:layout_weight="1"
-                android:max="100"
-                android:minHeight="4dp"
-                app:layout_constraintEnd_toStartOf="@id/tvItemDebtProgress"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvItemDebtAmount" />
+        <TextView
+            android:id="@+id/tvItemDebtProgress"
+            style="@style/SubheadFontSecondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            app:layout_constraintBottom_toBottomOf="@id/progressBarItemDebt"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/progressBarItemDebt"
+            tools:text="100%" />
 
-            <TextView
-                android:id="@+id/tvItemDebtProgress"
-                style="@style/SubheadFontSecondary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                app:layout_constraintBottom_toBottomOf="@id/progressBarItemDebt"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/progressBarItemDebt"
-                tools:text="100%" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
-</FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

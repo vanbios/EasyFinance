@@ -11,11 +11,13 @@
     android:paddingRight="@dimen/common_padding_medium"
     android:scrollbars="none">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardPayDebtElements"
+        style="?attr/materialCardViewElevatedStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="@dimen/elevation_medium"
+        app:cardBackgroundColor="@color/general_surface"
+        app:cardElevation="@dimen/elevation_small"
         app:cardUseCompatPadding="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -116,5 +118,5 @@
                 app:layout_constraintTop_toBottomOf="@id/spinPayDebtAccount" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 </ScrollView>
