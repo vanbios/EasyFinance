@@ -15,11 +15,11 @@ import javax.inject.Inject
  */
 class FAQFragment : CommonFragment(), FAQMVP.View {
 
-    lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerAdapter: RecyclerFAQAdapter
 
-    @JvmField
     @Inject
-    var presenter: FAQMVP.Presenter? = null
+    lateinit var presenter: FAQMVP.Presenter
 
     override val contentView: Int
         get() = R.layout.frg_faq
@@ -27,22 +27,25 @@ class FAQFragment : CommonFragment(), FAQMVP.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity?.application as App).component?.inject(this)
+
+        recyclerAdapter = RecyclerFAQAdapter()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUI(view)
-        presenter?.setView(this)
-        presenter?.loadInfo()
+        presenter.setView(this)
+        presenter.loadInfo()
     }
 
     private fun setupUI(view: View) {
         recyclerView = view.findViewById(R.id.rvFAQ)
+        recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
+        recyclerView.adapter = recyclerAdapter
     }
 
     override fun setInfo(list: List<Pair<String, String>>) {
-        recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
-        recyclerView.adapter = RecyclerFAQAdapter(list)
+        recyclerAdapter.setData(list)
     }
 
     override val title: String

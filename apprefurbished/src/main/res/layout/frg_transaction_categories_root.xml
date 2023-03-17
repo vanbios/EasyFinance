@@ -39,6 +39,7 @@
         android:focusable="true"
         android:tint="@color/general_surface"
         app:backgroundTint="@color/custom_cyan_dark"
+        app:fabCustomSize="@dimen/fab_regular_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/ic_plus_white_48dp" />

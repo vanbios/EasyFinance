@@ -43,6 +43,7 @@ import com.androidcollider.easyfin.home.HomeFragment
 import com.androidcollider.easyfin.home.HomeModule
 import com.androidcollider.easyfin.main.MainFragment
 import com.androidcollider.easyfin.main.MainModule
+import com.androidcollider.easyfin.more.MoreMenuFragment
 import com.androidcollider.easyfin.transaction_categories.nested.TransactionCategoriesNestedFragment
 import com.androidcollider.easyfin.transaction_categories.nested.TransactionCategoriesNestedModule
 import com.androidcollider.easyfin.transaction_categories.root.TransactionCategoriesRootFragment
@@ -101,22 +102,23 @@ import javax.inject.Singleton
     ]
 )
 interface AppComponent {
-    fun inject(mainActivity: MainActivity?)
-    fun inject(mainFragment: MainFragment?)
-    fun inject(homeFragment: HomeFragment?)
-    fun inject(accountsFragment: AccountsFragment?)
-    fun inject(transactionsFragment: TransactionsFragment?)
-    fun inject(debtsFragment: DebtsFragment?)
-    fun inject(addAccountFragment: AddAccountFragment?)
-    fun inject(addTransactionIncomeExpenseFragment: AddTransactionIncomeExpenseFragment?)
-    fun inject(addTransactionBetweenAccountsFragment: AddTransactionBetweenAccountsFragment?)
-    fun inject(addDebtFragment: AddDebtFragment?)
-    fun inject(payDebtFragment: PayDebtFragment?)
-    fun inject(prefFragment: PrefFragment?)
-    fun inject(faqFragment: FAQFragment?)
-    fun inject(numericDialogFragment: NumericDialogFragment?)
-    fun inject(commonFragment: CommonFragment?)
-    fun inject(commonFragmentAddEdit: CommonFragmentAddEdit?)
-    fun inject(transactionCategoriesRootFragment: TransactionCategoriesRootFragment?)
-    fun inject(transactionCategoriesNestedFragment: TransactionCategoriesNestedFragment?)
+    fun inject(mainActivity: MainActivity)
+    fun inject(mainFragment: MainFragment)
+    fun inject(homeFragment: HomeFragment)
+    fun inject(accountsFragment: AccountsFragment)
+    fun inject(transactionsFragment: TransactionsFragment)
+    fun inject(debtsFragment: DebtsFragment)
+    fun inject(addAccountFragment: AddAccountFragment)
+    fun inject(addTransactionIncomeExpenseFragment: AddTransactionIncomeExpenseFragment)
+    fun inject(addTransactionBetweenAccountsFragment: AddTransactionBetweenAccountsFragment)
+    fun inject(addDebtFragment: AddDebtFragment)
+    fun inject(payDebtFragment: PayDebtFragment)
+    fun inject(prefFragment: PrefFragment)
+    fun inject(faqFragment: FAQFragment)
+    fun inject(numericDialogFragment: NumericDialogFragment)
+    fun inject(commonFragment: CommonFragment)
+    fun inject(commonFragmentAddEdit: CommonFragmentAddEdit)
+    fun inject(transactionCategoriesRootFragment: TransactionCategoriesRootFragment)
+    fun inject(transactionCategoriesNestedFragment: TransactionCategoriesNestedFragment)
+    fun inject(moreMenuFragment: MoreMenuFragment)
 }

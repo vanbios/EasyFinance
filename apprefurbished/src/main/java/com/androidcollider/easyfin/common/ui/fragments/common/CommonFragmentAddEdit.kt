@@ -3,12 +3,8 @@ package com.androidcollider.easyfin.common.ui.fragments.common
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import androidx.appcompat.app.ActionBar
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
@@ -26,6 +22,9 @@ import javax.inject.Inject
  */
 abstract class CommonFragmentAddEdit : CommonFragment() {
 
+    private lateinit var btnSave: Button
+    private lateinit var btnClose: Button
+
     @Inject
     lateinit var dialogManager: DialogManager
 
@@ -37,6 +36,11 @@ abstract class CommonFragmentAddEdit : CommonFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        btnSave = view.findViewById(R.id.btnSave)
+        btnClose = view.findViewById(R.id.btnClose)
+        btnSave.setOnClickListener { handleSaveAction() }
+        btnClose.setOnClickListener { findNavController().navigateUp() }
+
         setFragmentResultListener(NUMERIC_DIALOG_REQUEST_KEY) { _, bundle ->
             updateAmount(bundle.getString(OUTPUT_VALUE, "0,00"))
         }
@@ -44,31 +48,6 @@ abstract class CommonFragmentAddEdit : CommonFragment() {
 
     override val title: String
         get() = getString(R.string.app_name)
-
-    protected fun setToolbar() {
-        activity?.let {
-            val actionBar = (it as AppCompatActivity).supportActionBar
-            if (actionBar != null) {
-                val actionBarLayout = it.layoutInflater.inflate(
-                    R.layout.save_close_buttons_toolbar, null
-                ) as ViewGroup
-                val layoutParams = ActionBar.LayoutParams(
-                    ActionBar.LayoutParams.MATCH_PARENT,
-                    ActionBar.LayoutParams.MATCH_PARENT
-                )
-                actionBar.setDisplayShowTitleEnabled(false)
-                actionBar.setDisplayHomeAsUpEnabled(false)
-                actionBar.setDisplayShowCustomEnabled(true)
-                actionBar.setCustomView(actionBarLayout, layoutParams)
-                val parent = actionBarLayout.parent as Toolbar
-                parent.setContentInsetsAbsolute(0, 0)
-                val btnSave = actionBarLayout.findViewById<Button>(R.id.btnToolbarSave)
-                val btnClose = actionBarLayout.findViewById<Button>(R.id.btnToolbarClose)
-                btnSave.setOnClickListener { handleSaveAction() }
-                btnClose.setOnClickListener { findNavController().navigateUp() }
-            }
-        }
-    }
 
     protected fun setTVTextSize(textView: TextView, s: String, min: Int, max: Int) {
         val length = s.length

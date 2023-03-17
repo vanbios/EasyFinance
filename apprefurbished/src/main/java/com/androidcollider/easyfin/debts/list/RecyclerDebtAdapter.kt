@@ -26,7 +26,7 @@ internal class RecyclerDebtAdapter : RecyclerView.Adapter<RecyclerDebtAdapter.Vi
     fun setItems(items: List<DebtViewModel>) {
         debtList.clear()
         debtList.addAll(items)
-        notifyDataSetChanged()
+        notifyItemRangeInserted(0, itemCount)
     }
 
     fun deleteItem(position: Int) {

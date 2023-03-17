@@ -29,7 +29,7 @@ internal class RecyclerAccountAdapter(resourcesManager: ResourcesManager) :
     fun setItems(items: List<AccountViewModel>) {
         accountList.clear()
         accountList.addAll(items)
-        notifyDataSetChanged()
+        notifyItemRangeInserted(0, itemCount)
     }
 
     fun deleteItem(position: Int) {

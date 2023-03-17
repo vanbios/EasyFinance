@@ -93,8 +93,6 @@ class AddTransactionIncomeExpenseFragment : CommonFragmentAddEdit(),
         tvDate.setOnClickListener { datePickerDialog?.show() }
         tvAmount.setOnClickListener { openNumericDialog() }
         ivAddTransCategory.setOnClickListener { transactionCategoryDialog?.show() }
-
-        setToolbar()
     }
 
     private fun setDateText(calendar: Calendar) {

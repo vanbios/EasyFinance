@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/debts_content"
     android:layout_width="match_parent"
@@ -20,59 +19,9 @@
         style="@style/BodyFontSecondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="@string/debt_empty_list"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnFloatDebts"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/common_padding_large"
-        android:layout_marginBottom="@dimen/common_padding_large"
-        android:clickable="true"
-        android:focusable="true"
-        android:tint="@color/general_surface"
-        app:backgroundTint="@color/custom_cyan_dark"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/ic_plus_white_48dp" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnFloatAddDebtTake"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/common_padding_medium"
-        android:clickable="true"
-        android:focusable="true"
-        android:tint="@color/general_surface"
-        android:visibility="invisible"
-        app:backgroundTint="@color/custom_red"
-        app:fabCustomSize="40dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnFloatDebts"
-        app:layout_constraintEnd_toEndOf="@+id/btnFloatDebts"
-        app:layout_constraintStart_toStartOf="@+id/btnFloatDebts"
-        app:srcCompat="@drawable/ic_debt_take_white_pad_10_48dp"
-        tools:visibility="visible" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/btnFloatAddDebtGive"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/common_padding_medium"
-        android:clickable="true"
-        android:focusable="true"
-        android:tint="@color/general_surface"
-        android:visibility="invisible"
-        app:backgroundTint="@color/custom_green"
-        app:fabCustomSize="40dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnFloatAddDebtTake"
-        app:layout_constraintEnd_toEndOf="@+id/btnFloatAddDebtTake"
-        app:srcCompat="@drawable/ic_debt_give_white_pad_10_48dp"
-        tools:visibility="visible" />
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

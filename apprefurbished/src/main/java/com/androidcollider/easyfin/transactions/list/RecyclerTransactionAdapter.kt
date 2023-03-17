@@ -47,7 +47,7 @@ internal class RecyclerTransactionAdapter(
     fun setItems(items: List<TransactionViewModel>) {
         transactionList.clear()
         transactionList.addAll(items)
-        notifyDataSetChanged()
+        notifyItemRangeInserted(0, itemCount)
     }
 
     fun deleteItem(position: Int) {

@@ -58,7 +58,6 @@ class AddAccountFragment : CommonFragmentAddEdit(), AddAccountMVP.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUI(view)
-        setToolbar()
         setSpinner()
         presenter.setView(this)
         presenter.setArguments(arguments)

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_view_dashboard_blue_gray_24dp"
+        android:title="@string/tab_home" />
+    <item
+        android:id="@+id/navigation_transactions"
+        android:icon="@drawable/ic_contrast_box_blue_gray_24dp"
+        android:title="@string/tab_transactions" />
+
+    <item
+        android:id="@+id/navigation_accounts"
+        android:icon="@drawable/ic_clipboard_text_blue_gray_24dp"
+        android:title="@string/tab_accounts" />
+
+    <item
+        android:id="@+id/navigation_debts"
+        android:icon="@drawable/ic_debt_blue_gray_24dp"
+        android:title="@string/debts" />
+
+    <item
+        android:id="@+id/navigation_more_menu"
+        android:icon="@drawable/ic_settings_blue_gray_24dp"
+        android:title="@string/settings" />
+
+</menu>

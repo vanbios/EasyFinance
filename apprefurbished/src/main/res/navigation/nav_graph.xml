@@ -5,53 +5,36 @@
     app:startDestination="@id/mainFragment">
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.androidcollider.easyfin.main.MainFragment"
-        android:label="@string/app_name">
-        <action
-            android:id="@+id/action_mainFragment_to_addTransactionIncomeExpenseFragment"
-            app:destination="@id/addTransactionIncomeExpenseFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_addTransactionBetweenAccountsFragment"
-            app:destination="@id/addTransactionBetweenAccountsFragment" />
+        android:name="com.androidcollider.easyfin.main.MainFragment">
         <action
             android:id="@+id/action_mainFragment_to_addAccountFragment"
             app:destination="@id/addAccountFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_debtsFragment"
-            app:destination="@id/debtsFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_transactionCategoriesRootFragment"
-            app:destination="@id/transactionCategoriesRootFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_FAQFragment"
-            app:destination="@id/FAQFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_prefFragment"
-            app:destination="@id/prefFragment" />
     </fragment>
     <fragment
         android:id="@+id/addTransactionIncomeExpenseFragment"
-        android:name="com.androidcollider.easyfin.transactions.add_edit.income_expense.AddTransactionIncomeExpenseFragment" >
+        android:name="com.androidcollider.easyfin.transactions.add_edit.income_expense.AddTransactionIncomeExpenseFragment"
+        android:label="@string/tab_transactions">
         <action
             android:id="@+id/action_addTransactionIncomeExpenseFragment_to_numericDialogFragment"
             app:destination="@id/numericDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/addTransactionBetweenAccountsFragment"
-        android:name="com.androidcollider.easyfin.transactions.add_edit.btw_accounts.AddTransactionBetweenAccountsFragment" >
+        android:name="com.androidcollider.easyfin.transactions.add_edit.btw_accounts.AddTransactionBetweenAccountsFragment">
         <action
             android:id="@+id/action_addTransactionBetweenAccountsFragment_to_numericDialogFragment"
             app:destination="@id/numericDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/addAccountFragment"
-        android:name="com.androidcollider.easyfin.accounts.add_edit.AddAccountFragment" >
+        android:name="com.androidcollider.easyfin.accounts.add_edit.AddAccountFragment"
+        android:label="@string/new_account">
         <action
             android:id="@+id/action_addAccountFragment_to_numericDialogFragment"
             app:destination="@id/numericDialogFragment" />
     </fragment>
     <fragment
-        android:id="@+id/debtsFragment"
+        android:id="@+id/navigation_debts"
         android:name="com.androidcollider.easyfin.debts.list.DebtsFragment"
         android:label="@string/debts">
         <action
@@ -66,7 +49,7 @@
         android:name="com.androidcollider.easyfin.transaction_categories.root.TransactionCategoriesRootFragment"
         android:label="@string/transaction_categories" />
     <fragment
-        android:id="@+id/prefFragment"
+        android:id="@+id/navigation_settings"
         android:name="com.androidcollider.easyfin.common.ui.fragments.PrefFragment"
         android:label="@string/settings" />
     <fragment
@@ -75,14 +58,16 @@
         android:label="@string/app_faq" />
     <fragment
         android:id="@+id/addDebtFragment"
-        android:name="com.androidcollider.easyfin.debts.add_edit.AddDebtFragment" >
+        android:name="com.androidcollider.easyfin.debts.add_edit.AddDebtFragment"
+        android:label="@string/debts">
         <action
             android:id="@+id/action_addDebtFragment_to_numericDialogFragment"
             app:destination="@id/numericDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/payDebtFragment"
-        android:name="com.androidcollider.easyfin.debts.pay.PayDebtFragment" >
+        android:name="com.androidcollider.easyfin.debts.pay.PayDebtFragment"
+        android:label="@string/debts">
         <action
             android:id="@+id/action_payDebtFragment_to_numericDialogFragment"
             app:destination="@id/numericDialogFragment" />

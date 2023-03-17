@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_nav_graph"
+    app:startDestination="@id/navigation_home">
+
+    <fragment
+        android:id="@+id/navigation_home"
+        android:name="com.androidcollider.easyfin.home.HomeFragment"
+        android:label="@string/tab_home" />
+    <fragment
+        android:id="@+id/navigation_accounts"
+        android:name="com.androidcollider.easyfin.accounts.list.AccountsFragment"
+        android:label="@string/tab_accounts" />
+    <fragment
+        android:id="@+id/navigation_transactions"
+        android:name="com.androidcollider.easyfin.transactions.list.TransactionsFragment"
+        android:label="@string/tab_transactions" />
+    <fragment
+        android:id="@+id/navigation_debts"
+        android:name="com.androidcollider.easyfin.debts.list.DebtsFragment"
+        android:label="@string/debts" />
+    <fragment
+        android:id="@+id/navigation_more_menu"
+        android:name="com.androidcollider.easyfin.more.MoreMenuFragment"
+        android:label="@string/settings" />
+</navigation>

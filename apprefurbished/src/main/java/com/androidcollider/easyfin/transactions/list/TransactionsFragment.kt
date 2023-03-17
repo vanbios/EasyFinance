@@ -20,7 +20,6 @@ import com.androidcollider.easyfin.common.models.Transaction
 import com.androidcollider.easyfin.common.models.TransactionCategory
 import com.androidcollider.easyfin.common.ui.MainActivity
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentWithEvents
-import com.androidcollider.easyfin.main.MainFragment
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -54,6 +53,8 @@ class TransactionsFragment : CommonFragmentWithEvents(), TransactionsMVP.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity?.application as App).component?.inject(this)
+
+        recyclerAdapter = RecyclerTransactionAdapter(resourcesManager, letterTileManager)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -72,9 +73,8 @@ class TransactionsFragment : CommonFragmentWithEvents(), TransactionsMVP.View {
 
     private fun setupRecyclerView() {
         recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
-        recyclerAdapter = RecyclerTransactionAdapter(resourcesManager, letterTileManager)
         recyclerView.adapter = recyclerAdapter
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        /*recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 val parentFragment = parentFragment as MainFragment?
                 if (parentFragment != null) {
@@ -86,7 +86,7 @@ class TransactionsFragment : CommonFragmentWithEvents(), TransactionsMVP.View {
                 }
                 super.onScrolled(recyclerView, dx, dy)
             }
-        })
+        })*/
     }
 
     private fun setVisibility() {

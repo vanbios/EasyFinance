@@ -5,153 +5,160 @@
     android:id="@+id/scrollAddTransDef"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_alignParentTop="true"
-    android:layout_centerHorizontal="true"
     android:paddingLeft="@dimen/common_padding_medium"
     android:paddingTop="@dimen/common_padding_large"
     android:paddingRight="@dimen/common_padding_medium"
     android:scrollbars="none">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardAddTransDefElements"
-        style="?attr/materialCardViewElevatedStyle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/general_surface"
-        app:cardElevation="@dimen/elevation_small"
-        app:cardUseCompatPadding="true">
+        android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardAddTransDefElements"
+            style="?attr/materialCardViewElevatedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/common_padding_xlarge"
-            android:paddingRight="@dimen/common_padding_xlarge"
-            android:paddingBottom="@dimen/common_padding_medium">
+            android:layout_marginBottom="@dimen/common_padding_xlarge"
+            app:cardBackgroundColor="@color/general_surface"
+            app:cardElevation="@dimen/elevation_small"
+            app:cardUseCompatPadding="true">
 
-            <TextView
-                android:id="@+id/tvAddTransDefAmount"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/common_padding_xlarge"
-                android:gravity="center_horizontal"
-                android:singleLine="true"
-                android:textColor="@color/custom_text_gray_dark"
-                android:textSize="36sp"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="+ 5 000 000,00" />
+                android:paddingLeft="@dimen/common_padding_xlarge"
+                android:paddingRight="@dimen/common_padding_xlarge"
+                android:paddingBottom="@dimen/common_padding_medium">
 
-            <TextView
-                android:id="@+id/tvAddTransDefAccount"
-                style="@style/BodyFontSecondary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:text="@string/account"
-                android:textAllCaps="true"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvAddTransDefAmount" />
+                <TextView
+                    android:id="@+id/tvAddTransDefAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/common_padding_xlarge"
+                    android:gravity="center_horizontal"
+                    android:singleLine="true"
+                    android:textColor="@color/custom_text_gray_dark"
+                    android:textSize="36sp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="+ 5 000 000,00" />
 
-            <View
-                android:id="@+id/cvAddTransDefDividerTop"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/common_padding_small"
-                android:background="@color/custom_light_gray"
-                app:layout_constraintTop_toBottomOf="@id/tvAddTransDefAccount" />
+                <TextView
+                    android:id="@+id/tvAddTransDefAccount"
+                    style="@style/BodyFontSecondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:text="@string/account"
+                    android:textAllCaps="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvAddTransDefAmount" />
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/spinAddTransDefAccount"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:prompt="@string/account"
-                android:spinnerMode="dialog"
-                app:layout_constraintTop_toBottomOf="@id/cvAddTransDefDividerTop" />
+                <View
+                    android:id="@+id/cvAddTransDefDividerTop"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/common_padding_small"
+                    android:background="@color/custom_light_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tvAddTransDefAccount" />
 
-            <TextView
-                android:id="@+id/tvAddTransDefCategory"
-                style="@style/BodyFontSecondary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/common_padding_big"
-                android:text="@string/category"
-                android:textAllCaps="true"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/spinAddTransDefAccount" />
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spinAddTransDefAccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:prompt="@string/account"
+                    android:spinnerMode="dialog"
+                    app:layout_constraintTop_toBottomOf="@id/cvAddTransDefDividerTop" />
 
-            <View
-                android:id="@+id/cvAddTransDefDividerCategory"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/common_padding_small"
-                android:background="@color/custom_light_gray"
-                app:layout_constraintTop_toBottomOf="@id/tvAddTransDefCategory" />
+                <TextView
+                    android:id="@+id/tvAddTransDefCategory"
+                    style="@style/BodyFontSecondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/common_padding_big"
+                    android:text="@string/category"
+                    android:textAllCaps="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/spinAddTransDefAccount" />
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/spinAddTransCategory"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:prompt="@string/category"
-                android:spinnerMode="dialog"
-                app:layout_constraintEnd_toStartOf="@id/ivAddTransCategory"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cvAddTransDefDividerCategory" />
+                <View
+                    android:id="@+id/cvAddTransDefDividerCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/common_padding_small"
+                    android:background="@color/custom_light_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tvAddTransDefCategory" />
 
-            <ImageView
-                android:id="@+id/ivAddTransCategory"
-                android:layout_width="44dp"
-                android:layout_height="44dp"
-                android:padding="8dp"
-                android:src="@drawable/ic_plus_white_48dp"
-                app:layout_constraintBottom_toBottomOf="@id/spinAddTransCategory"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/spinAddTransCategory"
-                app:tint="@color/green_600" />
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spinAddTransCategory"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:prompt="@string/category"
+                    android:spinnerMode="dialog"
+                    app:layout_constraintEnd_toStartOf="@id/ivAddTransCategory"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/cvAddTransDefDividerCategory" />
+
+                <ImageView
+                    android:id="@+id/ivAddTransCategory"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_plus_white_48dp"
+                    app:layout_constraintBottom_toBottomOf="@id/spinAddTransCategory"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/spinAddTransCategory"
+                    app:tint="@color/green_600" />
 
 
-            <TextView
-                android:id="@+id/tvAddTransDefDate"
-                style="@style/BodyFontSecondary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/linLayoutAddTransDefCategory"
-                android:layout_marginTop="@dimen/common_padding_big"
-                android:text="@string/date"
-                android:textAllCaps="true"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/spinAddTransCategory" />
+                <TextView
+                    android:id="@+id/tvAddTransDefDate"
+                    style="@style/BodyFontSecondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/linLayoutAddTransDefCategory"
+                    android:layout_marginTop="@dimen/common_padding_big"
+                    android:text="@string/date"
+                    android:textAllCaps="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/spinAddTransCategory" />
 
-            <View
-                android:id="@+id/cvAddTransDefDividerDate"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/common_padding_small"
-                android:background="@color/custom_light_gray"
-                app:layout_constraintTop_toBottomOf="@id/tvAddTransDefDate" />
+                <View
+                    android:id="@+id/cvAddTransDefDividerDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/common_padding_small"
+                    android:background="@color/custom_light_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tvAddTransDefDate" />
 
-            <ImageView
-                android:id="@+id/ivAddTransDefDate"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/common_padding_small"
-                android:contentDescription="@string/date"
-                android:src="@drawable/ic_calendar_blue_gray_48dp"
-                app:layout_constraintBottom_toBottomOf="@id/tvTransactionDate"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tvTransactionDate" />
+                <ImageView
+                    android:id="@+id/ivAddTransDefDate"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/common_padding_small"
+                    android:contentDescription="@string/date"
+                    android:src="@drawable/ic_calendar_blue_gray_48dp"
+                    app:layout_constraintBottom_toBottomOf="@id/tvTransactionDate"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvTransactionDate" />
 
-            <TextView
-                android:id="@+id/tvTransactionDate"
-                style="@style/SpinnerFont"
-                android:layout_width="0dp"
-                android:layout_height="68dp"
-                android:layout_centerHorizontal="true"
-                android:clickable="true"
-                android:gravity="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/ivAddTransDefDate"
-                app:layout_constraintTop_toBottomOf="@id/cvAddTransDefDividerDate" />
+                <TextView
+                    android:id="@+id/tvTransactionDate"
+                    style="@style/SpinnerFont"
+                    android:layout_width="0dp"
+                    android:layout_height="68dp"
+                    android:layout_centerHorizontal="true"
+                    android:clickable="true"
+                    android:gravity="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ivAddTransDefDate"
+                    app:layout_constraintTop_toBottomOf="@id/cvAddTransDefDividerDate" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <include layout="@layout/save_close_buttons" />
+    </LinearLayout>
 </ScrollView>

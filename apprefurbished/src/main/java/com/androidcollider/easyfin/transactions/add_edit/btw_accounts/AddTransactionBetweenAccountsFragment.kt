@@ -60,7 +60,6 @@ class AddTransactionBetweenAccountsFragment : CommonFragmentAddEdit(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUI(view)
-        setToolbar()
         accountListFrom = ArrayList()
         presenter.setView(this)
         presenter.loadAccounts()

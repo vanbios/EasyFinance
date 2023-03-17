@@ -5,171 +5,178 @@
     android:id="@+id/scrollAddTransBTW"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_alignParentTop="true"
-    android:layout_centerHorizontal="true"
     android:paddingLeft="@dimen/common_padding_medium"
     android:paddingTop="@dimen/common_padding_large"
     android:paddingRight="@dimen/common_padding_medium"
     android:scrollbars="none">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardAddTransBTWAccountsElements"
-        style="?attr/materialCardViewElevatedStyle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/general_surface"
-        app:cardElevation="@dimen/elevation_small"
-        app:cardUseCompatPadding="true">
+        android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardAddTransBTWAccountsElements"
+            style="?attr/materialCardViewElevatedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/common_padding_xlarge"
-            android:paddingTop="@dimen/common_padding_xlarge"
-            android:paddingRight="@dimen/common_padding_xlarge"
-            android:paddingBottom="@dimen/common_padding_large">
+            android:layout_marginBottom="@dimen/common_padding_xlarge"
+            app:cardBackgroundColor="@color/general_surface"
+            app:cardElevation="@dimen/elevation_small"
+            app:cardUseCompatPadding="true">
 
-            <TextView
-                android:id="@+id/tvAddTransBTWAmount"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:singleLine="true"
-                android:textColor="@color/custom_text_gray_dark"
-                android:textSize="36sp"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="+ 5 000 000,00" />
-
-            <TextView
-                android:id="@+id/tvAddTransBTWAccountFrom"
-                style="@style/BodyFontSecondary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="@string/account_from"
-                android:textAllCaps="true"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvAddTransBTWAmount" />
-
-            <View
-                android:id="@+id/cvAddTransBTWDividerAccountFrom"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/common_padding_small"
-                android:background="@color/custom_light_gray"
-                app:layout_constraintTop_toBottomOf="@id/tvAddTransBTWAccountFrom" />
-
-            <ImageView
-                android:id="@+id/ivAddTransBTWAccountFrom"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:contentDescription="@string/account"
-                android:src="@drawable/ic_outcome_red_48dp"
-                app:layout_constraintBottom_toBottomOf="@id/spinAddTransBTWAccountFrom"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/spinAddTransBTWAccountFrom" />
-
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/spinAddTransBTWAccountFrom"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_marginStart="@dimen/common_padding_large"
-                android:prompt="@string/account_from"
-                android:spinnerMode="dialog"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/ivAddTransBTWAccountFrom"
-                app:layout_constraintTop_toBottomOf="@id/cvAddTransBTWDividerAccountFrom" />
-
-            <TextView
-                android:id="@+id/tvAddTransBTWAccountTo"
-                style="@style/BodyFontSecondary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/common_padding_big"
-                android:text="@string/account_to"
-                android:textAllCaps="true"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/spinAddTransBTWAccountFrom" />
-
-            <View
-                android:id="@+id/cvAddTransBTWDividerAccountTo"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/common_padding_small"
-                android:background="@color/custom_light_gray"
-                app:layout_constraintTop_toBottomOf="@id/tvAddTransBTWAccountTo" />
-
-            <ImageView
-                android:id="@+id/ivAddTransBTWAccountTo"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:contentDescription="@string/account"
-                android:src="@drawable/ic_income_green_48dp"
-                app:layout_constraintBottom_toBottomOf="@id/spinAddTransBTWAccountTo"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/spinAddTransBTWAccountTo" />
-
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/spinAddTransBTWAccountTo"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_marginStart="@dimen/common_padding_large"
-                android:prompt="@string/account_to"
-                android:spinnerMode="dialog"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/ivAddTransBTWAccountTo"
-                app:layout_constraintTop_toBottomOf="@id/cvAddTransBTWDividerAccountTo" />
-
-            <RelativeLayout
-                android:id="@+id/layoutAddTransBTWExchange"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/common_padding_big"
-                android:paddingBottom="@dimen/common_padding_large"
-                android:visibility="gone"
-                app:layout_constraintTop_toBottomOf="@id/spinAddTransBTWAccountTo"
-                tools:visibility="visible">
+                android:paddingLeft="@dimen/common_padding_xlarge"
+                android:paddingTop="@dimen/common_padding_xlarge"
+                android:paddingRight="@dimen/common_padding_xlarge"
+                android:paddingBottom="@dimen/common_padding_large">
 
                 <TextView
-                    android:id="@+id/tvAddTransBTWExchange"
+                    android:id="@+id/tvAddTransBTWAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:singleLine="true"
+                    android:textColor="@color/custom_text_gray_dark"
+                    android:textSize="36sp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="+ 5 000 000,00" />
+
+                <TextView
+                    android:id="@+id/tvAddTransBTWAccountFrom"
                     style="@style/BodyFontSecondary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:text="@string/exchange"
-                    android:textAllCaps="true" />
+                    android:layout_marginTop="32dp"
+                    android:text="@string/account_from"
+                    android:textAllCaps="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvAddTransBTWAmount" />
 
                 <View
-                    android:id="@+id/cvAddTransBTWDividerExchange"
+                    android:id="@+id/cvAddTransBTWDividerAccountFrom"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_below="@+id/tvAddTransBTWExchange"
-                    android:layout_marginTop="5dp"
-                    android:background="@color/custom_light_gray" />
+                    android:layout_marginTop="@dimen/common_padding_small"
+                    android:background="@color/custom_light_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tvAddTransBTWAccountFrom" />
 
                 <ImageView
-                    android:id="@+id/ivAddTransBTWExchange"
+                    android:id="@+id/ivAddTransBTWAccountFrom"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
-                    android:layout_below="@+id/cvAddTransBTWDividerExchange"
-                    android:layout_marginTop="28dp"
                     android:contentDescription="@string/account"
-                    android:src="@drawable/ic_trans_btw_blue_gray_48dp" />
+                    android:src="@drawable/ic_outcome_red_48dp"
+                    app:layout_constraintBottom_toBottomOf="@id/spinAddTransBTWAccountFrom"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/spinAddTransBTWAccountFrom" />
 
-                <androidx.appcompat.widget.AppCompatEditText
-                    android:id="@+id/editTextTransBTWExchange"
-                    style="@style/TitleFont"
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spinAddTransBTWAccountFrom"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="@dimen/common_padding_large"
+                    android:prompt="@string/account_from"
+                    android:spinnerMode="dialog"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ivAddTransBTWAccountFrom"
+                    app:layout_constraintTop_toBottomOf="@id/cvAddTransBTWDividerAccountFrom" />
+
+                <TextView
+                    android:id="@+id/tvAddTransBTWAccountTo"
+                    style="@style/BodyFontSecondary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/cvAddTransBTWDividerExchange"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/common_padding_large"
-                    android:ems="4"
-                    android:gravity="center_horizontal"
-                    android:inputType="numberDecimal"
-                    android:maxLength="8" />
+                    android:layout_marginTop="@dimen/common_padding_big"
+                    android:text="@string/account_to"
+                    android:textAllCaps="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/spinAddTransBTWAccountFrom" />
 
-            </RelativeLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
+                <View
+                    android:id="@+id/cvAddTransBTWDividerAccountTo"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/common_padding_small"
+                    android:background="@color/custom_light_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tvAddTransBTWAccountTo" />
+
+                <ImageView
+                    android:id="@+id/ivAddTransBTWAccountTo"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:contentDescription="@string/account"
+                    android:src="@drawable/ic_income_green_48dp"
+                    app:layout_constraintBottom_toBottomOf="@id/spinAddTransBTWAccountTo"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/spinAddTransBTWAccountTo" />
+
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spinAddTransBTWAccountTo"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="@dimen/common_padding_large"
+                    android:prompt="@string/account_to"
+                    android:spinnerMode="dialog"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ivAddTransBTWAccountTo"
+                    app:layout_constraintTop_toBottomOf="@id/cvAddTransBTWDividerAccountTo" />
+
+                <RelativeLayout
+                    android:id="@+id/layoutAddTransBTWExchange"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/common_padding_big"
+                    android:paddingBottom="@dimen/common_padding_large"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toBottomOf="@id/spinAddTransBTWAccountTo"
+                    tools:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/tvAddTransBTWExchange"
+                        style="@style/BodyFontSecondary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:text="@string/exchange"
+                        android:textAllCaps="true" />
+
+                    <View
+                        android:id="@+id/cvAddTransBTWDividerExchange"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_below="@+id/tvAddTransBTWExchange"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/custom_light_gray" />
+
+                    <ImageView
+                        android:id="@+id/ivAddTransBTWExchange"
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:layout_below="@+id/cvAddTransBTWDividerExchange"
+                        android:layout_marginTop="28dp"
+                        android:contentDescription="@string/account"
+                        android:src="@drawable/ic_trans_btw_blue_gray_48dp" />
+
+                    <androidx.appcompat.widget.AppCompatEditText
+                        android:id="@+id/editTextTransBTWExchange"
+                        style="@style/TitleFont"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/cvAddTransBTWDividerExchange"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/common_padding_large"
+                        android:ems="4"
+                        android:gravity="center_horizontal"
+                        android:inputType="numberDecimal"
+                        android:maxLength="8" />
+
+                </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <include layout="@layout/save_close_buttons" />
+    </LinearLayout>
 </ScrollView>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:padding="@dimen/common_padding_large">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/ivMainBottomSheetMenuItem"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center_vertical"
+        app:tint="@color/custom_text_gray_dark"
+        tools:src="@drawable/ic_plus_white_48dp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvMainBottomSheetMenuItem"
+        style="@style/SubheadFont"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/common_padding_large"
+        android:gravity="center_vertical"
+        tools:text="@string/tab_transactions" />
+
+</LinearLayout>

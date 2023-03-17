@@ -17,7 +17,6 @@ import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager
 import com.androidcollider.easyfin.common.models.Account
 import com.androidcollider.easyfin.common.ui.MainActivity
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentWithEvents
-import com.androidcollider.easyfin.main.MainFragment
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -49,6 +48,8 @@ class AccountsFragment : CommonFragmentWithEvents(), AccountsMVP.View {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (activity?.application as App).component?.inject(this)
+
+        recyclerAdapter = RecyclerAccountAdapter(resourcesManager)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -67,9 +68,8 @@ class AccountsFragment : CommonFragmentWithEvents(), AccountsMVP.View {
 
     private fun setupRecyclerView() {
         recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
-        recyclerAdapter = RecyclerAccountAdapter(resourcesManager)
         recyclerView.adapter = recyclerAdapter
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        /*recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 val parentFragment = parentFragment as MainFragment?
                 if (parentFragment != null) {
@@ -81,7 +81,7 @@ class AccountsFragment : CommonFragmentWithEvents(), AccountsMVP.View {
                 }
                 super.onScrolled(recyclerView, dx, dy)
             }
-        })
+        })*/
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

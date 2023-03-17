@@ -40,4 +40,7 @@
     <!-- The default tile size -->
     <dimen name="letter_tile_size">32dp</dimen>
 
+    <dimen name="fab_mini_size">40dp</dimen>
+    <dimen name="fab_regular_size">50dp</dimen>
+
 </resources>

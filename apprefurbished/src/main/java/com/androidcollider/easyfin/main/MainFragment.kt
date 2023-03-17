@@ -1,30 +1,34 @@
 package com.androidcollider.easyfin.main
 
 import android.os.Bundle
-import android.view.MotionEvent
 import android.view.View
-import android.view.View.*
-import android.view.ViewGroup
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.animation.Animation
-import android.view.animation.AnimationSet
 import android.view.animation.AnimationUtils
-import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.androidcollider.easyfin.R
 import com.androidcollider.easyfin.accounts.list.AccountsFragment
 import com.androidcollider.easyfin.common.app.App
 import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager
+import com.androidcollider.easyfin.common.ui.MainActivity
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment
 import com.androidcollider.easyfin.common.utils.animateViewWithChangeVisibilityAndClickable
+import com.androidcollider.easyfin.debts.list.DebtsFragment
+import com.androidcollider.easyfin.main.bottom_sheet_menu.MainBottomSheetMenuItem
+import com.androidcollider.easyfin.main.bottom_sheet_menu.MainBottomSheetMenuItemSelectedListener
+import com.androidcollider.easyfin.main.bottom_sheet_menu.MainBottomSheetMenuRecyclerAdapter
 import com.androidcollider.easyfin.transactions.list.TransactionsFragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
-import java.util.*
 import javax.inject.Inject
 
 /**
@@ -32,13 +36,11 @@ import javax.inject.Inject
  */
 class MainFragment : CommonFragment(), MainMVP.View {
 
-    private lateinit var pager: ViewPager2
-    private lateinit var tabLayout: TabLayout
+    private lateinit var navView: BottomNavigationView
     private lateinit var fabMenu: FloatingActionButton
-    private lateinit var faButtonExpense: FloatingActionButton
-    private lateinit var faButtonIncome: FloatingActionButton
-    private lateinit var faButtonBTW: FloatingActionButton
     private lateinit var mainContent: ConstraintLayout
+
+    private lateinit var childNavController: NavController
 
     @Inject
     lateinit var dialogManager: DialogManager
@@ -62,69 +64,25 @@ class MainFragment : CommonFragment(), MainMVP.View {
     }
 
     private fun setupUI(view: View) {
-        pager = view.findViewById(R.id.pagerMain)
-        tabLayout = view.findViewById(R.id.tabsMain)
+        navView = view.findViewById(R.id.navigationBarMain)
         fabMenu = view.findViewById(R.id.btnFloatMain)
-        faButtonExpense = view.findViewById(R.id.btnFloatAddTransExpense)
-        faButtonIncome = view.findViewById(R.id.btnFloatAddTransIncome)
-        faButtonBTW = view.findViewById(R.id.btnFloatAddTransBTW)
         mainContent = view.findViewById(R.id.main_content)
 
-        faButtonExpense.setOnClickListener {
-            goToAddTransaction(TransactionsFragment.TYPE_EXPENSE)
-            collapseFloatingMenu(false)
-        }
-        faButtonIncome.setOnClickListener {
-            goToAddTransaction(TransactionsFragment.TYPE_INCOME)
-            collapseFloatingMenu(false)
-        }
-        faButtonBTW.setOnClickListener {
-            goToAddTransBTW()
-            collapseFloatingMenu(false)
-        }
+        val navHostFragment = childFragmentManager
+            .findFragmentById(R.id.bottomNavContainer) as NavHostFragment
+        childNavController = navHostFragment.navController
+        navView.setupWithNavController(childNavController)
+        childNavController.addOnDestinationChangedListener(destinationChangedListener)
 
-        setupViewPager()
-        setupFABs()
+        fabMenu.setOnClickListener { showBottomSheetMenuDialog() }
 
         showFABMenu(show = false, withAnim = false)
         view.postDelayed({ showFABMenu(show = true, withAnim = true) }, 1000)
     }
 
-    private fun setupViewPager() {
-        val adapterPager = MainViewPager2Adapter(this)
-        pager.adapter = adapterPager
-        pager.offscreenPageLimit = 3
-        pager.registerOnPageChangeCallback(pagerPageChangeCallback)
-
-        val tabTitles = arrayOf(
-            resources.getString(R.string.tab_home).uppercase(Locale.getDefault()),
-            resources.getString(R.string.tab_transactions).uppercase(Locale.getDefault()),
-            resources.getString(R.string.tab_accounts).uppercase(Locale.getDefault())
-        )
-        TabLayoutMediator(tabLayout, pager) { tab, position ->
-            tab.text = tabTitles[position]
-        }.attach()
-    }
-
-    private fun setupFABs() {
-        fabMenu.setOnClickListener { checkPageNum() }
-        addNonFabTouchListener(mainContent)
-    }
-
-    fun openSelectedPage(page: Int) {
-        pager.currentItem = page
-    }
-
-    private fun checkPageNum() {
-        when (pager.currentItem) {
-            0, 1 -> changeFloatingMenuState()
-            2 -> goToAddAccount()
-        }
-    }
-
     private fun goToAddTransaction(type: Int) {
         findNavController().navigate(
-            R.id.action_mainFragment_to_addTransactionIncomeExpenseFragment,
+            R.id.addTransactionIncomeExpenseFragment,
             bundleOf(
                 TransactionsFragment.MODE to TransactionsFragment.MODE_ADD,
                 TransactionsFragment.TYPE to type
@@ -134,7 +92,17 @@ class MainFragment : CommonFragment(), MainMVP.View {
 
     private fun goToAddTransBTW() {
         findNavController().navigate(
-            R.id.action_mainFragment_to_addTransactionBetweenAccountsFragment
+            R.id.addTransactionBetweenAccountsFragment
+        )
+    }
+
+    private fun goToAddDebt(type: Int) {
+        findNavController().navigate(
+            R.id.addDebtFragment,
+            bundleOf(
+                DebtsFragment.MODE to DebtsFragment.ADD,
+                DebtsFragment.TYPE to type
+            )
         )
     }
 
@@ -147,40 +115,75 @@ class MainFragment : CommonFragment(), MainMVP.View {
         )
     }
 
+    private fun showBottomSheetMenuDialog() {
+        if (isBottomSheetMenuDialogOpened) return
+
+        val bottomSheetDialog = BottomSheetDialog(requireActivity())
+        bottomSheetDialog.setContentView(R.layout.main_bottom_sheet_menu)
+        val recyclerView =
+            bottomSheetDialog.findViewById<RecyclerView>(R.id.rvMainBottomSheetMenu) as RecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(recyclerView.context)
+        recyclerView.adapter = MainBottomSheetMenuRecyclerAdapter(
+            bottomSheetMenuItems,
+            object : MainBottomSheetMenuItemSelectedListener {
+                override fun onItemSelected(id: Int) {
+                    bottomSheetDialog.dismiss()
+                    goToAddScreen(id)
+                }
+            })
+
+        bottomSheetDialog.show()
+        isBottomSheetMenuDialogOpened = true
+        bottomSheetDialog.setOnDismissListener { isBottomSheetMenuDialogOpened = false }
+    }
+
+    private val bottomSheetMenuItems = arrayOf(
+        MainBottomSheetMenuItem(
+            1,
+            "Create account",
+            R.drawable.ic_clipboard_text_blue_gray_48dp
+        ),
+        MainBottomSheetMenuItem(
+            2,
+            "Take in debt",
+            R.drawable.ic_debt_take_white_pad_10_48dp
+        ),
+        MainBottomSheetMenuItem(
+            3,
+            "Give in debt",
+            R.drawable.ic_debt_give_white_pad_10_48dp
+        ),
+        MainBottomSheetMenuItem(
+            4,
+            "Add transaction between accounts",
+            R.drawable.ic_trans_btw_blue_gray_48dp
+        ),
+        MainBottomSheetMenuItem(
+            5,
+            "Add income transaction",
+            R.drawable.ic_plus_white_48dp
+        ),
+        MainBottomSheetMenuItem(
+            6,
+            "Add expense transaction",
+            R.drawable.ic_minus_white_48dp
+        )
+    )
+
+    private fun goToAddScreen(id: Int) {
+        when (id) {
+            1 -> goToAddAccount()
+            2 -> goToAddDebt(DebtsFragment.TYPE_TAKE)
+            3 -> goToAddDebt(DebtsFragment.TYPE_GIVE)
+            4 -> goToAddTransBTW()
+            5 -> goToAddTransaction(TransactionsFragment.TYPE_INCOME)
+            6 -> goToAddTransaction(TransactionsFragment.TYPE_EXPENSE)
+        }
+    }
+
     private fun showDialogNoAccount() {
         activity?.let {
             dialogManager.showNoAccountDialog(it) { goToAddAccount() }
-        }
-    }
-
-    private fun changeFloatingMenuState() {
-        if (!isFABMenuExpanded) {
-            expandFABMenu(expand = true, withAnim = true)
-        } else collapseFloatingMenu(true)
-    }
-
-    private fun collapseFloatingMenu(withAnim: Boolean) {
-        if (isFABMenuExpanded) {
-            expandFABMenu(expand = false, withAnim)
-        }
-    }
-
-    private fun addNonFabTouchListener(view: View?) {
-        if (view is ConstraintLayout || view is RecyclerView || view is TextView) {
-            view.setOnTouchListener(OnTouchListener { v: View?, event: MotionEvent? ->
-                collapseFloatingMenu(true)
-                if (event?.action == MotionEvent.ACTION_UP) {
-                    v?.performClick()
-                }
-                false
-            })
-        }
-        //If a layout container, iterate over children and seed recursion.
-        if (view is ViewGroup) {
-            for (i in 0 until view.childCount) {
-                val innerView = view.getChildAt(i)
-                addNonFabTouchListener(innerView)
-            }
         }
     }
 
@@ -197,9 +200,8 @@ class MainFragment : CommonFragment(), MainMVP.View {
     }
 
     private fun showFABMenu(show: Boolean, withAnim: Boolean) {
-        if (!show && isFABMenuExpanded) {
-            expandFABMenu(expand = false, withAnim = true, hideMenu = true)
-        } else if (withAnim) {
+        if (isFABMenuVisible == show) return
+        if (withAnim) {
             animateViewWithChangeVisibilityAndClickable(
                 fabMenu,
                 if (show) jumpFromBottomAnimation else jumpToBottomAnimation,
@@ -213,75 +215,30 @@ class MainFragment : CommonFragment(), MainMVP.View {
         isFABMenuVisible = !isFABMenuVisible
     }
 
-    private fun expandFABMenu(expand: Boolean, withAnim: Boolean, hideMenu: Boolean = false) {
-        if (withAnim) {
-            animateViewWithChangeVisibilityAndClickable(
-                faButtonIncome,
-                if (expand) fromBottomAnimation else toBottomAnimation,
-                expand
-            )
-            animateViewWithChangeVisibilityAndClickable(
-                faButtonExpense,
-                if (expand) fromBottomAnimation else toBottomAnimation,
-                expand
-            )
-            animateViewWithChangeVisibilityAndClickable(
-                faButtonBTW,
-                if (expand) fromBottomAnimation else toBottomAnimation,
-                expand
-            )
-
-            val menuAnimationSet = AnimationSet(false)
-            menuAnimationSet.addAnimation(if (expand) rotateOpenAnimation else rotateCloseAnimation)
-            if (hideMenu) menuAnimationSet.addAnimation(jumpToBottomAnimation)
-            animateViewWithChangeVisibilityAndClickable(fabMenu, menuAnimationSet, !hideMenu)
-        } else {
-            faButtonIncome.visibility = if (expand) VISIBLE else INVISIBLE
-            faButtonExpense.visibility = if (expand) VISIBLE else INVISIBLE
-            faButtonBTW.visibility = if (expand) VISIBLE else INVISIBLE
-
-            faButtonIncome.isClickable = expand
-            faButtonExpense.isClickable = expand
-            faButtonBTW.isClickable = expand
-        }
-
-        isFABMenuExpanded = !isFABMenuExpanded
-    }
-
     override fun informNoAccounts() {
         showDialogNoAccount()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        childNavController.removeOnDestinationChangedListener(destinationChangedListener)
+    }
+
+    private val destinationChangedListener =
+        NavController.OnDestinationChangedListener { _, destination, _ ->
+            destination.label?.let {
+                if (it.isNotEmpty()) {
+                    (activity as MainActivity?)?.setToolbarTitle(it.toString())
+                }
+            }
+        }
+
     override val title: String
         get() = getString(R.string.app_name)
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        pager.unregisterOnPageChangeCallback(pagerPageChangeCallback)
-    }
-
-    var pagerPageChangeCallback = object : ViewPager2.OnPageChangeCallback() {
-        override fun onPageSelected(position: Int) {
-            showMenu()
-            if (position == 2) collapseFloatingMenu(true)
-        }
-    }
-
     private var isFABMenuVisible = true
-    private var isFABMenuExpanded = false
+    private var isBottomSheetMenuDialogOpened = false
 
-    private val rotateOpenAnimation: Animation by lazy {
-        AnimationUtils.loadAnimation(
-            requireContext(),
-            R.anim.rotate_open
-        )
-    }
-    private val rotateCloseAnimation: Animation by lazy {
-        AnimationUtils.loadAnimation(
-            requireContext(),
-            R.anim.rotate_close
-        )
-    }
     private val jumpFromBottomAnimation: Animation by lazy {
         AnimationUtils.loadAnimation(
             requireContext(),
@@ -292,18 +249,6 @@ class MainFragment : CommonFragment(), MainMVP.View {
         AnimationUtils.loadAnimation(
             requireContext(),
             R.anim.jump_to_down
-        )
-    }
-    private val fromBottomAnimation: Animation by lazy {
-        AnimationUtils.loadAnimation(
-            requireContext(),
-            R.anim.show_from_bottom
-        )
-    }
-    private val toBottomAnimation: Animation by lazy {
-        AnimationUtils.loadAnimation(
-            requireContext(),
-            R.anim.hide_to_bottom
         )
     }
 }

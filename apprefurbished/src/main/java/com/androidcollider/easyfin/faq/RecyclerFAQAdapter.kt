@@ -12,11 +12,18 @@ import com.androidcollider.easyfin.R
 /**
  * @author Ihor Bilous
  */
-internal class RecyclerFAQAdapter(private val itemsList: List<Pair<String, String>>) :
-    RecyclerView.Adapter<RecyclerFAQAdapter.ViewHolder>() {
+internal class RecyclerFAQAdapter : RecyclerView.Adapter<RecyclerFAQAdapter.ViewHolder>() {
+
+    private val items: MutableList<Pair<String, String>> = ArrayList()
+
+    fun setData(itemList: List<Pair<String, String>>) {
+        items.clear()
+        items.addAll(itemList)
+        notifyItemRangeInserted(0, itemCount)
+    }
 
     override fun getItemCount(): Int {
-        return itemsList.size
+        return items.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -27,7 +34,7 @@ internal class RecyclerFAQAdapter(private val itemsList: List<Pair<String, Strin
     }
 
     private fun getItem(position: Int): Pair<String, String> {
-        return itemsList[position]
+        return items[position]
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

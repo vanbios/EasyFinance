@@ -15,7 +15,6 @@ abstract class CommonFragment : AbstractBaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        retainInstance = true
         setHasOptionsMenu(true)
         (activity?.application as App).component?.inject(this)
         analyticsManager.sendScreeName(realTag)

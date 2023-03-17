@@ -58,7 +58,6 @@ class PayDebtFragment : CommonFragmentAddEdit(), PayDebtMVP.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupUI(view)
-        setToolbar()
         hideTouchOutsideManager.hideKeyboardByTouchOutsideEditText(mainContent, requireActivity())
         accountsAvailableList = ArrayList()
         presenter.setView(this)

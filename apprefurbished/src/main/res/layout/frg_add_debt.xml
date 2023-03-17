@@ -5,154 +5,162 @@
     android:id="@+id/layoutActAddDebtParent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_alignParentTop="true"
     android:layout_marginTop="@dimen/common_padding_large"
     android:paddingLeft="@dimen/common_padding_medium"
     android:paddingRight="@dimen/common_padding_medium"
     android:scrollbars="none">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardAddDebtElements"
-        style="?attr/materialCardViewElevatedStyle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/general_surface"
-        app:cardElevation="@dimen/elevation_small"
-        app:cardUseCompatPadding="true">
+        android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardAddDebtElements"
+            style="?attr/materialCardViewElevatedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/common_padding_xlarge"
-            android:paddingTop="@dimen/common_padding_xlarge"
-            android:paddingRight="@dimen/common_padding_xlarge"
-            android:paddingBottom="@dimen/common_padding_medium">
+            android:layout_marginBottom="@dimen/common_padding_xlarge"
+            app:cardBackgroundColor="@color/general_surface"
+            app:cardElevation="@dimen/elevation_small"
+            app:cardUseCompatPadding="true">
 
-            <TextView
-                android:id="@+id/tvAddDebtAmount"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:singleLine="true"
-                android:textColor="@color/custom_text_gray_dark"
-                android:textSize="36sp"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="+ 5 000 000,00" />
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/common_padding_xlarge"
+                android:paddingTop="@dimen/common_padding_xlarge"
+                android:paddingRight="@dimen/common_padding_xlarge"
+                android:paddingBottom="@dimen/common_padding_medium">
 
-            <TextView
-                android:id="@+id/tvAddDebtName"
-                style="@style/BodyFontSecondary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="@string/name"
-                android:textAllCaps="true"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvAddDebtAmount" />
+                <TextView
+                    android:id="@+id/tvAddDebtAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:singleLine="true"
+                    android:textColor="@color/custom_text_gray_dark"
+                    android:textSize="36sp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="+ 5 000 000,00" />
 
-            <View
-                android:id="@+id/cvAddDebtDividerName"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/common_padding_small"
-                android:background="@color/custom_light_gray"
-                app:layout_constraintTop_toBottomOf="@id/tvAddDebtName" />
+                <TextView
+                    android:id="@+id/tvAddDebtName"
+                    style="@style/BodyFontSecondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:text="@string/name"
+                    android:textAllCaps="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tvAddDebtAmount" />
 
-            <ImageView
-                android:id="@+id/ivAddDebtName"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_marginStart="@dimen/common_padding_small"
-                android:contentDescription="@string/empty_name_field"
-                android:src="@drawable/ic_clipboard_text_blue_gray_48dp"
-                app:layout_constraintBottom_toBottomOf="@id/editTextDebtName"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/editTextDebtName" />
+                <View
+                    android:id="@+id/cvAddDebtDividerName"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/common_padding_small"
+                    android:background="@color/custom_light_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tvAddDebtName" />
 
-            <EditText
-                android:id="@+id/editTextDebtName"
-                style="@style/TitleFont"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/common_padding_big"
-                android:layout_marginTop="@dimen/common_padding_large"
-                android:layout_marginEnd="@dimen/common_padding_small"
-                android:maxLength="50"
-                android:singleLine="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/ivAddDebtName"
-                app:layout_constraintTop_toBottomOf="@id/cvAddDebtDividerName" />
+                <ImageView
+                    android:id="@+id/ivAddDebtName"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginStart="@dimen/common_padding_small"
+                    android:contentDescription="@string/empty_name_field"
+                    android:src="@drawable/ic_clipboard_text_blue_gray_48dp"
+                    app:layout_constraintBottom_toBottomOf="@id/editTextDebtName"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/editTextDebtName" />
 
-            <TextView
-                android:id="@+id/tvAddDebtAccount"
-                style="@style/BodyFontSecondary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/common_padding_xlarge"
-                android:text="@string/account"
-                android:textAllCaps="true"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/editTextDebtName" />
+                <EditText
+                    android:id="@+id/editTextDebtName"
+                    style="@style/TitleFont"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/common_padding_big"
+                    android:layout_marginTop="@dimen/common_padding_large"
+                    android:layout_marginEnd="@dimen/common_padding_small"
+                    android:maxLength="50"
+                    android:singleLine="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ivAddDebtName"
+                    app:layout_constraintTop_toBottomOf="@id/cvAddDebtDividerName" />
 
-            <View
-                android:id="@+id/cvAddDebtDividerTop"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/common_padding_small"
-                android:background="@color/custom_light_gray"
-                app:layout_constraintTop_toBottomOf="@id/tvAddDebtAccount" />
+                <TextView
+                    android:id="@+id/tvAddDebtAccount"
+                    style="@style/BodyFontSecondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/common_padding_xlarge"
+                    android:text="@string/account"
+                    android:textAllCaps="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/editTextDebtName" />
 
-            <Spinner
-                android:id="@+id/spinAddDebtAccount"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:prompt="@string/account"
-                android:spinnerMode="dialog"
-                app:layout_constraintTop_toBottomOf="@id/cvAddDebtDividerTop" />
+                <View
+                    android:id="@+id/cvAddDebtDividerTop"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/common_padding_small"
+                    android:background="@color/custom_light_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tvAddDebtAccount" />
 
-            <TextView
-                android:id="@+id/tvAddDebtDateHeader"
-                style="@style/BodyFontSecondary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/common_padding_big"
-                android:text="@string/deadline"
-                android:textAllCaps="true"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/spinAddDebtAccount" />
+                <Spinner
+                    android:id="@+id/spinAddDebtAccount"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:prompt="@string/account"
+                    android:spinnerMode="dialog"
+                    app:layout_constraintTop_toBottomOf="@id/cvAddDebtDividerTop" />
 
-            <View
-                android:id="@+id/cvAddDebtDividerBottom"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/common_padding_small"
-                android:background="@color/custom_light_gray"
-                app:layout_constraintTop_toBottomOf="@id/tvAddDebtDateHeader" />
+                <TextView
+                    android:id="@+id/tvAddDebtDateHeader"
+                    style="@style/BodyFontSecondary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/common_padding_big"
+                    android:text="@string/deadline"
+                    android:textAllCaps="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/spinAddDebtAccount" />
 
-            <ImageView
-                android:id="@+id/ivAddDebtDate"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_marginStart="@dimen/common_padding_small"
-                android:contentDescription="@string/date"
-                android:src="@drawable/ic_calendar_clock_blue_gray_48dp"
-                app:layout_constraintBottom_toBottomOf="@id/tvAddDebtDate"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tvAddDebtDate" />
+                <View
+                    android:id="@+id/cvAddDebtDividerBottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/common_padding_small"
+                    android:background="@color/custom_light_gray"
+                    app:layout_constraintTop_toBottomOf="@id/tvAddDebtDateHeader" />
 
-            <TextView
-                android:id="@+id/tvAddDebtDate"
-                style="@style/SpinnerFont"
-                android:layout_width="0dp"
-                android:layout_height="68dp"
-                android:layout_marginEnd="@dimen/common_padding_small"
-                android:clickable="true"
-                android:gravity="center"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/ivAddDebtDate"
-                app:layout_constraintTop_toTopOf="@id/cvAddDebtDividerBottom" />
+                <ImageView
+                    android:id="@+id/ivAddDebtDate"
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_marginStart="@dimen/common_padding_small"
+                    android:contentDescription="@string/date"
+                    android:src="@drawable/ic_calendar_clock_blue_gray_48dp"
+                    app:layout_constraintBottom_toBottomOf="@id/tvAddDebtDate"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/tvAddDebtDate" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.google.android.material.card.MaterialCardView>
+                <TextView
+                    android:id="@+id/tvAddDebtDate"
+                    style="@style/SpinnerFont"
+                    android:layout_width="0dp"
+                    android:layout_height="68dp"
+                    android:layout_marginEnd="@dimen/common_padding_small"
+                    android:clickable="true"
+                    android:gravity="center"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ivAddDebtDate"
+                    app:layout_constraintTop_toTopOf="@id/cvAddDebtDividerBottom" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <include layout="@layout/save_close_buttons" />
+    </LinearLayout>
 </ScrollView>
