@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(R.layout.main) {
 
     private lateinit var toolbar: MaterialToolbar
 
-    private lateinit var navController: NavController
+    lateinit var navController: NavController
 
     @Inject
     lateinit var ratesLoaderManager: RatesLoaderManager

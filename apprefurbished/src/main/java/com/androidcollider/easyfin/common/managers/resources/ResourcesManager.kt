@@ -42,7 +42,7 @@ class ResourcesManager internal constructor(private val context: Context) {
         const val STRING_TRANSACTION_CATEGORY_EXPENSE = R.array.transaction_category_expense_array
         const val ICON_TRANSACTION_CATEGORY_EXPENSE = R.array.transaction_category_expense_icons
         const val ICON_TRANSACTION_CATEGORY_INCOME = R.array.transaction_category_income_icons
-        const val ICON_FLAGS = R.array.flag_icons
+        const val ICON_CURRENCY = R.array.currency_icons
         const val ICON_ACCOUNT_TYPE = R.array.account_type_icons
         const val ICON_CHART_TYPE = R.array.charts_main_icons
     }

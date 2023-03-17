@@ -3,12 +3,12 @@ package com.androidcollider.easyfin.more
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.androidcollider.easyfin.R
 import com.androidcollider.easyfin.common.app.App
 import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager
+import com.androidcollider.easyfin.common.ui.MainActivity
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment
 import javax.inject.Inject
 
@@ -41,22 +41,22 @@ class MoreMenuFragment : CommonFragment() {
             MoreMenuItem(
                 1,
                 getString(R.string.transaction_categories),
-                R.drawable.ic_more_blue_gray_48dp
+                R.drawable.tag_text_outline
             ),
             MoreMenuItem(
                 2,
                 getString(R.string.settings),
-                R.drawable.ic_settings_blue_gray_24dp
+                R.drawable.cog_outline
             ),
             MoreMenuItem(
                 3,
                 getString(R.string.app_faq),
-                R.drawable.ic_help_circle_blue_gray_24dp
+                R.drawable.help
             ),
             MoreMenuItem(
                 4,
                 getString(R.string.app_about),
-                R.drawable.ic_information_blue_gray_24dp
+                R.drawable.information_variant
             )
         )
 
@@ -92,10 +92,8 @@ class MoreMenuFragment : CommonFragment() {
     }
 
     private fun getParentNavController(): NavController? {
-        activity?.let {
-            return (it.supportFragmentManager
-                .findFragmentById(R.id.fragment_container) as NavHostFragment)
-                .navController
+        (activity as MainActivity?)?.let {
+            return it.navController
         }
         return null
     }

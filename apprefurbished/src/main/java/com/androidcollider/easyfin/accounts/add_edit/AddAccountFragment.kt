@@ -77,10 +77,10 @@ class AddAccountFragment : CommonFragmentAddEdit(), AddAccountMVP.View {
         activity?.let {
             spinType.adapter = SpinIconTextHeadAdapter(
                 it,
-                R.layout.spin_head_icon_text,
+                R.layout.spin_head_icon_text_without_tint,
                 R.id.tvSpinHeadIconText,
                 R.id.ivSpinHeadIconText,
-                R.layout.spin_drop_icon_text,
+                R.layout.spin_drop_icon_text_without_tint,
                 R.id.tvSpinDropIconText,
                 R.id.ivSpinDropIconText,
                 resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_TYPE),
@@ -95,7 +95,7 @@ class AddAccountFragment : CommonFragmentAddEdit(), AddAccountMVP.View {
                 R.id.tvSpinDropIconText,
                 R.id.ivSpinDropIconText,
                 resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY),
-                resourcesManager.getIconArray(ResourcesManager.ICON_FLAGS)
+                resourcesManager.getIconArray(ResourcesManager.ICON_CURRENCY)
             )
         }
     }

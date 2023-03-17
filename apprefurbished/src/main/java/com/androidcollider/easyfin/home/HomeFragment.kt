@@ -19,6 +19,7 @@ import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentWith
 import com.androidcollider.easyfin.common.utils.ChartLargeValueFormatter
 import com.github.mikephil.charting.charts.HorizontalBarChart
 import com.github.mikephil.charting.charts.PieChart
+import com.google.android.material.button.MaterialButton
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -36,7 +37,7 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
     private lateinit var tvBalanceSum: TextView
     private lateinit var tvNoData: TextView
     private lateinit var tvBalance: TextView
-    private lateinit var ivBalanceSettings: ImageView
+    private lateinit var ivBalanceSettings: MaterialButton
     private lateinit var chartStatistic: HorizontalBarChart
     private lateinit var chartBalance: HorizontalBarChart
     private lateinit var chartStatisticPie: PieChart
@@ -93,7 +94,7 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
         tvBalanceSum = view.findViewById(R.id.tvMainSumValue)
         tvNoData = view.findViewById(R.id.tvMainNoData)
         tvBalance = view.findViewById(R.id.tvMainCurrentBalance)
-        ivBalanceSettings = view.findViewById(R.id.ivMainBalanceSettings)
+        ivBalanceSettings = view.findViewById(R.id.btnMainBalanceSettings)
         chartStatistic = view.findViewById(R.id.chartHBarMainStatistic)
         chartBalance = view.findViewById(R.id.chartMainBalance)
         chartStatisticPie = view.findViewById(R.id.chartPieMainStatistic)
@@ -148,7 +149,7 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
                 R.id.tvSpinDropIconText,
                 R.id.ivSpinDropIconText,
                 resourcesManager.getStringArray(ResourcesManager.STRING_ACCOUNT_CURRENCY),
-                resourcesManager.getIconArray(ResourcesManager.ICON_FLAGS)
+                resourcesManager.getIconArray(ResourcesManager.ICON_CURRENCY)
             )
             spinBalanceCurrency.onItemSelectedListener = object : OnItemSelectedListener {
                 override fun onItemSelected(

@@ -19,13 +19,13 @@ internal class FAQModel(private val context: Context) : FAQMVP.Model {
             )
             list.add(
                 Pair(
-                    context.getString(R.string.tab_accounts),
+                    context.getString(R.string.accounts),
                     context.getString(R.string.faq_about_accounts)
                 )
             )
             list.add(
                 Pair(
-                    context.getString(R.string.tab_transactions),
+                    context.getString(R.string.transactions),
                     context.getString(R.string.faq_about_transactions)
                 )
             )
@@ -37,7 +37,7 @@ internal class FAQModel(private val context: Context) : FAQMVP.Model {
             )
             list.add(
                 Pair(
-                    context.getString(R.string.tab_home),
+                    context.getString(R.string.home),
                     context.getString(R.string.faq_about_home)
                 )
             )

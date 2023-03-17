@@ -14,13 +14,13 @@ import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel
  */
 class SpinAccountForTransHeadIconAdapter(
     context: Context,
-    headLayout: Int,
+    private val headLayout: Int,
     accountsList: List<SpinAccountViewModel>,
     resourcesManager: ResourcesManager
 ) : SpinAccountAdapter(context, headLayout, accountsList, resourcesManager) {
 
     override fun getCustomHeadView(position: Int, parent: ViewGroup?): View {
-        val headSpinner = inflater.inflate(R.layout.spin_head_icon_text, parent, false)
+        val headSpinner = inflater.inflate(headLayout, parent, false)
         val account = getItem(position)
         val headText = headSpinner.findViewById<TextView>(R.id.tvSpinHeadIconText)
         headText.text = account.name

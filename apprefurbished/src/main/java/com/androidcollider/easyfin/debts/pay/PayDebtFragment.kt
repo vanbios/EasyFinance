@@ -101,7 +101,7 @@ class PayDebtFragment : CommonFragmentAddEdit(), PayDebtMVP.View {
         activity?.let {
             spinAccount.adapter = SpinAccountForTransHeadIconAdapter(
                 it,
-                R.layout.spin_head_icon_text,
+                R.layout.spin_head_icon_text_without_tint,
                 accountsAvailableList,
                 resourcesManager
             )

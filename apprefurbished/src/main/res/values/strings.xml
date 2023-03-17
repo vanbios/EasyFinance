@@ -7,6 +7,10 @@
     <string name="app_faq">FAQ</string>
     <string name="app_about">About</string>
     <string name="transaction_categories">Categories</string>
+    <string name="transactions">Transactions</string>
+    <string name="accounts">Accounts</string>
+    <string name="home">Home</string>
+    <string name="more">More</string>
 
 
 
@@ -43,13 +47,6 @@
     <string name="view_more">View more</string>
 
     <string name="update_rates_automatically">Update rates automatically</string>
-
-
-
-    // tabs
-    <string name="tab_transactions">Transactions</string>
-    <string name="tab_accounts">Accounts</string>
-    <string name="tab_home">Home</string>
 
 
 
@@ -256,19 +253,5 @@
         <item>rub</item>
         <item>gbp</item>
     </string-array>
-
-
-    <string-array name="navigation_drawer_string_array">
-        <item>@string/tab_home</item>
-        <item>@string/tab_transactions</item>
-        <item>@string/tab_accounts</item>
-        <item>@string/debts</item>
-        <item>@string/transaction_categories</item>
-        <item>@string/settings</item>
-        <item>@string/app_faq</item>
-        <item>@string/app_about</item>
-    </string-array>
-
-
 
 </resources>

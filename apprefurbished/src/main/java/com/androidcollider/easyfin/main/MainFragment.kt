@@ -141,7 +141,7 @@ class MainFragment : CommonFragment(), MainMVP.View {
         MainBottomSheetMenuItem(
             1,
             "Create account",
-            R.drawable.ic_clipboard_text_blue_gray_48dp
+            R.drawable.text_box_plus_outline
         ),
         MainBottomSheetMenuItem(
             2,
@@ -156,17 +156,17 @@ class MainFragment : CommonFragment(), MainMVP.View {
         MainBottomSheetMenuItem(
             4,
             "Add transaction between accounts",
-            R.drawable.ic_trans_btw_blue_gray_48dp
+            R.drawable.bank_transfer
         ),
         MainBottomSheetMenuItem(
             5,
             "Add income transaction",
-            R.drawable.ic_plus_white_48dp
+            R.drawable.bank_transfer_in
         ),
         MainBottomSheetMenuItem(
             6,
             "Add expense transaction",
-            R.drawable.ic_minus_white_48dp
+            R.drawable.bank_transfer_out
         )
     )
 

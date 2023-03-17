@@ -63,15 +63,16 @@
                     android:background="@color/custom_light_gray"
                     app:layout_constraintTop_toBottomOf="@id/tvAddTransBTWAccountFrom" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivAddTransBTWAccountFrom"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:contentDescription="@string/account"
-                    android:src="@drawable/ic_outcome_red_48dp"
+                    android:src="@drawable/bank_transfer_out"
                     app:layout_constraintBottom_toBottomOf="@id/spinAddTransBTWAccountFrom"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/spinAddTransBTWAccountFrom" />
+                    app:layout_constraintTop_toTopOf="@id/spinAddTransBTWAccountFrom"
+                    app:tint="@color/red_600" />
 
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/spinAddTransBTWAccountFrom"
@@ -103,15 +104,16 @@
                     android:background="@color/custom_light_gray"
                     app:layout_constraintTop_toBottomOf="@id/tvAddTransBTWAccountTo" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivAddTransBTWAccountTo"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:contentDescription="@string/account"
-                    android:src="@drawable/ic_income_green_48dp"
+                    android:src="@drawable/bank_transfer_in"
                     app:layout_constraintBottom_toBottomOf="@id/spinAddTransBTWAccountTo"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/spinAddTransBTWAccountTo" />
+                    app:layout_constraintTop_toTopOf="@id/spinAddTransBTWAccountTo"
+                    app:tint="@color/green_600" />
 
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/spinAddTransBTWAccountTo"
@@ -151,14 +153,15 @@
                         android:layout_marginTop="5dp"
                         android:background="@color/custom_light_gray" />
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ivAddTransBTWExchange"
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
                         android:layout_below="@+id/cvAddTransBTWDividerExchange"
-                        android:layout_marginTop="28dp"
+                        android:layout_marginTop="24dp"
                         android:contentDescription="@string/account"
-                        android:src="@drawable/ic_trans_btw_blue_gray_48dp" />
+                        android:src="@drawable/swap_horizontal"
+                        app:tint="@color/custom_text_gray_dark" />
 
                     <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/editTextTransBTWExchange"

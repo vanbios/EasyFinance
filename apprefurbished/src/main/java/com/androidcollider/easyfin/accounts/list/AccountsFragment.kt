@@ -5,7 +5,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.core.os.bundleOf
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.androidcollider.easyfin.R
@@ -125,7 +125,7 @@ class AccountsFragment : CommonFragmentWithEvents(), AccountsMVP.View {
     }
 
     override fun goToEditAccount(account: Account) {
-        findNavController().navigate(
+        getParentNavController()?.navigate(
             R.id.addAccountFragment,
             bundleOf(
                 MODE to EDIT,
@@ -138,6 +138,13 @@ class AccountsFragment : CommonFragmentWithEvents(), AccountsMVP.View {
         recyclerAdapter.deleteItem(recyclerAdapter.getPositionById(recyclerAdapter.currentId))
         setVisibility()
         pushBroadcast()
+    }
+
+    private fun getParentNavController(): NavController? {
+        (activity as MainActivity?)?.let {
+            return it.navController
+        }
+        return null
     }
 
     companion object {

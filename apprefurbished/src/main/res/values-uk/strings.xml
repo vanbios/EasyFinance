@@ -7,6 +7,10 @@
     <string name="app_faq">Довідка</string>
     <string name="app_about">Про програму</string>
     <string name="transaction_categories">Категорії</string>
+    <string name="transactions">Транзакції</string>
+    <string name="accounts">Рахунки</string>
+    <string name="home">Головна</string>
+    <string name="more">Ще</string>
 
 
 
@@ -44,13 +48,6 @@
     <string name="view_more">Показати ще</string>
 
     <string name="update_rates_automatically">Оновлювати курси автоматично</string>
-
-
-
-    // tabs
-    <string name="tab_transactions">Транзакції</string>
-    <string name="tab_accounts">Рахунки</string>
-    <string name="tab_home">Головна</string>
 
 
 
@@ -266,18 +263,5 @@
         <item>rub</item>
         <item>gbp</item>
     </string-array>
-
-
-    <string-array name="navigation_drawer_string_array">
-        <item>@string/tab_home</item>
-        <item>@string/tab_transactions</item>
-        <item>@string/tab_accounts</item>
-        <item>@string/debts</item>
-        <item>@string/transaction_categories</item>
-        <item>@string/settings</item>
-        <item>@string/app_faq</item>
-        <item>@string/app_about</item>
-    </string-array>
-
 
 </resources>

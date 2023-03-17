@@ -43,14 +43,15 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="+ 5 000 000.98 hrn" />
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/ivItemTransactionCategory"
             android:layout_width="@dimen/icon_small"
             android:layout_height="@dimen/icon_small"
             android:contentDescription="@string/category"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_cash_multiple_blue_gray_48dp" />
+            app:tint="@color/custom_text_gray_dark"
+            tools:src="@drawable/cash_multiple" />
 
         <TextView
             android:id="@+id/tvItemTransactionAccountName"

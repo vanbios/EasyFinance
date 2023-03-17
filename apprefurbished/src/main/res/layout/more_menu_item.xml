@@ -15,7 +15,7 @@
         android:layout_height="24dp"
         android:layout_gravity="center_vertical"
         app:tint="@color/custom_text_gray_dark"
-        tools:src="@drawable/ic_plus_white_48dp" />
+        tools:src="@drawable/plus" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvMoreMenuItem"
@@ -25,6 +25,6 @@
         android:layout_gravity="center_vertical"
         android:layout_marginStart="@dimen/common_padding_large"
         android:gravity="center_vertical"
-        tools:text="@string/tab_transactions" />
+        tools:text="@string/transactions" />
 
 </LinearLayout>

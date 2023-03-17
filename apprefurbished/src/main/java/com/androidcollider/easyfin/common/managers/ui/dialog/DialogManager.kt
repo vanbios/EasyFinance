@@ -105,7 +105,7 @@ class DialogManager {
     fun buildBalanceSettingsDialog(context: Context): MaterialDialog {
         return MaterialDialog(context)
                 .title(R.string.settings)
-                .customView(R.layout.item_main_balance_menu, dialogWrapContent = true)
+                .customView(R.layout.main_balance_menu, dialogWrapContent = true)
                 .positiveButton(R.string.done)
     }
 

@@ -19,7 +19,7 @@
         android:textAllCaps="true"
         android:textColor="@color/custom_text_light"
         app:backgroundTint="@color/red_400"
-        app:icon="@drawable/ic_close_white_24dp"
+        app:icon="@drawable/close"
         app:iconSize="@dimen/icon_small"
         app:iconTint="@color/onPrimary_highEmphasis" />
 
@@ -36,7 +36,7 @@
         android:textAllCaps="true"
         android:textColor="@color/custom_text_light"
         app:backgroundTint="@color/green_500"
-        app:icon="@drawable/ic_check_white_24dp"
+        app:icon="@drawable/check"
         app:iconSize="@dimen/icon_small"
         app:iconTint="@color/onPrimary_highEmphasis" />
 

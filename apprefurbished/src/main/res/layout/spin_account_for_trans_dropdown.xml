@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:paddingLeft="@dimen/margin_spinner_elements"
+    android:paddingLeft="@dimen/common_padding_xlarge"
     android:paddingTop="@dimen/margin_spinner_top_bottom"
-    android:paddingRight="@dimen/margin_spinner_elements"
+    android:paddingRight="@dimen/common_padding_xlarge"
     android:paddingBottom="@dimen/margin_spinner_top_bottom">
 
     <ImageView

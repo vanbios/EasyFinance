@@ -7,15 +7,15 @@
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.androidcollider.easyfin.home.HomeFragment"
-        android:label="@string/tab_home" />
+        android:label="@string/home" />
     <fragment
         android:id="@+id/navigation_accounts"
         android:name="com.androidcollider.easyfin.accounts.list.AccountsFragment"
-        android:label="@string/tab_accounts" />
+        android:label="@string/accounts" />
     <fragment
         android:id="@+id/navigation_transactions"
         android:name="com.androidcollider.easyfin.transactions.list.TransactionsFragment"
-        android:label="@string/tab_transactions" />
+        android:label="@string/transactions" />
     <fragment
         android:id="@+id/navigation_debts"
         android:name="com.androidcollider.easyfin.debts.list.DebtsFragment"
@@ -23,5 +23,5 @@
     <fragment
         android:id="@+id/navigation_more_menu"
         android:name="com.androidcollider.easyfin.more.MoreMenuFragment"
-        android:label="@string/settings" />
+        android:label="@string/more" />
 </navigation>

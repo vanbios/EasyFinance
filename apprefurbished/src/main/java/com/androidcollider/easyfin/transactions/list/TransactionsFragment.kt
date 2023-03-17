@@ -5,7 +5,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.core.os.bundleOf
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.androidcollider.easyfin.R
@@ -139,7 +139,7 @@ class TransactionsFragment : CommonFragmentWithEvents(), TransactionsMVP.View {
     }
 
     override fun goToEditTransaction(transaction: Transaction) {
-        findNavController().navigate(
+        getParentNavController()?.navigate(
             R.id.addTransactionIncomeExpenseFragment,
             bundleOf(
                 MODE to MODE_EDIT,
@@ -152,6 +152,13 @@ class TransactionsFragment : CommonFragmentWithEvents(), TransactionsMVP.View {
         recyclerAdapter.deleteItem(recyclerAdapter.getPositionById(recyclerAdapter.currentId))
         setVisibility()
         pushBroadcast()
+    }
+
+    private fun getParentNavController(): NavController? {
+        (activity as MainActivity?)?.let {
+            return it.navController
+        }
+        return null
     }
 
     companion object {

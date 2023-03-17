@@ -38,7 +38,7 @@ class AddTransactionIncomeExpenseFragment : CommonFragmentAddEdit(),
     private lateinit var spinCategory: Spinner
     private lateinit var spinAccount: Spinner
     private lateinit var scrollView: ScrollView
-    private lateinit var ivAddTransCategory: ImageView
+    private lateinit var btnAddTransCategory: Button
     private lateinit var etNewTransCategoryName: EditText
 
     private var datePickerDialog: DatePickerDialog? = null
@@ -88,11 +88,11 @@ class AddTransactionIncomeExpenseFragment : CommonFragmentAddEdit(),
         spinCategory = view.findViewById(R.id.spinAddTransCategory)
         spinAccount = view.findViewById(R.id.spinAddTransDefAccount)
         scrollView = view.findViewById(R.id.scrollAddTransDef)
-        ivAddTransCategory = view.findViewById(R.id.ivAddTransCategory)
+        btnAddTransCategory = view.findViewById(R.id.btnAddTransCategory)
 
         tvDate.setOnClickListener { datePickerDialog?.show() }
         tvAmount.setOnClickListener { openNumericDialog() }
-        ivAddTransCategory.setOnClickListener { transactionCategoryDialog?.show() }
+        btnAddTransCategory.setOnClickListener { transactionCategoryDialog?.show() }
     }
 
     private fun setDateText(calendar: Calendar) {
@@ -179,7 +179,7 @@ class AddTransactionIncomeExpenseFragment : CommonFragmentAddEdit(),
         activity?.let {
             spinAccount.adapter = SpinAccountForTransHeadIconAdapter(
                 it,
-                R.layout.spin_head_icon_text,
+                R.layout.spin_head_icon_text_without_tint,
                 accountList,
                 resourcesManager
             )

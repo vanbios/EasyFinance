@@ -64,16 +64,17 @@
                     android:background="@color/custom_light_gray"
                     app:layout_constraintTop_toBottomOf="@id/tvAddDebtName" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivAddDebtName"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginStart="@dimen/common_padding_small"
                     android:contentDescription="@string/empty_name_field"
-                    android:src="@drawable/ic_clipboard_text_blue_gray_48dp"
+                    android:src="@drawable/text_box_edit_outline"
                     app:layout_constraintBottom_toBottomOf="@id/editTextDebtName"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/editTextDebtName" />
+                    app:layout_constraintTop_toTopOf="@id/editTextDebtName"
+                    app:tint="@color/custom_text_gray_dark" />
 
                 <EditText
                     android:id="@+id/editTextDebtName"
@@ -135,16 +136,17 @@
                     android:background="@color/custom_light_gray"
                     app:layout_constraintTop_toBottomOf="@id/tvAddDebtDateHeader" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivAddDebtDate"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginStart="@dimen/common_padding_small"
                     android:contentDescription="@string/date"
-                    android:src="@drawable/ic_calendar_clock_blue_gray_48dp"
+                    android:src="@drawable/calendar_clock_outline"
                     app:layout_constraintBottom_toBottomOf="@id/tvAddDebtDate"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/tvAddDebtDate" />
+                    app:layout_constraintTop_toTopOf="@id/tvAddDebtDate"
+                    app:tint="@color/custom_text_gray_dark" />
 
                 <TextView
                     android:id="@+id/tvAddDebtDate"

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
@@ -9,11 +10,12 @@
     android:paddingRight="@dimen/common_padding_large"
     android:paddingBottom="@dimen/common_padding_large">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_category_icon"
         android:layout_width="28dp"
         android:layout_height="28dp"
-        android:layout_marginEnd="16dp" />
+        android:layout_marginEnd="16dp"
+        app:tint="@color/custom_text_gray_dark" />
 
     <TextView
         android:id="@+id/tv_category_name"

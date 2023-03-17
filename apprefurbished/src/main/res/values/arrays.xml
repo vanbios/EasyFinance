@@ -2,32 +2,32 @@
 <resources>
 
     <array name="transaction_category_expense_icons">
-        <item>@drawable/ic_food_blue_gray_48dp</item>
-        <item>@drawable/ic_tram_blue_gray_48dp</item>
-        <item>@drawable/ic_tshirt_crew_blue_gray_48dp</item>
-        <item>@drawable/ic_google_controller_blue_gray_48dp</item>
-        <item>@drawable/ic_gift_blue_gray_48dp</item>
-        <item>@drawable/ic_hospital_blue_gray_48dp</item>
-        <item>@drawable/ic_school_blue_gray_48dp</item>
-        <item>@drawable/ic_cellphone_android_blue_gray_48dp</item>
-        <item>@drawable/ic_more_blue_gray_48dp</item>
+        <item>@drawable/food_outline</item>
+        <item>@drawable/train_car</item>
+        <item>@drawable/tshirt_crew_outline</item>
+        <item>@drawable/gamepad_square_outline</item>
+        <item>@drawable/gift_outline</item>
+        <item>@drawable/hospital_box_outline</item>
+        <item>@drawable/school_outline</item>
+        <item>@drawable/devices</item>
+        <item>@drawable/tag_outline</item>
     </array>
 
 
     <array name="transaction_category_income_icons">
-        <item>@drawable/ic_cash_multiple_blue_gray_48dp</item>
-        <item>@drawable/ic_cash_blue_gray_48dp</item>
-        <item>@drawable/ic_margin_blue_gray_48dp</item>
-        <item>@drawable/ic_more_blue_gray_48dp</item>
+        <item>@drawable/cash_multiple</item>
+        <item>@drawable/cash</item>
+        <item>@drawable/margin</item>
+        <item>@drawable/tag_outline</item>
     </array>
 
 
-    <array name="flag_icons">
-        <item>@drawable/ic_flag_uah_48dp</item>
-        <item>@drawable/ic_flag_usd_48dp</item>
-        <item>@drawable/ic_flag_eur_48dp</item>
-        <item>@drawable/ic_flag_rub_48dp</item>
-        <item>@drawable/ic_flag_gbp_48dp</item>
+    <array name="currency_icons">
+        <item>@drawable/currency_uah</item>
+        <item>@drawable/currency_usd</item>
+        <item>@drawable/currency_eur</item>
+        <item>@drawable/currency_rub</item>
+        <item>@drawable/currency_gbp</item>
     </array>
 
 
@@ -39,21 +39,8 @@
 
 
     <array name="charts_main_icons">
-        <item>@drawable/ic_chart_bar_grey600_24dp</item>
-        <item>@drawable/ic_chart_arc_grey600_24dp</item>
+        <item>@drawable/chart_bar</item>
+        <item>@drawable/chart_arc</item>
     </array>
-
-
-    <array name="navigation_drawer_icons_array">
-        <item>@drawable/ic_view_dashboard_blue_gray_24dp</item>
-        <item>@drawable/ic_contrast_box_blue_gray_24dp</item>
-        <item>@drawable/ic_clipboard_text_blue_gray_24dp</item>
-        <item>@drawable/ic_debt_blue_gray_24dp</item>
-        <item>@drawable/ic_more_blue_gray_48dp</item>
-        <item>@drawable/ic_settings_blue_gray_24dp</item>
-        <item>@drawable/ic_help_circle_blue_gray_24dp</item>
-        <item>@drawable/ic_information_blue_gray_24dp</item>
-    </array>
-
 
 </resources>

@@ -65,16 +65,17 @@
                     android:background="@color/custom_light_gray"
                     app:layout_constraintTop_toBottomOf="@id/tvAddAccountName" />
 
-                <ImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/ivAddAccountName"
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_marginStart="@dimen/common_padding_x_small"
                     android:contentDescription="@string/empty_amount_field"
-                    android:src="@drawable/ic_clipboard_text_blue_gray_48dp"
+                    android:src="@drawable/text_box_edit_outline"
                     app:layout_constraintBottom_toBottomOf="@id/editTextAccountName"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/editTextAccountName" />
+                    app:layout_constraintTop_toTopOf="@id/editTextAccountName"
+                    app:tint="@color/custom_text_gray_dark" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/editTextAccountName"

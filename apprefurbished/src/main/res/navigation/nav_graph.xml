@@ -13,7 +13,7 @@
     <fragment
         android:id="@+id/addTransactionIncomeExpenseFragment"
         android:name="com.androidcollider.easyfin.transactions.add_edit.income_expense.AddTransactionIncomeExpenseFragment"
-        android:label="@string/tab_transactions">
+        android:label="@string/transactions">
         <action
             android:id="@+id/action_addTransactionIncomeExpenseFragment_to_numericDialogFragment"
             app:destination="@id/numericDialogFragment" />

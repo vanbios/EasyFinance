@@ -3,17 +3,17 @@
 
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_view_dashboard_blue_gray_24dp"
-        android:title="@string/tab_home" />
+        android:icon="@drawable/view_dashboard_checkable"
+        android:title="@string/home" />
     <item
         android:id="@+id/navigation_transactions"
-        android:icon="@drawable/ic_contrast_box_blue_gray_24dp"
-        android:title="@string/tab_transactions" />
+        android:icon="@drawable/contrast_checkable"
+        android:title="@string/transactions" />
 
     <item
         android:id="@+id/navigation_accounts"
-        android:icon="@drawable/ic_clipboard_text_blue_gray_24dp"
-        android:title="@string/tab_accounts" />
+        android:icon="@drawable/text_box_checkable"
+        android:title="@string/accounts" />
 
     <item
         android:id="@+id/navigation_debts"
@@ -22,7 +22,7 @@
 
     <item
         android:id="@+id/navigation_more_menu"
-        android:icon="@drawable/ic_settings_blue_gray_24dp"
-        android:title="@string/settings" />
+        android:icon="@drawable/apps_checkable"
+        android:title="@string/more" />
 
 </menu>

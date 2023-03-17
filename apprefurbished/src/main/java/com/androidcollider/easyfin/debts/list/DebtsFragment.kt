@@ -5,7 +5,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import androidx.core.os.bundleOf
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.androidcollider.easyfin.R
@@ -137,7 +137,7 @@ class DebtsFragment : CommonFragmentWithEvents(), DebtsMVP.View {
     }
 
     override fun goToEditDebt(debt: Debt?, mode: Int) {
-        findNavController().navigate(
+        getParentNavController()?.navigate(
             R.id.addDebtFragment,
             bundleOf(
                 MODE to mode,
@@ -147,7 +147,7 @@ class DebtsFragment : CommonFragmentWithEvents(), DebtsMVP.View {
     }
 
     override fun goToPayDebt(debt: Debt?, mode: Int) {
-        findNavController().navigate(
+        getParentNavController()?.navigate(
             R.id.payDebtFragment,
             bundleOf(
                 MODE to mode,
@@ -160,6 +160,13 @@ class DebtsFragment : CommonFragmentWithEvents(), DebtsMVP.View {
         recyclerAdapter.deleteItem(recyclerAdapter.getPositionById(recyclerAdapter.currentId))
         setVisibility()
         pushBroadcast()
+    }
+
+    private fun getParentNavController(): NavController? {
+        (activity as MainActivity?)?.let {
+            return it.navController
+        }
+        return null
     }
 
     companion object {
