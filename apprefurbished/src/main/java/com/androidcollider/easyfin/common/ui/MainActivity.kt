@@ -3,6 +3,7 @@ package com.androidcollider.easyfin.common.ui
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -12,8 +13,6 @@ import com.androidcollider.easyfin.R
 import com.androidcollider.easyfin.common.app.App
 import com.androidcollider.easyfin.common.managers.permission.PermissionManager
 import com.androidcollider.easyfin.common.managers.rates.rates_loader.RatesLoaderManager
-import com.androidcollider.easyfin.common.managers.resources.ResourcesManager
-import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager
 import com.google.android.material.appbar.MaterialToolbar
 import javax.inject.Inject
@@ -21,7 +20,7 @@ import javax.inject.Inject
 /**
  * @author Ihor Bilous
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(R.layout.main) {
 
     private lateinit var toolbar: MaterialToolbar
 
@@ -34,17 +33,10 @@ class MainActivity : AppCompatActivity() {
     lateinit var toastManager: ToastManager
 
     @Inject
-    lateinit var dialogManager: DialogManager
-
-    @Inject
-    lateinit var resourcesManager: ResourcesManager
-
-    @Inject
     lateinit var permissionManager: PermissionManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.main)
         (application as App).component?.inject(this)
         setupUI()
         ratesLoaderManager.updateRatesForExchange()
@@ -59,6 +51,8 @@ class MainActivity : AppCompatActivity() {
         toolbar.setupWithNavController(navController, appBarConfiguration)
 
         permissionManager.setActivity(this)
+
+        onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
         //permissionManager.requestRequiredPermissions()
     }
 
@@ -83,21 +77,6 @@ class MainActivity : AppCompatActivity() {
                 InputMethodManager.HIDE_NOT_ALWAYS
             )
         }
-    }
-
-    override fun onBackPressed() {
-        if (isCurrentScreenMain()) {
-            if (backPressExitTime + 2000 > System.currentTimeMillis()) {
-                finish()
-            } else {
-                toastManager.showClosableToast(
-                    this,
-                    getString(R.string.press_again_to_exit),
-                    ToastManager.SHORT
-                )
-                backPressExitTime = System.currentTimeMillis()
-            }
-        } else navController.navigateUp()
     }
 
     private fun isCurrentScreenMain(): Boolean {
@@ -134,9 +113,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val destinationChangedListener =
-        NavController.OnDestinationChangedListener { _, _, _ ->
-            hideKeyboard()
+        NavController.OnDestinationChangedListener { _, _, _ -> hideKeyboard() }
+
+    private val onBackPressedCallback: OnBackPressedCallback =
+        object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() { processOnBackPressed() }
         }
+
+    private fun processOnBackPressed() {
+        if (isCurrentScreenMain()) {
+            if (backPressExitTime + 2000 > System.currentTimeMillis()) {
+                finish()
+            } else {
+                toastManager.showClosableToast(
+                    this,
+                    getString(R.string.press_again_to_exit),
+                    ToastManager.SHORT
+                )
+                backPressExitTime = System.currentTimeMillis()
+            }
+        } else navController.navigateUp()
+    }
 
     companion object {
         private var backPressExitTime: Long = 0

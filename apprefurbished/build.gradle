@@ -45,6 +45,7 @@ ext {
     preferenceVersion = "1.2.0"
     navigationVersion = "2.5.3"
     fragmentVersion = "1.5.5"
+    activityVersion = "1.6.1"
 }
 
 dependencies {
@@ -58,6 +59,7 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
     implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
+    implementation "androidx.activity:activity-ktx:$activityVersion"
 
     implementation "androidx.multidex:multidex:$multidexVersion"
 
