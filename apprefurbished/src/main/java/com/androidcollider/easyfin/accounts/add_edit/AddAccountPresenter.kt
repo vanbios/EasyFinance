@@ -2,6 +2,7 @@ package com.androidcollider.easyfin.accounts.add_edit
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import com.androidcollider.easyfin.R
 import com.androidcollider.easyfin.accounts.list.AccountsFragment
 import com.androidcollider.easyfin.common.models.Account
@@ -55,8 +56,10 @@ internal class AddAccountPresenter(
                 val amount = it.accountAmount
                 val type = it.accountType
                 val currency = it.accountCurrency
+                Log.d("ACCOUNTTEST", "presenter save")
                 getSaveAccountObservable(name, amount, type, currency)
                     .subscribe({
+                        Log.d("ACCOUNTTEST", "presenter result emitted")
                         view?.performLastActionsAfterSaveAndClose()
                     })
                     { obj: Throwable -> obj.printStackTrace() }

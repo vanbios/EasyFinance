@@ -119,7 +119,7 @@ class DebtsFragment : CommonFragmentWithEvents(), DebtsMVP.View {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEvent(event: UpdateFrgDebts?) {
+    fun onEvent(event: UpdateFrgDebts) {
         presenter.loadData()
     }
 

@@ -21,6 +21,7 @@ import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager
 import com.androidcollider.easyfin.common.ui.MainActivity
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment
 import com.androidcollider.easyfin.common.utils.animateViewWithChangeVisibilityAndClickable
+import com.androidcollider.easyfin.common.utils.setSafeOnClickListener
 import com.androidcollider.easyfin.debts.list.DebtsFragment
 import com.androidcollider.easyfin.main.bottom_sheet_menu.MainBottomSheetMenuItem
 import com.androidcollider.easyfin.main.bottom_sheet_menu.MainBottomSheetMenuItemSelectedListener
@@ -74,7 +75,7 @@ class MainFragment : CommonFragment(), MainMVP.View {
         navView.setupWithNavController(childNavController)
         childNavController.addOnDestinationChangedListener(destinationChangedListener)
 
-        fabMenu.setOnClickListener { showBottomSheetMenuDialog() }
+        fabMenu.setSafeOnClickListener { showBottomSheetMenuDialog() }
 
         showFABMenu(show = false, withAnim = false)
         view.postDelayed({ showFABMenu(show = true, withAnim = true) }, 1000)
@@ -108,7 +109,7 @@ class MainFragment : CommonFragment(), MainMVP.View {
 
     private fun goToAddAccount() {
         findNavController().navigate(
-            R.id.action_mainFragment_to_addAccountFragment,
+            R.id.addAccountFragment,
             bundleOf(
                 AccountsFragment.MODE to AccountsFragment.ADD
             )

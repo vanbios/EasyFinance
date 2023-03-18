@@ -37,6 +37,7 @@ interface HomeMVP {
         fun updateBalance()
         fun updateStatistic(statisticPosition: Int)
         val isStatisticEmpty: Boolean
+        fun isBalanceEmpty(balance: DoubleArray): Boolean
         fun getFormattedBalance(balance: DoubleArray): String
         val formattedStatistic: String
         fun getCurrentBalance(posCurrency: Int): DoubleArray

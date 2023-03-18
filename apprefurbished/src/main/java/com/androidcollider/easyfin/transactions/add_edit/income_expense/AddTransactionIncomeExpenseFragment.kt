@@ -10,10 +10,6 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.androidcollider.easyfin.R
 import com.androidcollider.easyfin.common.app.App
-import com.androidcollider.easyfin.common.events.UpdateFrgAccounts
-import com.androidcollider.easyfin.common.events.UpdateFrgHome
-import com.androidcollider.easyfin.common.events.UpdateFrgTransactionCategories
-import com.androidcollider.easyfin.common.events.UpdateFrgTransactions
 import com.androidcollider.easyfin.common.managers.format.date.DateFormatManager
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager
 import com.androidcollider.easyfin.common.managers.ui.letter_tile.LetterTileManager
@@ -22,8 +18,8 @@ import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager
 import com.androidcollider.easyfin.common.models.TransactionCategory
 import com.androidcollider.easyfin.common.ui.adapters.SpinAccountForTransHeadIconAdapter
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit
+import com.androidcollider.easyfin.common.utils.setSafeOnClickListener
 import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel
-import org.greenrobot.eventbus.EventBus
 import java.util.*
 import javax.inject.Inject
 
@@ -90,9 +86,9 @@ class AddTransactionIncomeExpenseFragment : CommonFragmentAddEdit(),
         scrollView = view.findViewById(R.id.scrollAddTransDef)
         btnAddTransCategory = view.findViewById(R.id.btnAddTransCategory)
 
-        tvDate.setOnClickListener { datePickerDialog?.show() }
-        tvAmount.setOnClickListener { openNumericDialog() }
-        btnAddTransCategory.setOnClickListener { transactionCategoryDialog?.show() }
+        tvDate.setSafeOnClickListener { datePickerDialog?.show() }
+        tvAmount.setSafeOnClickListener { openNumericDialog() }
+        btnAddTransCategory.setSafeOnClickListener { transactionCategoryDialog?.show() }
     }
 
     private fun setDateText(calendar: Calendar) {
@@ -116,9 +112,9 @@ class AddTransactionIncomeExpenseFragment : CommonFragmentAddEdit(),
     }
 
     private fun pushBroadcast() {
-        EventBus.getDefault().post(UpdateFrgHome())
-        EventBus.getDefault().post(UpdateFrgTransactions())
-        EventBus.getDefault().post(UpdateFrgAccounts())
+        //EventBus.getDefault().post(UpdateFrgHome())
+        //EventBus.getDefault().post(UpdateFrgTransactions())
+        //EventBus.getDefault().post(UpdateFrgAccounts())
     }
 
     override fun updateAmount(amount: String) {
@@ -247,6 +243,6 @@ class AddTransactionIncomeExpenseFragment : CommonFragmentAddEdit(),
     }
 
     override fun handleNewTransactionCategoryAdded() {
-        EventBus.getDefault().post(UpdateFrgTransactionCategories())
+        //EventBus.getDefault().post(UpdateFrgTransactionCategories())
     }
 }

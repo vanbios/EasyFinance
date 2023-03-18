@@ -8,14 +8,12 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.androidcollider.easyfin.R
 import com.androidcollider.easyfin.common.app.App
-import com.androidcollider.easyfin.common.events.DBImported
 import com.androidcollider.easyfin.common.managers.analytics.AnalyticsManager
 import com.androidcollider.easyfin.common.managers.import_export_db.ImportExportDbManager
 import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager
 import com.androidcollider.easyfin.common.repository.database.DbHelper
 import com.androidcollider.easyfin.common.ui.MainActivity
-import org.greenrobot.eventbus.EventBus
 import java.io.IOException
 import javax.inject.Inject
 
@@ -140,7 +138,7 @@ class PrefFragment : PreferenceFragmentCompat() {
     }
 
     private fun pushBroadcast() {
-        EventBus.getDefault().post(DBImported())
+        //EventBus.getDefault().post(DBImported())
     }
 
     val title: String

@@ -12,7 +12,6 @@ import com.afollestad.materialdialogs.customview.getCustomView
 import com.androidcollider.easyfin.R
 import com.androidcollider.easyfin.common.app.App
 import com.androidcollider.easyfin.common.events.UpdateFrgTransactionCategories
-import com.androidcollider.easyfin.common.events.UpdateFrgTransactions
 import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager
 import com.androidcollider.easyfin.common.managers.ui.letter_tile.LetterTileManager
 import com.androidcollider.easyfin.common.managers.ui.shake_edit_text.ShakeEditTextManager
@@ -20,7 +19,6 @@ import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager
 import com.androidcollider.easyfin.common.models.TransactionCategory
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentWithEvents
 import com.androidcollider.easyfin.transaction_categories.root.TransactionCategoriesRootFragment
-import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
@@ -182,7 +180,7 @@ class TransactionCategoriesNestedFragment : CommonFragmentWithEvents(),
 
     override fun handleTransactionCategoryUpdated() {
         presenter.loadTransactionCategories()
-        EventBus.getDefault().post(UpdateFrgTransactions())
+        //EventBus.getDefault().post(UpdateFrgTransactions())
     }
 
     override fun deleteTransactionCategory() {

@@ -9,8 +9,6 @@ import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import com.androidcollider.easyfin.R
 import com.androidcollider.easyfin.common.app.App
-import com.androidcollider.easyfin.common.events.UpdateFrgAccounts
-import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager
 import com.androidcollider.easyfin.common.managers.ui.hide_touch_outside.HideTouchOutsideManager
 import com.androidcollider.easyfin.common.managers.ui.shake_edit_text.ShakeEditTextManager
@@ -18,7 +16,7 @@ import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager
 import com.androidcollider.easyfin.common.ui.MainActivity
 import com.androidcollider.easyfin.common.ui.adapters.SpinIconTextHeadAdapter
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit
-import org.greenrobot.eventbus.EventBus
+import com.androidcollider.easyfin.common.utils.setSafeOnClickListener
 import javax.inject.Inject
 
 /**
@@ -70,7 +68,7 @@ class AddAccountFragment : CommonFragmentAddEdit(), AddAccountMVP.View {
         etName = view.findViewById(R.id.editTextAccountName)
         tvAmount = view.findViewById(R.id.tvAddAccountAmount)
         mainContent = view.findViewById(R.id.layoutActAccountParent)
-        tvAmount.setOnClickListener { openNumericDialog() }
+        tvAmount.setSafeOnClickListener { openNumericDialog() }
     }
 
     private fun setSpinner() {
@@ -101,8 +99,8 @@ class AddAccountFragment : CommonFragmentAddEdit(), AddAccountMVP.View {
     }
 
     private fun pushBroadcast() {
-        EventBus.getDefault().post(UpdateFrgHomeBalance())
-        EventBus.getDefault().post(UpdateFrgAccounts())
+        //EventBus.getDefault().post(UpdateFrgHomeBalance())
+        //EventBus.getDefault().post(UpdateFrgAccounts())
     }
 
     override fun updateAmount(amount: String) {

@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.androidcollider.easyfin.R
+import com.androidcollider.easyfin.common.utils.setSafeOnClickListener
 
 class RecyclerMoreMenuAdapter : RecyclerView.Adapter<MenuViewHolder>() {
 
@@ -49,7 +50,7 @@ class MenuViewHolder(private val mView: View) : RecyclerView.ViewHolder(mView) {
     ) {
         tvItem.text = item.title
         ivItem.setImageResource(item.icon)
-        mView.setOnClickListener { itemSelectedListener?.onItemSelected(item.id) }
+        mView.setSafeOnClickListener { itemSelectedListener?.onItemSelected(item.id) }
     }
 }
 

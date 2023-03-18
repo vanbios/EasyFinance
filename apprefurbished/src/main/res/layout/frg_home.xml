@@ -112,7 +112,7 @@
                     android:singleLine="true"
                     android:text="@string/cash"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/chartMainBalance" />
+                    app:layout_constraintTop_toTopOf="@id/flMainBalanceChart" />
 
                 <TextView
                     android:id="@+id/tvMainCard"
@@ -154,14 +154,32 @@
                     app:barrierDirection="end"
                     app:constraint_referenced_ids="tvMainCash, tvMainCard, tvMainDeposit, tvMainDebt" />
 
-                <com.github.mikephil.charting.charts.HorizontalBarChart
-                    android:id="@+id/chartMainBalance"
+                <FrameLayout
+                    android:id="@+id/flMainBalanceChart"
                     android:layout_width="0dp"
                     android:layout_height="154dp"
                     android:layout_marginTop="@dimen/common_padding_medium"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@id/barrierMainBalance"
-                    app:layout_constraintTop_toBottomOf="@id/cvMainDividerBalanceCurrency" />
+                    app:layout_constraintTop_toBottomOf="@id/cvMainDividerBalanceCurrency">
+
+                    <com.github.mikephil.charting.charts.HorizontalBarChart
+                        android:id="@+id/chartMainBalance"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <TextView
+                        android:id="@+id/tvMainBalanceChartNoData"
+                        style="@style/SubheadFontSecondary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/common_padding_large"
+                        android:layout_marginEnd="@dimen/common_padding_large"
+                        android:text="@string/no_balance_data"
+                        android:visibility="gone" />
+
+                </FrameLayout>
 
                 <View
                     android:id="@+id/cvMainDividerBalanceCurrencyBottom"
@@ -170,7 +188,7 @@
                     android:layout_marginLeft="@dimen/common_padding_small"
                     android:layout_marginRight="@dimen/common_padding_small"
                     android:background="@color/custom_light_gray"
-                    app:layout_constraintTop_toBottomOf="@id/chartMainBalance" />
+                    app:layout_constraintTop_toBottomOf="@id/flMainBalanceChart" />
 
                 <TextView
                     android:id="@+id/tvMainSum"
@@ -283,7 +301,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/common_padding_large"
-                    android:layout_marginTop="28dp"
+                    android:layout_marginTop="26dp"
                     android:singleLine="true"
                     android:text="@string/income"
                     app:layout_constraintStart_toStartOf="parent"
@@ -325,17 +343,19 @@
                         android:id="@+id/chartPieMainStatistic"
                         android:layout_width="match_parent"
                         android:layout_height="150dp"
-                        android:layout_marginRight="30dp"
+                        android:layout_marginEnd="30dp"
                         android:visibility="gone" />
 
                     <TextView
-                        android:id="@+id/tvMainNoData"
+                        android:id="@+id/tvMainStatisticChartNoData"
                         style="@style/SubheadFontSecondary"
                         android:layout_width="wrap_content"
                         android:layout_height="100dp"
-                        android:layout_centerInParent="true"
-                        android:gravity="center"
-                        android:text="@string/no_data_yet"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/common_padding_xlarge"
+                        android:layout_marginEnd="@dimen/common_padding_large"
+                        android:gravity="center_vertical"
+                        android:text="@string/no_statistic_data"
                         android:visibility="gone" />
 
                 </FrameLayout>
@@ -364,7 +384,7 @@
                 <TextView
                     android:id="@+id/tvMainStatisticSum"
                     style="@style/SubheadFont"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/common_padding_xlarge"
                     android:singleLine="true"

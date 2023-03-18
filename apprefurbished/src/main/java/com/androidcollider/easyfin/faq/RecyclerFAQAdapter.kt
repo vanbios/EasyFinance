@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.androidcollider.easyfin.R
+import com.androidcollider.easyfin.common.utils.setSafeOnClickListener
 
 /**
  * @author Ihor Bilous
@@ -41,7 +42,7 @@ internal class RecyclerFAQAdapter : RecyclerView.Adapter<RecyclerFAQAdapter.View
         val pair = getItem(position)
         holder.tvHead.text = pair.first
         holder.tvBody.text = pair.second
-        holder.card.setOnClickListener {
+        holder.card.setSafeOnClickListener {
             holder.tvBody.visibility =
                 if (holder.tvBody.visibility == View.GONE) View.VISIBLE else View.GONE
         }

@@ -16,6 +16,7 @@ import com.acollider.numberkeyboardview.CalculatorView
 import com.androidcollider.easyfin.R
 import com.androidcollider.easyfin.common.app.App
 import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager
+import com.androidcollider.easyfin.common.utils.setSafeOnClickListener
 import javax.inject.Inject
 
 /**
@@ -73,14 +74,14 @@ class NumericDialogFragment : DialogFragment() {
         frameLayout = view.findViewById(R.id.containerFrgNumericDialog)
         tvCommit = view.findViewById(R.id.btnFrgNumericDialogCommit)
         tvCancel = view.findViewById(R.id.btnFrgNumericDialogCancel)
-        tvCommit.setOnClickListener {
+        tvCommit.setSafeOnClickListener {
             setFragmentResult(
                 NUMERIC_DIALOG_REQUEST_KEY,
                 bundleOf(OUTPUT_VALUE to calculatorView.calculatorValue)
             )
             dismiss()
         }
-        tvCancel.setOnClickListener { dismiss() }
+        tvCancel.setSafeOnClickListener { dismiss() }
     }
 
     override fun onStart() {

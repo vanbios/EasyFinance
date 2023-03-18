@@ -20,13 +20,16 @@ class ChartSetupManager internal constructor(private val context: Context) {
         leftAxis.spaceTop = 35f
         leftAxis.setLabelCount(3, false)
         leftAxis.valueFormatter = ChartLargeValueFormatter(false)
+        leftAxis.axisMinimum = 0f
+        leftAxis.axisLineColor = ContextCompat.getColor(context, R.color.custom_light_gray)
+        leftAxis.gridColor = ContextCompat.getColor(context, R.color.custom_light_gray)
+        leftAxis.textColor = ContextCompat.getColor(context, R.color.custom_text_gray_dark)
+
         val xAxis = chart.xAxis
         xAxis.setDrawAxisLine(false)
         xAxis.setDrawLabels(false)
         xAxis.setDrawGridLines(false)
-        leftAxis.axisLineColor = ContextCompat.getColor(context, R.color.custom_light_gray)
-        leftAxis.gridColor = ContextCompat.getColor(context, R.color.custom_light_gray)
-        leftAxis.textColor = ContextCompat.getColor(context, R.color.custom_text_gray_dark)
+
         chart.setDrawGridBackground(false)
         chart.setBackgroundColor(Color.TRANSPARENT)
         chart.setDrawBorders(false)

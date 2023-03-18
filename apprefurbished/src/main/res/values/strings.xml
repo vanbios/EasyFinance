@@ -121,7 +121,8 @@
 
     <string name="db_backup_to">Data backup to</string>
 
-    <string name="no_data_yet">No data</string>
+    <string name="no_balance_data">Balance in this currency is empty</string>
+    <string name="no_statistic_data">No incomes and expenses in this currency for chosen period</string>
 
 
 

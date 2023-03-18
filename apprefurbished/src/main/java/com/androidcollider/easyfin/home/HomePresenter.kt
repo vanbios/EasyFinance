@@ -164,6 +164,11 @@ internal class HomePresenter(
         return doubleArrayOf(0.0, 0.0, 0.0, 0.0)
     }
 
+    override fun isBalanceEmpty(balance: DoubleArray): Boolean {
+        balance.forEach { if (it != 0.0) return false }
+        return true
+    }
+
     private fun convertAllCurrencyToOne(
         posCurrency: Int,
         map: Map<String, DoubleArray>,

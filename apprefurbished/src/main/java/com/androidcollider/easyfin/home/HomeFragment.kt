@@ -17,6 +17,7 @@ import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager
 import com.androidcollider.easyfin.common.ui.adapters.SpinIconTextHeadAdapter
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentWithEvents
 import com.androidcollider.easyfin.common.utils.ChartLargeValueFormatter
+import com.androidcollider.easyfin.common.utils.setSafeOnClickListener
 import com.github.mikephil.charting.charts.HorizontalBarChart
 import com.github.mikephil.charting.charts.PieChart
 import com.google.android.material.button.MaterialButton
@@ -35,7 +36,8 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
     private lateinit var spinChartType: Spinner
     private lateinit var tvStatisticSum: TextView
     private lateinit var tvBalanceSum: TextView
-    private lateinit var tvNoData: TextView
+    private lateinit var tvStatisticNoData: TextView
+    private lateinit var tvBalanceNoData: TextView
     private lateinit var tvBalance: TextView
     private lateinit var ivBalanceSettings: MaterialButton
     private lateinit var chartStatistic: HorizontalBarChart
@@ -51,7 +53,7 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
     // to listeners in onRestoreInstanceState
     private var spinPeriodNotInitSelectedItemCall = false
     private var spinBalanceCurrencyNotInitSelectedItemCall = false
-    private var spinChartTypeNotInitSelectedItemCall = false
+    //private var spinChartTypeNotInitSelectedItemCall = false
 
     @Inject
     lateinit var ratesInfoManager: RatesInfoManager
@@ -92,14 +94,15 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
         spinChartType = view.findViewById(R.id.spinMainChart)
         tvStatisticSum = view.findViewById(R.id.tvMainStatisticSum)
         tvBalanceSum = view.findViewById(R.id.tvMainSumValue)
-        tvNoData = view.findViewById(R.id.tvMainNoData)
+        tvStatisticNoData = view.findViewById(R.id.tvMainStatisticChartNoData)
+        tvBalanceNoData = view.findViewById(R.id.tvMainBalanceChartNoData)
         tvBalance = view.findViewById(R.id.tvMainCurrentBalance)
         ivBalanceSettings = view.findViewById(R.id.btnMainBalanceSettings)
         chartStatistic = view.findViewById(R.id.chartHBarMainStatistic)
         chartBalance = view.findViewById(R.id.chartMainBalance)
         chartStatisticPie = view.findViewById(R.id.chartPieMainStatistic)
 
-        ivBalanceSettings.setOnClickListener { balanceSettingsDialog.show() }
+        ivBalanceSettings.setSafeOnClickListener { balanceSettingsDialog.show() }
 
         setupCharts()
         buildBalanceSettingsDialog()
@@ -118,13 +121,13 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
             setBalance(spinBalanceCurrency.selectedItemPosition)
             presenter.updateTransactionStatisticArray(spinBalanceCurrency.selectedItemPosition)
             setStatisticSumTV()
-            checkStatChartTypeForUpdate()
+            updateStatisticChartsSection()
         }
         chkBoxShowOnlyIntegers.setOnCheckedChangeListener { _: CompoundButton?, b: Boolean ->
             sharedPrefManager.mainBalanceSettingsShowOnlyIntegersCheck = b
             showOnlyIntegers = b
             setBalance(spinBalanceCurrency.selectedItemPosition)
-            checkStatChartTypeForUpdate()
+            updateStatisticChartsSection()
         }
         ratesInfoManager.setupMultiTapListener(tvBalance, requireActivity())
 
@@ -162,7 +165,7 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
                         setBalance(i)
                         presenter.updateTransactionStatisticArray(i)
                         setStatisticSumTV()
-                        checkStatChartTypeForUpdate()
+                        updateStatisticChartsSection()
                         sharedPrefManager.homeBalanceCurrencyPos = i
                     } else {
                         spinBalanceCurrencyNotInitSelectedItemCall = true
@@ -221,29 +224,33 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
             )
             spinChartType.onItemSelectedListener = object : OnItemSelectedListener {
                 override fun onItemSelected(
-                    adapterView: AdapterView<*>?,
-                    view: View?,
-                    i: Int,
-                    l: Long
+                    adapterView: AdapterView<*>?, view: View?, i: Int, l: Long
                 ) {
-                    if (spinChartTypeNotInitSelectedItemCall) {
-                        if (i == 1) {
-                            chartStatistic.visibility = View.GONE
-                            if (presenter.isStatisticEmpty) tvNoData.visibility =
-                                View.VISIBLE else {
+                    /*if (!spinChartTypeNotInitSelectedItemCall) {
+                        spinChartTypeNotInitSelectedItemCall = true
+                        return
+                    }*/
+
+                    if (presenter.isStatisticEmpty) {
+                        tvStatisticNoData.visibility = View.VISIBLE
+                        chartStatistic.visibility = View.GONE
+                        chartStatisticPie.visibility = View.GONE
+                    } else {
+                        tvStatisticNoData.visibility = View.GONE
+                        when (i) {
+                            0 -> {
+                                chartStatistic.visibility = View.VISIBLE
+                                chartStatisticPie.visibility = View.GONE
+                                setStatisticBarChartData()
+                            }
+                            1 -> {
+                                chartStatistic.visibility = View.GONE
                                 chartStatisticPie.visibility = View.VISIBLE
                                 setStatisticPieChartData()
                             }
-                        } else {
-                            tvNoData.visibility = View.GONE
-                            chartStatisticPie.visibility = View.GONE
-                            chartStatistic.visibility = View.VISIBLE
-                            setStatisticBarChartData()
                         }
-                        sharedPrefManager.homeChartTypePos = i
-                    } else {
-                        spinChartTypeNotInitSelectedItemCall = true
                     }
+                    sharedPrefManager.homeChartTypePos = i
                 }
 
                 override fun onNothingSelected(adapterView: AdapterView<*>?) {}
@@ -252,29 +259,29 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEvent(event: UpdateFrgHome?) {
+    fun onEvent(event: UpdateFrgHome) {
         presenter.updateBalanceAndStatistic(spinPeriod.selectedItemPosition + 1)
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEvent(event: UpdateFrgHomeBalance?) {
+    fun onEvent(event: UpdateFrgHomeBalance) {
         presenter.updateBalance()
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEvent(event: UpdateFrgHomeNewRates?) {
+    fun onEvent(event: UpdateFrgHomeNewRates) {
         presenter.updateRates()
         ratesInfoManager.prepareInfo()
         if (convert) {
             setBalance(spinBalanceCurrency.selectedItemPosition)
             presenter.updateTransactionStatisticArray(spinBalanceCurrency.selectedItemPosition)
             setStatisticSumTV()
-            checkStatChartTypeForUpdate()
+            updateStatisticChartsSection()
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEvent(event: DBImported?) {
+    fun onEvent(event: DBImported) {
         presenter.updateBalanceAndStatisticAfterDBImport(
             spinPeriod.selectedItemPosition + 1
         )
@@ -321,19 +328,36 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
     private fun setBalance(posCurrency: Int) {
         val balance = presenter.getCurrentBalance(posCurrency)
         setBalanceTV(balance)
-        setBalanceBarChartData(balance)
+        updateBalanceChartSection(balance)
     }
 
-    private fun checkStatChartTypeForUpdate() {
-        when (spinChartType.selectedItemPosition) {
-            0 -> setStatisticBarChartData()
-            1 -> if (presenter.isStatisticEmpty) {
-                tvNoData.visibility = View.VISIBLE
-                chartStatisticPie.visibility = View.GONE
-            } else {
-                tvNoData.visibility = View.GONE
-                chartStatisticPie.visibility = View.VISIBLE
-                setStatisticPieChartData()
+    private fun updateBalanceChartSection(balance: DoubleArray) {
+        if (presenter.isBalanceEmpty(balance)) {
+            tvBalanceNoData.visibility = View.VISIBLE
+            chartBalance.visibility = View.GONE
+        } else {
+            tvBalanceNoData.visibility = View.GONE
+            chartBalance.visibility = View.VISIBLE
+            setBalanceBarChartData(balance)
+        }
+    }
+
+    private fun updateStatisticChartsSection() {
+        if (presenter.isStatisticEmpty) {
+            tvStatisticNoData.visibility = View.VISIBLE
+            chartStatisticPie.visibility = View.GONE
+            chartStatistic.visibility = View.GONE
+        } else {
+            tvStatisticNoData.visibility = View.GONE
+            when (spinChartType.selectedItemPosition) {
+                0 -> {
+                    chartStatistic.visibility = View.VISIBLE
+                    setStatisticBarChartData()
+                }
+                1 -> {
+                    chartStatisticPie.visibility = View.VISIBLE
+                    setStatisticPieChartData()
+                }
             }
         }
     }
@@ -349,14 +373,14 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
         ratesInfoManager.prepareInfo()
         setBalance(spinBalanceCurrency.selectedItemPosition)
         setStatisticSumTV()
-        checkStatChartTypeForUpdate()
+        updateStatisticChartsSection()
     }
 
     override fun updateBalanceAndStatisticAfterDBImport() {
         ratesInfoManager.prepareInfo()
         setBalance(spinBalanceCurrency.selectedItemPosition)
         setStatisticSumTV()
-        checkStatChartTypeForUpdate()
+        updateStatisticChartsSection()
         EventBus.getDefault().post(UpdateFrgTransactions())
         EventBus.getDefault().post(UpdateFrgAccounts())
     }
@@ -368,7 +392,7 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
 
     override fun updateStatistic() {
         setStatisticSumTV()
-        checkStatChartTypeForUpdate()
+        updateStatisticChartsSection()
     }
 
     override val isNeedToConvert: Boolean

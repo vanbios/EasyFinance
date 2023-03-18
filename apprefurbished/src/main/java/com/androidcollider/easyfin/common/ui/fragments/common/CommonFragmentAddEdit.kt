@@ -15,6 +15,7 @@ import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager
 import com.androidcollider.easyfin.common.ui.fragments.NumericDialogFragment.Companion.INPUT_VALUE
 import com.androidcollider.easyfin.common.ui.fragments.NumericDialogFragment.Companion.NUMERIC_DIALOG_REQUEST_KEY
 import com.androidcollider.easyfin.common.ui.fragments.NumericDialogFragment.Companion.OUTPUT_VALUE
+import com.androidcollider.easyfin.common.utils.setSafeOnClickListener
 import javax.inject.Inject
 
 /**
@@ -38,8 +39,8 @@ abstract class CommonFragmentAddEdit : CommonFragment() {
 
         btnSave = view.findViewById(R.id.btnSave)
         btnClose = view.findViewById(R.id.btnClose)
-        btnSave.setOnClickListener { handleSaveAction() }
-        btnClose.setOnClickListener { findNavController().navigateUp() }
+        btnSave.setSafeOnClickListener { handleSaveAction() }
+        btnClose.setSafeOnClickListener { findNavController().navigateUp() }
 
         setFragmentResultListener(NUMERIC_DIALOG_REQUEST_KEY) { _, bundle ->
             updateAmount(bundle.getString(OUTPUT_VALUE, "0,00"))

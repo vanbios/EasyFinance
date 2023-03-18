@@ -10,16 +10,15 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.customview.getCustomView
 import com.androidcollider.easyfin.R
 import com.androidcollider.easyfin.common.app.App
-import com.androidcollider.easyfin.common.events.UpdateFrgTransactionCategories
 import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager
 import com.androidcollider.easyfin.common.managers.ui.shake_edit_text.ShakeEditTextManager
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragment
 import com.androidcollider.easyfin.common.utils.animateViewWithChangeVisibilityAndClickable
+import com.androidcollider.easyfin.common.utils.setSafeOnClickListener
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import org.greenrobot.eventbus.EventBus
 import java.util.*
 import javax.inject.Inject
 
@@ -68,7 +67,7 @@ class TransactionCategoriesRootFragment : CommonFragment(),
         tabLayout = view.findViewById(R.id.tabs_transaction_categories)
         fabAddNew = view.findViewById(R.id.fab_add_transaction_category)
 
-        fabAddNew.setOnClickListener { transactionCategoryDialog?.show() }
+        fabAddNew.setSafeOnClickListener { transactionCategoryDialog?.show() }
 
         setupViewPager()
         buildTransactionCategoryDialog()
@@ -167,7 +166,7 @@ class TransactionCategoriesRootFragment : CommonFragment(),
     }
 
     override fun handleNewTransactionCategoryAdded() {
-        EventBus.getDefault().post(UpdateFrgTransactionCategories())
+        //EventBus.getDefault().post(UpdateFrgTransactionCategories())
     }
 
     override fun onDestroyView() {

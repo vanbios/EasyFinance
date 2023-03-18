@@ -123,7 +123,8 @@
 
     <string name="db_backup_to">Резервна копія даних збережена до</string>
 
-    <string name="no_data_yet">Немає даних</string>
+    <string name="no_balance_data">Баланс в обраній валюті відсутній</string>
+    <string name="no_statistic_data">Відсутні доходи та витрати в даній валюті за обраний період</string>
 
 
 

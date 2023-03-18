@@ -11,6 +11,7 @@ import com.androidcollider.easyfin.R
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager
 import com.androidcollider.easyfin.common.managers.ui.letter_tile.LetterTileManager
 import com.androidcollider.easyfin.common.models.TransactionCategory
+import com.androidcollider.easyfin.common.utils.setSafeOnClickListener
 import com.androidcollider.easyfin.transactions.list.RecyclerTransactionAdapter.MainViewHolder
 
 /**
@@ -147,7 +148,7 @@ internal class RecyclerTransactionAdapter(
             }
         } else if (getItemViewType(position) == BUTTON_TYPE) {
             val holderButton = holder as ViewHolderButton
-            holderButton.tvShowMore.setOnClickListener {
+            holderButton.tvShowMore.setSafeOnClickListener {
                 maxCount += maxCount
                 notifyDataSetChanged()
             }

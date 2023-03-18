@@ -9,17 +9,14 @@ import androidx.cardview.widget.CardView
 import androidx.navigation.fragment.findNavController
 import com.androidcollider.easyfin.R
 import com.androidcollider.easyfin.common.app.App
-import com.androidcollider.easyfin.common.events.UpdateFrgAccounts
-import com.androidcollider.easyfin.common.events.UpdateFrgDebts
-import com.androidcollider.easyfin.common.events.UpdateFrgHomeBalance
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager
 import com.androidcollider.easyfin.common.managers.ui.hide_touch_outside.HideTouchOutsideManager
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager
 import com.androidcollider.easyfin.common.ui.MainActivity
 import com.androidcollider.easyfin.common.ui.adapters.SpinAccountForTransHeadIconAdapter
 import com.androidcollider.easyfin.common.ui.fragments.common.CommonFragmentAddEdit
+import com.androidcollider.easyfin.common.utils.setSafeOnClickListener
 import com.androidcollider.easyfin.common.view_models.SpinAccountViewModel
-import org.greenrobot.eventbus.EventBus
 import javax.inject.Inject
 
 /**
@@ -71,13 +68,13 @@ class PayDebtFragment : CommonFragmentAddEdit(), PayDebtMVP.View {
         spinAccount = view.findViewById(R.id.spinPayDebtAccount)
         cardView = view.findViewById(R.id.cardPayDebtElements)
         mainContent = view.findViewById(R.id.layoutActPayDebtParent)
-        tvAmount.setOnClickListener { openNumericDialog() }
+        tvAmount.setSafeOnClickListener { openNumericDialog() }
     }
 
     private fun pushBroadcast() {
-        EventBus.getDefault().post(UpdateFrgHomeBalance())
-        EventBus.getDefault().post(UpdateFrgAccounts())
-        EventBus.getDefault().post(UpdateFrgDebts())
+        //EventBus.getDefault().post(UpdateFrgHomeBalance())
+        //EventBus.getDefault().post(UpdateFrgAccounts())
+        //EventBus.getDefault().post(UpdateFrgDebts())
     }
 
     override fun updateAmount(amount: String) {

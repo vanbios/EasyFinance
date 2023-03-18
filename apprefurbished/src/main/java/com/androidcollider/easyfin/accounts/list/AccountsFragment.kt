@@ -85,7 +85,7 @@ class AccountsFragment : CommonFragmentWithEvents(), AccountsMVP.View {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onEvent(event: UpdateFrgAccounts?) {
+    fun onEvent(event: UpdateFrgAccounts) {
         presenter.loadData()
     }
 
@@ -106,10 +106,9 @@ class AccountsFragment : CommonFragmentWithEvents(), AccountsMVP.View {
     }
 
     private fun showDialogDeleteAccount(id: Int) {
-        val activity = activity as MainActivity?
-        if (activity != null) {
+        (activity as MainActivity?)?.let {
             dialogManager.showDeleteDialog(
-                activity,
+                it,
                 getString(R.string.dialog_text_delete_account)
             ) { presenter.deleteAccountById(id) }
         }
