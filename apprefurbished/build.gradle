@@ -46,6 +46,7 @@ ext {
     navigationVersion = "2.5.3"
     fragmentVersion = "1.5.5"
     activityVersion = "1.6.1"
+    coroutinesVersion = "1.6.4"
 }
 
 dependencies {
@@ -60,6 +61,8 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
     implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
     implementation "androidx.activity:activity-ktx:$activityVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
 
     implementation "androidx.multidex:multidex:$multidexVersion"
 

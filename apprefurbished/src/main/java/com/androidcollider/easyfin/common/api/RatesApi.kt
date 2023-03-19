@@ -1,7 +1,7 @@
 package com.androidcollider.easyfin.common.api
 
 import com.androidcollider.easyfin.common.models.RatesRemote
-import io.reactivex.rxjava3.core.Single
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.QueryName
 
@@ -10,5 +10,5 @@ import retrofit2.http.QueryName
  */
 interface RatesApi {
     @GET("exchange")
-    fun getRates(@QueryName responseType: String): Single<List<RatesRemote>>
+    suspend fun getRates(@QueryName responseType: String): Response<List<RatesRemote>>
 }

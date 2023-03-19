@@ -10,7 +10,6 @@ import com.androidcollider.easyfin.common.managers.analytics.AnalyticsModule
 import com.androidcollider.easyfin.common.managers.api.ApiModule
 import com.androidcollider.easyfin.common.managers.chart.data.ChartDataModule
 import com.androidcollider.easyfin.common.managers.chart.setup.ChartSetupModule
-import com.androidcollider.easyfin.common.managers.connection.ConnectionModule
 import com.androidcollider.easyfin.common.managers.format.date.DateFormatModule
 import com.androidcollider.easyfin.common.managers.format.number.NumberFormatModule
 import com.androidcollider.easyfin.common.managers.import_export_db.ImportExportDbModule
@@ -69,7 +68,6 @@ import javax.inject.Singleton
         ExchangeModule::class,
         RatesInfoModule::class,
         RatesLoaderModule::class,
-        ConnectionModule::class,
         AccountsInfoModule::class,
         ImportExportDbModule::class,
         SharedPrefModule::class,

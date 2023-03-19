@@ -3,7 +3,6 @@ package com.androidcollider.easyfin.common.managers.rates.rates_loader
 import android.content.Context
 import com.androidcollider.easyfin.common.api.RatesApi
 import com.androidcollider.easyfin.common.managers.api.ApiManager
-import com.androidcollider.easyfin.common.managers.connection.ConnectionManager
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager
 import com.androidcollider.easyfin.common.managers.shared_pref.SharedPrefManager
 import com.androidcollider.easyfin.common.repository.Repository
@@ -20,7 +19,6 @@ class RatesLoaderModule {
         context: Context,
         ratesApi: RatesApi,
         repository: Repository,
-        connectionManager: ConnectionManager,
         sharedPrefManager: SharedPrefManager,
         resourcesManager: ResourcesManager
     ): RatesLoaderManager {
@@ -28,7 +26,6 @@ class RatesLoaderModule {
             context,
             ratesApi,
             repository,
-            connectionManager,
             sharedPrefManager,
             resourcesManager
         )
