@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:text="@string/app_name"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-        android:textColor="@color/onSurface_highEmphasis"
+        android:textColor="?attr/colorOnSurface"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -22,7 +22,7 @@
         android:layout_marginTop="@dimen/common_padding_small"
         android:text="@string/about_app_version"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Overline"
-        android:textColor="@color/onSurface_mediumEmphasis"
+        android:textColor="?attr/colorOnSurfaceVariant"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,9 +31,9 @@
     <View
         android:id="@+id/cv_about_app_divider_above_developers"
         android:layout_width="0dp"
-        android:layout_height="1px"
+        android:layout_height="1dp"
         android:layout_marginTop="@dimen/common_padding_large"
-        android:background="@color/divider_light_gray"
+        android:background="?attr/colorOutlineVariant"
         app:layout_constraintEnd_toEndOf="@id/tv_about_app_developer"
         app:layout_constraintStart_toStartOf="@id/tv_about_app_developer"
         app:layout_constraintTop_toBottomOf="@id/tv_about_app_version" />
@@ -45,7 +45,7 @@
         android:layout_marginTop="@dimen/common_padding_large"
         android:text="@string/about_app_developer"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-        android:textColor="@color/onSurface_mediumEmphasis"
+        android:textColor="?attr/colorOnSurfaceVariant"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cv_about_app_divider_above_developers" />

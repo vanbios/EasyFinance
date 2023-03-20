@@ -294,7 +294,7 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
     }
 
     private fun setBalanceBarChartData(balance: DoubleArray) {
-        val data = presenter.getDataSetMainBalanceHorizontalBarChart(balance)
+        val data = presenter.getDataSetMainBalanceHorizontalBarChart(balance, chartBalance)
         data.setValueFormatter(ChartLargeValueFormatter(!showOnlyIntegers))
         chartBalance.data = data
         chartBalance.animateXY(2000, 2000)
@@ -302,7 +302,7 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
     }
 
     private fun setStatisticBarChartData() {
-        val data = presenter.dataSetMainStatisticHorizontalBarChart
+        val data = presenter.getDataSetMainStatisticHorizontalBarChart(chartStatistic)
         data.setValueFormatter(ChartLargeValueFormatter(!showOnlyIntegers))
         chartStatistic.data = data
         chartStatistic.animateXY(2000, 2000)
@@ -310,7 +310,7 @@ class HomeFragment : CommonFragmentWithEvents(), HomeMVP.View {
     }
 
     private fun setStatisticPieChartData() {
-        val data = presenter.dataSetMainStatisticPieChart
+        val data = presenter.getDataSetMainStatisticPieChart(chartStatisticPie)
         data.setValueFormatter(ChartLargeValueFormatter(!showOnlyIntegers))
         chartStatisticPie.data = data
         chartStatisticPie.animateXY(2000, 2000)

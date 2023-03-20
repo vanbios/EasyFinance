@@ -2,7 +2,10 @@ package com.androidcollider.easyfin.common.managers.resources
 
 import android.content.Context
 import android.content.res.TypedArray
+import android.graphics.Color
+import android.view.View
 import com.androidcollider.easyfin.R
+import com.google.android.material.color.MaterialColors
 
 /**
  * @author Ihor Bilous
@@ -29,6 +32,10 @@ class ResourcesManager internal constructor(private val context: Context) {
             iconArrayResMap[resId] = context.resources.obtainTypedArray(resId)
         }
         return iconArrayResMap[resId]!!
+    }
+
+    fun getColorFromAttr(attr: Int, view: View) : Int {
+        return MaterialColors.getColor(view, attr, Color.GRAY)
     }
 
     companion object {

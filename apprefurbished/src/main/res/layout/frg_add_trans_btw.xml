@@ -21,7 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/common_padding_xlarge"
-            app:cardBackgroundColor="@color/general_surface"
             app:cardElevation="@dimen/elevation_small"
             app:cardUseCompatPadding="true">
 
@@ -39,7 +38,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:singleLine="true"
-                    android:textColor="@color/custom_text_gray_dark"
+                    android:textColor="?attr/colorOnSurface"
                     android:textSize="36sp"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="+ 5 000 000,00" />
@@ -60,7 +59,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="@dimen/common_padding_small"
-                    android:background="@color/custom_light_gray"
+                    android:background="?attr/colorOutlineVariant"
                     app:layout_constraintTop_toBottomOf="@id/tvAddTransBTWAccountFrom" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -101,7 +100,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="@dimen/common_padding_small"
-                    android:background="@color/custom_light_gray"
+                    android:background="?attr/colorOutlineVariant"
                     app:layout_constraintTop_toBottomOf="@id/tvAddTransBTWAccountTo" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -151,7 +150,7 @@
                         android:layout_height="1dp"
                         android:layout_below="@+id/tvAddTransBTWExchange"
                         android:layout_marginTop="5dp"
-                        android:background="@color/custom_light_gray" />
+                        android:background="?attr/colorOutlineVariant" />
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/ivAddTransBTWExchange"
@@ -161,7 +160,7 @@
                         android:layout_marginTop="24dp"
                         android:contentDescription="@string/account"
                         android:src="@drawable/swap_horizontal"
-                        app:tint="@color/custom_text_gray_dark" />
+                        app:tint="?attr/colorOnSurface" />
 
                     <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/editTextTransBTWExchange"

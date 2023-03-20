@@ -14,7 +14,7 @@
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_gravity="center_vertical"
-        app:tint="@color/custom_text_gray_dark"
+        app:tint="?attr/colorOnSurface"
         tools:src="@drawable/plus" />
 
     <androidx.appcompat.widget.AppCompatTextView

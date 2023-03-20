@@ -21,7 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/common_padding_xlarge"
-            app:cardBackgroundColor="@color/general_surface"
             app:cardElevation="@dimen/elevation_small"
             app:cardUseCompatPadding="true">
 
@@ -39,7 +38,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:singleLine="true"
-                    android:textColor="@color/custom_text_gray_dark"
+                    android:textColor="?attr/colorOnSurface"
                     android:textSize="36sp"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="5 000 000,00" />
@@ -62,7 +61,7 @@
                     android:layout_height="1dp"
                     android:layout_below="@+id/tvAddAccountName"
                     android:layout_marginTop="@dimen/common_padding_small"
-                    android:background="@color/custom_light_gray"
+                    android:background="?attr/colorOutlineVariant"
                     app:layout_constraintTop_toBottomOf="@id/tvAddAccountName" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -75,7 +74,7 @@
                     app:layout_constraintBottom_toBottomOf="@id/editTextAccountName"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/editTextAccountName"
-                    app:tint="@color/custom_text_gray_dark" />
+                    app:tint="?attr/colorOnSurface" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/editTextAccountName"
@@ -107,7 +106,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="@dimen/common_padding_small"
-                    android:background="@color/custom_light_gray"
+                    android:background="?attr/colorOutlineVariant"
                     app:layout_constraintTop_toBottomOf="@id/tvAddAccountType" />
 
                 <androidx.appcompat.widget.AppCompatSpinner
@@ -134,7 +133,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="@dimen/common_padding_small"
-                    android:background="@color/custom_light_gray"
+                    android:background="?attr/colorOutlineVariant"
                     app:layout_constraintTop_toBottomOf="@id/tvAddAccountCurrency" />
 
                 <androidx.appcompat.widget.AppCompatSpinner
@@ -149,7 +148,7 @@
                     android:id="@+id/cvAddAccountDividerBottom"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:background="@color/custom_light_gray"
+                    android:background="?attr/colorOutlineVariant"
                     app:layout_constraintTop_toBottomOf="@id/spinAddAccountCurrency" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

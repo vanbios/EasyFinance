@@ -21,7 +21,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/common_padding_xlarge"
-            app:cardBackgroundColor="@color/general_surface"
             app:cardElevation="@dimen/elevation_small"
             app:cardUseCompatPadding="true">
 
@@ -39,7 +38,7 @@
                     android:layout_marginTop="@dimen/common_padding_xlarge"
                     android:gravity="center_horizontal"
                     android:singleLine="true"
-                    android:textColor="@color/custom_text_gray_dark"
+                    android:textColor="?attr/colorOnSurface"
                     android:textSize="36sp"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="+ 5 000 000,00" />
@@ -60,7 +59,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="@dimen/common_padding_small"
-                    android:background="@color/custom_light_gray"
+                    android:background="?attr/colorOutlineVariant"
                     app:layout_constraintTop_toBottomOf="@id/tvAddTransDefAccount" />
 
                 <androidx.appcompat.widget.AppCompatSpinner
@@ -87,7 +86,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="@dimen/common_padding_small"
-                    android:background="@color/custom_light_gray"
+                    android:background="?attr/colorOutlineVariant"
                     app:layout_constraintTop_toBottomOf="@id/tvAddTransDefCategory" />
 
                 <androidx.appcompat.widget.AppCompatSpinner
@@ -106,11 +105,10 @@
                     android:layout_width="44dp"
                     android:layout_height="44dp"
                     android:padding="8dp"
-                    app:backgroundTint="@color/general_surface"
                     app:icon="@drawable/plus"
                     app:iconGravity="textStart"
                     app:iconSize="32dp"
-                    app:iconTint="@color/custom_text_gray_dark"
+                    app:iconTint="?attr/colorOnSurface"
                     app:layout_constraintBottom_toBottomOf="@id/spinAddTransCategory"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/spinAddTransCategory" />
@@ -132,7 +130,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="@dimen/common_padding_small"
-                    android:background="@color/custom_light_gray"
+                    android:background="?attr/colorOutlineVariant"
                     app:layout_constraintTop_toBottomOf="@id/tvAddTransDefDate" />
 
                 <androidx.appcompat.widget.AppCompatImageView
@@ -146,7 +144,7 @@
                     app:layout_constraintBottom_toBottomOf="@id/tvTransactionDate"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@id/tvTransactionDate"
-                    app:tint="@color/custom_text_gray_dark" />
+                    app:tint="?attr/colorOnSurface" />
 
                 <TextView
                     android:id="@+id/tvTransactionDate"

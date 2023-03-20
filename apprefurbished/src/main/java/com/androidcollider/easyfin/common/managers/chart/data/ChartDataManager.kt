@@ -5,6 +5,8 @@ import androidx.core.content.ContextCompat
 import com.androidcollider.easyfin.R
 import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager
+import com.github.mikephil.charting.charts.HorizontalBarChart
+import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet
 import kotlin.math.abs
@@ -18,9 +20,10 @@ class ChartDataManager internal constructor(
     private val context: Context
 ) {
 
-    private val textColor: Int = ContextCompat.getColor(context, R.color.custom_text_gray_dark)
-
-    fun getDataSetMainBalanceHorizontalBarChart(values: DoubleArray): BarData {
+    fun getDataSetMainBalanceHorizontalBarChart(
+        values: DoubleArray,
+        chart: HorizontalBarChart
+    ): BarData {
         val cash = values[0].toFloat()
         val card = values[1].toFloat()
         val deposit = values[2].toFloat()
@@ -42,11 +45,15 @@ class ChartDataManager internal constructor(
                 ContextCompat.getColor(context, R.color.custom_red)
             else ContextCompat.getColor(context, R.color.custom_green)
         return getBarDataFromDataSets(
-            listOf<IBarDataSet>(barDataSet4, barDataSet3, barDataSet2, barDataSet1)
+            listOf<IBarDataSet>(barDataSet4, barDataSet3, barDataSet2, barDataSet1),
+            chart
         )
     }
 
-    fun getDataSetMainStatisticHorizontalBarChart(values: DoubleArray): BarData {
+    fun getDataSetMainStatisticHorizontalBarChart(
+        values: DoubleArray,
+        chart: HorizontalBarChart
+    ): BarData {
         val cost = abs(values[0]).toFloat()
         val income = values[1].toFloat()
         val valueSet1 = listOf(BarEntry(2f, income))
@@ -55,17 +62,20 @@ class ChartDataManager internal constructor(
         barDataSet1.color = ContextCompat.getColor(context, R.color.custom_green)
         val barDataSet2 = BarDataSet(valueSet2, "cost")
         barDataSet2.color = ContextCompat.getColor(context, R.color.custom_red)
-        return getBarDataFromDataSets(listOf<IBarDataSet>(barDataSet2, barDataSet1))
+        return getBarDataFromDataSets(listOf<IBarDataSet>(barDataSet2, barDataSet1), chart)
     }
 
-    private fun getBarDataFromDataSets(dataSets: List<IBarDataSet>): BarData {
+    private fun getBarDataFromDataSets(
+        dataSets: List<IBarDataSet>,
+        chart: HorizontalBarChart
+    ): BarData {
         val data = BarData(dataSets)
         data.setValueTextSize(12f)
-        data.setValueTextColor(textColor)
+        data.setValueTextColor(resourcesManager.getColorFromAttr(R.attr.colorOnSurface, chart))
         return data
     }
 
-    fun getDataSetMainStatisticPieChart(values: DoubleArray): PieData {
+    fun getDataSetMainStatisticPieChart(values: DoubleArray, chart: PieChart): PieData {
         val cost = abs(values[0]).toFloat()
         val income = values[1].toFloat()
         val valueSet = listOf(PieEntry(income), PieEntry(cost))
@@ -79,7 +89,7 @@ class ChartDataManager internal constructor(
         pieDataSet.selectionShift = 5f
         val data = PieData(pieDataSet)
         data.setValueTextSize(12f)
-        data.setValueTextColor(textColor)
+        data.setValueTextColor(resourcesManager.getColorFromAttr(R.attr.colorOnSurface, chart))
         return data
     }
 }

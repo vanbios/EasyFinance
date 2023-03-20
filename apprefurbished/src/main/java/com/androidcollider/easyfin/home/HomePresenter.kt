@@ -4,6 +4,8 @@ import com.androidcollider.easyfin.common.managers.chart.data.ChartDataManager
 import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager
 import com.androidcollider.easyfin.common.managers.rates.exchange.ExchangeManager
 import com.androidcollider.easyfin.common.managers.resources.ResourcesManager
+import com.github.mikephil.charting.charts.HorizontalBarChart
+import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.PieData
 
@@ -139,14 +141,20 @@ internal class HomePresenter(
             currencyLang
         )
 
-    override fun getDataSetMainBalanceHorizontalBarChart(balance: DoubleArray): BarData {
-        return chartDataManager.getDataSetMainBalanceHorizontalBarChart(balance)
+    override fun getDataSetMainBalanceHorizontalBarChart(
+        balance: DoubleArray,
+        chart: HorizontalBarChart
+    ): BarData {
+        return chartDataManager.getDataSetMainBalanceHorizontalBarChart(balance, chart)
     }
 
-    override val dataSetMainStatisticHorizontalBarChart: BarData
-        get() = chartDataManager.getDataSetMainStatisticHorizontalBarChart(statistic)
-    override val dataSetMainStatisticPieChart: PieData
-        get() = chartDataManager.getDataSetMainStatisticPieChart(statistic)
+    override fun getDataSetMainStatisticHorizontalBarChart(chart: HorizontalBarChart): BarData {
+        return chartDataManager.getDataSetMainStatisticHorizontalBarChart(statistic, chart)
+    }
+
+    override fun getDataSetMainStatisticPieChart(chart: PieChart): PieData {
+        return chartDataManager.getDataSetMainStatisticPieChart(statistic, chart)
+    }
 
     override fun updateRates() {
         exchangeManager.updateRates()

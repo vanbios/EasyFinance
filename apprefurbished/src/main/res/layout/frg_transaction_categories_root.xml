@@ -8,19 +8,10 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabs_transaction_categories"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/tabs_height"
-        android:background="?attr/colorPrimary"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorSurface"
         app:layout_constraintTop_toTopOf="parent"
-        app:tabIndicatorColor="@color/custom_text_light"
-        app:tabIndicatorHeight="3dp"
-        app:tabMode="fixed"
-        app:tabPaddingBottom="8dp"
-        app:tabPaddingEnd="0dp"
-        app:tabPaddingStart="0dp"
-        app:tabPaddingTop="0dp"
-        app:tabSelectedTextColor="@color/custom_text_light"
-        app:tabTextAppearance="@style/TabsFont"
-        app:tabTextColor="@color/custom_blue_gray_light" />
+        app:tabMode="fixed" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/vp_transaction_categories"
@@ -37,11 +28,9 @@
         android:layout_marginBottom="@dimen/common_padding_large"
         android:clickable="true"
         android:focusable="true"
-        app:backgroundTint="@color/custom_cyan_dark"
         app:fabCustomSize="@dimen/fab_regular_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/plus"
-        app:tint="@color/general_surface" />
+        app:srcCompat="@drawable/plus" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

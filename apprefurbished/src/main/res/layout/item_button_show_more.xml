@@ -9,5 +9,4 @@
     android:singleLine="true"
     android:text="@string/view_more"
     android:textAllCaps="true"
-    android:textColor="@color/custom_cyan_dark"
     android:textSize="@dimen/text_size_subhead" />

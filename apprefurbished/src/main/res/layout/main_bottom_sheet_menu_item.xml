@@ -14,7 +14,7 @@
         android:layout_width="28dp"
         android:layout_height="28dp"
         android:layout_gravity="center_vertical"
-        app:tint="@color/custom_text_gray_dark"
+        app:tint="?attr/colorOnSurface"
         tools:src="@drawable/bank_transfer" />
 
     <androidx.appcompat.widget.AppCompatTextView

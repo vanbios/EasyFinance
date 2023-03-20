@@ -10,7 +10,6 @@
     android:clickable="true"
     android:focusable="true"
     android:longClickable="true"
-    app:cardBackgroundColor="@color/general_surface"
     app:cardCornerRadius="4dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,7 +49,7 @@
             android:contentDescription="@string/category"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/custom_text_gray_dark"
+            app:tint="?attr/colorOnSurface"
             tools:src="@drawable/cash_multiple" />
 
         <TextView

@@ -1,6 +1,6 @@
 package com.androidcollider.easyfin.common.managers.chart.setup
 
-import android.content.Context
+import com.androidcollider.easyfin.common.managers.resources.ResourcesManager
 import dagger.Module
 import dagger.Provides
 
@@ -10,7 +10,7 @@ import dagger.Provides
 @Module
 class ChartSetupModule {
     @Provides
-    fun provideChartSetupManager(context: Context): ChartSetupManager {
-        return ChartSetupManager(context)
+    fun provideChartSetupManager(resourcesManager: ResourcesManager): ChartSetupManager {
+        return ChartSetupManager(resourcesManager)
     }
 }

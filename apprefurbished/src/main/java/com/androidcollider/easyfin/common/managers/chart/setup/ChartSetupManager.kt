@@ -1,9 +1,8 @@
 package com.androidcollider.easyfin.common.managers.chart.setup
 
-import android.content.Context
 import android.graphics.Color
-import androidx.core.content.ContextCompat
 import com.androidcollider.easyfin.R
+import com.androidcollider.easyfin.common.managers.resources.ResourcesManager
 import com.androidcollider.easyfin.common.utils.ChartLargeValueFormatter
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.PieChart
@@ -11,7 +10,7 @@ import com.github.mikephil.charting.charts.PieChart
 /**
  * @author Ihor Bilous
  */
-class ChartSetupManager internal constructor(private val context: Context) {
+class ChartSetupManager internal constructor(private val resourcesManager: ResourcesManager) {
 
     fun setupMainBarChart(chart: BarChart) {
         val leftAxis = chart.axisLeft
@@ -21,9 +20,10 @@ class ChartSetupManager internal constructor(private val context: Context) {
         leftAxis.setLabelCount(3, false)
         leftAxis.valueFormatter = ChartLargeValueFormatter(false)
         leftAxis.axisMinimum = 0f
-        leftAxis.axisLineColor = ContextCompat.getColor(context, R.color.custom_light_gray)
-        leftAxis.gridColor = ContextCompat.getColor(context, R.color.custom_light_gray)
-        leftAxis.textColor = ContextCompat.getColor(context, R.color.custom_text_gray_dark)
+        leftAxis.axisLineColor =
+            resourcesManager.getColorFromAttr(R.attr.colorOutlineVariant, chart)
+        leftAxis.gridColor = resourcesManager.getColorFromAttr(R.attr.colorOutlineVariant, chart)
+        leftAxis.textColor = resourcesManager.getColorFromAttr(R.attr.colorOnSurfaceVariant, chart)
 
         val xAxis = chart.xAxis
         xAxis.setDrawAxisLine(false)

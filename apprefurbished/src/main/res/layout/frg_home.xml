@@ -25,7 +25,6 @@
             android:layout_marginTop="@dimen/common_padding_medium"
             android:layout_marginEnd="@dimen/common_padding_small"
             android:layout_marginBottom="@dimen/common_padding_x_small"
-            app:cardBackgroundColor="@color/general_surface"
             app:cardElevation="@dimen/elevation_small">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -52,7 +51,7 @@
                     android:layout_marginStart="@dimen/common_padding_large"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="4dp"
-                    android:background="@color/custom_light_gray"
+                    android:background="?attr/colorOutlineVariant"
                     app:layout_constraintBottom_toBottomOf="@id/spinMainCurrency"
                     app:layout_constraintStart_toEndOf="@id/tvMainCurrentBalance"
                     app:layout_constraintTop_toTopOf="@id/spinMainCurrency" />
@@ -73,7 +72,7 @@
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="@dimen/common_padding_medium"
                     android:layout_marginBottom="4dp"
-                    android:background="@color/custom_light_gray"
+                    android:background="?attr/colorOutlineVariant"
                     app:layout_constraintBottom_toBottomOf="@id/spinMainCurrency"
                     app:layout_constraintEnd_toStartOf="@id/btnMainBalanceSettings"
                     app:layout_constraintTop_toTopOf="@id/spinMainCurrency" />
@@ -84,11 +83,10 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_marginEnd="@dimen/common_padding_medium"
-                    app:backgroundTint="@color/general_surface"
                     app:icon="@drawable/tune"
                     app:iconGravity="textStart"
                     app:iconSize="24dp"
-                    app:iconTint="@color/custom_text_gray_dark"
+                    app:iconTint="?attr/colorOnSurface"
                     app:layout_constraintBottom_toBottomOf="@id/spinMainCurrency"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/spinMainCurrency" />
@@ -99,7 +97,7 @@
                     android:layout_height="1dp"
                     android:layout_marginStart="@dimen/common_padding_small"
                     android:layout_marginEnd="@dimen/common_padding_small"
-                    android:background="@color/custom_light_gray"
+                    android:background="?attr/colorOutlineVariant"
                     app:layout_constraintTop_toBottomOf="@id/spinMainCurrency" />
 
                 <TextView
@@ -187,7 +185,7 @@
                     android:layout_height="1dp"
                     android:layout_marginLeft="@dimen/common_padding_small"
                     android:layout_marginRight="@dimen/common_padding_small"
-                    android:background="@color/custom_light_gray"
+                    android:background="?attr/colorOutlineVariant"
                     app:layout_constraintTop_toBottomOf="@id/flMainBalanceChart" />
 
                 <TextView
@@ -225,7 +223,6 @@
             android:layout_marginTop="@dimen/common_padding_medium"
             android:layout_marginEnd="@dimen/common_padding_small"
             android:layout_marginBottom="@dimen/common_padding_small"
-            app:cardBackgroundColor="@color/general_surface"
             app:cardElevation="@dimen/elevation_small">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -252,7 +249,7 @@
                     android:layout_marginStart="@dimen/common_padding_large"
                     android:layout_marginTop="4dp"
                     android:layout_marginBottom="4dp"
-                    android:background="@color/custom_light_gray"
+                    android:background="?attr/colorOutlineVariant"
                     app:layout_constraintBottom_toBottomOf="@id/spinMainChart"
                     app:layout_constraintStart_toEndOf="@id/tvMainStatistic"
                     app:layout_constraintTop_toTopOf="@id/spinMainChart" />
@@ -273,7 +270,7 @@
                     android:layout_marginTop="4dp"
                     android:layout_marginEnd="@dimen/common_padding_medium"
                     android:layout_marginBottom="4dp"
-                    android:background="@color/custom_light_gray"
+                    android:background="?attr/colorOutlineVariant"
                     app:layout_constraintBottom_toBottomOf="@id/spinMainChart"
                     app:layout_constraintEnd_toStartOf="@id/spinMainPeriod"
                     app:layout_constraintTop_toTopOf="@id/spinMainChart" />
@@ -292,7 +289,7 @@
                     android:layout_height="1dp"
                     android:layout_marginStart="@dimen/common_padding_small"
                     android:layout_marginEnd="@dimen/common_padding_small"
-                    android:background="@color/custom_light_gray"
+                    android:background="?attr/colorOutlineVariant"
                     app:layout_constraintTop_toBottomOf="@id/spinMainChart" />
 
                 <TextView
@@ -366,7 +363,7 @@
                     android:layout_height="1dp"
                     android:layout_marginLeft="@dimen/common_padding_small"
                     android:layout_marginRight="@dimen/common_padding_small"
-                    android:background="@color/custom_light_gray"
+                    android:background="?attr/colorOutlineVariant"
                     app:layout_constraintTop_toBottomOf="@id/flMainStatisticChart" />
 
                 <TextView

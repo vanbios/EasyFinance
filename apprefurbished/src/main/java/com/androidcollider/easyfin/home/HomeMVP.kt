@@ -1,5 +1,7 @@
 package com.androidcollider.easyfin.home
 
+import com.github.mikephil.charting.charts.HorizontalBarChart
+import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.PieData
 import io.reactivex.rxjava3.core.Single
@@ -42,9 +44,13 @@ interface HomeMVP {
         val formattedStatistic: String
         fun getCurrentBalance(posCurrency: Int): DoubleArray
         fun updateTransactionStatisticArray(posCurrency: Int)
-        fun getDataSetMainBalanceHorizontalBarChart(balance: DoubleArray): BarData
-        val dataSetMainStatisticHorizontalBarChart: BarData
-        val dataSetMainStatisticPieChart: PieData
+        fun getDataSetMainBalanceHorizontalBarChart(
+            balance: DoubleArray,
+            chart: HorizontalBarChart
+        ): BarData
+
+        fun getDataSetMainStatisticHorizontalBarChart(chart: HorizontalBarChart): BarData
+        fun getDataSetMainStatisticPieChart(chart: PieChart): PieData
         fun updateRates()
     }
 }

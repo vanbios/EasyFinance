@@ -15,7 +15,7 @@
         android:layout_width="28dp"
         android:layout_height="28dp"
         android:layout_marginEnd="16dp"
-        app:tint="@color/custom_text_gray_dark" />
+        app:tint="?attr/colorOnSurface" />
 
     <TextView
         android:id="@+id/tv_category_name"

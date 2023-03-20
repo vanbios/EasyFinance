@@ -35,11 +35,9 @@
         android:layout_marginBottom="@dimen/common_padding_large"
         android:clickable="true"
         android:focusable="true"
-        app:backgroundTint="@color/custom_cyan_dark"
         app:fabCustomSize="@dimen/fab_regular_size"
         app:layout_constraintBottom_toTopOf="@id/navigationBarMain"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/plus"
-        app:tint="@color/general_surface" />
+        app:srcCompat="@drawable/plus" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

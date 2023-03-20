@@ -18,7 +18,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginTop="@dimen/common_padding_medium"
         android:layout_marginRight="5dp"
-        android:background="@color/custom_light_gray"
+        android:background="?attr/colorOutlineVariant"
         app:layout_constraintBottom_toTopOf="@id/layoutFrgNumericDialogButtons" />
 
     <LinearLayout
@@ -32,40 +32,38 @@
         android:paddingBottom="@dimen/common_padding_small"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/btnFrgNumericDialogCancel"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
-            android:background="@drawable/text_view_selector"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
             android:singleLine="true"
             android:text="@string/cancel"
             android:textAllCaps="true"
-            android:textColor="@color/custom_cyan_dark"
-            android:textSize="@dimen/text_size_subhead" />
+            android:textSize="@dimen/text_size_subhead"
+            android:background="?attr/selectableItemBackground" />
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="@color/custom_light_gray" />
+            android:background="?attr/colorOutlineVariant" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/btnFrgNumericDialogCommit"
             android:layout_width="0dp"
             android:layout_height="48dp"
             android:layout_weight="1"
-            android:background="@drawable/text_view_selector"
             android:clickable="true"
             android:focusable="true"
             android:gravity="center"
             android:singleLine="true"
             android:text="@string/done"
             android:textAllCaps="true"
-            android:textColor="@color/custom_cyan_dark"
-            android:textSize="@dimen/text_size_subhead" />
+            android:textSize="@dimen/text_size_subhead"
+            android:background="?attr/selectableItemBackground" />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
