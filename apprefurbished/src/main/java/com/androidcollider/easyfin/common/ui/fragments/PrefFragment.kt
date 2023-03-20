@@ -4,8 +4,10 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
+import androidx.preference.SwitchPreferenceCompat
 import com.androidcollider.easyfin.R
 import com.androidcollider.easyfin.common.app.App
 import com.androidcollider.easyfin.common.managers.analytics.AnalyticsManager
@@ -14,6 +16,7 @@ import com.androidcollider.easyfin.common.managers.ui.dialog.DialogManager
 import com.androidcollider.easyfin.common.managers.ui.toast.ToastManager
 import com.androidcollider.easyfin.common.repository.database.DbHelper
 import com.androidcollider.easyfin.common.ui.MainActivity
+import com.androidcollider.easyfin.common.utils.getSelectedThemeMode
 import java.io.IOException
 import javax.inject.Inject
 
@@ -24,6 +27,7 @@ class PrefFragment : PreferenceFragmentCompat() {
 
     private var exportDBPref: Preference? = null
     private var importDBPref: Preference? = null
+    private var nightModePref: SwitchPreferenceCompat? = null
 
     @Inject
     lateinit var importExportDbManager: ImportExportDbManager
@@ -57,6 +61,12 @@ class PrefFragment : PreferenceFragmentCompat() {
             openFileExplorer()
             analyticsManager.sendAction("open", "file_explorer", "open_file_explorer")
             false
+        }
+
+        nightModePref = findPreference(getString(R.string.night_theme))
+        nightModePref?.setOnPreferenceChangeListener { _, newValue ->
+            AppCompatDelegate.setDefaultNightMode(getSelectedThemeMode(newValue as Boolean))
+            true
         }
     }
 
