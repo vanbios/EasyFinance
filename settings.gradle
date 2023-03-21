@@ -1,1 +1,1 @@
-include ':numberkeyboardview', 'apprefurbished'
+include 'apprefurbished'

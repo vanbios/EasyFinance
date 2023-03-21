@@ -2,7 +2,6 @@ package com.androidcollider.easyfin.common.ui.fragments
 
 import android.app.Dialog
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,10 +11,11 @@ import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
-import com.acollider.numberkeyboardview.CalculatorView
+import androidx.window.layout.WindowMetricsCalculator
 import com.androidcollider.easyfin.R
 import com.androidcollider.easyfin.common.app.App
 import com.androidcollider.easyfin.common.managers.format.number.NumberFormatManager
+import com.androidcollider.easyfin.common.ui.views.CalculatorView
 import com.androidcollider.easyfin.common.utils.setSafeOnClickListener
 import javax.inject.Inject
 
@@ -44,29 +44,31 @@ class NumericDialogFragment : DialogFragment() {
         val view = inflater.inflate(R.layout.frg_numeric_dialog, container, false)
         setupUI(view)
 
-        calculatorView = CalculatorView(activity)
-        calculatorView.isShowSpaces = true
-        calculatorView.isShowSelectors = true
-        calculatorView.build()
+        activity?.let {
+            calculatorView = CalculatorView(it)
+            calculatorView.isShowSpaces = true
+            calculatorView.build()
 
-        val inputValue = requireArguments().getString(INPUT_VALUE)
-        if (inputValue != null) {
-            val str = numberFormatManager.prepareStringToSeparate(inputValue)
-            var integers: String
-            var hundreds: String? = ""
-            if (str.contains(",")) {
-                val j = str.indexOf(",")
-                integers = str.substring(0, j)
-                val h = str.substring(j + 1)
-                if (h != "00") hundreds = h
-            } else integers = str
-            if (integers == "0") integers = ""
-            calculatorView.setIntegers(integers)
-            calculatorView.setHundredths(hundreds)
-            calculatorView.formatAndShow()
+            val inputValue = requireArguments().getString(INPUT_VALUE)
+            if (inputValue != null) {
+                val str = numberFormatManager.prepareStringToSeparate(inputValue)
+                var integers: String
+                var hundreds = ""
+                if (str.contains(",")) {
+                    val j = str.indexOf(",")
+                    integers = str.substring(0, j)
+                    val h = str.substring(j + 1)
+                    if (h != "00") hundreds = h
+                } else integers = str
+                if (integers == "0") integers = ""
+                calculatorView.integers = integers
+                calculatorView.hundredths = hundreds
+                calculatorView.formatAndShow()
+            }
+
+            frameLayout.addView(calculatorView)
         }
 
-        frameLayout.addView(calculatorView)
         return view
     }
 
@@ -86,12 +88,15 @@ class NumericDialogFragment : DialogFragment() {
 
     override fun onStart() {
         super.onStart()
-        dialog?.let {
-            val metrics = DisplayMetrics()
-            activity?.windowManager?.defaultDisplay?.getMetrics(metrics)
-            val height = metrics.heightPixels * 4 / 5
-            val width = metrics.widthPixels * 7 / 8
-            it.window?.setLayout(width, height)
+        dialog?.let { dial ->
+            activity?.let { act ->
+                val windowMetrics =
+                    WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(act)
+                val currentBounds = windowMetrics.bounds
+                val width = currentBounds.width() * 7 / 8
+                val height = currentBounds.height() * 4 / 5
+                dial.window?.setLayout(width, height)
+            }
         }
     }
 

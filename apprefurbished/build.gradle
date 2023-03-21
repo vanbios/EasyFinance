@@ -63,12 +63,12 @@ dependencies {
     implementation "androidx.activity:activity-ktx:$activityVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
+    implementation "androidx.window:window:1.0.0"
 
     implementation "androidx.multidex:multidex:$multidexVersion"
 
     implementation "com.afollestad.material-dialogs:core:$materialdialogVersion"
     implementation "com.github.PhilJay:MPAndroidChart:$mpchartVersion"
-    implementation project(':numberkeyboardview')
 
     // dagger 2
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"

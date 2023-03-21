@@ -7,10 +7,6 @@
     <dimen name="common_padding_large">16dp</dimen>
     <dimen name="common_padding_xlarge">24dp</dimen>
 
-    <dimen name="toolbar_height">56dp</dimen>
-    <dimen name="toolbar_shadow_height">5dp</dimen>
-    <dimen name="tabs_height">30dp</dimen>
-
 
     <dimen name="text_size_big">24sp</dimen>
     <dimen name="text_size_title">20sp</dimen>
@@ -23,8 +19,6 @@
     <dimen name="margin_spinner_elements">16dp</dimen>
     <dimen name="margin_spinner_top_bottom">12dp</dimen>
 
-    <dimen name="margin_big_card_top">72dp</dimen>
-
     <dimen name="elevation_small">2dp</dimen>
 
 
@@ -33,8 +27,7 @@
     <dimen name="icon_big">48dp</dimen>
 
 
-    <dimen name="numeric_dialog_width">320dp</dimen>
-    <dimen name="numeric_dialog_height">520dp</dimen>
+    <dimen name="calculator_view_backspace_size">30dp</dimen>
 
     <dimen name="tile_letter_font_size">16sp</dimen>
     <!-- The default tile size -->
