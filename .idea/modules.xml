@@ -11,6 +11,9 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/numberkeyboardview/EasyFinance.numberkeyboardview.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/numberkeyboardview/EasyFinance.numberkeyboardview.androidTest.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/numberkeyboardview/EasyFinance.numberkeyboardview.main.iml" filepath="$PROJECT_DIR$/.idea/modules/numberkeyboardview/EasyFinance.numberkeyboardview.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/numberkeyboardview/EasyFinance.numberkeyboardview.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/numberkeyboardview/EasyFinance.numberkeyboardview.unitTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/apprefurbished/StudioProjects.EasyFinance.apprefurbished.androidTest.iml" filepath="$PROJECT_DIR$/.idea/modules/apprefurbished/StudioProjects.EasyFinance.apprefurbished.androidTest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/apprefurbished/StudioProjects.EasyFinance.apprefurbished.main.iml" filepath="$PROJECT_DIR$/.idea/modules/apprefurbished/StudioProjects.EasyFinance.apprefurbished.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/apprefurbished/StudioProjects.EasyFinance.apprefurbished.unitTest.iml" filepath="$PROJECT_DIR$/.idea/modules/apprefurbished/StudioProjects.EasyFinance.apprefurbished.unitTest.iml" />
     </modules>
   </component>
 </project>

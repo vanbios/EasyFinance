@@ -22,9 +22,10 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
+    namespace 'com.androidcollider.easyfin'
 }
 
 
@@ -41,11 +42,11 @@ ext {
     multidexVersion = '2.0.1'
     constraintVersion = "2.1.4"
     appcompatVersion = "1.6.1"
-    materialVersion = "1.8.0"
-    preferenceVersion = "1.2.0"
-    navigationVersion = "2.5.3"
-    fragmentVersion = "1.5.5"
-    activityVersion = "1.6.1"
+    materialVersion = "1.9.0"
+    preferenceVersion = "1.2.1"
+    navigationVersion = "2.7.1"
+    fragmentVersion = "1.6.1"
+    activityVersion = "1.7.2"
     coroutinesVersion = "1.6.4"
 }
 
@@ -53,7 +54,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "androidx.appcompat:appcompat:$appcompatVersion"
     implementation "com.google.android.material:material:$materialVersion"
-    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.core:core-ktx:1.10.1'
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "androidx.constraintlayout:constraintlayout:$constraintVersion"
     implementation "androidx.preference:preference-ktx:$preferenceVersion"
@@ -63,7 +64,7 @@ dependencies {
     implementation "androidx.activity:activity-ktx:$activityVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
-    implementation "androidx.window:window:1.0.0"
+    implementation "androidx.window:window:1.1.0"
 
     implementation "androidx.multidex:multidex:$multidexVersion"
 
